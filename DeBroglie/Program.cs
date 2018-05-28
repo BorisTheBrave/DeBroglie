@@ -5,9 +5,9 @@ namespace DeBroglie
 
     class Program
     {
-        private static void Write(OverlappingModel model, WavePropagator propagator)
+        private static void Write(OverlappingModel<int> model, WavePropagator propagator)
         {
-            var results = model.ToArray(propagator);
+            var results = model.ToArray(propagator, -1, -2);
 
             for (var y = 0; y < results.GetLength(1); y++)
             {
@@ -17,8 +17,8 @@ namespace DeBroglie
                     string c;
                     switch (r)
                     {
-                        case (int)CellStatus.Undecided: c = "?"; break;
-                        case (int)CellStatus.Contradiction: c = "*"; break;
+                        case -1: c = "?"; break;
+                        case -2: c = "*"; break;
                         case 0: c = " "; break;
                         default: c = r.ToString(); break;
                     }
@@ -28,7 +28,7 @@ namespace DeBroglie
             }
         }
 
-        private static void WriteSteps(OverlappingModel model, WavePropagator propagator)
+        private static void WriteSteps(OverlappingModel<int> model, WavePropagator propagator)
         {
             Write(model, propagator);
             Console.WriteLine();
@@ -78,7 +78,7 @@ namespace DeBroglie
                 { 0, 0, 0, 0, 0, 0 },
             };
 
-            var model = new OverlappingModel(sample, 3, false, 8);
+            var model = new OverlappingModel<int>(sample, 3, false, 8);
 
             var pathConstraint = PathConstraint.Create(model, new[] { 1 }, new[]{
                 new Point(0, 0),

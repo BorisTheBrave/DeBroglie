@@ -165,7 +165,7 @@ namespace DeBroglie
             return CellStatus.Undecided;
         }
 
-        public static PathConstraint Create(OverlappingModel overlappingModel, int[] pathTiles, Point[] endPoints)
+        public static PathConstraint Create<T>(TileModel<T> overlappingModel, T[] pathTiles, Point[] endPoints)
         {
             var pathPatterns = pathTiles
                 .SelectMany(t => overlappingModel.TilesToPatterns[t])

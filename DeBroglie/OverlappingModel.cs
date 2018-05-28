@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace DeBroglie
 {
-    public class OverlappingModel : Model
+    public class OverlappingModel<T> : TileModel<T>
     {
         private List<PatternArray> patternArrays;
 
@@ -11,18 +11,22 @@ namespace DeBroglie
         private bool periodic;
         private int symmetries;
 
-        private IReadOnlyDictionary<int, int> patternsToTiles;
-        private ILookup<int, int> tilesToPatterns;
+        private IReadOnlyDictionary<int, T> patternsToTiles;
+        private ILookup<T, int> tilesToPatterns;
 
-        public OverlappingModel(int[,] sample, int n, bool periodic, int symmetries)
+        IEqualityComparer<T> comparer;
+
+        public OverlappingModel(T[,] sample, int n, bool periodic, int symmetries)
         {
             this.n = n;
             this.periodic = periodic;
             this.symmetries = symmetries;
 
+            this.comparer = EqualityComparer<T>.Default;
+
             List<double> frequencies;
 
-            GetPatterns(sample, n, periodic, symmetries, out patternArrays, out frequencies);
+            GetPatterns(sample, n, periodic, symmetries, comparer, out patternArrays, out frequencies);
 
             this.Frequencies = frequencies.ToArray();
 
@@ -55,14 +59,14 @@ namespace DeBroglie
             tilesToPatterns = patternsToTiles.ToLookup(x => x.Value, x => x.Key);
         }
 
-        private static void GetPatterns(int[,] sample, int n, bool periodic, int symmetries, out List<PatternArray> patternArrays, out List<double> frequencies)
+        private static void GetPatterns(T[,] sample, int n, bool periodic, int symmetries, IEqualityComparer<T> comparer, out List<PatternArray> patternArrays, out List<double> frequencies)
         {
             var width = sample.GetLength(0);
             var height = sample.GetLength(1);
             var maxx = periodic ? width - 1 : width - n;
             var maxy = periodic ? height - 1 : height - n;
 
-            var patternIndices = new Dictionary<PatternArray, int>(new PatternArrayComparer());
+            var patternIndices = new Dictionary<PatternArray, int>(new PatternArrayComparer(comparer));
             patternArrays = new List<PatternArray>();
             frequencies = new List<double>();
 
@@ -98,11 +102,11 @@ namespace DeBroglie
             }
         }
 
-        private static PatternArray Extract(int[,] sample, int n, int x, int y)
+        private static PatternArray Extract(T[,] sample, int n, int x, int y)
         {
             var width = sample.GetLength(0);
             var height = sample.GetLength(1);
-            var values = new int[n, n];
+            var values = new T[n, n];
             for (int tx = 0; tx < n; tx++)
             {
                 var sx = (x + tx) % width;
@@ -119,7 +123,7 @@ namespace DeBroglie
           * Return true if the pattern1 is compatible with pattern2
           * when pattern2 is at a distance (dy,dx) from pattern1.
           */
-        private static bool Aggrees(PatternArray a, PatternArray b, int dx, int dy)
+        private bool Aggrees(PatternArray a, PatternArray b, int dx, int dy)
         {
             var xmin = dx < 0 ? 0 : dx;
             var xmax = dx < 0 ? dx + b.Width : a.Width;
@@ -129,7 +133,7 @@ namespace DeBroglie
             {
                 for (var y = ymin; y < ymax; y++)
                 {
-                    if (a.Values[x, y] != b.Values[x - dx, y - dy])
+                    if (!comparer.Equals(a.Values[x, y], b.Values[x - dx, y - dy]))
                     {
                         return false;
                     }
@@ -138,18 +142,25 @@ namespace DeBroglie
             return true;
         }
 
-        public IReadOnlyDictionary<int, int> PatternsToTiles => patternsToTiles;
-        public ILookup<int, int> TilesToPatterns => tilesToPatterns;
+        public override IReadOnlyDictionary<int, T> PatternsToTiles => patternsToTiles;
+        public override ILookup<T, int> TilesToPatterns => tilesToPatterns;
 
-        public int[,] ToArray(WavePropagator wavePropagator)
+        public T[,] ToArray(WavePropagator wavePropagator, T undecided = default(T), T contradiction = default(T))
         {
-            int MapPatternOrStatus(int pattern, int px, int py)
+            T MapPatternOrStatus(int pattern, int px, int py)
             {
-                if(pattern < 0)
+                if(pattern == (int)CellStatus.Contradiction)
                 {
-                    return pattern;
+                    return contradiction;
                 }
-                return patternArrays[pattern].Values[px, py];
+                else if(pattern == (int)CellStatus.Undecided)
+                {
+                    return undecided;
+                } 
+                else
+                {
+                    return patternArrays[pattern].Values[px, py];
+                }
             }
 
             var a = wavePropagator.ToArray();
@@ -157,7 +168,7 @@ namespace DeBroglie
             {
                 var width = a.GetLength(0);
                 var height = a.GetLength(1);
-                var results = new int[width, height];
+                var results = new T[width, height];
                 for (var x = 0; x < width; x++)
                 {
                     for (var y = 0; y < height; y++)
@@ -171,7 +182,7 @@ namespace DeBroglie
             {
                 var width = a.GetLength(0);
                 var height = a.GetLength(1);
-                var results = new int[width + n - 1, height + n - 1];
+                var results = new T[width + n - 1, height + n - 1];
                 for (var x = 0; x < width; x++)
                 {
                     for (var y = 0; y < height; y++)
@@ -204,11 +215,11 @@ namespace DeBroglie
             }
         }
 
-        public List<int>[,] ToArraySets(WavePropagator wavePropagator)
+        public List<T>[,] ToArraySets(WavePropagator wavePropagator)
         {
-            List<int> Map(List<int> patterns, int px, int py)
+            List<T> Map(List<int> patterns, int px, int py)
             {
-                HashSet<int> set = new HashSet<int>();
+                HashSet<T> set = new HashSet<T>(comparer);
                 foreach(var pattern in patterns)
                 {
                     set.Add(patternArrays[pattern].Values[px, py]);
@@ -221,7 +232,7 @@ namespace DeBroglie
             {
                 var width = a.GetLength(0);
                 var height = a.GetLength(1);
-                var results = new List<int>[width, height];
+                var results = new List<T>[width, height];
                 for (var x = 0; x < width; x++)
                 {
                     for (var y = 0; y < height; y++)
@@ -235,7 +246,7 @@ namespace DeBroglie
             {
                 var width = a.GetLength(0);
                 var height = a.GetLength(1);
-                var results = new List<int>[width + n - 1, height + n - 1];
+                var results = new List<T>[width + n - 1, height + n - 1];
                 for (var x = 0; x < width; x++)
                 {
                     for (var y = 0; y < height; y++)
@@ -270,7 +281,7 @@ namespace DeBroglie
 
         private struct PatternArray
         {
-            public int[,] Values;
+            public T[,] Values;
 
             public int Width
             {
@@ -286,7 +297,7 @@ namespace DeBroglie
             {
                 var width = Width;
                 var height = Height;
-                var values = new int[width, height];
+                var values = new T[width, height];
                 for(var x=0;x<width; x++)
                 {
                     for(var y=0;y<height;y++)
@@ -302,7 +313,7 @@ namespace DeBroglie
 
                 var width = Width;
                 var height = Height;
-                var values = new int[height, width];
+                var values = new T[height, width];
                 for (var x = 0; x < height; x++)
                 {
                     for (var y = 0; y < width; y++)
@@ -315,7 +326,14 @@ namespace DeBroglie
         }
 
         private class PatternArrayComparer : IEqualityComparer<PatternArray>
-        { 
+        {
+            IEqualityComparer<T> comparer;
+
+            public PatternArrayComparer(IEqualityComparer<T> comparer)
+            {
+                this.comparer = comparer;
+            }
+
             public bool Equals(PatternArray a, PatternArray b)
             {
                 var width = a.Width;
@@ -325,7 +343,7 @@ namespace DeBroglie
                 {
                     for (var y = 0; y < height; y++)
                     {
-                        if (a.Values[x, y] != b.Values[x, y])
+                        if (comparer.Equals(a.Values[x, y], b.Values[x, y]))
                         {
                             return false;
                         }
@@ -346,7 +364,7 @@ namespace DeBroglie
                     {
                         for (var y = 0; y < height; y++)
                         {
-                            hashCode = (hashCode * 397) ^ obj.Values[x, y];
+                            hashCode = (hashCode * 397) ^ comparer.GetHashCode(obj.Values[x, y]);
                         }
                     }
                     return hashCode;
