@@ -20,6 +20,12 @@ namespace DeBroglie
             this.EndPoints = endPoints;
         }
 
+        public CellStatus Init(WavePropagator wp)
+        {
+            return Check(wp);
+        }
+
+
         public CellStatus Check(WavePropagator wp)
         {
             var wave = wp.Wave;

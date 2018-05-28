@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace DeBroglie
 {
-
     class Program
     {
         private static void Write(OverlappingModel<int> model, WavePropagator propagator)
@@ -66,8 +69,12 @@ namespace DeBroglie
             return status;
         }
 
+
         static void Main(string[] args)
         {
+            SamplesProcessor.Process();
+            return;
+
             int[,] sample =
             {
                 { 0, 0, 1, 0, 0, 0 },

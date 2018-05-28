@@ -11,6 +11,8 @@ namespace DeBroglie
         private bool periodic;
         private int symmetries;
 
+        private int groundPattern;
+
         private IReadOnlyDictionary<int, T> patternsToTiles;
         private ILookup<T, int> tilesToPatterns;
 
@@ -26,7 +28,7 @@ namespace DeBroglie
 
             List<double> frequencies;
 
-            GetPatterns(sample, n, periodic, symmetries, comparer, out patternArrays, out frequencies);
+            GetPatterns(sample, n, periodic, symmetries, comparer, out patternArrays, out frequencies, out groundPattern);
 
             this.Frequencies = frequencies.ToArray();
 
@@ -53,13 +55,13 @@ namespace DeBroglie
             }
 
             patternsToTiles = patternArrays
-                .Select((x, i) => KeyValuePair.Create(i, x.Values[0, 0]))
+                .Select((x, i) => new KeyValuePair<int, T>(i, x.Values[0, 0]))
                 .ToDictionary(x => x.Key, x => x.Value);
 
             tilesToPatterns = patternsToTiles.ToLookup(x => x.Value, x => x.Key);
         }
 
-        private static void GetPatterns(T[,] sample, int n, bool periodic, int symmetries, IEqualityComparer<T> comparer, out List<PatternArray> patternArrays, out List<double> frequencies)
+        private static void GetPatterns(T[,] sample, int n, bool periodic, int symmetries, IEqualityComparer<T> comparer, out List<PatternArray> patternArrays, out List<double> frequencies, out int groundPattern)
         {
             var width = sample.GetLength(0);
             var height = sample.GetLength(1);
@@ -100,6 +102,9 @@ namespace DeBroglie
                     }
                 }
             }
+            var lowest = periodic ? sample.GetLength(1) - 1 : sample.GetLength(1) - n;
+            groundPattern = patternIndices[Extract(sample, n, sample.GetLength(0) / 2, lowest)];
+
         }
 
         private static PatternArray Extract(T[,] sample, int n, int x, int y)
@@ -144,6 +149,11 @@ namespace DeBroglie
 
         public override IReadOnlyDictionary<int, T> PatternsToTiles => patternsToTiles;
         public override ILookup<T, int> TilesToPatterns => tilesToPatterns;
+
+        public GroundConstraint GetGroundConstraint()
+        {
+            return new GroundConstraint(groundPattern);
+        }
 
         public T[,] ToArray(WavePropagator wavePropagator, T undecided = default(T), T contradiction = default(T))
         {
@@ -343,7 +353,7 @@ namespace DeBroglie
                 {
                     for (var y = 0; y < height; y++)
                     {
-                        if (comparer.Equals(a.Values[x, y], b.Values[x, y]))
+                        if (!comparer.Equals(a.Values[x, y], b.Values[x, y]))
                         {
                             return false;
                         }

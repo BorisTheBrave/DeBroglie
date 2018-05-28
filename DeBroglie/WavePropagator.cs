@@ -170,9 +170,9 @@ namespace DeBroglie
 
         private CellStatus Propagate()
         {
-            PropagateItem item;
-            while (toPropagate.TryPop(out item))
+            while (toPropagate.Count > 0)
             {
+                var item = toPropagate.Pop();
                 int x, y;
                 GetCoord(item.Index, out x, out y);
                 for (var d = 0; d < directions.Count; d++)
@@ -266,6 +266,18 @@ namespace DeBroglie
             return decidedPattern;
         }
 
+        private CellStatus InitConstraints()
+        {
+            foreach (var constraint in constraints)
+            {
+                var status = constraint.Init(this);
+                if (status != CellStatus.Undecided) return status;
+                status = Propagate();
+                if (status != CellStatus.Undecided) return status;
+            }
+            return CellStatus.Undecided;
+        }
+
         private CellStatus StepConstraints()
         {
             foreach (var constraint in constraints)
@@ -306,7 +318,7 @@ namespace DeBroglie
                 }
             }
 
-            StepConstraints();
+            InitConstraints();
         }
 
         /**
