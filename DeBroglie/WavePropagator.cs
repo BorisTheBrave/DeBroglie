@@ -46,8 +46,6 @@ namespace DeBroglie
 
         public WavePropagator(Model model, int width, int height, bool periodic)
         {
-            wave = new Wave(model.Frequencies, width * height);
-
             this.propagator = model.Propagator;
             this.patternCount = model.PatternCount;
             this.frequencies = model.Frequencies;
@@ -61,18 +59,7 @@ namespace DeBroglie
 
             this.toPropagate = new Stack<PropagateItem>();
 
-            // Initialize compatible
-            compatible = new int[indices, patternCount, directions.Count];
-            for (int index = 0; index < indices; index++)
-            {
-                for (int pattern = 0; pattern < patternCount; pattern++)
-                {
-                    for (int d = 0; d < directions.Count; d++)
-                    {
-                        compatible[index, pattern, d] = propagator[pattern][directions.Inverse(d)].Length;
-                    }
-                }
-            }
+            Clear();
         }
 
         private int GetIndex(int x, int y)
@@ -119,7 +106,7 @@ namespace DeBroglie
         /**
          * Requires that index, pattern is possible
          */
-        private bool UnsafeBan(int index, int pattern)
+        private bool InternalBan(int index, int pattern)
         {
             // Update compatible (so that we never ban twice)
             for (var d = 0; d < directions.Count; d++)
@@ -136,23 +123,21 @@ namespace DeBroglie
             return wave.RemovePossibility(index, pattern);
         }
 
-        public bool Ban(int index, int pattern)
-        {
-            if (wave.Get(index, pattern))
-            {
-                return UnsafeBan(index, pattern);
-            }
-            return false;
-        }
 
-        public bool Select(int index, int chosenPattern)
+
+        private bool InternalSelect(int index, int chosenPattern)
         {
             for (var pattern = 0; pattern < patternCount; pattern++)
             {
                 if (pattern == chosenPattern)
+                {
                     continue;
-                if (Ban(index, pattern))
-                    return true;
+                }
+                if (wave.Get(index, pattern))
+                {
+                    if (InternalBan(index, pattern))
+                        return true;
+                }
             }
             return false;
         }
@@ -167,22 +152,23 @@ namespace DeBroglie
                 for (var d = 0; d < directions.Count; d++)
                 {
                     int i2;
-                    if(!TryMove(x, y, d, out i2))
+                    if (!TryMove(x, y, d, out i2))
                     {
                         continue;
                     }
                     var patterns = propagator[item.Pattern][d];
-                    foreach(var p in patterns)
+                    foreach (var p in patterns)
                     {
                         var c = --compatible[i2, p, d];
                         // We've just now ruled out this possible pattern
-                        if(c == 0)
+                        if (c == 0)
                         {
-                            if (UnsafeBan(i2, p))
+                            if (InternalBan(i2, p))
+                            {
                                 return CellStatus.Contradiction;
+                            }
                         }
                     }
-
                 }
             }
             return CellStatus.Undecided;
@@ -222,27 +208,9 @@ namespace DeBroglie
             // Choose a random pattern
             var chosenPattern = GetRandomPossiblePatternAt(index);
             // Decide on the given cell
-            if (Select(index, chosenPattern))
+            if (InternalSelect(index, chosenPattern))
                 return CellStatus.Contradiction;
             return CellStatus.Undecided;
-        }
-
-        public CellStatus Step()
-        {
-            CellStatus status = Observe();
-            if (status != CellStatus.Undecided) return status;
-            status = Propagate();
-            return status;
-        }
-
-        public CellStatus Run()
-        {
-            CellStatus status;
-            while (true)
-            {
-                status = Step();
-                if (status != CellStatus.Undecided) return status;
-            }
         }
 
         // Returns the only possible value of a cell if there is only one,
@@ -267,8 +235,83 @@ namespace DeBroglie
             return decidedPattern;
         }
 
-        // Returns the array of resolved patterns, or
-        // -1 or -2 to indicate cells that are undecided or in contradiction.
+        /**
+         * Resets the wave to it's original state
+         */
+        public void Clear()
+        {
+            wave = new Wave(frequencies, width * height);
+
+            compatible = new int[indices, patternCount, directions.Count];
+            for (int index = 0; index < indices; index++)
+            {
+                for (int pattern = 0; pattern < patternCount; pattern++)
+                {
+                    for (int d = 0; d < directions.Count; d++)
+                    {
+                        compatible[index, pattern, d] = propagator[pattern][directions.Inverse(d)].Length;
+                    }
+                }
+            }
+        }
+
+        /**
+         * Removes pattern as a possibility from index
+         */
+        public CellStatus Ban(int x, int y, int pattern)
+        {
+            var index = GetIndex(x, y);
+            if (wave.Get(index, pattern))
+            {
+                if (InternalBan(index, pattern))
+                {
+                    return CellStatus.Contradiction;
+                }
+            }
+            return Propagate();
+        }
+
+        /**
+         * Removes all other patterns as possibilities for index.
+         */
+        public CellStatus Select(int x, int y, int pattern)
+        {
+            var index = GetIndex(x, y);
+            if (InternalSelect(index, pattern))
+            {
+                return CellStatus.Contradiction;
+            }
+            return Propagate();
+        }
+
+        /**
+         * Make some progress in the WaveFunctionCollapseAlgorithm
+         */
+        public CellStatus Step()
+        {
+            CellStatus status = Observe();
+            if (status != CellStatus.Undecided) return status;
+            status = Propagate();
+            return status;
+        }
+
+        /**
+         * Rpeatedly step until the status is Decided or Contradiction
+         */
+        public CellStatus Run()
+        {
+            CellStatus status;
+            while (true)
+            {
+                status = Step();
+                if (status != CellStatus.Undecided) return status;
+            }
+        }
+
+        /**
+         * Returns the array of decided patterns, writing
+         * -1 or -2 to indicate cells that are undecided or in contradiction.
+         */
         public int[,] ToArray()
         {
             var result = new int[width, height];
@@ -283,6 +326,9 @@ namespace DeBroglie
             return result;
         }
 
+        /**
+         * Returns an array where each cell is a list of remaining possible patterns.
+         */
         public List<int>[,] ToArraySets()
         {
             var result = new List<int>[width, height];
