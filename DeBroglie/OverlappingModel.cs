@@ -153,7 +153,7 @@ namespace DeBroglie
             }
 
             var a = wavePropagator.ToArray();
-            if (periodic)
+            if (wavePropagator.Periodic)
             {
                 var width = a.GetLength(0);
                 var height = a.GetLength(1);

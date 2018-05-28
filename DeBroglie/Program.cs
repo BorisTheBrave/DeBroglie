@@ -9,9 +9,9 @@ namespace DeBroglie
         {
             var results = model.ToArray(propagator);
 
-            for (var y = 0; y < 10; y++)
+            for (var y = 0; y < results.GetLength(1); y++)
             {
-                for (var x = 0; x < 10; x++)
+                for (var x = 0; x < results.GetLength(0); x++)
                 {
                     var r = results[x, y];
                     string c;
