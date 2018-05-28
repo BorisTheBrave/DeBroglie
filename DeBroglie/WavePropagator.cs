@@ -27,12 +27,12 @@ namespace DeBroglie
         private int width;
         private int height;
         private int indices;
-
+        private bool periodic;
+        private readonly IWaveConstraint[] constraints;
         private Random random = new Random();
 
         private Stack<PropagateItem> toPropagate;
 
-        private bool periodic;
 
         Directions directions;
 
@@ -44,7 +44,7 @@ namespace DeBroglie
           */
         private int[,,] compatible;
 
-        public WavePropagator(Model model, int width, int height, bool periodic)
+        public WavePropagator(Model model, int width, int height, bool periodic, IWaveConstraint[] constraints = null)
         {
             this.propagator = model.Propagator;
             this.patternCount = model.PatternCount;
@@ -54,7 +54,7 @@ namespace DeBroglie
             this.height = height;
             this.indices = width * height;
             this.periodic = periodic;
-
+            this.constraints = constraints ?? new IWaveConstraint[0];
             this.directions = Directions.Cartesian2dDirections;
 
             this.toPropagate = new Stack<PropagateItem>();
@@ -62,25 +62,42 @@ namespace DeBroglie
             Clear();
         }
 
-        private int GetIndex(int x, int y)
+        // This is only exposed publically
+        // in case users write their own constraints, it's not 
+        // otherwise useful.
+        #region Internal API
+
+        public Wave Wave => wave;
+        public int Width => width;
+        public int Height => height;
+        public int Indices => indices;
+        public bool Periodic => periodic;
+        public Directions Directions => directions;
+
+        public int[][][] Propagator => propagator;
+        public int PatternCount => patternCount;
+        public double[] Frequencies => frequencies;
+
+
+        public int GetIndex(int x, int y)
         {
             return x + y * width;
         }
 
-        private void GetCoord(int index, out int x, out int y)
+        public void GetCoord(int index, out int x, out int y)
         {
             x = index % width;
             y = index / width;
         }
 
-        private bool TryMove(int index, int direction, out int dest)
+        public bool TryMove(int index, int direction, out int dest)
         {
             int x, y;
             GetCoord(index, out x, out y);
             return TryMove(x, y, direction, out dest);
         }
 
-        private bool TryMove(int x, int y, int direction, out int dest)
+        public bool TryMove(int x, int y, int direction, out int dest)
         {
             x += directions.DX[direction];
             y += directions.DY[direction];
@@ -106,7 +123,7 @@ namespace DeBroglie
         /**
          * Requires that index, pattern is possible
          */
-        private bool InternalBan(int index, int pattern)
+        public bool InternalBan(int index, int pattern)
         {
             // Update compatible (so that we never ban twice)
             for (var d = 0; d < directions.Count; d++)
@@ -123,9 +140,7 @@ namespace DeBroglie
             return wave.RemovePossibility(index, pattern);
         }
 
-
-
-        private bool InternalSelect(int index, int chosenPattern)
+        public bool InternalSelect(int index, int chosenPattern)
         {
             for (var pattern = 0; pattern < patternCount; pattern++)
             {
@@ -141,6 +156,7 @@ namespace DeBroglie
             }
             return false;
         }
+        #endregion
 
         private CellStatus Propagate()
         {
@@ -235,6 +251,18 @@ namespace DeBroglie
             return decidedPattern;
         }
 
+        private CellStatus StepConstraints()
+        {
+            foreach (var constraint in constraints)
+            {
+                var status = constraint.Check(this);
+                if (status != CellStatus.Undecided) return status;
+                status = Propagate();
+                if (status != CellStatus.Undecided) return status;
+            }
+            return CellStatus.Undecided;
+        }
+
         /**
          * Resets the wave to it's original state
          */
@@ -253,6 +281,8 @@ namespace DeBroglie
                     }
                 }
             }
+
+            StepConstraints();
         }
 
         /**
@@ -292,7 +322,8 @@ namespace DeBroglie
             CellStatus status = Observe();
             if (status != CellStatus.Undecided) return status;
             status = Propagate();
-            return status;
+            if (status != CellStatus.Undecided) return status;
+            return StepConstraints();
         }
 
         /**

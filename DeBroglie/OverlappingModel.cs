@@ -11,6 +11,9 @@ namespace DeBroglie
         private bool periodic;
         private int symmetries;
 
+        private IReadOnlyDictionary<int, int> patternsToTiles;
+        private ILookup<int, int> tilesToPatterns;
+
         public OverlappingModel(int[,] sample, int n, bool periodic, int symmetries)
         {
             this.n = n;
@@ -44,6 +47,12 @@ namespace DeBroglie
                     Propagator[p][d] = l.ToArray();
                 }
             }
+
+            patternsToTiles = patternArrays
+                .Select((x, i) => KeyValuePair.Create(i, x.Values[0, 0]))
+                .ToDictionary(x => x.Key, x => x.Value);
+
+            tilesToPatterns = patternsToTiles.ToLookup(x => x.Value, x => x.Key);
         }
 
         private static void GetPatterns(int[,] sample, int n, bool periodic, int symmetries, out List<PatternArray> patternArrays, out List<double> frequencies)
@@ -128,6 +137,9 @@ namespace DeBroglie
             }
             return true;
         }
+
+        public IReadOnlyDictionary<int, int> PatternsToTiles => patternsToTiles;
+        public ILookup<int, int> TilesToPatterns => tilesToPatterns;
 
         public int[,] ToArray(WavePropagator wavePropagator)
         {
