@@ -26,6 +26,22 @@ namespace DeBroglie
 
         private int indices;
 
+        private Wave(int patternCount, 
+            double[] frequencies,
+            bool[,] possibilites,
+            EntropyValues[] entropyValues,
+            double[] plogp,
+            int indices)
+        {
+            this.patternCount = patternCount;
+            this.frequencies = frequencies;
+            this.possibilites = possibilites;
+            this.entropyValues = entropyValues;
+            this.plogp = plogp;
+            this.indices = indices;
+        }
+
+
         public Wave(double[] frequencies, int indices)
         {
             this.patternCount = frequencies.Length;
@@ -65,6 +81,17 @@ namespace DeBroglie
             {
                 entropyValues[index] = initial;
             }
+        }
+
+        public Wave Clone()
+        {
+            return new Wave(
+                patternCount,
+                frequencies,
+                (bool[,])possibilites.Clone(),
+                (EntropyValues[])entropyValues.Clone(),
+                plogp,
+                indices);
         }
 
         public bool Get(int index, int pattern)

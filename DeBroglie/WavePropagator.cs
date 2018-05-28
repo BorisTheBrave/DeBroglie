@@ -17,17 +17,26 @@ namespace DeBroglie
      */
     public class WavePropagator
     {
+        // Main data tracking what we've decided so far
         private Wave wave;
+
+        // Used for backtracking
+        private Stack<Wave> prevWaves;
+        private Stack<int[,,]> prevCompatible;
+        private Stack<PropagateItem> prevChoices;
+        private int backtrackCount; // Purely informational
 
         // From model
         private int[][][] propagator;
         private int patternCount;
         private double[] frequencies;
 
+        // Basic parameters
         private int width;
         private int height;
         private int indices;
         private bool periodic;
+        private readonly bool backtrack;
         private readonly IWaveConstraint[] constraints;
         private Random random = new Random();
 
@@ -44,7 +53,7 @@ namespace DeBroglie
           */
         private int[,,] compatible;
 
-        public WavePropagator(Model model, int width, int height, bool periodic, IWaveConstraint[] constraints = null)
+        public WavePropagator(Model model, int width, int height, bool periodic, bool backtrack = false, IWaveConstraint[] constraints = null)
         {
             this.propagator = model.Propagator;
             this.patternCount = model.PatternCount;
@@ -54,6 +63,7 @@ namespace DeBroglie
             this.height = height;
             this.indices = width * height;
             this.periodic = periodic;
+            this.backtrack = backtrack;
             this.constraints = constraints ?? new IWaveConstraint[0];
             this.directions = Directions.Cartesian2dDirections;
 
@@ -215,17 +225,22 @@ namespace DeBroglie
             return patternCount - 1;
         }
 
-        private CellStatus Observe()
+        private CellStatus Observe(out int index, out int pattern)
         {
             // Choose a random cell
-            var index = wave.GetRandomMinEntropyIndex(random);
+            index = wave.GetRandomMinEntropyIndex(random);
             if (index == -1)
+            {
+                pattern = -1;
                 return CellStatus.Decided;
+            }
             // Choose a random pattern
-            var chosenPattern = GetRandomPossiblePatternAt(index);
+            pattern = GetRandomPossiblePatternAt(index);
             // Decide on the given cell
-            if (InternalSelect(index, chosenPattern))
+            if (InternalSelect(index, pattern))
+            {
                 return CellStatus.Contradiction;
+            }
             return CellStatus.Undecided;
         }
 
@@ -263,12 +278,21 @@ namespace DeBroglie
             return CellStatus.Undecided;
         }
 
+        public int BacktrackCount => backtrackCount;
+
         /**
          * Resets the wave to it's original state
          */
         public void Clear()
         {
             wave = new Wave(frequencies, width * height);
+
+            if(backtrack)
+            {
+                prevWaves = new Stack<Wave>();
+                prevCompatible = new Stack<int[,,]>();
+                prevChoices = new Stack<PropagateItem>();
+            }
 
             compatible = new int[indices, patternCount, directions.Count];
             for (int index = 0; index < indices; index++)
@@ -319,11 +343,53 @@ namespace DeBroglie
          */
         public CellStatus Step()
         {
-            CellStatus status = Observe();
-            if (status != CellStatus.Undecided) return status;
-            status = Propagate();
-            if (status != CellStatus.Undecided) return status;
-            return StepConstraints();
+            if(backtrack)
+            {
+                prevWaves.Push(wave.Clone());
+                prevCompatible.Push((int[,,])compatible.Clone());
+            }
+
+            int index, pattern;
+            var status = Observe(out index, out pattern);
+
+            if(backtrack)
+            {
+                prevChoices.Push(new PropagateItem { Index = index, Pattern = pattern });
+            }
+
+            restart:
+
+            if (status == CellStatus.Undecided) status = Propagate();
+            if (status == CellStatus.Undecided) status = StepConstraints();
+
+            if (backtrack && status == CellStatus.Contradiction)
+            {
+                // Actually backtrack
+                while (true)
+                {
+                    if(prevWaves.Count == 0)
+                    {
+                        // We've backtracked as much as we can, but 
+                        // it's still not possible. That means it is imposible
+                        return CellStatus.Contradiction;
+                    }
+                    wave = prevWaves.Pop();
+                    compatible = prevCompatible.Pop();
+                    var item = prevChoices.Pop();
+                    backtrackCount++;
+                    toPropagate.Clear();
+                    // Mark the given choice as impossible
+                    if (InternalBan(item.Index, item.Pattern))
+                    {
+                        // Still in contradiction, need to backtrack further
+                        continue;
+                    }
+                    status = CellStatus.Undecided;
+                    goto restart;
+                }
+            }
+
+            return status;
         }
 
         /**

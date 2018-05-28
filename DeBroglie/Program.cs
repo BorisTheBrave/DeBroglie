@@ -35,9 +35,15 @@ namespace DeBroglie
 
             while (true)
             {
+                var prevBacktrackCount = propagator.BacktrackCount;
                 var status = propagator.Step();
                 Write(model, propagator);
+                if(propagator.BacktrackCount != prevBacktrackCount)
+                {
+                    Console.WriteLine("Backtracked!");
+                }
                 Console.WriteLine();
+
                 if (status != CellStatus.Undecided)
                 {
                     Console.WriteLine(status);
@@ -79,10 +85,12 @@ namespace DeBroglie
                 new Point(9, 9),
             });
 
-            var propagator = new WavePropagator(model, 10, 10, false, new[] { pathConstraint });
+            var propagator = new WavePropagator(model, 10, 10, false, true, new[] { pathConstraint });
 
-            var status = Run(propagator, 5);
+            var status = Run(propagator, 1);
             Write(model, propagator);
+
+            Console.WriteLine("Backtrack count {0}", propagator.BacktrackCount);
         }
     }
 }
