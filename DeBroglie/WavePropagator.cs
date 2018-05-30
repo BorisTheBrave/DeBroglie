@@ -43,7 +43,8 @@ namespace DeBroglie
         private Stack<PropagateItem> toPropagate;
 
 
-        Directions directions;
+        private Topology topology;
+        private int directionsCount;
 
         /**
           * compatible[index, pattern, direction] contains the number of patterns present in the wave
@@ -65,7 +66,14 @@ namespace DeBroglie
             this.periodic = periodic;
             this.backtrack = backtrack;
             this.constraints = constraints ?? new IWaveConstraint[0];
-            this.directions = Directions.Cartesian2dDirections;
+            this.topology = new Topology
+            {
+                Directions = Directions.Cartesian2dDirections,
+                Width = width,
+                Height = height,
+                Periodic = periodic,
+            };
+            directionsCount = topology.Directions.Count;
 
             this.toPropagate = new Stack<PropagateItem>();
 
@@ -82,53 +90,11 @@ namespace DeBroglie
         public int Height => height;
         public int Indices => indices;
         public bool Periodic => periodic;
-        public Directions Directions => directions;
+        public Topology Topology => topology;
 
         public int[][][] Propagator => propagator;
         public int PatternCount => patternCount;
         public double[] Frequencies => frequencies;
-
-
-        public int GetIndex(int x, int y)
-        {
-            return x + y * width;
-        }
-
-        public void GetCoord(int index, out int x, out int y)
-        {
-            x = index % width;
-            y = index / width;
-        }
-
-        public bool TryMove(int index, int direction, out int dest)
-        {
-            int x, y;
-            GetCoord(index, out x, out y);
-            return TryMove(x, y, direction, out dest);
-        }
-
-        public bool TryMove(int x, int y, int direction, out int dest)
-        {
-            x += directions.DX[direction];
-            y += directions.DY[direction];
-            if(periodic)
-            {
-                if (x < 0) x += width;
-                if (x >= width) x -= width;
-                if (y < 0) y += height;
-                if (y >= height) y -= height;
-            }
-            else
-            {
-                if (x < 0 || x >= width || y < 0 || y >= height)
-                {
-                    dest = -1;
-                    return false;
-                }
-            }
-            dest = GetIndex(x, y);
-            return true;
-        }
 
         /**
          * Requires that index, pattern is possible
@@ -136,7 +102,7 @@ namespace DeBroglie
         public bool InternalBan(int index, int pattern)
         {
             // Update compatible (so that we never ban twice)
-            for (var d = 0; d < directions.Count; d++)
+            for (var d = 0; d < directionsCount; d++)
             {
                 compatible[index, pattern, d] = 0;
             }
@@ -174,11 +140,11 @@ namespace DeBroglie
             {
                 var item = toPropagate.Pop();
                 int x, y;
-                GetCoord(item.Index, out x, out y);
-                for (var d = 0; d < directions.Count; d++)
+                topology.GetCoord(item.Index, out x, out y);
+                for (var d = 0; d < directionsCount; d++)
                 {
                     int i2;
-                    if (!TryMove(x, y, d, out i2))
+                    if (!topology.TryMove(x, y, d, out i2))
                     {
                         continue;
                     }
@@ -306,14 +272,14 @@ namespace DeBroglie
                 prevChoices = new Stack<PropagateItem>();
             }
 
-            compatible = new int[indices, patternCount, directions.Count];
+            compatible = new int[indices, patternCount, directionsCount];
             for (int index = 0; index < indices; index++)
             {
                 for (int pattern = 0; pattern < patternCount; pattern++)
                 {
-                    for (int d = 0; d < directions.Count; d++)
+                    for (int d = 0; d < directionsCount; d++)
                     {
-                        compatible[index, pattern, d] = propagator[pattern][directions.Inverse(d)].Length;
+                        compatible[index, pattern, d] = propagator[pattern][topology.Directions.Inverse(d)].Length;
                     }
                 }
             }
@@ -326,7 +292,7 @@ namespace DeBroglie
          */
         public CellStatus Ban(int x, int y, int pattern)
         {
-            var index = GetIndex(x, y);
+            var index = topology.GetIndex(x, y);
             if (wave.Get(index, pattern))
             {
                 if (InternalBan(index, pattern))
@@ -342,7 +308,7 @@ namespace DeBroglie
          */
         public CellStatus Select(int x, int y, int pattern)
         {
-            var index = GetIndex(x, y);
+            var index = topology.GetIndex(x, y);
             if (InternalSelect(index, pattern))
             {
                 return CellStatus.Contradiction;
@@ -428,7 +394,7 @@ namespace DeBroglie
             {
                 for (var y = 0; y < height; y++)
                 {
-                    var index = GetIndex(x, y);
+                    var index = topology.GetIndex(x, y);
                     result[x, y] = GetDecidedCell(index);
                 }
             }
@@ -445,7 +411,7 @@ namespace DeBroglie
             {
                 for (var y = 0; y < height; y++)
                 {
-                    var index = GetIndex(x, y);
+                    var index = topology.GetIndex(x, y);
                     List<int> hs = result[x, y] = new List<int>();
 
                     for (var p = 0; p < patternCount; p++)

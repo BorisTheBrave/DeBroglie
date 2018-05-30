@@ -18,9 +18,10 @@ namespace DeBroglie
 
                 var layer = (TileLayer)map.Layers[0];
                 var layerArray = TiledUtil.AsIntArray(layer);
-                
 
-                var model = new OverlappingModel<int>(layerArray, 2, false, 1);
+
+                //var model = new OverlappingModel<int>(layerArray, 2, false, 1);
+                var model = new AdjacentModel<int>(layerArray, false);
 
                 var propagator = new WavePropagator(model, 100, 100, false);
 

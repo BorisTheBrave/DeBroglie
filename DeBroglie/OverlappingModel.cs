@@ -3,6 +3,7 @@ using System.Linq;
 
 namespace DeBroglie
 {
+
     public class OverlappingModel<T> : TileModel<T>
     {
         private List<PatternArray> patternArrays;
@@ -15,8 +16,7 @@ namespace DeBroglie
 
         private IReadOnlyDictionary<int, T> patternsToTiles;
         private ILookup<T, int> tilesToPatterns;
-
-        IEqualityComparer<T> comparer;
+        private IEqualityComparer<T> comparer;
 
         public OverlappingModel(T[,] sample, int n, bool periodic, int symmetries)
         {
@@ -58,7 +58,7 @@ namespace DeBroglie
                 .Select((x, i) => new KeyValuePair<int, T>(i, x.Values[0, 0]))
                 .ToDictionary(x => x.Key, x => x.Value);
 
-            tilesToPatterns = patternsToTiles.ToLookup(x => x.Value, x => x.Key);
+            tilesToPatterns = patternsToTiles.ToLookup(x => x.Value, x => x.Key, comparer);
         }
 
         private static void GetPatterns(T[,] sample, int n, bool periodic, int symmetries, IEqualityComparer<T> comparer, out List<PatternArray> patternArrays, out List<double> frequencies, out int groundPattern)
@@ -149,13 +149,14 @@ namespace DeBroglie
 
         public override IReadOnlyDictionary<int, T> PatternsToTiles => patternsToTiles;
         public override ILookup<T, int> TilesToPatterns => tilesToPatterns;
+        public override IEqualityComparer<T> Comparer => comparer;
 
         public GroundConstraint GetGroundConstraint()
         {
             return new GroundConstraint(groundPattern);
         }
 
-        public T[,] ToArray(WavePropagator wavePropagator, T undecided = default(T), T contradiction = default(T))
+        public override T[,] ToArray(WavePropagator wavePropagator, T undecided = default(T), T contradiction = default(T))
         {
             T MapPatternOrStatus(int pattern, int px, int py)
             {
@@ -225,7 +226,7 @@ namespace DeBroglie
             }
         }
 
-        public List<T>[,] ToArraySets(WavePropagator wavePropagator)
+        public override List<T>[,] ToArraySets(WavePropagator wavePropagator)
         {
             List<T> Map(List<int> patterns, int px, int py)
             {
