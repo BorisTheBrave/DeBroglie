@@ -2,6 +2,20 @@
 {
     public class Topology
     {
+        public Topology(Directions directions, int width, int height, bool periodic, bool[] mask = null)
+        {
+            Directions = directions;
+            Width = width;
+            Height = height;
+            Periodic = periodic;
+            Mask = mask;
+        }
+
+        public Topology WithMask(bool[] mask)
+        {
+            return new Topology(Directions, Width, Height, Periodic, mask);
+        }
+
         public Directions Directions { get; set; }
 
         public int Width { get; set; }
@@ -9,6 +23,13 @@
         public int Height { get; set; }
 
         public bool Periodic { get; set; }
+
+        public bool[] Mask { get; set; }
+
+        public bool ContainsIndex(int index)
+        {
+            return Mask == null || Mask[index];
+        }
 
         public int GetIndex(int x, int y)
         {
@@ -64,7 +85,15 @@
             }
             destx = x;
             desty = y;
-            return true;
+            if (Mask != null)
+            {
+                var index2 = GetIndex(x, y);
+                return Mask[index2];
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }

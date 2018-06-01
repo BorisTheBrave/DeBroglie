@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using TiledLib;
 using TiledLib.Layer;
 
@@ -23,39 +24,126 @@ namespace DeBroglie
             }
         }
 
-        public static int[,] AsIntArray(TileLayer layer)
+        public static ITopArray<int> ReadLayer(Map map, TileLayer layer)
         {
-            var layerArray = new int[layer.Width, layer.Height];
-            var i = 0;
-            for (int y = 0; y < layer.Height; y++)
+            if (map.Orientation == Orientation.orthogonal)
             {
-                for (int x = 0; x < layer.Width; x++)
+                var layerArray = new int[layer.Width, layer.Height];
+                var i = 0;
+                for (int y = 0; y < layer.Height; y++)
                 {
-                    layerArray[x, y] = layer.Data[i++];
+                    for (int x = 0; x < layer.Width; x++)
+                    {
+                        layerArray[x, y] = layer.Data[i++];
+                    }
                 }
+                return new TopArray2D<int>(layerArray, false);
             }
-            return layerArray;
+            else if(map.Orientation == Orientation.hexagonal)
+            {
+                // Tiled uses a staggered hex layout, while we use an axial one
+                // Convert between them, masking out the dead space
+                // For now, only support one mode of staggering
+                if (map.StaggerAxis != StaggerAxis.y)
+                    throw new NotImplementedException($"Maps staggered on x axis not supported");
+
+                var width = layer.Width + (layer.Height + 1) / 2;
+                var height = layer.Height;
+                var layerArray = new int[width, height];
+                var mask = new bool[width * height];
+                var topology = new Topology(Directions.Hexagonal2d, width, height, false, mask);
+
+                int i = 0;
+                var isStaggered = map.StaggerIndex == StaggerIndex.even;
+                var xoffset = isStaggered ? -1 : 0;
+                for (int y = 0; y < layer.Height; y++)
+                {
+                    if (isStaggered)
+                        xoffset += 1;
+                    for (int x = 0; x < layer.Width; x++)
+                    {
+                        var newY = y;
+                        var newX = x + xoffset;
+                        layerArray[newX, newY] = layer.Data[i++];
+                        var index = topology.GetIndex(newX, newY);
+                        mask[index] = true;
+                    }
+                    isStaggered = !isStaggered;
+                }
+                return new TopArray2D<int>(layerArray, topology);
+            }
+            else
+            {
+                throw new NotImplementedException($"{map.Orientation} not supported");
+            }
         }
 
-        public static TileLayer AsLayer(int[,] layerArray)
+        public static TileLayer WriteLayer(Map map, ITopArray<int> array)
         {
-            var data = new int[layerArray.GetLength(0) * layerArray.GetLength(1)];
-            var i = 0;
-            for (int y = 0; y < layerArray.GetLength(1); y++)
+            if (map.Orientation == Orientation.orthogonal)
             {
-                for (int x = 0; x < layerArray.GetLength(0); x++)
+                var width = array.Topology.Width;
+                var height = array.Topology.Height;
+                var data = new int[width * height];
+                var i = 0;
+                for (int y = 0; y < height; y++)
                 {
-                    data[i++] = layerArray[x, y];
+                    for (int x = 0; x < width; x++)
+                    {
+                        data[i++] = array.Get(x, y); ;
+                    }
                 }
+                var layer = new TileLayer();
+                layer.Encoding = "base64";
+                layer.Data = data;
+                layer.Width = width;
+                layer.Height = height;
+                layer.Visible = true;
+                layer.Opacity = 1.0;
+                return layer;
             }
-            var layer = new TileLayer();
-            layer.Encoding = "base64";
-            layer.Data = data;
-            layer.Width = layerArray.GetLength(0);
-            layer.Height = layerArray.GetLength(1);
-            layer.Visible = true;
-            layer.Opacity = 1.0;
-            return layer;
+            else if (map.Orientation == Orientation.hexagonal)
+            {
+                // Tiled uses a staggered hex layout, while we use an axial one
+                // Convert between them, masking out the dead space
+                // For now, only support one mode of staggering
+                if (map.StaggerAxis != StaggerAxis.y)
+                    throw new NotImplementedException($"Maps staggered on x axis not supported");
+
+                var width = array.Topology.Width;
+                var height = array.Topology.Height;
+                var newWidth = width + (height + 1) / 2;
+                var newHeight = height;
+                var data = new int[newWidth * newHeight];
+
+                int i = 0;
+                var isStaggered = map.StaggerIndex == StaggerIndex.even;
+                var xoffset = (isStaggered ? 1 : 0) + (height + 1) / 2;
+                for (int y = 0; y < height; y++)
+                {
+                    if (isStaggered)
+                        xoffset -= 1;
+                    for (int x = 0; x < width; x++)
+                    {
+                        var newY = y;
+                        var newX = x + xoffset;
+                        data[newX + newY * newWidth] = array.Get(x, y);
+                    }
+                    isStaggered = !isStaggered;
+                }
+                var layer = new TileLayer();
+                layer.Encoding = "base64";
+                layer.Data = data;
+                layer.Width = newWidth;
+                layer.Height = newHeight;
+                layer.Visible = true;
+                layer.Opacity = 1.0;
+                return layer;
+            }
+            else
+            {
+                throw new NotImplementedException($"{map.Orientation} not supported");
+            }
         }
     }
 }

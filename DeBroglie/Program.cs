@@ -12,28 +12,29 @@ namespace DeBroglie
         static void Main(string[] args)
         {
             {
-                var filename = @"desert.tmx";
+                var filename = @"hexagonal-mini2.tmx";
                 var map = TiledUtil.Load(filename);
 
 
                 var layer = (TileLayer)map.Layers[0];
-                var layerArray = TiledUtil.AsIntArray(layer);
+                var layerArray = TiledUtil.ReadLayer(map, layer);
 
 
                 //var model = new OverlappingModel<int>(layerArray, 2, false, 1);
-                var model = new AdjacentModel<int>(layerArray, false);
+                var model = new AdjacentModel<int>(layerArray);
 
-                var propagator = new WavePropagator(model, 100, 100, false);
+                var propagator = new WavePropagator(model, new Topology(Directions.Hexagonal2d, 100, 100, false));
 
                 var status = propagator.Run();
 
-                layerArray = model.ToArray(propagator);
+                layerArray = new TopArray2D<int>(model.ToArray(propagator), propagator.Topology);
+                layer = TiledUtil.WriteLayer(map, layerArray);
                 
-                map.Width = layerArray.GetLength(0);
-                map.Height = layerArray.GetLength(0);
-                map.Layers = new[] { TiledUtil.AsLayer(layerArray) };
+                map.Layers = new[] { layer };
+                map.Width = layer.Width;
+                map.Height = layer.Height;
 
-                TiledUtil.Save("new_desert.tmx", map);
+                TiledUtil.Save("new_hexmini.tmx", map);
 
                 return;
             }

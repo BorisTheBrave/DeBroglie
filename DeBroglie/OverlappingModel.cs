@@ -32,7 +32,7 @@ namespace DeBroglie
 
             this.Frequencies = frequencies.ToArray();
 
-            var directions = Directions.Cartesian2dDirections;
+            var directions = Directions.Cartesian2d;
 
             Propagator = new int[patternArrays.Count][][];
             for (var p = 0; p < patternArrays.Count; p++)

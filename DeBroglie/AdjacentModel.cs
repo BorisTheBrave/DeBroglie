@@ -12,25 +12,22 @@ namespace DeBroglie
         private IEqualityComparer<T> comparer;
 
         public AdjacentModel(T[,] sample, bool periodic)
+            :this(new TopArray2D<T>(sample, periodic))
+        {
+
+        }
+        public AdjacentModel(ITopArray<T> sample)
         {
             this.comparer = EqualityComparer<T>.Default;
 
-            var width = sample.GetLength(0);
-            var height = sample.GetLength(1);
+            var topology = sample.Topology;
+            var width = topology.Width;
+            var height = topology.Height;
+            var directionCount = topology.Directions.Count;
 
             // Tiles map 1:1 with patterns
             var tilesToPatterns = new Dictionary<T, int>(comparer);
             var frequencies = new List<double>();
-
-
-            var topology = new Topology
-            {
-                Directions = Directions.Cartesian2dDirections,
-                Width = width,
-                Height = height,
-                Periodic = periodic,
-            };
-            var directionCount = topology.Directions.Count;
 
             List<HashSet<int>[]> propagator = new List<HashSet<int>[]>();
 
@@ -54,8 +51,12 @@ namespace DeBroglie
             {
                 for (var y = 0; y < height; y++)
                 {
+                    var index = topology.GetIndex(x, y);
+                    if (!topology.ContainsIndex(index))
+                        continue;
+
                     // Find the pattern and update the frequency
-                    var pattern = GetPattern(sample[x, y]);
+                    var pattern = GetPattern(sample.Get(x, y));
                     
                     frequencies[pattern] += 1;
 
@@ -65,7 +66,7 @@ namespace DeBroglie
                         int x2, y2;
                         if(topology.TryMove(x, y, d, out x2, out y2))
                         {
-                            var pattern2 = GetPattern(sample[x2, y2]);
+                            var pattern2 = GetPattern(sample.Get(x2, y2));
                             propagator[pattern][d].Add(pattern2);
                         }
                     }

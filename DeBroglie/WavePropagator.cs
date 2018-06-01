@@ -55,24 +55,24 @@ namespace DeBroglie
         private int[,,] compatible;
 
         public WavePropagator(Model model, int width, int height, bool periodic, bool backtrack = false, IWaveConstraint[] constraints = null)
+            :this(model, new Topology(Directions.Cartesian2d, width, height, periodic), backtrack, constraints)
+        {
+
+        }
+
+        public WavePropagator(Model model, Topology topology, bool backtrack = false, IWaveConstraint[] constraints = null)
         {
             this.propagator = model.Propagator;
             this.patternCount = model.PatternCount;
             this.frequencies = model.Frequencies;
 
-            this.width = width;
-            this.height = height;
+            this.width = topology.Width;
+            this.height = topology.Height;
             this.indices = width * height;
-            this.periodic = periodic;
+            this.periodic = topology.Periodic;
             this.backtrack = backtrack;
             this.constraints = constraints ?? new IWaveConstraint[0];
-            this.topology = new Topology
-            {
-                Directions = Directions.Cartesian2dDirections,
-                Width = width,
-                Height = height,
-                Periodic = periodic,
-            };
+            this.topology = topology;
             directionsCount = topology.Directions.Count;
 
             this.toPropagate = new Stack<PropagateItem>();
