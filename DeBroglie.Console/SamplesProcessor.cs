@@ -3,7 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Xml.Serialization;
 
-namespace DeBroglie
+namespace DeBroglie.Console
 {
 
     [XmlRoot("samples")]

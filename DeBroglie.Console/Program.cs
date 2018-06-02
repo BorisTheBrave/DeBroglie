@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Xml.Serialization;
 using TiledLib.Layer;
+using DeBroglie;
 
-namespace DeBroglie
+namespace DeBroglie.Console
 {
 
     class Program
@@ -29,7 +30,7 @@ namespace DeBroglie
 
                 layerArray = new TopArray2D<int>(model.ToArray(propagator), propagator.Topology);
                 layer = TiledUtil.WriteLayer(map, layerArray);
-                
+
                 map.Layers = new[] { layer };
                 map.Width = layer.Width;
                 map.Height = layer.Height;
@@ -66,7 +67,7 @@ namespace DeBroglie
                 var status = ConsoleUtils.Run(propagator, 1);
                 ConsoleUtils.Write(model, propagator);
 
-                Console.WriteLine("Backtrack count {0}", propagator.BacktrackCount);
+                System.Console.WriteLine("Backtrack count {0}", propagator.BacktrackCount);
             }
         }
     }

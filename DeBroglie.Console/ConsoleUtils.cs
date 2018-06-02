@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DeBroglie
+namespace DeBroglie.Console
 {
     public static class ConsoleUtils
     {
@@ -21,16 +21,16 @@ namespace DeBroglie
                         case 0: c = " "; break;
                         default: c = r.ToString(); break;
                     }
-                    Console.Write(c);
+                    System.Console.Write(c);
                 }
-                Console.WriteLine();
+                System.Console.WriteLine();
             }
         }
 
         public static void WriteSteps(OverlappingModel<int> model, WavePropagator propagator)
         {
             Write(model, propagator);
-            Console.WriteLine();
+            System.Console.WriteLine();
 
             while (true)
             {
@@ -39,13 +39,13 @@ namespace DeBroglie
                 Write(model, propagator);
                 if (propagator.BacktrackCount != prevBacktrackCount)
                 {
-                    Console.WriteLine("Backtracked!");
+                    System.Console.WriteLine("Backtracked!");
                 }
-                Console.WriteLine();
+                System.Console.WriteLine();
 
                 if (status != CellStatus.Undecided)
                 {
-                    Console.WriteLine(status);
+                    System.Console.WriteLine(status);
                     break;
                 }
             }
