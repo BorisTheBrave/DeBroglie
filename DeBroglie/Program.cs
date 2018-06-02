@@ -20,10 +20,10 @@ namespace DeBroglie
                 var layerArray = TiledUtil.ReadLayer(map, layer);
 
 
-                var model = new OverlappingModel<int>(layerArray, 2, 1);
+                var model = new OverlappingModel<int>(layerArray, 2, 6, false);
                 //var model = new AdjacentModel<int>(layerArray);
 
-                var propagator = new WavePropagator(model, new Topology(Directions.Hexagonal2d, 10, 10, false), false);
+                var propagator = new WavePropagator(model, new Topology(Directions.Hexagonal2d, 20, 20, false), false);
 
                 var status = propagator.Run();
 

@@ -10,7 +10,8 @@ namespace DeBroglie
 
         private int n;
         private bool periodic;
-        private int symmetries;
+        int rotationalSymmetry;
+        bool reflectionalSymmetry;
 
         private int groundPattern;
 
@@ -19,22 +20,23 @@ namespace DeBroglie
         private IEqualityComparer<T> comparer;
 
         public OverlappingModel(T[,] sample, int n, bool periodic, int symmetries)
-            :this(new TopArray2D<T>(sample, periodic), n, symmetries)
+            :this(new TopArray2D<T>(sample, periodic), n, symmetries > 1 ? symmetries / 2 : 1, symmetries > 1)
         {
 
         }
 
-        public OverlappingModel(ITopArray<T> sample, int n, int symmetries)
+        public OverlappingModel(ITopArray<T> sample, int n, int rotationalSymmetry, bool reflectionalSymmetry)
         {
             this.n = n;
             this.periodic = sample.Topology.Periodic;
-            this.symmetries = symmetries;
+            this.rotationalSymmetry = rotationalSymmetry;
+            this.reflectionalSymmetry = reflectionalSymmetry;
 
             this.comparer = EqualityComparer<T>.Default;
 
             List<double> frequencies;
 
-            OverlappingAnalysis.GetPatterns(sample, n, periodic, symmetries, comparer, out patternArrays, out frequencies, out groundPattern);
+            OverlappingAnalysis.GetPatterns(sample, n, periodic, rotationalSymmetry, reflectionalSymmetry, comparer, out patternArrays, out frequencies, out groundPattern);
 
             this.Frequencies = frequencies.ToArray();
 
