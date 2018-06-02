@@ -21,6 +21,9 @@ namespace DeBroglie
             using (var writer = new StreamWriter(stream, System.Text.Encoding.UTF8, 1024, true))
             {
                 writer.WriteTmxMap(map);
+                // We truncate the file now rather than at the start as this plays better
+                // with Tiled's auto-reloading functionality
+                stream.SetLength(stream.Position);
             }
         }
 

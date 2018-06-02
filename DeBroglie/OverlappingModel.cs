@@ -19,9 +19,14 @@ namespace DeBroglie
         private IEqualityComparer<T> comparer;
 
         public OverlappingModel(T[,] sample, int n, bool periodic, int symmetries)
+            :this(new TopArray2D<T>(sample, periodic), n, symmetries)
+        {
+
+        }
+        public OverlappingModel(ITopArray<T> sample, int n, int symmetries)
         {
             this.n = n;
-            this.periodic = periodic;
+            this.periodic = sample.Topology.Periodic;
             this.symmetries = symmetries;
 
             this.comparer = EqualityComparer<T>.Default;
@@ -32,9 +37,10 @@ namespace DeBroglie
 
             this.Frequencies = frequencies.ToArray();
 
-            var directions = Directions.Cartesian2d;
+            var directions = sample.Topology.Directions;
 
             Propagator = new int[patternArrays.Count][][];
+
             for (var p = 0; p < patternArrays.Count; p++)
             {
                 Propagator[p] = new int[directions.Count][];
@@ -61,10 +67,10 @@ namespace DeBroglie
             tilesToPatterns = patternsToTiles.ToLookup(x => x.Value, x => x.Key, comparer);
         }
 
-        private static void GetPatterns(T[,] sample, int n, bool periodic, int symmetries, IEqualityComparer<T> comparer, out List<PatternArray> patternArrays, out List<double> frequencies, out int groundPattern)
+        private static void GetPatterns(ITopArray<T> sample, int n, bool periodic, int symmetries, IEqualityComparer<T> comparer, out List<PatternArray> patternArrays, out List<double> frequencies, out int groundPattern)
         {
-            var width = sample.GetLength(0);
-            var height = sample.GetLength(1);
+            var width = sample.Topology.Width;
+            var height = sample.Topology.Height;
             var maxx = periodic ? width - 1 : width - n;
             var maxy = periodic ? height - 1 : height - n;
 
@@ -76,7 +82,11 @@ namespace DeBroglie
             {
                 for (var y = 0; y <= maxy; y++)
                 {
-                    var patternArray = Extract(sample, n, x, y);
+                    PatternArray patternArray;
+                    if(!TryExtract(sample, n, x, y, out patternArray))
+                    {
+                        continue;
+                    }
                     var transformed = new PatternArray[8];
                     transformed[0] = patternArray;
                     transformed[1] = patternArray.Reflected();
@@ -102,15 +112,17 @@ namespace DeBroglie
                     }
                 }
             }
-            var lowest = periodic ? sample.GetLength(1) - 1 : sample.GetLength(1) - n;
-            groundPattern = patternIndices[Extract(sample, n, sample.GetLength(0) / 2, lowest)];
+            var lowest = periodic ? height - 1 : width - n;
+            PatternArray groundPatternArray;
+            TryExtract(sample, n, width / 2, lowest, out groundPatternArray);
+            groundPattern = patternIndices[groundPatternArray];
 
         }
 
-        private static PatternArray Extract(T[,] sample, int n, int x, int y)
+        private static bool TryExtract(ITopArray<T> sample, int n, int x, int y, out PatternArray pattern)
         {
-            var width = sample.GetLength(0);
-            var height = sample.GetLength(1);
+            var width = sample.Topology.Width;
+            var height = sample.Topology.Height;
             var values = new T[n, n];
             for (int tx = 0; tx < n; tx++)
             {
@@ -118,10 +130,17 @@ namespace DeBroglie
                 for (int ty = 0; ty < n; ty++)
                 {
                     var sy = (y + ty) % height;
-                    values[tx, ty] = sample[sx, sy];
+                    var index = sample.Topology.GetIndex(sx, sy);
+                    if (!sample.Topology.ContainsIndex(index))
+                    {
+                        pattern = default(PatternArray);
+                        return false;
+                    }
+                    values[tx, ty] = sample.Get(sx, sy);
                 }
             }
-            return new PatternArray { Values = values };
+            pattern =  new PatternArray { Values = values };
+            return true;
         }
 
         /**
