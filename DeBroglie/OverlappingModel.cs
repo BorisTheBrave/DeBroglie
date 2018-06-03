@@ -54,7 +54,8 @@ namespace DeBroglie
                     {
                         var dx = directions.DX[d];
                         var dy = directions.DY[d];
-                        if(Aggrees(patternArrays[p], patternArrays[p2], dx, dy))
+                        var dz = directions.DZ[d];
+                        if (Aggrees(patternArrays[p], patternArrays[p2], dx, dy, dz))
                         {
                             l.Add(p2);
                         }
@@ -64,7 +65,7 @@ namespace DeBroglie
             }
 
             patternsToTiles = patternArrays
-                .Select((x, i) => new KeyValuePair<int, T>(i, x.Values[0, 0]))
+                .Select((x, i) => new KeyValuePair<int, T>(i, x.Values[0, 0, 0]))
                 .ToDictionary(x => x.Key, x => x.Value);
 
             tilesToPatterns = patternsToTiles.ToLookup(x => x.Value, x => x.Key, comparer);
@@ -78,19 +79,24 @@ namespace DeBroglie
           * Return true if the pattern1 is compatible with pattern2
           * when pattern2 is at a distance (dy,dx) from pattern1.
           */
-        private bool Aggrees(PatternArray<T> a, PatternArray<T> b, int dx, int dy)
+        private bool Aggrees(PatternArray<T> a, PatternArray<T> b, int dx, int dy, int dz)
         {
             var xmin = dx < 0 ? 0 : dx;
             var xmax = dx < 0 ? dx + b.Width : a.Width;
             var ymin = dy < 0 ? 0 : dy;
-            var ymax = dy < 0 ? dy + b.Height : a.Width;
+            var ymax = dy < 0 ? dy + b.Height : a.Height;
+            var zmin = dz < 0 ? 0 : dz;
+            var zmax = dz < 0 ? dz + b.Depth : a.Depth;
             for (var x = xmin; x < xmax; x++)
             {
                 for (var y = ymin; y < ymax; y++)
                 {
-                    if (!comparer.Equals(a.Values[x, y], b.Values[x - dx, y - dy]))
+                    for (var z = zmin; z < zmax; z++)
                     {
-                        return false;
+                        if (!comparer.Equals(a.Values[x, y, z], b.Values[x - dx, y - dy, z - dz]))
+                        {
+                            return false;
+                        }
                     }
                 }
             }
@@ -116,7 +122,7 @@ namespace DeBroglie
                 } 
                 else
                 {
-                    return patternArrays[pattern].Values[px, py];
+                    return patternArrays[pattern].Values[px, py, 0];
                 }
             }
 
@@ -179,7 +185,7 @@ namespace DeBroglie
                 HashSet<T> set = new HashSet<T>(comparer);
                 foreach(var pattern in patterns)
                 {
-                    set.Add(patternArrays[pattern].Values[px, py]);
+                    set.Add(patternArrays[pattern].Values[px, py, 0]);
                 }
                 return set.ToList();
             }

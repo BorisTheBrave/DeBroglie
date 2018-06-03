@@ -23,6 +23,7 @@ namespace DeBroglie
             var topology = sample.Topology;
             var width = topology.Width;
             var height = topology.Height;
+            var depth = topology.Depth;
             var directionCount = topology.Directions.Count;
 
             // Tiles map 1:1 with patterns
@@ -51,23 +52,26 @@ namespace DeBroglie
             {
                 for (var y = 0; y < height; y++)
                 {
-                    var index = topology.GetIndex(x, y);
-                    if (!topology.ContainsIndex(index))
-                        continue;
-
-                    // Find the pattern and update the frequency
-                    var pattern = GetPattern(sample.Get(x, y));
-                    
-                    frequencies[pattern] += 1;
-
-                    // Update propogator
-                    for (var d = 0; d < directionCount; d++)
+                    for (var z = 0; z < depth; z++)
                     {
-                        int x2, y2;
-                        if(topology.TryMove(x, y, d, out x2, out y2))
+                        var index = topology.GetIndex(x, y, z);
+                        if (!topology.ContainsIndex(index))
+                            continue;
+
+                        // Find the pattern and update the frequency
+                        var pattern = GetPattern(sample.Get(x, y, z));
+
+                        frequencies[pattern] += 1;
+
+                        // Update propogator
+                        for (var d = 0; d < directionCount; d++)
                         {
-                            var pattern2 = GetPattern(sample.Get(x2, y2));
-                            propagator[pattern][d].Add(pattern2);
+                            int x2, y2, z2;
+                            if (topology.TryMove(x, y, z, d, out x2, out y2, out z2))
+                            {
+                                var pattern2 = GetPattern(sample.Get(x2, y2, z2));
+                                propagator[pattern][d].Add(pattern2);
+                            }
                         }
                     }
                 }

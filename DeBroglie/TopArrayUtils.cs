@@ -72,9 +72,9 @@ namespace DeBroglie
                 {
                     int newX, newY;
                     OriginalToNewCoord(x, y, out newX, out newY);
-                    int newIndex = topology.GetIndex(newX, newY);
-                    values[newX, newY] = original.Get(x, y);
-                    mask[newIndex] = original.Topology.ContainsIndex(original.Topology.GetIndex(x, y));
+                    int newIndex = topology.GetIndex(newX, newY, 0);
+                    values[newX, newY] = original.Get(x, y, 0);
+                    mask[newIndex] = original.Topology.ContainsIndex(original.Topology.GetIndex(x, y, 0));
                 }
             }
 

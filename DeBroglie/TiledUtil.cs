@@ -68,7 +68,7 @@ namespace DeBroglie
                         var newY = y;
                         var newX = x + xoffset;
                         layerArray[newX, newY] = layer.Data[i++];
-                        var index = topology.GetIndex(newX, newY);
+                        var index = topology.GetIndex(newX, newY, 0);
                         mask[index] = true;
                     }
                     isStaggered = !isStaggered;
@@ -93,7 +93,7 @@ namespace DeBroglie
                 {
                     for (int x = 0; x < width; x++)
                     {
-                        data[i++] = array.Get(x, y); ;
+                        data[i++] = array.Get(x, y, 0);
                     }
                 }
                 var layer = new TileLayer();
@@ -130,7 +130,7 @@ namespace DeBroglie
                     {
                         var newY = y;
                         var newX = x + xoffset;
-                        data[newX + newY * newWidth] = array.Get(x, y);
+                        data[newX + newY * newWidth] = array.Get(x, y, 0);
                     }
                     isStaggered = !isStaggered;
                 }

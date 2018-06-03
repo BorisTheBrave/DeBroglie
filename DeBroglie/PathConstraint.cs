@@ -64,7 +64,7 @@ namespace DeBroglie
                     return CellStatus.Undecided;
                 foreach(var endPoint in EndPoints)
                 {
-                    var index = wp.Topology.GetIndex(endPoint.X, endPoint.Y);
+                    var index = wp.Topology.GetIndex(endPoint.X, endPoint.Y, endPoint.Z);
                     relevant[index] = true;
                 }
             }
@@ -90,12 +90,12 @@ namespace DeBroglie
                 var isRelevantSubtree = isRelevant;
                 low[u] = dfsNum[u] = num++;
 
-                int ux, uy;
-                wp.Topology.GetCoord(u, out ux, out uy);
+                int ux, uy, uz;
+                wp.Topology.GetCoord(u, out ux, out uy, out uz);
                 for (var d = 0; d < wp.Topology.Directions.Count; d++)
                 {
                     int v;
-                    if(!wp.Topology.TryMove(ux, uy, d, out v))
+                    if(!wp.Topology.TryMove(ux, uy, uz, d, out v))
                     {
                         continue;
                     }

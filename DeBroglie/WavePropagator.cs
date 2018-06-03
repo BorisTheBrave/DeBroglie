@@ -34,6 +34,7 @@ namespace DeBroglie
         // Basic parameters
         private int width;
         private int height;
+        private int depth;
         private int indices;
         private bool periodic;
         private readonly bool backtrack;
@@ -68,7 +69,8 @@ namespace DeBroglie
 
             this.width = topology.Width;
             this.height = topology.Height;
-            this.indices = width * height;
+            this.depth = topology.Depth;
+            this.indices = width * height * depth;
             this.periodic = topology.Periodic;
             this.backtrack = backtrack;
             this.constraints = constraints ?? new IWaveConstraint[0];
@@ -88,6 +90,7 @@ namespace DeBroglie
         public Wave Wave => wave;
         public int Width => width;
         public int Height => height;
+        public int Depth => depth;
         public int Indices => indices;
         public bool Periodic => periodic;
         public Topology Topology => topology;
@@ -139,12 +142,12 @@ namespace DeBroglie
             while (toPropagate.Count > 0)
             {
                 var item = toPropagate.Pop();
-                int x, y;
-                topology.GetCoord(item.Index, out x, out y);
+                int x, y, z;
+                topology.GetCoord(item.Index, out x, out y, out z);
                 for (var d = 0; d < directionsCount; d++)
                 {
                     int i2;
-                    if (!topology.TryMove(x, y, d, out i2))
+                    if (!topology.TryMove(x, y, z, d, out i2))
                     {
                         continue;
                     }
@@ -263,7 +266,7 @@ namespace DeBroglie
          */
         public void Clear()
         {
-            wave = new Wave(frequencies, width * height);
+            wave = new Wave(frequencies, indices);
 
             if(backtrack)
             {
@@ -290,9 +293,9 @@ namespace DeBroglie
         /**
          * Removes pattern as a possibility from index
          */
-        public CellStatus Ban(int x, int y, int pattern)
+        public CellStatus Ban(int x, int y, int z, int pattern)
         {
-            var index = topology.GetIndex(x, y);
+            var index = topology.GetIndex(x, y, z);
             if (wave.Get(index, pattern))
             {
                 if (InternalBan(index, pattern))
@@ -306,9 +309,9 @@ namespace DeBroglie
         /**
          * Removes all other patterns as possibilities for index.
          */
-        public CellStatus Select(int x, int y, int pattern)
+        public CellStatus Select(int x, int y, int z, int pattern)
         {
-            var index = topology.GetIndex(x, y);
+            var index = topology.GetIndex(x, y, z);
             if (InternalSelect(index, pattern))
             {
                 return CellStatus.Contradiction;
@@ -383,6 +386,23 @@ namespace DeBroglie
             }
         }
 
+        public ITopArray<int> ToTopArray()
+        {
+            var result = new int[width, height, depth];
+            for (var x = 0; x < width; x++)
+            {
+                for (var y = 0; y < height; y++)
+                {
+                    for (var z = 0; z < depth; z++)
+                    {
+                        var index = topology.GetIndex(x, y, z);
+                        result[x, y, z] = GetDecidedCell(index);
+                    }
+                }
+            }
+            return new TopArray3D<int>(result, topology);
+        }
+
         /**
          * Returns the array of decided patterns, writing
          * -1 or -2 to indicate cells that are undecided or in contradiction.
@@ -394,7 +414,7 @@ namespace DeBroglie
             {
                 for (var y = 0; y < height; y++)
                 {
-                    var index = topology.GetIndex(x, y);
+                    var index = topology.GetIndex(x, y, 0);
                     result[x, y] = GetDecidedCell(index);
                 }
             }
@@ -411,7 +431,7 @@ namespace DeBroglie
             {
                 for (var y = 0; y < height; y++)
                 {
-                    var index = topology.GetIndex(x, y);
+                    var index = topology.GetIndex(x, y, 0);
                     List<int> hs = result[x, y] = new List<int>();
 
                     for (var p = 0; p < patternCount; p++)

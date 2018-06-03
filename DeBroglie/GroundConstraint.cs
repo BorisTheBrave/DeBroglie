@@ -21,13 +21,16 @@
             {
                 for (var y = 0; y < wp.Height; y++)
                 {
-                    if(y == wp.Height - 1)
+                    for (var z = 0; z < wp.Depth; z++)
                     {
-                        wp.Select(x, y, groundPattern);
-                    }
-                    else
-                    {
-                        wp.Ban(x, y, groundPattern);
+                        if (y == wp.Height - 1)
+                        {
+                            wp.Select(x, y, z, groundPattern);
+                        }
+                        else
+                        {
+                            wp.Ban(x, y, z, groundPattern);
+                        }
                     }
                 }
             }

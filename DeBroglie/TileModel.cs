@@ -15,6 +15,43 @@ namespace DeBroglie
         public abstract ILookup<T, int> TilesToPatterns { get; }
         public abstract IEqualityComparer<T> Comparer { get; }
 
+        public virtual ITopArray<T> ToTopArray(WavePropagator wavePropagator, T undecided = default(T), T contradiction = default(T))
+        {
+            T MapPatternOrStatus(int pattern)
+            {
+                if (pattern == (int)CellStatus.Contradiction)
+                {
+                    return contradiction;
+                }
+                else if (pattern == (int)CellStatus.Undecided)
+                {
+                    return undecided;
+                }
+                else
+                {
+                    return PatternsToTiles[pattern];
+                }
+            }
+
+            var a = wavePropagator.ToTopArray();
+            var width = a.Topology.Height;
+            var height = a.Topology.Width;
+            var depth  = a.Topology.Depth;
+            var results = new T[width, height, depth];
+            for (var x = 0; x < width; x++)
+            {
+                for (var y = 0; y < height; y++)
+                {
+                    for (var z = 0; z < depth; z++)
+                    {
+                        results[x, y, z] = MapPatternOrStatus(a.Get(x, y, z));
+                    }
+                }
+            }
+            return new TopArray3D<T>(results, wavePropagator.Topology);
+        }
+
+
         public virtual T[,] ToArray(WavePropagator wavePropagator, T undecided = default(T), T contradiction = default(T))
         {
             T MapPatternOrStatus(int pattern)

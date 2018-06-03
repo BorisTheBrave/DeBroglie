@@ -22,7 +22,7 @@ namespace DeBroglie.Test
             Assert.AreEqual(2, r1.Get(0, 0));
             Assert.AreEqual(1, r1.Get(0, 1));
             Assert.AreEqual(4, r1.Get(1, 1));
-            Assert.AreEqual(3, r1.Get(1, 2 ));
+            Assert.AreEqual(3, r1.Get(1, 2));
 
             var r3 = TopArrayUtils.HexRotate(ta, 3);
             Assert.AreEqual(4, r3.Get(0, 0));

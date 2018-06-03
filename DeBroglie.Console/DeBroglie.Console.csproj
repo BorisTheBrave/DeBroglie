@@ -57,6 +57,10 @@
       <Project>{22f25dc4-662e-4326-b44b-e6882c297cd9}</Project>
       <Name>TiledLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DeBroglie.MagicaVoxel\DeBroglie.MagicaVoxel.csproj">
+      <Project>{63952ab1-714e-4e06-a37e-8b6bc3ffd435}</Project>
+      <Name>DeBroglie.MagicaVoxel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DeBroglie\DeBroglie.csproj">
       <Project>{504b0511-5b64-4402-8a35-ef1625d07f35}</Project>
       <Name>DeBroglie</Name>

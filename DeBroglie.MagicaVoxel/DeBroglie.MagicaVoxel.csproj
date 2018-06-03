@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="castle.vox" />
+    <None Remove="castle2.vox" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DeBroglie\DeBroglie.csproj" />
+  </ItemGroup>
+
+</Project>
