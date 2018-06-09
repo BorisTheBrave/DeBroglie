@@ -14,6 +14,7 @@ Features
 * "Overlapped" model implementation of WFC
 * Non-local constraints allow you to specify other desired properties of the result
 * Backtracking support - other WFC implementations immediately give up when a contradiction occurs.
+* supports 2d tiles, hexs, and 3d voxels
 
 Usage
 -----

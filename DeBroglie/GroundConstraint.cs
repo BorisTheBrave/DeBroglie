@@ -1,5 +1,6 @@
 ﻿namespace DeBroglie
 {
+
     public class GroundConstraint : IWaveConstraint
     {
         private readonly int groundPattern;

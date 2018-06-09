@@ -6,24 +6,41 @@ using System.Xml.Serialization;
 namespace DeBroglie.Console
 {
 
-    [XmlRoot("samples")]
-    public class Samples
+    [XmlRoot("items")]
+    public class Items
     {
         [XmlElement(Type = typeof(Overlapping), ElementName = "overlapping")]
         [XmlElement(Type = typeof(SimpleTiled), ElementName = "simpletiled")]
-        public List<Item> Items { get; set; }
+        public List<Item> AllItems { get; set; }
     }
 
     public class Item
     {
+        [XmlAttribute("dest")]
+        public string Dest { get; set; }
 
+        [XmlAttribute("src")]
+        public string Src { get; set; }
+
+        [XmlAttribute("periodicInput")]
+        public string PeriodicInput { get; set; } = "true";
+
+        public bool IsPeriodicInput => PeriodicInput.ToLower() == "true";
+
+        [XmlAttribute("periodic")]
+        public string Periodic { get; set; } = "false";
+
+        public bool IsPeriodic => Periodic.ToLower() == "true";
+
+        [XmlAttribute("width")]
+        public int Width { get; set; } = 48;
+
+        [XmlAttribute("height")]
+        public int Height { get; set; } = 48;
     }
 
     public class Overlapping : Item
     {
-        [XmlAttribute("name")]
-        public string Name { get; set; }
-
         [XmlAttribute("N")]
         public int N { get; set; } = 2;
 
@@ -32,25 +49,6 @@ namespace DeBroglie.Console
 
         [XmlAttribute("ground")]
         public int Ground { get; set; }
-
-        [XmlAttribute("periodic")]
-        public string Periodic { get; set; } = "false";
-
-        public bool IsPeriodic => Periodic.ToLower() == "true";
-
-        [XmlAttribute("periodicInput")]
-        public string PeriodicInput { get; set; } = "true";
-
-        public bool IsPeriodicInput => PeriodicInput.ToLower() == "true";
-
-        [XmlAttribute("width")]
-        public int Width { get; set; } = 48;
-
-        [XmlAttribute("height")]
-        public int Height { get; set; } = 48;
-
-        [XmlAttribute("screenshots")]
-        public int Screenshots { get; set; } = 2;
     }
 
     public class SimpleTiled : Item
@@ -86,56 +84,86 @@ namespace DeBroglie.Console
             return bitmap;
         }
 
-        private static OverlappingModel<Color> LoadOverlapped(string filename, int n, bool periodic, int symmetries)
+        private static TileModel<T> GetModel<T>(Item item, ITopArray<T> sample)
         {
-            var bitmap = new Bitmap(filename);
-
-            var sample = ToColorArray(bitmap);
-
-            return new OverlappingModel<Color>(sample, n, periodic, symmetries);
+            if (item is Overlapping overlapping)
+            {
+                return new OverlappingModel<T>(sample, overlapping.N, overlapping.Symmetry);
+            }
+            return null;
         }
 
-        private static Samples LoadSamplesFile(string filename)
+        private static Items LoadItemsFile(string filename)
         {
-            var serializer = new XmlSerializer(typeof(Samples));
+            var serializer = new XmlSerializer(typeof(Items));
             using (var fs = new FileStream(filename, FileMode.Open))
             {
-                return (Samples)serializer.Deserialize(fs);
+                return (Items)serializer.Deserialize(fs);
             }
         }
 
-        public static void Process()
+        private static void ProcessBitmap(Item item, string directory)
         {
-            var samples = LoadSamplesFile("samples.xml");
-            Directory.CreateDirectory("output");
-            foreach (var item in samples.Items)
+            if (item.Src == null || item.Dest == null)
+                return;
+
+            var src = Path.Combine(directory, item.Src);
+            var dest = Path.Combine(directory, item.Dest);
+            var contdest = Path.ChangeExtension(dest, ".contradiction" + Path.GetExtension(dest));
+            System.Console.WriteLine($"Reading {src}");
+
+            var bitmap = new Bitmap(src);
+
+            var colorArray = ToColorArray(bitmap);
+            var topArray = new TopArray2D<Color>(colorArray, item.IsPeriodicInput);
+
+            var model = GetModel(item, topArray);
+            if (model == null)
+                return;
+
+            System.Console.WriteLine($"Processing {dest}");
+            var constraints = new List<IWaveConstraint>();
+            if (item is Overlapping overlapping && overlapping.Ground != 0)
+                constraints.Add(((OverlappingModel<Color>)model).GetGroundConstraint());
+
+            var propagator = new WavePropagator(model, item.Width, item.Height, item.IsPeriodic, constraints: constraints.ToArray());
+            CellStatus status = CellStatus.Contradiction;
+            for (var retry = 0; retry < 5; retry++)
             {
-                int itemCount = 0;
-                if (item is Overlapping)
+                if (retry != 0)
+                    propagator.Clear();
+                status = propagator.Run();
+                if (status == CellStatus.Decided)
                 {
-                    var overlapping = item as Overlapping;
-                    var model = LoadOverlapped("samples/" + overlapping.Name + ".png", overlapping.N, overlapping.IsPeriodicInput, overlapping.Symmetry);
-
-                    var constraints = new List<IWaveConstraint>();
-                    if (overlapping.Ground != 0)
-                        constraints.Add(model.GetGroundConstraint());
-
-                    var propagator = new WavePropagator(model, overlapping.Width, overlapping.Height, overlapping.IsPeriodic, constraints: constraints.ToArray());
-
-                    for (var i = 0; i < overlapping.Screenshots; i++)
-                    {
-                        propagator.Clear();
-                        var status = propagator.Run();
-                        if (status == CellStatus.Decided)
-                        {
-                            var array = model.ToArray(propagator, Color.Gray, Color.Red);
-                            var bitmap = ToBitmap(array);
-                            var filename = string.Format("output/{0} {1} {2}.png", overlapping.Name, itemCount, i);
-                            bitmap.Save(filename);
-                        }
-                    }
-                    itemCount++;
+                    break;
                 }
+                System.Console.WriteLine($"Found contradiction, retrying");
+            }
+            var array = model.ToArray(propagator, Color.Gray, Color.Magenta);
+            bitmap = ToBitmap(array);
+            Directory.CreateDirectory(Path.GetDirectoryName(dest));
+            if (status == CellStatus.Decided)
+            {
+                System.Console.WriteLine($"Writing {dest}");
+                bitmap.Save(dest);
+                File.Delete(contdest);
+            }
+            else
+            {
+                System.Console.WriteLine($"Writing {contdest}");
+                bitmap.Save(contdest);
+                File.Delete(dest);
+            }
+        }
+
+
+        public static void Process(string filename)
+        {
+            var directory = Path.GetDirectoryName(filename);
+            var items = LoadItemsFile(filename);
+            foreach (var item in items.AllItems)
+            {
+                ProcessBitmap(item, directory);
             }
         }
     }

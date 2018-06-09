@@ -20,10 +20,18 @@ namespace DeBroglie
         private IEqualityComparer<T> comparer;
 
         public OverlappingModel(T[,] sample, int n, bool periodic, int symmetries)
-            :this(new TopArray2D<T>(sample, periodic), n, symmetries > 1 ? symmetries / 2 : 1, symmetries > 1)
+            :this(new TopArray2D<T>(sample, periodic), n, symmetries)
         {
 
         }
+
+        public OverlappingModel(ITopArray<T> sample, int n, int symmetries)
+            : this(sample, n, symmetries > 1 ? symmetries / 2 : 1, symmetries > 1)
+
+        {
+
+        }
+
 
         public OverlappingModel(ITopArray<T> sample, int n, int rotationalSymmetry, bool reflectionalSymmetry)
         {

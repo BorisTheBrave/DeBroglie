@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Xml.Serialization;
 using TiledLib.Layer;
 using DeBroglie;
 using System.IO;
 using DeBroglie.MagicaVoxel;
-using System.Linq;
 
 namespace DeBroglie.Console
 {
@@ -15,6 +13,14 @@ namespace DeBroglie.Console
     {
         static void Main(string[] args)
         {
+
+            {
+                foreach (var arg in args)
+                {
+                    SamplesProcessor.Process(arg);
+                }
+                return;
+            }
             {
                 var filename = "columns.vox";
                 Vox vox;
@@ -26,31 +32,14 @@ namespace DeBroglie.Console
                 var array = VoxUtils.Load(vox);
                 //var model = new OverlappingModel<byte>(array, 5, 4, true);
                 var model = new AdjacentModel<byte>(array);
+                //for (var i = 0; i < model.Frequencies.Length; i++)
+                //    model.Frequencies[i] = 1;
                 var width = 21;
                 var height = 21;
                 var depth = 21;
-                var propagator = new WavePropagator(model, new Topology(Directions.Cartesian3d, width, height, depth, false), false);
-                var groundPatterns = new HashSet<int>(model.TilesToPatterns[255]);
-                var nonGroundPatterns = new HashSet<int>(Enumerable.Range(0, model.PatternCount).Except(groundPatterns));
-                var airPatterns = new HashSet<int>(model.TilesToPatterns[0]);
-                var nonAirPatterns = new HashSet<int>(Enumerable.Range(0, model.PatternCount).Except(airPatterns));
-                for (var x = 0; x < width; x++)
-                {
-                    for (var y = 0; y < height; y++)
-                    {
-                        for (var z = 0; z < depth; z++)
-                        {
-                            var isBoundary = x == 0 || x == width - 1 ||
-                                y == 0 || y == height- 1 ||
-                                z == 0 || z == depth - 1;
-                            var patternsToBan = z == 0 ? nonGroundPatterns : isBoundary ? nonAirPatterns : groundPatterns;
-                            foreach(var pattern in patternsToBan)
-                            {
-                                propagator.Ban(x, y, z, pattern);
-                            }
-                        }
-                    }
-                }
+                var topology = new Topology(Directions.Cartesian3d, width, height, depth, false);
+                var propagator = new WavePropagator(model, topology, false, new[] { new BorderConstraint(model) });
+                
                 //model.Frequencies[0] = 1;
                 var status = propagator.Run();
                 array = model.ToTopArray(propagator);
@@ -88,10 +77,6 @@ namespace DeBroglie.Console
 
                 TiledUtil.Save("new_hexmini.tmx", map);
 
-                return;
-            }
-            {
-                SamplesProcessor.Process();
                 return;
             }
 
