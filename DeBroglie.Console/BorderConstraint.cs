@@ -9,17 +9,17 @@ namespace DeBroglie.Console
      */
     public class BorderConstraint : IWaveConstraint
     {
-        HashSet<int> groundPatterns;
-        HashSet<int> nonGroundPatterns;
-        HashSet<int> airPatterns;
-        HashSet<int> nonAirPatterns;
+        private readonly HashSet<int> groundPatterns;
+        private readonly HashSet<int> nonGroundPatterns;
+        private readonly HashSet<int> airPatterns;
+        private readonly HashSet<int> nonAirPatterns;
 
         public BorderConstraint(TileModel<byte> model)
         {
-            var groundPatterns = new HashSet<int>(model.TilesToPatterns[255]);
-            var nonGroundPatterns = new HashSet<int>(Enumerable.Range(0, model.PatternCount).Except(groundPatterns));
-            var airPatterns = new HashSet<int>(model.TilesToPatterns[0]);
-            var nonAirPatterns = new HashSet<int>(Enumerable.Range(0, model.PatternCount).Except(airPatterns));
+            groundPatterns = new HashSet<int>(model.TilesToPatterns[255]);
+            nonGroundPatterns = new HashSet<int>(Enumerable.Range(0, model.PatternCount).Except(groundPatterns));
+            airPatterns = new HashSet<int>(model.TilesToPatterns[0]);
+            nonAirPatterns = new HashSet<int>(Enumerable.Range(0, model.PatternCount).Except(airPatterns));
         }
 
         public CellStatus Check(WavePropagator wavePropagator)

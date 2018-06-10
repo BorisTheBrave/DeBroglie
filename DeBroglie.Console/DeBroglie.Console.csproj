@@ -44,10 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BorderConstraint.cs" />
     <Compile Include="ConsoleUtils.cs" />
+    <Compile Include="ItemsProcessor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SamplesProcessor.cs" />
+    <Compile Include="Items.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
