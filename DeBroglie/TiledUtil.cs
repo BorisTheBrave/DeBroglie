@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using TiledLib;
 using TiledLib.Layer;
 
@@ -18,7 +19,7 @@ namespace DeBroglie
         public static void Save(string filename, Map map)
         {
             using (var stream = File.OpenWrite(filename))
-            using (var writer = new StreamWriter(stream, System.Text.Encoding.UTF8, 1024, true))
+            using (var writer = new StreamWriter(stream, new UTF8Encoding(), 1024, true))
             {
                 writer.WriteTmxMap(map);
                 // We truncate the file now rather than at the start as this plays better
