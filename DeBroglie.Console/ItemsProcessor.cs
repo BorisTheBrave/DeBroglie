@@ -11,7 +11,7 @@ namespace DeBroglie.Console
     {
         protected abstract ITopArray<T> Load(string filename, Item item);
 
-        protected abstract void Save(TileModel<T> model, WavePropagator wavePropagator, string filename);
+        protected abstract void Save(TileModel<T> model, TilePropagator<T> tilePropagator, string filename);
 
         private static TileModel<T> GetModel<T>(Item item, ITopArray<T> sample)
         {
@@ -64,7 +64,7 @@ namespace DeBroglie.Console
 
 
             System.Console.WriteLine($"Processing {dest}");
-            var propagator = new WavePropagator(model, topology, item.Backtrack, constraints: constraints.ToArray());
+            var propagator = new TilePropagator<T>(model, topology, item.Backtrack, constraints: constraints.ToArray());
             CellStatus status = CellStatus.Contradiction;
             for (var retry = 0; retry < 5; retry++)
             {
@@ -128,9 +128,9 @@ namespace DeBroglie.Console
             return new TopArray2D<Color>(colorArray, item.IsPeriodicInput);
         }
 
-        protected override void Save(TileModel<Color> model, WavePropagator wavePropagator, string filename)
+        protected override void Save(TileModel<Color> model, TilePropagator<Color> propagator, string filename)
         {
-            var array = model.ToArray(wavePropagator, Color.Gray, Color.Magenta);
+            var array = propagator.ToTopArray(Color.Gray, Color.Magenta).ToArray2d();
             var bitmap = ToBitmap(array);
             bitmap.Save(filename);
         }
@@ -149,9 +149,9 @@ namespace DeBroglie.Console
             return TiledUtil.ReadLayer(map, layer);
         }
 
-        protected override void Save(TileModel<int> model, WavePropagator wavePropagator, string filename)
+        protected override void Save(TileModel<int> model, TilePropagator<int> tilePropagator, string filename)
         {
-            var layerArray = new TopArray2D<int>(model.ToArray(wavePropagator), wavePropagator.Topology);
+            var layerArray = tilePropagator.ToTopArray();
             var layer = TiledUtil.WriteLayer(map, layerArray);
             map.Layers = new[] { layer };
             map.Width = layer.Width;
@@ -189,9 +189,9 @@ namespace DeBroglie.Console
 
         }
 
-        protected override void Save(TileModel<byte> model, WavePropagator wavePropagator, string filename)
+        protected override void Save(TileModel<byte> model, TilePropagator<byte> tilePropagator, string filename)
         {
-            var array = model.ToTopArray(wavePropagator);
+            var array = tilePropagator.ToTopArray();
             VoxUtils.Save(vox, array);
 
             using (var stream = new FileStream(filename, FileMode.Create))
@@ -242,7 +242,7 @@ namespace DeBroglie.Console
                 }
                 else
                 {
-                    throw new System.Exception("Unrecongized extenion for {item.Src}");
+                    throw new System.Exception($"Unrecongized extenion for {item.Src}");
                 }
             }
         }

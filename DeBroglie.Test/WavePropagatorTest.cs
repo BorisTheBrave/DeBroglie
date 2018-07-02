@@ -27,7 +27,7 @@ namespace DeBroglie.Test
             var propagator = new WavePropagator(model, topology);
             var status = propagator.Run();
             Assert.AreEqual(CellStatus.Decided, status);
-            var a = propagator.ToArray();
+            var a = propagator.ToTopArray().ToArray2d();
             var topLeft = a[0, 0];
             for (var x = 0; x < width; x++)
             {

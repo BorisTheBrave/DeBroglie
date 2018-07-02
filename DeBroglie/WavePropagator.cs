@@ -386,6 +386,10 @@ namespace DeBroglie
             }
         }
 
+        /**
+         * Returns the array of decided patterns, writing
+         * -1 or -2 to indicate cells that are undecided or in contradiction.
+         */
         public ITopArray<int> ToTopArray()
         {
             var result = new int[width, height, depth];
@@ -404,46 +408,33 @@ namespace DeBroglie
         }
 
         /**
-         * Returns the array of decided patterns, writing
-         * -1 or -2 to indicate cells that are undecided or in contradiction.
-         */
-        public int[,] ToArray()
-        {
-            var result = new int[width, height];
-            for (var x = 0; x < width; x++)
-            {
-                for (var y = 0; y < height; y++)
-                {
-                    var index = topology.GetIndex(x, y, 0);
-                    result[x, y] = GetDecidedCell(index);
-                }
-            }
-            return result;
-        }
-
-        /**
          * Returns an array where each cell is a list of remaining possible patterns.
          */
-        public List<int>[,] ToArraySets()
+        public ITopArray<ISet<int>> ToTopArraySets()
         {
-            var result = new List<int>[width, height];
+            var result = new ISet<int>[width, height, depth];
+
             for (var x = 0; x < width; x++)
             {
                 for (var y = 0; y < height; y++)
                 {
-                    var index = topology.GetIndex(x, y, 0);
-                    List<int> hs = result[x, y] = new List<int>();
-
-                    for (var p = 0; p < patternCount; p++)
+                    for (var z = 0; z < depth; z++)
                     {
-                        if (wave.Get(index, p))
+                        var index = topology.GetIndex(x, y, 0);
+                        var hs = new HashSet<int>();
+                        result[x, y, z] = hs;
+
+                        for (var p = 0; p < patternCount; p++)
                         {
-                            hs.Add(p);
+                            if (wave.Get(index, p))
+                            {
+                                hs.Add(p);
+                            }
                         }
                     }
                 }
             }
-            return result;
+            return new TopArray3D<ISet<int>>(result, topology);
         }
 
         private struct PropagateItem

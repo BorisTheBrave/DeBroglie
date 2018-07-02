@@ -4,9 +4,9 @@ namespace DeBroglie.Console
 {
     public static class ConsoleUtils
     {
-        public static void Write(OverlappingModel<int> model, WavePropagator propagator)
+        public static void Write(TilePropagator<int> propagator)
         {
-            var results = model.ToArray(propagator, -1, -2);
+            var results = propagator.ToTopArray(-1, -2).ToArray2d();
 
             for (var y = 0; y < results.GetLength(1); y++)
             {
@@ -27,16 +27,16 @@ namespace DeBroglie.Console
             }
         }
 
-        public static void WriteSteps(OverlappingModel<int> model, WavePropagator propagator)
+        public static void WriteSteps(TilePropagator<int> propagator)
         {
-            Write(model, propagator);
+            Write(propagator);
             System.Console.WriteLine();
 
             while (true)
             {
                 var prevBacktrackCount = propagator.BacktrackCount;
                 var status = propagator.Step();
-                Write(model, propagator);
+                Write(propagator);
                 if (propagator.BacktrackCount != prevBacktrackCount)
                 {
                     System.Console.WriteLine("Backtracked!");

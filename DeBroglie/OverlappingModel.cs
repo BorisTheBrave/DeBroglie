@@ -83,6 +83,10 @@ namespace DeBroglie
         public override ILookup<T, int> TilesToPatterns => tilesToPatterns;
         public override IEqualityComparer<T> Comparer => comparer;
 
+        public int N => n;
+
+        public IReadOnlyList<PatternArray<T>> PatternArrays => patternArrays;
+
         /**
           * Return true if the pattern1 is compatible with pattern2
           * when pattern2 is at a distance (dy,dx) from pattern1.
@@ -114,140 +118,6 @@ namespace DeBroglie
         public GroundConstraint GetGroundConstraint()
         {
             return new GroundConstraint(groundPattern);
-        }
-
-        public override T[,] ToArray(WavePropagator wavePropagator, T undecided = default(T), T contradiction = default(T))
-        {
-            T MapPatternOrStatus(int pattern, int px, int py)
-            {
-                if(pattern == (int)CellStatus.Contradiction)
-                {
-                    return contradiction;
-                }
-                else if(pattern == (int)CellStatus.Undecided)
-                {
-                    return undecided;
-                } 
-                else
-                {
-                    return patternArrays[pattern].Values[px, py, 0];
-                }
-            }
-
-            var a = wavePropagator.ToArray();
-            if (wavePropagator.Periodic)
-            {
-                var width = a.GetLength(0);
-                var height = a.GetLength(1);
-                var results = new T[width, height];
-                for (var x = 0; x < width; x++)
-                {
-                    for (var y = 0; y < height; y++)
-                    {
-                        results[x, y] = MapPatternOrStatus(a[x,y], 0, 0);
-                    }
-                }
-                return results;
-            }
-            else
-            {
-                var width = a.GetLength(0);
-                var height = a.GetLength(1);
-                var results = new T[width + n - 1, height + n - 1];
-                for (var x = 0; x < width; x++)
-                {
-                    for (var y = 0; y < height; y++)
-                    {
-                        results[x, y] = MapPatternOrStatus(a[x, y], 0, 0);
-                    }
-                }
-                for (var x = 0; x < width; x++)
-                {
-                    for (var y = 1; y < n; y++)
-                    {
-                        results[x, height - 1 + y] = MapPatternOrStatus(a[x, height - 1], 0, y);
-                    }
-                }
-                for (var y = 0; y < height; y++)
-                {
-                    for (var x = 1; x < n; x++)
-                    {
-                        results[width - 1 + x, y] = MapPatternOrStatus(a[width - 1, y], x, 0);
-                    }
-                }
-                for (var x = 1; x < n; x++)
-                {
-                    for (var y = 1; y < n; y++)
-                    {
-                        results[width - 1 + x, height - 1 + y] = MapPatternOrStatus(a[width - 1, height - 1], x, y);
-                    }
-                }
-                return results;
-            }
-        }
-
-        public override List<T>[,] ToArraySets(WavePropagator wavePropagator)
-        {
-            List<T> Map(List<int> patterns, int px, int py)
-            {
-                HashSet<T> set = new HashSet<T>(comparer);
-                foreach(var pattern in patterns)
-                {
-                    set.Add(patternArrays[pattern].Values[px, py, 0]);
-                }
-                return set.ToList();
-            }
-
-            var a = wavePropagator.ToArraySets();
-            if (periodic)
-            {
-                var width = a.GetLength(0);
-                var height = a.GetLength(1);
-                var results = new List<T>[width, height];
-                for (var x = 0; x < width; x++)
-                {
-                    for (var y = 0; y < height; y++)
-                    {
-                        results[x, y] = Map(a[x, y], 0, 0);
-                    }
-                }
-                return results;
-            }
-            else
-            {
-                var width = a.GetLength(0);
-                var height = a.GetLength(1);
-                var results = new List<T>[width + n - 1, height + n - 1];
-                for (var x = 0; x < width; x++)
-                {
-                    for (var y = 0; y < height; y++)
-                    {
-                        results[x, y] = Map(a[x, y], 0, 0);
-                    }
-                }
-                for (var x = 0; x < width; x++)
-                {
-                    for (var y = 1; y < n; y++)
-                    {
-                        results[x, height - 1 + y] = Map(a[x, height - 1], 0, y);
-                    }
-                }
-                for (var y = 0; y < height; y++)
-                {
-                    for (var x = 1; x < n; x++)
-                    {
-                        results[width - 1 + x, y] = Map(a[width - 1, y], x, 0);
-                    }
-                }
-                for (var x = 1; x < n; x++)
-                {
-                    for (var y = 1; y < n; y++)
-                    {
-                        results[width - 1 + x, height - 1 + y] = Map(a[width - 1, height - 1], x, y);
-                    }
-                }
-                return results;
-            }
         }
     }
 
