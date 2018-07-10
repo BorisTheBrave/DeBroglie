@@ -157,30 +157,30 @@ namespace DeBroglie.Test
             var width = 10;
             var height = 10;
 
-            var pathConstraint1 = PathConstraint.Create(model, new[] { 1 }, new[]
+            var pathConstraint1 = WavePathConstraint.Create(model, new[] { 1 }, new[]
             {
                 new Point(0, 0),
                 new Point(width - 1, height - 1),
             });
-            var pathConstraint2 = PathConstraint.Create(model, new[] { 2 }, new[]
+            var pathConstraint2 = WavePathConstraint.Create(model, new[] { 2 }, new[]
             {
                 new Point(0, height - 1),
                 new Point(width - 1, 0),
             });
 
-            var propagator = new WavePropagator(model, width, height, false, true);
+            var propagator = new WavePropagator(model, new Topology(width, height, false), true);
             var status = propagator.Run();
             Assert.AreEqual(CellStatus.Decided, status);
 
-            propagator = new WavePropagator(model, width, height, false, true, new[] { pathConstraint1 });
+            propagator = new WavePropagator(model, new Topology(width, height, false), true, new[] { pathConstraint1 });
             status = propagator.Run();
             Assert.AreEqual(CellStatus.Decided, status);
 
-            propagator = new WavePropagator(model, width, height, false, true, new[] { pathConstraint2 });
+            propagator = new WavePropagator(model, new Topology(width, height, false), true, new[] { pathConstraint2 });
             status = propagator.Run();
             Assert.AreEqual(CellStatus.Decided, status);
 
-            propagator = new WavePropagator(model, width, height, false, true, new[] { pathConstraint1, pathConstraint2 });
+            propagator = new WavePropagator(model, new Topology(width, height, false), true, new[] { pathConstraint1, pathConstraint2 });
             status = propagator.Run();
             Assert.AreEqual(CellStatus.Contradiction, status);
         }

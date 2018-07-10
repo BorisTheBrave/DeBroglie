@@ -17,7 +17,7 @@ namespace DeBroglie.Test
             };
             var model = new OverlappingModel<int>(a, 2, false, 8);
 
-            var propagator = new TilePropagator<int>(model, 4, 4, false);
+            var propagator = new TilePropagator<int>(model, new Topology(4, 4, false));
 
             propagator.Select(0, 0, 0, 1);
             var status = propagator.Run();

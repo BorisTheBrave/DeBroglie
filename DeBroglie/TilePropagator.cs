@@ -5,6 +5,7 @@ using System.Text;
 
 namespace DeBroglie
 {
+
     // Implemenation wise, this wraps a WavePropagator to do the majority of the work.
     // The only thing this class handles is conversion of tile objects into sets of patterns
     // And co-ordinate conversion.
@@ -22,15 +23,13 @@ namespace DeBroglie
         private readonly MappingType mappingType;
         private readonly int mappingN;
 
-        public TilePropagator(TileModel<T> tileModel, int width, int height, bool periodic, bool backtrack = false, IWaveConstraint[] constraints = null)
-            : this(tileModel, new Topology(Directions.Cartesian2d, width, height, periodic), backtrack, constraints)
-        {
-
-        }
-
-        public TilePropagator(TileModel<T> tileModel, Topology topology, bool backtrack = false, IWaveConstraint[] constraints = null)
+        public TilePropagator(TileModel<T> tileModel, Topology topology, bool backtrack = false,
+            ITileConstraint<T>[] constraints = null,
+            IWaveConstraint[] waveConstraints = null,
+            Random random = null)
         {
             this.tileModel = tileModel;
+            this.topology = topology;
 
             var patternTopology = topology;
             if(!topology.Periodic && tileModel is OverlappingModel<T> overlapping)
@@ -88,9 +87,14 @@ namespace DeBroglie
                 };
             }
 
-            wavePropagator = new WavePropagator(tileModel, patternTopology, backtrack, constraints);
+            var allWaveConstraints =
+                (constraints?.Select(x => new TileConstraintAdaptor<T>(x, this)).ToArray() ?? Enumerable.Empty<IWaveConstraint>())
+                .Concat(waveConstraints ?? Enumerable.Empty<IWaveConstraint>())
+                .ToArray();
 
-            this.topology = topology;
+            this.wavePropagator = new WavePropagator(tileModel, patternTopology, backtrack, allWaveConstraints, random, clear: false);
+            wavePropagator.Clear();
+
         }
 
         private static void OverlapCoord(int x, int width, out int px, out int ox)
@@ -130,6 +134,9 @@ namespace DeBroglie
                 ox = oy = oz = 0;
             }
         }
+
+        public Topology Topology => topology;
+        public TileModel<T> TileModel => tileModel;
 
         public int BacktrackCount => wavePropagator.BacktrackCount;
 
@@ -175,6 +182,56 @@ namespace DeBroglie
         public CellStatus Run()
         {
             return wavePropagator.Run();
+        }
+
+        public bool IsSelected(int x, int y, int z, T tile)
+        {
+            GetBannedSelected(x, y, z, tile, out var isBanned, out var isSelected);
+            return isSelected;
+        }
+
+        public bool IsBanned(int x, int y, int z, T tile)
+        {
+            GetBannedSelected(x, y, z, tile, out var isBanned, out var isSelected);
+            return isBanned;
+        }
+
+        public void GetBannedSelected(int x, int y, int z, T tile, out bool isBanned, out bool isSelected)
+        {
+            TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var ox, out var oy, out var oz);
+            var patterns = tilesToPatternsByOffset[CombineOffsets(ox, oy, oz)][tile];
+            GetBannedSelectedInternal(px, py, pz, patterns, out isBanned, out isSelected);
+        }
+
+        public void GetBannedSelected(int x, int y, int z, IEnumerable<T> tiles, out bool isBanned, out bool isSelected)
+        {
+            TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var ox, out var oy, out var oz);
+            var tilesToPatterns = tilesToPatternsByOffset[CombineOffsets(ox, oy, oz)];
+            var patterns = new HashSet<int>(tiles.SelectMany(tile => tilesToPatterns[tile]));
+            GetBannedSelectedInternal(px, py, pz, patterns, out isBanned, out isSelected);
+        }
+
+        private void GetBannedSelectedInternal(int px, int py, int pz, ISet<int> patterns, out bool isBanned, out bool isSelected)
+        {
+            var index = wavePropagator.Topology.GetIndex(px, py, pz);
+            var wave = wavePropagator.Wave;
+            var patternCount = wavePropagator.PatternCount;
+            isBanned = true;
+            isSelected = true;
+            for (var p = 0; p < patternCount; p++)
+            {
+                if (wave.Get(index, p))
+                {
+                    if (patterns.Contains(p))
+                    {
+                        isBanned = false;
+                    }
+                    else
+                    {
+                        isSelected = false;
+                    }
+                }
+            }
         }
 
         public ITopArray<T> ToTopArray(T undecided = default(T), T contradiction = default(T))

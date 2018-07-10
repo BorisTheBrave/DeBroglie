@@ -1,0 +1,64 @@
+﻿using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace DeBroglie.Test
+{
+    [TestFixture]
+    class PathConstraintTest
+    {
+        [Test]
+        public void TestPathConstraint()
+        {
+            var a = new int[,]{
+                 {0, 0, 0, 1, 0, 0},
+                 {0, 0, 0, 1, 0, 0},
+                 {0, 0, 0, 1, 0, 0},
+                 {1, 1, 1, 1, 0, 0},
+                 {0, 0, 0, 0, 0, 0},
+                 {0, 0, 0, 0, 0, 0}
+            };
+
+            var model = new OverlappingModel<int>(a, 3, false, 8);
+            var propagator = new TilePropagator<int>(model, new Topology(10, 10, false), true, constraints: new[] {
+                new PathConstraint<int>(new HashSet<int>{1}, new []{new Point(0,0), new Point(9, 9) })
+            });
+            var status = propagator.Run();
+            Assert.AreEqual(CellStatus.Decided, status);
+            var result = propagator.ToTopArray().ToArray2d();
+            // Write out result for debugging
+            for (var y = 0; y < 10; y++)
+            {
+                for (var x = 0; x < 10; x++)
+                {
+                    Console.Write(result[x, y]);
+                }
+                Console.WriteLine();
+            }
+            // Simple flood fill algorithm to determine we have in fact got a path
+            var stack = new Stack<ValueTuple<int, int>>();
+            var visited = new bool[10, 10];
+            stack.Push((0, 0));
+            while(stack.TryPop(out var current))
+            {
+                var (x, y) = current;
+                if (x < 0 || x >= 10 || y < 0 || y >= 10)
+                    continue;
+                if (visited[x, y])
+                    continue;
+                visited[x, y] = true;
+                if(result[x, y] == 1)
+                {
+                    if (x == 9 && y == 9)
+                        return;
+                    stack.Push((x + 1, y));
+                    stack.Push((x - 1, y));
+                    stack.Push((x, y + 1));
+                    stack.Push((x, y - 1));
+                }
+            }
+            Assert.Fail();
+        }
+    }
+}

@@ -39,7 +39,7 @@ namespace DeBroglie
         private bool periodic;
         private readonly bool backtrack;
         private readonly IWaveConstraint[] constraints;
-        private Random random = new Random();
+        private Random random;
 
         private Stack<PropagateItem> toPropagate;
 
@@ -55,13 +55,7 @@ namespace DeBroglie
           */
         private int[,,] compatible;
 
-        public WavePropagator(Model model, int width, int height, bool periodic, bool backtrack = false, IWaveConstraint[] constraints = null)
-            :this(model, new Topology(Directions.Cartesian2d, width, height, periodic), backtrack, constraints)
-        {
-
-        }
-
-        public WavePropagator(Model model, Topology topology, bool backtrack = false, IWaveConstraint[] constraints = null)
+        public WavePropagator(Model model, Topology topology, bool backtrack = false, IWaveConstraint[] constraints = null, Random random = null, bool clear = true)
         {
             this.propagator = model.Propagator;
             this.patternCount = model.PatternCount;
@@ -75,11 +69,13 @@ namespace DeBroglie
             this.backtrack = backtrack;
             this.constraints = constraints ?? new IWaveConstraint[0];
             this.topology = topology;
+            this.random = random ?? new Random();
             directionsCount = topology.Directions.Count;
 
             this.toPropagate = new Stack<PropagateItem>();
 
-            Clear();
+            if(clear)
+                Clear();
         }
 
         // This is only exposed publically

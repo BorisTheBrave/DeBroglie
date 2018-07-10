@@ -2,6 +2,16 @@
 {
     public class Topology
     {
+        public Topology(int width, int height, bool periodic, bool[] mask = null)
+            : this(Directions.Cartesian2d, width, height, 1, periodic, mask)
+        {
+        }
+
+        public Topology(int width, int height, int depth, bool periodic, bool[] mask = null)
+            : this(Directions.Cartesian3d, width, height, depth, periodic, mask)
+        {
+        }
+
         public Topology(Directions directions, int width, int height, bool periodic, bool[] mask = null)
             :this(directions, width, height, 1, periodic, mask)
         {

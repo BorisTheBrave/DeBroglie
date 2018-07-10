@@ -13,7 +13,7 @@ namespace DeBroglie.Console
 
         protected abstract void Save(TileModel<T> model, TilePropagator<T> tilePropagator, string filename);
 
-        private static TileModel<T> GetModel<T>(Item item, ITopArray<T> sample)
+        private static TileModel<T> GetModel(Item item, ITopArray<T> sample)
         {
             if (item is Overlapping overlapping)
             {
@@ -64,7 +64,7 @@ namespace DeBroglie.Console
 
 
             System.Console.WriteLine($"Processing {dest}");
-            var propagator = new TilePropagator<T>(model, topology, item.Backtrack, constraints: constraints.ToArray());
+            var propagator = new TilePropagator<T>(model, topology, item.Backtrack, waveConstraints: constraints.ToArray());
             CellStatus status = CellStatus.Contradiction;
             for (var retry = 0; retry < 5; retry++)
             {
