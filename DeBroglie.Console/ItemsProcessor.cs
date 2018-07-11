@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Xml.Serialization;
 using TiledLib.Layer;
 
@@ -12,6 +13,8 @@ namespace DeBroglie.Console
         protected abstract ITopArray<T> Load(string filename, Item item);
 
         protected abstract void Save(TileModel<T> model, TilePropagator<T> tilePropagator, string filename);
+
+        protected abstract T Parse(string s);
 
         private static TileModel<T> GetModel(Item item, ITopArray<T> sample)
         {
@@ -56,15 +59,28 @@ namespace DeBroglie.Console
             var topology = new Topology(topArray.Topology.Directions, item.Width, item.Height, is3d ? item.Depth : 1, item.IsPeriodic);
 
             // Setup constraints
-            var constraints = new List<IWaveConstraint>();
+            var waveConstraints = new List<IWaveConstraint>();
             if (item is Overlapping overlapping && overlapping.Ground != 0)
-                constraints.Add(((OverlappingModel<T>)model).GetGroundConstraint());
+                waveConstraints.Add(((OverlappingModel<T>)model).GetGroundConstraint());
             if (is3d)
-                constraints.Add(new BorderConstraint(model as TileModel<byte>));
+                waveConstraints.Add(new BorderConstraint(model as TileModel<byte>));
+            var constraints = new List<ITileConstraint<T>>();
+
+            foreach (var constraint in item.Constraints)
+            {
+                if(constraint is PathData pathData)
+                {
+                    var pathTiles = new HashSet<T>(pathData.PathTiles.Select(Parse), model.Comparer);
+                    var p = new PathConstraint<T>(pathTiles);
+                    constraints.Add(p);
+                }
+            }
 
 
             System.Console.WriteLine($"Processing {dest}");
-            var propagator = new TilePropagator<T>(model, topology, item.Backtrack, waveConstraints: constraints.ToArray());
+            var propagator = new TilePropagator<T>(model, topology, item.Backtrack,
+                constraints: constraints.ToArray(),
+                waveConstraints: waveConstraints.ToArray());
             CellStatus status = CellStatus.Contradiction;
             for (var retry = 0; retry < 5; retry++)
             {
@@ -134,6 +150,11 @@ namespace DeBroglie.Console
             var bitmap = ToBitmap(array);
             bitmap.Save(filename);
         }
+
+        protected override Color Parse(string s)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
     public class TiledItemsProcessor : ItemsProcessor<int>
@@ -147,6 +168,11 @@ namespace DeBroglie.Console
             map = TiledUtil.Load(filename);
             var layer = (TileLayer)map.Layers[0];
             return TiledUtil.ReadLayer(map, layer);
+        }
+
+        protected override int Parse(string s)
+        {
+            return int.Parse(s);
         }
 
         protected override void Save(TileModel<int> model, TilePropagator<int> tilePropagator, string filename)
@@ -187,6 +213,11 @@ namespace DeBroglie.Console
             }
             return VoxUtils.Load(vox);
 
+        }
+
+        protected override byte Parse(string s)
+        {
+            return byte.Parse(s);
         }
 
         protected override void Save(TileModel<byte> model, TilePropagator<byte> tilePropagator, string filename)

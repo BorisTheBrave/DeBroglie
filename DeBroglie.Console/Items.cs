@@ -42,6 +42,10 @@ namespace DeBroglie.Console
 
         [XmlAttribute("backtrack")]
         public bool Backtrack { get; set; }
+
+        [XmlArray("constraints")]
+        [XmlArrayItem(Type = typeof(PathData), ElementName = "path")]
+        public List<ConstraintData> Constraints { get; set; }
     }
 
     public class Overlapping : Item
@@ -64,5 +68,17 @@ namespace DeBroglie.Console
     public class SimpleTiled : Item
     {
 
+    }
+
+    public class ConstraintData
+    {
+
+    }
+
+    public class PathData : ConstraintData
+    {
+        [XmlArray("path-tiles")]
+        [XmlArrayItem("path-tile")]
+        public string[] PathTiles { get; set; }
     }
 }

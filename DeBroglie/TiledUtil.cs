@@ -120,7 +120,6 @@ namespace DeBroglie
                 var newHeight = height;
                 var data = new int[newWidth * newHeight];
 
-                int i = 0;
                 var isStaggered = map.StaggerIndex == StaggerIndex.even;
                 var xoffset = (isStaggered ? 1 : 0) + (height + 1) / 2;
                 for (int y = 0; y < height; y++)
