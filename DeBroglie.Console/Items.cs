@@ -43,6 +43,10 @@ namespace DeBroglie.Console
         [XmlAttribute("backtrack")]
         public bool Backtrack { get; set; }
 
+        [XmlArray("tiles")]
+        [XmlArrayItem("tile")]
+        public List<TileData> Tiles { get; set; }
+
         [XmlArray("constraints")]
         [XmlArrayItem(Type = typeof(PathData), ElementName = "path")]
         public List<ConstraintData> Constraints { get; set; }
@@ -68,6 +72,15 @@ namespace DeBroglie.Console
     public class SimpleTiled : Item
     {
 
+    }
+
+    public class TileData
+    {
+        [XmlAttribute("value")]
+        public string Value { get; set; }
+
+        [XmlAttribute("change-frequency")]
+        public string ChangeFrequency { get; set; }
     }
 
     public class ConstraintData

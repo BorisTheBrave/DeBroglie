@@ -58,6 +58,29 @@ namespace DeBroglie.Console
             var is3d = topArray.Topology.Directions.Type == DirectionsType.Cartesian3d;
             var topology = new Topology(topArray.Topology.Directions, item.Width, item.Height, is3d ? item.Depth : 1, item.IsPeriodic);
 
+            // Setup tiles
+            if(item.Tiles != null)
+            {
+                foreach (var tile in item.Tiles)
+                {
+                    var value = Parse(tile.Value);
+                    if(tile.ChangeFrequency != null)
+                    {
+                        var cf = tile.ChangeFrequency.Trim();
+                        double cfd;
+                        if(cf.EndsWith("%"))
+                        {
+                            cfd = double.Parse(cf.TrimEnd('%')) / 100;
+                        }
+                        else
+                        {
+                            cfd = double.Parse(cf);
+                        }
+                        model.ChangeFrequency(value, cfd);
+                    }
+                }
+            }
+
             // Setup constraints
             var waveConstraints = new List<IWaveConstraint>();
             if (item is Overlapping overlapping && overlapping.Ground != 0)

@@ -87,6 +87,10 @@ namespace DeBroglie
         public override ILookup<T, int> TilesToPatterns => tilesToPatterns;
         public override IEqualityComparer<T> Comparer => comparer;
 
-
+        public override void ChangeFrequency(T tile, double relativeChange)
+        {
+            var multiplier = (1 + relativeChange);
+            Frequencies[TilesToPatterns[tile].First()] *= multiplier;
+        }
     }
 }

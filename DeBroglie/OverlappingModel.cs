@@ -119,6 +119,28 @@ namespace DeBroglie
         {
             return new GroundConstraint(groundPattern);
         }
+
+        public override void ChangeFrequency(T tile, double relativeChange)
+        {
+            var multiplier = (1 + relativeChange);
+            for(var p=0;p<patternArrays.Count;p++)
+            {
+                var patternArray = patternArrays[p];
+                for(var x= 0;x<patternArray.Width;x++)
+                {
+                    for(var y=0;y<patternArray.Height;y++)
+                    {
+                        for(var z=0;z<patternArray.Depth;z++)
+                        {
+                            if(Comparer.Equals(patternArray.Values[x,y,z], tile))
+                            {
+                                Frequencies[p] *= multiplier;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
 }

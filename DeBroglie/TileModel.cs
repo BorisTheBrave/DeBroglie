@@ -14,5 +14,7 @@ namespace DeBroglie
         public abstract IReadOnlyDictionary<int, T> PatternsToTiles { get; }
         public abstract ILookup<T, int> TilesToPatterns { get; }
         public abstract IEqualityComparer<T> Comparer { get; }
+
+        public abstract void ChangeFrequency(T tile, double relativeChange);
     }
 }
