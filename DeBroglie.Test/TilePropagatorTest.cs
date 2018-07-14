@@ -15,16 +15,16 @@ namespace DeBroglie.Test
                 { 1, 0 },
                 { 0, 1 },
             };
-            var model = new OverlappingModel<int>(a, 2, false, 8);
+            var model = OverlappingModel.Create(a, 2, false, 8);
 
-            var propagator = new TilePropagator<int>(model, new Topology(4, 4, false));
+            var propagator = new TilePropagator(model, new Topology(4, 4, false));
 
-            propagator.Select(0, 0, 0, 1);
+            propagator.Select(0, 0, 0, new Tile(1));
             var status = propagator.Run();
 
             Assert.AreEqual(CellStatus.Decided, status);
 
-            var result = propagator.ToTopArray().ToArray2d();
+            var result = propagator.ToValueArray<int>().ToArray2d();
 
             Assert.AreEqual(4, result.GetLength(0));
             Assert.AreEqual(4, result.GetLength(1));

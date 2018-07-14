@@ -99,7 +99,7 @@ namespace DeBroglie
             return CellStatus.Undecided;
         }
 
-        public static WavePathConstraint Create<T>(TileModel<T> overlappingModel, T[] pathTiles, Point[] endPoints)
+        public static WavePathConstraint Create(TileModel overlappingModel, Tile[] pathTiles, Point[] endPoints)
         {
             var pathPatterns = pathTiles
                 .SelectMany(t => overlappingModel.TilesToPatterns[t])

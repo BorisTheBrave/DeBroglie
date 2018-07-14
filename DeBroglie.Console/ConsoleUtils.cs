@@ -4,9 +4,9 @@ namespace DeBroglie.Console
 {
     public static class ConsoleUtils
     {
-        public static void Write(TilePropagator<int> propagator)
+        public static void Write(TilePropagator propagator)
         {
-            var results = propagator.ToTopArray(-1, -2).ToArray2d();
+            var results = propagator.ToValueArray<int>(-1, -2).ToArray2d();
 
             for (var y = 0; y < results.GetLength(1); y++)
             {
@@ -27,7 +27,7 @@ namespace DeBroglie.Console
             }
         }
 
-        public static void WriteSteps(TilePropagator<int> propagator)
+        public static void WriteSteps(TilePropagator propagator)
         {
             Write(propagator);
             System.Console.WriteLine();

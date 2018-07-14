@@ -9,28 +9,29 @@ using TiledLib.Layer;
 
 namespace DeBroglie.Console
 {
-    public abstract class ItemsProcessor<T>
+    public abstract class ItemsProcessor
     {
-        protected abstract ITopArray<T> Load(string filename, Item item);
+        protected abstract ITopArray<Tile> Load(string filename, Item item);
 
-        protected abstract void Save(TileModel<T> model, TilePropagator<T> tilePropagator, string filename);
+        protected abstract void Save(TileModel model, TilePropagator tilePropagator, string filename);
 
-        protected abstract T Parse(string s);
+        protected abstract Tile Parse(string s);
 
-        private static TileModel<T> GetModel(Item item, ITopArray<T> sample)
+        private static TileModel GetModel(Item item, ITopArray<Tile> sample)
         {
             if (item is Overlapping overlapping)
             {
-                return new OverlappingModel<T>(sample, overlapping.N, overlapping.Symmetry);
+                var symmetries = overlapping.Symmetry;
+                return new OverlappingModel(sample, overlapping.N, symmetries > 1 ? symmetries / 2 : 1, symmetries > 1);
             }
             else if(item is Adjacent adjacent)
             {
-                return new AdjacentModel<T>(sample);
+                return new AdjacentModel(sample);
             }
             throw new System.Exception();
         }
 
-        public void Process(Item item, string directory)
+        public void ProcessItem(Item item, string directory)
         {
             if(item is SimpleTiled)
             {
@@ -85,20 +86,20 @@ namespace DeBroglie.Console
             // Setup constraints
             var waveConstraints = new List<IWaveConstraint>();
             if (item is Overlapping overlapping && overlapping.Ground != 0)
-                waveConstraints.Add(((OverlappingModel<T>)model).GetGroundConstraint());
-            var constraints = new List<ITileConstraint<T>>();
+                waveConstraints.Add(((OverlappingModel)model).GetGroundConstraint());
+            var constraints = new List<ITileConstraint>();
             if (is3d)
             {
-                constraints.Add(new BorderConstraint<T>
+                constraints.Add(new BorderConstraint
                 {
                     Sides=BorderSides.ZMin,
-                    Tile=(T)(object)255,
+                    Tile=new Tile(255),
                 });
-                constraints.Add(new BorderConstraint<T>
+                constraints.Add(new BorderConstraint
                 {
                     Sides = BorderSides.All,
                     ExcludeSides = BorderSides.ZMin,
-                    Tile = (T)(object)0,
+                    Tile = new Tile(0),
                 });
             }
 
@@ -106,8 +107,8 @@ namespace DeBroglie.Console
             {
                 if(constraint is PathData pathData)
                 {
-                    var pathTiles = new HashSet<T>(pathData.PathTiles.Select(Parse), model.Comparer);
-                    var p = new PathConstraint<T>(pathTiles);
+                    var pathTiles = new HashSet<Tile>(pathData.PathTiles.Select(Parse));
+                    var p = new PathConstraint(pathTiles);
                     constraints.Add(p);
                 }
                 else if(constraint is BorderData borderData)
@@ -120,7 +121,7 @@ namespace DeBroglie.Console
                         sides = sides & ~BorderSides.ZMin & ~BorderSides.ZMax;
                         excludeSides = excludeSides & ~BorderSides.ZMin & ~BorderSides.ZMax;
                     }
-                    constraints.Add(new BorderConstraint<T>
+                    constraints.Add(new BorderConstraint
                     {
                         Tile = tile,
                         Sides = sides,
@@ -131,7 +132,7 @@ namespace DeBroglie.Console
 
 
             System.Console.WriteLine($"Processing {dest}");
-            var propagator = new TilePropagator<T>(model, topology, item.Backtrack,
+            var propagator = new TilePropagator(model, topology, item.Backtrack,
                 constraints: constraints.ToArray(),
                 waveConstraints: waveConstraints.ToArray());
             CellStatus status = CellStatus.Contradiction;
@@ -160,9 +161,51 @@ namespace DeBroglie.Console
                 File.Delete(dest);
             }
         }
+
+        private static Items LoadItemsFile(string filename)
+        {
+            var serializer = new XmlSerializer(typeof(Items));
+            using (var fs = new FileStream(filename, FileMode.Open))
+            {
+                return (Items)serializer.Deserialize(fs);
+            }
+        }
+
+        public static void Process(string filename)
+        {
+            var directory = Path.GetDirectoryName(filename);
+            var items = LoadItemsFile(filename);
+            foreach (var item in items.AllItems)
+            {
+                if (item is SimpleTiled)
+                {
+                    // Not supported atm
+                    continue;
+                }
+                if (item.Src.EndsWith(".png"))
+                {
+                    var processor = new BitmapItemsProcessor();
+                    processor.ProcessItem(item, directory);
+                }
+                else if (item.Src.EndsWith(".tmx"))
+                {
+                    var processor = new TiledItemsProcessor();
+                    processor.ProcessItem(item, directory);
+                }
+                else if (item.Src.EndsWith(".vox"))
+                {
+                    var processor = new VoxItemsProcessor();
+                    processor.ProcessItem(item, directory);
+                }
+                else
+                {
+                    throw new System.Exception($"Unrecongized extenion for {item.Src}");
+                }
+            }
+        }
     }
 
-    public class BitmapItemsProcessor : ItemsProcessor<Color>
+    public class BitmapItemsProcessor : ItemsProcessor
     {
         private static Color[,] ToColorArray(Bitmap bitmap)
         {
@@ -190,47 +233,47 @@ namespace DeBroglie.Console
             return bitmap;
         }
 
-        protected override ITopArray<Color> Load(string filename, Item item)
+        protected override ITopArray<Tile> Load(string filename, Item item)
         {
             var bitmap = new Bitmap(filename);
             var colorArray = ToColorArray(bitmap);
-            return new TopArray2D<Color>(colorArray, item.IsPeriodicInput);
+            return new TopArray2D<Color>(colorArray, item.IsPeriodicInput).ToTiles();
         }
 
-        protected override void Save(TileModel<Color> model, TilePropagator<Color> propagator, string filename)
+        protected override void Save(TileModel model, TilePropagator propagator, string filename)
         {
-            var array = propagator.ToTopArray(Color.Gray, Color.Magenta).ToArray2d();
+            var array = propagator.ToValueArray(Color.Gray, Color.Magenta).ToArray2d();
             var bitmap = ToBitmap(array);
             bitmap.Save(filename);
         }
 
-        protected override Color Parse(string s)
+        protected override Tile Parse(string s)
         {
             throw new System.NotImplementedException();
         }
     }
 
-    public class TiledItemsProcessor : ItemsProcessor<int>
+    public class TiledItemsProcessor : ItemsProcessor
     {
         private TiledLib.Map map;
         private string srcFilename;
 
-        protected override ITopArray<int> Load(string filename, Item item)
+        protected override ITopArray<Tile> Load(string filename, Item item)
         {
             srcFilename = filename;
             map = TiledUtil.Load(filename);
             var layer = (TileLayer)map.Layers[0];
-            return TiledUtil.ReadLayer(map, layer);
+            return TiledUtil.ReadLayer(map, layer).ToTiles();
         }
 
-        protected override int Parse(string s)
+        protected override Tile Parse(string s)
         {
-            return int.Parse(s);
+            return new Tile(int.Parse(s));
         }
 
-        protected override void Save(TileModel<int> model, TilePropagator<int> tilePropagator, string filename)
+        protected override void Save(TileModel model, TilePropagator tilePropagator, string filename)
         {
-            var layerArray = tilePropagator.ToTopArray();
+            var layerArray = tilePropagator.ToValueArray<int>();
             var layer = TiledUtil.WriteLayer(map, layerArray);
             map.Layers = new[] { layer };
             map.Width = layer.Width;
@@ -253,81 +296,35 @@ namespace DeBroglie.Console
         }
     }
 
-    public class VoxItemsProcessor : ItemsProcessor<byte>
+    public class VoxItemsProcessor : ItemsProcessor
     {
         Vox vox;
 
-        protected override ITopArray<byte> Load(string filename, Item item)
+        protected override ITopArray<Tile> Load(string filename, Item item)
         {
             using (var stream = File.OpenRead(filename))
             {
                 var br = new BinaryReader(stream);
                 vox = VoxSerializer.Read(br);
             }
-            return VoxUtils.Load(vox);
+            return VoxUtils.Load(vox).ToTiles();
 
         }
 
-        protected override byte Parse(string s)
+        protected override Tile Parse(string s)
         {
-            return byte.Parse(s);
+            return new Tile(byte.Parse(s));
         }
 
-        protected override void Save(TileModel<byte> model, TilePropagator<byte> tilePropagator, string filename)
+        protected override void Save(TileModel model, TilePropagator tilePropagator, string filename)
         {
-            var array = tilePropagator.ToTopArray();
+            var array = tilePropagator.ToValueArray<byte>();
             VoxUtils.Save(vox, array);
 
             using (var stream = new FileStream(filename, FileMode.Create))
             {
                 var br = new BinaryWriter(stream);
                 VoxSerializer.Write(br, vox);
-            }
-        }
-    }
-
-    public static class ItemsProcessor
-    {
-
-        private static Items LoadItemsFile(string filename)
-        {
-            var serializer = new XmlSerializer(typeof(Items));
-            using (var fs = new FileStream(filename, FileMode.Open))
-            {
-                return (Items)serializer.Deserialize(fs);
-            }
-        }
-
-        public static void Process(string filename)
-        {
-            var directory = Path.GetDirectoryName(filename);
-            var items = LoadItemsFile(filename);
-            foreach (var item in items.AllItems)
-            {
-                if (item is SimpleTiled)
-                {
-                    // Not supported atm
-                    continue;
-                }
-                if (item.Src.EndsWith(".png"))
-                {
-                    var processor = new BitmapItemsProcessor();
-                    processor.Process(item, directory);
-                }
-                else if (item.Src.EndsWith(".tmx"))
-                {
-                    var processor = new TiledItemsProcessor();
-                    processor.Process(item, directory);
-                }
-                else if (item.Src.EndsWith(".vox"))
-                {
-                    var processor = new VoxItemsProcessor();
-                    processor.Process(item, directory);
-                }
-                else
-                {
-                    throw new System.Exception($"Unrecongized extenion for {item.Src}");
-                }
             }
         }
     }

@@ -9,22 +9,22 @@ namespace DeBroglie
     // Implemenation wise, this wraps a WavePropagator to do the majority of the work.
     // The only thing this class handles is conversion of tile objects into sets of patterns
     // And co-ordinate conversion.
-    public class TilePropagator<T>
+    public class TilePropagator
     {
         private readonly WavePropagator wavePropagator;
 
         private readonly Topology topology;
 
-        private readonly TileModel<T> tileModel;
+        private readonly TileModel tileModel;
 
-        private readonly IDictionary<int, IReadOnlyDictionary<T, ISet<int>>> tilesToPatternsByOffset;
-        private readonly IDictionary<int, IReadOnlyDictionary<int, T>> patternsToTilesByOffset;
+        private readonly IDictionary<int, IReadOnlyDictionary<Tile, ISet<int>>> tilesToPatternsByOffset;
+        private readonly IDictionary<int, IReadOnlyDictionary<int, Tile>> patternsToTilesByOffset;
 
         private readonly MappingType mappingType;
         private readonly int mappingN;
 
-        public TilePropagator(TileModel<T> tileModel, Topology topology, bool backtrack = false,
-            ITileConstraint<T>[] constraints = null,
+        public TilePropagator(TileModel tileModel, Topology topology, bool backtrack = false,
+            ITileConstraint[] constraints = null,
             IWaveConstraint[] waveConstraints = null,
             Random random = null)
         {
@@ -32,7 +32,7 @@ namespace DeBroglie
             this.topology = topology;
 
             var patternTopology = topology;
-            if(!topology.Periodic && tileModel is OverlappingModel<T> overlapping)
+            if(!topology.Periodic && tileModel is OverlappingModel overlapping)
             {
                 // Shrink the topology as patterns can cover multiple tiles.
                 patternTopology = new Topology(topology.Directions,
@@ -46,8 +46,8 @@ namespace DeBroglie
 
                 // Compute tilesToPatterns and patternsToTiles
                 var patternArrays = overlapping.PatternArrays;
-                tilesToPatternsByOffset = new Dictionary<int, IReadOnlyDictionary<T, ISet<int>>>();
-                patternsToTilesByOffset = new Dictionary<int, IReadOnlyDictionary<int, T>>();
+                tilesToPatternsByOffset = new Dictionary<int, IReadOnlyDictionary<Tile, ISet<int>>>();
+                patternsToTilesByOffset = new Dictionary<int, IReadOnlyDictionary<int, Tile>>();
                 for (int ox = 0; ox < overlapping.N; ox++)
                 {
                     for (int oy = 0; oy < overlapping.N; oy++)
@@ -55,9 +55,9 @@ namespace DeBroglie
                         for (int oz = 0; oz < (topology.Depth == 1 ? 1 : overlapping.N); oz++)
                         {
                             var o = CombineOffsets(ox, oy, oz);
-                            var tilesToPatterns = new Dictionary<T, ISet<int>>(tileModel.Comparer);
+                            var tilesToPatterns = new Dictionary<Tile, ISet<int>>();
                             tilesToPatternsByOffset[o] = tilesToPatterns;
-                            var patternsToTiles = new Dictionary<int, T>();
+                            var patternsToTiles = new Dictionary<int, Tile>();
                             patternsToTilesByOffset[o] = patternsToTiles;
                             for(var pattern =0;pattern<patternArrays.Count;pattern++)
                             {
@@ -77,18 +77,18 @@ namespace DeBroglie
             else
             {
                 mappingType = MappingType.OneToOne;
-                tilesToPatternsByOffset = new Dictionary<int, IReadOnlyDictionary<T, ISet<int>>>()
+                tilesToPatternsByOffset = new Dictionary<int, IReadOnlyDictionary<Tile, ISet<int>>>()
                 {
                     {0, tileModel.TilesToPatterns.ToDictionary(g=>g.Key, g=>(ISet<int>)new HashSet<int>(g)) }
                 };
-                patternsToTilesByOffset = new Dictionary<int, IReadOnlyDictionary<int, T>>
+                patternsToTilesByOffset = new Dictionary<int, IReadOnlyDictionary<int, Tile>>
                 {
                     {0, tileModel.PatternsToTiles},
                 };
             }
 
             var allWaveConstraints =
-                (constraints?.Select(x => new TileConstraintAdaptor<T>(x, this)).ToArray() ?? Enumerable.Empty<IWaveConstraint>())
+                (constraints?.Select(x => new TileConstraintAdaptor(x, this)).ToArray() ?? Enumerable.Empty<IWaveConstraint>())
                 .Concat(waveConstraints ?? Enumerable.Empty<IWaveConstraint>())
                 .ToArray();
 
@@ -136,7 +136,7 @@ namespace DeBroglie
         }
 
         public Topology Topology => topology;
-        public TileModel<T> TileModel => tileModel;
+        public TileModel TileModel => tileModel;
 
         public int BacktrackCount => wavePropagator.BacktrackCount;
 
@@ -146,7 +146,7 @@ namespace DeBroglie
         }
 
 
-        public CellStatus Ban(int x, int y, int z, T tile)
+        public CellStatus Ban(int x, int y, int z, Tile tile)
         {
             TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var ox, out var oy, out var oz);
             var patterns = tilesToPatternsByOffset[CombineOffsets(ox, oy, oz)][tile];
@@ -159,7 +159,7 @@ namespace DeBroglie
             return CellStatus.Undecided;
         }
 
-        public CellStatus Select(int x, int y, int z, T tile)
+        public CellStatus Select(int x, int y, int z, Tile tile)
         {
             TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var ox, out var oy, out var oz);
             var patterns = tilesToPatternsByOffset[CombineOffsets(ox, oy, oz)][tile];
@@ -184,26 +184,26 @@ namespace DeBroglie
             return wavePropagator.Run();
         }
 
-        public bool IsSelected(int x, int y, int z, T tile)
+        public bool IsSelected(int x, int y, int z, Tile tile)
         {
             GetBannedSelected(x, y, z, tile, out var isBanned, out var isSelected);
             return isSelected;
         }
 
-        public bool IsBanned(int x, int y, int z, T tile)
+        public bool IsBanned(int x, int y, int z, Tile tile)
         {
             GetBannedSelected(x, y, z, tile, out var isBanned, out var isSelected);
             return isBanned;
         }
 
-        public void GetBannedSelected(int x, int y, int z, T tile, out bool isBanned, out bool isSelected)
+        public void GetBannedSelected(int x, int y, int z, Tile tile, out bool isBanned, out bool isSelected)
         {
             TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var ox, out var oy, out var oz);
             var patterns = tilesToPatternsByOffset[CombineOffsets(ox, oy, oz)][tile];
             GetBannedSelectedInternal(px, py, pz, patterns, out isBanned, out isSelected);
         }
 
-        public void GetBannedSelected(int x, int y, int z, IEnumerable<T> tiles, out bool isBanned, out bool isSelected)
+        public void GetBannedSelected(int x, int y, int z, IEnumerable<Tile> tiles, out bool isBanned, out bool isSelected)
         {
             TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var ox, out var oy, out var oz);
             var tilesToPatterns = tilesToPatternsByOffset[CombineOffsets(ox, oy, oz)];
@@ -234,7 +234,7 @@ namespace DeBroglie
             }
         }
 
-        public ITopArray<T> ToTopArray(T undecided = default(T), T contradiction = default(T))
+        public ITopArray<Tile> ToArray(Tile undecided = default(Tile), Tile contradiction = default(Tile))
         {
             var width = topology.Width;
             var height = topology.Height;
@@ -242,8 +242,7 @@ namespace DeBroglie
 
             var patternArray = wavePropagator.ToTopArray();
 
-
-            var result = new T[width, height, depth];
+            var result = new Tile[width, height, depth];
             for (var x = 0; x < width; x++)
             {
                 for (var y = 0; y < height; y++)
@@ -252,7 +251,7 @@ namespace DeBroglie
                     {
                         TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var ox, out var oy, out var oz);
                         var pattern = patternArray.Get(px, py, pz);
-                        T tile;
+                        Tile tile;
                         if (pattern == (int)CellStatus.Undecided)
                         {
                             tile = undecided;
@@ -268,10 +267,47 @@ namespace DeBroglie
                     }
                 }
             }
+            return new TopArray3D<Tile>(result, topology);
+        }
+
+        public ITopArray<T> ToValueArray<T>(T undecided = default(T), T contradiction = default(T))
+        {
+            var width = topology.Width;
+            var height = topology.Height;
+            var depth = topology.Depth;
+
+            var patternArray = wavePropagator.ToTopArray();
+
+            var result = new T[width, height, depth];
+            for (var x = 0; x < width; x++)
+            {
+                for (var y = 0; y < height; y++)
+                {
+                    for (var z = 0; z < depth; z++)
+                    {
+                        TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var ox, out var oy, out var oz);
+                        var pattern = patternArray.Get(px, py, pz);
+                        T value;
+                        if (pattern == (int)CellStatus.Undecided)
+                        {
+                            value = undecided;
+                        }
+                        else if (pattern == (int)CellStatus.Contradiction)
+                        {
+                            value = contradiction;
+                        }
+                        else
+                        {
+                            value = (T)patternsToTilesByOffset[CombineOffsets(ox, oy, oz)][pattern].Value;
+                        }
+                        result[x, y, z] = value;
+                    }
+                }
+            }
             return new TopArray3D<T>(result, topology);
         }
 
-        public ITopArray<ISet<T>> ToArraySets()
+        public ITopArray<ISet<Tile>> ToArraySets()
         {
             var width = topology.Width;
             var height = topology.Height;
@@ -279,7 +315,7 @@ namespace DeBroglie
 
             var patternArray = wavePropagator.ToTopArraySets();
 
-            var result = new ISet<T>[width, height, depth];
+            var result = new ISet<Tile>[width, height, depth];
             for (var x = 0; x < width; x++)
             {
                 for (var y = 0; y < height; y++)
@@ -288,7 +324,7 @@ namespace DeBroglie
                     {
                         TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var ox, out var oy, out var oz);
                         var patterns = patternArray.Get(px, py, pz);
-                        var hs = new HashSet<T>(tileModel.Comparer);
+                        var hs = new HashSet<Tile>();
                         var patternToTiles = patternsToTilesByOffset[CombineOffsets(ox, oy, oz)];
                         foreach(var pattern in patterns)
                         {
@@ -298,7 +334,7 @@ namespace DeBroglie
                     }
                 }
             }
-            return new TopArray3D<ISet<T>>(result, topology);
+            return new TopArray3D<ISet<Tile>>(result, topology);
         }
 
         private enum MappingType

@@ -20,13 +20,13 @@ namespace DeBroglie.Test
                  {0, 0, 0, 0, 0, 0}
             };
 
-            var model = new OverlappingModel<int>(a, 3, false, 8);
-            var propagator = new TilePropagator<int>(model, new Topology(10, 10, false), true, constraints: new[] {
-                new PathConstraint<int>(new HashSet<int>{1}, new []{new Point(0,0), new Point(9, 9) })
+            var model = OverlappingModel.Create(a, 3, false, 8);
+            var propagator = new TilePropagator(model, new Topology(10, 10, false), true, constraints: new[] {
+                new PathConstraint(new HashSet<Tile>{new Tile(1)}, new []{new Point(0,0), new Point(9, 9) })
             });
             var status = propagator.Run();
             Assert.AreEqual(CellStatus.Decided, status);
-            var result = propagator.ToTopArray().ToArray2d();
+            var result = propagator.ToValueArray<int>().ToArray2d();
             // Write out result for debugging
             for (var y = 0; y < 10; y++)
             {

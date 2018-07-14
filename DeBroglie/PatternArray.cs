@@ -1,8 +1,8 @@
 ﻿namespace DeBroglie
 {
-    public struct PatternArray<T>
+    public struct PatternArray
     {
-        public T[,,] Values;
+        public Tile[,,] Values;
 
         public int Width
         {
@@ -19,12 +19,12 @@
             get { return Values.GetLength(2); }
         }
 
-        public PatternArray<T> Reflected()
+        public PatternArray Reflected()
         {
             var width = Width;
             var height = Height;
             var depth = Depth;
-            var values = new T[width, height, depth];
+            var values = new Tile[width, height, depth];
             for (var x = 0; x < width; x++)
             {
                 for (var y = 0; y < height; y++)
@@ -35,16 +35,16 @@
                     }
                 }
             }
-            return new PatternArray<T> { Values = values };
+            return new PatternArray { Values = values };
         }
 
-        public PatternArray<T> Rotated()
+        public PatternArray Rotated()
         {
 
             var width = Width;
             var height = Height;
             var depth = Depth;
-            var values = new T[height, width, depth];
+            var values = new Tile[height, width, depth];
             for (var x = 0; x < height; x++)
             {
                 for (var y = 0; y < width; y++)
@@ -55,7 +55,7 @@
                     }
                 }
             }
-            return new PatternArray<T> { Values = values };
+            return new PatternArray { Values = values };
         }
     }
 

@@ -1,11 +1,11 @@
 ﻿namespace DeBroglie
 {
-    internal class TileConstraintAdaptor<T> : IWaveConstraint
+    internal class TileConstraintAdaptor : IWaveConstraint
     {
-        private readonly ITileConstraint<T> underlying;
-        private readonly TilePropagator<T> propagator;
+        private readonly ITileConstraint underlying;
+        private readonly TilePropagator propagator;
 
-        public TileConstraintAdaptor(ITileConstraint<T> underlying, TilePropagator<T> propagator)
+        public TileConstraintAdaptor(ITileConstraint underlying, TilePropagator propagator)
         {
             this.underlying = underlying;
             this.propagator = propagator;

@@ -152,17 +152,17 @@ namespace DeBroglie.Test
                 { 0, 0, 0, 2, 0, 0, 0, 0 },
                 { 0, 0, 0, 2, 0, 0, 0, 0 },
             };
-            var model = new OverlappingModel<int>(a, 3, false, 8);
+            var model = OverlappingModel.Create(a, 3, false, 8);
 
             var width = 10;
             var height = 10;
 
-            var pathConstraint1 = WavePathConstraint.Create(model, new[] { 1 }, new[]
+            var pathConstraint1 = WavePathConstraint.Create(model, new[] { new Tile(1) }, new[]
             {
                 new Point(0, 0),
                 new Point(width - 1, height - 1),
             });
-            var pathConstraint2 = WavePathConstraint.Create(model, new[] { 2 }, new[]
+            var pathConstraint2 = WavePathConstraint.Create(model, new[] { new Tile(2) }, new[]
             {
                 new Point(0, height - 1),
                 new Point(width - 1, 0),

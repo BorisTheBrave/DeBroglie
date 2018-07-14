@@ -3,28 +3,28 @@ using System.Linq;
 
 namespace DeBroglie
 {
-    public class PathConstraint<T> : ITileConstraint<T>
+    public class PathConstraint : ITileConstraint
     {
         // Set of patterns that are considered on the path
-        public ISet<T> PathTiles { get; set; }
+        public ISet<Tile> PathTiles { get; set; }
 
         // Set of points that must be connected by paths.
         // If null, then PathConstraint ensures that all path cells
         // are connected.
         public Point[] EndPoints { get; set; }
 
-        public PathConstraint(ISet<T> pathTiles, Point[] endPoints = null)
+        public PathConstraint(ISet<Tile> pathTiles, Point[] endPoints = null)
         {
             this.PathTiles = pathTiles;
             this.EndPoints = endPoints;
         }
 
-        public CellStatus Init(TilePropagator<T> propagator)
+        public CellStatus Init(TilePropagator propagator)
         {
             return CellStatus.Undecided;
         }
 
-        public CellStatus Check(TilePropagator<T> propagator)
+        public CellStatus Check(TilePropagator propagator)
         {
             var topology = propagator.Topology;
             var indices = topology.Width * topology.Height * topology.Depth;

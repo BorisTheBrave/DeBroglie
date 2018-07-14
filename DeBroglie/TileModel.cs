@@ -9,12 +9,11 @@ namespace DeBroglie
      * with patterns (dense integers that correspond to particular
      * arrangements of tiles).
      */
-    public abstract class TileModel<T> : Model
+    public abstract class TileModel : Model
     {
-        public abstract IReadOnlyDictionary<int, T> PatternsToTiles { get; }
-        public abstract ILookup<T, int> TilesToPatterns { get; }
-        public abstract IEqualityComparer<T> Comparer { get; }
+        public abstract IReadOnlyDictionary<int, Tile> PatternsToTiles { get; }
+        public abstract ILookup<Tile, int> TilesToPatterns { get; }
 
-        public abstract void ChangeFrequency(T tile, double relativeChange);
+        public abstract void ChangeFrequency(Tile tile, double relativeChange);
     }
 }

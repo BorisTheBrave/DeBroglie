@@ -4,9 +4,9 @@ using System.Linq;
 namespace DeBroglie
 {
 
-    public class OverlappingModel<T> : TileModel<T>
+    public class OverlappingModel : TileModel
     {
-        private List<PatternArray<T>> patternArrays;
+        private List<PatternArray> patternArrays;
 
         private int n;
         private bool periodic;
@@ -15,36 +15,27 @@ namespace DeBroglie
 
         private int groundPattern;
 
-        private IReadOnlyDictionary<int, T> patternsToTiles;
-        private ILookup<T, int> tilesToPatterns;
-        private IEqualityComparer<T> comparer;
+        private IReadOnlyDictionary<int, Tile> patternsToTiles;
+        private ILookup<Tile, int> tilesToPatterns;
 
-        public OverlappingModel(T[,] sample, int n, bool periodic, int symmetries)
-            :this(new TopArray2D<T>(sample, periodic), n, symmetries)
+        public static OverlappingModel Create<T>(T[,] sample, int n, bool periodic, int symmetries)
         {
+            var topArray = new TopArray2D<T>(sample, periodic).ToTiles();
 
-        }
-
-        public OverlappingModel(ITopArray<T> sample, int n, int symmetries)
-            : this(sample, n, symmetries > 1 ? symmetries / 2 : 1, symmetries > 1)
-
-        {
-
+            return new OverlappingModel(topArray, n, symmetries > 1 ? symmetries / 2 : 1, symmetries > 1);
         }
 
 
-        public OverlappingModel(ITopArray<T> sample, int n, int rotationalSymmetry, bool reflectionalSymmetry)
+        public OverlappingModel(ITopArray<Tile> sample, int n, int rotationalSymmetry, bool reflectionalSymmetry)
         {
             this.n = n;
             this.periodic = sample.Topology.Periodic;
             this.rotationalSymmetry = rotationalSymmetry;
             this.reflectionalSymmetry = reflectionalSymmetry;
 
-            this.comparer = EqualityComparer<T>.Default;
-
             List<double> frequencies;
 
-            OverlappingAnalysis.GetPatterns(sample, n, periodic, rotationalSymmetry, reflectionalSymmetry, comparer, out patternArrays, out frequencies, out groundPattern);
+            OverlappingAnalysis.GetPatterns(sample, n, periodic, rotationalSymmetry, reflectionalSymmetry, out patternArrays, out frequencies, out groundPattern);
 
             this.Frequencies = frequencies.ToArray();
 
@@ -73,25 +64,24 @@ namespace DeBroglie
             }
 
             patternsToTiles = patternArrays
-                .Select((x, i) => new KeyValuePair<int, T>(i, x.Values[0, 0, 0]))
+                .Select((x, i) => new KeyValuePair<int, Tile>(i, x.Values[0, 0, 0]))
                 .ToDictionary(x => x.Key, x => x.Value);
 
-            tilesToPatterns = patternsToTiles.ToLookup(x => x.Value, x => x.Key, comparer);
+            tilesToPatterns = patternsToTiles.ToLookup(x => x.Value, x => x.Key);
         }
 
-        public override IReadOnlyDictionary<int, T> PatternsToTiles => patternsToTiles;
-        public override ILookup<T, int> TilesToPatterns => tilesToPatterns;
-        public override IEqualityComparer<T> Comparer => comparer;
+        public override IReadOnlyDictionary<int, Tile> PatternsToTiles => patternsToTiles;
+        public override ILookup<Tile, int> TilesToPatterns => tilesToPatterns;
 
         public int N => n;
 
-        public IReadOnlyList<PatternArray<T>> PatternArrays => patternArrays;
+        public IReadOnlyList<PatternArray> PatternArrays => patternArrays;
 
         /**
           * Return true if the pattern1 is compatible with pattern2
           * when pattern2 is at a distance (dy,dx) from pattern1.
           */
-        private bool Aggrees(PatternArray<T> a, PatternArray<T> b, int dx, int dy, int dz)
+        private bool Aggrees(PatternArray a, PatternArray b, int dx, int dy, int dz)
         {
             var xmin = dx < 0 ? 0 : dx;
             var xmax = dx < 0 ? dx + b.Width : a.Width;
@@ -105,7 +95,7 @@ namespace DeBroglie
                 {
                     for (var z = zmin; z < zmax; z++)
                     {
-                        if (!comparer.Equals(a.Values[x, y, z], b.Values[x - dx, y - dy, z - dz]))
+                        if (a.Values[x, y, z] != b.Values[x - dx, y - dy, z - dz])
                         {
                             return false;
                         }
@@ -120,19 +110,19 @@ namespace DeBroglie
             return new GroundConstraint(groundPattern);
         }
 
-        public override void ChangeFrequency(T tile, double relativeChange)
+        public override void ChangeFrequency(Tile tile, double relativeChange)
         {
             var multiplier = (1 + relativeChange);
-            for(var p=0;p<patternArrays.Count;p++)
+            for (var p = 0; p < patternArrays.Count; p++)
             {
                 var patternArray = patternArrays[p];
-                for(var x= 0;x<patternArray.Width;x++)
+                for (var x = 0; x < patternArray.Width; x++)
                 {
-                    for(var y=0;y<patternArray.Height;y++)
+                    for (var y = 0; y < patternArray.Height; y++)
                     {
-                        for(var z=0;z<patternArray.Depth;z++)
+                        for (var z = 0; z < patternArray.Depth; z++)
                         {
-                            if(Comparer.Equals(patternArray.Values[x,y,z], tile))
+                            if (patternArray.Values[x, y, z] == tile)
                             {
                                 Frequencies[p] *= multiplier;
                             }

@@ -1,5 +1,6 @@
 ﻿namespace DeBroglie
 {
+
     public struct Point
     {
         public int X;

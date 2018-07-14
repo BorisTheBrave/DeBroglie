@@ -1,9 +1,9 @@
 ﻿namespace DeBroglie
 {
-    public interface ITileConstraint<T>
+    public interface ITileConstraint
     {
-        CellStatus Init(TilePropagator<T> propagator);
+        CellStatus Init(TilePropagator propagator);
 
-        CellStatus Check(TilePropagator<T> propagator);
+        CellStatus Check(TilePropagator propagator);
     }
 }

@@ -5,19 +5,18 @@ namespace DeBroglie
 
     public static class OverlappingAnalysis
     {
-        public static void GetPatterns<T>(
-            ITopArray<T> sample, 
+        public static void GetPatterns(
+            ITopArray<Tile> sample, 
             int n,
             bool periodic,
             int rotationalSymmetry,
             bool reflectionalSymmetry,
-            IEqualityComparer<T> comparer,
-            out List<PatternArray<T>> patternArrays,
+            out List<PatternArray> patternArrays,
             out List<double> frequencies, 
             out int groundPattern)
         {
-            var patternIndices = new Dictionary<PatternArray<T>, int>(new PatternArrayComparer<T>(comparer));
-            patternArrays = new List<PatternArray<T>>();
+            var patternIndices = new Dictionary<PatternArray, int>(new PatternArrayComparer());
+            patternArrays = new List<PatternArray>();
             frequencies = new List<double>();
 
             if (sample.Topology.Directions.Type == DirectionsType.Hexagonal2d)
@@ -30,33 +29,32 @@ namespace DeBroglie
                     for (var i = 0; i < rotationalSymmetry; i += (6 / rotationalSymmetry))
                     {
                         var rotatedSample = TopArrayUtils.HexRotate(sample, i, r > 0);
-                        GetPatternsInternal(rotatedSample, n, periodic, 1, false, comparer, patternIndices, patternArrays, frequencies);
+                        GetPatternsInternal(rotatedSample, n, periodic, 1, false, patternIndices, patternArrays, frequencies);
                     }
                 }
             }
             else
             {
-                GetPatternsInternal(sample, n, periodic, rotationalSymmetry, reflectionalSymmetry, comparer, patternIndices, patternArrays, frequencies);
+                GetPatternsInternal(sample, n, periodic, rotationalSymmetry, reflectionalSymmetry, patternIndices, patternArrays, frequencies);
             }
 
             // Find the "ground" pattern, i.e. the patter in the bottom center
             var width = sample.Topology.Width;
             var height = sample.Topology.Height;
             var lowest = periodic ? height - 1 : height - n;
-            PatternArray<T> groundPatternArray;
+            PatternArray groundPatternArray;
             TryExtract(sample, n, width / 2, lowest, 0, out groundPatternArray);
             groundPattern = patternIndices[groundPatternArray];
         }
 
-        private static void GetPatternsInternal<T>(
-            ITopArray<T> sample, 
+        private static void GetPatternsInternal(
+            ITopArray<Tile> sample, 
             int n,
             bool periodic,
             int rotationalSymmetry, 
             bool reflectionalSymmetry,
-            IEqualityComparer<T> comparer,
-            Dictionary<PatternArray<T>, int> patternIndices,
-            List<PatternArray<T>> patternArrays,
+            Dictionary<PatternArray, int> patternIndices,
+            List<PatternArray> patternArrays,
             List<double> frequencies)
         {
             var width = sample.Topology.Width;
@@ -72,13 +70,13 @@ namespace DeBroglie
                 {
                     for (var z = 0; z <= maxz; z++)
                     {
-                        PatternArray<T> patternArray;
+                        PatternArray patternArray;
                         if (!TryExtract(sample, n, x, y, z, out patternArray))
                         {
                             continue;
                         }
                         var reflections = reflectionalSymmetry ? 2 : 1;
-                        var transformed = new PatternArray<T>[rotationalSymmetry * reflections];
+                        var transformed = new PatternArray[rotationalSymmetry * reflections];
                         for (var r = 0; r < reflections; r++)
                         {
                             var current = r > 0 ? patternArray.Reflected() : patternArray;
@@ -107,13 +105,13 @@ namespace DeBroglie
             }
         }
 
-        private static bool TryExtract<T>(ITopArray<T> sample, int n, int x, int y, int z, out PatternArray<T> pattern)
+        private static bool TryExtract(ITopArray<Tile> sample, int n, int x, int y, int z, out PatternArray pattern)
         {
             var width = sample.Topology.Width;
             var height = sample.Topology.Height;
             var depth = sample.Topology.Depth;
             var nz = depth == 1 ? 1 : n;
-            var values = new T[n, n, nz];
+            var values = new Tile[n, n, nz];
             for (int tx = 0; tx < n; tx++)
             {
                 var sx = (x + tx) % width;
@@ -126,27 +124,20 @@ namespace DeBroglie
                         var index = sample.Topology.GetIndex(sx, sy, sz);
                         if (!sample.Topology.ContainsIndex(index))
                         {
-                            pattern = default(PatternArray<T>);
+                            pattern = default(PatternArray);
                             return false;
                         }
                         values[tx, ty, tz] = sample.Get(sx, sy, sz);
                     }
                 }
             }
-            pattern = new PatternArray<T> { Values = values };
+            pattern = new PatternArray { Values = values };
             return true;
         }
 
-        private class PatternArrayComparer<T> : IEqualityComparer<PatternArray<T>>
+        private class PatternArrayComparer : IEqualityComparer<PatternArray>
         {
-            IEqualityComparer<T> comparer;
-
-            public PatternArrayComparer(IEqualityComparer<T> comparer)
-            {
-                this.comparer = comparer;
-            }
-
-            public bool Equals(PatternArray<T> a, PatternArray<T> b)
+            public bool Equals(PatternArray a, PatternArray b)
             {
                 var width = a.Width;
                 var height = a.Height;
@@ -158,7 +149,7 @@ namespace DeBroglie
                     {
                         for (var z = 0; z < depth; z++)
                         {
-                            if (!comparer.Equals(a.Values[x, y, z], b.Values[x, y, z]))
+                            if (a.Values[x, y, z] != b.Values[x, y, z])
                             {
                                 return false;
                             }
@@ -168,7 +159,7 @@ namespace DeBroglie
                 return true;
             }
 
-            public int GetHashCode(PatternArray<T> obj)
+            public int GetHashCode(PatternArray obj)
             {
                 unchecked
                 {
@@ -183,7 +174,7 @@ namespace DeBroglie
                         {
                             for (var z = 0; z < depth; z++)
                             {
-                                hashCode = (hashCode * 397) ^ comparer.GetHashCode(obj.Values[x, y, z]);
+                                hashCode = (hashCode * 397) ^ obj.Values[x, y, z].GetHashCode();
                             }
                         }
                     }

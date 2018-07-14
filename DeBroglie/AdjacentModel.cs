@@ -4,22 +4,24 @@ using System.Linq;
 namespace DeBroglie
 {
 
-    public class AdjacentModel<T> : TileModel<T>
+    public class AdjacentModel : TileModel
     {
 
-        private IReadOnlyDictionary<int, T> patternsToTiles;
-        private ILookup<T, int> tilesToPatterns;
-        private IEqualityComparer<T> comparer;
+        private IReadOnlyDictionary<int, Tile> patternsToTiles;
+        private ILookup<Tile, int> tilesToPatterns;
 
-        public AdjacentModel(T[,] sample, bool periodic)
-            :this(new TopArray2D<T>(sample, periodic))
+        public static AdjacentModel Create<T>(T[,] sample, bool periodic)
         {
-
+            return Create(new TopArray2D<T>(sample, periodic));
         }
-        public AdjacentModel(ITopArray<T> sample)
-        {
-            this.comparer = EqualityComparer<T>.Default;
 
+        public static AdjacentModel Create<T>(ITopArray<T> sample)
+        {
+            return new AdjacentModel(sample.ToTiles());
+        }
+
+        public AdjacentModel(ITopArray<Tile> sample)
+        {
             var topology = sample.Topology;
             var width = topology.Width;
             var height = topology.Height;
@@ -27,12 +29,12 @@ namespace DeBroglie
             var directionCount = topology.Directions.Count;
 
             // Tiles map 1:1 with patterns
-            var tilesToPatterns = new Dictionary<T, int>(comparer);
+            var tilesToPatterns = new Dictionary<Tile, int>();
             var frequencies = new List<double>();
 
             List<HashSet<int>[]> propagator = new List<HashSet<int>[]>();
 
-            int GetPattern(T tile)
+            int GetPattern(Tile tile)
             {
                 int pattern;
                 if (!tilesToPatterns.TryGetValue(tile, out pattern))
@@ -80,14 +82,13 @@ namespace DeBroglie
             this.Frequencies = frequencies.ToArray();
             this.Propagator = propagator.Select(x => x.Select(y => y.ToArray()).ToArray()).ToArray();
             this.patternsToTiles = tilesToPatterns.ToDictionary(x => x.Value, x => x.Key);
-            this.tilesToPatterns = tilesToPatterns.ToLookup(x => x.Key, x => x.Value, comparer);
+            this.tilesToPatterns = tilesToPatterns.ToLookup(x => x.Key, x => x.Value);
         }
 
-        public override IReadOnlyDictionary<int, T> PatternsToTiles => patternsToTiles;
-        public override ILookup<T, int> TilesToPatterns => tilesToPatterns;
-        public override IEqualityComparer<T> Comparer => comparer;
+        public override IReadOnlyDictionary<int, Tile> PatternsToTiles => patternsToTiles;
+        public override ILookup<Tile, int> TilesToPatterns => tilesToPatterns;
 
-        public override void ChangeFrequency(T tile, double relativeChange)
+        public override void ChangeFrequency(Tile tile, double relativeChange)
         {
             var multiplier = (1 + relativeChange);
             Frequencies[TilesToPatterns[tile].First()] *= multiplier;

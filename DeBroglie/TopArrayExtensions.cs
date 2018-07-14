@@ -1,4 +1,6 @@
-﻿namespace DeBroglie
+﻿using System;
+
+namespace DeBroglie
 {
     public static class TopArrayExtensions
     {
@@ -34,6 +36,32 @@
                 }
             }
             return results;
+        }
+
+        public static ITopArray<U> Map<T, U>(this ITopArray<T> topArray, Func<T, U> func)
+        {
+            var width = topArray.Topology.Width;
+            var height = topArray.Topology.Height;
+            var depth = topArray.Topology.Depth;
+            var r = new U[width, height, depth];
+
+            for (var z = 0; z < depth; z++)
+            {
+                for (var y = 0; y < height; y++)
+                {
+                    for (var x = 0; x < width; x++)
+                    {
+                        r[x, y, z] = func(topArray.Get(x, y, z));
+                    }
+                }
+            }
+
+            return new TopArray3D<U>(r, topArray.Topology);
+        }
+
+        public static ITopArray<Tile> ToTiles<T>(this ITopArray<T> topArray)
+        {
+            return topArray.Map(v => new Tile(v));
         }
     }
 }

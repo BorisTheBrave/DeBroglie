@@ -17,13 +17,13 @@ namespace DeBroglie
         All = 0x3F,
     }
 
-    public class BorderConstraint<T> : ITileConstraint<T>
+    public class BorderConstraint : ITileConstraint
     {
-        public T Tile { get; set; }
+        public Tile Tile { get; set; }
         public BorderSides Sides { get; set; } = BorderSides.All;
         public BorderSides ExcludeSides { get; set; } = BorderSides.None;
 
-        public CellStatus Check(TilePropagator<T> propagator)
+        public CellStatus Check(TilePropagator propagator)
         {
             return CellStatus.Undecided;
         }
@@ -40,7 +40,7 @@ namespace DeBroglie
 
         }
 
-        public CellStatus Init(TilePropagator<T> propagator)
+        public CellStatus Init(TilePropagator propagator)
         {
             var width = propagator.Topology.Width;
             var height = propagator.Topology.Height;
