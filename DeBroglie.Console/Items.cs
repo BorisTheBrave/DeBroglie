@@ -49,6 +49,7 @@ namespace DeBroglie.Console
 
         [XmlArray("constraints")]
         [XmlArrayItem(Type = typeof(PathData), ElementName = "path")]
+        [XmlArrayItem(Type = typeof(BorderData), ElementName = "border")]
         public List<ConstraintData> Constraints { get; set; }
     }
 
@@ -93,5 +94,17 @@ namespace DeBroglie.Console
         [XmlArray("path-tiles")]
         [XmlArrayItem("path-tile")]
         public string[] PathTiles { get; set; }
+    }
+
+    public class BorderData : ConstraintData
+    {
+        [XmlAttribute("tile")]
+        public string Tile { get; set; }
+
+        [XmlAttribute("sides")]
+        public string Sides { get; set; }
+
+        [XmlAttribute("exclude-sides")]
+        public string ExcludeSides { get; set; }
     }
 }

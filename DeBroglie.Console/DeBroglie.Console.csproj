@@ -44,7 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BorderConstraint.cs" />
     <Compile Include="ConsoleUtils.cs" />
     <Compile Include="ItemsProcessor.cs" />
     <Compile Include="Program.cs" />

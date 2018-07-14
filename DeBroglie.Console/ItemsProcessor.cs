@@ -1,4 +1,5 @@
 ﻿using DeBroglie.MagicaVoxel;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -85,9 +86,21 @@ namespace DeBroglie.Console
             var waveConstraints = new List<IWaveConstraint>();
             if (item is Overlapping overlapping && overlapping.Ground != 0)
                 waveConstraints.Add(((OverlappingModel<T>)model).GetGroundConstraint());
-            if (is3d)
-                waveConstraints.Add(new BorderConstraint(model as TileModel<byte>));
             var constraints = new List<ITileConstraint<T>>();
+            if (is3d)
+            {
+                constraints.Add(new BorderConstraint<T>
+                {
+                    Sides=BorderSides.ZMin,
+                    Tile=(T)(object)255,
+                });
+                constraints.Add(new BorderConstraint<T>
+                {
+                    Sides = BorderSides.All,
+                    ExcludeSides = BorderSides.ZMin,
+                    Tile = (T)(object)0,
+                });
+            }
 
             foreach (var constraint in item.Constraints)
             {
@@ -96,6 +109,23 @@ namespace DeBroglie.Console
                     var pathTiles = new HashSet<T>(pathData.PathTiles.Select(Parse), model.Comparer);
                     var p = new PathConstraint<T>(pathTiles);
                     constraints.Add(p);
+                }
+                else if(constraint is BorderData borderData)
+                {
+                    var tile = Parse(borderData.Tile);
+                    var sides = borderData.Sides == null ? BorderSides.All : (BorderSides)Enum.Parse(typeof(BorderSides), borderData.Sides, true);
+                    var excludeSides = borderData.ExcludeSides == null ? BorderSides.None : (BorderSides)Enum.Parse(typeof(BorderSides), borderData.ExcludeSides, true);
+                    if(!is3d)
+                    {
+                        sides = sides & ~BorderSides.ZMin & ~BorderSides.ZMax;
+                        excludeSides = excludeSides & ~BorderSides.ZMin & ~BorderSides.ZMax;
+                    }
+                    constraints.Add(new BorderConstraint<T>
+                    {
+                        Tile = tile,
+                        Sides = sides,
+                        ExcludeSides = excludeSides,
+                    });
                 }
             }
 
