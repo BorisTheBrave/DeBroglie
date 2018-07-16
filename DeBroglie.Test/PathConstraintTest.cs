@@ -5,8 +5,9 @@ using System.Text;
 
 namespace DeBroglie.Test
 {
+
     [TestFixture]
-    class PathConstraintTest
+    public class PathConstraintTest
     {
         [Test]
         public void TestPathConstraint()

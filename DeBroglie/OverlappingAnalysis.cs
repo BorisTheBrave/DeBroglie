@@ -21,21 +21,27 @@ namespace DeBroglie
 
             if (sample.Topology.Directions.Type == DirectionsType.Hexagonal2d)
             {
-                // GetPatternsInternal doesn't understand how to rotate hexagonally.
-                // It's easier just to rotate the entire map and extract patterns from each copy
                 var reflections = reflectionalSymmetry ? 2 : 1;
                 for (var r = 0; r < reflections; r++)
                 {
                     for (var i = 0; i < rotationalSymmetry; i += (6 / rotationalSymmetry))
                     {
                         var rotatedSample = TopArrayUtils.HexRotate(sample, i, r > 0);
-                        GetPatternsInternal(rotatedSample, n, periodic, 1, false, patternIndices, patternArrays, frequencies);
+                        GetPatternsInternal(rotatedSample, n, periodic, patternIndices, patternArrays, frequencies);
                     }
                 }
             }
             else
             {
-                GetPatternsInternal(sample, n, periodic, rotationalSymmetry, reflectionalSymmetry, patternIndices, patternArrays, frequencies);
+                var reflections = reflectionalSymmetry ? 2 : 1;
+                for (var r = 0; r < reflections; r++)
+                {
+                    for (var i = 0; i < rotationalSymmetry; i += (6 / rotationalSymmetry))
+                    {
+                        var rotatedSample = TopArrayUtils.Rotate(sample, i, r > 0);
+                        GetPatternsInternal(rotatedSample, n, periodic, patternIndices, patternArrays, frequencies);
+                    }
+                }
             }
 
             // Find the "ground" pattern, i.e. the patter in the bottom center
@@ -51,8 +57,6 @@ namespace DeBroglie
             ITopArray<Tile> sample, 
             int n,
             bool periodic,
-            int rotationalSymmetry, 
-            bool reflectionalSymmetry,
             Dictionary<PatternArray, int> patternIndices,
             List<PatternArray> patternArrays,
             List<double> frequencies)
@@ -75,30 +79,16 @@ namespace DeBroglie
                         {
                             continue;
                         }
-                        var reflections = reflectionalSymmetry ? 2 : 1;
-                        var transformed = new PatternArray[rotationalSymmetry * reflections];
-                        for (var r = 0; r < reflections; r++)
+                        int pattern;
+                        if (!patternIndices.TryGetValue(patternArray, out pattern))
                         {
-                            var current = r > 0 ? patternArray.Reflected() : patternArray;
-                            for (var i = 0; i < rotationalSymmetry; i += (6 / rotationalSymmetry))
-                            {
-                                transformed[r * rotationalSymmetry + i] = current;
-                                current = current.Rotated();
-                            }
+                            pattern = patternIndices[patternArray] = patternIndices.Count;
+                            patternArrays.Add(patternArray);
+                            frequencies.Add(1);
                         }
-                        for (var s = 0; s < transformed.Length; s++)
+                        else
                         {
-                            int pattern;
-                            if (!patternIndices.TryGetValue(transformed[s], out pattern))
-                            {
-                                pattern = patternIndices[transformed[s]] = patternIndices.Count;
-                                patternArrays.Add(transformed[s]);
-                                frequencies.Add(1);
-                            }
-                            else
-                            {
-                                frequencies[pattern] += 1;
-                            }
+                            frequencies[pattern] += 1;
                         }
                     }
                 }

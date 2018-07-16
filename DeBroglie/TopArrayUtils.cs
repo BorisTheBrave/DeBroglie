@@ -4,6 +4,32 @@ namespace DeBroglie
 {
     public static class TopArrayUtils
     {
+        public static ITopArray<T> Rotate<T>(ITopArray<T> original, int rotate, bool reflect = false)
+        {
+            ValueTuple<int, int> MapCoord(int x, int y)
+            {
+                if(reflect)
+                {
+                    x = -x;
+                }
+                switch (rotate)
+                {
+                    case 0:
+                        return (x, y);
+                    case 1:
+                        return (y, -x);
+                    case 2:
+                        return (-x, -y);
+                    case 3:
+                        return (-y, x);
+                    default:
+                        throw new Exception();
+                }
+            }
+
+            return RotateInner(original, MapCoord);
+        }
+
         public static ITopArray<T> HexRotate<T>(ITopArray<T> original, int rotate, bool reflect = false)
         {
             if (rotate == 0 && !reflect)
@@ -11,11 +37,9 @@ namespace DeBroglie
 
             var microRotate = rotate % 3;
             var rotate180 = rotate % 2 == 1;
-            var offsetx = 0;
-            var offsety = 0;
 
             // Actually do a reflection/rotation
-            void OriginalToNewCoord(int x, int y, out int outX, out int outY)
+            ValueTuple<int, int> MapCoord(int x, int y)
             {
                 if (reflect)
                 {
@@ -39,16 +63,20 @@ namespace DeBroglie
                 }
                 x = -r;
                 y = s;
-                outX = x + offsetx;
-                outY = y + offsety;
+                return (x, y);
             }
 
+            return RotateInner(original, MapCoord);
+        }
+
+
+        private static ITopArray<T> RotateInner<T>(ITopArray<T> original, Func<int, int, ValueTuple<int, int>> mapCoord)
+        {
             // Find new bounds
-            int x1, y1, x2, y2, x3, y3, x4, y4;
-            OriginalToNewCoord(0, 0, out x1, out y1);
-            OriginalToNewCoord(original.Topology.Width - 1, 0, out x2, out y2);
-            OriginalToNewCoord(original.Topology.Width - 1, original.Topology.Height - 1, out x3, out y3);
-            OriginalToNewCoord(0, original.Topology.Height - 1, out x4, out y4);
+            var (x1, y1) = mapCoord(0, 0);
+            var (x2, y2) = mapCoord(original.Topology.Width - 1, 0);
+            var (x3, y3) = mapCoord(original.Topology.Width - 1, original.Topology.Height - 1);
+            var (x4, y4) = mapCoord(0, original.Topology.Height - 1);
 
             var minx = Math.Min(Math.Min(x1, x2), Math.Min(x3, x4));
             var maxx = Math.Max(Math.Max(x1, x2), Math.Max(x3, x4));
@@ -56,31 +84,33 @@ namespace DeBroglie
             var maxy = Math.Max(Math.Max(y1, y2), Math.Max(y3, y4));
 
             // Arrange so that co-ordinate transfer is into the rect bounced by width, height
-            offsetx = -minx;
-            offsety = -miny;
+            var offsetx = -minx;
+            var offsety = -miny;
             var width = maxx - minx + 1;
             var height = maxy - miny + 1;
 
             var mask = new bool[width * height];
-            var topology = new Topology(Directions.Hexagonal2d, width, height, false, mask);
+            var topology = new Topology(original.Topology.Directions, width, height, original.Topology.Depth, false, mask);
             var values = new T[width, height];
 
             // Copy from original to values based on the rotation, setting up the mask as we go.
-            for (var x = 0; x < original.Topology.Width; x++)
+            for (var z = 0; z < original.Topology.Depth; z++)
             {
                 for (var y = 0; y < original.Topology.Height; y++)
                 {
-                    int newX, newY;
-                    OriginalToNewCoord(x, y, out newX, out newY);
-                    int newIndex = topology.GetIndex(newX, newY, 0);
-                    values[newX, newY] = original.Get(x, y, 0);
-                    mask[newIndex] = original.Topology.ContainsIndex(original.Topology.GetIndex(x, y, 0));
+                    for (var x = 0; x < original.Topology.Width; x++)
+                    {
+                        var (newX, newY) = mapCoord(x, y);
+                        newX += offsetx;
+                        newY += offsety;
+                        int newIndex = topology.GetIndex(newX, newY, 0);
+                        values[newX, newY] = original.Get(x, y, 0);
+                        mask[newIndex] = original.Topology.ContainsIndex(original.Topology.GetIndex(x, y, 0));
+                    }
                 }
             }
 
             return new TopArray2D<T>(values, topology);
         }
-
     }
-
 }
