@@ -17,18 +17,20 @@ namespace DeBroglie.Console
 
         protected abstract Tile Parse(string s);
 
-        private static TileModel GetModel(Item item, ITopArray<Tile> sample)
+        private static TileModel GetModel(Item item, ITopArray<Tile> sample, TileRotation tileRotation)
         {
             if (item is Overlapping overlapping)
             {
                 var symmetries = overlapping.Symmetry;
-                return new OverlappingModel(sample, overlapping.N, symmetries > 1 ? symmetries / 2 : 1, symmetries > 1);
+                var model = new OverlappingModel(overlapping.N);
+                model.AddSample(sample, symmetries > 1 ? symmetries / 2 : 1, symmetries > 1, tileRotation);
+                return model;
             }
             else if(item is Adjacent adjacent)
             {
                 return new AdjacentModel(sample);
             }
-            throw new System.Exception();
+            throw new System.Exception($"Unrecognized model type {item.GetType()}");
         }
 
         public void ProcessItem(Item item, string directory)
@@ -55,10 +57,12 @@ namespace DeBroglie.Console
 
             var topArray = Load(src, item);
 
-            var model = GetModel(item, topArray);
-
             var is3d = topArray.Topology.Directions.Type == DirectionsType.Cartesian3d;
             var topology = new Topology(topArray.Topology.Directions, item.Width, item.Height, is3d ? item.Depth : 1, item.IsPeriodic);
+
+            var tileRotation = GetTileRotation(item.Tiles, topology);
+
+            var model = GetModel(item, topArray, tileRotation);
 
             // Setup tiles
             if(item.Tiles != null)
@@ -162,6 +166,43 @@ namespace DeBroglie.Console
             }
         }
 
+        private TileRotation GetTileRotation(List<TileData> tileData, Topology topology)
+        {
+
+            var tileRotationBuilder = new TileRotationBuilder();
+
+            // Setup tiles
+            if (tileData != null)
+            {
+                foreach (var tile in tileData)
+                {
+                    var value = Parse(tile.Value);
+                    if (tile.ReflectX != null)
+                    {
+                        tileRotationBuilder.Add(value, 0, true, Parse(tile.ReflectX));
+                    }
+                    if (tile.ReflectY != null)
+                    {
+                        tileRotationBuilder.Add(value, topology.Directions.Count / 2, true, Parse(tile.ReflectY));
+                    }
+                    if (tile.RotateCw != null)
+                    {
+                        tileRotationBuilder.Add(value, 1, false, Parse(tile.RotateCw));
+                    }
+                    if (tile.RotateCcw != null)
+                    {
+                        tileRotationBuilder.Add(value, -1, false, Parse(tile.RotateCcw));
+                    }
+                    if(tile.NoRotate)
+                    {
+                        tileRotationBuilder.NoRotate(value);
+                    }
+                }
+            }
+
+            return tileRotationBuilder.Build();
+        }
+
         private static Items LoadItemsFile(string filename)
         {
             var serializer = new XmlSerializer(typeof(Items));
@@ -257,18 +298,43 @@ namespace DeBroglie.Console
     {
         private TiledLib.Map map;
         private string srcFilename;
+        private IDictionary<string, int> tilesByName;
 
         protected override ITopArray<Tile> Load(string filename, Item item)
         {
             srcFilename = filename;
             map = TiledUtil.Load(filename);
             var layer = (TileLayer)map.Layers[0];
+            tilesByName = new Dictionary<string, int>();
+            foreach(var tileset in map.Tilesets)
+            {
+                if (tileset.TileProperties == null)
+                    continue;
+                foreach (var kv in tileset.TileProperties)
+                {
+                    var localTileId = kv.Key;
+                    var properties = kv.Value;
+                    if(properties.TryGetValue("name", out var name))
+                    {
+                        tilesByName[name] = tileset.FirstGid + localTileId;
+                    }
+                }
+            }
             return TiledUtil.ReadLayer(map, layer).ToTiles();
         }
 
         protected override Tile Parse(string s)
         {
-            return new Tile(int.Parse(s));
+            int tileId;
+            if(tilesByName.TryGetValue(s, out tileId))
+            {
+                return new Tile(tileId);
+            }
+            if(int.TryParse(s, out tileId))
+            {
+                return new Tile(tileId);
+            }
+            throw new Exception($"Found no tile named {s}, either set the \"name\" property or use tile gids.");
         }
 
         protected override void Save(TileModel model, TilePropagator tilePropagator, string filename)

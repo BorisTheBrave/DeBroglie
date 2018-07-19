@@ -11,13 +11,13 @@ namespace DeBroglie
             bool periodic,
             int rotationalSymmetry,
             bool reflectionalSymmetry,
-            out List<PatternArray> patternArrays,
-            out List<double> frequencies, 
+            TileRotation tileRotation,
+            Dictionary<PatternArray, int> patternIndices,
+            List<PatternArray> patternArrays,
+            List<double> frequencies, 
             out int groundPattern)
         {
-            var patternIndices = new Dictionary<PatternArray, int>(new PatternArrayComparer());
-            patternArrays = new List<PatternArray>();
-            frequencies = new List<double>();
+            tileRotation = tileRotation ?? new TileRotation();
 
             if (sample.Topology.Directions.Type == DirectionsType.Hexagonal2d)
             {
@@ -26,7 +26,7 @@ namespace DeBroglie
                 {
                     for (var i = 0; i < rotationalSymmetry; i += (6 / rotationalSymmetry))
                     {
-                        var rotatedSample = TopArrayUtils.HexRotate(sample, i, r > 0);
+                        var rotatedSample = TopArrayUtils.HexRotate(sample, i, r > 0, tileRotation);
                         GetPatternsInternal(rotatedSample, n, periodic, patternIndices, patternArrays, frequencies);
                     }
                 }
@@ -38,7 +38,7 @@ namespace DeBroglie
                 {
                     for (var i = 0; i < rotationalSymmetry; i += (6 / rotationalSymmetry))
                     {
-                        var rotatedSample = TopArrayUtils.Rotate(sample, i, r > 0);
+                        var rotatedSample = TopArrayUtils.Rotate(sample, i, r > 0, tileRotation);
                         GetPatternsInternal(rotatedSample, n, periodic, patternIndices, patternArrays, frequencies);
                     }
                 }
@@ -125,51 +125,52 @@ namespace DeBroglie
             return true;
         }
 
-        private class PatternArrayComparer : IEqualityComparer<PatternArray>
-        {
-            public bool Equals(PatternArray a, PatternArray b)
-            {
-                var width = a.Width;
-                var height = a.Height;
-                var depth = a.Depth;
+    }
 
+    internal class PatternArrayComparer : IEqualityComparer<PatternArray>
+    {
+        public bool Equals(PatternArray a, PatternArray b)
+        {
+            var width = a.Width;
+            var height = a.Height;
+            var depth = a.Depth;
+
+            for (var x = 0; x < width; x++)
+            {
+                for (var y = 0; y < height; y++)
+                {
+                    for (var z = 0; z < depth; z++)
+                    {
+                        if (a.Values[x, y, z] != b.Values[x, y, z])
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
+        public int GetHashCode(PatternArray obj)
+        {
+            unchecked
+            {
+                var width = obj.Width;
+                var height = obj.Height;
+                var depth = obj.Depth;
+
+                var hashCode = 13;
                 for (var x = 0; x < width; x++)
                 {
                     for (var y = 0; y < height; y++)
                     {
                         for (var z = 0; z < depth; z++)
                         {
-                            if (a.Values[x, y, z] != b.Values[x, y, z])
-                            {
-                                return false;
-                            }
+                            hashCode = (hashCode * 397) ^ obj.Values[x, y, z].GetHashCode();
                         }
                     }
                 }
-                return true;
-            }
-
-            public int GetHashCode(PatternArray obj)
-            {
-                unchecked
-                {
-                    var width = obj.Width;
-                    var height = obj.Height;
-                    var depth = obj.Depth;
-
-                    var hashCode = 13;
-                    for (var x = 0; x < width; x++)
-                    {
-                        for (var y = 0; y < height; y++)
-                        {
-                            for (var z = 0; z < depth; z++)
-                            {
-                                hashCode = (hashCode * 397) ^ obj.Values[x, y, z].GetHashCode();
-                            }
-                        }
-                    }
-                    return hashCode;
-                }
+                return hashCode;
             }
         }
     }

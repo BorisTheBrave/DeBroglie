@@ -82,6 +82,21 @@ namespace DeBroglie.Console
 
         [XmlAttribute("change-frequency")]
         public string ChangeFrequency { get; set; }
+
+        [XmlAttribute("reflect-x")]
+        public string ReflectX { get; set; }
+
+        [XmlAttribute("reflect-y")]
+        public string ReflectY { get; set; }
+
+        [XmlAttribute("rotate-cw")]
+        public string RotateCw { get; set; }
+
+        [XmlAttribute("rotate-ccw")]
+        public string RotateCcw { get; set; }
+
+        [XmlAttribute("no-rotate")]
+        public bool NoRotate { get; set; }
     }
 
     public class ConstraintData

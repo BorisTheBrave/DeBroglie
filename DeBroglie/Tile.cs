@@ -28,6 +28,11 @@ namespace DeBroglie
             return Value == null ? 0 : Value.GetHashCode();
         }
 
+        public override string ToString()
+        {
+            return Value == null ? "null" : Value.ToString();
+        }
+
         public static bool operator ==(Tile a, Tile b)
         {
             return object.Equals(a, b);

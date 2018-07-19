@@ -2,13 +2,28 @@
 
 namespace DeBroglie
 {
+
     public static class TopArrayUtils
     {
-        public static ITopArray<T> Rotate<T>(ITopArray<T> original, int rotate, bool reflect = false)
+        public delegate bool TileRotate<T>(T tile, out T result);
+
+        public static ITopArray<Tile> Rotate(ITopArray<Tile> original, int rotate, bool reflectX = false, TileRotation tileRotation = null)
         {
+            bool TileRotate(Tile tile, out Tile result)
+            {
+                return tileRotation.Rotate(tile, rotate, reflectX, out result);
+            }
+            return Rotate<Tile>(original, rotate, reflectX, tileRotation == null ? null : (TileRotate<Tile> )TileRotate);
+        }
+
+        public static ITopArray<T> Rotate<T>(ITopArray<T> original, int rotate, bool reflectX = false, TileRotate<T> tileRotate = null)
+        {
+            if (rotate == 0 && !reflectX)
+                return original;
+
             ValueTuple<int, int> MapCoord(int x, int y)
             {
-                if(reflect)
+                if(reflectX)
                 {
                     x = -x;
                 }
@@ -27,12 +42,21 @@ namespace DeBroglie
                 }
             }
 
-            return RotateInner(original, MapCoord);
+            return RotateInner(original, MapCoord, tileRotate);
         }
 
-        public static ITopArray<T> HexRotate<T>(ITopArray<T> original, int rotate, bool reflect = false)
+        public static ITopArray<Tile> HexRotate(ITopArray<Tile> original, int rotate, bool reflectX = false, TileRotation tileRotation = null)
         {
-            if (rotate == 0 && !reflect)
+            bool TileRotate(Tile tile, out Tile result)
+            {
+                return tileRotation.Rotate(tile, rotate, reflectX, out result);
+            }
+            return HexRotate<Tile>(original, rotate, reflectX, tileRotation == null ? null : (TileRotate<Tile>)TileRotate);
+        }
+
+        public static ITopArray<T> HexRotate<T>(ITopArray<T> original, int rotate, bool reflectX, TileRotate<T> tileRotate = null)
+        {
+            if (rotate == 0 && !reflectX)
                 return original;
 
             var microRotate = rotate % 3;
@@ -41,7 +65,7 @@ namespace DeBroglie
             // Actually do a reflection/rotation
             ValueTuple<int, int> MapCoord(int x, int y)
             {
-                if (reflect)
+                if (reflectX)
                 {
                     x = -x + y;
                 }
@@ -66,11 +90,11 @@ namespace DeBroglie
                 return (x, y);
             }
 
-            return RotateInner(original, MapCoord);
+            return RotateInner(original, MapCoord, tileRotate);
         }
 
 
-        private static ITopArray<T> RotateInner<T>(ITopArray<T> original, Func<int, int, ValueTuple<int, int>> mapCoord)
+        private static ITopArray<T> RotateInner<T>(ITopArray<T> original, Func<int, int, ValueTuple<int, int>> mapCoord, TileRotate<T> tileRotate = null)
         {
             // Find new bounds
             var (x1, y1) = mapCoord(0, 0);
@@ -104,8 +128,14 @@ namespace DeBroglie
                         newX += offsetx;
                         newY += offsety;
                         int newIndex = topology.GetIndex(newX, newY, 0);
-                        values[newX, newY] = original.Get(x, y, 0);
-                        mask[newIndex] = original.Topology.ContainsIndex(original.Topology.GetIndex(x, y, 0));
+                        var newValue = original.Get(x, y, 0);
+                        bool hasNewValue = true;
+                        if(tileRotate != null)
+                        {
+                            hasNewValue = tileRotate(newValue, out newValue);
+                        }
+                        values[newX, newY] = newValue;
+                        mask[newIndex] = hasNewValue && original.Topology.ContainsIndex(original.Topology.GetIndex(x, y, 0));
                     }
                 }
             }

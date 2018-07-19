@@ -6,14 +6,13 @@ namespace DeBroglie
 
     public class OverlappingModel : TileModel
     {
-        private List<PatternArray> patternArrays;
-
         private int n;
-        private bool periodic;
-        int rotationalSymmetry;
-        bool reflectionalSymmetry;
 
         private int groundPattern;
+
+        private Dictionary<PatternArray, int> patternIndices;
+        private List<PatternArray> patternArrays;
+        private List<double> frequencies;
 
         private IReadOnlyDictionary<int, Tile> patternsToTiles;
         private ILookup<Tile, int> tilesToPatterns;
@@ -27,15 +26,28 @@ namespace DeBroglie
 
 
         public OverlappingModel(ITopArray<Tile> sample, int n, int rotationalSymmetry, bool reflectionalSymmetry)
+            :this(n)
+        {
+            AddSample(sample, rotationalSymmetry, reflectionalSymmetry);
+        }
+
+        public OverlappingModel(int n)
         {
             this.n = n;
-            this.periodic = sample.Topology.Periodic;
-            this.rotationalSymmetry = rotationalSymmetry;
-            this.reflectionalSymmetry = reflectionalSymmetry;
+            patternIndices = new Dictionary<PatternArray, int>(new PatternArrayComparer());
+            frequencies = new List<double>();
+            patternArrays = new List<PatternArray>();
 
-            List<double> frequencies;
 
-            OverlappingAnalysis.GetPatterns(sample, n, periodic, rotationalSymmetry, reflectionalSymmetry, out patternArrays, out frequencies, out groundPattern);
+        }
+
+        public void AddSample(ITopArray<Tile> sample, int rotationalSymmetry, bool reflectionalSymmetry, TileRotation tileRotation = null)
+        {
+            var periodic = sample.Topology.Periodic;
+
+            OverlappingAnalysis.GetPatterns(sample, n, periodic, rotationalSymmetry, reflectionalSymmetry, tileRotation, patternIndices, patternArrays, frequencies, out groundPattern);
+
+            // Update the model based on the collected data
 
             this.Frequencies = frequencies.ToArray();
 
