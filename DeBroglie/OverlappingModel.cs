@@ -6,7 +6,9 @@ namespace DeBroglie
 
     public class OverlappingModel : TileModel
     {
-        private int n;
+        private int nx;
+        private int ny;
+        private int nz;
 
         private int groundPattern;
 
@@ -32,8 +34,16 @@ namespace DeBroglie
         }
 
         public OverlappingModel(int n)
+            :this(n, n, n)
         {
-            this.n = n;
+
+        }
+
+        public OverlappingModel(int nx, int ny, int nz)
+        {
+            this.nx = nx;
+            this.ny = nz;
+            this.ny = nz;
             patternIndices = new Dictionary<PatternArray, int>(new PatternArrayComparer());
             frequencies = new List<double>();
             patternArrays = new List<PatternArray>();
@@ -43,9 +53,12 @@ namespace DeBroglie
 
         public void AddSample(ITopArray<Tile> sample, int rotationalSymmetry, bool reflectionalSymmetry, TileRotation tileRotation = null)
         {
+            if (sample.Topology.Depth == 1)
+                nz = 1;
+
             var periodic = sample.Topology.Periodic;
 
-            OverlappingAnalysis.GetPatterns(sample, n, periodic, rotationalSymmetry, reflectionalSymmetry, tileRotation, patternIndices, patternArrays, frequencies, out groundPattern);
+            OverlappingAnalysis.GetPatterns(sample, nx, ny, nz, periodic, rotationalSymmetry, reflectionalSymmetry, tileRotation, patternIndices, patternArrays, frequencies, out groundPattern);
 
             // Update the model based on the collected data
 
@@ -85,7 +98,9 @@ namespace DeBroglie
         public override IReadOnlyDictionary<int, Tile> PatternsToTiles => patternsToTiles;
         public override ILookup<Tile, int> TilesToPatterns => tilesToPatterns;
 
-        public int N => n;
+        public int NX => nx;
+        public int NY => ny;
+        public int NZ => nz;
 
         public IReadOnlyList<PatternArray> PatternArrays => patternArrays;
 

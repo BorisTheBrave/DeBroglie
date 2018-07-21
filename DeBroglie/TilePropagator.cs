@@ -21,7 +21,9 @@ namespace DeBroglie
         private readonly IDictionary<int, IReadOnlyDictionary<int, Tile>> patternsToTilesByOffset;
 
         private readonly MappingType mappingType;
-        private readonly int mappingN;
+        private readonly int mappingNX;
+        private readonly int mappingNY;
+        private readonly int mappingNZ;
 
         public TilePropagator(TileModel tileModel, Topology topology, bool backtrack = false,
             ITileConstraint[] constraints = null,
@@ -36,23 +38,25 @@ namespace DeBroglie
             {
                 // Shrink the topology as patterns can cover multiple tiles.
                 patternTopology = new Topology(topology.Directions,
-                    topology.Width - overlapping.N + 1, 
-                    topology.Height - overlapping.N + 1, 
-                    topology.Depth == 1 ? 1 : topology.Depth - overlapping.N + 1,
+                    topology.Width - overlapping.NX + 1, 
+                    topology.Height - overlapping.NY + 1, 
+                    topology.Depth - overlapping.NZ + 1,
                     topology.Periodic);
 
                 mappingType = MappingType.Overlapping;
-                mappingN = overlapping.N;
+                mappingNX = overlapping.NX;
+                mappingNY = overlapping.NY;
+                mappingNZ = overlapping.NZ;
 
                 // Compute tilesToPatterns and patternsToTiles
                 var patternArrays = overlapping.PatternArrays;
                 tilesToPatternsByOffset = new Dictionary<int, IReadOnlyDictionary<Tile, ISet<int>>>();
                 patternsToTilesByOffset = new Dictionary<int, IReadOnlyDictionary<int, Tile>>();
-                for (int ox = 0; ox < overlapping.N; ox++)
+                for (int ox = 0; ox < overlapping.NX; ox++)
                 {
-                    for (int oy = 0; oy < overlapping.N; oy++)
+                    for (int oy = 0; oy < overlapping.NY; oy++)
                     {
-                        for (int oz = 0; oz < (topology.Depth == 1 ? 1 : overlapping.N); oz++)
+                        for (int oz = 0; oz < overlapping.NZ; oz++)
                         {
                             var o = CombineOffsets(ox, oy, oz);
                             var tilesToPatterns = new Dictionary<Tile, ISet<int>>();
@@ -113,7 +117,7 @@ namespace DeBroglie
 
         private int CombineOffsets(int ox, int oy, int oz)
         {
-            return ox + oy * mappingN + oz * mappingN * mappingN;
+            return ox + oy * mappingNX + oz * mappingNX * mappingNY;
         }
 
         private void TileCoordToPatternCoord(int x, int y, int z, out int px, out int py, out int pz, out int ox, out int oy, out int oz)

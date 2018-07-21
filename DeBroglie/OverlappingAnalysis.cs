@@ -7,7 +7,9 @@ namespace DeBroglie
     {
         public static void GetPatterns(
             ITopArray<Tile> sample, 
-            int n,
+            int nx,
+            int ny,
+            int nz,
             bool periodic,
             int rotationalSymmetry,
             bool reflectionalSymmetry,
@@ -27,7 +29,7 @@ namespace DeBroglie
                     for (var i = 0; i < rotationalSymmetry; i += (6 / rotationalSymmetry))
                     {
                         var rotatedSample = TopArrayUtils.HexRotate(sample, i, r > 0, tileRotation);
-                        GetPatternsInternal(rotatedSample, n, periodic, patternIndices, patternArrays, frequencies);
+                        GetPatternsInternal(rotatedSample, nx, ny, nz, periodic, patternIndices, patternArrays, frequencies);
                     }
                 }
             }
@@ -39,7 +41,7 @@ namespace DeBroglie
                     for (var i = 0; i < rotationalSymmetry; i += (6 / rotationalSymmetry))
                     {
                         var rotatedSample = TopArrayUtils.Rotate(sample, i, r > 0, tileRotation);
-                        GetPatternsInternal(rotatedSample, n, periodic, patternIndices, patternArrays, frequencies);
+                        GetPatternsInternal(rotatedSample, nx, ny, nz, periodic, patternIndices, patternArrays, frequencies);
                     }
                 }
             }
@@ -47,15 +49,17 @@ namespace DeBroglie
             // Find the "ground" pattern, i.e. the patter in the bottom center
             var width = sample.Topology.Width;
             var height = sample.Topology.Height;
-            var lowest = periodic ? height - 1 : height - n;
+            var lowest = periodic ? height - 1 : height - ny;
             PatternArray groundPatternArray;
-            TryExtract(sample, n, width / 2, lowest, 0, out groundPatternArray);
+            TryExtract(sample, nx, ny, nz, width / 2, lowest, 0, out groundPatternArray);
             groundPattern = patternIndices[groundPatternArray];
         }
 
         private static void GetPatternsInternal(
             ITopArray<Tile> sample, 
-            int n,
+            int nx,
+            int ny,
+            int nz,
             bool periodic,
             Dictionary<PatternArray, int> patternIndices,
             List<PatternArray> patternArrays,
@@ -64,9 +68,9 @@ namespace DeBroglie
             var width = sample.Topology.Width;
             var height = sample.Topology.Height;
             var depth = sample.Topology.Depth;
-            var maxx = periodic ? width - 1 : width - n;
-            var maxy = periodic ? height - 1 : height - n;
-            var maxz = depth == 1 ? 1 : periodic ? depth - 1 : depth - n;
+            var maxx = periodic ? width - 1 : width - nx;
+            var maxy = periodic ? height - 1 : height - ny;
+            var maxz = periodic ? depth - 1 : depth - nz;
 
             for (var x = 0; x <= maxx; x++)
             {
@@ -75,7 +79,7 @@ namespace DeBroglie
                     for (var z = 0; z <= maxz; z++)
                     {
                         PatternArray patternArray;
-                        if (!TryExtract(sample, n, x, y, z, out patternArray))
+                        if (!TryExtract(sample, nx, ny, nz, x, y, z, out patternArray))
                         {
                             continue;
                         }
@@ -95,17 +99,16 @@ namespace DeBroglie
             }
         }
 
-        private static bool TryExtract(ITopArray<Tile> sample, int n, int x, int y, int z, out PatternArray pattern)
+        private static bool TryExtract(ITopArray<Tile> sample, int nx, int ny, int nz, int x, int y, int z, out PatternArray pattern)
         {
             var width = sample.Topology.Width;
             var height = sample.Topology.Height;
             var depth = sample.Topology.Depth;
-            var nz = depth == 1 ? 1 : n;
-            var values = new Tile[n, n, nz];
-            for (int tx = 0; tx < n; tx++)
+            var values = new Tile[nx, ny, nz];
+            for (int tx = 0; tx < nx; tx++)
             {
                 var sx = (x + tx) % width;
-                for (int ty = 0; ty < n; ty++)
+                for (int ty = 0; ty < ny; ty++)
                 {
                     var sy = (y + ty) % height;
                     for (int tz = 0; tz < nz; tz++)
