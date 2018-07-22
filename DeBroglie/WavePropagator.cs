@@ -278,7 +278,14 @@ namespace DeBroglie
                 {
                     for (int d = 0; d < directionsCount; d++)
                     {
-                        compatible[index, pattern, d] = propagator[pattern][topology.Directions.Inverse(d)].Length;
+                        var inverseDirection = topology.Directions.Inverse(d);
+                        var compatiblePatterns = propagator[pattern][inverseDirection].Length;
+                        compatible[index, pattern, d] = compatiblePatterns;
+                        if(compatiblePatterns == 0 && topology.TryMove(index, inverseDirection, out var dest) && wave.Get(index, pattern))
+                        {
+                            InternalBan(index, pattern);
+                            break;
+                        }
                     }
                 }
             }
