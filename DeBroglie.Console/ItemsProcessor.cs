@@ -89,20 +89,6 @@ namespace DeBroglie.Console
             if (item is Overlapping overlapping && overlapping.Ground != 0)
                 waveConstraints.Add(((OverlappingModel)model).GetGroundConstraint());
             var constraints = new List<ITileConstraint>();
-            if (is3d)
-            {
-                constraints.Add(new BorderConstraint
-                {
-                    Sides=BorderSides.ZMin,
-                    Tile=new Tile(255),
-                });
-                constraints.Add(new BorderConstraint
-                {
-                    Sides = BorderSides.All,
-                    ExcludeSides = BorderSides.ZMin,
-                    Tile = new Tile(0),
-                });
-            }
 
             foreach (var constraint in item.Constraints)
             {
