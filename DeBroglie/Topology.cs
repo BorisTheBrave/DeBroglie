@@ -99,7 +99,7 @@
             }
             else
             {
-                if (x < 0 || x >= Width || y < 0 || y >= Height || z < 0 || z >= Height)
+                if (x < 0 || x >= Width || y < 0 || y >= Height || z < 0 || z >= Depth)
                 {
                     destx = -1;
                     desty = -1;
