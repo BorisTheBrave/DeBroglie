@@ -43,7 +43,7 @@ namespace DeBroglie
         {
             this.nx = nx;
             this.ny = nz;
-            this.ny = nz;
+            this.nz = nz;
             patternIndices = new Dictionary<PatternArray, int>(new PatternArrayComparer());
             frequencies = new List<double>();
             patternArrays = new List<PatternArray>();
