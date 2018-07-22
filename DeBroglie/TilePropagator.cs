@@ -101,6 +101,12 @@ namespace DeBroglie
 
         }
 
+        private static ISet<int> Empty = new HashSet<int>();
+        private static ISet<int> GetPatterns(IReadOnlyDictionary<Tile, ISet<int>> tilesToPatterns, Tile tile)
+        {
+            return tilesToPatterns.TryGetValue(tile, out var ps) ? ps : Empty;
+        }
+
         private static void OverlapCoord(int x, int width, out int px, out int ox)
         {
             if(x<width)
@@ -153,7 +159,7 @@ namespace DeBroglie
         public CellStatus Ban(int x, int y, int z, Tile tile)
         {
             TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var ox, out var oy, out var oz);
-            var patterns = tilesToPatternsByOffset[CombineOffsets(ox, oy, oz)][tile];
+            var patterns = GetPatterns(tilesToPatternsByOffset[CombineOffsets(ox, oy, oz)], tile);
             foreach(var p in patterns)
             {
                 var status = wavePropagator.Ban(px, py, pz, p);
@@ -166,7 +172,7 @@ namespace DeBroglie
         public CellStatus Select(int x, int y, int z, Tile tile)
         {
             TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var ox, out var oy, out var oz);
-            var patterns = tilesToPatternsByOffset[CombineOffsets(ox, oy, oz)][tile];
+            var patterns = GetPatterns(tilesToPatternsByOffset[CombineOffsets(ox, oy, oz)], tile);
             for (var p = 0; p < wavePropagator.PatternCount; p++)
             {
                 if (patterns.Contains(p))
@@ -211,7 +217,7 @@ namespace DeBroglie
         {
             TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var ox, out var oy, out var oz);
             var tilesToPatterns = tilesToPatternsByOffset[CombineOffsets(ox, oy, oz)];
-            var patterns = new HashSet<int>(tiles.SelectMany(tile => tilesToPatterns[tile]));
+            var patterns = new HashSet<int>(tiles.SelectMany(tile => GetPatterns(tilesToPatterns, tile)));
             GetBannedSelectedInternal(px, py, pz, patterns, out isBanned, out isSelected);
         }
 

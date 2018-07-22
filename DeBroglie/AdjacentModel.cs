@@ -50,11 +50,11 @@ namespace DeBroglie
                 return pattern;
             }
 
-            for (var x = 0; x < width; x++)
+            for (var z = 0; z < depth; z++)
             {
                 for (var y = 0; y < height; y++)
                 {
-                    for (var z = 0; z < depth; z++)
+                    for (var x = 0; x < width; x++)
                     {
                         var index = topology.GetIndex(x, y, z);
                         if (!topology.ContainsIndex(index))
@@ -91,7 +91,11 @@ namespace DeBroglie
         public override void ChangeFrequency(Tile tile, double relativeChange)
         {
             var multiplier = (1 + relativeChange);
-            Frequencies[TilesToPatterns[tile].First()] *= multiplier;
+            var patterns = TilesToPatterns[tile];
+            foreach (var pattern in patterns)
+            {
+                Frequencies[pattern] *= multiplier;
+            }
         }
     }
 }
