@@ -112,10 +112,11 @@ namespace DeBroglie
             var offsety = -miny;
             var width = maxx - minx + 1;
             var height = maxy - miny + 1;
+            var depth = original.Topology.Depth;
 
-            var mask = new bool[width * height];
+            var mask = new bool[width * height * depth];
             var topology = new Topology(original.Topology.Directions, width, height, original.Topology.Depth, false, mask);
-            var values = new T[width, height];
+            var values = new T[width, height, depth];
 
             // Copy from original to values based on the rotation, setting up the mask as we go.
             for (var z = 0; z < original.Topology.Depth; z++)
@@ -128,19 +129,19 @@ namespace DeBroglie
                         newX += offsetx;
                         newY += offsety;
                         int newIndex = topology.GetIndex(newX, newY, 0);
-                        var newValue = original.Get(x, y, 0);
+                        var newValue = original.Get(x, y, z);
                         bool hasNewValue = true;
                         if(tileRotate != null)
                         {
                             hasNewValue = tileRotate(newValue, out newValue);
                         }
-                        values[newX, newY] = newValue;
-                        mask[newIndex] = hasNewValue && original.Topology.ContainsIndex(original.Topology.GetIndex(x, y, 0));
+                        values[newX, newY, z] = newValue;
+                        mask[newIndex] = hasNewValue && original.Topology.ContainsIndex(original.Topology.GetIndex(x, y, z));
                     }
                 }
             }
 
-            return new TopArray2D<T>(values, topology);
+            return new TopArray3D<T>(values, topology);
         }
     }
 }

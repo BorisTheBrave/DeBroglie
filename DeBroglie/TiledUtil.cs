@@ -82,7 +82,7 @@ namespace DeBroglie
             }
         }
 
-        public static TileLayer WriteLayer(Map map, ITopArray<int> array)
+        public static TileLayer MakeTileLayer(Map map, ITopArray<int> array, int z = 0)
         {
             if (map.Orientation == Orientation.orthogonal)
             {
@@ -94,7 +94,7 @@ namespace DeBroglie
                 {
                     for (int x = 0; x < width; x++)
                     {
-                        data[i++] = array.Get(x, y, 0);
+                        data[i++] = array.Get(x, y, z);
                     }
                 }
                 var layer = new TileLayer();

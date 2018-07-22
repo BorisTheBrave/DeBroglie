@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using TiledLib.Layer;
 
 namespace DeBroglie.Console
@@ -15,7 +16,7 @@ namespace DeBroglie.Console
         {
             srcFilename = filename;
             map = TiledUtil.Load(filename);
-            var layer = (TileLayer)map.Layers[0];
+            // Scan tilesets for tiles with a custom property "name"
             tilesByName = new Dictionary<string, int>();
             foreach(var tileset in map.Tilesets)
             {
@@ -31,7 +32,36 @@ namespace DeBroglie.Console
                     }
                 }
             }
-            return TiledUtil.ReadLayer(map, layer).ToTiles();
+
+            // Read all the layers into a 3d array.
+            var tileLayers = map.Layers
+                .Where(x => x is TileLayer)
+                .Cast<TileLayer>()
+                .ToList();
+            var results = new Tile[map.Width, map.Height, tileLayers.Count];
+            Topology topology = null;
+            for(var z = 0; z < tileLayers.Count;z++)
+            {
+                var layer = tileLayers[z];
+                var layerArray = TiledUtil.ReadLayer(map, layer).ToTiles();
+                topology = layerArray.Topology;
+                for (var y = 0; y < layer.Height; y++)
+                {
+                    for (var x = 0; x < layer.Width; x++)
+                    {
+                        results[x, y, z] = layerArray.Get(x, y);
+                    }
+                }
+            }
+            if(tileLayers.Count > 1 && topology.Directions.Type == DirectionsType.Cartesian2d)
+            {
+                topology = new Topology(Directions.Cartesian3d, map.Width, map.Height, tileLayers.Count, false);
+            }
+            else
+            {
+                topology = new Topology(topology.Directions, topology.Width, topology.Height, tileLayers.Count, false);
+            }
+            return new TopArray3D<Tile>(results, topology);
         }
 
         protected override Tile Parse(string s)
@@ -51,10 +81,13 @@ namespace DeBroglie.Console
         protected override void Save(TileModel model, TilePropagator tilePropagator, string filename)
         {
             var layerArray = tilePropagator.ToValueArray<int>();
-            var layer = TiledUtil.WriteLayer(map, layerArray);
-            map.Layers = new[] { layer };
-            map.Width = layer.Width;
-            map.Height = layer.Height;
+            map.Layers = new BaseLayer[layerArray.Topology.Depth];
+            for(var z=0;z<layerArray.Topology.Depth;z++)
+            {
+                map.Layers[z] = TiledUtil.MakeTileLayer(map, layerArray, z);
+            }
+            map.Width = layerArray.Topology.Width;
+            map.Height = layerArray.Topology.Height;
             TiledUtil.Save(filename, map);
 
             // Check for any external files that may also need copying
