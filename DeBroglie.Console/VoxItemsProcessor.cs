@@ -7,7 +7,7 @@ namespace DeBroglie.Console
     {
         Vox vox;
 
-        protected override ITopArray<Tile> Load(string filename, Item item)
+        protected override ITopArray<Tile> Load(string filename, DeBroglieConfig config)
         {
             using (var stream = File.OpenRead(filename))
             {

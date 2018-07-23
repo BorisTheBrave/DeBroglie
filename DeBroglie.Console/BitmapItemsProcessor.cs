@@ -30,11 +30,11 @@ namespace DeBroglie.Console
             return bitmap;
         }
 
-        protected override ITopArray<Tile> Load(string filename, Item item)
+        protected override ITopArray<Tile> Load(string filename, DeBroglieConfig config)
         {
             var bitmap = new Bitmap(filename);
             var colorArray = ToColorArray(bitmap);
-            return new TopArray2D<Color>(colorArray, item.IsPeriodicInput).ToTiles();
+            return new TopArray2D<Color>(colorArray, config.IsPeriodicInput).ToTiles();
         }
 
         protected override void Save(TileModel model, TilePropagator propagator, string filename)

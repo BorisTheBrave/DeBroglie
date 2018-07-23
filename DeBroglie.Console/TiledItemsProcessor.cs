@@ -12,7 +12,7 @@ namespace DeBroglie.Console
         private string srcFilename;
         private IDictionary<string, int> tilesByName;
 
-        protected override ITopArray<Tile> Load(string filename, Item item)
+        protected override ITopArray<Tile> Load(string filename, DeBroglieConfig config)
         {
             srcFilename = filename;
             map = TiledUtil.Load(filename);

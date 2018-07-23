@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,63 +10,59 @@ namespace DeBroglie.Console
 {
     public abstract class ItemsProcessor
     {
-        protected abstract ITopArray<Tile> Load(string filename, Item item);
+        protected abstract ITopArray<Tile> Load(string filename, DeBroglieConfig config);
 
         protected abstract void Save(TileModel model, TilePropagator tilePropagator, string filename);
 
         protected abstract Tile Parse(string s);
 
-        private static TileModel GetModel(Item item, ITopArray<Tile> sample, TileRotation tileRotation)
+        private static TileModel GetModel(DeBroglieConfig config, ITopArray<Tile> sample, TileRotation tileRotation)
         {
-            if (item is Overlapping overlapping)
+            var modelConfig = config.Model;
+            if (modelConfig is Overlapping overlapping)
             {
                 var symmetries = overlapping.Symmetry;
                 var model = new OverlappingModel(overlapping.N);
                 model.AddSample(sample, symmetries > 1 ? symmetries / 2 : 1, symmetries > 1, tileRotation);
                 return model;
             }
-            else if(item is Adjacent adjacent)
+            else if(modelConfig is Adjacent adjacent)
             {
                 return new AdjacentModel(sample);
             }
-            throw new System.Exception($"Unrecognized model type {item.GetType()}");
+            throw new System.Exception($"Unrecognized model type {modelConfig.GetType()}");
         }
 
-        public void ProcessItem(Item item, string directory)
+        public void ProcessItem(DeBroglieConfig config, string directory)
         {
-            if(item is SimpleTiled)
-            {
-                // Not supported atm
-                return;
-            }
-            if (item.Src == null)
+            if (config.Src == null)
             {
                 throw new System.Exception("src attribute must be set");
             }
 
-            if (item.Dest == null)
+            if (config.Dest == null)
             {
                 throw new System.Exception("dest attribute must be set");
             }
 
-            var src = Path.Combine(directory, item.Src);
-            var dest = Path.Combine(directory, item.Dest);
+            var src = Path.Combine(directory, config.Src);
+            var dest = Path.Combine(directory, config.Dest);
             var contdest = Path.ChangeExtension(dest, ".contradiction" + Path.GetExtension(dest));
             System.Console.WriteLine($"Reading {src}");
 
-            var topArray = Load(src, item);
+            var topArray = Load(src, config);
 
             var is3d = topArray.Topology.Directions.Type == DirectionsType.Cartesian3d;
-            var topology = new Topology(topArray.Topology.Directions, item.Width, item.Height, is3d ? item.Depth : 1, item.IsPeriodic);
+            var topology = new Topology(topArray.Topology.Directions, config.Width, config.Height, is3d ? config.Depth : 1, config.IsPeriodic);
 
-            var tileRotation = GetTileRotation(item.Tiles, topology);
+            var tileRotation = GetTileRotation(config.Tiles, topology);
 
-            var model = GetModel(item, topArray, tileRotation);
+            var model = GetModel(config, topArray, tileRotation);
 
             // Setup tiles
-            if(item.Tiles != null)
+            if(config.Tiles != null)
             {
-                foreach (var tile in item.Tiles)
+                foreach (var tile in config.Tiles)
                 {
                     var value = Parse(tile.Value);
                     if(tile.ChangeFrequency != null)
@@ -86,40 +84,42 @@ namespace DeBroglie.Console
 
             // Setup constraints
             var waveConstraints = new List<IWaveConstraint>();
-            if (item is Overlapping overlapping && overlapping.Ground != 0)
+            if (config.Model is Overlapping overlapping && overlapping.Ground != 0)
                 waveConstraints.Add(((OverlappingModel)model).GetGroundConstraint());
             var constraints = new List<ITileConstraint>();
 
-            foreach (var constraint in item.Constraints)
+            if (config.Constraints != null)
             {
-                if(constraint is PathData pathData)
+                foreach (var constraint in config.Constraints)
                 {
-                    var pathTiles = new HashSet<Tile>(pathData.PathTiles.Select(Parse));
-                    var p = new PathConstraint(pathTiles);
-                    constraints.Add(p);
-                }
-                else if(constraint is BorderData borderData)
-                {
-                    var tile = Parse(borderData.Tile);
-                    var sides = borderData.Sides == null ? BorderSides.All : (BorderSides)Enum.Parse(typeof(BorderSides), borderData.Sides, true);
-                    var excludeSides = borderData.ExcludeSides == null ? BorderSides.None : (BorderSides)Enum.Parse(typeof(BorderSides), borderData.ExcludeSides, true);
-                    if(!is3d)
+                    if (constraint is PathConfig pathData)
                     {
-                        sides = sides & ~BorderSides.ZMin & ~BorderSides.ZMax;
-                        excludeSides = excludeSides & ~BorderSides.ZMin & ~BorderSides.ZMax;
+                        var pathTiles = new HashSet<Tile>(pathData.PathTiles.Select(Parse));
+                        var p = new PathConstraint(pathTiles);
+                        constraints.Add(p);
                     }
-                    constraints.Add(new BorderConstraint
+                    else if (constraint is BorderConfig borderData)
                     {
-                        Tile = tile,
-                        Sides = sides,
-                        ExcludeSides = excludeSides,
-                    });
+                        var tile = Parse(borderData.Tile);
+                        var sides = borderData.Sides == null ? BorderSides.All : (BorderSides)Enum.Parse(typeof(BorderSides), borderData.Sides, true);
+                        var excludeSides = borderData.ExcludeSides == null ? BorderSides.None : (BorderSides)Enum.Parse(typeof(BorderSides), borderData.ExcludeSides, true);
+                        if (!is3d)
+                        {
+                            sides = sides & ~BorderSides.ZMin & ~BorderSides.ZMax;
+                            excludeSides = excludeSides & ~BorderSides.ZMin & ~BorderSides.ZMax;
+                        }
+                        constraints.Add(new BorderConstraint
+                        {
+                            Tile = tile,
+                            Sides = sides,
+                            ExcludeSides = excludeSides,
+                        });
+                    }
                 }
             }
 
-
             System.Console.WriteLine($"Processing {dest}");
-            var propagator = new TilePropagator(model, topology, item.Backtrack,
+            var propagator = new TilePropagator(model, topology, config.Backtrack,
                 constraints: constraints.ToArray(),
                 waveConstraints: waveConstraints.ToArray());
             CellStatus status = CellStatus.Contradiction;
@@ -186,45 +186,40 @@ namespace DeBroglie.Console
             return tileRotationBuilder.Build();
         }
 
-        private static Items LoadItemsFile(string filename)
+        private static DeBroglieConfig LoadItemsFile(string filename)
         {
-            var serializer = new XmlSerializer(typeof(Items));
+            var serializer = new JsonSerializer();
+            serializer.ContractResolver = new CamelCasePropertyNamesContractResolver();
             using (var fs = new FileStream(filename, FileMode.Open))
+            using(var tr = new StreamReader(fs))
+            using (var jsonReader = new JsonTextReader(tr))
             {
-                return (Items)serializer.Deserialize(fs);
+                return serializer.Deserialize<DeBroglieConfig>(jsonReader);
             }
         }
 
         public static void Process(string filename)
         {
             var directory = Path.GetDirectoryName(filename);
-            var items = LoadItemsFile(filename);
-            foreach (var item in items.AllItems)
+            var config = LoadItemsFile(filename);
+            if (config.Src.EndsWith(".png"))
             {
-                if (item is SimpleTiled)
-                {
-                    // Not supported atm
-                    continue;
-                }
-                if (item.Src.EndsWith(".png"))
-                {
-                    var processor = new BitmapItemsProcessor();
-                    processor.ProcessItem(item, directory);
-                }
-                else if (item.Src.EndsWith(".tmx"))
-                {
-                    var processor = new TiledItemsProcessor();
-                    processor.ProcessItem(item, directory);
-                }
-                else if (item.Src.EndsWith(".vox"))
-                {
-                    var processor = new VoxItemsProcessor();
-                    processor.ProcessItem(item, directory);
-                }
-                else
-                {
-                    throw new System.Exception($"Unrecongized extenion for {item.Src}");
-                }
+                var processor = new BitmapItemsProcessor();
+                processor.ProcessItem(config, directory);
+            }
+            else if (config.Src.EndsWith(".tmx"))
+            {
+                var processor = new TiledItemsProcessor();
+                processor.ProcessItem(config, directory);
+            }
+            else if (config.Src.EndsWith(".vox"))
+            {
+                var processor = new VoxItemsProcessor();
+                processor.ProcessItem(config, directory);
+            }
+            else
+            {
+                throw new System.Exception($"Unrecongized extenion for {config.Src}");
             }
         }
     }
