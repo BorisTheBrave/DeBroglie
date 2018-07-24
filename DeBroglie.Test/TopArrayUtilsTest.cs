@@ -16,7 +16,7 @@ namespace DeBroglie.Test
             a[1, 0] = 2;
             a[0, 1] = 3;
             a[1, 1] = 4;
-            var ta = new TopArray2D<int>(a, new Topology(Directions.Cartesian2d, 2, 2, false));
+            var ta = TopArray.Create(a, new Topology(Directions.Cartesian2d, 2, 2, false));
 
             var r1 = TopArrayUtils.Rotate(ta, 1);
             Assert.AreEqual(2, r1.Get(0, 0));
@@ -45,7 +45,7 @@ namespace DeBroglie.Test
             a[1, 0] = 2;
             a[0, 1] = 3;
             a[1, 1] = 4;
-            var ta = new TopArray2D<int>(a, new Topology(Directions.Hexagonal2d, 2, 2, false));
+            var ta = TopArray.Create(a, new Topology(Directions.Hexagonal2d, 2, 2, false));
 
             var r1 = TopArrayUtils.HexRotate(ta, 13, false);
             Assert.AreEqual(2, r1.Get(0, 0));

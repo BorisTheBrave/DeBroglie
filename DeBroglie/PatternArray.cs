@@ -1,6 +1,6 @@
 ﻿namespace DeBroglie
 {
-    public struct PatternArray
+    internal struct PatternArray
     {
         public Tile[,,] Values;
 

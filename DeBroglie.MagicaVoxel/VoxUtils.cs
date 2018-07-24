@@ -30,7 +30,7 @@ namespace DeBroglie.MagicaVoxel
             {
                 data[voxel.X, voxel.Y, voxel.Z] = voxel.ColorIndex;
             }
-            return new TopArray3D<byte>(data, false);
+            return TopArray.Create(data, false);
         }
 
         private static void Save(Size size, Xyzi xyzi, ITopArray<byte> topArray)

@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using DeBroglie.Constraints;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;

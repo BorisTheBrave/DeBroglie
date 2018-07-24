@@ -61,7 +61,7 @@ namespace DeBroglie.Console
             {
                 topology = new Topology(topology.Directions, topology.Width, topology.Height, tileLayers.Count, false);
             }
-            return new TopArray3D<Tile>(results, topology);
+            return TopArray.Create(results, topology);
         }
 
         protected override Tile Parse(string s)

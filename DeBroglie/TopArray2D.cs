@@ -1,6 +1,7 @@
 ﻿namespace DeBroglie
 {
-    public class TopArray2D<T> : ITopArray<T>
+
+    internal class TopArray2D<T> : ITopArray<T>
     {
         private readonly T[,] values;
 

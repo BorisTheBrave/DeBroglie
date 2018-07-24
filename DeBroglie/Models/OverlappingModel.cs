@@ -102,7 +102,7 @@ namespace DeBroglie
         public int NY => ny;
         public int NZ => nz;
 
-        public IReadOnlyList<PatternArray> PatternArrays => patternArrays;
+        internal IReadOnlyList<PatternArray> PatternArrays => patternArrays;
 
         /**
           * Return true if the pattern1 is compatible with pattern2

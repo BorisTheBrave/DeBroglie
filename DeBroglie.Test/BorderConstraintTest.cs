@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using DeBroglie.Constraints;
+using NUnit.Framework;
 
 namespace DeBroglie.Test
 {

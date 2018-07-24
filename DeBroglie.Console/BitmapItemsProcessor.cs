@@ -34,7 +34,7 @@ namespace DeBroglie.Console
         {
             var bitmap = new Bitmap(filename);
             var colorArray = ToColorArray(bitmap);
-            return new TopArray2D<Color>(colorArray, config.IsPeriodicInput).ToTiles();
+            return TopArray.Create(colorArray, config.IsPeriodicInput).ToTiles();
         }
 
         protected override void Save(TileModel model, TilePropagator propagator, string filename)

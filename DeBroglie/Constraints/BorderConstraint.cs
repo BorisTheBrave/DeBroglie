@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DeBroglie
+namespace DeBroglie.Constraints
 {
     [Flags]
     public enum BorderSides

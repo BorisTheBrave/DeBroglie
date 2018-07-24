@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DeBroglie
+namespace DeBroglie.Constraints
 {
     public static class PathConstraintUtils
     {

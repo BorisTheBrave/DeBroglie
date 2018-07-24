@@ -1,4 +1,4 @@
-﻿namespace DeBroglie
+﻿namespace DeBroglie.Constraints
 {
     public interface ITileConstraint
     {

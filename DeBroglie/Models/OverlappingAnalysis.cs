@@ -3,7 +3,7 @@
 namespace DeBroglie
 {
 
-    public static class OverlappingAnalysis
+    internal static class OverlappingAnalysis
     {
         public static void GetPatterns(
             ITopArray<Tile> sample, 
