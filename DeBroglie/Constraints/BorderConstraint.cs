@@ -22,6 +22,8 @@ namespace DeBroglie.Constraints
         public Tile Tile { get; set; }
         public BorderSides Sides { get; set; } = BorderSides.All;
         public BorderSides ExcludeSides { get; set; } = BorderSides.None;
+        public bool InvertArea { get; set; }
+        public bool Ban { get; set; }
 
         public CellStatus Check(TilePropagator propagator)
         {
@@ -60,10 +62,19 @@ namespace DeBroglie.Constraints
                         var zmin = z == 0;
                         var zmax = z == depth - 1;
 
-                        if(Match(Sides, xmin, xmax, ymin, ymax, zmin, zmax) && 
-                           !Match(ExcludeSides, xmin, xmax, ymin, ymax, zmin, zmax))
+                        var match = (Match(Sides, xmin, xmax, ymin, ymax, zmin, zmax) &&
+                           !Match(ExcludeSides, xmin, xmax, ymin, ymax, zmin, zmax)) != InvertArea;
+
+                        if (match)
                         {
-                            propagator.Select(x, y, z, Tile);
+                            if (Ban)
+                            {
+                                propagator.Ban(x, y, z, Tile);
+                            }
+                            else
+                            {
+                                propagator.Select(x, y, z, Tile);
+                            }
                         }
                     }
                 }

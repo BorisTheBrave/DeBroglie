@@ -11,8 +11,6 @@ namespace DeBroglie
         private int ny;
         private int nz;
 
-        private int groundPattern;
-
         private Dictionary<PatternArray, int> patternIndices;
         private List<PatternArray> patternArrays;
         private List<double> frequencies;
@@ -59,7 +57,7 @@ namespace DeBroglie
 
             var periodic = sample.Topology.Periodic;
 
-            OverlappingAnalysis.GetPatterns(sample, nx, ny, nz, periodic, rotationalSymmetry, reflectionalSymmetry, tileRotation, patternIndices, patternArrays, frequencies, out groundPattern);
+            OverlappingAnalysis.GetPatterns(sample, nx, ny, nz, periodic, rotationalSymmetry, reflectionalSymmetry, tileRotation, patternIndices, patternArrays, frequencies);
 
             // Update the model based on the collected data
 
@@ -131,11 +129,6 @@ namespace DeBroglie
                 }
             }
             return true;
-        }
-
-        public GroundConstraint GetGroundConstraint()
-        {
-            return new GroundConstraint(groundPattern);
         }
 
         public override void ChangeFrequency(Tile tile, double relativeChange)

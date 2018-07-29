@@ -47,7 +47,7 @@ namespace DeBroglie.Console
 
         protected override Tile Parse(string s)
         {
-            throw new System.NotImplementedException();
+            return new Tile(ColorTranslator.FromHtml(s));
         }
     }
 }

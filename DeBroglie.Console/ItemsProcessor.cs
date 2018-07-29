@@ -84,10 +84,23 @@ namespace DeBroglie.Console
             }
 
             // Setup constraints
-            var waveConstraints = new List<IWaveConstraint>();
-            if (config.Model is Overlapping overlapping && overlapping.Ground)
-                waveConstraints.Add(((OverlappingModel)model).GetGroundConstraint());
             var constraints = new List<ITileConstraint>();
+            if (config.Model is Overlapping overlapping && overlapping.Ground != null)
+            {
+                var groundTile = Parse(overlapping.Ground);
+                constraints.Add(new BorderConstraint
+                {
+                    Sides = BorderSides.YMax,
+                    Tile = groundTile,
+                });
+                constraints.Add(new BorderConstraint
+                {
+                    Sides = BorderSides.YMax,
+                    Tile = groundTile,
+                    InvertArea = true,
+                    Ban = true,
+                });
+            }
 
             if (config.Constraints != null)
             {
@@ -121,8 +134,7 @@ namespace DeBroglie.Console
 
             System.Console.WriteLine($"Processing {dest}");
             var propagator = new TilePropagator(model, topology, config.Backtrack,
-                constraints: constraints.ToArray(),
-                waveConstraints: waveConstraints.ToArray());
+                constraints: constraints.ToArray());
             CellStatus status = CellStatus.Contradiction;
             for (var retry = 0; retry < 5; retry++)
             {

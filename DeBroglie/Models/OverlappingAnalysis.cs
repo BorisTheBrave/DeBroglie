@@ -17,8 +17,7 @@ namespace DeBroglie
             TileRotation tileRotation,
             Dictionary<PatternArray, int> patternIndices,
             List<PatternArray> patternArrays,
-            List<double> frequencies, 
-            out int groundPattern)
+            List<double> frequencies)
         {
             tileRotation = tileRotation ?? new TileRotation();
 
@@ -46,14 +45,6 @@ namespace DeBroglie
                     }
                 }
             }
-
-            // Find the "ground" pattern, i.e. the patter in the bottom center
-            var width = sample.Topology.Width;
-            var height = sample.Topology.Height;
-            var lowest = periodic ? height - 1 : height - ny;
-            PatternArray groundPatternArray;
-            TryExtract(sample, nx, ny, nz, width / 2, lowest, 0, out groundPatternArray);
-            groundPattern = patternIndices[groundPatternArray];
         }
 
         private static void GetPatternsInternal(
