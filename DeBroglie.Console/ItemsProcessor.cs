@@ -85,7 +85,7 @@ namespace DeBroglie.Console
 
             // Setup constraints
             var waveConstraints = new List<IWaveConstraint>();
-            if (config.Model is Overlapping overlapping && overlapping.Ground != 0)
+            if (config.Model is Overlapping overlapping && overlapping.Ground)
                 waveConstraints.Add(((OverlappingModel)model).GetGroundConstraint());
             var constraints = new List<ITileConstraint>();
 
@@ -203,7 +203,11 @@ namespace DeBroglie.Console
         {
             var directory = Path.GetDirectoryName(filename);
             var config = LoadItemsFile(filename);
-            if (config.Src.EndsWith(".png"))
+            if(config.Src == null)
+            {
+                throw new Exception("src should be provided.");
+            }
+            else if (config.Src.EndsWith(".png"))
             {
                 var processor = new BitmapItemsProcessor();
                 processor.ProcessItem(config, directory);

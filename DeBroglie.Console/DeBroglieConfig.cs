@@ -52,7 +52,7 @@ namespace DeBroglie.Console
 
         public int Symmetry { get; set; } = 8;
 
-        public int Ground { get; set; }
+        public bool Ground { get; set; }
     }
 
     public class Adjacent : ModelConfig
