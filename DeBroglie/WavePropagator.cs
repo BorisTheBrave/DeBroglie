@@ -43,6 +43,7 @@ namespace DeBroglie
         private Random random;
 
         private Stack<PropagateItem> toPropagate;
+        private CellStatus status;
 
 
         private Topology topology;
@@ -157,13 +158,13 @@ namespace DeBroglie
                         {
                             if (InternalBan(i2, p))
                             {
-                                return CellStatus.Contradiction;
+                                return status = CellStatus.Contradiction;
                             }
                         }
                     }
                 }
             }
-            return CellStatus.Undecided;
+            return status;
         }
 
         private int GetRandomPossiblePatternAt(int index)
@@ -198,16 +199,16 @@ namespace DeBroglie
             if (index == -1)
             {
                 pattern = -1;
-                return CellStatus.Decided;
+                return status = CellStatus.Decided;
             }
             // Choose a random pattern
             pattern = GetRandomPossiblePatternAt(index);
             // Decide on the given cell
             if (InternalSelect(index, pattern))
             {
-                return CellStatus.Contradiction;
+                return status = CellStatus.Contradiction;
             }
-            return CellStatus.Undecided;
+            return status;
         }
 
         // Returns the only possible value of a cell if there is only one,
@@ -236,34 +237,36 @@ namespace DeBroglie
         {
             foreach (var constraint in constraints)
             {
-                var status = constraint.Init(this);
+                status = constraint.Init(this);
                 if (status != CellStatus.Undecided) return status;
-                status = Propagate();
+                Propagate();
                 if (status != CellStatus.Undecided) return status;
             }
-            return CellStatus.Undecided;
+            return status;
         }
 
         private CellStatus StepConstraints()
         {
             foreach (var constraint in constraints)
             {
-                var status = constraint.Check(this);
+                status = constraint.Check(this);
                 if (status != CellStatus.Undecided) return status;
-                status = Propagate();
+                Propagate();
                 if (status != CellStatus.Undecided) return status;
             }
-            return CellStatus.Undecided;
+            return status;
         }
 
+        public CellStatus Status => status;
         public int BacktrackCount => backtrackCount;
 
         /**
          * Resets the wave to it's original state
          */
-        public void Clear()
+        public CellStatus Clear()
         {
             wave = new Wave(frequencies, indices);
+            status = CellStatus.Undecided;
 
             if(backtrack)
             {
@@ -284,14 +287,17 @@ namespace DeBroglie
                         compatible[index, pattern, d] = compatiblePatterns;
                         if(compatiblePatterns == 0 && topology.TryMove(index, inverseDirection, out var dest) && wave.Get(index, pattern))
                         {
-                            InternalBan(index, pattern);
+                            if (InternalBan(index, pattern))
+                            {
+                                return status = CellStatus.Contradiction;
+                            }
                             break;
                         }
                     }
                 }
             }
 
-            InitConstraints();
+            return InitConstraints();
         }
 
         /**
@@ -304,7 +310,7 @@ namespace DeBroglie
             {
                 if (InternalBan(index, pattern))
                 {
-                    return CellStatus.Contradiction;
+                    return status = CellStatus.Contradiction;
                 }
             }
             return Propagate();
@@ -318,7 +324,7 @@ namespace DeBroglie
             var index = topology.GetIndex(x, y, z);
             if (InternalSelect(index, pattern))
             {
-                return CellStatus.Contradiction;
+                return status = CellStatus.Contradiction;
             }
             return Propagate();
         }
@@ -328,14 +334,16 @@ namespace DeBroglie
          */
         public CellStatus Step()
         {
-            if(backtrack)
+            if (status != CellStatus.Undecided) return status;
+
+            if (backtrack)
             {
                 prevWaves.Push(wave.Clone());
                 prevCompatible.Push((int[,,])compatible.Clone());
             }
 
             int index, pattern;
-            var status = Observe(out index, out pattern);
+            Observe(out index, out pattern);
 
             if(backtrack)
             {
@@ -382,10 +390,9 @@ namespace DeBroglie
          */
         public CellStatus Run()
         {
-            CellStatus status;
             while (true)
             {
-                status = Step();
+                Step();
                 if (status != CellStatus.Undecided) return status;
             }
         }

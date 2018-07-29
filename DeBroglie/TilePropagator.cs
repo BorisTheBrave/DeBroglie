@@ -150,11 +150,12 @@ namespace DeBroglie
         public Topology Topology => topology;
         public TileModel TileModel => tileModel;
 
+        public CellStatus Status => wavePropagator.Status;
         public int BacktrackCount => wavePropagator.BacktrackCount;
 
-        public void Clear()
+        public CellStatus Clear()
         {
-            wavePropagator.Clear();
+            return wavePropagator.Clear();
         }
 
 

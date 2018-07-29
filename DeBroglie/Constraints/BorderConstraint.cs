@@ -69,11 +69,15 @@ namespace DeBroglie.Constraints
                         {
                             if (Ban)
                             {
-                                propagator.Ban(x, y, z, Tile);
+                                var cellStatus = propagator.Ban(x, y, z, Tile);
+                                if (cellStatus != CellStatus.Undecided)
+                                    return cellStatus;
                             }
                             else
                             {
-                                propagator.Select(x, y, z, Tile);
+                                var cellStatus = propagator.Select(x, y, z, Tile);
+                                if (cellStatus != CellStatus.Undecided)
+                                    return cellStatus;
                             }
                         }
                     }
