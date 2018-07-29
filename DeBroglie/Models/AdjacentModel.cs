@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DeBroglie.Topo;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DeBroglie
@@ -12,15 +13,15 @@ namespace DeBroglie
 
         public static AdjacentModel Create<T>(T[,] sample, bool periodic)
         {
-            return Create(new TopArray2D<T>(sample, periodic));
+            return Create(new TopoArray2D<T>(sample, periodic));
         }
 
-        public static AdjacentModel Create<T>(ITopArray<T> sample)
+        public static AdjacentModel Create<T>(ITopoArray<T> sample)
         {
             return new AdjacentModel(sample.ToTiles());
         }
 
-        public AdjacentModel(ITopArray<Tile> sample)
+        public AdjacentModel(ITopoArray<Tile> sample)
         {
             var topology = sample.Topology;
             var width = topology.Width;

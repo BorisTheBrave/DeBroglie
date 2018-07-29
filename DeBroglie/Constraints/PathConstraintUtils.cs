@@ -1,4 +1,5 @@
 ﻿using System;
+using DeBroglie.Topo;
 
 namespace DeBroglie.Constraints
 {

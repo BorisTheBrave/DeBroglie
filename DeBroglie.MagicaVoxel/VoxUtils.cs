@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeBroglie.Topo;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,7 +7,7 @@ namespace DeBroglie.MagicaVoxel
 {
     public static class VoxUtils
     {
-        public static ITopArray<byte> Load(Vox vox)
+        public static ITopoArray<byte> Load(Vox vox)
         {
             Size size = null;
             foreach (var chunk in vox.Chunks)
@@ -23,17 +24,17 @@ namespace DeBroglie.MagicaVoxel
             throw new Exception();
         }
 
-        private static ITopArray<byte> Load(Size size, Xyzi xyzi)
+        private static ITopoArray<byte> Load(Size size, Xyzi xyzi)
         {
             var data = new byte[size.SizeX, size.SizeY, size.SizeZ];
             foreach(var voxel in xyzi.Voxels)
             {
                 data[voxel.X, voxel.Y, voxel.Z] = voxel.ColorIndex;
             }
-            return TopArray.Create(data, false);
+            return TopoArray.Create(data, false);
         }
 
-        private static void Save(Size size, Xyzi xyzi, ITopArray<byte> topArray)
+        private static void Save(Size size, Xyzi xyzi, ITopoArray<byte> topArray)
         {
             // TODO
             size.SizeX = topArray.Topology.Width;
@@ -61,7 +62,7 @@ namespace DeBroglie.MagicaVoxel
             }
         }
 
-        public static void Save(Vox vox, ITopArray<byte> topArray)
+        public static void Save(Vox vox, ITopoArray<byte> topArray)
         {
             Size size = null;
             foreach (var chunk in vox.Chunks)

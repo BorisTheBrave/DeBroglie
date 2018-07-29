@@ -1,13 +1,13 @@
 ﻿using System;
 
-namespace DeBroglie
+namespace DeBroglie.Topo
 {
 
-    public static class TopArrayUtils
+    public static class TopoArrayUtils
     {
         public delegate bool TileRotate<T>(T tile, out T result);
 
-        public static ITopArray<Tile> Rotate(ITopArray<Tile> original, int rotate, bool reflectX = false, TileRotation tileRotation = null)
+        public static ITopoArray<Tile> Rotate(ITopoArray<Tile> original, int rotate, bool reflectX = false, TileRotation tileRotation = null)
         {
             bool TileRotate(Tile tile, out Tile result)
             {
@@ -16,7 +16,7 @@ namespace DeBroglie
             return Rotate<Tile>(original, rotate, reflectX, tileRotation == null ? null : (TileRotate<Tile> )TileRotate);
         }
 
-        public static ITopArray<T> Rotate<T>(ITopArray<T> original, int rotate, bool reflectX = false, TileRotate<T> tileRotate = null)
+        public static ITopoArray<T> Rotate<T>(ITopoArray<T> original, int rotate, bool reflectX = false, TileRotate<T> tileRotate = null)
         {
             if (rotate == 0 && !reflectX)
                 return original;
@@ -45,7 +45,7 @@ namespace DeBroglie
             return RotateInner(original, MapCoord, tileRotate);
         }
 
-        public static ITopArray<Tile> HexRotate(ITopArray<Tile> original, int rotate, bool reflectX = false, TileRotation tileRotation = null)
+        public static ITopoArray<Tile> HexRotate(ITopoArray<Tile> original, int rotate, bool reflectX = false, TileRotation tileRotation = null)
         {
             bool TileRotate(Tile tile, out Tile result)
             {
@@ -54,7 +54,7 @@ namespace DeBroglie
             return HexRotate<Tile>(original, rotate, reflectX, tileRotation == null ? null : (TileRotate<Tile>)TileRotate);
         }
 
-        public static ITopArray<T> HexRotate<T>(ITopArray<T> original, int rotate, bool reflectX, TileRotate<T> tileRotate = null)
+        public static ITopoArray<T> HexRotate<T>(ITopoArray<T> original, int rotate, bool reflectX, TileRotate<T> tileRotate = null)
         {
             if (rotate == 0 && !reflectX)
                 return original;
@@ -94,7 +94,7 @@ namespace DeBroglie
         }
 
 
-        private static ITopArray<T> RotateInner<T>(ITopArray<T> original, Func<int, int, ValueTuple<int, int>> mapCoord, TileRotate<T> tileRotate = null)
+        private static ITopoArray<T> RotateInner<T>(ITopoArray<T> original, Func<int, int, ValueTuple<int, int>> mapCoord, TileRotate<T> tileRotate = null)
         {
             // Find new bounds
             var (x1, y1) = mapCoord(0, 0);
@@ -141,7 +141,7 @@ namespace DeBroglie
                 }
             }
 
-            return new TopArray3D<T>(values, topology);
+            return new TopoArray3D<T>(values, topology);
         }
     }
 }

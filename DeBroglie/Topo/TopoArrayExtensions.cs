@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace DeBroglie
+namespace DeBroglie.Topo
 {
-    public static class TopArrayExtensions
+    public static class TopoArrayExtensions
     {
-        public static T[,] ToArray2d<T>(this ITopArray<T> topArray)
+        public static T[,] ToArray2d<T>(this ITopoArray<T> topArray)
         {
             var width = topArray.Topology.Width;
             var height = topArray.Topology.Height;
@@ -19,7 +19,7 @@ namespace DeBroglie
             return results;
         }
 
-        public static T[,,] ToArray3d<T>(this ITopArray<T> topArray)
+        public static T[,,] ToArray3d<T>(this ITopoArray<T> topArray)
         {
             var width = topArray.Topology.Width;
             var height = topArray.Topology.Height;
@@ -38,7 +38,7 @@ namespace DeBroglie
             return results;
         }
 
-        public static ITopArray<U> Map<T, U>(this ITopArray<T> topArray, Func<T, U> func)
+        public static ITopoArray<U> Map<T, U>(this ITopoArray<T> topArray, Func<T, U> func)
         {
             var width = topArray.Topology.Width;
             var height = topArray.Topology.Height;
@@ -56,10 +56,10 @@ namespace DeBroglie
                 }
             }
 
-            return new TopArray3D<U>(r, topArray.Topology);
+            return new TopoArray3D<U>(r, topArray.Topology);
         }
 
-        public static ITopArray<Tile> ToTiles<T>(this ITopArray<T> topArray)
+        public static ITopoArray<Tile> ToTiles<T>(this ITopoArray<T> topArray)
         {
             return topArray.Map(v => new Tile(v));
         }

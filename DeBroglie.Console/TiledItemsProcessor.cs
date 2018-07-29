@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeBroglie.Topo;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace DeBroglie.Console
         private string srcFilename;
         private IDictionary<string, int> tilesByName;
 
-        protected override ITopArray<Tile> Load(string filename, DeBroglieConfig config)
+        protected override ITopoArray<Tile> Load(string filename, DeBroglieConfig config)
         {
             srcFilename = filename;
             map = TiledUtil.Load(filename);
@@ -61,7 +62,7 @@ namespace DeBroglie.Console
             {
                 topology = new Topology(topology.Directions, topology.Width, topology.Height, tileLayers.Count, false);
             }
-            return TopArray.Create(results, topology);
+            return TopoArray.Create(results, topology);
         }
 
         protected override Tile Parse(string s)

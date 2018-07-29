@@ -1,6 +1,6 @@
-﻿namespace DeBroglie
+﻿namespace DeBroglie.Topo
 {
-    public interface ITopArray<T>
+    public interface ITopoArray<T>
     {
         Topology Topology { get; }
 

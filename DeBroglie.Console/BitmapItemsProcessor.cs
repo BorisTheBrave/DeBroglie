@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using DeBroglie.Topo;
+using System.Drawing;
 
 namespace DeBroglie.Console
 {
@@ -30,11 +31,11 @@ namespace DeBroglie.Console
             return bitmap;
         }
 
-        protected override ITopArray<Tile> Load(string filename, DeBroglieConfig config)
+        protected override ITopoArray<Tile> Load(string filename, DeBroglieConfig config)
         {
             var bitmap = new Bitmap(filename);
             var colorArray = ToColorArray(bitmap);
-            return TopArray.Create(colorArray, config.IsPeriodicInput).ToTiles();
+            return TopoArray.Create(colorArray, config.IsPeriodicInput).ToTiles();
         }
 
         protected override void Save(TileModel model, TilePropagator propagator, string filename)

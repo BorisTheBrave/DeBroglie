@@ -1,4 +1,5 @@
 ﻿using DeBroglie.MagicaVoxel;
+using DeBroglie.Topo;
 using System.IO;
 
 namespace DeBroglie.Console
@@ -7,7 +8,7 @@ namespace DeBroglie.Console
     {
         Vox vox;
 
-        protected override ITopArray<Tile> Load(string filename, DeBroglieConfig config)
+        protected override ITopoArray<Tile> Load(string filename, DeBroglieConfig config)
         {
             using (var stream = File.OpenRead(filename))
             {

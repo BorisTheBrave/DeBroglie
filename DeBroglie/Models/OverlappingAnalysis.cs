@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DeBroglie.Topo;
+using System.Collections.Generic;
 
 namespace DeBroglie
 {
@@ -6,7 +7,7 @@ namespace DeBroglie
     internal static class OverlappingAnalysis
     {
         public static void GetPatterns(
-            ITopArray<Tile> sample, 
+            ITopoArray<Tile> sample, 
             int nx,
             int ny,
             int nz,
@@ -28,7 +29,7 @@ namespace DeBroglie
                 {
                     for (var i = 0; i < rotationalSymmetry; i += (6 / rotationalSymmetry))
                     {
-                        var rotatedSample = TopArrayUtils.HexRotate(sample, i, r > 0, tileRotation);
+                        var rotatedSample = TopoArrayUtils.HexRotate(sample, i, r > 0, tileRotation);
                         GetPatternsInternal(rotatedSample, nx, ny, nz, periodic, patternIndices, patternArrays, frequencies);
                     }
                 }
@@ -40,7 +41,7 @@ namespace DeBroglie
                 {
                     for (var i = 0; i < rotationalSymmetry; i += (6 / rotationalSymmetry))
                     {
-                        var rotatedSample = TopArrayUtils.Rotate(sample, i, r > 0, tileRotation);
+                        var rotatedSample = TopoArrayUtils.Rotate(sample, i, r > 0, tileRotation);
                         GetPatternsInternal(rotatedSample, nx, ny, nz, periodic, patternIndices, patternArrays, frequencies);
                     }
                 }
@@ -56,7 +57,7 @@ namespace DeBroglie
         }
 
         private static void GetPatternsInternal(
-            ITopArray<Tile> sample, 
+            ITopoArray<Tile> sample, 
             int nx,
             int ny,
             int nz,
@@ -99,7 +100,7 @@ namespace DeBroglie
             }
         }
 
-        private static bool TryExtract(ITopArray<Tile> sample, int nx, int ny, int nz, int x, int y, int z, out PatternArray pattern)
+        private static bool TryExtract(ITopoArray<Tile> sample, int nx, int ny, int nz, int x, int y, int z, out PatternArray pattern)
         {
             var width = sample.Topology.Width;
             var height = sample.Topology.Height;

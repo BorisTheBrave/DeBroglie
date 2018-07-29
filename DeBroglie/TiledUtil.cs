@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeBroglie.Topo;
+using System;
 using System.IO;
 using System.Text;
 using TiledLib;
@@ -28,7 +29,7 @@ namespace DeBroglie
             }
         }
 
-        public static ITopArray<int> ReadLayer(Map map, TileLayer layer)
+        public static ITopoArray<int> ReadLayer(Map map, TileLayer layer)
         {
             if (map.Orientation == Orientation.orthogonal)
             {
@@ -41,7 +42,7 @@ namespace DeBroglie
                         layerArray[x, y] = layer.Data[i++];
                     }
                 }
-                return new TopArray2D<int>(layerArray, false);
+                return new TopoArray2D<int>(layerArray, false);
             }
             else if(map.Orientation == Orientation.hexagonal)
             {
@@ -74,7 +75,7 @@ namespace DeBroglie
                     }
                     isStaggered = !isStaggered;
                 }
-                return new TopArray2D<int>(layerArray, topology);
+                return new TopoArray2D<int>(layerArray, topology);
             }
             else
             {
@@ -82,7 +83,7 @@ namespace DeBroglie
             }
         }
 
-        public static TileLayer MakeTileLayer(Map map, ITopArray<int> array, int z = 0)
+        public static TileLayer MakeTileLayer(Map map, ITopoArray<int> array, int z = 0)
         {
             if (map.Orientation == Orientation.orthogonal)
             {

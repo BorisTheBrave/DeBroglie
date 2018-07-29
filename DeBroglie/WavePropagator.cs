@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DeBroglie.Topo;
 
 namespace DeBroglie
 {
@@ -393,7 +394,7 @@ namespace DeBroglie
          * Returns the array of decided patterns, writing
          * -1 or -2 to indicate cells that are undecided or in contradiction.
          */
-        public ITopArray<int> ToTopArray()
+        public ITopoArray<int> ToTopArray()
         {
             var result = new int[width, height, depth];
             for (var x = 0; x < width; x++)
@@ -407,13 +408,13 @@ namespace DeBroglie
                     }
                 }
             }
-            return new TopArray3D<int>(result, topology);
+            return new TopoArray3D<int>(result, topology);
         }
 
         /**
          * Returns an array where each cell is a list of remaining possible patterns.
          */
-        public ITopArray<ISet<int>> ToTopArraySets()
+        public ITopoArray<ISet<int>> ToTopArraySets()
         {
             var result = new ISet<int>[width, height, depth];
 
@@ -437,7 +438,7 @@ namespace DeBroglie
                     }
                 }
             }
-            return new TopArray3D<ISet<int>>(result, topology);
+            return new TopoArray3D<ISet<int>>(result, topology);
         }
 
         private struct PropagateItem

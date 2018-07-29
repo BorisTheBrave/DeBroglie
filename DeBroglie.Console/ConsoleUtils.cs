@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeBroglie.Topo;
+using System;
 
 namespace DeBroglie.Console
 {

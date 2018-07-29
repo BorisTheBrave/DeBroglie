@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DeBroglie.Topo;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DeBroglie
@@ -21,13 +22,13 @@ namespace DeBroglie
 
         public static OverlappingModel Create<T>(T[,] sample, int n, bool periodic, int symmetries)
         {
-            var topArray = new TopArray2D<T>(sample, periodic).ToTiles();
+            var topArray = new TopoArray2D<T>(sample, periodic).ToTiles();
 
             return new OverlappingModel(topArray, n, symmetries > 1 ? symmetries / 2 : 1, symmetries > 1);
         }
 
 
-        public OverlappingModel(ITopArray<Tile> sample, int n, int rotationalSymmetry, bool reflectionalSymmetry)
+        public OverlappingModel(ITopoArray<Tile> sample, int n, int rotationalSymmetry, bool reflectionalSymmetry)
             :this(n)
         {
             AddSample(sample, rotationalSymmetry, reflectionalSymmetry);
@@ -51,7 +52,7 @@ namespace DeBroglie
 
         }
 
-        public void AddSample(ITopArray<Tile> sample, int rotationalSymmetry, bool reflectionalSymmetry, TileRotation tileRotation = null)
+        public void AddSample(ITopoArray<Tile> sample, int rotationalSymmetry, bool reflectionalSymmetry, TileRotation tileRotation = null)
         {
             if (sample.Topology.Depth == 1)
                 nz = 1;

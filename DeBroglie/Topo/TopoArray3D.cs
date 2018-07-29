@@ -1,20 +1,20 @@
-﻿namespace DeBroglie
+﻿namespace DeBroglie.Topo
 {
-
-    internal class TopArray2D<T> : ITopArray<T>
+    internal class TopoArray3D<T> : ITopoArray<T>
     {
-        private readonly T[,] values;
+        private readonly T[,,] values;
 
-        public TopArray2D(T[,] values, bool periodic)
+        public TopoArray3D(T[,,] values, bool periodic)
         {
-            Topology = new Topology(Directions.Cartesian2d,
+            Topology = new Topology(Directions.Cartesian3d,
                 values.GetLength(0),
                 values.GetLength(1),
+                values.GetLength(2),
                 periodic);
             this.values = values;
         }
 
-        public TopArray2D(T[,] values, Topology topology)
+        public TopoArray3D(T[,,] values, Topology topology)
         {
             Topology = topology;
             this.values = values;
@@ -24,7 +24,7 @@
 
         public T Get(int x, int y, int z)
         {
-            return values[x, y];
+            return values[x, y, z];
         }
 
         public T Get(int index)

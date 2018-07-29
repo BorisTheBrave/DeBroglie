@@ -1,4 +1,4 @@
-﻿namespace DeBroglie
+﻿namespace DeBroglie.Topo
 {
     public class Topology
     {

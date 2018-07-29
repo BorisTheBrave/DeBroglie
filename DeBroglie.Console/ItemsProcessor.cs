@@ -1,23 +1,23 @@
 ﻿using DeBroglie.Constraints;
+using DeBroglie.Topo;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Xml.Serialization;
 
 namespace DeBroglie.Console
 {
     public abstract class ItemsProcessor
     {
-        protected abstract ITopArray<Tile> Load(string filename, DeBroglieConfig config);
+        protected abstract ITopoArray<Tile> Load(string filename, DeBroglieConfig config);
 
         protected abstract void Save(TileModel model, TilePropagator tilePropagator, string filename);
 
         protected abstract Tile Parse(string s);
 
-        private static TileModel GetModel(DeBroglieConfig config, ITopArray<Tile> sample, TileRotation tileRotation)
+        private static TileModel GetModel(DeBroglieConfig config, ITopoArray<Tile> sample, TileRotation tileRotation)
         {
             var modelConfig = config.Model;
             if (modelConfig is Overlapping overlapping)

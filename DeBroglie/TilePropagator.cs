@@ -1,4 +1,5 @@
 ﻿using DeBroglie.Constraints;
+using DeBroglie.Topo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -245,7 +246,7 @@ namespace DeBroglie
             }
         }
 
-        public ITopArray<Tile> ToArray(Tile undecided = default(Tile), Tile contradiction = default(Tile))
+        public ITopoArray<Tile> ToArray(Tile undecided = default(Tile), Tile contradiction = default(Tile))
         {
             var width = topology.Width;
             var height = topology.Height;
@@ -278,10 +279,10 @@ namespace DeBroglie
                     }
                 }
             }
-            return new TopArray3D<Tile>(result, topology);
+            return new TopoArray3D<Tile>(result, topology);
         }
 
-        public ITopArray<T> ToValueArray<T>(T undecided = default(T), T contradiction = default(T))
+        public ITopoArray<T> ToValueArray<T>(T undecided = default(T), T contradiction = default(T))
         {
             var width = topology.Width;
             var height = topology.Height;
@@ -315,10 +316,10 @@ namespace DeBroglie
                     }
                 }
             }
-            return new TopArray3D<T>(result, topology);
+            return new TopoArray3D<T>(result, topology);
         }
 
-        public ITopArray<ISet<Tile>> ToArraySets()
+        public ITopoArray<ISet<Tile>> ToArraySets()
         {
             var width = topology.Width;
             var height = topology.Height;
@@ -345,7 +346,7 @@ namespace DeBroglie
                     }
                 }
             }
-            return new TopArray3D<ISet<Tile>>(result, topology);
+            return new TopoArray3D<ISet<Tile>>(result, topology);
         }
 
         private enum MappingType
