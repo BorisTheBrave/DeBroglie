@@ -49,7 +49,7 @@
   <ItemGroup>
     <Compile Include="BitmapItemsProcessor.cs" />
     <Compile Include="ConsoleUtils.cs" />
-    <Compile Include="ConstraintConverter.cs" />
+    <Compile Include="ConstraintArrayConverter.cs" />
     <Compile Include="DeBroglieConfig.cs" />
     <Compile Include="ItemsProcessor.cs" />
     <Compile Include="ModelConverter.cs" />

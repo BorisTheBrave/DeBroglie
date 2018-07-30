@@ -34,6 +34,7 @@ namespace DeBroglie.Console
 
         public List<TileData> Tiles { get; set; }
 
+        [JsonConverter(typeof(ConstraintArrayConverter))]
         public List<ConstraintConfig> Constraints { get; set; }
     }
 
@@ -104,5 +105,9 @@ namespace DeBroglie.Console
         public string Sides { get; set; }
 
         public string ExcludeSides { get; set; }
+
+        public bool InvertArea { get; set; }
+
+        public bool Ban { get; set; }
     }
 }

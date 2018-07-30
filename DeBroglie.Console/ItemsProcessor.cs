@@ -127,25 +127,36 @@ namespace DeBroglie.Console
                             Tile = tile,
                             Sides = sides,
                             ExcludeSides = excludeSides,
+                            InvertArea = borderData.InvertArea,
+                            Ban = borderData.Ban,
                         });
                     }
                 }
             }
 
             System.Console.WriteLine($"Processing {dest}");
-            var propagator = new TilePropagator(model, topology, config.Backtrack,
-                constraints: constraints.ToArray());
-            CellStatus status = CellStatus.Contradiction;
+            var propagator = new TilePropagator(model, topology, config.Backtrack, constraints: constraints.ToArray());
+
+            CellStatus status = propagator.Status;
+
             for (var retry = 0; retry < 5; retry++)
             {
                 if (retry != 0)
-                    propagator.Clear();
-                status = propagator.Run();
-                if (status == CellStatus.Decided)
                 {
-                    break;
+                    status = propagator.Clear();
                 }
-                System.Console.WriteLine($"Found contradiction, retrying");
+                if (status == CellStatus.Contradiction)
+                {
+                    System.Console.WriteLine($"Found contradiction in initial conditions, retrying");
+                    continue;
+                }
+                status = propagator.Run();
+                if (status == CellStatus.Contradiction)
+                {
+                    System.Console.WriteLine($"Found contradiction, retrying");
+                    continue;
+                }
+                break;
             }
             Directory.CreateDirectory(Path.GetDirectoryName(dest));
             if (status == CellStatus.Decided)
