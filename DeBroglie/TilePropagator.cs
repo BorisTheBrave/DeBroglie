@@ -98,7 +98,7 @@ namespace DeBroglie
                 .Concat(waveConstraints ?? Enumerable.Empty<IWaveConstraint>())
                 .ToArray();
 
-            this.wavePropagator = new WavePropagator(tileModel, patternTopology, backtrack, allWaveConstraints, random, clear: false);
+            this.wavePropagator = new WavePropagator(tileModel.GetPatternModel(), patternTopology, backtrack, allWaveConstraints, random, clear: false);
             wavePropagator.Clear();
 
         }

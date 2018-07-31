@@ -14,6 +14,7 @@ namespace DeBroglie
         private Dictionary<PatternArray, int> patternIndices;
         private List<PatternArray> patternArrays;
         private List<double> frequencies;
+        private List<HashSet<int>[]> propagator;
 
         private IReadOnlyDictionary<int, Tile> patternsToTiles;
         private ILookup<Tile, int> tilesToPatterns;
@@ -46,8 +47,7 @@ namespace DeBroglie
             patternIndices = new Dictionary<PatternArray, int>(new PatternArrayComparer());
             frequencies = new List<double>();
             patternArrays = new List<PatternArray>();
-
-
+            propagator = new List<HashSet<int>[]>();
         }
 
         public void AddSample(ITopoArray<Tile> sample, int rotationalSymmetry, bool reflectionalSymmetry, TileRotation tileRotation = null)
@@ -63,19 +63,15 @@ namespace DeBroglie
             }
 
             // Update the model based on the collected data
-
-            this.Frequencies = frequencies.ToArray();
-
             var directions = sample.Topology.Directions;
 
-            Propagator = new int[patternArrays.Count][][];
-
+            // TODO: Don't regenerate this from scratch every time
             for (var p = 0; p < patternArrays.Count; p++)
             {
-                Propagator[p] = new int[directions.Count][];
+                propagator[p] = new HashSet<int>[directions.Count];
                 for (var d = 0; d < directions.Count; d++)
                 {
-                    var l = new List<int>();
+                    var l = new HashSet<int>();
                     for (var p2 = 0; p2 < patternArrays.Count; p2++)
                     {
                         var dx = directions.DX[d];
@@ -86,7 +82,7 @@ namespace DeBroglie
                             l.Add(p2);
                         }
                     }
-                    Propagator[p][d] = l.ToArray();
+                    propagator[p][d] = l;
                 }
             }
 
@@ -96,9 +92,6 @@ namespace DeBroglie
 
             tilesToPatterns = patternsToTiles.ToLookup(x => x.Value, x => x.Key);
         }
-
-        public override IReadOnlyDictionary<int, Tile> PatternsToTiles => patternsToTiles;
-        public override ILookup<Tile, int> TilesToPatterns => tilesToPatterns;
 
         public int NX => nx;
         public int NY => ny;
@@ -134,6 +127,18 @@ namespace DeBroglie
             return true;
         }
 
+        internal override PatternModel GetPatternModel()
+        {
+            return new PatternModel
+            {
+                Propagator = propagator.Select(x => x.Select(y => y.ToArray()).ToArray()).ToArray(),
+                Frequencies = frequencies.ToArray(),
+            };
+        }
+
+        public override IReadOnlyDictionary<int, Tile> PatternsToTiles => patternsToTiles;
+        public override ILookup<Tile, int> TilesToPatterns => tilesToPatterns;
+
         public override void ChangeFrequency(Tile tile, double relativeChange)
         {
             var multiplier = (1 + relativeChange);
@@ -148,7 +153,7 @@ namespace DeBroglie
                         {
                             if (patternArray.Values[x, y, z] == tile)
                             {
-                                Frequencies[p] *= multiplier;
+                                frequencies[p] *= multiplier;
                             }
                         }
                     }

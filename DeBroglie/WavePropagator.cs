@@ -57,7 +57,7 @@ namespace DeBroglie
           */
         private int[,,] compatible;
 
-        public WavePropagator(Model model, Topology topology, bool backtrack = false, IWaveConstraint[] constraints = null, Random random = null, bool clear = true)
+        public WavePropagator(PatternModel model, Topology topology, bool backtrack = false, IWaveConstraint[] constraints = null, Random random = null, bool clear = true)
         {
             this.propagator = model.Propagator;
             this.patternCount = model.PatternCount;

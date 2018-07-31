@@ -1,6 +1,6 @@
 ﻿namespace DeBroglie
 {
-    public class Model
+    public class PatternModel
     {
         /**
           * propagator[pattern1][direction] contains all the patterns that can be placed in

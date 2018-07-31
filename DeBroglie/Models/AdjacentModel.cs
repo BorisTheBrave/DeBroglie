@@ -27,7 +27,6 @@ namespace DeBroglie
             // Tiles map 1:1 with patterns
             tilesToPatterns = new Dictionary<Tile, int>();
             frequencies = new List<double>();
-
             propagator = new List<HashSet<int>[]>();
         }
 
@@ -98,9 +97,16 @@ namespace DeBroglie
             }
 
             // Update the model based on the collected data
-            this.Frequencies = frequencies.ToArray();
-            this.Propagator = propagator.Select(x => x.Select(y => y.ToArray()).ToArray()).ToArray();
             this.patternsToTiles = tilesToPatterns.ToDictionary(x => x.Value, x => x.Key);
+        }
+
+        internal override PatternModel GetPatternModel()
+        {
+            return new PatternModel
+            {
+                Propagator = propagator.Select(x => x.Select(y => y.ToArray()).ToArray()).ToArray(),
+                Frequencies = frequencies.ToArray(),
+            };
         }
 
         public override IReadOnlyDictionary<int, Tile> PatternsToTiles => patternsToTiles;

@@ -13,7 +13,7 @@ namespace DeBroglie.Test
         [Test]
         public void TestChessboard()
         {
-            var model = new Model
+            var model = new PatternModel
             {
                 Frequencies = new double[] { 1, 1 },
                 Propagator = new int[][][]
@@ -48,7 +48,7 @@ namespace DeBroglie.Test
         [Test]
         public void TestChessboard3d()
         {
-            var model = new Model
+            var model = new PatternModel
             {
                 Frequencies = new double[] { 1, 1 },
                 Propagator = new int[][][]
@@ -122,7 +122,7 @@ namespace DeBroglie.Test
                 .ToArray()
             ).ToArray();
 
-            var model = new Model
+            var model = new PatternModel
             {
                 Frequencies = tileBorders.Select(x=>1.0).ToArray(),
                 Propagator = propagator,
@@ -136,54 +136,6 @@ namespace DeBroglie.Test
             Assert.AreEqual(CellStatus.Decided, status);
 
             Console.WriteLine($"Backtrack Count {wavePropagator.BacktrackCount}");
-        }
-
-        [Test]
-        public void TestImpossibleConstraints()
-        {
-            var a = new int[,]{
-                { 0, 0, 0, 0, 1, 0, 0, 0 },
-                { 0, 0, 0, 0, 1, 0, 0, 0 },
-                { 0, 0, 0, 0, 1, 0, 0, 0 },
-                { 0, 0, 0, 0, 1, 1, 1, 1 },
-                { 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 2, 2, 2, 2, 0, 0, 0, 0 },
-                { 0, 0, 0, 2, 0, 0, 0, 0 },
-                { 0, 0, 0, 2, 0, 0, 0, 0 },
-                { 0, 0, 0, 2, 0, 0, 0, 0 },
-            };
-            var model = OverlappingModel.Create(a, 3, false, 8);
-
-            var width = 10;
-            var height = 10;
-
-            var pathConstraint1 = WavePathConstraint.Create(model, new[] { new Tile(1) }, new[]
-            {
-                new Point(0, 0),
-                new Point(width - 1, height - 1),
-            });
-            var pathConstraint2 = WavePathConstraint.Create(model, new[] { new Tile(2) }, new[]
-            {
-                new Point(0, height - 1),
-                new Point(width - 1, 0),
-            });
-
-            var propagator = new WavePropagator(model, new Topology(width, height, false), true);
-            var status = propagator.Run();
-            Assert.AreEqual(CellStatus.Decided, status);
-
-            propagator = new WavePropagator(model, new Topology(width, height, false), true, new[] { pathConstraint1 });
-            status = propagator.Run();
-            Assert.AreEqual(CellStatus.Decided, status);
-
-            propagator = new WavePropagator(model, new Topology(width, height, false), true, new[] { pathConstraint2 });
-            status = propagator.Run();
-            Assert.AreEqual(CellStatus.Decided, status);
-
-            propagator = new WavePropagator(model, new Topology(width, height, false), true, new[] { pathConstraint1, pathConstraint2 });
-            status = propagator.Run();
-            Assert.AreEqual(CellStatus.Contradiction, status);
         }
     }
 }

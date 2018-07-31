@@ -9,8 +9,10 @@ namespace DeBroglie
      * with patterns (dense integers that correspond to particular
      * arrangements of tiles).
      */
-    public abstract class TileModel : Model
+    public abstract class TileModel
     {
+        internal abstract PatternModel GetPatternModel();
+
         public abstract IReadOnlyDictionary<int, Tile> PatternsToTiles { get; }
         public abstract ILookup<Tile, int> TilesToPatterns { get; }
 
