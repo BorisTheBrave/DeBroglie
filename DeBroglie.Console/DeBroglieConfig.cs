@@ -30,6 +30,10 @@ namespace DeBroglie.Console
 
         public int Depth { get; set; } = 48;
 
+        public string Ground { get; set; }
+
+        public int Symmetry { get; set; } = 8;
+
         public bool Backtrack { get; set; }
 
         public List<TileData> Tiles { get; set; }
@@ -50,10 +54,6 @@ namespace DeBroglie.Console
         public override string Type => ModelTypeString;
 
         public int N { get; set; } = 2;
-
-        public int Symmetry { get; set; } = 8;
-
-        public string Ground { get; set; }
     }
 
     public class Adjacent : ModelConfig

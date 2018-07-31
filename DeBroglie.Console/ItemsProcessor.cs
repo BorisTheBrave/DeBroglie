@@ -22,14 +22,16 @@ namespace DeBroglie.Console
             var modelConfig = config.Model;
             if (modelConfig is Overlapping overlapping)
             {
-                var symmetries = overlapping.Symmetry;
                 var model = new OverlappingModel(overlapping.N);
+                var symmetries = config.Symmetry;
                 model.AddSample(sample, symmetries > 1 ? symmetries / 2 : 1, symmetries > 1, tileRotation);
                 return model;
             }
             else if(modelConfig is Adjacent adjacent)
             {
-                return new AdjacentModel(sample);
+                var model = new AdjacentModel();
+                var symmetries = config.Symmetry;
+                model.AddSample(sample, symmetries > 1 ? symmetries / 2 : 1, symmetries > 1, tileRotation);
             }
             throw new System.Exception($"Unrecognized model type {modelConfig.GetType()}");
         }
@@ -85,9 +87,9 @@ namespace DeBroglie.Console
 
             // Setup constraints
             var constraints = new List<ITileConstraint>();
-            if (config.Model is Overlapping overlapping && overlapping.Ground != null)
+            if (config.Ground != null)
             {
-                var groundTile = Parse(overlapping.Ground);
+                var groundTile = Parse(config.Ground);
                 constraints.Add(new BorderConstraint
                 {
                     Sides = BorderSides.YMax,

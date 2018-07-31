@@ -6,21 +6,12 @@ namespace DeBroglie
 
     internal static class OverlappingAnalysis
     {
-        public static void GetPatterns(
-            ITopoArray<Tile> sample, 
-            int nx,
-            int ny,
-            int nz,
-            bool periodic,
+        public static IEnumerable<ITopoArray<Tile>> GetRotatedSamples(
+            ITopoArray<Tile> sample,
             int rotationalSymmetry,
             bool reflectionalSymmetry,
-            TileRotation tileRotation,
-            Dictionary<PatternArray, int> patternIndices,
-            List<PatternArray> patternArrays,
-            List<double> frequencies)
+            TileRotation tileRotation = null)
         {
-            tileRotation = tileRotation ?? new TileRotation();
-
             if (sample.Topology.Directions.Type == DirectionsType.Hexagonal2d)
             {
                 var reflections = reflectionalSymmetry ? 2 : 1;
@@ -28,8 +19,7 @@ namespace DeBroglie
                 {
                     for (var i = 0; i < rotationalSymmetry; i += (6 / rotationalSymmetry))
                     {
-                        var rotatedSample = TopoArrayUtils.HexRotate(sample, i, r > 0, tileRotation);
-                        GetPatternsInternal(rotatedSample, nx, ny, nz, periodic, patternIndices, patternArrays, frequencies);
+                        yield return TopoArrayUtils.HexRotate(sample, i, r > 0, tileRotation);
                     }
                 }
             }
@@ -40,14 +30,13 @@ namespace DeBroglie
                 {
                     for (var i = 0; i < rotationalSymmetry; i += (6 / rotationalSymmetry))
                     {
-                        var rotatedSample = TopoArrayUtils.Rotate(sample, i, r > 0, tileRotation);
-                        GetPatternsInternal(rotatedSample, nx, ny, nz, periodic, patternIndices, patternArrays, frequencies);
+                        yield return TopoArrayUtils.Rotate(sample, i, r > 0, tileRotation);
                     }
                 }
             }
         }
 
-        private static void GetPatternsInternal(
+        public static void GetPatterns(
             ITopoArray<Tile> sample, 
             int nx,
             int ny,
