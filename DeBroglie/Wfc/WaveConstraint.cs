@@ -1,6 +1,6 @@
-﻿namespace DeBroglie
+﻿namespace DeBroglie.Wfc
 {
-    public interface IWaveConstraint
+    internal interface IWaveConstraint
     {
         CellStatus Init(WavePropagator wavePropagator);
 

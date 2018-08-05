@@ -1,4 +1,4 @@
-﻿namespace DeBroglie
+﻿namespace DeBroglie.Models
 {
     internal struct PatternArray
     {

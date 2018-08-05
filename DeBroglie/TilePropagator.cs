@@ -1,5 +1,7 @@
 ﻿using DeBroglie.Constraints;
+using DeBroglie.Models;
 using DeBroglie.Topo;
+using DeBroglie.Wfc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +31,6 @@ namespace DeBroglie
 
         public TilePropagator(TileModel tileModel, Topology topology, bool backtrack = false,
             ITileConstraint[] constraints = null,
-            IWaveConstraint[] waveConstraints = null,
             Random random = null)
         {
             this.tileModel = tileModel;
@@ -93,12 +94,11 @@ namespace DeBroglie
                 };
             }
 
-            var allWaveConstraints =
+            var waveConstraints =
                 (constraints?.Select(x => new TileConstraintAdaptor(x, this)).ToArray() ?? Enumerable.Empty<IWaveConstraint>())
-                .Concat(waveConstraints ?? Enumerable.Empty<IWaveConstraint>())
                 .ToArray();
 
-            this.wavePropagator = new WavePropagator(tileModel.GetPatternModel(), patternTopology, backtrack, allWaveConstraints, random, clear: false);
+            this.wavePropagator = new WavePropagator(tileModel.GetPatternModel(), patternTopology, backtrack, waveConstraints, random, clear: false);
             wavePropagator.Clear();
 
         }

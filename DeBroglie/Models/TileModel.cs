@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using DeBroglie.Wfc;
+using System.Collections.Generic;
 using System.Linq;
 
-namespace DeBroglie
+namespace DeBroglie.Models
 {
     /**
      * A TileModel is a model with a well defined mapping from 

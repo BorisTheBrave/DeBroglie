@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DeBroglie
+namespace DeBroglie.Wfc
 {
 
     /**
@@ -9,7 +9,7 @@ namespace DeBroglie
      * into which cells.
      * It has no notion of cell adjacency, cells are just referred to by integer index.
      */
-    public class Wave
+    internal class Wave
     {
         int patternCount;
         private double[] frequencies;

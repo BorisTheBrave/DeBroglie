@@ -1,4 +1,5 @@
 ﻿using DeBroglie.Constraints;
+using DeBroglie.Models;
 using DeBroglie.Topo;
 using NUnit.Framework;
 

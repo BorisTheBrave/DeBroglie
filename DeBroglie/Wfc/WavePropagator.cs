@@ -2,21 +2,14 @@
 using System.Collections.Generic;
 using DeBroglie.Topo;
 
-namespace DeBroglie
+namespace DeBroglie.Wfc
 {
-
-    public enum CellStatus
-    {
-        Decided = 0,
-        Undecided = -1,
-        Contradiction = -2,
-    }
 
     /**
      * WavePropagator holds a wave, and supports updating it's possibilities
      * according to the model constraints.
      */
-    public class WavePropagator
+    internal class WavePropagator
     {
         // Main data tracking what we've decided so far
         private Wave wave;

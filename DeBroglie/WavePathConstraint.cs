@@ -1,4 +1,6 @@
 ﻿using DeBroglie.Constraints;
+using DeBroglie.Models;
+using DeBroglie.Wfc;
 using System;
 using System.Linq;
 
@@ -6,7 +8,7 @@ namespace DeBroglie
 {
 
     [Obsolete]
-    public class WavePathConstraint : IWaveConstraint
+    internal class WavePathConstraint : IWaveConstraint
     {
         // Set of patterns that are considered on the path
         public int[] PathPatterns { get; set; }

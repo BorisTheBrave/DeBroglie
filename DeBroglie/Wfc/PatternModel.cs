@@ -1,6 +1,6 @@
-﻿namespace DeBroglie
+﻿namespace DeBroglie.Wfc
 {
-    public class PatternModel
+    internal class PatternModel
     {
         /**
           * propagator[pattern1][direction] contains all the patterns that can be placed in

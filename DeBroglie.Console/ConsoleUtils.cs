@@ -51,19 +51,5 @@ namespace DeBroglie.Console
                 }
             }
         }
-
-        public static CellStatus Run(WavePropagator propagator, int retries)
-        {
-            CellStatus status = CellStatus.Undecided;
-            for (var retry = 0; retry < retries; retry++)
-            {
-                status = propagator.Run();
-                if (status == CellStatus.Decided)
-                {
-                    break;
-                }
-            }
-            return status;
-        }
     }
 }

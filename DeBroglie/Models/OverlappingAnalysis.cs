@@ -1,7 +1,8 @@
-﻿using DeBroglie.Topo;
+﻿using DeBroglie.Models;
+using DeBroglie.Topo;
 using System.Collections.Generic;
 
-namespace DeBroglie
+namespace DeBroglie.Models
 {
 
     internal static class OverlappingAnalysis

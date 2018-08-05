@@ -1,4 +1,7 @@
-﻿namespace DeBroglie.Constraints
+﻿using DeBroglie.Constraints;
+using DeBroglie.Wfc;
+
+namespace DeBroglie.Models
 {
     internal class TileConstraintAdaptor : IWaveConstraint
     {

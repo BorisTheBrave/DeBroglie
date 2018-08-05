@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 using DeBroglie;
+using DeBroglie.Wfc;
 
 namespace DeBroglie.Test
 {

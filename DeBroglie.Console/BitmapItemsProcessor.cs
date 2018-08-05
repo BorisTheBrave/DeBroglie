@@ -1,4 +1,5 @@
-﻿using DeBroglie.Topo;
+﻿using DeBroglie.Models;
+using DeBroglie.Topo;
 using System.Drawing;
 
 namespace DeBroglie.Console
