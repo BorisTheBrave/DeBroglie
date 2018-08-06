@@ -32,6 +32,7 @@ namespace DeBroglie.Models
         }
 
         public AdjacentModel(ITopoArray<Tile> sample)
+            :this()
         {
             AddSample(sample);
         }

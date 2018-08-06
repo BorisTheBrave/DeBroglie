@@ -33,6 +33,7 @@ namespace DeBroglie.Console
                 var model = new AdjacentModel();
                 var symmetries = config.Symmetry;
                 model.AddSample(sample, symmetries > 1 ? symmetries / 2 : 1, symmetries > 1, tileRotation);
+                return model;
             }
             throw new System.Exception($"Unrecognized model type {modelConfig.GetType()}");
         }

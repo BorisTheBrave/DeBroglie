@@ -68,9 +68,10 @@ namespace DeBroglie.Models
             var directions = sample.Topology.Directions;
 
             // TODO: Don't regenerate this from scratch every time
+            propagator = new List<HashSet<int>[]>(patternArrays.Count);
             for (var p = 0; p < patternArrays.Count; p++)
             {
-                propagator[p] = new HashSet<int>[directions.Count];
+                propagator.Add(new HashSet<int>[directions.Count]);
                 for (var d = 0; d < directions.Count; d++)
                 {
                     var l = new HashSet<int>();
