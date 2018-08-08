@@ -14,7 +14,7 @@ namespace DeBroglie.Console
     {
         protected abstract ITopoArray<Tile> Load(string filename, DeBroglieConfig config);
 
-        protected abstract void Save(TileModel model, TilePropagator tilePropagator, string filename);
+        protected abstract void Save(TileModel model, TilePropagator tilePropagator, string filename, DeBroglieConfig config);
 
         protected abstract Tile Parse(string s);
 
@@ -166,13 +166,13 @@ namespace DeBroglie.Console
             if (status == CellStatus.Decided)
             {
                 System.Console.WriteLine($"Writing {dest}");
-                Save(model, propagator, dest);
+                Save(model, propagator, dest, config);
                 File.Delete(contdest);
             }
             else
             {
                 System.Console.WriteLine($"Writing {contdest}");
-                Save(model, propagator, contdest);
+                Save(model, propagator, contdest, config);
                 File.Delete(dest);
             }
         }

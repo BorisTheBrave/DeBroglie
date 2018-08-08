@@ -1,5 +1,6 @@
 ﻿using DeBroglie.Models;
 using DeBroglie.Topo;
+using System;
 using System.Drawing;
 
 namespace DeBroglie.Console
@@ -39,16 +40,47 @@ namespace DeBroglie.Console
             return TopoArray.Create(colorArray, config.IsPeriodicInput).ToTiles();
         }
 
-        protected override void Save(TileModel model, TilePropagator propagator, string filename)
+        protected override void Save(TileModel model, TilePropagator propagator, string filename, DeBroglieConfig config)
         {
-            var array = propagator.ToValueArray(Color.Gray, Color.Magenta).ToArray2d();
-            var bitmap = ToBitmap(array);
+            var array = propagator.ToValueArray(Color.Gray, Color.Magenta);
+            array = Scale(array, 2);
+            var bitmap = ToBitmap(array.ToArray2d());
             bitmap.Save(filename);
         }
 
         protected override Tile Parse(string s)
         {
             return new Tile(ColorTranslator.FromHtml(s));
+        }
+
+        private static ITopoArray<T> Scale<T>(ITopoArray<T> topoArray, int scale)
+        {
+            var topology = topoArray.Topology;
+            if (topology.Mask != null)
+                throw new NotSupportedException();
+            var result = new T[topology.Width * scale, topology.Height * scale, topology.Depth * scale];
+            for (var z = 0; z < topology.Depth; z++)
+            {
+                for (var y = 0; y < topology.Height; y++)
+                {
+                    for (var x = 0; x < topology.Width; x++)
+                    {
+                        var value = topoArray.Get(x, y, z);
+                        for (var dz = 0; dz < scale; dz++)
+                        {
+                            for (var dy = 0; dy < scale; dy++)
+                            {
+                                for (var dx = 0; dx < scale; dx++)
+                                {
+                                    result[x * scale + dx, y * scale + dy, z * scale + dz] = value;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            var resultTopology = new Topology(topology.Directions, topology.Width * scale, topology.Height * scale, topology.Depth * scale, topology.Periodic);
+            return TopoArray.Create(result, resultTopology);
         }
     }
 }

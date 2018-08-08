@@ -25,7 +25,7 @@ namespace DeBroglie.Console
             return new Tile(byte.Parse(s));
         }
 
-        protected override void Save(TileModel model, TilePropagator tilePropagator, string filename)
+        protected override void Save(TileModel model, TilePropagator tilePropagator, string filename, DeBroglieConfig config)
         {
             var array = tilePropagator.ToValueArray<byte>();
             VoxUtils.Save(vox, array);

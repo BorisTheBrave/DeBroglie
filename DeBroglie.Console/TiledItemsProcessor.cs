@@ -80,7 +80,7 @@ namespace DeBroglie.Console
             throw new Exception($"Found no tile named {s}, either set the \"name\" property or use tile gids.");
         }
 
-        protected override void Save(TileModel model, TilePropagator tilePropagator, string filename)
+        protected override void Save(TileModel model, TilePropagator tilePropagator, string filename, DeBroglieConfig config)
         {
             var layerArray = tilePropagator.ToValueArray<int>();
             map.Layers = new BaseLayer[layerArray.Topology.Depth];
