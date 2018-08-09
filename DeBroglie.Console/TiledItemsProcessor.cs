@@ -57,11 +57,11 @@ namespace DeBroglie.Console
             }
             if(tileLayers.Count > 1 && topology.Directions.Type == DirectionsType.Cartesian2d)
             {
-                topology = new Topology(Directions.Cartesian3d, map.Width, map.Height, tileLayers.Count, false);
+                topology = new Topology(Directions.Cartesian3d, map.Width, map.Height, tileLayers.Count, false, false, false);
             }
             else
             {
-                topology = new Topology(topology.Directions, topology.Width, topology.Height, tileLayers.Count, false);
+                topology = new Topology(topology.Directions, topology.Width, topology.Height, tileLayers.Count, false, false, false);
             }
             return TopoArray.Create(results, topology);
         }

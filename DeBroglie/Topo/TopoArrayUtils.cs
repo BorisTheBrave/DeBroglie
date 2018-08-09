@@ -115,7 +115,7 @@ namespace DeBroglie.Topo
             var depth = original.Topology.Depth;
 
             var mask = new bool[width * height * depth];
-            var topology = new Topology(original.Topology.Directions, width, height, original.Topology.Depth, false, mask);
+            var topology = new Topology(original.Topology.Directions, width, height, original.Topology.Depth, false, false, false, mask);
             var values = new T[width, height, depth];
 
             // Copy from original to values based on the rotation, setting up the mask as we go.

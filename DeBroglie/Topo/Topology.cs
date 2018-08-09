@@ -2,34 +2,41 @@
 {
     public class Topology
     {
-        public Topology(int width, int height, bool periodic, bool[] mask = null)
-            : this(Directions.Cartesian2d, width, height, 1, periodic, mask)
+        public Topology(int width, int height, bool periodic)
+            : this(Directions.Cartesian2d, width, height, 1, periodic, periodic, periodic)
         {
         }
 
-        public Topology(int width, int height, int depth, bool periodic, bool[] mask = null)
-            : this(Directions.Cartesian3d, width, height, depth, periodic, mask)
+        public Topology(int width, int height, int depth, bool periodic)
+            : this(Directions.Cartesian3d, width, height, depth, periodic, periodic, periodic)
         {
         }
 
-        public Topology(Directions directions, int width, int height, bool periodic, bool[] mask = null)
-            :this(directions, width, height, 1, periodic, mask)
+        public Topology(Directions directions, int width, int height, bool periodicX, bool periodicY, bool[] mask = null)
+            :this(directions, width, height, 1, periodicX, periodicY, false, mask)
         {
         }
 
-        public Topology(Directions directions, int width, int height, int depth, bool periodic, bool[] mask = null)
+        public Topology(Directions directions, int width, int height, int depth, bool periodicX, bool periodicY, bool periodicZ, bool[] mask = null)
         {
             Directions = directions;
             Width = width;
             Height = height;
             Depth = depth;
-            Periodic = periodic;
+            PeriodicX = periodicX;
+            PeriodicY = periodicY;
+            PeriodicZ = periodicZ;
             Mask = mask;
         }
 
         public Topology WithMask(bool[] mask)
         {
-            return new Topology(Directions, Width, Height, Periodic, mask);
+            return new Topology(Directions, Width, Height, Depth, PeriodicX, PeriodicY, PeriodicZ, mask);
+        }
+
+        public Topology WithSize(int width, int height, int depth = 1)
+        {
+            return new Topology(Directions, width, height, depth, PeriodicX, PeriodicY, PeriodicZ);
         }
 
         public Directions Directions { get; set; }
@@ -40,7 +47,11 @@
 
         public int Depth { get; set; }
 
-        public bool Periodic { get; set; }
+        public bool PeriodicX { get; set; }
+
+        public bool PeriodicY { get; set; }
+
+        public bool PeriodicZ { get; set; }
 
         public bool[] Mask { get; set; }
 
@@ -88,24 +99,41 @@
             x += Directions.DX[direction];
             y += Directions.DY[direction];
             z += Directions.DZ[direction];
-            if (Periodic)
+            if (PeriodicX)
             {
                 if (x < 0) x += Width;
                 if (x >= Width) x -= Width;
+            }
+            else if (x < 0 || x >= Width)
+            {
+                destx = -1;
+                desty = -1;
+                destz = -1;
+                return false;
+            }
+            if (PeriodicY)
+            {
                 if (y < 0) y += Height;
                 if (y >= Height) y -= Height;
+            }
+            else if (y < 0 || y >= Height)
+            {
+                destx = -1;
+                desty = -1;
+                destz = -1;
+                return false;
+            }
+            if (PeriodicZ)
+            {
                 if (z < 0) z += Depth;
                 if (z >= Depth) z -= Depth;
             }
-            else
+            else if (z < 0 || z >= Depth)
             {
-                if (x < 0 || x >= Width || y < 0 || y >= Height || z < 0 || z >= Depth)
-                {
-                    destx = -1;
-                    desty = -1;
-                    destz = -1;
-                    return false;
-                }
+                destx = -1;
+                desty = -1;
+                destz = -1;
+                return false;
             }
             destx = x;
             desty = y;

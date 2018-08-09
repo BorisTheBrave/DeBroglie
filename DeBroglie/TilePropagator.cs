@@ -37,14 +37,13 @@ namespace DeBroglie
             this.topology = topology;
 
             var patternTopology = topology;
-            if(!topology.Periodic && tileModel is OverlappingModel overlapping)
+            if(!(topology.PeriodicX && topology.PeriodicY && topology.PeriodicZ) && tileModel is OverlappingModel overlapping)
             {
                 // Shrink the topology as patterns can cover multiple tiles.
-                patternTopology = new Topology(topology.Directions,
-                    topology.Width - overlapping.NX + 1, 
-                    topology.Height - overlapping.NY + 1, 
-                    topology.Depth - overlapping.NZ + 1,
-                    topology.Periodic);
+                patternTopology = topology.WithSize(
+                    topology.PeriodicX ? topology.Width : topology.Width - overlapping.NX + 1,
+                    topology.PeriodicY ? topology.Height : topology.Height - overlapping.NY + 1,
+                    topology.PeriodicZ ? topology.Depth : topology.Depth - overlapping.NZ + 1);
 
                 mappingType = MappingType.Overlapping;
                 mappingNX = overlapping.NX;
@@ -66,7 +65,7 @@ namespace DeBroglie
                             tilesToPatternsByOffset[o] = tilesToPatterns;
                             var patternsToTiles = new Dictionary<int, Tile>();
                             patternsToTilesByOffset[o] = patternsToTiles;
-                            for(var pattern =0;pattern<patternArrays.Count;pattern++)
+                            for(var pattern = 0; pattern<patternArrays.Count; pattern++)
                             {
                                 var patternArray = patternArrays[pattern];
                                 var tile = patternArray.Values[ox, oy, oz];

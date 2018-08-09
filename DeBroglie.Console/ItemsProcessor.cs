@@ -58,7 +58,7 @@ namespace DeBroglie.Console
             var topArray = Load(src, config);
 
             var is3d = topArray.Topology.Directions.Type == DirectionsType.Cartesian3d;
-            var topology = new Topology(topArray.Topology.Directions, config.Width, config.Height, is3d ? config.Depth : 1, config.IsPeriodic);
+            var topology = new Topology(topArray.Topology.Directions, config.Width, config.Height, is3d ? config.Depth : 1, config.PeriodicX, config.PeriodicY, config.PeriodicZ);
 
             var tileRotation = GetTileRotation(config.Tiles, topology);
 

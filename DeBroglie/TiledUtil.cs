@@ -56,7 +56,7 @@ namespace DeBroglie
                 var height = layer.Height;
                 var layerArray = new int[width, height];
                 var mask = new bool[width * height];
-                var topology = new Topology(Directions.Hexagonal2d, width, height, false, mask);
+                var topology = new Topology(Directions.Hexagonal2d, width, height, false, false, mask);
 
                 int i = 0;
                 var isStaggered = map.StaggerIndex == StaggerIndex.even;

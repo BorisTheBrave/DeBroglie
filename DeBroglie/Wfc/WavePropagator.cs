@@ -30,7 +30,9 @@ namespace DeBroglie.Wfc
         private int height;
         private int depth;
         private int indices;
-        private bool periodic;
+        private bool periodicX;
+        private bool periodicY;
+        private bool periodicZ;
         private readonly bool backtrack;
         private readonly IWaveConstraint[] constraints;
         private Random random;
@@ -60,7 +62,9 @@ namespace DeBroglie.Wfc
             this.height = topology.Height;
             this.depth = topology.Depth;
             this.indices = width * height * depth;
-            this.periodic = topology.Periodic;
+            this.periodicX = topology.PeriodicX;
+            this.periodicY = topology.PeriodicY;
+            this.periodicZ = topology.PeriodicZ;
             this.backtrack = backtrack;
             this.constraints = constraints ?? new IWaveConstraint[0];
             this.topology = topology;
@@ -83,7 +87,9 @@ namespace DeBroglie.Wfc
         public int Height => height;
         public int Depth => depth;
         public int Indices => indices;
-        public bool Periodic => periodic;
+        public bool PeriodicX => periodicX;
+        public bool PeriodicY => periodicY;
+        public bool PeriodicZ => periodicZ;
         public Topology Topology => topology;
 
         public int[][][] Propagator => propagator;
@@ -267,6 +273,7 @@ namespace DeBroglie.Wfc
                 prevCompatible = new Stack<int[,,]>();
                 prevChoices = new Stack<PropagateItem>();
             }
+
 
             compatible = new int[indices, patternCount, directionsCount];
             for (int index = 0; index < indices; index++)

@@ -6,7 +6,7 @@
 
         public TopoArray3D(T[,,] values, bool periodic)
         {
-            Topology = new Topology(Directions.Cartesian3d,
+            Topology = new Topology(
                 values.GetLength(0),
                 values.GetLength(1),
                 values.GetLength(2),

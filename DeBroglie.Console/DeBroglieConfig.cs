@@ -16,13 +16,21 @@ namespace DeBroglie.Console
         [JsonConverter(typeof(ModelConverter))]
         public ModelConfig Model { get; set; }
 
-        public string PeriodicInput { get; set; } = "true";
+        public bool PeriodicInput { set { PeriodicInputX = PeriodicInputY = PeriodicInputZ = value; } }
 
-        public bool IsPeriodicInput => PeriodicInput.ToLower() == "true";
+        public bool PeriodicInputX { get; set; } = true;
 
-        public string Periodic { get; set; } = "false";
+        public bool PeriodicInputY { get; set; } = true;
 
-        public bool IsPeriodic => Periodic.ToLower() == "true";
+        public bool PeriodicInputZ { get; set; } = true;
+
+        public bool Periodic { set { PeriodicX = PeriodicY = PeriodicZ = value; } }
+
+        public bool PeriodicX { get; set; } = true;
+
+        public bool PeriodicY { get; set; } = true;
+
+        public bool PeriodicZ { get; set; } = true;
 
         public int Width { get; set; } = 48;
 

@@ -42,7 +42,9 @@ namespace DeBroglie.Models
             int nx,
             int ny,
             int nz,
-            bool periodic,
+            bool periodicX,
+            bool periodicY,
+            bool periodicZ,
             Dictionary<PatternArray, int> patternIndices,
             List<PatternArray> patternArrays,
             List<double> frequencies)
@@ -50,9 +52,9 @@ namespace DeBroglie.Models
             var width = sample.Topology.Width;
             var height = sample.Topology.Height;
             var depth = sample.Topology.Depth;
-            var maxx = periodic ? width - 1 : width - nx;
-            var maxy = periodic ? height - 1 : height - ny;
-            var maxz = periodic ? depth - 1 : depth - nz;
+            var maxx = periodicX ? width - 1 : width - nx;
+            var maxy = periodicY ? height - 1 : height - ny;
+            var maxz = periodicZ ? depth - 1 : depth - nz;
 
             for (var x = 0; x <= maxx; x++)
             {

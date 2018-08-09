@@ -37,7 +37,8 @@ namespace DeBroglie.Console
         {
             var bitmap = new Bitmap(filename);
             var colorArray = ToColorArray(bitmap);
-            return TopoArray.Create(colorArray, config.IsPeriodicInput).ToTiles();
+            var topology = new Topology(Directions.Cartesian2d, colorArray.GetLength(0), colorArray.GetLength(1), config.PeriodicInputX, config.PeriodicInputY);
+            return TopoArray.Create(colorArray, topology).ToTiles();
         }
 
         protected override void Save(TileModel model, TilePropagator propagator, string filename, DeBroglieConfig config)
@@ -79,7 +80,7 @@ namespace DeBroglie.Console
                     }
                 }
             }
-            var resultTopology = new Topology(topology.Directions, topology.Width * scale, topology.Height * scale, topology.Depth * scale, topology.Periodic);
+            var resultTopology = topology.WithSize(topology.Width * scale, topology.Height * scale, topology.Depth * scale);
             return TopoArray.Create(result, resultTopology);
         }
     }

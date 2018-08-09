@@ -57,11 +57,13 @@ namespace DeBroglie.Models
             if (sample.Topology.Depth == 1)
                 nz = 1;
 
-            var periodic = sample.Topology.Periodic;
+            var periodicX = sample.Topology.PeriodicX;
+            var periodicY = sample.Topology.PeriodicY;
+            var periodicZ = sample.Topology.PeriodicZ;
 
             foreach(var s in OverlappingAnalysis.GetRotatedSamples(sample, rotationalSymmetry, reflectionalSymmetry, tileRotation))
             {
-                OverlappingAnalysis.GetPatterns(s, nx, ny, nz, periodic, patternIndices, patternArrays, frequencies);
+                OverlappingAnalysis.GetPatterns(s, nx, ny, nz, periodicX, periodicY, periodicZ, patternIndices, patternArrays, frequencies);
             }
 
             // Update the model based on the collected data

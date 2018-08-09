@@ -7,7 +7,7 @@
 
         public TopoArray2D(T[,] values, bool periodic)
         {
-            Topology = new Topology(Directions.Cartesian2d,
+            Topology = new Topology(
                 values.GetLength(0),
                 values.GetLength(1),
                 periodic);
