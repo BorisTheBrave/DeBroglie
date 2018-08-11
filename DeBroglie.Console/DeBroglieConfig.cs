@@ -9,6 +9,8 @@ namespace DeBroglie.Console
 
     public class DeBroglieConfig
     {
+        public string BaseDirectory { get; set; }
+
         public string Dest { get; set; }
 
         public string Src { get; set; }

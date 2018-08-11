@@ -38,7 +38,7 @@ namespace DeBroglie.Console
             throw new System.Exception($"Unrecognized model type {modelConfig.GetType()}");
         }
 
-        public void ProcessItem(DeBroglieConfig config, string directory)
+        public void ProcessItem(DeBroglieConfig config)
         {
             if (config.Src == null)
             {
@@ -49,6 +49,8 @@ namespace DeBroglie.Console
             {
                 throw new System.Exception("dest attribute must be set");
             }
+
+            var directory = config.BaseDirectory;
 
             var src = Path.Combine(directory, config.Src);
             var dest = Path.Combine(directory, config.Dest);
@@ -259,6 +261,7 @@ namespace DeBroglie.Console
         {
             var directory = Path.GetDirectoryName(filename);
             var config = LoadItemsFile(filename);
+            config.BaseDirectory = config.BaseDirectory == null ? directory : Path.Combine(directory, config.BaseDirectory);
             if(config.Src == null)
             {
                 throw new Exception("src should be provided.");
@@ -266,17 +269,17 @@ namespace DeBroglie.Console
             else if (config.Src.EndsWith(".png"))
             {
                 var processor = new BitmapItemsProcessor();
-                processor.ProcessItem(config, directory);
+                processor.ProcessItem(config);
             }
             else if (config.Src.EndsWith(".tmx"))
             {
                 var processor = new TiledItemsProcessor();
-                processor.ProcessItem(config, directory);
+                processor.ProcessItem(config);
             }
             else if (config.Src.EndsWith(".vox"))
             {
                 var processor = new VoxItemsProcessor();
-                processor.ProcessItem(config, directory);
+                processor.ProcessItem(config);
             }
             else
             {
