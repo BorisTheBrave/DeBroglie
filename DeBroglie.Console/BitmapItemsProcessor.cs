@@ -1,6 +1,7 @@
 ﻿using DeBroglie.Models;
 using DeBroglie.Topo;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace DeBroglie.Console
@@ -33,6 +34,25 @@ namespace DeBroglie.Console
             return bitmap;
         }
 
+        private static Color ColorAverage(ISet<Tile> tiles)
+        {
+            int alpha = 0;
+            int red = 0;
+            int green = 0;
+            int blue = 0;
+            int n = 0;
+            foreach(var tile in tiles)
+            {
+                var color = (Color)tile.Value;
+                alpha += color.A;
+                red += color.R;
+                green += color.G;
+                blue += color.B;
+                n += 1;
+            }
+            return Color.FromArgb(alpha / n, red / n, green / n, blue / n);
+        }
+
         protected override ITopoArray<Tile> Load(string filename, DeBroglieConfig config)
         {
             var bitmap = new Bitmap(filename);
@@ -43,9 +63,19 @@ namespace DeBroglie.Console
 
         protected override void Save(TileModel model, TilePropagator propagator, string filename, DeBroglieConfig config)
         {
-            var array = propagator.ToValueArray(Color.Gray, Color.Magenta);
-            var bitmap = ToBitmap(array.ToArray2d());
-            bitmap.Save(filename);
+            if (config.Animate)
+            {
+
+                var topoArray = propagator.ToArraySets().Map(ColorAverage);
+                var bitmap = ToBitmap(topoArray.ToArray2d());
+                bitmap.Save(filename);
+            }
+            else
+            {
+                var topoArray = propagator.ToValueArray(Color.Gray, Color.Magenta);
+                var bitmap = ToBitmap(topoArray.ToArray2d());
+                bitmap.Save(filename);
+            }
         }
 
         protected override Tile Parse(string s)

@@ -44,6 +44,8 @@ namespace DeBroglie.Console
 
         public bool Backtrack { get; set; }
 
+        public bool Animate { get; set; }
+
         public List<TileData> Tiles { get; set; }
 
         [JsonConverter(typeof(ConstraintArrayConverter))]

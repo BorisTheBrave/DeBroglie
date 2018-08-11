@@ -154,7 +154,14 @@ namespace DeBroglie.Console
                     System.Console.WriteLine($"Found contradiction in initial conditions, retrying");
                     continue;
                 }
-                status = propagator.Run();
+                if (config.Animate)
+                {
+                    status = RunAnimate(config, model, propagator, dest);
+                }
+                else
+                {
+                    status = propagator.Run();
+                }
                 if (status == CellStatus.Contradiction)
                 {
                     System.Console.WriteLine($"Found contradiction, retrying");
@@ -174,6 +181,28 @@ namespace DeBroglie.Console
                 System.Console.WriteLine($"Writing {contdest}");
                 Save(model, propagator, contdest, config);
                 File.Delete(dest);
+            }
+        }
+
+        private CellStatus RunAnimate(DeBroglieConfig config, TileModel model, TilePropagator propagator, string dest)
+        {
+            if(!config.Animate)
+            {
+                return propagator.Run();
+            }
+            // Animate is true - we run the propagator, and save after every step
+            CellStatus status = CellStatus.Undecided;
+            var allFiles = new List<string>();
+            int i = 0;
+            while(true)
+            {
+                status = propagator.Step();
+                Directory.CreateDirectory(Path.GetDirectoryName(dest));
+                var currentDest = Path.ChangeExtension(dest, i + Path.GetExtension(dest));
+                allFiles.Add(currentDest);
+                Save(model, propagator, currentDest, config);
+                i++;
+                if (status != CellStatus.Undecided) return status;
             }
         }
 
