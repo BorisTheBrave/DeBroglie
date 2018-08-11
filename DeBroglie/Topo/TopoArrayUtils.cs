@@ -32,11 +32,11 @@ namespace DeBroglie.Topo
                     case 0:
                         return (x, y);
                     case 1:
-                        return (y, -x);
+                        return (-y, x);
                     case 2:
                         return (-x, -y);
                     case 3:
-                        return (-y, x);
+                        return (y, -x);
                     default:
                         throw new Exception();
                 }

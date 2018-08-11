@@ -18,7 +18,7 @@ namespace DeBroglie.Models
                 var reflections = reflectionalSymmetry ? 2 : 1;
                 for (var r = 0; r < reflections; r++)
                 {
-                    for (var i = 0; i < rotationalSymmetry; i += (6 / rotationalSymmetry))
+                    for (var i = 0; i < 6; i += (6 / rotationalSymmetry))
                     {
                         yield return TopoArrayUtils.HexRotate(sample, i, r > 0, tileRotation);
                     }
@@ -29,7 +29,7 @@ namespace DeBroglie.Models
                 var reflections = reflectionalSymmetry ? 2 : 1;
                 for (var r = 0; r < reflections; r++)
                 {
-                    for (var i = 0; i < rotationalSymmetry; i += (6 / rotationalSymmetry))
+                    for (var i = 0; i < 4; i += (4 / rotationalSymmetry))
                     {
                         yield return TopoArrayUtils.Rotate(sample, i, r > 0, tileRotation);
                     }
