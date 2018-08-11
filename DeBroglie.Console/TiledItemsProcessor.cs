@@ -108,6 +108,15 @@ namespace DeBroglie.Console
             // Check for any external files that may also need copying
             foreach(var tileset in map.Tilesets)
             {
+                if(tileset is ExternalTileset e)
+                {
+                    var srcPath = Path.Combine(Path.GetDirectoryName(srcFilename), e.source);
+                    var destPath = Path.Combine(Path.GetDirectoryName(filename), e.source);
+                    if (File.Exists(srcPath) && !File.Exists(destPath))
+                    {
+                        File.Copy(srcPath, destPath);
+                    }
+                }
                 if(tileset.ImagePath != null)
                 {
                     var srcImagePath = Path.Combine(Path.GetDirectoryName(srcFilename), tileset.ImagePath);
