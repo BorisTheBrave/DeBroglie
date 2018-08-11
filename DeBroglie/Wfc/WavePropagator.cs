@@ -265,6 +265,7 @@ namespace DeBroglie.Wfc
         public CellStatus Clear()
         {
             wave = new Wave(frequencies, indices);
+            toPropagate.Clear();
             status = CellStatus.Undecided;
 
             if(backtrack)

@@ -94,12 +94,12 @@ namespace DeBroglie.Console
                 var groundTile = Parse(config.Ground);
                 constraints.Add(new BorderConstraint
                 {
-                    Sides = BorderSides.YMax,
+                    Sides = is3d ? BorderSides.ZMin : BorderSides.YMax,
                     Tile = groundTile,
                 });
                 constraints.Add(new BorderConstraint
                 {
-                    Sides = BorderSides.YMax,
+                    Sides = is3d ? BorderSides.ZMin : BorderSides.YMax,
                     Tile = groundTile,
                     InvertArea = true,
                     Ban = true,

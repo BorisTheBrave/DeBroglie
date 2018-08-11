@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using TiledLib;
 using TiledLib.Layer;
 
 namespace DeBroglie.Console
@@ -34,36 +35,48 @@ namespace DeBroglie.Console
                     }
                 }
             }
-
-            // Read all the layers into a 3d array.
-            var tileLayers = map.Layers
-                .Where(x => x is TileLayer)
-                .Cast<TileLayer>()
-                .ToList();
-            var results = new Tile[map.Width, map.Height, tileLayers.Count];
-            Topology topology = null;
-            for(var z = 0; z < tileLayers.Count;z++)
+            if (map.Orientation == Orientation.hexagonal)
             {
-                var layer = tileLayers[z];
-                var layerArray = TiledUtil.ReadLayer(map, layer).ToTiles();
-                topology = layerArray.Topology;
-                for (var y = 0; y < layer.Height; y++)
-                {
-                    for (var x = 0; x < layer.Width; x++)
-                    {
-                        results[x, y, z] = layerArray.Get(x, y);
-                    }
-                }
-            }
-            if(tileLayers.Count > 1 && topology.Directions.Type == DirectionsType.Cartesian2d)
-            {
-                topology = new Topology(Directions.Cartesian3d, map.Width, map.Height, tileLayers.Count, false, false, false);
+                // Read a single layer
+                var layer = (TileLayer)map.Layers[0];
+                return TiledUtil.ReadLayer(map, layer).ToTiles();
             }
             else
             {
-                topology = new Topology(topology.Directions, topology.Width, topology.Height, tileLayers.Count, false, false, false);
+                // Read all the layers into a 3d array.
+                var tileLayers = map.Layers
+                    .Where(x => x is TileLayer)
+                    .Cast<TileLayer>()
+                    .ToList();
+                Tile[,,] results = null;
+                Topology topology = null;
+                for (var z = 0; z < tileLayers.Count; z++)
+                {
+                    var layer = tileLayers[z];
+                    var layerArray = TiledUtil.ReadLayer(map, layer).ToTiles();
+                    if (z == 0)
+                    {
+                        topology = layerArray.Topology;
+                        results = new Tile[topology.Width, topology.Height, tileLayers.Count];
+                    }
+                    for (var y = 0; y < topology.Height; y++)
+                    {
+                        for (var x = 0; x < topology.Width; x++)
+                        {
+                            results[x, y, z] = layerArray.Get(x, y);
+                        }
+                    }
+                }
+                if (tileLayers.Count > 1 && topology.Directions.Type == DirectionsType.Cartesian2d)
+                {
+                    topology = new Topology(Directions.Cartesian3d, map.Width, map.Height, tileLayers.Count, false, false, false);
+                }
+                else
+                {
+                    topology = new Topology(topology.Directions, topology.Width, topology.Height, tileLayers.Count, false, false, false);
+                }
+                return TopoArray.Create(results, topology);
             }
-            return TopoArray.Create(results, topology);
         }
 
         protected override Tile Parse(string s)
@@ -84,12 +97,12 @@ namespace DeBroglie.Console
         {
             var layerArray = tilePropagator.ToValueArray<int>();
             map.Layers = new BaseLayer[layerArray.Topology.Depth];
-            for(var z=0;z<layerArray.Topology.Depth;z++)
+            for(var z=0; z<layerArray.Topology.Depth; z++)
             {
                 map.Layers[z] = TiledUtil.MakeTileLayer(map, layerArray, z);
             }
-            map.Width = layerArray.Topology.Width;
-            map.Height = layerArray.Topology.Height;
+            map.Width = map.Layers[0].Width;
+            map.Height = map.Layers[0].Height;
             TiledUtil.Save(filename, map);
 
             // Check for any external files that may also need copying

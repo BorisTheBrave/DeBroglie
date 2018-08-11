@@ -44,7 +44,6 @@ namespace DeBroglie.Console
         protected override void Save(TileModel model, TilePropagator propagator, string filename, DeBroglieConfig config)
         {
             var array = propagator.ToValueArray(Color.Gray, Color.Magenta);
-            array = Scale(array, 2);
             var bitmap = ToBitmap(array.ToArray2d());
             bitmap.Save(filename);
         }
