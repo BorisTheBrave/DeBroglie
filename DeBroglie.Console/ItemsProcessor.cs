@@ -20,19 +20,17 @@ namespace DeBroglie.Console
 
         private static TileModel GetModel(DeBroglieConfig config, ITopoArray<Tile> sample, TileRotation tileRotation)
         {
-            var modelConfig = config.Model;
+            var modelConfig = config.Model ?? new Adjacent();
             if (modelConfig is Overlapping overlapping)
             {
-                var model = new OverlappingModel(overlapping.N);
-                var symmetries = config.Symmetry;
-                model.AddSample(sample, symmetries > 1 ? symmetries / 2 : 1, symmetries > 1, tileRotation);
+                var model = new OverlappingModel(overlapping.NX, overlapping.NY, overlapping.NZ);
+                model.AddSample(sample, config.RotationalSymmetry, config.ReflectionalSymmetry, tileRotation);
                 return model;
             }
             else if(modelConfig is Adjacent adjacent)
             {
                 var model = new AdjacentModel();
-                var symmetries = config.Symmetry;
-                model.AddSample(sample, symmetries > 1 ? symmetries / 2 : 1, symmetries > 1, tileRotation);
+                model.AddSample(sample, config.RotationalSymmetry, config.ReflectionalSymmetry, tileRotation);
                 return model;
             }
             throw new System.Exception($"Unrecognized model type {modelConfig.GetType()}");
