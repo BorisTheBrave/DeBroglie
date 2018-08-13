@@ -3,11 +3,16 @@ using DeBroglie.Topo;
 
 namespace DeBroglie.Constraints
 {
+    /// <summary>
+    /// Contains utilities relating to <see cref="PathConstraint"/>
+    /// </summary>
     public static class PathConstraintUtils
     {
-        // Find articulation points.
-        // For an explanation, see:
-        // https://www.boristhebrave.com/2018/04/28/random-paths-via-chiseling/
+        /// <summary>
+        /// Find articulation points.
+        /// For an explanation, see:
+        /// https://www.boristhebrave.com/2018/04/28/random-paths-via-chiseling/
+        /// </summary>
         public static bool[] GetArticulationPoints(Topology topology, bool[] walkable, bool[] relevant)
         {
             var indices = walkable.Length;

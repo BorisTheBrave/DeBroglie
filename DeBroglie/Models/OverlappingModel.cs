@@ -7,6 +7,9 @@ using System.Linq;
 namespace DeBroglie.Models
 {
 
+    /// <summary>
+    /// OverlappingModel constrains that every n by n rectangle in the output is a copy of a rectangle taken from the sample.
+    /// </summary>
     public class OverlappingModel : TileModel
     {
         private int nx;
@@ -35,6 +38,10 @@ namespace DeBroglie.Models
             AddSample(sample, rotationalSymmetry, reflectionalSymmetry);
         }
 
+        /// <summary>
+        /// Shorthand for constructing an Overlapping model with an n by n square or n by n by cuboid.
+        /// </summary>
+        /// <param name="n"></param>
         public OverlappingModel(int n)
             :this(n, n, n)
         {

@@ -1,5 +1,8 @@
 ﻿namespace DeBroglie.Topo
 {
+    /// <summary>
+    /// DirectionType indicates what neighbors are considered adjacent to each tile.
+    /// </summary>
     public enum DirectionsType
     {
         Unknown,
@@ -8,6 +11,9 @@
         Cartesian3d,
     }
 
+    /// <summary>
+    /// Wrapper around DirectionsType supplying some convenience data.
+    /// </summary>
     public struct Directions
     {
         public int[] DX { get; private set; }
@@ -18,6 +24,9 @@
 
         public DirectionsType Type { get; private set; }
 
+        /// <summary>
+        /// The Directions associated with square grids.
+        /// </summary>
         public static readonly Directions Cartesian2d = new Directions
         {
             DX = new[] { 1, -1, 0, 0 },
@@ -27,6 +36,12 @@
             Type = DirectionsType.Cartesian2d,
         };
 
+        /// <summary>
+        /// The Directions associated with hexagonal grids.
+        /// Conventially, x is treated as moving right, and y as moving down and left,
+        /// But the same Directions object will work just as well will several other conventions
+        /// as long as you are consistent.
+        /// </summary>
         public static readonly Directions Hexagonal2d = new Directions
         {
             DX = new[] { 1, -1, 0, 0, 1, -1 },
@@ -36,7 +51,9 @@
             Type = DirectionsType.Hexagonal2d,
         };
 
-
+        /// <summary>
+        /// The Directions associated with cubic grids.
+        /// </summary>
         public static readonly Directions Cartesian3d = new Directions
         {
             DX = new[] { 1, -1, 0, 0, 0, 0 },
@@ -46,6 +63,9 @@
             Type = DirectionsType.Cartesian3d,
         };
 
+        /// <summary>
+        /// Given a direction index, returns the direction index that makes the reverse movement.
+        /// </summary>
         public int Inverse(int d)
         {
             return d ^ 1;

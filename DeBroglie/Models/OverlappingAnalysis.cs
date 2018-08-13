@@ -5,6 +5,9 @@ using System.Collections.Generic;
 namespace DeBroglie.Models
 {
 
+    /// <summary>
+    /// Contains utilities relevant to <see cref="OverlappingModel"/>
+    /// </summary>
     internal static class OverlappingAnalysis
     {
         public static IEnumerable<ITopoArray<Tile>> GetRotatedSamples(

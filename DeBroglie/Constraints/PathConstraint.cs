@@ -3,14 +3,22 @@ using System.Linq;
 
 namespace DeBroglie.Constraints
 {
+    /// <summary>
+    /// The PathConstraint checks that it is possible to connect several locations together via a continuous path of adjacent tiles. 
+    /// It does this by banning any tile placement that would make such a path impossible.
+    /// </summary>
     public class PathConstraint : ITileConstraint
     {
-        // Set of patterns that are considered on the path
+        /// <summary>
+        /// Set of patterns that are considered on the path
+        /// </summary>
         public ISet<Tile> PathTiles { get; set; }
 
-        // Set of points that must be connected by paths.
-        // If null, then PathConstraint ensures that all path cells
-        // are connected.
+        /// <summary>
+        /// Set of points that must be connected by paths.
+        /// If null, then PathConstraint ensures that all path cells
+        /// are connected.
+        /// </summary>
         public Point[] EndPoints { get; set; }
 
         public PathConstraint(ISet<Tile> pathTiles, Point[] endPoints = null)

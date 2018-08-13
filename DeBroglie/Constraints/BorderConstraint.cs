@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace DeBroglie.Constraints
 {
+    /// <summary>
+    /// Used by <see cref="BorderConstraint"/> to indicate what area affected.
+    /// </summary>
     [Flags]
     public enum BorderSides
     {
@@ -17,12 +20,34 @@ namespace DeBroglie.Constraints
         All = 0x3F,
     }
 
+    /// <summary>
+    /// BorderConstraint class restricts what tiles can be selected in various regions of the output. 
+    /// 
+    /// For each affected location, BorderConstratin calls Select with the Tile specified.If the Ban field is set, then it calls Ban isntead of Select.
+    /// </summary>
     public class BorderConstraint : ITileConstraint
     {
+        /// <summary>
+        /// The tile to select or ban fromthe  border area.
+        /// </summary>
         public Tile Tile { get; set; }
+
+        /// <summary>
+        /// A set of flags specifying which sides of the output are affected by the constraint. 
+        /// </summary>
         public BorderSides Sides { get; set; } = BorderSides.All;
+
+        /// <summary>
+        /// These locations are subtracted from the ones specified in <see cref="Sides"/>. Defaults to empty.
+        /// </summary>
         public BorderSides ExcludeSides { get; set; } = BorderSides.None;
+
+        /// Inverts the area specified by <see cref="Sides"/> and <see cref="ExcludeSides"/>
         public bool InvertArea { get; set; }
+
+        /// <summary>
+        /// If true, ban <see cref="Tile"/> from the area. Otherwise, select it (i.e. ban every other tile).
+        /// </summary>
         public bool Ban { get; set; }
 
         public CellStatus Check(TilePropagator propagator)

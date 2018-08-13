@@ -6,6 +6,11 @@ using System.Linq;
 namespace DeBroglie.Models
 {
 
+    /// <summary>
+    /// AdjacentModel constrains which tiles can be placed adjacent to which other ones. 
+    /// It does so by maintaining for each tile, a list of tiles that can be placed next to it in each direction. 
+    /// The list is always symmetric, i.e. if it is legal to place tile B directly above tile A, then it is legal to place A directly below B.
+    /// </summary>
     public class AdjacentModel : TileModel
     {
         private IReadOnlyDictionary<int, Tile> patternsToTiles;
@@ -13,16 +18,25 @@ namespace DeBroglie.Models
         private List<double> frequencies;
         private List<HashSet<int>[]> propagator;
 
+        /// <summary>
+        /// Constructs an AdjacentModel and initializees it with a given sample.
+        /// </summary>
         public static AdjacentModel Create<T>(T[,] sample, bool periodic)
         {
             return Create(new TopoArray2D<T>(sample, periodic));
         }
 
+        /// <summary>
+        /// Constructs an AdjacentModel and initializees it with a given sample.
+        /// </summary>
         public static AdjacentModel Create<T>(ITopoArray<T> sample)
         {
             return new AdjacentModel(sample.ToTiles());
         }
 
+        /// <summary>
+        /// Constructs an AdjacentModel.
+        /// </summary>
         public AdjacentModel()
         {
             // Tiles map 1:1 with patterns
@@ -31,6 +45,9 @@ namespace DeBroglie.Models
             propagator = new List<HashSet<int>[]>();
         }
 
+        /// <summary>
+        /// Constructs an AdjacentModel and initializees it with a given sample.
+        /// </summary>
         public AdjacentModel(ITopoArray<Tile> sample)
             :this()
         {

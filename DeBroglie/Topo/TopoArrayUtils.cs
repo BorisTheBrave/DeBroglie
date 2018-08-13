@@ -3,7 +3,7 @@
 namespace DeBroglie.Topo
 {
 
-    public static class TopoArrayUtils
+    internal static class TopoArrayUtils
     {
         public delegate bool TileRotate<T>(T tile, out T result);
 
