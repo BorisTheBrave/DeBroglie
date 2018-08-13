@@ -44,7 +44,7 @@ namespace DeBroglie.Console
                 }
                 System.Console.WriteLine();
 
-                if (status != CellStatus.Undecided)
+                if (status != Resolution.Undecided)
                 {
                     System.Console.WriteLine(status);
                     break;

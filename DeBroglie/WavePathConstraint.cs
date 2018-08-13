@@ -24,13 +24,13 @@ namespace DeBroglie
             this.EndPoints = endPoints;
         }
 
-        public CellStatus Init(WavePropagator wp)
+        public Resolution Init(WavePropagator wp)
         {
             return Check(wp);
         }
 
 
-        public CellStatus Check(WavePropagator wp)
+        public Resolution Check(WavePropagator wp)
         {
             var wave = wp.Wave;
             var indices = wp.Indices;
@@ -65,7 +65,7 @@ namespace DeBroglie
             {
                 relevant = new bool[indices];
                 if (EndPoints.Length == 0)
-                    return CellStatus.Undecided;
+                    return Resolution.Undecided;
                 foreach(var endPoint in EndPoints)
                 {
                     var index = wp.Topology.GetIndex(endPoint.X, endPoint.Y, endPoint.Z);
@@ -78,7 +78,7 @@ namespace DeBroglie
 
             if(isArticulation == null)
             {
-                return CellStatus.Contradiction;
+                return Resolution.Contradiction;
             }
 
 
@@ -99,7 +99,7 @@ namespace DeBroglie
                 }
             }
 
-            return CellStatus.Undecided;
+            return Resolution.Undecided;
         }
 
         public static WavePathConstraint Create(TileModel overlappingModel, Tile[] pathTiles, Point[] endPoints)

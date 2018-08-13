@@ -27,12 +27,12 @@ namespace DeBroglie.Constraints
             this.EndPoints = endPoints;
         }
 
-        public CellStatus Init(TilePropagator propagator)
+        public Resolution Init(TilePropagator propagator)
         {
-            return CellStatus.Undecided;
+            return Resolution.Undecided;
         }
 
-        public CellStatus Check(TilePropagator propagator)
+        public Resolution Check(TilePropagator propagator)
         {
             var topology = propagator.Topology;
             var indices = topology.Width * topology.Height * topology.Depth;
@@ -57,7 +57,7 @@ namespace DeBroglie.Constraints
             {
                 relevant = new bool[indices];
                 if (EndPoints.Length == 0)
-                    return CellStatus.Undecided;
+                    return Resolution.Undecided;
                 foreach (var endPoint in EndPoints)
                 {
                     var index = topology.GetIndex(endPoint.X, endPoint.Y, endPoint.Z);
@@ -70,7 +70,7 @@ namespace DeBroglie.Constraints
 
             if (isArticulation == null)
             {
-                return CellStatus.Contradiction;
+                return Resolution.Contradiction;
             }
 
 
@@ -91,7 +91,7 @@ namespace DeBroglie.Constraints
                 }
             }
 
-            return CellStatus.Undecided;
+            return Resolution.Undecided;
         }
     }
 }

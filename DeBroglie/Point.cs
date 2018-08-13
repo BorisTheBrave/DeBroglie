@@ -1,6 +1,8 @@
 ﻿namespace DeBroglie
 {
-
+    /// <summary>
+    /// Represents a location in a topology.
+    /// </summary>
     public struct Point
     {
         public int X;

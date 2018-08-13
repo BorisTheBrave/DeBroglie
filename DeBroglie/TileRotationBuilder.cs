@@ -4,17 +4,34 @@ using System.Linq;
 
 namespace DeBroglie
 {
+    /// <summary>
+    /// Builds a <see cref="TileRotation"/>.
+    /// This class lets you specify some transformations between tiles via rotation and reflection.
+    /// It then infers the full set of transformations possible, and informs you if there are contradictions.
+    /// 
+    /// Tiles added here are assumed to have no transformations except those listed here.
+    /// Tiles that are unlisted are assumed to always transform to themselves (i.e. fully symmetric).
+    /// 
+    /// As an example of inference, if a square tile 1 transforms to tile 2 when rotated clockwise, and tile 2 transforms to itself when reflected in the x-axis,
+    /// then we can infer that tile 1 must transform to tile 1 when reflected in the y-axis.
+    /// </summary>
     public class TileRotationBuilder
     {
         private Dictionary<Tile, RotationGroup> tileToRotationGroup = new Dictionary<Tile, RotationGroup>();
 
         private int rotationalSymmetry = 4;
 
+        /// <summary>
+        /// Marks that a tile has no valid rotations.
+        /// </summary>
         public void NoRotate(Tile tile)
         {
             GetGroup(tile, out var rg);
         }
 
+        /// <summary>
+        /// Indicates that if you reflect then rotate clockwise the src tile as indicated, then you get the dest tile.
+        /// </summary>
         public void Add(Tile src, int rotate, bool reflectX, Tile dest)
         {
             var r = new Rotation
@@ -66,6 +83,10 @@ namespace DeBroglie
             return true;
         }
 
+        /// <summary>
+        /// Extracts the full set of 
+        /// </summary>
+        /// <returns></returns>
         public TileRotation Build()
         {
             IDictionary<Tuple<int, bool>, Tile> GetDict(Tile t, RotationGroup rg)

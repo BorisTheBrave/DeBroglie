@@ -4,11 +4,10 @@ using DeBroglie.Topo;
 
 namespace DeBroglie.Wfc
 {
-
-    /**
-     * WavePropagator holds a wave, and supports updating it's possibilities
-     * according to the model constraints.
-     */
+    /// <summary>
+    /// WavePropagator holds a wave, and supports updating it's possibilities 
+    /// according to the model constraints.
+    /// </summary>
     internal class WavePropagator
     {
         // Main data tracking what we've decided so far
@@ -38,7 +37,7 @@ namespace DeBroglie.Wfc
         private Random random;
 
         private Stack<PropagateItem> toPropagate;
-        private CellStatus status;
+        private Resolution status;
 
 
         private Topology topology;
@@ -134,7 +133,7 @@ namespace DeBroglie.Wfc
         }
         #endregion
 
-        private CellStatus Propagate()
+        private Resolution Propagate()
         {
             while (toPropagate.Count > 0)
             {
@@ -157,7 +156,7 @@ namespace DeBroglie.Wfc
                         {
                             if (InternalBan(i2, p))
                             {
-                                return status = CellStatus.Contradiction;
+                                return status = Resolution.Contradiction;
                             }
                         }
                     }
@@ -191,21 +190,21 @@ namespace DeBroglie.Wfc
             return patternCount - 1;
         }
 
-        private CellStatus Observe(out int index, out int pattern)
+        private Resolution Observe(out int index, out int pattern)
         {
             // Choose a random cell
             index = wave.GetRandomMinEntropyIndex(random);
             if (index == -1)
             {
                 pattern = -1;
-                return status = CellStatus.Decided;
+                return status = Resolution.Decided;
             }
             // Choose a random pattern
             pattern = GetRandomPossiblePatternAt(index);
             // Decide on the given cell
             if (InternalSelect(index, pattern))
             {
-                return status = CellStatus.Contradiction;
+                return status = Resolution.Contradiction;
             }
             return status;
         }
@@ -214,59 +213,59 @@ namespace DeBroglie.Wfc
         // otherwise returns -1 (multiple possible) or -2 (none possible)
         private int GetDecidedCell(int index)
         {
-            int decidedPattern = (int)CellStatus.Contradiction;
+            int decidedPattern = (int)Resolution.Contradiction;
             for (var pattern = 0; pattern < patternCount; pattern++)
             {
                 if (wave.Get(index, pattern))
                 {
-                    if (decidedPattern == (int)CellStatus.Contradiction)
+                    if (decidedPattern == (int)Resolution.Contradiction)
                     {
                         decidedPattern = pattern;
                     }
                     else
                     {
-                        return (int)CellStatus.Undecided;
+                        return (int)Resolution.Undecided;
                     }
                 }
             }
             return decidedPattern;
         }
 
-        private CellStatus InitConstraints()
+        private Resolution InitConstraints()
         {
             foreach (var constraint in constraints)
             {
                 status = constraint.Init(this);
-                if (status != CellStatus.Undecided) return status;
+                if (status != Resolution.Undecided) return status;
                 Propagate();
-                if (status != CellStatus.Undecided) return status;
+                if (status != Resolution.Undecided) return status;
             }
             return status;
         }
 
-        private CellStatus StepConstraints()
+        private Resolution StepConstraints()
         {
             foreach (var constraint in constraints)
             {
                 status = constraint.Check(this);
-                if (status != CellStatus.Undecided) return status;
+                if (status != Resolution.Undecided) return status;
                 Propagate();
-                if (status != CellStatus.Undecided) return status;
+                if (status != Resolution.Undecided) return status;
             }
             return status;
         }
 
-        public CellStatus Status => status;
+        public Resolution Status => status;
         public int BacktrackCount => backtrackCount;
 
         /**
          * Resets the wave to it's original state
          */
-        public CellStatus Clear()
+        public Resolution Clear()
         {
             wave = new Wave(frequencies, indices);
             toPropagate.Clear();
-            status = CellStatus.Undecided;
+            status = Resolution.Undecided;
 
             if(backtrack)
             {
@@ -290,7 +289,7 @@ namespace DeBroglie.Wfc
                         {
                             if (InternalBan(index, pattern))
                             {
-                                return status = CellStatus.Contradiction;
+                                return status = Resolution.Contradiction;
                             }
                             break;
                         }
@@ -304,14 +303,14 @@ namespace DeBroglie.Wfc
         /**
          * Removes pattern as a possibility from index
          */
-        public CellStatus Ban(int x, int y, int z, int pattern)
+        public Resolution Ban(int x, int y, int z, int pattern)
         {
             var index = topology.GetIndex(x, y, z);
             if (wave.Get(index, pattern))
             {
                 if (InternalBan(index, pattern))
                 {
-                    return status = CellStatus.Contradiction;
+                    return status = Resolution.Contradiction;
                 }
             }
             return Propagate();
@@ -320,12 +319,12 @@ namespace DeBroglie.Wfc
         /**
          * Removes all other patterns as possibilities for index.
          */
-        public CellStatus Select(int x, int y, int z, int pattern)
+        public Resolution Select(int x, int y, int z, int pattern)
         {
             var index = topology.GetIndex(x, y, z);
             if (InternalSelect(index, pattern))
             {
-                return status = CellStatus.Contradiction;
+                return status = Resolution.Contradiction;
             }
             return Propagate();
         }
@@ -333,9 +332,9 @@ namespace DeBroglie.Wfc
         /**
          * Make some progress in the WaveFunctionCollapseAlgorithm
          */
-        public CellStatus Step()
+        public Resolution Step()
         {
-            if (status != CellStatus.Undecided) return status;
+            if (status != Resolution.Undecided) return status;
 
             if (backtrack)
             {
@@ -353,10 +352,10 @@ namespace DeBroglie.Wfc
 
             restart:
 
-            if (status == CellStatus.Undecided) status = Propagate();
-            if (status == CellStatus.Undecided) status = StepConstraints();
+            if (status == Resolution.Undecided) status = Propagate();
+            if (status == Resolution.Undecided) status = StepConstraints();
 
-            if (backtrack && status == CellStatus.Contradiction)
+            if (backtrack && status == Resolution.Contradiction)
             {
                 // Actually backtrack
                 while (true)
@@ -365,7 +364,7 @@ namespace DeBroglie.Wfc
                     {
                         // We've backtracked as much as we can, but 
                         // it's still not possible. That means it is imposible
-                        return CellStatus.Contradiction;
+                        return Resolution.Contradiction;
                     }
                     wave = prevWaves.Pop();
                     compatible = prevCompatible.Pop();
@@ -378,7 +377,7 @@ namespace DeBroglie.Wfc
                         // Still in contradiction, need to backtrack further
                         continue;
                     }
-                    status = CellStatus.Undecided;
+                    status = Resolution.Undecided;
                     goto restart;
                 }
             }
@@ -389,12 +388,12 @@ namespace DeBroglie.Wfc
         /**
          * Rpeatedly step until the status is Decided or Contradiction
          */
-        public CellStatus Run()
+        public Resolution Run()
         {
             while (true)
             {
                 Step();
-                if (status != CellStatus.Undecided) return status;
+                if (status != Resolution.Undecided) return status;
             }
         }
 

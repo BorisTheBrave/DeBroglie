@@ -29,7 +29,7 @@ namespace DeBroglie.Test
                 new PathConstraint(new HashSet<Tile>{new Tile(1)}, new []{new Point(0,0), new Point(9, 9) })
             });
             var status = propagator.Run();
-            Assert.AreEqual(CellStatus.Decided, status);
+            Assert.AreEqual(Resolution.Decided, status);
             var result = propagator.ToValueArray<int>().ToArray2d();
             // Write out result for debugging
             for (var y = 0; y < 10; y++)

@@ -24,7 +24,7 @@ namespace DeBroglie.Test
                 }
             });
             var status = propagator.Run();
-            Assert.AreEqual(CellStatus.Decided, status);
+            Assert.AreEqual(Resolution.Decided, status);
             var result = propagator.ToValueArray<int>().ToArray2d();
             Assert.AreEqual(0, result[0, 0]);
             Assert.AreEqual(0, result[9, 0]);

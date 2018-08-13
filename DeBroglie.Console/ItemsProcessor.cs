@@ -141,7 +141,7 @@ namespace DeBroglie.Console
             System.Console.WriteLine($"Processing {dest}");
             var propagator = new TilePropagator(model, topology, config.Backtrack, constraints: constraints.ToArray());
 
-            CellStatus status = propagator.Status;
+            Resolution status = propagator.Status;
 
             for (var retry = 0; retry < 5; retry++)
             {
@@ -149,7 +149,7 @@ namespace DeBroglie.Console
                 {
                     status = propagator.Clear();
                 }
-                if (status == CellStatus.Contradiction)
+                if (status == Resolution.Contradiction)
                 {
                     System.Console.WriteLine($"Found contradiction in initial conditions, retrying");
                     continue;
@@ -162,7 +162,7 @@ namespace DeBroglie.Console
                 {
                     status = propagator.Run();
                 }
-                if (status == CellStatus.Contradiction)
+                if (status == Resolution.Contradiction)
                 {
                     System.Console.WriteLine($"Found contradiction, retrying");
                     continue;
@@ -170,7 +170,7 @@ namespace DeBroglie.Console
                 break;
             }
             Directory.CreateDirectory(Path.GetDirectoryName(dest));
-            if (status == CellStatus.Decided)
+            if (status == Resolution.Decided)
             {
                 System.Console.WriteLine($"Writing {dest}");
                 Save(model, propagator, dest, config);
@@ -184,14 +184,14 @@ namespace DeBroglie.Console
             }
         }
 
-        private CellStatus RunAnimate(DeBroglieConfig config, TileModel model, TilePropagator propagator, string dest)
+        private Resolution RunAnimate(DeBroglieConfig config, TileModel model, TilePropagator propagator, string dest)
         {
             if(!config.Animate)
             {
                 return propagator.Run();
             }
             // Animate is true - we run the propagator, and save after every step
-            CellStatus status = CellStatus.Undecided;
+            Resolution status = Resolution.Undecided;
             var allFiles = new List<string>();
             int i = 0;
             while(true)
@@ -202,7 +202,7 @@ namespace DeBroglie.Console
                 allFiles.Add(currentDest);
                 Save(model, propagator, currentDest, config);
                 i++;
-                if (status != CellStatus.Undecided) return status;
+                if (status != Resolution.Undecided) return status;
             }
         }
 

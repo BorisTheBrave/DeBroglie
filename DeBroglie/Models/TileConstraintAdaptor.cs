@@ -14,12 +14,12 @@ namespace DeBroglie.Models
             this.propagator = propagator;
         }
 
-        public CellStatus Check(WavePropagator wavePropagator)
+        public Resolution Check(WavePropagator wavePropagator)
         {
             return underlying.Check(propagator);
         }
 
-        public CellStatus Init(WavePropagator wavePropagator)
+        public Resolution Init(WavePropagator wavePropagator)
         {
             return underlying.Init(propagator);
         }

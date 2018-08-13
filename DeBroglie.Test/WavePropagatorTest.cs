@@ -26,7 +26,7 @@ namespace DeBroglie.Test
             var topology = new Topology(width, height, true);
             var propagator = new WavePropagator(model, topology);
             var status = propagator.Run();
-            Assert.AreEqual(CellStatus.Decided, status);
+            Assert.AreEqual(Resolution.Decided, status);
             var a = propagator.ToTopArray().ToArray2d();
             var topLeft = a[0, 0];
             for (var x = 0; x < width; x++)
@@ -41,7 +41,7 @@ namespace DeBroglie.Test
             topology = new Topology(width + 1, height + 1, true);
             propagator = new WavePropagator(model, topology);
             status = propagator.Run();
-            Assert.AreEqual(CellStatus.Contradiction, status);
+            Assert.AreEqual(Resolution.Contradiction, status);
         }
 
         [Test]
@@ -62,7 +62,7 @@ namespace DeBroglie.Test
             var topology = new Topology(width, height, depth, true);
             var propagator = new WavePropagator(model, topology);
             var status = propagator.Run();
-            Assert.AreEqual(CellStatus.Decided, status);
+            Assert.AreEqual(Resolution.Decided, status);
             var a = propagator.ToTopArray();
             var topLeft = a.Get(0, 0, 0);
             for (var x = 0; x < width; x++)
@@ -80,7 +80,7 @@ namespace DeBroglie.Test
             topology = new Topology(width + 1, height + 1, depth + 1, true);
             propagator = new WavePropagator(model, topology);
             status = propagator.Run();
-            Assert.AreEqual(CellStatus.Contradiction, status);
+            Assert.AreEqual(Resolution.Contradiction, status);
         }
 
         [Test]
@@ -132,7 +132,7 @@ namespace DeBroglie.Test
 
             var status = wavePropagator.Run();
 
-            Assert.AreEqual(CellStatus.Decided, status);
+            Assert.AreEqual(Resolution.Decided, status);
 
             Console.WriteLine($"Backtrack Count {wavePropagator.BacktrackCount}");
         }

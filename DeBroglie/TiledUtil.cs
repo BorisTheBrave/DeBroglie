@@ -7,8 +7,15 @@ using TiledLib.Layer;
 
 namespace DeBroglie
 {
+    /// <summary>
+    /// Utilities for working with <see href="https://www.mapeditor.org/">Tiled files</see>. 
+    /// This class mostly delegates work to <see href="https://github.com/Ragath/TiledLib.Net">TiledLib.Net</see>
+    /// </summary>
     public static class TiledUtil
     {
+        /// <summary>
+        /// Loads a <see cref="Map"/>
+        /// </summary>
         public static Map Load(string filename)
         {
             using (var s = File.OpenRead(filename))
@@ -17,6 +24,9 @@ namespace DeBroglie
             }
         }
 
+        /// <summary>
+        /// Saves a <see cref="Map"/> to a file.
+        /// </summary>
         public static void Save(string filename, Map map)
         {
             using (var stream = File.OpenWrite(filename))
@@ -29,6 +39,9 @@ namespace DeBroglie
             }
         }
 
+        /// <summary>
+        /// Reads a layer of a <see cref="Map"/> into an <see cref="ITopoArray{T}"/>
+        /// </summary>
         public static ITopoArray<int> ReadLayer(Map map, TileLayer layer)
         {
             if (map.Orientation == Orientation.orthogonal)
@@ -83,6 +96,10 @@ namespace DeBroglie
             }
         }
 
+        /// <summary>
+        /// Convers a <see cref="ITopoArray{T}"/> to a layer of a <see cref="Map"/>.
+        /// If the array is 3d, this reads a place with a given z co-ordinate.
+        /// </summary>
         public static TileLayer MakeTileLayer(Map map, ITopoArray<int> array, int z = 0)
         {
             if (map.Orientation == Orientation.orthogonal)

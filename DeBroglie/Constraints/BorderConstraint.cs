@@ -50,9 +50,9 @@ namespace DeBroglie.Constraints
         /// </summary>
         public bool Ban { get; set; }
 
-        public CellStatus Check(TilePropagator propagator)
+        public Resolution Check(TilePropagator propagator)
         {
-            return CellStatus.Undecided;
+            return Resolution.Undecided;
         }
 
         private bool Match(BorderSides sides, bool xmin, bool xmax, bool ymin, bool ymax, bool zmin, bool zmax)
@@ -67,7 +67,7 @@ namespace DeBroglie.Constraints
 
         }
 
-        public CellStatus Init(TilePropagator propagator)
+        public Resolution Init(TilePropagator propagator)
         {
             var width = propagator.Topology.Width;
             var height = propagator.Topology.Height;
@@ -95,20 +95,20 @@ namespace DeBroglie.Constraints
                             if (Ban)
                             {
                                 var cellStatus = propagator.Ban(x, y, z, Tile);
-                                if (cellStatus != CellStatus.Undecided)
+                                if (cellStatus != Resolution.Undecided)
                                     return cellStatus;
                             }
                             else
                             {
                                 var cellStatus = propagator.Select(x, y, z, Tile);
-                                if (cellStatus != CellStatus.Undecided)
+                                if (cellStatus != Resolution.Undecided)
                                     return cellStatus;
                             }
                         }
                     }
                 }
             }
-            return CellStatus.Undecided;
+            return Resolution.Undecided;
         }
     }
 }

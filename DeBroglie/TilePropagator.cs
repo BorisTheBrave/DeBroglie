@@ -149,29 +149,29 @@ namespace DeBroglie
         public Topology Topology => topology;
         public TileModel TileModel => tileModel;
 
-        public CellStatus Status => wavePropagator.Status;
+        public Resolution Status => wavePropagator.Status;
         public int BacktrackCount => wavePropagator.BacktrackCount;
 
-        public CellStatus Clear()
+        public Resolution Clear()
         {
             return wavePropagator.Clear();
         }
 
 
-        public CellStatus Ban(int x, int y, int z, Tile tile)
+        public Resolution Ban(int x, int y, int z, Tile tile)
         {
             TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var ox, out var oy, out var oz);
             var patterns = GetPatterns(tilesToPatternsByOffset[CombineOffsets(ox, oy, oz)], tile);
             foreach(var p in patterns)
             {
                 var status = wavePropagator.Ban(px, py, pz, p);
-                if (status != CellStatus.Undecided)
+                if (status != Resolution.Undecided)
                     return status;
             }
-            return CellStatus.Undecided;
+            return Resolution.Undecided;
         }
 
-        public CellStatus Select(int x, int y, int z, Tile tile)
+        public Resolution Select(int x, int y, int z, Tile tile)
         {
             TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var ox, out var oy, out var oz);
             var patterns = GetPatterns(tilesToPatternsByOffset[CombineOffsets(ox, oy, oz)], tile);
@@ -180,18 +180,18 @@ namespace DeBroglie
                 if (patterns.Contains(p))
                     continue;
                 var status = wavePropagator.Ban(px, py, pz, p);
-                if (status != CellStatus.Undecided)
+                if (status != Resolution.Undecided)
                     return status;
             }
-            return CellStatus.Undecided;
+            return Resolution.Undecided;
         }
 
-        public CellStatus Step()
+        public Resolution Step()
         {
             return wavePropagator.Step();
         }
 
-        public CellStatus Run()
+        public Resolution Run()
         {
             return wavePropagator.Run();
         }
@@ -264,10 +264,10 @@ namespace DeBroglie
                         TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var ox, out var oy, out var oz);
                         var pattern = patternArray.Get(px, py, pz);
                         Tile tile;
-                        if (pattern == (int)CellStatus.Undecided)
+                        if (pattern == (int)Resolution.Undecided)
                         {
                             tile = undecided;
-                        }else if (pattern == (int) CellStatus.Contradiction)
+                        }else if (pattern == (int) Resolution.Contradiction)
                         {
                             tile = contradiction;
                         }
@@ -300,11 +300,11 @@ namespace DeBroglie
                         TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var ox, out var oy, out var oz);
                         var pattern = patternArray.Get(px, py, pz);
                         T value;
-                        if (pattern == (int)CellStatus.Undecided)
+                        if (pattern == (int)Resolution.Undecided)
                         {
                             value = undecided;
                         }
-                        else if (pattern == (int)CellStatus.Contradiction)
+                        else if (pattern == (int)Resolution.Contradiction)
                         {
                             value = contradiction;
                         }
