@@ -191,7 +191,7 @@ namespace DeBroglie.Console
     {
         public string Value { get; set; }
 
-        public string ChangeFrequency { get; set; }
+        public string MultiplyFrequency { get; set; }
 
         public string ReflectX { get; set; }
 

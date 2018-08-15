@@ -131,9 +131,8 @@ namespace DeBroglie.Models
         public override IReadOnlyDictionary<int, Tile> PatternsToTiles => patternsToTiles;
         public override ILookup<Tile, int> TilesToPatterns  => tilesToPatterns.ToLookup(x=>x.Key, x=>x.Value);
 
-        public override void ChangeFrequency(Tile tile, double relativeChange)
+        public override void MultiplyFrequency(Tile tile, double multiplier)
         {
-            var multiplier = (1 + relativeChange);
             var patterns = TilesToPatterns[tile];
             foreach (var pattern in patterns)
             {

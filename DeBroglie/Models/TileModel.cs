@@ -31,8 +31,8 @@ namespace DeBroglie.Models
         public abstract ILookup<Tile, int> TilesToPatterns { get; }
 
         /// <summary>
-        /// Changes the frequence of a specific tile.
+        /// Scales the the occurency frequency of a given tile by the given multiplier.
         /// </summary>
-        public abstract void ChangeFrequency(Tile tile, double relativeChange);
+        public abstract void MultiplyFrequency(Tile tile, double multiplier);
     }
 }

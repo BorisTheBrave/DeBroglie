@@ -70,9 +70,9 @@ namespace DeBroglie.Console
                 foreach (var tile in config.Tiles)
                 {
                     var value = Parse(tile.Value);
-                    if(tile.ChangeFrequency != null)
+                    if(tile.MultiplyFrequency != null)
                     {
-                        var cf = tile.ChangeFrequency.Trim();
+                        var cf = tile.MultiplyFrequency.Trim();
                         double cfd;
                         if(cf.EndsWith("%"))
                         {
@@ -82,7 +82,7 @@ namespace DeBroglie.Console
                         {
                             cfd = double.Parse(cf);
                         }
-                        model.ChangeFrequency(value, cfd);
+                        model.MultiplyFrequency(value, cfd);
                     }
                 }
             }

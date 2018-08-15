@@ -14,7 +14,7 @@ namespace DeBroglie
     public static class TiledUtil
     {
         /// <summary>
-        /// Loads a <see cref="Map"/>
+        /// Loads a Map
         /// </summary>
         public static Map Load(string filename)
         {
@@ -25,7 +25,7 @@ namespace DeBroglie
         }
 
         /// <summary>
-        /// Saves a <see cref="Map"/> to a file.
+        /// Saves a Map to a file.
         /// </summary>
         public static void Save(string filename, Map map)
         {
@@ -40,7 +40,7 @@ namespace DeBroglie
         }
 
         /// <summary>
-        /// Reads a layer of a <see cref="Map"/> into an <see cref="ITopoArray{T}"/>
+        /// Reads a layer of a Map into an <see cref="ITopoArray{T}"/>
         /// </summary>
         public static ITopoArray<int> ReadLayer(Map map, TileLayer layer)
         {
@@ -97,7 +97,7 @@ namespace DeBroglie
         }
 
         /// <summary>
-        /// Convers a <see cref="ITopoArray{T}"/> to a layer of a <see cref="Map"/>.
+        /// Convers a <see cref="ITopoArray{T}"/> to a layer of a Map
         /// If the array is 3d, this reads a place with a given z co-ordinate.
         /// </summary>
         public static TileLayer MakeTileLayer(Map map, ITopoArray<int> array, int z = 0)
