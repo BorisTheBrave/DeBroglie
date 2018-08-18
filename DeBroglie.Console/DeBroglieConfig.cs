@@ -193,6 +193,8 @@ namespace DeBroglie.Console
 
         public string MultiplyFrequency { get; set; }
 
+        public string TileSymmetry { get; set; }
+
         public string ReflectX { get; set; }
 
         public string ReflectY { get; set; }

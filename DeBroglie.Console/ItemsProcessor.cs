@@ -217,6 +217,11 @@ namespace DeBroglie.Console
                 foreach (var tile in tileData)
                 {
                     var value = Parse(tile.Value);
+                    if(tile.TileSymmetry != null)
+                    {
+                        var ts = TileSymmetryUtils.Parse(tile.TileSymmetry);
+                        tileRotationBuilder.SetSymmetry(value, ts);
+                    }
                     if (tile.ReflectX != null)
                     {
                         tileRotationBuilder.Add(value, 0, true, Parse(tile.ReflectX));

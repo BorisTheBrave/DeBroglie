@@ -32,7 +32,7 @@ namespace DeBroglie
         /// <summary>
         /// Indicates that if you reflect then rotate clockwise the src tile as indicated, then you get the dest tile.
         /// </summary>
-        public void Add(Tile src, int rotate, bool reflectX, Tile dest)
+        public void Add(Tile src, int rotateCw, bool reflectX, Tile dest)
         {
             var r = new Rotation
             {
@@ -81,6 +81,53 @@ namespace DeBroglie
             rg.Tiles[r] = tile;
             tileToRotationGroup[tile] = rg;
             return true;
+        }
+
+        public void SetSymmetry(Tile tile, TileSymmetry ts)
+        {
+            // I've listed the subgroups in the order found here:
+            // https://groupprops.subwiki.org/wiki/Subgroup_structure_of_dihedral_group:D8
+            switch (ts)
+            {
+                case TileSymmetry.None:
+                    NoRotate(tile);
+                    break;
+
+                case TileSymmetry.N:
+                    Add(tile, 2, false, tile);
+                    break;
+
+                case TileSymmetry.T:
+                    Add(tile, 0, true, tile);
+                    break;
+                case TileSymmetry.L:
+                    Add(tile, 1, true, tile);
+                    break;
+                case TileSymmetry.E:
+                    Add(tile, 2, true, tile);
+                    break;
+                case TileSymmetry.Q:
+                    Add(tile, 3, true, tile);
+                    break;
+
+                case TileSymmetry.I:
+                    Add(tile, 0, true, tile);
+                    Add(tile, 2, false, tile);
+                    break;
+                case TileSymmetry.Slash:
+                    Add(tile, 1, true, tile);
+                    Add(tile, 2, false, tile);
+                    break;
+
+                case TileSymmetry.Cyclic:
+                    Add(tile, 1, false, tile);
+                    break;
+
+                case TileSymmetry.X:
+                    Add(tile, 0, true, tile);
+                    Add(tile, 1, false, tile);
+                    break;
+            }
         }
 
         /// <summary>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace DeBroglie
 {
+
     /// <summary>
     /// Stores how tiles transform to each other via rotations and reflections.
     /// These are constructed with a <see cref="TileRotationBuilder"/>
