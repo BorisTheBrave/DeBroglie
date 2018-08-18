@@ -16,9 +16,9 @@ namespace DeBroglie.Topo
             return Rotate<Tile>(original, rotate, reflectX, tileRotation == null ? null : (TileRotate<Tile> )TileRotate);
         }
 
-        public static ITopoArray<T> Rotate<T>(ITopoArray<T> original, int rotate, bool reflectX = false, TileRotate<T> tileRotate = null)
+        public static ITopoArray<T> Rotate<T>(ITopoArray<T> original, int rotateCw, bool reflectX = false, TileRotate<T> tileRotate = null)
         {
-            if (rotate == 0 && !reflectX)
+            if (rotateCw == 0 && !reflectX)
                 return original;
 
             ValueTuple<int, int> MapCoord(int x, int y)
@@ -27,7 +27,7 @@ namespace DeBroglie.Topo
                 {
                     x = -x;
                 }
-                switch (rotate)
+                switch (rotateCw)
                 {
                     case 0:
                         return (x, y);
@@ -54,13 +54,13 @@ namespace DeBroglie.Topo
             return HexRotate<Tile>(original, rotate, reflectX, tileRotation == null ? null : (TileRotate<Tile>)TileRotate);
         }
 
-        public static ITopoArray<T> HexRotate<T>(ITopoArray<T> original, int rotate, bool reflectX, TileRotate<T> tileRotate = null)
+        public static ITopoArray<T> HexRotate<T>(ITopoArray<T> original, int rotateCw, bool reflectX, TileRotate<T> tileRotate = null)
         {
-            if (rotate == 0 && !reflectX)
+            if (rotateCw == 0 && !reflectX)
                 return original;
 
-            var microRotate = rotate % 3;
-            var rotate180 = rotate % 2 == 1;
+            var microRotate = rotateCw % 3;
+            var rotate180 = rotateCw % 2 == 1;
 
             // Actually do a reflection/rotation
             ValueTuple<int, int> MapCoord(int x, int y)
@@ -76,8 +76,8 @@ namespace DeBroglie.Topo
                 switch (microRotate)
                 {
                     case 0: break;
-                    case 1: q = r; r = s; s = q2; break;
-                    case 2: q = s; s = r; r = q2; break;
+                    case 1: q = s; s = r; r = q2; break;
+                    case 2: q = r; r = s; s = q2; break;
                 }
                 if (rotate180)
                 {
