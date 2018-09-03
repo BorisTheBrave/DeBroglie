@@ -10,7 +10,8 @@
         /// <summary>
         /// No symmetry
         /// </summary>
-        F,
+        F = 0,
+        None = 0,
         /// <summary>
         /// Fully symmetric
         /// </summary>

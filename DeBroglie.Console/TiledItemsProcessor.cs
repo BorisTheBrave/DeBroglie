@@ -15,6 +15,8 @@ namespace DeBroglie.Console
         private string srcFilename;
         private IDictionary<string, int> tilesByName;
 
+        protected override bool ShouldGenerateTileRotations => true;
+
         protected override ITopoArray<Tile> Load(string filename, DeBroglieConfig config)
         {
             srcFilename = filename;
@@ -95,9 +97,9 @@ namespace DeBroglie.Console
 
         protected override void Save(TileModel model, TilePropagator tilePropagator, string filename, DeBroglieConfig config)
         {
-            var layerArray = tilePropagator.ToValueArray<int>();
+            var layerArray = tilePropagator.ToArray();
             map.Layers = new BaseLayer[layerArray.Topology.Depth];
-            for(var z=0; z<layerArray.Topology.Depth; z++)
+            for(var z = 0; z < layerArray.Topology.Depth; z++)
             {
                 map.Layers[z] = TiledUtil.MakeTileLayer(map, layerArray, z);
             }

@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace DeBroglie
 {
+
     /// <summary>
     /// Builds a <see cref="TileRotation"/>.
     /// This class lets you specify some transformations between tiles via rotation and reflection.
@@ -19,7 +20,11 @@ namespace DeBroglie
     {
         private Dictionary<Tile, RotationGroup> tileToRotationGroup = new Dictionary<Tile, RotationGroup>();
 
-        private int rotationalSymmetry = 4;
+        private TransformGroup tg;
+
+        public TileRotationBuilder()
+        {
+        }
 
         /// <summary>
         /// Marks that a tile has no valid rotations.
@@ -34,10 +39,10 @@ namespace DeBroglie
         /// </summary>
         public void Add(Tile src, int rotateCw, bool reflectX, Tile dest)
         {
-            var r = new Rotation
+            var tf = new Transform
             {
                 ReflectX = reflectX,
-                Rotate = rotate,
+                RotateCw = rotateCw,
             };
 
             GetGroup(src, out var srcRg);
@@ -45,32 +50,32 @@ namespace DeBroglie
             // Groups need merging
             if(srcRg != destRg)
             {
-                var srcR = srcRg.GetRotations(src)[0];
-                var destR = destRg.GetRotations(dest)[0];
+                var srcR = srcRg.GetTransforms(src)[0];
+                var destR = destRg.GetTransforms(dest)[0];
 
                 // Arrange destRG so that it is relatively rotated
                 // to srcRG as specified by r.
-                destRg.Permute(rot => Mul(rot, destR.Inverse(), srcR, r));
+                destRg.Permute(rot => tg.Mul(rot, tg.Inverse(destR), srcR, tf));
 
                 // Attempt to copy over tiles
                 srcRg.Entries.AddRange(destRg.Entries);
                 foreach (var kv in destRg.Tiles)
                 {
-                    Set(srcRg, kv.Key, kv.Value, $"record rotation from {src} to {dest} by {r}");
+                    Set(srcRg, kv.Key, kv.Value, $"record rotation from {src} to {dest} by {tf}");
                 }
             }
             srcRg.Entries.Add(new Entry
             {
                 Src = src,
-                R = r,
+                Tf = tf,
                 Dest = dest,
             });
             Expand(srcRg);
         }
 
-        private bool Set(RotationGroup rg, Rotation r, Tile tile, string action)
+        private bool Set(RotationGroup rg, Transform tf, Tile tile, string action)
         {
-            if(rg.Tiles.TryGetValue(r, out var current))
+            if(rg.Tiles.TryGetValue(tf, out var current))
             {
                 if(current != tile)
                 {
@@ -78,7 +83,7 @@ namespace DeBroglie
                 }
                 return false;
             }
-            rg.Tiles[r] = tile;
+            rg.Tiles[tf] = tile;
             tileToRotationGroup[tile] = rg;
             return true;
         }
@@ -89,10 +94,9 @@ namespace DeBroglie
             // https://groupprops.subwiki.org/wiki/Subgroup_structure_of_dihedral_group:D8
             switch (ts)
             {
-                case TileSymmetry.None:
+                case TileSymmetry.F:
                     NoRotate(tile);
                     break;
-
                 case TileSymmetry.N:
                     Add(tile, 2, false, tile);
                     break;
@@ -136,17 +140,14 @@ namespace DeBroglie
         /// <returns></returns>
         public TileRotation Build()
         {
-            IDictionary<Tuple<int, bool>, Tile> GetDict(Tile t, RotationGroup rg)
+            IDictionary<Transform, Tile> GetDict(Tile t, RotationGroup rg)
             {
-                var r = rg.GetRotations(t)[0];
-                return rg.Tiles.ToDictionary(kv =>
-                {
-                    var rot = Mul(r.Inverse(), kv.Key);
-                    return Tuple.Create(rot.Rotate, rot.ReflectX);
-                }, kv => kv.Value);
+                var tf = rg.GetTransforms(t)[0];
+                return rg.Tiles.ToDictionary(kv => tg.Mul(tg.Inverse(tf), kv.Key)
+                , kv => kv.Value);
             }
 
-            return new TileRotation(tileToRotationGroup.ToDictionary(kv => kv.Key, kv => GetDict(kv.Key, kv.Value)));
+            return new TileRotation(tileToRotationGroup.ToDictionary(kv => kv.Key, kv => GetDict(kv.Key, kv.Value)), tg);
         }
 
         private void GetGroup(Tile tile, out RotationGroup rg)
@@ -157,7 +158,7 @@ namespace DeBroglie
             }
 
             rg = new RotationGroup();
-            rg.Tiles[new Rotation()] = tile;
+            rg.Tiles[new Transform()] = tile;
             tileToRotationGroup[tile] = rg;
         }
 
@@ -173,56 +174,37 @@ namespace DeBroglie
                     {
                         if (kv.Value == entry.Src)
                         {
-                            expanded = expanded || Set(rg, Mul(kv.Key, entry.R), entry.Dest, "resolve conflicting rotations");
+                            expanded = expanded || Set(rg, tg.Mul(kv.Key, entry.Tf), entry.Dest, "resolve conflicting rotations");
                         }
                         if (kv.Value == entry.Dest)
                         {
-                            expanded = expanded || Set(rg, Mul(kv.Key, entry.R.Inverse()), entry.Src, "resolve conflicting rotations");
+                            expanded = expanded || Set(rg, tg.Mul(kv.Key, tg.Inverse(entry.Tf)), entry.Src, "resolve conflicting rotations");
                         }
                     }
                 }
             } while (expanded);
         }
 
-        private Rotation Mul(Rotation a, Rotation b)
-        {
-            var r = new Rotation
-            {
-                Rotate = (b.ReflectX ? -a.Rotate : a.Rotate) + b.Rotate,
-                ReflectX = a.ReflectX ^ b.ReflectX,
-            };
-            r.Rotate = (r.Rotate + rotationalSymmetry) % rotationalSymmetry;
-            return r;
-        }
 
-        private Rotation Mul(Rotation a, Rotation b, Rotation c)
-        {
-            return Mul(Mul(a, b), c);
-        }
-
-        private Rotation Mul(Rotation a, Rotation b, Rotation c, Rotation d)
-        {
-            return Mul(Mul(Mul(a, b), c), d);
-        }
 
 
         /// <summary>
-        /// Stores a set of tiles related to each other by rotations and transformations.
+        /// Stores a set of tiles related to each other by transformations.
         /// If we have two key value pairs (k1, v1) and (k2, v2) in Tiles, then 
         /// we can apply rortaion (k1.Inverse() * k2) to rotate v1 to v2.
         /// </summary>
         private class RotationGroup
         {
             public List<Entry> Entries { get; set; } = new List<Entry>();
-            public Dictionary<Rotation, Tile> Tiles { get; set; } = new Dictionary<Rotation, Tile>();
+            public Dictionary<Transform, Tile> Tiles { get; set; } = new Dictionary<Transform, Tile>();
 
             // A tile may appear multiple times in a rotation group if it is symmetric in some way.
-            public List<Rotation> GetRotations(Tile tile)
+            public List<Transform> GetTransforms(Tile tile)
             {
                 return Tiles.Where(kv => kv.Value == tile).Select(x => x.Key).ToList();
             }
         
-            public void Permute(Func<Rotation, Rotation> f)
+            public void Permute(Func<Transform, Transform> f)
             {
                 Tiles = Tiles.ToDictionary(kv => f(kv.Key), kv => kv.Value);
             }
@@ -231,42 +213,8 @@ namespace DeBroglie
         private class Entry
         {
             public Tile Src { get; set; }
-            public Rotation R { get; set; }
+            public Transform Tf { get; set; }
             public Tile Dest { get; set; }
-        }
-
-        private class Rotation
-        {
-            public int Rotate { get; set; }
-            public bool ReflectX { get; set; }
-
-            public override bool Equals(object obj)
-            {
-                if(obj is Rotation other)
-                {
-                    return Rotate == other.Rotate && ReflectX == other.ReflectX;
-                }
-                return false;
-            }
-
-            public override int GetHashCode()
-            {
-                return Rotate * 2 + (ReflectX ? 1 : 0);
-            }
-
-            public override string ToString()
-            {
-                return $"({Rotate}, {ReflectX})";
-            }
-
-            public Rotation Inverse()
-            {
-                return new Rotation
-                {
-                    Rotate = ReflectX ? Rotate : -Rotate,
-                    ReflectX = ReflectX,
-                };
-            }
         }
     }
 }

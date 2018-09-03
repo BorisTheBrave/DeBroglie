@@ -18,6 +18,8 @@ namespace DeBroglie.Console
 
         protected abstract Tile Parse(string s);
 
+        protected abstract bool ShouldGenerateTileRotations { get; }
+
         private static TileModel GetModel(DeBroglieConfig config, ITopoArray<Tile> sample, TileRotation tileRotation)
         {
             var modelConfig = config.Model ?? new Adjacent();

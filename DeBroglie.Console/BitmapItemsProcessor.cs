@@ -8,6 +8,8 @@ namespace DeBroglie.Console
 {
     public class BitmapItemsProcessor : ItemsProcessor
     {
+        protected override bool ShouldGenerateTileRotations => false;
+
         private static Color[,] ToColorArray(Bitmap bitmap)
         {
             Color[,] sample = new Color[bitmap.Width, bitmap.Height];

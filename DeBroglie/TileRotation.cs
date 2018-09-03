@@ -10,16 +10,17 @@ namespace DeBroglie
     /// </summary>
     public class TileRotation
     {
-        private IDictionary<Tile, IDictionary<Tuple<int, bool>, Tile>> rotations;
+        private readonly IDictionary<Tile, IDictionary<Transform, Tile>> transforms;
+        private readonly TransformGroup tg;
 
-        internal TileRotation(IDictionary<Tile, IDictionary<Tuple<int, bool>, Tile>> rotations)
+        internal TileRotation(IDictionary<Tile, IDictionary<Transform, Tile>> transforms, TransformGroup tg)
         {
-            this.rotations = rotations;
+            this.transforms = transforms;
+            this.tg = tg;
         }
 
         internal TileRotation()
         {
-            this.rotations = new Dictionary<Tile, IDictionary<Tuple<int, bool>, Tile>>();
         }
 
         /// <summary>
@@ -27,11 +28,25 @@ namespace DeBroglie
         /// If there is a corresponding tile (possibly the same one), then it is set to result.
         /// Otherwise, false is returned.
         /// </summary>
-        public bool Rotate(Tile tile, int rotate, bool reflectX, out Tile result)
+        public bool Rotate(Tile tile, int rotateCw, bool reflectX, out Tile result)
         {
-            if(rotations.TryGetValue(tile, out var d))
+
+            Transform tf;
+            if(tg != null && tile.Value is RotatedTile rt)
             {
-                return d.TryGetValue(Tuple.Create(rotate, reflectX), out result);
+                tf = tg.Mul(
+                    new Transform { RotateCw = rt.RotateCw, ReflectX = rt.ReflectX },
+                    new Transform { RotateCw = rotateCw, ReflectX = reflectX });
+                tile = rt.Tile;
+            }
+            else
+            {
+                tf = new Transform { RotateCw = rotateCw, ReflectX = reflectX };
+            }
+
+            if(transforms.TryGetValue(tile, out var d))
+            {
+                return d.TryGetValue(tf, out result);
             }
             else
             {

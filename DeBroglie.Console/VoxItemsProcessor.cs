@@ -9,6 +9,8 @@ namespace DeBroglie.Console
     {
         Vox vox;
 
+        protected override bool ShouldGenerateTileRotations => false;
+
         protected override ITopoArray<Tile> Load(string filename, DeBroglieConfig config)
         {
             using (var stream = File.OpenRead(filename))
