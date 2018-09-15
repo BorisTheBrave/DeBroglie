@@ -1,0 +1,12 @@
+figure {
+    padding: 10px;
+    margin: 5px;
+    border-radius: 3px;
+    background-color: lightgrey;
+    border: darkgrey 1px solid;
+    text-align: center;
+}
+
+figcaption {
+    padding-top: 5px;
+}

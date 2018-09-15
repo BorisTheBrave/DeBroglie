@@ -18,8 +18,7 @@
     "content": [
       {
         "files": [
-          "api/**.yml",
-          "api/index.md"
+          "api/**.yml"
         ]
       },
       {
@@ -35,7 +34,7 @@
       {
         "files": [
           "images/**",
-          "animation.js"
+          "articles/animation.js"
         ]
       }
     ],
@@ -54,7 +53,8 @@
     "globalMetadataFiles": [],
     "fileMetadataFiles": [],
     "template": [
-      "default"
+      "default",
+      "templates/custom"
     ],
     "postProcessors": [],
     "markdownEngineName": "markdig",

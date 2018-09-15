@@ -7,7 +7,7 @@ var imageObj = new Image();
 imageObj.onload = function() {
 //context.drawImage(imageObj, 69, 50);
 };
-imageObj.src = 'images/overworld_tileset_grass.png';
+imageObj.src = '../images/overworld_tileset_grass.png';
 
 
 var t = 0;

@@ -1,2 +1,4 @@
 - name: Introduction
-  href: intro.md
+  href: index.md
+- name: Rotation
+  href: rotation.md
