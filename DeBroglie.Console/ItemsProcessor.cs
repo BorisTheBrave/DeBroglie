@@ -18,7 +18,7 @@ namespace DeBroglie.Console
 
         protected abstract Tile Parse(string s);
 
-        protected abstract bool ShouldGenerateTileRotations { get; }
+        protected abstract TileRotationTreatment DefaultTreatment { get; }
 
         private static TileModel GetModel(DeBroglieConfig config, ITopoArray<Tile> sample, TileRotation tileRotation)
         {
@@ -211,38 +211,38 @@ namespace DeBroglie.Console
         private TileRotation GetTileRotation(List<TileData> tileData, Topology topology)
         {
 
-            var tileRotationBuilder = new TileRotationBuilder();
+            var tileRotationBuilder = new TileRotationBuilder(DefaultTreatment);
 
             // Setup tiles
             if (tileData != null)
             {
-                foreach (var tile in tileData)
+                foreach (var td in tileData)
                 {
-                    var value = Parse(tile.Value);
-                    if(tile.TileSymmetry != null)
+                    var tile = Parse(td.Value);
+                    if(td.TileSymmetry != null)
                     {
-                        var ts = TileSymmetryUtils.Parse(tile.TileSymmetry);
-                        tileRotationBuilder.SetSymmetry(value, ts);
+                        var ts = TileSymmetryUtils.Parse(td.TileSymmetry);
+                        tileRotationBuilder.AddSymmetry(tile, ts);
                     }
-                    if (tile.ReflectX != null)
+                    if (td.ReflectX != null)
                     {
-                        tileRotationBuilder.Add(value, 0, true, Parse(tile.ReflectX));
+                        tileRotationBuilder.Add(tile, 0, true, Parse(td.ReflectX));
                     }
-                    if (tile.ReflectY != null)
+                    if (td.ReflectY != null)
                     {
-                        tileRotationBuilder.Add(value, topology.Directions.Count / 2, true, Parse(tile.ReflectY));
+                        tileRotationBuilder.Add(tile, topology.Directions.Count / 2, true, Parse(td.ReflectY));
                     }
-                    if (tile.RotateCw != null)
+                    if (td.RotateCw != null)
                     {
-                        tileRotationBuilder.Add(value, 1, false, Parse(tile.RotateCw));
+                        tileRotationBuilder.Add(tile, 1, false, Parse(td.RotateCw));
                     }
-                    if (tile.RotateCcw != null)
+                    if (td.RotateCcw != null)
                     {
-                        tileRotationBuilder.Add(value, -1, false, Parse(tile.RotateCcw));
+                        tileRotationBuilder.Add(tile, -1, false, Parse(td.RotateCcw));
                     }
-                    if(tile.NoRotate)
+                    if(td.RotationTreatment != null)
                     {
-                        tileRotationBuilder.NoRotate(value);
+                        tileRotationBuilder.SetTreatment(tile, td.RotationTreatment.Value);
                     }
                 }
             }

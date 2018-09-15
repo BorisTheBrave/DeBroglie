@@ -9,7 +9,7 @@ namespace DeBroglie.Console
     {
         Vox vox;
 
-        protected override bool ShouldGenerateTileRotations => false;
+        protected override TileRotationTreatment DefaultTreatment => TileRotationTreatment.Unchanged;
 
         protected override ITopoArray<Tile> Load(string filename, DeBroglieConfig config)
         {

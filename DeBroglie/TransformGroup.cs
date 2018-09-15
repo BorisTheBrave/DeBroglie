@@ -1,4 +1,6 @@
-﻿namespace DeBroglie
+﻿using System.Collections.Generic;
+
+namespace DeBroglie
 {
     internal class TransformGroup
     {
@@ -7,6 +9,14 @@
         public TransformGroup(int rotationalSymmetry = 4)
         {
             this.rotationalSymmetry = rotationalSymmetry;
+            Transforms = new List<Transform>();
+            for(var refl =0;refl<2;refl++)
+            {
+                for(var rot=0;rot<rotationalSymmetry;rot++)
+                {
+                    Transforms.Add(new Transform { RotateCw = rot, ReflectX = refl > 0 });
+                }
+            }
         }
 
         public Transform Mul(Transform a, Transform b)
@@ -38,5 +48,7 @@
                 ReflectX = tf.ReflectX,
             };
         }
+
+        public List<Transform> Transforms { get; }
     }
 }

@@ -4,6 +4,13 @@ using System.Linq;
 
 namespace DeBroglie
 {
+    public enum TileRotationTreatment
+    {
+        Missing,
+        Unchanged,
+        Generated,
+    }
+
 
     /// <summary>
     /// Builds a <see cref="TileRotation"/>.
@@ -22,16 +29,11 @@ namespace DeBroglie
 
         private TransformGroup tg;
 
-        public TileRotationBuilder()
-        {
-        }
+        private TileRotationTreatment defaultTreatment;
 
-        /// <summary>
-        /// Marks that a tile has no valid rotations.
-        /// </summary>
-        public void NoRotate(Tile tile)
+        public TileRotationBuilder(TileRotationTreatment defaultTreatment = TileRotationTreatment.Missing)
         {
-            GetGroup(tile, out var rg);
+            this.defaultTreatment = defaultTreatment;
         }
 
         /// <summary>
@@ -88,14 +90,24 @@ namespace DeBroglie
             return true;
         }
 
-        public void SetSymmetry(Tile tile, TileSymmetry ts)
+        public void SetTreatment(Tile tile, TileRotationTreatment treatment)
+        {
+            GetGroup(tile, out var rg);
+            if(rg.Treatment != null && rg.Treatment !=treatment)
+            {
+                throw new Exception($"Cannot set {tile} treatment, inconsistent with {rg.Treatment} of {rg.TreatmentSetBy}");
+            }
+            rg.Treatment = treatment;
+            rg.TreatmentSetBy = tile;
+        }
+
+        public void AddSymmetry(Tile tile, TileSymmetry ts)
         {
             // I've listed the subgroups in the order found here:
             // https://groupprops.subwiki.org/wiki/Subgroup_structure_of_dihedral_group:D8
             switch (ts)
             {
                 case TileSymmetry.F:
-                    NoRotate(tile);
                     break;
                 case TileSymmetry.N:
                     Add(tile, 2, false, tile);
@@ -135,16 +147,37 @@ namespace DeBroglie
         }
 
         /// <summary>
-        /// Extracts the full set of 
+        /// Extracts the full set of rotations
         /// </summary>
         /// <returns></returns>
         public TileRotation Build()
         {
+            // For a given tile (found in a given rotation group)
+            // Find the full set of tiles it rotates to.
             IDictionary<Transform, Tile> GetDict(Tile t, RotationGroup rg)
             {
                 var tf = rg.GetTransforms(t)[0];
-                return rg.Tiles.ToDictionary(kv => tg.Mul(tg.Inverse(tf), kv.Key)
-                , kv => kv.Value);
+                var treatment = rg.Treatment ?? defaultTreatment;
+                var result = new Dictionary<Transform, Tile>();
+                foreach(var tf2 in tg.Transforms)
+                {
+                    if (!rg.Tiles.TryGetValue(tf2, out var dest))
+                    {
+                        switch(treatment)
+                        {
+                            case TileRotationTreatment.Missing: continue;
+                            case TileRotationTreatment.Unchanged:
+                                dest = t;
+                                break;
+                            case TileRotationTreatment.Generated:
+                                var tf3 = tg.Mul(tg.Inverse(tf), tf2);
+                                dest = new Tile(new RotatedTile { RotateCw = tf3.RotateCw, ReflectX = tf3.ReflectX, Tile = t });
+                                break;
+                        }
+                    }
+                    result[tg.Mul(tg.Inverse(tf), tf2)] = dest;
+                }
+                return result;
             }
 
             return new TileRotation(tileToRotationGroup.ToDictionary(kv => kv.Key, kv => GetDict(kv.Key, kv.Value)), tg);
@@ -197,6 +230,9 @@ namespace DeBroglie
         {
             public List<Entry> Entries { get; set; } = new List<Entry>();
             public Dictionary<Transform, Tile> Tiles { get; set; } = new Dictionary<Transform, Tile>();
+            public TileRotationTreatment? Treatment { get; set; }
+            public Tile TreatmentSetBy { get; set; }
+
 
             // A tile may appear multiple times in a rotation group if it is symmetric in some way.
             public List<Transform> GetTransforms(Tile tile)

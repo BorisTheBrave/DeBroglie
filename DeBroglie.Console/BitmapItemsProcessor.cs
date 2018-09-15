@@ -8,7 +8,7 @@ namespace DeBroglie.Console
 {
     public class BitmapItemsProcessor : ItemsProcessor
     {
-        protected override bool ShouldGenerateTileRotations => false;
+        protected override TileRotationTreatment DefaultTreatment => TileRotationTreatment.Unchanged;
 
         private static Color[,] ToColorArray(Bitmap bitmap)
         {

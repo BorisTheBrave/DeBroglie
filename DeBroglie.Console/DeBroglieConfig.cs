@@ -203,7 +203,7 @@ namespace DeBroglie.Console
 
         public string RotateCcw { get; set; }
 
-        public bool NoRotate { get; set; }
+        public TileRotationTreatment? RotationTreatment { get; set; }
     }
 
     public abstract class ConstraintConfig
