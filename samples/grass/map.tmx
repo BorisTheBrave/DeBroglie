@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="7" height="13" tilewidth="16" tileheight="16" infinite="0" nextobjectid="1">
+ <tileset firstgid="1" source="grass_biome.tsx"/>
+ <layer name="Tile Layer 1" width="7" height="13">
+  <data encoding="csv">
+1,1,1,1,1,1,1,
+1,1,6,7,7,8,1,
+1,17,1,1,1,1,1,
+1,29,1,17,1,1,1,
+1,29,1,30,8,1,1,
+1,41,1,41,1,1,1,
+1,1,1,1,1,1,1,
+1,17,1,6,7,20,1,
+1,29,1,1,1,29,1,
+1,30,7,8,1,41,1,
+1,29,1,1,1,1,1,
+1,41,1,6,20,1,1,
+1,1,1,1,41,1,1
+</data>
+ </layer>
+</map>
