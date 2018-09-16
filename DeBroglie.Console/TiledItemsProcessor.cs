@@ -55,7 +55,7 @@ namespace DeBroglie.Console
                 for (var z = 0; z < tileLayers.Count; z++)
                 {
                     var layer = tileLayers[z];
-                    var layerArray = TiledUtil.ReadLayer(map, layer).ToTiles();
+                    var layerArray = TiledUtil.ReadLayer(map, layer);
                     if (z == 0)
                     {
                         topology = layerArray.Topology;

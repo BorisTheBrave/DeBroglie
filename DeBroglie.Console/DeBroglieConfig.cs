@@ -127,6 +127,11 @@ namespace DeBroglie.Console
         public bool ReflectionalSymmetry { get; set; } = false;
 
         /// <summary>
+        /// How to treat tiles when there isn't sufficient tile-specific rotation data.
+        /// </summary>
+        public TileRotationTreatment? RotationTreatment { get; set; }
+
+        /// <summary>
         /// Specifies if backtracking is enabled.
         /// </summary>
         public bool Backtrack { get; set; }

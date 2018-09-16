@@ -62,7 +62,7 @@ namespace DeBroglie.Console
             var is3d = topArray.Topology.Directions.Type == DirectionsType.Cartesian3d;
             var topology = new Topology(topArray.Topology.Directions, config.Width, config.Height, is3d ? config.Depth : 1, config.PeriodicX, config.PeriodicY, config.PeriodicZ);
 
-            var tileRotation = GetTileRotation(config.Tiles, topology);
+            var tileRotation = GetTileRotation(config.Tiles, config.RotationTreatment, topology);
 
             var model = GetModel(config, topArray, tileRotation);
 
@@ -208,10 +208,10 @@ namespace DeBroglie.Console
             }
         }
 
-        private TileRotation GetTileRotation(List<TileData> tileData, Topology topology)
+        private TileRotation GetTileRotation(List<TileData> tileData, TileRotationTreatment? rotationTreatment, Topology topology)
         {
 
-            var tileRotationBuilder = new TileRotationBuilder(DefaultTreatment);
+            var tileRotationBuilder = new TileRotationBuilder(rotationTreatment ?? DefaultTreatment);
 
             // Setup tiles
             if (tileData != null)

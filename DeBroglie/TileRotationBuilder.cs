@@ -33,6 +33,7 @@ namespace DeBroglie
 
         public TileRotationBuilder(TileRotationTreatment defaultTreatment = TileRotationTreatment.Missing)
         {
+            this.tg = new TransformGroup();
             this.defaultTreatment = defaultTreatment;
         }
 

@@ -290,12 +290,18 @@ namespace DeBroglie
                         }
                     }
                 }
+                throw new Exception();
+            }
+            else if(tile.Value == null)
+            {
+                // Null often comes up as contradiction or undecided.
+                // We map this to the empty tile
+                return 0;
             }
             else
             {
                 return (int)tile.Value;
             }
-            throw new Exception();
         }
     }
 }
