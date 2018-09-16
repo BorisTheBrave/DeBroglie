@@ -41,7 +41,7 @@ namespace DeBroglie.Console
             {
                 // Read a single layer
                 var layer = (TileLayer)map.Layers[0];
-                return TiledUtil.ReadLayer(map, layer).ToTiles();
+                return TiledUtil.ReadLayer(map, layer);
             }
             else
             {
