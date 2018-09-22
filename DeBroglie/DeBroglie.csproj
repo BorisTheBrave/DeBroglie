@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\TiledLib.Net\TiledLib\TiledLib.csproj" />
+    <PackageReference Include="TiledLib" Version="2.3.0" />
   </ItemGroup>
 
 </Project>

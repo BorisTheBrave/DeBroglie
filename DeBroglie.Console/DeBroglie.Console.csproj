@@ -45,6 +45,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="TiledLib, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TiledLib.2.3.0\lib\net462\TiledLib.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BitmapItemsProcessor.cs" />
@@ -63,10 +66,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\TiledLib.Net\TiledLib\TiledLib.csproj">
-      <Project>{22f25dc4-662e-4326-b44b-e6882c297cd9}</Project>
-      <Name>TiledLib</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DeBroglie.MagicaVoxel\DeBroglie.MagicaVoxel.csproj">
       <Project>{63952ab1-714e-4e06-a37e-8b6bc3ffd435}</Project>
       <Name>DeBroglie.MagicaVoxel</Name>
