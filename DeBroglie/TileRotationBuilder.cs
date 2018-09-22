@@ -8,6 +8,9 @@ namespace DeBroglie
     {
         Missing,
         Unchanged,
+        /// <summary>
+        /// Experimental, this doesn't work properly yet.
+        /// </summary>
         Generated,
     }
 
@@ -16,9 +19,6 @@ namespace DeBroglie
     /// Builds a <see cref="TileRotation"/>.
     /// This class lets you specify some transformations between tiles via rotation and reflection.
     /// It then infers the full set of transformations possible, and informs you if there are contradictions.
-    /// 
-    /// Tiles added here are assumed to have no transformations except those listed here.
-    /// Tiles that are unlisted are assumed to always transform to themselves (i.e. fully symmetric).
     /// 
     /// As an example of inference, if a square tile 1 transforms to tile 2 when rotated clockwise, and tile 2 transforms to itself when reflected in the x-axis,
     /// then we can infer that tile 1 must transform to tile 1 when reflected in the y-axis.
@@ -102,6 +102,11 @@ namespace DeBroglie
             rg.TreatmentSetBy = tile;
         }
 
+        /// <summary>
+        /// Declares that a tile is symetric, and therefore transforms to iteself.
+        /// This is a shorthand for calling Add(tile,..., tile) with the list of transformations
+        /// related to the symmetry.
+        /// </summary>
         public void AddSymmetry(Tile tile, TileSymmetry ts)
         {
             // I've listed the subgroups in the order found here:
@@ -158,30 +163,23 @@ namespace DeBroglie
             IDictionary<Transform, Tile> GetDict(Tile t, RotationGroup rg)
             {
                 var tf = rg.GetTransforms(t)[0];
-                var treatment = rg.Treatment ?? defaultTreatment;
                 var result = new Dictionary<Transform, Tile>();
                 foreach(var tf2 in tg.Transforms)
                 {
                     if (!rg.Tiles.TryGetValue(tf2, out var dest))
                     {
-                        switch(treatment)
-                        {
-                            case TileRotationTreatment.Missing: continue;
-                            case TileRotationTreatment.Unchanged:
-                                dest = t;
-                                break;
-                            case TileRotationTreatment.Generated:
-                                var tf3 = tg.Mul(tg.Inverse(tf), tf2);
-                                dest = new Tile(new RotatedTile { RotateCw = tf3.RotateCw, ReflectX = tf3.ReflectX, Tile = t });
-                                break;
-                        }
+                        continue;
                     }
                     result[tg.Mul(tg.Inverse(tf), tf2)] = dest;
                 }
                 return result;
             }
 
-            return new TileRotation(tileToRotationGroup.ToDictionary(kv => kv.Key, kv => GetDict(kv.Key, kv.Value)), tg);
+            return new TileRotation(
+                tileToRotationGroup.ToDictionary(kv => kv.Key, kv => GetDict(kv.Key, kv.Value)),
+                tileToRotationGroup.Where(kv=>kv.Value.Treatment.HasValue).ToDictionary(kv => kv.Key, kv => kv.Value.Treatment.Value),
+                defaultTreatment,
+                tg);
         }
 
         private void GetGroup(Tile tile, out RotationGroup rg)

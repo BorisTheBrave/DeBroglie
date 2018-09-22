@@ -15,8 +15,6 @@ namespace DeBroglie.Console
         private string srcFilename;
         private IDictionary<string, int> tilesByName;
 
-        protected override TileRotationTreatment DefaultTreatment => TileRotationTreatment.Generated;
-
         protected override ITopoArray<Tile> Load(string filename, DeBroglieConfig config)
         {
             srcFilename = filename;

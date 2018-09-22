@@ -18,8 +18,6 @@ namespace DeBroglie.Console
 
         protected abstract Tile Parse(string s);
 
-        protected abstract TileRotationTreatment DefaultTreatment { get; }
-
         private static TileModel GetModel(DeBroglieConfig config, ITopoArray<Tile> sample, TileRotation tileRotation)
         {
             var modelConfig = config.Model ?? new Adjacent();
@@ -211,7 +209,7 @@ namespace DeBroglie.Console
         private TileRotation GetTileRotation(List<TileData> tileData, TileRotationTreatment? rotationTreatment, Topology topology)
         {
 
-            var tileRotationBuilder = new TileRotationBuilder(rotationTreatment ?? DefaultTreatment);
+            var tileRotationBuilder = new TileRotationBuilder(rotationTreatment ?? TileRotationTreatment.Unchanged);
 
             // Setup tiles
             if (tileData != null)

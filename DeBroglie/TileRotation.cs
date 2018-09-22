@@ -11,11 +11,19 @@ namespace DeBroglie
     public class TileRotation
     {
         private readonly IDictionary<Tile, IDictionary<Transform, Tile>> transforms;
+        private readonly IDictionary<Tile, TileRotationTreatment> treatments;
+        private readonly TileRotationTreatment defaultTreatment;
         private readonly TransformGroup tg;
 
-        internal TileRotation(IDictionary<Tile, IDictionary<Transform, Tile>> transforms, TransformGroup tg)
+        internal TileRotation(
+            IDictionary<Tile, IDictionary<Transform, Tile>> transforms,
+            IDictionary<Tile, TileRotationTreatment> treatments,
+            TileRotationTreatment defaultTreatment, 
+            TransformGroup tg)
         {
             this.transforms = transforms;
+            this.treatments = treatments;
+            this.defaultTreatment = defaultTreatment;
             this.tg = tg;
         }
 
@@ -30,7 +38,6 @@ namespace DeBroglie
         /// </summary>
         public bool Rotate(Tile tile, int rotateCw, bool reflectX, out Tile result)
         {
-
             Transform tf;
             if(tg != null && tile.Value is RotatedTile rt)
             {
@@ -44,14 +51,29 @@ namespace DeBroglie
                 tf = new Transform { RotateCw = rotateCw, ReflectX = reflectX };
             }
 
-            if(transforms.TryGetValue(tile, out var d))
+            if(transforms != null && transforms.TryGetValue(tile, out var d))
             {
-                return d.TryGetValue(tf, out result);
+                if (d.TryGetValue(tf, out result))
+                    return true;
             }
-            else
+
+            // Transform not found, apply treatment
+            if (!treatments.TryGetValue(tile, out var treatment))
+                treatment = defaultTreatment;
+            switch (treatment)
             {
-                result = tile;
-                return true;
+                case TileRotationTreatment.Missing:
+                    result = default(Tile);
+                    return false;
+                case TileRotationTreatment.Unchanged:
+                    result = tile;
+                    return true;
+                case TileRotationTreatment.Generated:
+                    result = new Tile(new RotatedTile { RotateCw = tf.RotateCw, ReflectX = tf.ReflectX, Tile = tile });
+                    return true;
+                default:
+                    result = default(Tile);
+                    return false;
             }
         }
     }
