@@ -55,7 +55,15 @@ namespace DeBroglie.Console
 
         protected override ITopoArray<Tile> Load(string filename, DeBroglieConfig config)
         {
-            var bitmap = new Bitmap(filename);
+            Bitmap bitmap;
+            try
+            {
+                bitmap = new Bitmap(filename);
+            }
+            catch (ArgumentException e)
+            {
+                throw new Exception($"Couldn't load filename: {filename}");
+            }
             var colorArray = ToColorArray(bitmap);
             var topology = new Topology(Directions.Cartesian2d, colorArray.GetLength(0), colorArray.GetLength(1), config.PeriodicInputX, config.PeriodicInputY);
             return TopoArray.Create(colorArray, topology).ToTiles();
