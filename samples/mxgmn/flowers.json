@@ -1,0 +1,22 @@
+{
+    "$schema": "./schema.json",
+    "src": "images/Flowers.png",
+    "dest": "output/flowers.png",
+    "symmetry": 2,
+    "ground": "#b97a57",
+    "model": {
+        "type": "overlapping",
+        "n": 3
+    },
+    "periodicInputX": true,
+    "periodicInputY": false,
+    "periodicX": true,
+    "periodicY": false,
+    "constraints": [
+        {
+            "type": "border",
+            "tile": "#bfe8f2",
+            "sides": "ymin"
+        }
+    ]
+}

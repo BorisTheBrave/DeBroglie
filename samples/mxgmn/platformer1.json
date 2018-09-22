@@ -1,0 +1,26 @@
+{
+    "$schema": "./schema.json",
+    "src": "images/Platformer.png",
+    "dest": "output/platformer1.png",
+    "symmetry": 2,
+    "model": {
+        "type": "overlapping",
+        "n": 2
+    },
+    "periodicInputX": true,
+    "periodicInputY": false,
+    "periodicX": true,
+    "periodicY": false,
+    "constraints": [
+        {
+            "type": "border",
+            "tile": "#b97a57",
+            "sides": "ymax"
+        },
+        {
+            "type": "border",
+            "tile": "#7f7f7f",
+            "sides": "ymin"
+        }
+    ]
+}

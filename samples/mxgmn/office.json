@@ -1,0 +1,12 @@
+{
+    "$schema": "./schema.json",
+    "src": "images/Office.png",
+    "dest": "output/office.png",
+    "model": {
+        "type": "overlapping",
+        "n": 3
+    },
+    "symmetry": 8,
+    "periodic": true,
+    "periodicInput": true
+}

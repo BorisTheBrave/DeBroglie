@@ -1,0 +1,11 @@
+{
+    "$schema": "./schema.json",
+    "src": "images/Chess.png",
+    "dest": "output/chess2.png",
+    "model": {
+        "type": "overlapping"
+    },
+    "periodic": true,
+    "width": 47,
+    "height": 47
+}

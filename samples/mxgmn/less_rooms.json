@@ -1,0 +1,12 @@
+{
+    "$schema": "./schema.json",
+    "src": "images/Less Rooms.png",
+    "dest": "output/less_rooms.png",
+    "model": {
+        "type": "overlapping",
+        "n": 3
+    },
+    "symmetry": 8,
+    "periodic": true,
+    "periodicInput": true
+}

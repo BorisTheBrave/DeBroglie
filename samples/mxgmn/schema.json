@@ -1,0 +1,82 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "src": {"type": "string"},
+        "dest": {"type": "string"},
+        "periodicInput": {"type": "boolean"},
+        "periodicInputX": {"type": "boolean"},
+        "periodicInputY": {"type": "boolean"},
+        "periodicInputZ": {"type": "boolean"},
+        "periodic": {"type": "boolean"},
+        "periodicX": {"type": "boolean"},
+        "periodicY": {"type": "boolean"},
+        "periodicZ": {"type": "boolean"},
+        "width": {"type": "integer"},
+        "height": {"type": "integer"},
+        "depth": {"type": "integer"},
+        "symmetry":  {"type": "integer"},
+        "ground":  {"type": "string"},
+        "backtrack": {"type": "boolean"},
+        "model": {
+            "oneOf": [
+                {
+                    "type":"object",
+                    "properties": {
+                        "type": {"type": "string", "enum": ["overlapping"]},
+                        "n": {"type": "integer"}
+                    },
+                    "required": [
+                        "type"
+                    ]
+                },
+                {
+                    "type":"object",
+                    "properties": {
+                        "type": {"type": "string", "enum": ["adjacent"]}
+                    },
+                    "required": [
+                        "type"
+                    ]
+                }
+            ]
+        },
+        "tiles": {"type": "array"},
+        "constraints": {
+            "type": "array",
+            "items": {
+                "oneOf": [
+                    {
+                        "type":"object",
+                        "properties": {
+                            "type": {"type": "string", "enum": ["border"]},
+                            "tile": {"type": "string"},
+                            "sides": {"type": "string"},
+                            "excludeSides": {"type": "string"},
+                            "invertArea": {"type": "boolean"},
+                            "ban": {"type": "boolean"}
+                        },
+                        "required": [
+                            "type"
+                        ]
+                    },
+                    {
+                        "type":"object",
+                        "properties": {
+                            "type": {"type": "string", "enum": ["path"]},
+                            "pathTiles": {"type": "array", "items": {"type": "string"}}
+                        },
+                        "required": [
+                            "type"
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    "required": [
+        "src",
+        "dest",
+        "model"
+    ]
+}

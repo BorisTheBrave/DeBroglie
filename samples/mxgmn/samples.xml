@@ -1,0 +1,79 @@
+<items>
+	<overlapping src="images/Chess.png" dest="output/chess1.png" N="2" periodic="True"/>
+	<overlapping src="images/Chess.png" dest="output/chess2.png" N="2" width="47" height="47" periodic="True" screenshots="1"/>
+	<overlapping src="images/Skyline.png" dest="output/skyline.png" N="3" symmetry="2" ground="-1" periodic="True"/>
+	<overlapping src="images/Flowers.png" dest="output/flowers.png" N="3" symmetry="2" ground="-4" periodic="True"/>
+	<overlapping src="images/Hogs.png" dest="output/hogs1.png" N="3" periodic="True"/>
+	<overlapping src="images/Hogs.png" dest="output/hogs2.png" N="2" periodic="True"/>
+	<overlapping src="images/Knot.png" dest="output/knot.png" N="3" periodic="True"/>
+	<overlapping src="images/Less Rooms.png" dest="output/less_rooms.png" N="3" periodic="True"/>
+	<overlapping src="images/Mountains.png" dest="output/mountains.png" N="3" symmetry="2" periodic="True"/>
+	<overlapping src="images/Office.png" dest="output/office.png" N="3" periodic="True"/>
+	<overlapping src="images/Paths.png" dest="output/paths.png" N="3" periodic="True"/>
+	<overlapping src="images/Platformer.png" dest="output/platformer1.png" N="2" symmetry="2" ground="-1" periodic="True"/>
+	<overlapping src="images/Platformer.png" dest="output/platformer2.png" N="3" symmetry="2" ground="-1" periodic="True"/>
+	<overlapping src="images/Red Maze.png" dest="output/red_maze.png" N="2"/>
+	<overlapping src="images/Rooms.png" dest="output/rooms.png" N="3" periodic="True"/>
+	<overlapping src="images/Rule 126.png" dest="output/rule126.png" N="3" symmetry="2" periodicInput="False" periodic="False"/>
+	<overlapping src="images/Simple Knot.png" dest="output/simple_knot.png" N="3" periodic="True"/>
+	<overlapping src="images/Simple Maze.png" dest="output/simple_maze.png" N="2"/>
+	<overlapping src="images/Simple Wall.png" dest="output/simple_wall1.png" N="3" symmetry="2" periodic="True"/>
+	<overlapping src="images/Simple Wall.png" dest="output/simple_wall2.png" N="3" periodic="True"/>
+	<overlapping src="images/Simple Wall.png" dest="output/simple_wall3.png" N="2" symmetry="2" periodic="True"/>
+	<overlapping src="images/Simple Wall.png" dest="output/simple_wall4.png" N="2" periodic="True"/>
+	<overlapping src="images/Trick Knot.png" dest="output/trick_knot.png" N="3" periodic="True"/>
+	<overlapping src="images/Village.png" dest="output/village.png" N="3" symmetry="2" periodic="True"/>
+	<overlapping src="images/Water.png" dest="output/water.png" N="3" symmetry="1" periodic="True"/>
+  
+	<simpletiled name="Summer" width="15" height="15"/>
+	<simpletiled name="Castle" width="20" height="20"/>
+	<simpletiled name="Circuit" subset="Turnless" width="34" height="34" periodic="True" screenshots="3"/>
+	<simpletiled name="Knots" subset="Standard" width="24" height="24" periodic="True"/>
+	<simpletiled name="Knots" subset="Dense" width="24" height="24" periodic="True"/>	
+	<simpletiled name="Knots" subset="Crossless" width="24" height="24"/>
+	<simpletiled name="Knots" subset="TE" width="24" height="24"/>
+	<simpletiled name="Knots" subset="T" width="24" height="24"/>
+	<simpletiled name="Knots" subset="CL" width="24" height="24"/>	
+	<simpletiled name="Knots" subset="CE" width="24" height="24" periodic="True"/>
+	<simpletiled name="Knots" subset="C" width="24" height="24" periodic="True"/>
+	<simpletiled name="Knots" subset="Fabric" width="24" height="24" periodic="True"/>
+	<simpletiled name="Knots" subset="Dense Fabric" width="24" height="24" periodic="True"/>
+	<simpletiled name="Rooms" width="30" height="30"/>
+	<simpletiled name="Circles" width="24" height="24"/>
+	<simpletiled name="Circles" subset="Large Circles" width="24" height="24"/>
+	<simpletiled name="Circles" subset="Large Circles and Solid" width="24" height="24"/>
+	<simpletiled name="Circles" subset="No Solid" width="24" height="24"/>
+	
+	<overlapping src="images/Cat.png" dest="output/cat.png" N="3" symmetry="2" periodic="True" width="80" height="80"/>
+	<overlapping src="images/Cats.png" dest="output/cats.png" N="3" symmetry="2" periodic="True"/>
+	<overlapping src="images/Skyline 2.png" dest="output/skyline2.png" N="3" symmetry="2" periodic="True" ground="-1"/>
+	<overlapping src="images/Angular.png" dest="output/angular.png" N="3" periodic="True"/>
+	<overlapping src="images/City.png" dest="output/city.png" N="3" periodic="True" width="80" height="80"/>
+	<overlapping src="images/Colored City.png" dest="output/colored_city.png" N="3" periodic="True"/>
+	<overlapping src="images/Dungeon.png" dest="output/dungeon.png" N="3" periodic="True"/>
+	<overlapping src="images/Lake.png" dest="output/lake.png" N="3" periodic="True" width="60" height="60"/>
+	<overlapping src="images/Link.png" dest="output/link.png" N="3" periodic="True"/>
+	<overlapping src="images/Link 2.png" dest="output/link2.png" N="3" periodic="True"/>
+	<overlapping src="images/Mazelike.png" dest="output/mazelike.png" N="3" periodic="True"/>
+	<overlapping src="images/Nested.png" dest="output/nested.png" N="3" periodic="True"/>
+	<overlapping src="images/Magic Office.png" dest="output/magic_office.png" N="3" periodic="True"/>
+	<overlapping src="images/Office 2.png" dest="output/office2.png" N="3" periodic="True"/>
+	<overlapping src="images/Qud.png" dest="output/qud.png" N="3" periodic="True" width="80" height="80"/>
+	<overlapping src="images/Red Dot.png" dest="output/red_dot.png" N="3" periodic="True"/>
+	<overlapping src="images/Scaled Maze.png" dest="output/scaled_maze.png" N="2" periodic="True"/>
+	<overlapping src="images/Sewers.png" dest="output/sewers.png" N="3" periodic="True"/>
+	<overlapping src="images/Skew 1.png" dest="output/skew1.png" N="3" periodic="True"/>
+	<overlapping src="images/Skew 2.png" dest="output/skew2.png" N="3" periodic="True"/>
+	<overlapping src="images/Smile City.png" dest="output/smile_city.png" N="3" periodic="True"/>
+	<overlapping src="images/Spirals.png" dest="output/spirals.png" N="3" periodic="True"/>
+	<overlapping src="images/Town.png" dest="output/town.png" N="3" periodic="True"/>
+	
+	<overlapping src="images/3Bricks.png" dest="output/3bricks.png" N="3" symmetry="1" periodic="True"/>
+	<overlapping src="images/Village.png" dest="output/village2.png" N="3" symmetry="2" limit="50" periodic="True"/>
+	<simpletiled name="Summer" width="15" height="15" periodic="False" limit="15"/>
+
+	<simpletiled name="Knots" subset="Standard" width="5" height="5" periodic="True" textOutput="True"/>
+	<simpletiled name="Summer" width="6" height="6" periodic="False" textOutput="True"/>
+	<simpletiled name="Circuit" subset="Turnless" width="7" height="7" periodic="True" textOutput="True"/>
+
+</items>
