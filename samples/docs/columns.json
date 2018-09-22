@@ -1,0 +1,21 @@
+{
+    "src": "columns.vox",
+    "dest": "output/columns.vox",
+    "model": {
+        "type": "adjacent"
+    },
+    "periodicInput": false,
+    "periodic": false,
+    "ground": 255,
+    "symmetry": 1,
+    "width": 20,
+    "height": 20,
+    "depth": 20,
+    "constraints": [
+        {
+            "type": "border",
+            "tile": 0,
+            "excludeSides": "zmin"
+        }
+    ]
+}

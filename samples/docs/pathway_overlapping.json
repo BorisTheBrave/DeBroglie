@@ -1,0 +1,11 @@
+{
+    "src": "pathway.png",
+    "dest": "output/pathway_overlapping.png",
+    "model": {
+        "type": "overlapping",
+        "n": 3
+    },
+    "periodicInput": false,
+    "periodic": false,
+    "symmetry": 8
+}

@@ -1,0 +1,17 @@
+{
+    "src": "pathway.png",
+    "dest": "output/pathway_overlapping_high_freq.png",
+    "model": {
+        "type": "overlapping",
+        "n": 3
+    },
+    "periodicInput": false,
+    "periodic": false,
+    "symmetry": 8,
+    "tiles": [
+        {
+            "value": "#0e680d",
+            "changeFrequency": 3
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+{
+    "src": "hexagonal-mini.tmx",
+    "dest": "output/hexmini.tmx",
+    "model": {
+        "type": "overlapping",
+        "n": 2
+    },
+    "periodicInput": false,
+    "periodic": false,
+    "width": 20,
+    "height": 20,
+    "symmetry": 12
+}

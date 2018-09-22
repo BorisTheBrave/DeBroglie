@@ -1,0 +1,17 @@
+{
+    "src": "pathway.png",
+    "dest": "output/pathway_overlapping_border.png",
+    "model": {
+        "type": "overlapping",
+        "n": 3
+    },
+    "periodicInput": false,
+    "periodic": false,
+    "symmetry": 8,
+    "constraints": [
+        {
+            "type": "border",
+            "tile": "#0e680d"
+        }
+    ]
+}

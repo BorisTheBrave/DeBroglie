@@ -1,0 +1,10 @@
+{
+    "src": "pathway.png",
+    "dest": "output/pathway_adjacent.png",
+    "model": {
+        "type": "adjacent"
+    },
+    "periodicInput": false,
+    "periodic": false,
+    "symmetry": 8
+}
