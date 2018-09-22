@@ -322,10 +322,10 @@ The file format very closely resembles the library API described in the main doc
 |`width`               |int| Length of the x-axis in pixels / tiles of the output result. Default 48.|
 |`height`              |int| Length of the y-axis in pixels / tiles of the output result. Default 48.|
 |`depth`               |int| Length of the z-axis in pixels / tiles of the output result. Default 48.|
-|`ground`              |[Tile](#tile-references)|Shorthand for adding a pair of border constraints. <br/> The first one constrains the bottom of the output to be the specified tile.<br/> The second bans the tile from all other locations.<br/> The bottom is taken to be ymax for 2d generation, zmin for 3d.|
+|`ground`              |[Tile](#tile-references)|Shorthand for adding a pair of [border constraints](#border). <br/> The first one constrains the bottom of the output to be the specified tile.<br/> The second bans the tile from all other locations.<br/> The bottom is taken to be ymax for 2d generation, zmin for 3d.|
 |`symmetry`            |int|Shorthand for setting `reflectionalSymmetry` and `rotationalSymmetry`. <br/> If even, reflections are on, and rotations is half `symmetry`. <br/>Otherwise reflections are off and rotations are equal to `symmetry`|
-|`reflectionalSymmetry`|int|If set, extra copies of the `src` are used as samples, as described in [Rotation](xref:rotation_article)|
-|`rotationalSymmetry`  |bool|If set, extra copies of the `src` are used as samples, as described in [Rotation](xref:rotation_article)|
+|`reflectionalSymmetry`|bool|If set, extra copies of the `src` are used as samples, as described in [Rotation](xref:rotation_article)|
+|`rotationalSymmetry`  |int|If set, extra copies of the `src` are used as samples, as described in [Rotation](xref:rotation_article)|
 |`backtrack`           |bool|Specifies if [backtracking](#backtracking) is enabled.|
 |`animate`             |bool|Dumps snapshots of the output while the generation process is running. Experimental.|
 |`tiles`               |array of [TileData](#tile-data-config)|Specifies various per-tile information.|
