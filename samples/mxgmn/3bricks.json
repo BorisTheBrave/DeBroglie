@@ -1,0 +1,12 @@
+{
+    "$schema": "./schema.json",
+    "src": "images/3Bricks.png",
+    "dest": "output/3bricks.png",
+    "model": {
+        "type": "overlapping",
+        "n": 3
+    },
+    "periodicInput": true,
+    "periodic": true,
+    "symmetry": 1
+}

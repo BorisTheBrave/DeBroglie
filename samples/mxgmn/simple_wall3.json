@@ -1,0 +1,12 @@
+{
+    "$schema": "./schema.json",
+    "src": "images/Simple Wall.png",
+    "dest": "output/simple_wall3.png",
+    "model": {
+        "type": "overlapping",
+        "n": 2
+    },
+    "periodicInput": true,
+    "periodic": true,
+    "symmetry": 2
+}

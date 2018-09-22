@@ -1,0 +1,12 @@
+{
+    "$schema": "./schema.json",
+    "src": "images/Rule 126.png",
+    "dest": "output/rule126.png",
+    "model": {
+        "type": "overlapping",
+        "n": 3
+    },
+    "periodicInput": false,
+    "periodic": false,
+    "symmetry": 2
+}

@@ -1,0 +1,12 @@
+{
+    "$schema": "./schema.json",
+    "src": "images/Nested.png",
+    "dest": "output/nested.png",
+    "model": {
+        "type": "overlapping",
+        "n": 3
+    },
+    "periodicInput": true,
+    "periodic": true,
+    "symmetry": 8
+}

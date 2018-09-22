@@ -1,0 +1,12 @@
+{
+    "$schema": "./schema.json",
+    "src": "images/Village.png",
+    "dest": "output/village.png",
+    "model": {
+        "type": "overlapping",
+        "n": 3
+    },
+    "periodicInput": true,
+    "periodic": true,
+    "symmetry": 2
+}

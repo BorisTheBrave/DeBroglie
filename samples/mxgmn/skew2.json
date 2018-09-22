@@ -1,0 +1,12 @@
+{
+    "$schema": "./schema.json",
+    "src": "images/Skew 2.png",
+    "dest": "output/skew2.png",
+    "model": {
+        "type": "overlapping",
+        "n": 3
+    },
+    "periodicInput": true,
+    "periodic": true,
+    "symmetry": 8
+}

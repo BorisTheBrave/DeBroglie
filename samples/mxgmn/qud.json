@@ -1,0 +1,14 @@
+{
+    "$schema": "./schema.json",
+    "src": "images/Qud.png",
+    "dest": "output/qud.png",
+    "model": {
+        "type": "overlapping",
+        "n": 3
+    },
+    "periodicInput": true,
+    "periodic": true,
+    "symmetry": 8,
+    "width": 80,
+    "height": 80
+}

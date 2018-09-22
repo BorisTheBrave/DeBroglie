@@ -7,6 +7,7 @@ Here's a few notes on translating some XML attributes:
  * `ground` is not supported. I have a similar setting, but it  don't work identically, so I've used 
     border constraints when necessary.
  * `screenshots` not supported.
+ * `limit` not supported.
  * `<simple-tiled>` elements not supported at all (yet)
 
 Samples used with permission, many thanks, mxgmn.

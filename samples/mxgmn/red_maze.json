@@ -1,0 +1,12 @@
+{
+    "$schema": "./schema.json",
+    "src": "images/Red Maze.png",
+    "dest": "output/red_maze.png",
+    "model": {
+        "type": "overlapping",
+        "n": 2
+    },
+    "periodicInput": true,
+    "periodic": false,
+    "symmetry": 8
+}

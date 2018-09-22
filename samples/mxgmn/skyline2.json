@@ -1,0 +1,26 @@
+{
+    "$schema": "./schema.json",
+    "src": "images/Skyline 2.png",
+    "dest": "output/skyline2.png",
+    "model": {
+        "type": "overlapping",
+        "n": 3
+    },
+    "periodicX": true,
+    "periodicY": false,
+    "periodicInputX": true,
+    "periodicInputY": false,
+    "symmetry": 2,
+    "constraints": [
+        {
+            "type": "border",
+            "tile": "#ba620e",
+            "sides": "ymin"
+        },
+        {
+            "type": "border",
+            "tile": "#222222",
+            "sides": "ymax"
+        }
+    ]
+}

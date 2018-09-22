@@ -1,0 +1,14 @@
+{
+    "$schema": "./schema.json",
+    "src": "images/Cat.png",
+    "dest": "output/cat.png",
+    "model": {
+        "type": "overlapping",
+        "n": 3
+    },
+    "periodicInput": true,
+    "periodic": true,
+    "symmetry": 2,
+    "width": 80,
+    "height": 80
+}
