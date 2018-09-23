@@ -10,7 +10,7 @@ _disableToc: true
   <div class="jumbotron">
     <h1 class="display-4">DeBroglie</h1>
     <p class="lead">Generate tile based maps using Wave Function Collapse</p>
-    <small class="text-muted"><a class="github-link" href="TODO">View in Github</a><small>
+    <small class="text-muted"><a class="github-link" href="https://github.com/BorisTheBrave/DeBroglie">View in Github</a><small>
     <hr class="my-4">
     <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
     <p class="lead">

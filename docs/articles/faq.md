@@ -21,4 +21,4 @@ But the comparison is only really skin deep - it's just a cool name.
 
 **Q:** How do I...
 
-**A:** There are many [samples](TODO) supplied with DeBroglie, try and find one that best matches your goal. I plan to write some articles on the best way to use the library. Contact me if you have something in mind, and I can prioritize writing it up.
+**A:** There are many [samples](https://github.com/BorisTheBrave/DeBroglie/tree/master/samples) supplied with DeBroglie, try and find one that best matches your goal. I plan to write some articles on the best way to use the library. Contact me if you have something in mind, and I can prioritize writing it up.

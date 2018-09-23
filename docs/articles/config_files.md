@@ -13,7 +13,7 @@ To use it, you construct a config file in [JSON](https://en.wikipedia.org/wiki/J
 ./DeBroglie.Console.exe myconfig.json
 ```
 
-You can find many example json files in the [samples directory](TODO) included with the library.
+You can find many example json files in the [samples directory](https://github.com/BorisTheBrave/DeBroglie/tree/master/samples) included with the library.
 
 File format
 -----------
