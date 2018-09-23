@@ -13,6 +13,11 @@ namespace DeBroglie
     // Implemenation wise, this wraps a WavePropagator to do the majority of the work.
     // The only thing this class handles is conversion of tile objects into sets of patterns
     // And co-ordinate conversion.
+    /// <summary>
+    /// TilePropagator is the main entrypoint to the DeBroglie library. 
+    /// It takes a <see cref="TileModel"/> and an output <see cref="Topology"/> and generates
+    /// an output array using those parameters.
+    /// </summary>
     public class TilePropagator
     {
         private readonly WavePropagator wavePropagator;
@@ -29,6 +34,14 @@ namespace DeBroglie
         private readonly int mappingNY;
         private readonly int mappingNZ;
 
+        /// <summary>
+        /// Constructs a TilePropagator.
+        /// </summary>
+        /// <param name="tileModel">The model to guide the generation.</param>
+        /// <param name="topology">The dimensions of the output to generate</param>
+        /// <param name="backtrack">If true, store additional information to allow rolling back choices that lead to a contradiction.</param>
+        /// <param name="constraints">Extra constraints to control the generation process.</param>
+        /// <param name="random">Source of randomness</param>
         public TilePropagator(TileModel tileModel, Topology topology, bool backtrack = false,
             ITileConstraint[] constraints = null,
             Random random = null)
@@ -146,18 +159,45 @@ namespace DeBroglie
             }
         }
 
+        /// <summary>
+        /// The topology of the output.
+        /// </summary>
         public Topology Topology => topology;
+
+        /// <summary>
+        /// The model to use when generating.
+        /// </summary>
         public TileModel TileModel => tileModel;
 
+        /// <summary>
+        /// The overall resolution of the generated array.
+        /// This will be <see cref="Resolution.Contradiction"/> if at least one location is in contradiction (has no possible tiles)
+        /// otherwilse will be <see cref="Resolution.Undecided"/> if at least one location is undecided (has multiple possible tiles)
+        /// and will be <see cref="Resolution.Decided"/> otherwise (exactly one tile valid for each location).
+        /// </summary>
         public Resolution Status => wavePropagator.Status;
+
+        /// <summary>
+        /// This is incremented each time it is necessary to backtrack
+        /// a tile while generating results.
+        /// It is reset when <see cref="Clear"/> is called.
+        /// </summary>
         public int BacktrackCount => wavePropagator.BacktrackCount;
 
+        /// <summary>
+        /// Resets the TilePropagator to the state it was in at construction.
+        /// </summary>
+        /// <returns>The current <see cref="Status"/> (usually <see cref="Resolution.Undecided"/> unless there are very specific initial conditions)</returns>
         public Resolution Clear()
         {
             return wavePropagator.Clear();
         }
 
-
+        /// <summary>
+        /// Marks the given tile as not being a valid choice at a given location.
+        /// Then it propogates that information to other nearby tiles.
+        /// </summary>
+        /// <returns>The current <see cref="Status"/></returns>
         public Resolution Ban(int x, int y, int z, Tile tile)
         {
             TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var ox, out var oy, out var oz);
@@ -171,6 +211,13 @@ namespace DeBroglie
             return Resolution.Undecided;
         }
 
+
+        /// <summary>
+        /// Marks the given tile as the only valid choice at a given location.
+        /// This is equivalent to banning all other tiles.
+        /// Then it propogates that information to other nearby tiles.
+        /// </summary>
+        /// <returns>The current <see cref="Status"/></returns>
         public Resolution Select(int x, int y, int z, Tile tile)
         {
             TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var ox, out var oy, out var oz);
@@ -186,28 +233,47 @@ namespace DeBroglie
             return Resolution.Undecided;
         }
 
+        /// <summary>
+        /// Makes a single tile selection.
+        /// Then it propogates that information to other nearby tiles.
+        /// If backtracking is enabled a single step can include several backtracks,.
+        /// </summary>
+        /// <returns>The current <see cref="Status"/></returns>
         public Resolution Step()
         {
             return wavePropagator.Step();
         }
 
+        /// <summary>
+        /// Repeatedly Steps until the status is Decided or Contradiction.
+        /// </summary>
+        /// <returns>The current <see cref="Status"/></returns>
         public Resolution Run()
         {
             return wavePropagator.Run();
         }
 
+        /// <summary>
+        /// Returns true if this tile is the only valid selection for a given location.
+        /// </summary>
         public bool IsSelected(int x, int y, int z, Tile tile)
         {
             GetBannedSelected(x, y, z, tile, out var isBanned, out var isSelected);
             return isSelected;
         }
 
+        /// <summary>
+        /// Returns true if this tile is the not a valid selection for a given location.
+        /// </summary>
         public bool IsBanned(int x, int y, int z, Tile tile)
         {
             GetBannedSelected(x, y, z, tile, out var isBanned, out var isSelected);
             return isBanned;
         }
 
+        /// <summary>
+        /// Gets the results of both IsBanned and IsSelected
+        /// </summary>
         public void GetBannedSelected(int x, int y, int z, Tile tile, out bool isBanned, out bool isSelected)
         {
             TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var ox, out var oy, out var oz);
@@ -215,6 +281,10 @@ namespace DeBroglie
             GetBannedSelectedInternal(px, py, pz, patterns, out isBanned, out isSelected);
         }
 
+        /// <summary>
+        /// isBanned is set to true if all the tiles are not valid in the location.
+        /// isSelected is set to true if no other the tiles are valid in the location.
+        /// </summary>
         public void GetBannedSelected(int x, int y, int z, IEnumerable<Tile> tiles, out bool isBanned, out bool isSelected)
         {
             TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var ox, out var oy, out var oz);
@@ -246,6 +316,11 @@ namespace DeBroglie
             }
         }
 
+        /// <summary>
+        /// Converts the generated results to an <see cref="ITopoArray{Tile}"/>,
+        /// using specific tiles for locations that have not been decided or are in contradiction.
+        /// The arguments are not relevant if the <see cref="Status"/> is <see cref="Resolution.Decided"/>.
+        /// </summary>
         public ITopoArray<Tile> ToArray(Tile undecided = default(Tile), Tile contradiction = default(Tile))
         {
             var width = topology.Width;
@@ -282,8 +357,16 @@ namespace DeBroglie
             return new TopoArray3D<Tile>(result, topology);
         }
 
+        /// <summary>
+        /// Converts the generated results to an <see cref="ITopoArray{T}"/>,
+        /// by extracting the value of each decided tile and
+        /// using specific values for locations that have not been decided or are in contradiction.
+        /// This is simply a convenience over 
+        /// The arguments are not relevant if the <see cref="Status"/> is <see cref="Resolution.Decided"/>.
+        /// </summary>
         public ITopoArray<T> ToValueArray<T>(T undecided = default(T), T contradiction = default(T))
         {
+            // TODO: Just call ToArray() ?
             var width = topology.Width;
             var height = topology.Height;
             var depth = topology.Depth;
@@ -319,6 +402,14 @@ namespace DeBroglie
             return new TopoArray3D<T>(result, topology);
         }
 
+        /// <summary>
+        /// Convert the generated result to an array of sets, where each set
+        /// indicates the tiles that are still valid at the location.
+        /// The size of the set indicates the resolution of that location:
+        /// * Greater than 1: <see cref="Resolution.Undecided"/>
+        /// * Exactly 1: <see cref="Resolution.Decided"/>
+        /// * Exactly 0: <see cref="Resolution.Contradiction"/>
+        /// </summary>
         public ITopoArray<ISet<Tile>> ToArraySets()
         {
             var width = topology.Width;
