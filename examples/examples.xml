@@ -1,7 +1,0 @@
-<items>
-	<!-- Hexagonal-mini from https://opengameart.org/content/pixel-hex-tilesets-enhanced CC0 -->
-	<overlapping src="input/hexagonal-mini.tmx" dest="output/hexmini.tmx" N="2" symmetry="12" width="20" height="20" />
-	<overlapping src="input/hexagonal-mini.tmx" dest="output/hexmini_3.tmx" N="3" symmetry="12" width="10" height="10" backtrack="true" />
-	<!-- An example taken from https://github.com/sylefeb/VoxModSynth/ -->
-	<adjacent src="input/columns.vox" dest="output/columns.vox" symmetries="1" width="20" height="20" depth="20" />
-</items>
