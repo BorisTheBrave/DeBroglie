@@ -1,0 +1,4 @@
+[submodule "docs-generated"]
+	path = docs-generated
+	url = https://github.com/BorisTheBrave/DeBroglie.git
+	branch = gh-pages

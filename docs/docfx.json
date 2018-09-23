@@ -49,7 +49,7 @@
         ]
       }
     ],
-    "dest": "_site",
+    "dest": "../docs-generated",
     "globalMetadataFiles": [],
     "fileMetadataFiles": [],
     "template": [
