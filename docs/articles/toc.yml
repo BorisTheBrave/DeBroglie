@@ -1,4 +1,10 @@
 - name: Introduction
   href: index.md
+- name: Features
+  href: features.md
 - name: Rotation
   href: rotation.md
+- name: Using the Command Line
+  href: config_files.md
+- name: FAQ
+  href: faq.md

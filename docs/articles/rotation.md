@@ -14,7 +14,7 @@ When you supply an input sample, you can optinoally specify the `rotationalSymme
 <img src="../images/rotation_input.png"/>
 <img src="../images/arrow.png"/>
 <img src="../images/rotation_output.png"/>
-<figcaption>Extra rotation(<a href="../images/rotation.webm">animated</a>)</figcaption>
+<figcaption>Extra rotation (<a href="../images/rotation.webm">animated</a>)</figcaption>
 </figure>
 
 The core WCF algorithm used has no notion of rotation. DeBroglie handles rotation entirely as a pre-processing effect on input samples. So it's not necessary to specify rotations as described below, you can always just add more tiles and more samples. But it's much more convenient to let DeBroglie do it.
