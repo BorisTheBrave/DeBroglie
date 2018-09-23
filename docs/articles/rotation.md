@@ -11,9 +11,11 @@ When you supply an input sample, you can optinoally specify the `rotationalSymme
  Specifing rotations means even small samples can provide a lot of output variety:
 
 <figure>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/grass/map.json">
 <img src="../images/rotation_input.png"/>
 <img src="../images/arrow.png"/>
 <img src="../images/rotation_output.png"/>
+</a>
 <figcaption>Extra rotation (<a href="../images/rotation.webm">animated</a>)</figcaption>
 </figure>
 

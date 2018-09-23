@@ -42,9 +42,11 @@ when the relationship between tiles is very complex, or you are adding a lot oth
 **Example**
 
 <figure>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/pathway_adjacent.json">
 <img src="../images/pathway.png"/>
 <img src="../images/arrow.png"/>
 <img src="../images/pathway_adjacent.png"/>
+</a>
 <figcaption><a href="xref:DeBroglie.Models.AdjacentModel">AdjacentModel</a> can see that blue and green are never adjacent, but otherwise doesn't resemble the sample closely</figcaption>
 </figure>
 
@@ -63,16 +65,20 @@ In particular, the overlapping model can detect corners, lines and junctions. In
 **Example**
 
 <figure>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/pathway_overlapping_2.json">
 <img src="../images/pathway.png"/>
 <img src="../images/arrow.png"/>
 <img src="../images/pathway_overlapping_2.png"/>
+</a>
 <figcaption><a href="xref:DeBroglie.Models.OverlappingModel">OverlappingModel</a> with <tt>n</tt> = 2</figcaption>
 </figure>
 
 <figure>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/pathway_overlapping.json">
 <img src="../images/pathway.png"/>
 <img src="../images/arrow.png"/>
 <img src="../images/pathway_overlapping.png"/>
+</a>
 <figcaption><a href="xref:DeBroglie.Models.OverlappingModel">OverlappingModel</a> with <tt>n</tt> = 3</figcaption>
 </figure>
 
@@ -81,16 +87,20 @@ In particular, the overlapping model can detect corners, lines and junctions. In
 As mentioned, models also track the frequency of tiles in the sample image. You can make changes to this by calling [MultiplyFrequency](xref:DeBroglie.Models.TileModel.MultiplyFrequency(DeBroglie.Tile,System.Double)).
 
 <figure>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/pathway_overlapping_high_freq.json">
 <img src="../images/pathway.png"/>
 <img src="../images/arrow.png"/>
 <img src="../images/pathway_overlapping_high_freq.png"/>
+</a>
 <figcaption>Same example as overlapping model with frequency of green boosted.</figcaption>
 </figure>
 
 <figure>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/pathway_overlapping_low_freq.json">
 <img src="../images/pathway.png"/>
 <img src="../images/arrow.png"/>
 <img src="../images/pathway_overlapping_low_freq.png"/>
+</a>
 <figcaption>Same example as overlapping model with frequency of green reduced.</figcaption>
 </figure>
 
@@ -115,9 +125,11 @@ For each affected location, BorderConstratin calls [Select](xref:DeBroglie.TileP
 **Example**
 
 <figure>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/pathway_overlapping_border.json">
 <img src="../images/pathway.png"/>
 <img src="../images/arrow.png"/>
 <img src="../images/pathway_overlapping_border.png"/>
+</a>
 <figcaption>Using a border constraint ensures that none of the blue leaves the edge, forcing loops.</figcaption>
 </figure>
 
@@ -135,9 +147,11 @@ By default, <xref:DeBroglie.Constraints.PathConstraint> forces all path tiles to
 **Example**
 
 <figure>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/pathway_overlapping_path.json">
 <img src="../images/pathway.png"/>
 <img src="../images/arrow.png"/>
 <img src="../images/pathway_overlapping_path.png"/>
+</a>
 <figcaption>Using a path constraint ensures you can trace a path from any blue pixel to any other one.</figcaption>
 </figure>
 
@@ -162,17 +176,21 @@ Topology
 The most common case of using DeBroglie is to generate 2d images and tile maps, however, that is not all that can be generated.
 
 <figure>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/columns.json">
 <img src="../images/columns_in.png"/>
 <img src="../images/arrow.png"/>
 <img src="../images/columns_out.png"/>
+</a>
 <figcaption>Example of 3d generation. Rendered with <a href="http://magicavoxel.net">MagicaVoxel</a></figcaption>
 </figure>
 
 
 <figure>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/hexmini.json">
 <img src="../images/hexmini_in.png"/>
 <img src="../images/arrow.png"/>
 <img src="../images/hexmini_out.png"/>
+</a>
 <figcaption>Example of hex generation. Rendered with <a href="https://www.mapeditor.org">Tiled</a></figcaption>
 </figure>
 

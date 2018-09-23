@@ -7,9 +7,11 @@ Wave Function Collapse (WFC) is an constraint-based algorithm for which takes a 
 and procedurally generating a larger image in the same style, such as:
 
 <figure>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/mxgmn/city.json">
 <img src="../images/city_input.png">
 <img src="../images/arrow.png"/>
 <img src="../images/city_output.png">
+</a>
 </figure>
  
 DeBroglie is stocked with loads of features to help customize the generation process.
