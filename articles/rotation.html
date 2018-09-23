@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Rotation </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Rotation ">
+    <meta name="generator" content="docfx 2.39.2.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/custom.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="rotation_article">
+<h2 id="rotation-motivation">Rotation Motivation</h2>
+
+<p>When you supply an input sample, you can optinoally specify the <code>rotationalSymmetry</code> and <code>reflectionalSymmetry</code>. If you do, extra copies of the sample will be generated, by rotating and reflecting. This can be very handy, as it means you don't need as large an input sample, and you are guaranteed that there will be no bias towards a particular direction.</p>
+<p>Specifing rotations means even small samples can provide a lot of output variety:</p>
+<figure>
+<img src="../images/rotation_input.png">
+<img src="../images/arrow.png">
+<img src="../images/rotation_output.png">
+<figcaption>Extra rotation (<a href="../images/rotation.webm">animated</a>)</figcaption>
+</figure>
+<p>The core WCF algorithm used has no notion of rotation. DeBroglie handles rotation entirely as a pre-processing effect on input samples. So it's not necessary to specify rotations as described below, you can always just add more tiles and more samples. But it's much more convenient to let DeBroglie do it.</p>
+<p>DeBroglie works on tile samples, and you cannot just naively rotate the sample image but otherwise leave the tiles unchanged. The tiles will stop joining up with each other:</p>
+<p><canvas id="myCanvas" width="300" height="300"></canvas></p>
+<script src="animation.js"></script>
+<p>So when rotating a sample, it's necessary to rotate the tiles as well, and that requires extra information to be passed to DeBroglie.</p>
+<h2 id="quick-start">Quick Start</h2>
+<p>There are three common use cases in DeBroglie.</p>
+<p>If you are doing pixel based, or voxel based</p>
+<p>TODO</p>
+<h2 id="handling-rotating-a-tile">Handling rotating a tile</h2>
+<p>Starting with a given tile, and for a given rotation / reflection, there are 4 choices for what we might want to do:</p>
+<ol>
+<li>Re-use the same tile <strong>unchanged</strong>. This is typically the case when the tile is symmetric.</li>
+<li><strong>Replace</strong> the tile with another tile. This is what you want when a tileset comes with rotated variants of the tile in question.</li>
+<li><strong>Generate</strong> a rotated variant of the tile by rotating the actual bitmap / voxels that make up the tile. This is what you want when you don't already have a rotated copy, and it makes sense to rotate the inner details.</li>
+<li><strong>Fail</strong> to rotate. This leaves a hole in the rotated sample, and is typically used when it only makes sense to display a tile a certain way around.</li>
+</ol>
+<p>For example, suppose we wanted to rotate the following sample clockwise:</p>
+ <img src="../images/rotation_example_scene.png">
+ <img src="../images/rotate_arrow.png">
+ <img src="../images/rotation_example_scene_rotated.png">
+<p>The we had to treat the different tiles in different ways.</p>
+<p>The crossroad tile <img src="../images/grass_crossroad.png"> is <strong>unchanged</strong> as it is fully symetric.</p>
+<p>The bottom left cliff corner <img src="../images/grass_corner1.png"> gets <strong>replaced</strong> with the top left corner <img src="../images/grass_corner2.png">. These two images don't look similar due to the change in perspective, but you can easily see that a curve in the cliff would change as you rotate the view by 90 degrees.</p>
+<p>The path tiles have no prespective in them, so we are free to take a path tile <img src="../images/grass_corner3.png"> and <strong>generate</strong> a rotation from it <img src="../images/grass_corner4.png"> by simply rotating the image.</p>
+<p>The steps <img src="../images/grass_steps.png"> cannot be generated due to perspective and the tileset doesn't have an appropriate replacement, so it <strong>fails</strong> and just leaves a hole in the rotated sample. Holes are ok, though! We're just using the rotated sample as more input examples for the selected model, and the model will know to ignore holes.</p>
+<h2 id="specifying-rotations">Specifying Rotations</h2>
+<p>The choice of unchanged, replacement, generate or fail is stored in an <a class="xref" href="../api/DeBroglie.TileRotation.html">TileRotation</a> object. To create one of these, you need a <a class="xref" href="../api/DeBroglie.TileRotationBuilder.html">TileRotationBuilder</a>.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

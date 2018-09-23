@@ -1,0 +1,482 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Using the Command Line </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Using the Command Line ">
+    <meta name="generator" content="docfx 2.39.2.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/custom.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="config_files">
+<h1 id="using-the-command-line">Using the Command Line</h1>
+
+<p>As well as operating as a C# library, DeBroglie comes with an executable, <code>DeBroglie.Console.exe</code> for users who do not use C#, or wish to quickly prototype configuration. The console application is windows only at the moment.</p>
+<p>To use it, you construct a config file in <a href="https://en.wikipedia.org/wiki/JSON">JSON</a> format, and then invoke the executable on it, by dragging the file onto the .exe, or by running it from the command line:</p>
+<pre><code>./DeBroglie.Console.exe myconfig.json
+</code></pre>
+<p>You can find many example json files in the <a href="TODO">samples directory</a> included with the library.</p>
+<h2 id="file-format">File format</h2>
+<p>The file format very closely resembles the library API described in the main docs. In addition, there are many samples supplied with DeBroglie to give you an idea how to use it. You are advised to familiarize yourself with <a href="https://en.wikipedia.org/wiki/JSON">JSON</a> before proceeding.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>src</code></td>
+<td>string</td>
+<td>The file to load as the initial sample.  See <a href="#file-formats">file formats</a> for what is supported. Required.</td>
+</tr>
+<tr>
+<td><code>dest</code></td>
+<td>string</td>
+<td>The file to write the result to. The file has the same format as <code>src</code>. Required.</td>
+</tr>
+<tr>
+<td><code>baseDirectory</code></td>
+<td>string</td>
+<td>The directory that <code>src</code> and <code>dest</code> are relative to. <br><code>baseDirectory</code> itself is relative to the directory of the config file, and defaults to that directory.</td>
+</tr>
+<tr>
+<td><code>model</code></td>
+<td><a href="#model-config">Model</a></td>
+<td>Specifies the <a href="features.html#models">model</a> to use. Defaults to adjacent.</td>
+</tr>
+<tr>
+<td><code>periodicInput</code></td>
+<td>bool</td>
+<td>Shorthand for setting <code>periodicInputX</code>, <code>periodicInputY</code>, <code>periodicInputZ</code>.</td>
+</tr>
+<tr>
+<td><code>periodicInputX</code></td>
+<td>bool</td>
+<td>Does the input image wrap around on the x axis?</td>
+</tr>
+<tr>
+<td><code>periodicInputY</code></td>
+<td>bool</td>
+<td>Does the input image wrap around on the y axis?</td>
+</tr>
+<tr>
+<td><code>periodicInputZ</code></td>
+<td>bool</td>
+<td>Does the input image wrap around on the z axis?</td>
+</tr>
+<tr>
+<td><code>periodic</code></td>
+<td>bool</td>
+<td>Shorthand for setting <code>periodicX</code>, <code>periodicY</code>, <code>periodicZ</code>.</td>
+</tr>
+<tr>
+<td><code>periodicX</code></td>
+<td>bool</td>
+<td>Should the output wrap around on the x axis.</td>
+</tr>
+<tr>
+<td><code>periodicY</code></td>
+<td>bool</td>
+<td>Should the output wrap around on the y axis.</td>
+</tr>
+<tr>
+<td><code>periodicZ</code></td>
+<td>bool</td>
+<td>Should the output wrap around on the z axis.</td>
+</tr>
+<tr>
+<td><code>width</code></td>
+<td>int</td>
+<td>Length of the x-axis in pixels / tiles of the output result. Default 48.</td>
+</tr>
+<tr>
+<td><code>height</code></td>
+<td>int</td>
+<td>Length of the y-axis in pixels / tiles of the output result. Default 48.</td>
+</tr>
+<tr>
+<td><code>depth</code></td>
+<td>int</td>
+<td>Length of the z-axis in pixels / tiles of the output result. Default 48.</td>
+</tr>
+<tr>
+<td><code>ground</code></td>
+<td><a href="#tile-references">Tile</a></td>
+<td>Shorthand for adding a pair of <a href="features.html#border">border constraints</a>. <br> The first one constrains the bottom of the output to be the specified tile.<br> The second bans the tile from all other locations.<br> The bottom is taken to be ymax for 2d generation, zmin for 3d.</td>
+</tr>
+<tr>
+<td><code>symmetry</code></td>
+<td>int</td>
+<td>Shorthand for setting <code>reflectionalSymmetry</code> and <code>rotationalSymmetry</code>. <br> If even, reflections are on, and rotations is half <code>symmetry</code>. <br>Otherwise reflections are off and rotations are equal to <code>symmetry</code></td>
+</tr>
+<tr>
+<td><code>reflectionalSymmetry</code></td>
+<td>bool</td>
+<td>If set, extra copies of the <code>src</code> are used as samples, as described in <a class="xref" href="rotation.html">Rotation</a></td>
+</tr>
+<tr>
+<td><code>rotationalSymmetry</code></td>
+<td>int</td>
+<td>If set, extra copies of the <code>src</code> are used as samples, as described in <a class="xref" href="rotation.html">Rotation</a></td>
+</tr>
+<tr>
+<td><code>backtrack</code></td>
+<td>bool</td>
+<td>Specifies if <a href="features.html#backtracking">backtracking</a> is enabled.</td>
+</tr>
+<tr>
+<td><code>animate</code></td>
+<td>bool</td>
+<td>Dumps snapshots of the output while the generation process is running. Experimental.</td>
+</tr>
+<tr>
+<td><code>tiles</code></td>
+<td>array of <a href="#tile-data-config">TileData</a></td>
+<td>Specifies various per-tile information.</td>
+</tr>
+<tr>
+<td><code>constraints</code></td>
+<td>array of <a href="#constraint-config">Constraint</a></td>
+<td>Specifies constraints to add.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="model-config">Model Config</h3>
+<p>Models are a JSON object taking one of the following formats. The <code>type</code> field is set to a constant to indicate what sort of model is used.</p>
+<p>For constructing an <a href="features.html#adjacent">adjacent model</a></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>type</code></td>
+<td>string</td>
+<td><code>&quot;adjacent&quot;</code></td>
+</tr>
+</tbody>
+</table>
+<p>For constructing an <a href="features.html#overlapping">overlapping model</a></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>type</code></td>
+<td>string</td>
+<td><code>&quot;overlapping&quot;</code></td>
+</tr>
+<tr>
+<td><code>n</code></td>
+<td>int</td>
+<td>Shorthand for setting <code>nX</code>, <code>nY</code> and <code>nZ</code></td>
+</tr>
+<tr>
+<td><code>nX</code></td>
+<td>int</td>
+<td>Size of the rectangles to sample along the x-axis. Default 2.</td>
+</tr>
+<tr>
+<td><code>nY</code></td>
+<td>int</td>
+<td>Size of the rectangles to sample along the y-axis. Default 2.</td>
+</tr>
+<tr>
+<td><code>nZ</code></td>
+<td>int</td>
+<td>Size of the rectangles to sample along the z-axis. Default 2. Ignored for 2d topologies.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="constraint-config">Constraint Config</h3>
+<p>Constraints are a JSON object taking one of the following formats. The <code>type</code> field is set to a constant to indicate what sort of model is used.</p>
+<p>For constructing a <a href="features.html#path">path constraint</a></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>type</code></td>
+<td>string</td>
+<td><code>&quot;path&quot;</code></td>
+</tr>
+<tr>
+<td><code>pathTiles</code></td>
+<td>array of <a href="#tile-references">Tile</a></td>
+<td>The set of tiles that are considered &quot;on the path&quot;.</td>
+</tr>
+</tbody>
+</table>
+<p>For constructing a <a href="features.html#border">border constraint</a></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>type</code></td>
+<td>string</td>
+<td><code>&quot;border&quot;</code></td>
+</tr>
+<tr>
+<td><code>tile</code></td>
+<td><a href="#tile-references">Tile</a></td>
+<td>The tile to select or ban fromthe  border area.</td>
+</tr>
+<tr>
+<td><code>sides</code></td>
+<td>string</td>
+<td>A comma separated list of the values <code>&quot;xmin&quot;</code>, <code>&quot;xmax&quot;</code>, <code>&quot;ymin&quot;</code>, <code>&quot;ymax&quot;</code>, <code>&quot;zmin&quot;</code>, <code>&quot;zmax&quot;</code>, specifying which sides of the output are affected by the constraint. Defaults to all of them (except zmin/zmax for 2d).</td>
+</tr>
+<tr>
+<td><code>excludeSides</code></td>
+<td>string</td>
+<td>Same format as <code>sides</code>, these locations are subtracted from the ones specified in <code>sides</code>. Defaults to empty.</td>
+</tr>
+<tr>
+<td><code>invertArea</code></td>
+<td>bool</td>
+<td>Inverts the area specified by <code>sides</code> and <code>excludeSides</code></td>
+</tr>
+<tr>
+<td><code>ban</code></td>
+<td>bool</td>
+<td>If true, ban <code>tile</code> from the area. Otherwise, select it (i.e. ban every other tile).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tile-data-config">Tile Data Config</h3>
+<p>There are several rotation/reflection based fields, see the <a class="xref" href="rotation.html">Rotation section</a> for details on how they work.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>value</code></td>
+<td><a href="#tile-references">Tile</a></td>
+<td>Specifies which tile this object is configurating. <code>value</code> is interpreted differently for different <a href="#tile-references">file formats</a>. Required.</td>
+</tr>
+<tr>
+<td><code>multiplyFrequency</code></td>
+<td>number</td>
+<td>Scales the frequency of the configured tile, using <a class="xref" href="../api/DeBroglie.Models.TileModel.html#DeBroglie_Models_TileModel_MultiplyFrequency_DeBroglie_Tile_System_Double_">MultiplyFrequency</a></td>
+</tr>
+<tr>
+<td><code>tileSymmetry</code></td>
+<td>string</td>
+<td><a href="#tile-symmetry">See here</a></td>
+</tr>
+<tr>
+<td><code>reflectX</code></td>
+<td><a href="#tile-references">Tile</a></td>
+<td>Gives the tile you get if you reflect the configured tile in the x-axis.</td>
+</tr>
+<tr>
+<td><code>reflectY</code></td>
+<td><a href="#tile-references">Tile</a></td>
+<td>Gives the tile you get if you reflect the configured tile in the y-axis.</td>
+</tr>
+<tr>
+<td><code>rotateCw</code></td>
+<td><a href="#tile-references">Tile</a></td>
+<td>Gives the tile you get if you rotate the configured tile clockwise  in the xy-plane.</td>
+</tr>
+<tr>
+<td><code>rotateCcw</code></td>
+<td><a href="#tile-references">Tile</a></td>
+<td>Gives the tile you get if you rotate the configured tile counter clockwise in the xy-plane.</td>
+</tr>
+<tr>
+<td><code>noRotate</code></td>
+<td>bool</td>
+<td>Set this to opt out of the default rotation setting that a tile is fully symmetric. This is implicitly set if you set any other rotation options</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tile-symmetry">Tile Symmetry</h3>
+<p><a class="xref" href="../api/DeBroglie.TileSymmetry.html">TileSymmetry</a>, is a quick way of saying that a tile is unaffected by some reflections or rotations. It's equivalent to setting the reflect and rotation properties of the tile data to the same value as the tile itself. There several possibilities, each named after a letter that has the same symmetry:</p>
+<table>
+<thead>
+<tr>
+<th>Letter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>F</code> or <code>none</code></td>
+<td>No symmetry.</td>
+</tr>
+<tr>
+<td><code>X</code> or <code>full</code></td>
+<td>Fully symmetric.</td>
+</tr>
+<tr>
+<td><code>T</code></td>
+<td>Reflectable on y-axis.</td>
+</tr>
+<tr>
+<td><code>I</code></td>
+<td>Reflectable on x-axis and y-axis.</td>
+</tr>
+<tr>
+<td><code>L</code></td>
+<td>Reflectable on one diagonal.</td>
+</tr>
+<tr>
+<td><code>\</code></td>
+<td>Reflectable on both diagonals.</td>
+</tr>
+<tr>
+<td><code>Q</code></td>
+<td>Reflectable on other diagonal.</td>
+</tr>
+<tr>
+<td><code>E</code></td>
+<td>Reflectable on x-axis.</td>
+</tr>
+<tr>
+<td><code>N</code></td>
+<td>Can rotate 180 degrees.</td>
+</tr>
+<tr>
+<td><code>cyclic</code></td>
+<td>Any rotation, but no reflection.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tile-references">Tile References</h3>
+<p>Various parts of the config expect a reference to a tile. Tile references can either be the name of a tile, or the value. Names and values of tiles depend on what file format is being used.</p>
+<p><strong>Bitmap</strong> - Tile values are colors, and can be expressed as a HTML style hex code, e.g. <code>&quot;#FF0000&quot;</code>.</p>
+<p><strong>Tiled</strong> - Tile values are integer &quot;global ids&quot; e.g. <code>1</code>. Using zero means the empty tile. If you set a <a href="http://docs.mapeditor.org/en/stable/manual/custom-properties/">custom property</a> called <code>name</code> on a tile in the tileset, you can also use that to reference a tile.</p>
+<p><strong>MagicaVoxel</strong> - Tile values are palette indices (a value between 0 and 255). Using zero means the empty voxel.</p>
+<h2 id="file-formats">File formats</h2>
+<p>When specifying the <code>src</code> property, you can load files from a number of different sources. <code>dest</code> is written to in the same format. In each case DeBroglie tries to handle the format sensibly, which means there are some notes particular to each format.</p>
+<h3 id="bitmap">Bitmap</h3>
+<p>When loading bitmaps (or pngs), each pixel is assumed to be one tile, with the color desribing which tile.</p>
+<p>Additionally, the <code>animate</code> setting behaves differently for bitmaps. Uncertain tiles will be drawn as a color blend of all possible tiles.</p>
+<h3 id="tiled">Tiled</h3>
+<p><a href="https://www.mapeditor.org/">Tiled</a> .tmx files are supported, though Tiled has many features that are ignored. Both square and hex grids can be read. If there are multiple layers in a square grid, then they are taken to be a 3d topology.</p>
+<h3 id="magicavoxel">MagicaVoxel</h3>
+<p><a href="http://magicavoxel.net/">MagicaVoxel</a> .vox files are supported. Each voxel becomes one tile. You must abide to the limits of the format when using this, specifically there can only be 255 different tiles (plus the empty tile), and the maximum dimension generated is a cube of size 126.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

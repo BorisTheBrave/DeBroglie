@@ -1,0 +1,229 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Features </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Features ">
+    <meta name="generator" content="docfx 2.39.2.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/custom.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="features">
+<h1 id="key-concepts">Key Concepts</h1>
+
+<p><strong>2d/3d</strong> - DeBroglie works for both 2d and 3d generation, by selecting an appropriate <a class="xref" href="../api/DeBroglie.Topo.Topology.html">Topology</a>. Generally, most APIs accept <code>(x,y,z)</code> co-ordinates - the <code>z</code> value should just be 0 if you are working in 2d.</p>
+<p><strong><a class="xref" href="../api/DeBroglie.Tile.html">Tile</a></strong> - The individual units the generation algorithm works with. Tiles wrap a value of any type, but they are usually an integer index into a tileset, or a <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.drawing.color">Color</a> when working with bitmaps. The value isn't important, all relevant information about a tile is stored externally.</p>
+<p><strong><a class="xref" href="../api/DeBroglie.Topo.Topology.html">Topology</a></strong> - Specifies an area or volume of <a href="https://en.wikipedia.org/wiki/Discrete_space">space</a> and how to navigate it. There's more detail in the <a href="#topology">topology section</a>.</p>
+<p><strong><a class="xref" href="../api/DeBroglie.Topo.ITopoArray-1.html">ITopoArray&lt;T&gt;</a></strong> - A 2d or 3d read-only array with one entry per space in the corresponding <a class="xref" href="../api/DeBroglie.Topo.Topology.html">Topology</a>. They are used as both the input and output format for the library. You can construct these with methods on <a class="xref" href="../api/DeBroglie.Topo.TopoArray.html">TopoArray</a>. ITopoArray objects can also have a mask associated with them, indicating missing values.</p>
+<p><strong><a class="xref" href="../api/DeBroglie.Models.TileModel.html">Model</a></strong> - A model specifies constraints between nearby tiles in the generated output. See <a href="#models">models</a> for more info.</p>
+<p><strong><a class="xref" href="../api/DeBroglie.TilePropagator.html">Propagator</a></strong> - A propogator is responsible for generating an output that satifies the constraints specified by the <a class="xref" href="../api/DeBroglie.Models.TileModel.html">model</a> and other <a class="xref" href="../api/DeBroglie.Constraints.ITileConstraint.html">constraints</a>.</p>
+<h1 id="features">Features</h1>
+<h2 id="models">Models</h2>
+<p>Models are the key way to control the generation process in DeBroglie. They specify what combinations of tiles are legal to place near each other.</p>
+<p>Models have only have a few parameters - most information is inferred by giving them samples tilemaps.</p>
+<h3 id="adjacent">Adjacent</h3>
+<p><a class="xref" href="../api/DeBroglie.Models.AdjacentModel.html">AdjacentModel</a> constrains which tiles can be placed adjacent to which other ones. It does so by maintaining for each tile,
+a list of tiles that can be placed next to it in each direction. The list is always symmetric, i.e. if it is legal to place tile B directly above tile A,
+then it is legal to place A directly below B.</p>
+<p>Adding a sample to an adjacent model adds all adjacent tile pairs in the sample into the legal adjacency lists.</p>
+<p>The adjacenct model is very &quot;loose&quot; - it doesn't constrain the choice of tiles as much as the overlapping model. This makes it a good choice
+when the relationship between tiles is very complex, or you are adding a lot other <a href="#constraints">constraints</a> directly.</p>
+<p><strong>Example</strong></p>
+<figure>
+<img src="../images/pathway.png">
+<img src="../images/arrow.png">
+<img src="../images/pathway_adjacent.png">
+<figcaption><a class="xref" href="../api/DeBroglie.Models.AdjacentModel.html">AdjacentModel</a> can see that blue and green are never adjacent, but otherwise doesn't resemble the sample closely</figcaption>
+</figure>
+<h3 id="overlapping">Overlapping</h3>
+<p><a class="xref" href="../api/DeBroglie.Models.OverlappingModel.html">OverlappingModel</a> constrains that every <code>n</code> by <code>n</code> rectangle in the output is a copy of a rectangle taken from the sample (potentially with rotation / reflection).</p>
+<img src="https://camo.githubusercontent.com/c9a04da9ed7815de79b3f2236cd32d3e2dffc68f/687474703a2f2f692e696d6775722e636f6d2f4b554c475838362e706e67">
+<p>The model has three parametrs, <code>nx</code>, <code>ny</code> and <code>nz</code> which specify the dimensions of the rectangle/cuboid in the output. For convenience, you can just specify a value for <code>n</code> that sets all three. Typically <code>n</code> is only 2 or 3 - any larger and the algorithm can run quite slow and becomes increasingly unlikely to find a result.</p>
+<p>Compared to the adjacent model, the overlapping model is quite strict. This means it typically needs a larger amount of sample input to get good results, but when it does work, it can accurately reproduce many features of the samples that the adjacent model will simply scramble.</p>
+<p>In particular, the overlapping model can detect corners, lines and junctions. In conjunction with the propogation by the Wave Function Collapse algorithm, this means that rooms and pathways will get detected and output, but with variations on the placement, size and direction.</p>
+<p><strong>Example</strong></p>
+<figure>
+<img src="../images/pathway.png">
+<img src="../images/arrow.png">
+<img src="../images/pathway_overlapping_2.png">
+<figcaption><a class="xref" href="../api/DeBroglie.Models.OverlappingModel.html">OverlappingModel</a> with <tt>n</tt> = 2</figcaption>
+</figure>
+<figure>
+<img src="../images/pathway.png">
+<img src="../images/arrow.png">
+<img src="../images/pathway_overlapping.png">
+<figcaption><a class="xref" href="../api/DeBroglie.Models.OverlappingModel.html">OverlappingModel</a> with <tt>n</tt> = 3</figcaption>
+</figure>
+<h3 id="other-model-functionaltiy">Other model functionaltiy</h3>
+<p>As mentioned, models also track the frequency of tiles in the sample image. You can make changes to this by calling <a class="xref" href="../api/DeBroglie.Models.TileModel.html#DeBroglie_Models_TileModel_MultiplyFrequency_DeBroglie_Tile_System_Double_">MultiplyFrequency</a>.</p>
+<figure>
+<img src="../images/pathway.png">
+<img src="../images/arrow.png">
+<img src="../images/pathway_overlapping_high_freq.png">
+<figcaption>Same example as overlapping model with frequency of green boosted.</figcaption>
+</figure>
+<figure>
+<img src="../images/pathway.png">
+<img src="../images/arrow.png">
+<img src="../images/pathway_overlapping_low_freq.png">
+<figcaption>Same example as overlapping model with frequency of green reduced.</figcaption>
+</figure>
+<h2 id="constraints">Constraints</h2>
+<p>Constraints are a way to make additional hard requirements about the generated output.
+Unlike models, constraints can be <em>non-local</em>, meaning they force some property of the entire image,
+not just within a small rectangles.</p>
+<h3 id="border">Border</h3>
+<p><a class="xref" href="../api/DeBroglie.Constraints.BorderConstraint.html">BorderConstraint</a> class restricts what tiles can be selected in various regions of the output. It's pretty common that you want to specify the borders as being ground, or empty, or whatever, as otherwise if DeBroglie will often generate structures that lead off the edge and are clipped.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p><a class="xref" href="../api/DeBroglie.Constraints.BorderConstraint.html">BorderConstraint</a> only affects the initial set of tiles that can be legally placed. That means it is not doing anything except calling <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Ban_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Ban</a> and <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Select_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Select</a> on startup, which you can also do manually. <a class="xref" href="../api/DeBroglie.Constraints.BorderConstraint.html">BorderConstraint</a> is just a convenience.</p>
+</div>
+<p>BorderConstraing specifies a set of cells using a simple logic. First, an inclusion set of cells is defined by the <a class="xref" href="../api/DeBroglie.Constraints.BorderConstraint.html#DeBroglie_Constraints_BorderConstraint_Sides">Sides</a> field. This field is a bit field of flags, where there is one flag for each of the boundary sides of the output area (4 in 2d, 6 in 3d). An exclusion set is defined similarly from the  <a class="xref" href="../api/DeBroglie.Constraints.BorderConstraint.html#DeBroglie_Constraints_BorderConstraint_ExcludeSides">ExcludeSides</a> field. To get the set of locations affected, subtract the exclusion set from the inclusion set, then optionally invert if <a class="xref" href="../api/DeBroglie.Constraints.BorderConstraint.html#DeBroglie_Constraints_BorderConstraint_InvertArea">InvertArea</a> is set.</p>
+<p>For each affected location, BorderConstratin calls <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Select_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Select</a> with the Tile specified. If the <a class="xref" href="../api/DeBroglie.Constraints.BorderConstraint.html#DeBroglie_Constraints_BorderConstraint_Ban">Ban</a> field is set, then it calls <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Ban_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Ban</a> isntead of <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Select_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Select</a>.</p>
+<p><strong>Example</strong></p>
+<figure>
+<img src="../images/pathway.png">
+<img src="../images/arrow.png">
+<img src="../images/pathway_overlapping_border.png">
+<figcaption>Using a border constraint ensures that none of the blue leaves the edge, forcing loops.</figcaption>
+</figure>
+<h3 id="path">Path</h3>
+<p>The <a class="xref" href="../api/DeBroglie.Constraints.PathConstraint.html">PathConstraint</a> checks that it is possible to connect several locations together via a continuous path of adjacent tiles. It does this by banning any tile placement that would make such a path impossible.</p>
+<p>Set <a class="xref" href="../api/DeBroglie.Constraints.PathConstraint.html#DeBroglie_Constraints_PathConstraint_PathTiles">PathTiles</a> to the set of tiles that are considered on the path. Any two adjacent locations with tiles in this set are connected, and if x is connected to y and y is connected to z, then x and z are also connected.</p>
+<p>By default, <a class="xref" href="../api/DeBroglie.Constraints.PathConstraint.html">PathConstraint</a> forces all path tiles to be connect to each others. However, if you set <a class="xref" href="../api/DeBroglie.Constraints.PathConstraint.html#DeBroglie_Constraints_PathConstraint_EndPoints">EndPoints</a> then instead it forces that those specific points connect to each other, but doesn't stop extra path tiles being placed.</p>
+<div class="WARNING">
+<h5>Warning</h5>
+<p><a class="xref" href="../api/DeBroglie.Constraints.PathConstraint.html">PathConstraint</a> does not have a great deal of lookahead, so adding it will significantly increase the amount of retries needed to get a successful generation. You may need to enable <a href="#backtracking">backtracking</a> to get a successful result.</p>
+</div>
+<p><strong>Example</strong></p>
+<figure>
+<img src="../images/pathway.png">
+<img src="../images/arrow.png">
+<img src="../images/pathway_overlapping_path.png">
+<figcaption>Using a path constraint ensures you can trace a path from any blue pixel to any other one.</figcaption>
+</figure>
+<h3 id="custom-constraints">Custom Constraints</h3>
+<p>You can define your own constraints by extending <a class="xref" href="../api/DeBroglie.Constraints.ITileConstraint.html">ITileConstraint</a>. The Init method is called once per propagator run, and the Check method is called after each step, each time tiles are selected.</p>
+<p>Inside these methods, you can call <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Select_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Select</a> and <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Ban_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Ban</a> to control what tiles can be legally placed. You can also return <a class="xref" href="../api/DeBroglie.Resolution.html#DeBroglie_Resolution_Contradiction">Contradiction</a> to indicate that something is wrong and generation cannot continue. Otherwise, return <a class="xref" href="../api/DeBroglie.Resolution.html#DeBroglie_Resolution_Undecided">Undecided</a> to indicate that generation should continue.</p>
+<h2 id="backtracking">Backtracking</h2>
+<p>By default when you call <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Run">Run()</a> the WCF algorithm keeps adding tiles until it has filled every location, or until it is impossible to place a tile that satisfies all the constraints set up. It then returns <a class="xref" href="../api/DeBroglie.Resolution.html#DeBroglie_Resolution_Contradiction">Contradiction</a>.</p>
+<p>If you set the backtrack argument to <code>true</code> when constructing the <a class="xref" href="../api/DeBroglie.TilePropagator.html">TilePropagator</a>, instead, when a contradiction occurs it does not give up. Instead it rolls back the most recent tile placement, and tries another placment instead. <a href="https://en.wikipedia.org/wiki/Backtracking">In this manner</a>, it can explore the entire space of possible tile placements, seeking one that satifies the constraints. <a class="xref" href="../api/DeBroglie.Resolution.html#DeBroglie_Resolution_Contradiction">Contradiction</a> is only returned if all possibilities have been exhausted.</p>
+<p>Backtracking is very powerful and general, and can solve extremely difficult layouts. However, it can be quite slow, and consumes a great deal of memory, so it is generally only appropriate for generating small arrays.</p>
+<h2 id="topology">Topology</h2>
+<p>The most common case of using DeBroglie is to generate 2d images and tile maps, however, that is not all that can be generated.</p>
+<figure>
+<img src="../images/columns_in.png">
+<img src="../images/arrow.png">
+<img src="../images/columns_out.png">
+<figcaption>Example of 3d generation. Rendered with <a href="http://magicavoxel.net">MagicaVoxel</a></figcaption>
+</figure>
+<figure>
+<img src="../images/hexmini_in.png">
+<img src="../images/arrow.png">
+<img src="../images/hexmini_out.png">
+<figcaption>Example of hex generation. Rendered with <a href="https://www.mapeditor.org">Tiled</a></figcaption>
+</figure>
+<p>DeBroglie uses a mechanism called <a class="xref" href="../api/DeBroglie.Topo.Topology.html">Topology</a> to specify the type of area or volume to generate, what size it is, and whether it should wrap around at the edges (i.e. is it <em>periodic</em>). Topologies do not actually store data, they just specify the dimensions. Actual data is stored in an <a class="xref" href="../api/DeBroglie.Topo.ITopoArray-1.html">ITopoArray&lt;T&gt;</a>.</p>
+<p>Currently, three types of topology are supported: 2d square grid, 2d hex grid, and 3d cube grid.</p>
+<p>The topology of the generated result is inferred from the input samples. When using the command line tool the topology of the input is based on the file being read. But as a C# library, samples are passed as <a class="xref" href="../api/DeBroglie.Topo.ITopoArray-1.html">ITopoArray&lt;T&gt;</a> objects.</p>
+<p>So you must directly call the <a class="xref" href="../api/DeBroglie.Topo.Topology.html">Topology</a> constructor, and then create <a class="xref" href="../api/DeBroglie.Topo.ITopoArray-1.html">ITopoArray&lt;T&gt;</a> objects using the methods on <a class="xref" href="../api/DeBroglie.Topo.TopoArray.html">TopoArray</a>.  There's also many shortcut methods that don't require a topology if you just want to work with square grids.</p>
+<h3 id="hexagonal-topology">Hexagonal Topology</h3>
+<p>Hexagonal topologies use a convention of &quot;pointy side up&quot;. The x-axis moves to the right, and the y-axis moves down and to the left. This means the library generates rhombus shaped output. Additionally, periodic input / output is not supported.</p>
+<p>Using the <a href="https://www.mapeditor.org/">Tiled format</a> for import/export of hexagonal tilemaps is recommended, as most software doesn't have support for hexagons. DeBroglie comes with <a class="xref" href="../api/DeBroglie.TiledUtil.html">TiledUtil</a> to facilitate converting between <a class="xref" href="../api/DeBroglie.Topo.ITopoArray-1.html">ITopoArray&lt;T&gt;</a> objects and Tiled maps.</p>
+<h2 id="rotation">Rotation</h2>
+<p>Handling rotation of the input sample is a complex topic, and is discussed <a class="xref" href="rotation.html">in a separate article</a>.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

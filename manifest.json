@@ -1,0 +1,866 @@
+{
+  "homepages": [],
+  "source_base_path": "C:/Users/Adam/Documents/Programming/Programming 2018/DeBroglie/docs",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/DeBroglie.Constraints.BorderConstraint.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/DeBroglie.Constraints.BorderConstraint.html",
+          "hash": "wC922dAvflhq4FSOhXppFw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/DeBroglie.Constraints.BorderSides.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/DeBroglie.Constraints.BorderSides.html",
+          "hash": "KT29/+YddNbt4cGV/UqINA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/DeBroglie.Constraints.ITileConstraint.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/DeBroglie.Constraints.ITileConstraint.html",
+          "hash": "qfcou0mSWNczbK15DXkzSw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/DeBroglie.Constraints.PathConstraint.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/DeBroglie.Constraints.PathConstraint.html",
+          "hash": "a3PLLQ+e1IHRYpjYCfFe9g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/DeBroglie.Constraints.PathConstraintUtils.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/DeBroglie.Constraints.PathConstraintUtils.html",
+          "hash": "YKZ69ZafiHAw6iPZKW9/TQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/DeBroglie.Constraints.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/DeBroglie.Constraints.html",
+          "hash": "SXbP5/zLpR2bjcLFGmBmvw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/DeBroglie.Models.AdjacentModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/DeBroglie.Models.AdjacentModel.html",
+          "hash": "DOR6+MBH/ebCo8bpO+UV6g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/DeBroglie.Models.OverlappingModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/DeBroglie.Models.OverlappingModel.html",
+          "hash": "hHZq9U4mKAUXz5seBnuv6g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/DeBroglie.Models.TileModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/DeBroglie.Models.TileModel.html",
+          "hash": "y7EhoQRCLRbe4Z95zll4kw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/DeBroglie.Models.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/DeBroglie.Models.html",
+          "hash": "DNHCgR35tGOyyc3/JLmHdQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/DeBroglie.Point.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/DeBroglie.Point.html",
+          "hash": "J42gYX1BxBGxrOVRI3Ks/w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/DeBroglie.Resolution.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/DeBroglie.Resolution.html",
+          "hash": "06ISyRcKZFj83LQhBgiOTw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/DeBroglie.RotatedTile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/DeBroglie.RotatedTile.html",
+          "hash": "PzFFRqHODxIlOV6+rNQeWA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/DeBroglie.Tile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/DeBroglie.Tile.html",
+          "hash": "zaSFC7EK0goYGpnjm8qWWg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/DeBroglie.TilePropagator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/DeBroglie.TilePropagator.html",
+          "hash": "oHJqkvRJGJ0uV6Ia+3nspQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/DeBroglie.TileRotation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/DeBroglie.TileRotation.html",
+          "hash": "bD38Sdbz/IPepbaLEePJuQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/DeBroglie.TileRotationBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/DeBroglie.TileRotationBuilder.html",
+          "hash": "RRJlM84yyQSvbGhtoJk9EQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/DeBroglie.TileRotationTreatment.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/DeBroglie.TileRotationTreatment.html",
+          "hash": "+Tu13ZRqqu8JZDOq85sslQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/DeBroglie.TileSymmetry.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/DeBroglie.TileSymmetry.html",
+          "hash": "KHrASVJEfch34PhdHuFF3A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/DeBroglie.TileSymmetryUtils.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/DeBroglie.TileSymmetryUtils.html",
+          "hash": "R7j6rFUv8Iu5MAfs9bvW3Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/DeBroglie.TiledUtil.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/DeBroglie.TiledUtil.html",
+          "hash": "G9MwGs6PMHFoau0uhBRHag=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/DeBroglie.Topo.Directions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/DeBroglie.Topo.Directions.html",
+          "hash": "STg0HCs2k1IFUHgC95ZpZw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/DeBroglie.Topo.DirectionsType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/DeBroglie.Topo.DirectionsType.html",
+          "hash": "Imqz4mqQIGfdAa1N9M0Guw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/DeBroglie.Topo.ITopoArray-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/DeBroglie.Topo.ITopoArray-1.html",
+          "hash": "IV4mnem904XEFly5/FUnkw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/DeBroglie.Topo.TopoArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/DeBroglie.Topo.TopoArray.html",
+          "hash": "ucHnAxNDYfOh56mLP+ac/Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/DeBroglie.Topo.TopoArrayExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/DeBroglie.Topo.TopoArrayExtensions.html",
+          "hash": "2XWv81AfibiEWrWNdM3BaQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/DeBroglie.Topo.Topology.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/DeBroglie.Topo.Topology.html",
+          "hash": "6KvIctutLb+kVcCFlfB7kQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/DeBroglie.Topo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/DeBroglie.Topo.html",
+          "hash": "D/fyX/l+Jfxch5py6Ike9Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/DeBroglie.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/DeBroglie.html",
+          "hash": "w0HS76unPKdMLvwT/bovaQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "ngQ3b4hApeWScyGZ5MmjoA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "articles/animation.js",
+      "output": {
+        "resource": {
+          "relative_path": "articles/animation.js"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Conceptual",
+      "source_relative_path": "articles/config_files.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/config_files.html",
+          "hash": "YdFp1KAveZg2uDnL+Eu8sg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Conceptual",
+      "source_relative_path": "articles/faq.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/faq.html",
+          "hash": "oZZRBCls1rrF3x82ukPLUg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/features.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/features.html",
+          "hash": "Qz3bkv0rYpJZD6DiZ4YC+w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/index.html",
+          "hash": "hp0Z89W1iIUPlbOgDTVX2A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/rotation.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/rotation.html",
+          "hash": "vN53EbO86Wi4ojn/vrvD8g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/toc.html",
+          "hash": "5XxcbLtostjeMaBUmm035A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/arrow.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/arrow.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/city_input.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/city_input.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/city_output.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/city_output.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/columns_in.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/columns_in.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/columns_out.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/columns_out.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/grass_corner1.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/grass_corner1.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/grass_corner2.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/grass_corner2.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/grass_corner3.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/grass_corner3.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/grass_corner4.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/grass_corner4.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/grass_crossroad.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/grass_crossroad.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/grass_steps.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/grass_steps.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/hexmini_in.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/hexmini_in.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/hexmini_out.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/hexmini_out.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/overworld_tileset_grass.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/overworld_tileset_grass.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/pathway.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/pathway.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/pathway.webm",
+      "output": {
+        "resource": {
+          "relative_path": "images/pathway.webm"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/pathway_adjacent.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/pathway_adjacent.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/pathway_overlapping.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/pathway_overlapping.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/pathway_overlapping_2.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/pathway_overlapping_2.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/pathway_overlapping_border.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/pathway_overlapping_border.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/pathway_overlapping_high_freq.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/pathway_overlapping_high_freq.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/pathway_overlapping_low_freq.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/pathway_overlapping_low_freq.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/pathway_overlapping_path.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/pathway_overlapping_path.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/rotate_arrow.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/rotate_arrow.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/rotation.webm",
+      "output": {
+        "resource": {
+          "relative_path": "images/rotation.webm"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/rotation_example_scene.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/rotation_example_scene.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/rotation_example_scene.tmx",
+      "output": {
+        "resource": {
+          "relative_path": "images/rotation_example_scene.tmx"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/rotation_example_scene_rotated.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/rotation_example_scene_rotated.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/rotation_example_scene_rotated.tmx",
+      "output": {
+        "resource": {
+          "relative_path": "images/rotation_example_scene_rotated.tmx"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/rotation_input.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/rotation_input.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/rotation_output.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/rotation_output.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "/Kh4xpAAHanWs92yVAu8kw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "JPmmsBUODkB/UDQ5iap6pQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": true,
+        "incrementalPhase": "build"
+      },
+      "processors": {
+        "ResourceDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build"
+        },
+        "ConceptualDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build"
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build"
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build"
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": true,
+        "details": "Can support incremental post processing.",
+        "incrementalPhase": "postProcessing"
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}
