@@ -263,6 +263,8 @@ namespace DeBroglie.Console
         public static void Process(string filename)
         {
             var directory = Path.GetDirectoryName(filename);
+            if (directory == "")
+                directory = ".";
             var config = LoadItemsFile(filename);
             config.BaseDirectory = config.BaseDirectory == null ? directory : Path.Combine(directory, config.BaseDirectory);
             if(config.Src == null)
