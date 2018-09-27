@@ -14,8 +14,8 @@ _disableToc: true
     <hr class="my-4">
     <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
     <p class="lead">
-      <a class="btn btn-primary btl-lg" href="articles/" role="button">Getting Started</a>
-      <a class="btn btn-primary btl-lg" href="TODO" role="button">Download Latest</a>
+      <a class="btn btn-primary btl-lg" href="articles/index.md" role="button">Getting Started</a>
+      <a class="btn btn-primary btl-lg" href="https://github.com/BorisTheBrave/DeBroglie/releases" role="button">Download Latest</a>
     </p>
   </div>
 

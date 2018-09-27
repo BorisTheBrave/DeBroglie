@@ -2,7 +2,22 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>0.1.0</Version>
+    <Authors>BorisTheBrave</Authors>
+    <Copyright>MIT</Copyright>
+    <PackageLicenseUrl>https://github.com/BorisTheBrave/DeBroglie/blob/master/LICENSE.txt</PackageLicenseUrl>
+    <PackageProjectUrl>https://boristhebrave.github.io/DeBroglie/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/BorisTheBrave/DeBroglie</RepositoryUrl>
+    <PackageTags>wfc tile tiled pcg debroglie</PackageTags>
+    <Description>DeBroglie is a implements the algorithm with support for additional non-local constraints, and other useful features.</Description>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="../README.md">
+      <Pack>true</Pack>
+      <PackagePath>\</PackagePath>
+    </Content>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="TiledLib" Version="2.3.0" />

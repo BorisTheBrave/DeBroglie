@@ -21,6 +21,10 @@ Usage
 
 See https://boristhebrave.github.io/DeBroglie/
 
+Release Notes
+-------------
+
+See docs/articles/release_notes.md
 
 Copyright
 ---------

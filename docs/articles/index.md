@@ -57,7 +57,7 @@ Quick Start (C#)
 
 Right now, DeBroglie isn't in NuGet. The easiest way to get going is to git clone the repo, and include the DeBroglie project in your solution.
 
-Then here's a simple that constructs the relevant objects and runs them.
+Then here's a simple snippet that constructs the relevant objects and runs them.
 
 ```csharp
 // Define some sample data
@@ -90,10 +90,38 @@ for (var y = 0; y < 10; y++)
 Quick Start (Command Line)
 ==========================
 
-Right now, the binary isn't published, so you must download the source and compile it.
+Download the command line application from [Releases](https://github.com/BorisTheBrave/DeBroglie/releases). The command line app is Windows only.
+
+Then download this sample file: <a href="../images/sewers.png">sewers.png</a>
+
+Then, create a json file, `sewers.json` with the following content. Save it in the same directory as sewers.png.
 
 ```json
 {
-    TODO
+    "src": "sewers.png",
+    "dest": "generated-sewers.png",
+    "model": {
+        "type": "overlapping",
+        "n": 3
+    },
+    "periodicInput": true,
+    "periodic": true,
+    "symmetry": 8
 }
 ```
+
+Now run DeBroglie.Console.exe with the json file. To do so, drag the file onto the executable. 
+
+<img src="../images/drag_drop.png"/>
+
+Or you can run something like the following in the command line.
+
+```
+path_to_debroglie/DeBroglie.Console.exe path_to_json/sewers.json
+```
+
+<img src="../images/cmd.png"/>
+
+Either way, it should create a new image called `generated-sewers.png`.
+
+Read about the [JSON file format](config_files.md) for details of what you can do with the JSON file.
