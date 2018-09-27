@@ -4,6 +4,7 @@ documentType: index
 _disableFooter: true
 _disableBreadcrumb: true
 _disableToc: true
+_gitContribute: false
 ---
 <div class="container">
 
