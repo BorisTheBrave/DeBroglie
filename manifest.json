@@ -9,10 +9,10 @@
       "output": {
         ".html": {
           "relative_path": "api/DeBroglie.Constraints.BorderConstraint.html",
-          "hash": "wC922dAvflhq4FSOhXppFw=="
+          "hash": "I5thAzLffngk7InTcVVxqw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -21,10 +21,10 @@
       "output": {
         ".html": {
           "relative_path": "api/DeBroglie.Constraints.BorderSides.html",
-          "hash": "KT29/+YddNbt4cGV/UqINA=="
+          "hash": "kN7RSGBeZJCaSqYa9zzSpA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -33,10 +33,10 @@
       "output": {
         ".html": {
           "relative_path": "api/DeBroglie.Constraints.ITileConstraint.html",
-          "hash": "qfcou0mSWNczbK15DXkzSw=="
+          "hash": "TgArrKOtAMKE5Bu9XULohg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -45,10 +45,10 @@
       "output": {
         ".html": {
           "relative_path": "api/DeBroglie.Constraints.PathConstraint.html",
-          "hash": "a3PLLQ+e1IHRYpjYCfFe9g=="
+          "hash": "/JPSPobY0Ke37ruKJp/P4A=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -57,10 +57,10 @@
       "output": {
         ".html": {
           "relative_path": "api/DeBroglie.Constraints.PathConstraintUtils.html",
-          "hash": "YKZ69ZafiHAw6iPZKW9/TQ=="
+          "hash": "YYHzxwbYri5GDKfO12ot7g=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -72,7 +72,7 @@
           "hash": "SXbP5/zLpR2bjcLFGmBmvw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -81,10 +81,10 @@
       "output": {
         ".html": {
           "relative_path": "api/DeBroglie.Models.AdjacentModel.html",
-          "hash": "DOR6+MBH/ebCo8bpO+UV6g=="
+          "hash": "ydRl9tIiqsgytPwKqU8eOg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -93,10 +93,10 @@
       "output": {
         ".html": {
           "relative_path": "api/DeBroglie.Models.OverlappingModel.html",
-          "hash": "hHZq9U4mKAUXz5seBnuv6g=="
+          "hash": "2kN4vZW0QpYUXSzG59cNmA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -105,10 +105,10 @@
       "output": {
         ".html": {
           "relative_path": "api/DeBroglie.Models.TileModel.html",
-          "hash": "y7EhoQRCLRbe4Z95zll4kw=="
+          "hash": "MG+YFPRIJJqZFB5Mc3MkvA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -120,7 +120,7 @@
           "hash": "DNHCgR35tGOyyc3/JLmHdQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -129,10 +129,10 @@
       "output": {
         ".html": {
           "relative_path": "api/DeBroglie.Point.html",
-          "hash": "J42gYX1BxBGxrOVRI3Ks/w=="
+          "hash": "rUDqwTfwwda5f1WoyibgvQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -141,10 +141,10 @@
       "output": {
         ".html": {
           "relative_path": "api/DeBroglie.Resolution.html",
-          "hash": "06ISyRcKZFj83LQhBgiOTw=="
+          "hash": "48dp66pmmDHLNhK+dKF8MQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -153,10 +153,10 @@
       "output": {
         ".html": {
           "relative_path": "api/DeBroglie.RotatedTile.html",
-          "hash": "PzFFRqHODxIlOV6+rNQeWA=="
+          "hash": "my7KzImpzTr6Q7rdrys77g=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -165,10 +165,10 @@
       "output": {
         ".html": {
           "relative_path": "api/DeBroglie.Tile.html",
-          "hash": "zaSFC7EK0goYGpnjm8qWWg=="
+          "hash": "UpnqMOw4LvsV8fao2ha0yg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -177,10 +177,10 @@
       "output": {
         ".html": {
           "relative_path": "api/DeBroglie.TilePropagator.html",
-          "hash": "oHJqkvRJGJ0uV6Ia+3nspQ=="
+          "hash": "UEQhXXmsUU2fFn2p6AyI/Q=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -189,10 +189,10 @@
       "output": {
         ".html": {
           "relative_path": "api/DeBroglie.TileRotation.html",
-          "hash": "bD38Sdbz/IPepbaLEePJuQ=="
+          "hash": "X2PGObvzkGudE9i2I1kjBw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -201,10 +201,10 @@
       "output": {
         ".html": {
           "relative_path": "api/DeBroglie.TileRotationBuilder.html",
-          "hash": "RRJlM84yyQSvbGhtoJk9EQ=="
+          "hash": "M5l3LGh7fL46OWHeOEBqUw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -213,10 +213,10 @@
       "output": {
         ".html": {
           "relative_path": "api/DeBroglie.TileRotationTreatment.html",
-          "hash": "+Tu13ZRqqu8JZDOq85sslQ=="
+          "hash": "lXxQowGw3IiI+kBlL1f0Vw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -225,10 +225,10 @@
       "output": {
         ".html": {
           "relative_path": "api/DeBroglie.TileSymmetry.html",
-          "hash": "KHrASVJEfch34PhdHuFF3A=="
+          "hash": "IsOGG1Ug/WXDa1SbxusewQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -237,10 +237,10 @@
       "output": {
         ".html": {
           "relative_path": "api/DeBroglie.TileSymmetryUtils.html",
-          "hash": "R7j6rFUv8Iu5MAfs9bvW3Q=="
+          "hash": "0PfnQ/AuJAtdvFOIYFaY2g=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -249,10 +249,10 @@
       "output": {
         ".html": {
           "relative_path": "api/DeBroglie.TiledUtil.html",
-          "hash": "G9MwGs6PMHFoau0uhBRHag=="
+          "hash": "LlT96Ynqoz/oVo8QVfFIbw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -261,10 +261,10 @@
       "output": {
         ".html": {
           "relative_path": "api/DeBroglie.Topo.Directions.html",
-          "hash": "STg0HCs2k1IFUHgC95ZpZw=="
+          "hash": "0fTuphMrFHe6wmkYEEJFjQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -273,10 +273,10 @@
       "output": {
         ".html": {
           "relative_path": "api/DeBroglie.Topo.DirectionsType.html",
-          "hash": "Imqz4mqQIGfdAa1N9M0Guw=="
+          "hash": "ttbJKZqCQ3fX+rBEu2Wgzw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -285,10 +285,10 @@
       "output": {
         ".html": {
           "relative_path": "api/DeBroglie.Topo.ITopoArray-1.html",
-          "hash": "IV4mnem904XEFly5/FUnkw=="
+          "hash": "qSzpsAmszTW20b9AvXtcsw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -297,10 +297,10 @@
       "output": {
         ".html": {
           "relative_path": "api/DeBroglie.Topo.TopoArray.html",
-          "hash": "ucHnAxNDYfOh56mLP+ac/Q=="
+          "hash": "LKlPOth0QyuApw0gm3G3CQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -309,10 +309,10 @@
       "output": {
         ".html": {
           "relative_path": "api/DeBroglie.Topo.TopoArrayExtensions.html",
-          "hash": "2XWv81AfibiEWrWNdM3BaQ=="
+          "hash": "BxrJfJNsgYckdS5ZlTd1jA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -321,10 +321,10 @@
       "output": {
         ".html": {
           "relative_path": "api/DeBroglie.Topo.Topology.html",
-          "hash": "6KvIctutLb+kVcCFlfB7kQ=="
+          "hash": "Vvxy1ejcCGXLFxyVCjPmzA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -336,7 +336,7 @@
           "hash": "D/fyX/l+Jfxch5py6Ike9Q=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -348,7 +348,7 @@
           "hash": "w0HS76unPKdMLvwT/bovaQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -375,33 +375,27 @@
       "version": ""
     },
     {
-      "log_codes": [
-        "InvalidFileLink"
-      ],
       "type": "Conceptual",
       "source_relative_path": "articles/config_files.md",
       "output": {
         ".html": {
           "relative_path": "articles/config_files.html",
-          "hash": "YdFp1KAveZg2uDnL+Eu8sg=="
+          "hash": "FQZGslWUygz1vVAjy9UzUg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
-      "log_codes": [
-        "InvalidFileLink"
-      ],
       "type": "Conceptual",
       "source_relative_path": "articles/faq.md",
       "output": {
         ".html": {
           "relative_path": "articles/faq.html",
-          "hash": "oZZRBCls1rrF3x82ukPLUg=="
+          "hash": "z90sRIh5sf8yO0VK68yUEQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -410,10 +404,10 @@
       "output": {
         ".html": {
           "relative_path": "articles/features.html",
-          "hash": "Qz3bkv0rYpJZD6DiZ4YC+w=="
+          "hash": "dAUXuHeXxIvKflSjS/59fQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -422,10 +416,22 @@
       "output": {
         ".html": {
           "relative_path": "articles/index.html",
-          "hash": "hp0Z89W1iIUPlbOgDTVX2A=="
+          "hash": "VKp01fXLDGiJtVhuCEIFzw=="
         }
       },
       "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/release_notes.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/release_notes.html",
+          "hash": "mb806vdhugQ4NQ1Gtqu4Lg=="
+        }
+      },
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -434,10 +440,10 @@
       "output": {
         ".html": {
           "relative_path": "articles/rotation.html",
-          "hash": "vN53EbO86Wi4ojn/vrvD8g=="
+          "hash": "3zWpxA8pSYzF2NLxZl3TLA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -446,7 +452,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/toc.html",
-          "hash": "5XxcbLtostjeMaBUmm035A=="
+          "hash": "HuzJaUIQYvLkxlRWAH4zNg=="
         }
       },
       "is_incremental": false,
@@ -487,6 +493,17 @@
     },
     {
       "type": "Resource",
+      "source_relative_path": "images/cmd.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/cmd.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
       "source_relative_path": "images/columns_in.png",
       "output": {
         "resource": {
@@ -502,6 +519,17 @@
       "output": {
         "resource": {
           "relative_path": "images/columns_out.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/drag_drop.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/drag_drop.png"
         }
       },
       "is_incremental": false,
@@ -794,15 +822,23 @@
       "version": ""
     },
     {
-      "log_codes": [
-        "InvalidFileLink"
-      ],
+      "type": "Resource",
+      "source_relative_path": "images/sewers.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/sewers.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
       "type": "Conceptual",
       "source_relative_path": "index.md",
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "/Kh4xpAAHanWs92yVAu8kw=="
+          "hash": "R3QNMVFnPnaLbKbg8vxBtA=="
         }
       },
       "is_incremental": false,
@@ -828,22 +864,22 @@
         "incrementalPhase": "build"
       },
       "processors": {
-        "ResourceDocumentProcessor": {
+        "TocDocumentProcessor": {
           "can_incremental": false,
-          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build"
         },
         "ConceptualDocumentProcessor": {
           "can_incremental": true,
           "incrementalPhase": "build"
         },
-        "TocDocumentProcessor": {
-          "can_incremental": false,
-          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
-          "incrementalPhase": "build"
-        },
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": true,
+          "incrementalPhase": "build"
+        },
+        "ResourceDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build"
         }
       }

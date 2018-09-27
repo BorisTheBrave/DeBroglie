@@ -73,9 +73,11 @@
 <p>When you supply an input sample, you can optinoally specify the <code>rotationalSymmetry</code> and <code>reflectionalSymmetry</code>. If you do, extra copies of the sample will be generated, by rotating and reflecting. This can be very handy, as it means you don't need as large an input sample, and you are guaranteed that there will be no bias towards a particular direction.</p>
 <p>Specifing rotations means even small samples can provide a lot of output variety:</p>
 <figure>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/grass/map.json">
 <img src="../images/rotation_input.png">
 <img src="../images/arrow.png">
 <img src="../images/rotation_output.png">
+</a>
 <figcaption>Extra rotation (<a href="../images/rotation.webm">animated</a>)</figcaption>
 </figure>
 <p>The core WCF algorithm used has no notion of rotation. DeBroglie handles rotation entirely as a pre-processing effect on input samples. So it's not necessary to specify rotations as described below, you can always just add more tiles and more samples. But it's much more convenient to let DeBroglie do it.</p>
@@ -113,6 +115,9 @@
             <div class="sideaffix">
               <div class="contribution">
                 <ul class="nav">
+                  <li>
+                    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/docs/articles/rotation.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">

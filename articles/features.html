@@ -89,9 +89,11 @@ then it is legal to place A directly below B.</p>
 when the relationship between tiles is very complex, or you are adding a lot other <a href="#constraints">constraints</a> directly.</p>
 <p><strong>Example</strong></p>
 <figure>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/pathway_adjacent.json">
 <img src="../images/pathway.png">
 <img src="../images/arrow.png">
 <img src="../images/pathway_adjacent.png">
+</a>
 <figcaption><a class="xref" href="../api/DeBroglie.Models.AdjacentModel.html">AdjacentModel</a> can see that blue and green are never adjacent, but otherwise doesn't resemble the sample closely</figcaption>
 </figure>
 <h3 id="overlapping">Overlapping</h3>
@@ -102,29 +104,37 @@ when the relationship between tiles is very complex, or you are adding a lot oth
 <p>In particular, the overlapping model can detect corners, lines and junctions. In conjunction with the propogation by the Wave Function Collapse algorithm, this means that rooms and pathways will get detected and output, but with variations on the placement, size and direction.</p>
 <p><strong>Example</strong></p>
 <figure>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/pathway_overlapping_2.json">
 <img src="../images/pathway.png">
 <img src="../images/arrow.png">
 <img src="../images/pathway_overlapping_2.png">
+</a>
 <figcaption><a class="xref" href="../api/DeBroglie.Models.OverlappingModel.html">OverlappingModel</a> with <tt>n</tt> = 2</figcaption>
 </figure>
 <figure>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/pathway_overlapping.json">
 <img src="../images/pathway.png">
 <img src="../images/arrow.png">
 <img src="../images/pathway_overlapping.png">
+</a>
 <figcaption><a class="xref" href="../api/DeBroglie.Models.OverlappingModel.html">OverlappingModel</a> with <tt>n</tt> = 3</figcaption>
 </figure>
 <h3 id="other-model-functionaltiy">Other model functionaltiy</h3>
 <p>As mentioned, models also track the frequency of tiles in the sample image. You can make changes to this by calling <a class="xref" href="../api/DeBroglie.Models.TileModel.html#DeBroglie_Models_TileModel_MultiplyFrequency_DeBroglie_Tile_System_Double_">MultiplyFrequency</a>.</p>
 <figure>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/pathway_overlapping_high_freq.json">
 <img src="../images/pathway.png">
 <img src="../images/arrow.png">
 <img src="../images/pathway_overlapping_high_freq.png">
+</a>
 <figcaption>Same example as overlapping model with frequency of green boosted.</figcaption>
 </figure>
 <figure>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/pathway_overlapping_low_freq.json">
 <img src="../images/pathway.png">
 <img src="../images/arrow.png">
 <img src="../images/pathway_overlapping_low_freq.png">
+</a>
 <figcaption>Same example as overlapping model with frequency of green reduced.</figcaption>
 </figure>
 <h2 id="constraints">Constraints</h2>
@@ -141,9 +151,11 @@ not just within a small rectangles.</p>
 <p>For each affected location, BorderConstratin calls <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Select_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Select</a> with the Tile specified. If the <a class="xref" href="../api/DeBroglie.Constraints.BorderConstraint.html#DeBroglie_Constraints_BorderConstraint_Ban">Ban</a> field is set, then it calls <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Ban_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Ban</a> isntead of <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Select_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Select</a>.</p>
 <p><strong>Example</strong></p>
 <figure>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/pathway_overlapping_border.json">
 <img src="../images/pathway.png">
 <img src="../images/arrow.png">
 <img src="../images/pathway_overlapping_border.png">
+</a>
 <figcaption>Using a border constraint ensures that none of the blue leaves the edge, forcing loops.</figcaption>
 </figure>
 <h3 id="path">Path</h3>
@@ -156,9 +168,11 @@ not just within a small rectangles.</p>
 </div>
 <p><strong>Example</strong></p>
 <figure>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/pathway_overlapping_path.json">
 <img src="../images/pathway.png">
 <img src="../images/arrow.png">
 <img src="../images/pathway_overlapping_path.png">
+</a>
 <figcaption>Using a path constraint ensures you can trace a path from any blue pixel to any other one.</figcaption>
 </figure>
 <h3 id="custom-constraints">Custom Constraints</h3>
@@ -171,15 +185,19 @@ not just within a small rectangles.</p>
 <h2 id="topology">Topology</h2>
 <p>The most common case of using DeBroglie is to generate 2d images and tile maps, however, that is not all that can be generated.</p>
 <figure>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/columns.json">
 <img src="../images/columns_in.png">
 <img src="../images/arrow.png">
 <img src="../images/columns_out.png">
+</a>
 <figcaption>Example of 3d generation. Rendered with <a href="http://magicavoxel.net">MagicaVoxel</a></figcaption>
 </figure>
 <figure>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/hexmini.json">
 <img src="../images/hexmini_in.png">
 <img src="../images/arrow.png">
 <img src="../images/hexmini_out.png">
+</a>
 <figcaption>Example of hex generation. Rendered with <a href="https://www.mapeditor.org">Tiled</a></figcaption>
 </figure>
 <p>DeBroglie uses a mechanism called <a class="xref" href="../api/DeBroglie.Topo.Topology.html">Topology</a> to specify the type of area or volume to generate, what size it is, and whether it should wrap around at the edges (i.e. is it <em>periodic</em>). Topologies do not actually store data, they just specify the dimensions. Actual data is stored in an <a class="xref" href="../api/DeBroglie.Topo.ITopoArray-1.html">ITopoArray&lt;T&gt;</a>.</p>
@@ -198,6 +216,9 @@ not just within a small rectangles.</p>
             <div class="sideaffix">
               <div class="contribution">
                 <ul class="nav">
+                  <li>
+                    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/docs/articles/features.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
