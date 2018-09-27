@@ -55,9 +55,10 @@ Depending on the difficulty of the generation, the process can fail and require 
 Quick Start (C#)
 =================
 
-Right now, DeBroglie isn't in NuGet. The easiest way to get going is to git clone the repo, and include the DeBroglie project in your solution.
+The DeBroglie library can be downloaded via [NuGet](https://www.nuget.org/packages/DeBroglie). 
+Or it can easily be built [from source](https://github.com/BorisTheBrave/DeBroglie).
 
-Then here's a simple snippet that constructs the relevant objects and runs them.
+Once you are referencing the library. here's a simple snippet that demonstrates constructing the relevant objects and running them.
 
 ```csharp
 // Define some sample data
