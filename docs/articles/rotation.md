@@ -6,7 +6,7 @@ title: Rotation
 Rotation Motivation
 -------------------
 
-When you supply an input sample, you can optinoally specify the `rotationalSymmetry` and `reflectionalSymmetry`. If you do, extra copies of the sample will be generated, by rotating and reflecting. This can be very handy, as it means you don't need as large an input sample, and you are guaranteed that there will be no bias towards a particular direction. 
+When you supply an input sample, you can optionally specify the `rotationalSymmetry` and `reflectionalSymmetry`. If you do, extra copies of the sample will be generated, by rotating and reflecting. This can be very handy, as it means you don't need as large an input sample, and you are guaranteed that there will be no bias towards a particular direction. 
 
  Specifing rotations means even small samples can provide a lot of output variety:
 
@@ -19,7 +19,7 @@ When you supply an input sample, you can optinoally specify the `rotationalSymme
 <figcaption>Extra rotation (<a href="../images/rotation.webm">animated</a>)</figcaption>
 </figure>
 
-The core WCF algorithm used has no notion of rotation. DeBroglie handles rotation entirely as a pre-processing effect on input samples. So it's not necessary to specify rotations as described below, you can always just add more tiles and more samples. But it's much more convenient to let DeBroglie do it.
+The core WFC algorithm used has no notion of rotation. DeBroglie handles rotation entirely as a pre-processing effect on input samples. So it's not necessary to specify rotations as described below, you can always just add more tiles and more samples. But it's much more convenient to let DeBroglie do it.
 
 DeBroglie works on tile samples, and you cannot just naively rotate the sample image but otherwise leave the tiles unchanged. The tiles will stop joining up with each other:
 
@@ -59,7 +59,7 @@ The crossroad tile <img src="../images/grass_crossroad.png" /> is **unchanged** 
 
 The bottom left cliff corner <img src="../images/grass_corner1.png" /> gets **replaced** with the top left corner <img src="../images/grass_corner2.png" />. These two images don't look similar due to the change in perspective, but you can easily see that a curve in the cliff would change as you rotate the view by 90 degrees.
 
-The path tiles have no prespective in them, so we are free to take a path tile <img src="../images/grass_corner3.png" /> and **generate** a rotation from it <img src="../images/grass_corner4.png" /> by simply rotating the image.
+The path tiles have no perspective in them, so we are free to take a path tile <img src="../images/grass_corner3.png" /> and **generate** a rotation from it <img src="../images/grass_corner4.png" /> by simply rotating the image.
 
 The steps <img src="../images/grass_steps.png" /> cannot be generated due to perspective and the tileset doesn't have an appropriate replacement, so it **fails** and just leaves a hole in the rotated sample. Holes are ok, though! We're just using the rotated sample as more input examples for the selected model, and the model will know to ignore holes.
  

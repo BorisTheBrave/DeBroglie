@@ -35,7 +35,7 @@ _gitContribute: false
     <div class="col-md-8 col-md-offset-2 text-center">
       <section>
         <h2>Features</h2>
-        <h3>Generate tile maps using the WCF algorithm</h3>
+        <h3>Generate tile maps using the WFC algorithm</h3>
         <video src="images/rotation.webm" autoplay loop></video>
         <h3><a href="articles/features.md#topology">2d, 3d and hexagonal generation</a></h3>
         <a href="images/columns_out.png"><img src="images/columns_out.png"/></a>

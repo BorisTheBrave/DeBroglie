@@ -164,9 +164,9 @@ Inside these methods, you can call [Select](xref:DeBroglie.TilePropagator.Select
 Backtracking
 ------------
 
-By default when you call <xref:DeBroglie.TilePropagator.Run> the WCF algorithm keeps adding tiles until it has filled every location, or until it is impossible to place a tile that satisfies all the constraints set up. It then returns <xref:DeBroglie.Resolution.Contradiction>.
+By default when you call <xref:DeBroglie.TilePropagator.Run> the WFC algorithm keeps adding tiles until it has filled every location, or until it is impossible to place a tile that satisfies all the constraints set up. It then returns <xref:DeBroglie.Resolution.Contradiction>.
 
-If you set the backtrack argument to `true` when constructing the <xref:DeBroglie.TilePropagator>, instead, when a contradiction occurs it does not give up. Instead it rolls back the most recent tile placement, and tries another placment instead. [In this manner](https://en.wikipedia.org/wiki/Backtracking), it can explore the entire space of possible tile placements, seeking one that satifies the constraints. <xref:DeBroglie.Resolution.Contradiction> is only returned if all possibilities have been exhausted.
+If you set the backtrack argument to `true` when constructing the <xref:DeBroglie.TilePropagator>, then the propagator does not give up when a contradiction occurs. I will attempt to roll back the most recent tile placement, and try another placment instead. [In this manner](https://en.wikipedia.org/wiki/Backtracking), it can explore the entire space of possible tile placements, seeking one that satifies the constraints. <xref:DeBroglie.Resolution.Contradiction> is only returned if all possibilities have been exhausted.
 
 Backtracking is very powerful and general, and can solve extremely difficult layouts. However, it can be quite slow, and consumes a great deal of memory, so it is generally only appropriate for generating small arrays.
 
@@ -207,6 +207,8 @@ So you must directly call the <xref:DeBroglie.Topo.Topology> constructor, and th
 Hexagonal topologies use a convention of "pointy side up". The x-axis moves to the right, and the y-axis moves down and to the left. This means the library generates rhombus shaped output. Additionally, periodic input / output is not supported.
 
 Using the [Tiled format](https://www.mapeditor.org/) for import/export of hexagonal tilemaps is recommended, as most software doesn't have support for hexagons. DeBroglie comes with <xref:DeBroglie.TiledUtil> to facilitate converting between <xref:DeBroglie.Topo.ITopoArray`1> objects and Tiled maps.
+
+When using the [overlapping](#overlapping) model, the constraints are based on `n` by `n` rhombus shapes, rather than `n` by `n` rectangles.
 
 Rotation
 --------

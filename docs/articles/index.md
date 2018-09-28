@@ -25,7 +25,7 @@ Feature Overview
 
 * ["Overlapped"](features.md#overlapping) model implementation of WFC
 * [Non-local constraints](features.md#constraints) allow you to specify other desired properties of the result
-* [Backtracking](features.md#backtracking) support - other WFC implementations immediately give up when a contradiction occurs.
+* [Backtracking](features.md#backtracking) support - some WFC implementations immediately give up when a contradiction occurs.
 * [supports 2d tiles, hex grids, and 3d voxels](features.md#topology) 
 
 What is WFC?
@@ -35,7 +35,7 @@ Wave Function Collapse is a constraint based algorithm that generates bitmaps, t
 
 <video src="../images/pathway.webm" autoplay loop></video>
 
-The original author of WCF has an excellent [explanation of the core algorithm](https://github.com/mxgmn/WaveFunctionCollapse)
+The original author of WFC has an excellent [explanation of the core algorithm](https://github.com/mxgmn/WaveFunctionCollapse)
 
 DeBroglie uses the core idea mostly unchanged, though enhanced in various ways explained in [Features](features.md).
 

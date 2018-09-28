@@ -8,7 +8,7 @@ FAQ
 
 **Q:** What does the Wave Function Collapse algorithm have to do with this library?
 
-**A:** The core generation algorithm is called Wave Function collapse. DeBroglie provides a nice wrapper around this algorithm for providing a variety of effects.
+**A:** The core generation algorithm is called Wave Function Collapse. DeBroglie provides a nice wrapper around this algorithm for providing a variety of effects.
 
 **Q:** What does the Wave Function Collapse algorithm have to do with the quantum physics concept of [Wave Function Collapse](https://en.wikipedia.org/wiki/Wave_function_collapse)
 
