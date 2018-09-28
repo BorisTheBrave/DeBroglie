@@ -70,7 +70,7 @@
             <article class="content wrap" id="_content" data-uid="rotation_article">
 <h2 id="rotation-motivation">Rotation Motivation</h2>
 
-<p>When you supply an input sample, you can optinoally specify the <code>rotationalSymmetry</code> and <code>reflectionalSymmetry</code>. If you do, extra copies of the sample will be generated, by rotating and reflecting. This can be very handy, as it means you don't need as large an input sample, and you are guaranteed that there will be no bias towards a particular direction.</p>
+<p>When you supply an input sample, you can optionally specify the <code>rotationalSymmetry</code> and <code>reflectionalSymmetry</code>. If you do, extra copies of the sample will be generated, by rotating and reflecting. This can be very handy, as it means you don't need as large an input sample, and you are guaranteed that there will be no bias towards a particular direction.</p>
 <p>Specifing rotations means even small samples can provide a lot of output variety:</p>
 <figure>
 <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/grass/map.json">
@@ -104,7 +104,7 @@
 <p>The we had to treat the different tiles in different ways.</p>
 <p>The crossroad tile <img src="../images/grass_crossroad.png"> is <strong>unchanged</strong> as it is fully symetric.</p>
 <p>The bottom left cliff corner <img src="../images/grass_corner1.png"> gets <strong>replaced</strong> with the top left corner <img src="../images/grass_corner2.png">. These two images don't look similar due to the change in perspective, but you can easily see that a curve in the cliff would change as you rotate the view by 90 degrees.</p>
-<p>The path tiles have no prespective in them, so we are free to take a path tile <img src="../images/grass_corner3.png"> and <strong>generate</strong> a rotation from it <img src="../images/grass_corner4.png"> by simply rotating the image.</p>
+<p>The path tiles have no perspective in them, so we are free to take a path tile <img src="../images/grass_corner3.png"> and <strong>generate</strong> a rotation from it <img src="../images/grass_corner4.png"> by simply rotating the image.</p>
 <p>The steps <img src="../images/grass_steps.png"> cannot be generated due to perspective and the tileset doesn't have an appropriate replacement, so it <strong>fails</strong> and just leaves a hole in the rotated sample. Holes are ok, though! We're just using the rotated sample as more input examples for the selected model, and the model will know to ignore holes.</p>
 <h2 id="specifying-rotations">Specifying Rotations</h2>
 <p>The choice of unchanged, replacement, generate or fail is stored in an <a class="xref" href="../api/DeBroglie.TileRotation.html">TileRotation</a> object. To create one of these, you need a <a class="xref" href="../api/DeBroglie.TileRotationBuilder.html">TileRotationBuilder</a>.</p>
