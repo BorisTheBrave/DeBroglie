@@ -27,8 +27,9 @@ namespace DeBroglie
             this.tg = tg;
         }
 
-        internal TileRotation()
+        internal TileRotation(TileRotationTreatment defaultTreatment = TileRotationTreatment.Unchanged)
         {
+            this.defaultTreatment = defaultTreatment;
         }
 
         /// <summary>

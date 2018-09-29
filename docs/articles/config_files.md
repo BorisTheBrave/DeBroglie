@@ -103,7 +103,6 @@ There are several rotation/reflection based fields, see the [Rotation section](x
 | `reflectY`| [Tile](#tile-references)| Gives the tile you get if you reflect the configured tile in the y-axis.|
 | `rotateCw`| [Tile](#tile-references)| Gives the tile you get if you rotate the configured tile clockwise  in the xy-plane.|
 | `rotateCcw`| [Tile](#tile-references)| Gives the tile you get if you rotate the configured tile counter clockwise in the xy-plane.|
-| `noRotate` | bool | Set this to opt out of the default rotation setting that a tile is fully symmetric. This is implicitly set if you set any other rotation options|
 
 
 ### Tile Symmetry

@@ -31,7 +31,7 @@ namespace DeBroglie
 
         private TileRotationTreatment defaultTreatment;
 
-        public TileRotationBuilder(TileRotationTreatment defaultTreatment = TileRotationTreatment.Missing)
+        public TileRotationBuilder(TileRotationTreatment defaultTreatment = TileRotationTreatment.Unchanged)
         {
             this.tg = new TransformGroup();
             this.defaultTreatment = defaultTreatment;

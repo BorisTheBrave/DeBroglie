@@ -33,9 +33,98 @@ Quick Start
 
 There are three common use cases in DeBroglie.
 
-If you are doing pixel based, or voxel based 
+### Single pixles / voxels
 
-TODO
+If your tiles are single pixels, or single voxels, then you do not need set up any extra information, because all your tiles are fully symmetric.
+
+### Complete tilesets
+
+If your tileset comes extra tiles for all rotations, e.g.
+
+<img src="../images/overworld_tileset_cropped.png"/>
+
+Then you need to specify how the tiles relate to each other. If you specify one reflection
+and one rotation for each tile, then DeBroglie can all other rotations and reflections.
+
+#### [Library Example](#tab/lib)
+
+```csharp
+var builder = new TileRotationBuilder();
+// tile 1 rotates clockwise to give tile 2
+builder.Add(tile1, 1, false, tile2); 
+// tile 1 reflects in x-axis to give itself.
+builder.Add(tile1, 0, true, tile1);
+var rotations = builder.Build();
+...
+// Add a new sample to the model, using all
+// eight rotations and reflections.
+model.AddSample(sample, 4, true, rotations)
+```
+
+#### [Config Example](#tab/config)
+
+```javascript
+{
+    ...
+    "tiles": [
+        // tile 1 rotates clockwise to give tile 2
+        // tile 1 reflects in x-axis to give itself.
+        {"value": 1, "rotateCw": 2, "reflectX": 1}
+    ]
+}
+```
+
+***
+
+### Incomplete tilesets
+
+Some tileset only comes with fewer tiles, and expects you make more tiles via rotation:
+
+<img src="../images/overworld_tileset_incomplete.png"/>
+
+In this case, you can use DeBroglie to generate the extra tiles for you. This feature is experimental. You specify relations between tiles as in the complete tileset case,
+but new tiles are created for anything left unspecified.
+
+
+#### [Library Example](#tab/lib)
+
+```csharp
+var builder = new TileRotationBuilder(TileRotationTreatment.Generated);
+// tile 1 reflects in x-axis to give itself.
+builder.Add(tile1, 0, true, tile1);
+// We haven't added a rotation, so a new rotation tile will
+// be created when we try to rotation tile 1.
+
+// You can also specify self-symmetries like so
+//builder.AddSymmetry(tile1, TileSymmetry.T);
+
+var rotations = builder.Build();
+...
+// Add a new sample to the model, using all
+// eight rotations and reflections.
+model.AddSample(sample, 4, true, rotations)
+```
+
+#### [Config Example](#tab/config)
+
+```javascript
+{
+    ...
+    "rotationTreatment": "generated",
+    "tiles": [
+        // tile 1 reflects in x-axis to give itself.
+        {"value": 1, "reflectX": 1}
+        // We haven't added a rotation, so a new rotation tile will
+        // be created when we try to rotation tile 1.
+
+        // You can also specify self-symmetries like so
+        //{"value": 1, "tileSymmetry": "T"}
+    ]
+}
+```
+
+***
+
 
 Handling rotating a tile
 ------------------------
