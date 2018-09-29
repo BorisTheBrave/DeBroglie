@@ -27,7 +27,7 @@ namespace DeBroglie.Test
             var propagator = new WavePropagator(model, topology);
             var status = propagator.Run();
             Assert.AreEqual(Resolution.Decided, status);
-            var a = propagator.ToTopArray().ToArray2d();
+            var a = propagator.ToTopoArray().ToArray2d();
             var topLeft = a[0, 0];
             for (var x = 0; x < width; x++)
             {
@@ -63,7 +63,7 @@ namespace DeBroglie.Test
             var propagator = new WavePropagator(model, topology);
             var status = propagator.Run();
             Assert.AreEqual(Resolution.Decided, status);
-            var a = propagator.ToTopArray();
+            var a = propagator.ToTopoArray();
             var topLeft = a.Get(0, 0, 0);
             for (var x = 0; x < width; x++)
             {

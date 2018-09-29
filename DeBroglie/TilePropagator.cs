@@ -327,7 +327,7 @@ namespace DeBroglie
             var height = topology.Height;
             var depth = topology.Depth;
 
-            var patternArray = wavePropagator.ToTopArray();
+            var patternArray = wavePropagator.ToTopoArray();
 
             var result = new Tile[width, height, depth];
             for (var x = 0; x < width; x++)
@@ -371,7 +371,7 @@ namespace DeBroglie
             var height = topology.Height;
             var depth = topology.Depth;
 
-            var patternArray = wavePropagator.ToTopArray();
+            var patternArray = wavePropagator.ToTopoArray();
 
             var result = new T[width, height, depth];
             for (var x = 0; x < width; x++)
@@ -416,7 +416,7 @@ namespace DeBroglie
             var height = topology.Height;
             var depth = topology.Depth;
 
-            var patternArray = wavePropagator.ToTopArraySets();
+            var patternArray = wavePropagator.ToTopoArraySets();
 
             var result = new ISet<Tile>[width, height, depth];
             for (var x = 0; x < width; x++)

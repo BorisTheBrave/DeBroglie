@@ -401,7 +401,7 @@ namespace DeBroglie.Wfc
          * Returns the array of decided patterns, writing
          * -1 or -2 to indicate cells that are undecided or in contradiction.
          */
-        public ITopoArray<int> ToTopArray()
+        public ITopoArray<int> ToTopoArray()
         {
             var result = new int[width, height, depth];
             for (var x = 0; x < width; x++)
@@ -421,7 +421,7 @@ namespace DeBroglie.Wfc
         /**
          * Returns an array where each cell is a list of remaining possible patterns.
          */
-        public ITopoArray<ISet<int>> ToTopArraySets()
+        public ITopoArray<ISet<int>> ToTopoArraySets()
         {
             var result = new ISet<int>[width, height, depth];
 

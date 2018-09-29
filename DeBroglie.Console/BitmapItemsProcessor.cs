@@ -60,7 +60,7 @@ namespace DeBroglie.Console
             {
                 bitmap = new Bitmap(filename);
             }
-            catch (ArgumentException e)
+            catch (ArgumentException)
             {
                 throw new Exception($"Couldn't load filename: {filename}");
             }
