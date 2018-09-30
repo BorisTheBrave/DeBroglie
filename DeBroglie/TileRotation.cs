@@ -29,6 +29,7 @@ namespace DeBroglie
 
         internal TileRotation(TileRotationTreatment defaultTreatment = TileRotationTreatment.Unchanged)
         {
+            this.treatments = new Dictionary<Tile, TileRotationTreatment>();
             this.defaultTreatment = defaultTreatment;
         }
 
