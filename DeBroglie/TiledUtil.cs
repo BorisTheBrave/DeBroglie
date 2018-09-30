@@ -16,6 +16,17 @@ namespace DeBroglie
         /// <summary>
         /// Loads a Map
         /// </summary>
+        public static Tileset LoadTileset(string filename)
+        {
+            using (var s = File.OpenRead(filename))
+            {
+                return Tileset.FromStream(s);
+            }
+        }
+
+        /// <summary>
+        /// Loads a Map
+        /// </summary>
         public static Map Load(string filename)
         {
             using (var s = File.OpenRead(filename))
@@ -122,6 +133,7 @@ namespace DeBroglie
                 layer.Height = height;
                 layer.Visible = true;
                 layer.Opacity = 1.0;
+                layer.LayerType = LayerType.tilelayer;
                 return layer;
             }
             else if (map.Orientation == Orientation.hexagonal)

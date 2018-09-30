@@ -1,0 +1,39 @@
+{
+    "src": "generic_platformer_tileset.tsx",
+    "dest": "output/platformer.tmx",
+    "adjacencies": [
+        {"left": [2, 5, 6], "right": [3, 5, 7], "comment": "grass and bottom"},
+        {"left": [3, 4], "right": [4, 6], "comment": "grass"},
+        {"left": [13, 14, 24], "right": [14, 16, 25], "comment": "solid"},
+        {"left": [23, 34], "right": [34, 26], "comment": "bottom"},
+        {"left": [0, 7, 16, 26], "right": [0], "comment": "empty"},
+        {"left": [0], "right": [0, 2, 13, 23], "comment": "empty"},
+        {"up": [0], "down": [0, 2, 3, 4, 5, 6, 7], "comment": "grass"},
+        {"up": [0, 2, 23, 34, 5, 26, 7], "down": [0], "comment": "bottom"},
+        {"up": [3, 13, 24], "down": [13, 23], "comment": "left"},
+        {"up": [6, 16, 25], "down": [16, 26], "comment": "right"},
+        {"up": [4, 14], "down": [14, 24, 25, 34], "comment": "solid"},
+
+        {"left": [112, 116], "right": [0], "comment": "ladder"},
+        {"left": [0], "right": [112, 113], "comment": "ladder"},
+        {"left": [2, 5, 6], "right": [115, 116], "comment": "grass and bottom, w ladder"},
+        {"left": [114, 115], "right": [3, 5, 7], "comment": "grass and bottom, w ladder"},
+        {"up": [112], "down": [112, 114, 115, 116, 2, 3, 4, 5, 6, 7], "comment": "ladder bottom at grass tiles"},
+        {"up": [0], "down": [114, 115, 116], "comment": "ladder grass tiles are the top"},
+        {"up": [114, 115, 116], "down": [112], "comment": "ladders grass tiles always connect downwards"},
+
+        
+        {"left": [16], "right": [111, 121, 122], "comment": "water"},
+        {"left": [111, 121, 122], "right": [13], "comment": "water"},
+        {"left": [111, 121, 122], "right": [111, 121, 122], "comment": "water"},
+        {"up": [0], "down": [111], "comment": "water"},
+        {"up": [111, 121, 122], "down": [121, 122], "comment": "water"}
+    ],
+    "tiles": [
+        {"value": 0, "multiplyFrequency": 3},
+        {"value": 121, "multiplyFrequency": 0.1}
+    ],
+    "width": 50,
+    "height": 10
+
+}

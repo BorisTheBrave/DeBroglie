@@ -146,7 +146,7 @@ namespace DeBroglie.Console
         /// </summary>
         public List<TileData> Tiles { get; set; }
 
-        public List<AdjacencyData> adjacencies { get; set; }
+        public List<AdjacencyData> Adjacencies { get; set; }
 
         /// <summary>
         /// Specifies constraints to add.

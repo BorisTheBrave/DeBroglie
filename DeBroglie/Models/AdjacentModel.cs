@@ -195,13 +195,11 @@ namespace DeBroglie.Models
                     }
                 }
             }
-
-            // Update the model based on the collected data
-            this.patternsToTiles = tilesToPatterns.ToDictionary(x => x.Value, x => x.Key);
         }
 
         internal override PatternModel GetPatternModel()
         {
+
             return new PatternModel
             {
                 Propagator = propagator.Select(x => x.Select(y => y.ToArray()).ToArray()).ToArray(),
@@ -209,7 +207,14 @@ namespace DeBroglie.Models
             };
         }
 
-        public override IReadOnlyDictionary<int, Tile> PatternsToTiles => patternsToTiles;
+        public override IReadOnlyDictionary<int, Tile> PatternsToTiles
+        {
+            get
+            {
+                // Lazily evaluated
+                return patternsToTiles = patternsToTiles ?? tilesToPatterns.ToDictionary(x => x.Value, x => x.Key); ;
+            }
+        }
         public override ILookup<Tile, int> TilesToPatterns  => tilesToPatterns.ToLookup(x=>x.Key, x=>x.Value);
 
         public override void MultiplyFrequency(Tile tile, double multiplier)
@@ -235,6 +240,7 @@ namespace DeBroglie.Models
                 {
                     propagator[pattern][d] = new HashSet<int>();
                 }
+                patternsToTiles = null;
             }
             return pattern;
         }

@@ -11,9 +11,24 @@ namespace DeBroglie.Console
 {
     public class TiledItemsProcessor : ItemsProcessor
     {
-        private TiledLib.Map map;
-        private string srcFilename;
-        private IDictionary<string, int> tilesByName;
+        protected TiledLib.Map map;
+        protected string srcFilename;
+        protected IDictionary<string, int> tilesByName;
+
+        protected void AddTileset(ITileset tileset)
+        {
+            if (tileset.TileProperties == null)
+                return;
+            foreach (var kv in tileset.TileProperties)
+            {
+                var localTileId = kv.Key;
+                var properties = kv.Value;
+                if (properties.TryGetValue("name", out var name))
+                {
+                    tilesByName[name] = tileset.FirstGid + localTileId;
+                }
+            }
+        }
 
         protected override ITopoArray<Tile> Load(string filename, DeBroglieConfig config)
         {
@@ -23,17 +38,7 @@ namespace DeBroglie.Console
             tilesByName = new Dictionary<string, int>();
             foreach(var tileset in map.Tilesets)
             {
-                if (tileset.TileProperties == null)
-                    continue;
-                foreach (var kv in tileset.TileProperties)
-                {
-                    var localTileId = kv.Key;
-                    var properties = kv.Value;
-                    if(properties.TryGetValue("name", out var name))
-                    {
-                        tilesByName[name] = tileset.FirstGid + localTileId;
-                    }
-                }
+                AddTileset(tileset);
             }
             if (map.Orientation == Orientation.hexagonal)
             {

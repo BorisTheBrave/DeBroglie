@@ -16,21 +16,34 @@ namespace DeBroglie.Console
 
         protected abstract void Save(TileModel model, TilePropagator tilePropagator, string filename, DeBroglieConfig config);
 
+        protected virtual void LoadSamples(string src, DeBroglieConfig config, out Directions directions, out ITopoArray<Tile>[] samples)
+        {
+            var sample = Load(src, config);
+            directions = sample.Topology.Directions;
+            samples = new[] { sample };
+        }
+
         protected abstract Tile Parse(string s);
 
-        private static TileModel GetModel(DeBroglieConfig config, ITopoArray<Tile> sample, TileRotation tileRotation)
+        private static TileModel GetModel(DeBroglieConfig config, Directions directions, ITopoArray<Tile>[] samples, TileRotation tileRotation)
         {
             var modelConfig = config.Model ?? new Adjacent();
             if (modelConfig is Overlapping overlapping)
             {
                 var model = new OverlappingModel(overlapping.NX, overlapping.NY, overlapping.NZ);
-                model.AddSample(sample, config.RotationalSymmetry, config.ReflectionalSymmetry, tileRotation);
+                foreach (var sample in samples)
+                {
+                    model.AddSample(sample, config.RotationalSymmetry, config.ReflectionalSymmetry, tileRotation);
+                }
                 return model;
             }
             else if(modelConfig is Adjacent adjacent)
             {
-                var model = new AdjacentModel();
-                model.AddSample(sample, config.RotationalSymmetry, config.ReflectionalSymmetry, tileRotation);
+                var model = new AdjacentModel(directions);
+                foreach (var sample in samples)
+                {
+                    model.AddSample(sample, config.RotationalSymmetry, config.ReflectionalSymmetry, tileRotation);
+                }
                 return model;
             }
             throw new System.Exception($"Unrecognized model type {modelConfig.GetType()}");
@@ -55,14 +68,37 @@ namespace DeBroglie.Console
             var contdest = Path.ChangeExtension(dest, ".contradiction" + Path.GetExtension(dest));
             System.Console.WriteLine($"Reading {src}");
 
-            var topArray = Load(src, config);
+            LoadSamples(src, config, out var directions, out var samples);
 
-            var is3d = topArray.Topology.Directions.Type == DirectionsType.Cartesian3d;
-            var topology = new Topology(topArray.Topology.Directions, config.Width, config.Height, is3d ? config.Depth : 1, config.PeriodicX, config.PeriodicY, config.PeriodicZ);
+            var is3d = directions.Type == DirectionsType.Cartesian3d;
+            var topology = new Topology(directions, config.Width, config.Height, is3d ? config.Depth : 1, config.PeriodicX, config.PeriodicY, config.PeriodicZ);
 
             var tileRotation = GetTileRotation(config.Tiles, config.RotationTreatment, topology);
 
-            var model = GetModel(config, topArray, tileRotation);
+            var model = GetModel(config, directions, samples, tileRotation);
+
+            // Setup adjacencies
+            if(config.Adjacencies != null)
+            {
+                var adjacentModel = model as AdjacentModel;
+                if(adjacentModel == null)
+                {
+                    throw new Exception("Setting adjacencies is only supported for the \"adjacent\" model.");
+                }
+
+                foreach(var a in config.Adjacencies)
+                {
+                    var srcAdj = a.Src.Select(Parse).ToList();
+                    var destAdj = a.Dest.Select(Parse).ToList();
+                    adjacentModel.AddAdjacency(srcAdj, destAdj, a.X, a.Y, a.Z, config.RotationalSymmetry, config.ReflectionalSymmetry, tileRotation);
+                    // If there are no samples, set frequency to 1 for everything mentioned in this block
+                    if (samples.Length == 0)
+                    {
+                        srcAdj.ForEach(tile => adjacentModel.AddTile(tile, 1));
+                        destAdj.ForEach(tile => adjacentModel.AddTile(tile, 1));
+                    }
+                }
+            }
 
             // Setup tiles
             if(config.Tiles != null)
@@ -279,6 +315,11 @@ namespace DeBroglie.Console
             else if (config.Src.EndsWith(".tmx"))
             {
                 var processor = new TiledItemsProcessor();
+                processor.ProcessItem(config);
+            }
+            else if (config.Src.EndsWith(".tsx"))
+            {
+                var processor = new TiledTilesetItemsProcessor();
                 processor.ProcessItem(config);
             }
             else if (config.Src.EndsWith(".vox"))
