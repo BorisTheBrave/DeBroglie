@@ -77,5 +77,17 @@ namespace DeBroglie
                     return false;
             }
         }
+
+        public IEnumerable<Tile> Rotate(IEnumerable<Tile> tiles, int rotateCw, bool reflectX)
+        {
+            foreach(var tile in tiles)
+            {
+                if(Rotate(tile, rotateCw, reflectX, out var tile2))
+                {
+                    yield return tile2;
+                }
+            }
+        }
+
     }
 }

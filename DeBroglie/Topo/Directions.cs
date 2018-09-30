@@ -1,4 +1,6 @@
-﻿namespace DeBroglie.Topo
+﻿using System;
+
+namespace DeBroglie.Topo
 {
     /// <summary>
     /// DirectionType indicates what neighbors are considered adjacent to each tile.
@@ -69,6 +71,18 @@
         public int Inverse(int d)
         {
             return d ^ 1;
+        }
+
+        public int GetDirection(int x, int y, int z=0)
+        {
+            for(int d=0;d<Count;d++)
+            {
+                if(x == DX[d] && y == DY[d] && z == DZ[d])
+                {
+                    return d;
+                }
+            }
+            throw new Exception($"No direction corresponds to ({x}, {y}, {z})");
         }
     }
 }

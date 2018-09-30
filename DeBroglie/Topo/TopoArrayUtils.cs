@@ -5,15 +5,72 @@ namespace DeBroglie.Topo
 
     internal static class TopoArrayUtils
     {
+        public static ValueTuple<int, int> RotateVector(int x, int y, int rotateCw, bool reflectX)
+        {
+            if (reflectX)
+            {
+                x = -x;
+            }
+            switch (rotateCw)
+            {
+                case 0:
+                    return (x, y);
+                case 1:
+                    return (-y, x);
+                case 2:
+                    return (-x, -y);
+                case 3:
+                    return (y, -x);
+                default:
+                    throw new Exception();
+            }
+        }
+
+        public static ValueTuple<int, int> HexRotateVector(int x, int y, int rotateCw, bool reflectX)
+        {
+            var microRotate = rotateCw % 3;
+            var rotate180 = rotateCw % 2 == 1;
+            return HexRotateVector(x, y, microRotate, rotate180, reflectX);
+        }
+
+        private static ValueTuple<int, int> HexRotateVector(int x, int y, int microRotate, bool rotate180, bool reflectX)
+        {
+
+            if (reflectX)
+            {
+                x = -x + y;
+            }
+            var q = x - y;
+            var r = -x;
+            var s = y;
+            var q2 = q;
+            switch (microRotate)
+            {
+                case 0: break;
+                case 1: q = s; s = r; r = q2; break;
+                case 2: q = r; r = s; s = q2; break;
+            }
+            if (rotate180)
+            {
+                q = -q;
+                r = -r;
+                s = -s;
+            }
+            x = -r;
+            y = s;
+            return (x, y);
+        }
+
+
         public delegate bool TileRotate<T>(T tile, out T result);
 
-        public static ITopoArray<Tile> Rotate(ITopoArray<Tile> original, int rotate, bool reflectX = false, TileRotation tileRotation = null)
+        public static ITopoArray<Tile> Rotate(ITopoArray<Tile> original, int rotateCw, bool reflectX = false, TileRotation tileRotation = null)
         {
             bool TileRotate(Tile tile, out Tile result)
             {
-                return tileRotation.Rotate(tile, rotate, reflectX, out result);
+                return tileRotation.Rotate(tile, rotateCw, reflectX, out result);
             }
-            return Rotate<Tile>(original, rotate, reflectX, tileRotation == null ? null : (TileRotate<Tile> )TileRotate);
+            return Rotate<Tile>(original, rotateCw, reflectX, tileRotation == null ? null : (TileRotate<Tile> )TileRotate);
         }
 
         public static ITopoArray<T> Rotate<T>(ITopoArray<T> original, int rotateCw, bool reflectX = false, TileRotate<T> tileRotate = null)
@@ -23,23 +80,7 @@ namespace DeBroglie.Topo
 
             ValueTuple<int, int> MapCoord(int x, int y)
             {
-                if(reflectX)
-                {
-                    x = -x;
-                }
-                switch (rotateCw)
-                {
-                    case 0:
-                        return (x, y);
-                    case 1:
-                        return (-y, x);
-                    case 2:
-                        return (-x, -y);
-                    case 3:
-                        return (y, -x);
-                    default:
-                        throw new Exception();
-                }
+                return RotateVector(x, y, rotateCw, reflectX);
             }
 
             return RotateInner(original, MapCoord, tileRotate);
@@ -65,29 +106,7 @@ namespace DeBroglie.Topo
             // Actually do a reflection/rotation
             ValueTuple<int, int> MapCoord(int x, int y)
             {
-                if (reflectX)
-                {
-                    x = -x + y;
-                }
-                var q = x - y;
-                var r = -x;
-                var s = y;
-                var q2 = q;
-                switch (microRotate)
-                {
-                    case 0: break;
-                    case 1: q = s; s = r; r = q2; break;
-                    case 2: q = r; r = s; s = q2; break;
-                }
-                if (rotate180)
-                {
-                    q = -q;
-                    r = -r;
-                    s = -s;
-                }
-                x = -r;
-                y = s;
-                return (x, y);
+                return HexRotateVector(x, y, microRotate, rotate180, reflectX);
             }
 
             return RotateInner(original, MapCoord, tileRotate);

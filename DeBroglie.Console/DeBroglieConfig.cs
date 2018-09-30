@@ -146,6 +146,8 @@ namespace DeBroglie.Console
         /// </summary>
         public List<TileData> Tiles { get; set; }
 
+        public List<AdjacencyData> adjacencies { get; set; }
+
         /// <summary>
         /// Specifies constraints to add.
         /// </summary>
@@ -209,6 +211,63 @@ namespace DeBroglie.Console
         public string RotateCcw { get; set; }
 
         public TileRotationTreatment? RotationTreatment { get; set; }
+    }
+
+    public class AdjacencyData
+    {
+        public List<string> Src { get; set; }
+        public List<string> Dest { get; set; } 
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Z { get; set; }
+
+        public List<string> Left
+        {
+            set
+            {
+                Src = value;
+                X = 1;
+                Y = 0;
+                Z = 0;
+            }
+        }
+
+        public List<string> Right
+        {
+            set { Dest = value; }
+        }
+
+        public List<string> Up
+        {
+            set
+            {
+                Src = value;
+                X = 0;
+                Y = 1;
+                Z = 0;
+            }
+        }
+
+        public List<string> Down
+        {
+            set { Dest = value; }
+        }
+
+        public List<string> Above
+        {
+            set
+            {
+                Src = value;
+                X = 0;
+                Y = 0;
+                Z = 1;
+            }
+        }
+
+        public List<string> Below
+        {
+            set { Dest = value; }
+        }
     }
 
     public abstract class ConstraintConfig
