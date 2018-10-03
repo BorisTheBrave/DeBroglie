@@ -94,8 +94,8 @@ namespace DeBroglie.Console
                     // If there are no samples, set frequency to 1 for everything mentioned in this block
                     if (samples.Length == 0)
                     {
-                        srcAdj.ForEach(tile => adjacentModel.AddTile(tile, 1));
-                        destAdj.ForEach(tile => adjacentModel.AddTile(tile, 1));
+                        srcAdj.ForEach(tile => adjacentModel.SetFrequency(tile, 1));
+                        destAdj.ForEach(tile => adjacentModel.SetFrequency(tile, 1));
                     }
                 }
             }

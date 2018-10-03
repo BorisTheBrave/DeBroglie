@@ -44,6 +44,7 @@ The file format very closely resembles the library API described in the main doc
 |`backtrack`           |bool|Specifies if [backtracking](features.md#backtracking) is enabled.|
 |`animate`             |bool|Dumps snapshots of the output while the generation process is running. Experimental.|
 |`tiles`               |array of [TileData](#tile-data-config)|Specifies various per-tile information.|
+|`adjacencies`         |array of [Adjacency](#adjacency-config)|Indicates which tiles can be adjacent to which other ones ([adjacent model only](features.md#adjacent)).|
 |`constraints`         |array of [Constraint](#constraint-config)|Specifies constraints to add.|
 
 ### Model Config
@@ -132,6 +133,27 @@ Various parts of the config expect a reference to a tile. Tile references can ei
 
 **MagicaVoxel** - Tile values are palette indices (a value between 0 and 255). Using zero means the empty voxel.
 
+### Adjacency Config
+
+Adjacency config is a way of configuring the [adjacent model](features.md#adjacent) without using sample inputs. You set an array of adjacency entries,
+where each entry adds extra permissible neighbours for some tiles in some directions. 
+
+Each adjacency entry it composed of two named lists of [Tile references](#tile-references). Specifically, they take one of three forms:
+
+```javascript
+{"left": [...], "right": [...] }
+{"up": [...], "down": [...] }
+{"above": [...], "below": [...] }
+```
+
+For `left`/`right`, this means that it is legal to place any tile found on the `left` list to the left of any tile in the `right` list. 
+Similarly `up`/`down` are along the y-axis and `above`/`below` are on the z-axis.
+
+A tile must be listed at least once in every relevant direction, or else it'll have no possible neighbours in some direction, and the generation never include it.
+
+As documented in [here](xref:DeBroglie.Models.AdjacentModel.AddAdjacency(System.Collections.Generic.IList{DeBroglie.Tile},System.Collections.Generic.IList{DeBroglie.Tile},System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean,DeBroglie.TileRotation), if there are rotations specified for tiles, then adjacencies are added for the rotated pairs as appropriate.
+
+
 File formats
 ------------
 
@@ -146,6 +168,8 @@ Additionally, the `animate` setting behaves differently for bitmaps. Uncertain t
 ### Tiled
 
 [Tiled](https://www.mapeditor.org/) .tmx files are supported, though Tiled has many features that are ignored. Both square and hex grids can be read. If there are multiple layers in a square grid, then they are taken to be a 3d topology.
+
+You can also load .tsx files (Tiled tilesets). As these do not come with a map to use as sample input, you must set [adjacencies](#adjacency-config) instead. The output is a .tmx file referencing the .tsx.
 
 ### MagicaVoxel
 

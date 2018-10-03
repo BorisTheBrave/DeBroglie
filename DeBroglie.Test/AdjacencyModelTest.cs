@@ -16,8 +16,8 @@ namespace DeBroglie.Test
             var model = new AdjacentModel(Directions.Cartesian2d);
             var tile1 = new Tile(1);
             var tile2 = new Tile(2);
-            model.AddTile(tile1);
-            model.AddTile(tile2, 5);
+            model.SetFrequency(tile1, 1);
+            model.SetFrequency(tile2, 5);
             model.AddAdjacency(tile1, tile2, 1, 0, 0);
             model.AddAdjacency(tile1, tile2, 0, 1, 0);
             model.AddAdjacency(tile2, tile1, 1, 0, 0);
@@ -44,8 +44,8 @@ namespace DeBroglie.Test
             var tile1 = new Tile(1);
             var tile2 = new Tile(2);
 
-            model.AddTile(tile1);
-            model.AddTile(tile2, 5);
+            model.SetFrequency(tile1, 1);
+            model.SetFrequency(tile2, 5);
 
             model.AddAdjacency(new[] { tile1 }, new[] { tile2 }, 1, 0, 0, 4, false);
 
@@ -76,11 +76,6 @@ namespace DeBroglie.Test
             rotationBuilder.Add(tile1, 1, false, tile3);
             rotationBuilder.Add(tile2, 1, false, tile4);
             var rotations = rotationBuilder.Build();
-
-            model.AddTile(tile1);
-            model.AddTile(tile2);
-            model.AddTile(tile3);
-            model.AddTile(tile4);
 
             model.AddAdjacency(new[] { tile1 }, new[] { tile2 }, 1, 0, 0, 4, false, rotations);
 

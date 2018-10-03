@@ -34,7 +34,7 @@ Models have only have a few parameters - most information is inferred by giving 
 a list of tiles that can be placed next to it in each direction. The list is always symmetric, i.e. if it is legal to place tile B directly above tile A, 
 then it is legal to place A directly below B.
 
-Adding a sample to an adjacent model adds all adjacent tile pairs in the sample into the legal adjacency lists. 
+Adding a sample to an adjacent model adds all adjacent tile pairs in the sample into the legal adjacency lists. You can also directly specify adjacent tile pairs using the various overloads of <a href="xref:DeBroglie.Models.AdjacentModel.AddAdjacency(DeBroglie.Tile,DeBroglie.Tile,System.Int32,System.Int32,System.Int32)">AddAjacency</a>.
 
 The adjacenct model is very "loose" - it doesn't constrain the choice of tiles as much as the overlapping model. This makes it a good choice
 when the relationship between tiles is very complex, or you are adding a lot other [constraints](#constraints) directly.
@@ -56,9 +56,9 @@ when the relationship between tiles is very complex, or you are adding a lot oth
 
 <img src="https://camo.githubusercontent.com/c9a04da9ed7815de79b3f2236cd32d3e2dffc68f/687474703a2f2f692e696d6775722e636f6d2f4b554c475838362e706e67"/>
 
-The model has three parametrs, `nx`, `ny` and `nz` which specify the dimensions of the rectangle/cuboid in the output. For convenience, you can just specify a value for `n` that sets all three. Typically `n` is only 2 or 3 - any larger and the algorithm can run quite slow and becomes increasingly unlikely to find a result.
+The model has three parametrs, `nx`, `ny` and `nz` which specify the dimensions of the rectangle/cuboid in the output. For convenience, you can just specify a value for `n` that sets all three. Typically `n` is only 2 or 3 - any larger and the algorithm can run quite slow and becomes increasingly unlikely to find a result. It also requires at least one sample - this model cannot be directly configured.
 
-Compared to the adjacent model, the overlapping model is quite strict. This means it typically needs a larger amount of sample input to get good results, but when it does work, it can accurately reproduce many features of the samples that the adjacent model will simply scramble.
+Compared to the adjacent model, the overlapping model is quite strict. This means it typically needs a larger amount of sample input to get good results, but when it does work, it can accurately reproduce many features of the samples that the adjacent model will simply scramble. 
 
 In particular, the overlapping model can detect corners, lines and junctions. In conjunction with the propogation by the Wave Function Collapse algorithm, this means that rooms and pathways will get detected and output, but with variations on the placement, size and direction.
 

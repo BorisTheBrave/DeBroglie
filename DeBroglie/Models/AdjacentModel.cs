@@ -68,6 +68,12 @@ namespace DeBroglie.Models
             AddSample(sample);
         }
 
+        /// <summary>
+        /// Sets the directions of the Adjacent model, if it has not been set at construction.
+        /// This specifies how many neighbours each tile has.
+        /// Once set, it cannot be changed.
+        /// </summary>
+        /// <param name="directions"></param>
         public void SetDirections(Directions directions)
         {
             if(this.directions.Type != DirectionsType.Unknown && this.directions.Type != directions.Type)
@@ -78,12 +84,20 @@ namespace DeBroglie.Models
             this.directions = directions;
         }
 
-        public void AddTile(Tile tile, double frequency = 1)
+        /// <summary>
+        /// Sets the frequency of a given tile.
+        /// </summary>
+        public void SetFrequency(Tile tile, double frequency)
         {
             int pattern = GetPattern(tile);
             frequencies[pattern] = frequency;
         }
 
+
+        /// <summary>
+        /// Declares that the tiles in dest can be placed adjacent to the tiles in src, in the direction specified by (x, y, z).
+        /// Then it adds similar declarations for other rotations and reflections, as specified by rotations.
+        /// </summary>
         public void AddAdjacency(IList<Tile> src, IList<Tile> dest, int x, int y, int z, int rotationalSymmetry, bool reflectionalSymmetry, TileRotation rotations = null)
         {
             rotations = rotations ?? new TileRotation();
@@ -121,6 +135,10 @@ namespace DeBroglie.Models
             }
         }
 
+        /// <summary>
+        /// Declares that the tiles in dest can be placed adjacent to the tiles in src, in the direction specified by (x, y, z).
+        /// (x, y, z) must be a valid direction, which usually means a unit vector.
+        /// </summary>
         public void AddAdjacency(IList<Tile> src, IList<Tile> dest, int x, int y, int z)
         {
             var dir = directions.GetDirection(x, y, z);
@@ -134,6 +152,10 @@ namespace DeBroglie.Models
             }
         }
 
+        /// <summary>
+        /// Declares that dest can be placed adjacent to src, in the direction specified by (x, y, z).
+        /// (x, y, z) must be a valid direction, which usually means a unit vector.
+        /// </summary>
         public void AddAdjacency(Tile src, Tile dest, int x, int y, int z)
         {
             var d = directions.GetDirection(x, y, z);

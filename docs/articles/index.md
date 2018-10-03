@@ -16,9 +16,11 @@ and procedurally generating a larger image in the same style, such as:
  
 DeBroglie is stocked with loads of features to help customize the generation process.
 
-TODO: Motivating examples:
-
-
+<figure>
+<video src="../images/platformer.webm" autoplay loop
+    style="background-color: #55b4ff">
+</video>
+</figure>
 
 Feature Overview
 --------

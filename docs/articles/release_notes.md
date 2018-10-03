@@ -4,8 +4,9 @@ title: Release Notes
 ---
 
 # Upcoming
-
-* Default tile treatment is now unchanged. [breaking]
+* Support for loading .tsx files
+* Direct specification of adjacencies.
+* Default tile rotation treatment is now Unchanged. [breaking]
 
 # v0.1
 
