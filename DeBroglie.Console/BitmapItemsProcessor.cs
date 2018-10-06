@@ -6,9 +6,9 @@ using System.Drawing;
 
 namespace DeBroglie.Console
 {
-    public class BitmapItemsProcessor : ItemsProcessor
+    public static class BitmapUtils
     {
-        private static Color[,] ToColorArray(Bitmap bitmap)
+        public static Color[,] ToColorArray(Bitmap bitmap)
         {
             Color[,] sample = new Color[bitmap.Width, bitmap.Height];
             for (var x = 0; x < bitmap.Width; x++)
@@ -21,7 +21,7 @@ namespace DeBroglie.Console
             return sample;
         }
 
-        private static Bitmap ToBitmap(Color[,] colorArray)
+        public static Bitmap ToBitmap(Color[,] colorArray)
         {
             var bitmap = new Bitmap(colorArray.GetLength(0), colorArray.GetLength(1));
             for (var x = 0; x < bitmap.Width; x++)
@@ -34,14 +34,14 @@ namespace DeBroglie.Console
             return bitmap;
         }
 
-        private static Color ColorAverage(ISet<Tile> tiles)
+        public static Color ColorAverage(ISet<Tile> tiles)
         {
             int alpha = 0;
             int red = 0;
             int green = 0;
             int blue = 0;
             int n = 0;
-            foreach(var tile in tiles)
+            foreach (var tile in tiles)
             {
                 var color = (Color)tile.Value;
                 alpha += color.A;
@@ -52,8 +52,12 @@ namespace DeBroglie.Console
             }
             return Color.FromArgb(alpha / n, red / n, green / n, blue / n);
         }
+    }
 
-        protected override ITopoArray<Tile> Load(string filename, DeBroglieConfig config)
+    public class BitmapLoader : ISampleSetLoader
+    {
+
+        public SampleSet Load(string filename)
         {
             Bitmap bitmap;
             try
@@ -64,31 +68,39 @@ namespace DeBroglie.Console
             {
                 throw new Exception($"Couldn't load filename: {filename}");
             }
-            var colorArray = ToColorArray(bitmap);
-            var topology = new Topology(Directions.Cartesian2d, colorArray.GetLength(0), colorArray.GetLength(1), config.PeriodicInputX, config.PeriodicInputY);
-            return TopoArray.Create(colorArray, topology).ToTiles();
+            var colorArray = BitmapUtils.ToColorArray(bitmap);
+            var topology = new Topology(Directions.Cartesian2d, colorArray.GetLength(0), colorArray.GetLength(1), false, false);
+            return new SampleSet
+            {
+                Directions = Directions.Cartesian2d,
+                Samples = new[] { TopoArray.Create(colorArray, topology).ToTiles() },
+            };
         }
 
-        protected override void Save(TileModel model, TilePropagator propagator, string filename, DeBroglieConfig config)
+        public Tile Parse(string s)
+        {
+            return new Tile(ColorTranslator.FromHtml(s));
+        }
+
+    }
+
+    public class BitmapSaver : ISampleSetSaver
+    { 
+        public void Save(TileModel model, TilePropagator propagator, string filename, DeBroglieConfig config, object template)
         {
             if (config.Animate)
             {
 
-                var topoArray = propagator.ToArraySets().Map(ColorAverage);
-                var bitmap = ToBitmap(topoArray.ToArray2d());
+                var topoArray = propagator.ToArraySets().Map(BitmapUtils.ColorAverage);
+                var bitmap = BitmapUtils.ToBitmap(topoArray.ToArray2d());
                 bitmap.Save(filename);
             }
             else
             {
                 var topoArray = propagator.ToValueArray(Color.Gray, Color.Magenta);
-                var bitmap = ToBitmap(topoArray.ToArray2d());
+                var bitmap = BitmapUtils.ToBitmap(topoArray.ToArray2d());
                 bitmap.Save(filename);
             }
-        }
-
-        protected override Tile Parse(string s)
-        {
-            return new Tile(ColorTranslator.FromHtml(s));
         }
 
         private static ITopoArray<T> Scale<T>(ITopoArray<T> topoArray, int scale)

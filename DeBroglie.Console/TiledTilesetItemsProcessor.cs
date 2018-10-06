@@ -1,18 +1,19 @@
 ﻿using DeBroglie.Topo;
+using System;
 using System.Collections.Generic;
 using TiledLib;
 
 namespace DeBroglie.Console
 {
-    public class TiledTilesetItemsProcessor : TiledItemsProcessor
+    public class TiledTilesetLoader : ISampleSetLoader
     {
-        protected override void LoadSamples(string src, DeBroglieConfig config, out Directions directions, out ITopoArray<Tile>[] samples)
+        public SampleSet Load(string filename)
         {
-            srcFilename = src;
+            var srcFilename = filename;
             // Hack for tsx files. Should handle this more properly in future
-            var tileset = TiledUtil.LoadTileset(src);
+            var tileset = TiledUtil.LoadTileset(filename);
             tileset.FirstGid = 1;
-            map = new Map
+            var map = new Map
             {
                 CellWidth = tileset.TileWidth,
                 CellHeight = tileset.TileHeight,
@@ -20,12 +21,29 @@ namespace DeBroglie.Console
                 TiledVersion = "1.1.6",
                 RenderOrder = RenderOrder.rightdown,
             };
-            tilesByName = new Dictionary<string, int>();
-            AddTileset(tileset);
+            var tilesByName = new Dictionary<string, Tile>();
+            TiledMapLoader.AddTileset(tilesByName, tileset);
             // TODO: Other directions
-            directions = Directions.Cartesian2d;
+            var directions = Directions.Cartesian2d;
             map.Orientation = Orientation.orthogonal;
-            samples = new ITopoArray<Tile>[0];
+            var samples = new ITopoArray<Tile>[0];
+            return new SampleSet
+            {
+                Directions = directions,
+                Samples = samples,
+                TilesByName = tilesByName,
+                Template = new object[] { map, srcFilename },
+            };
+        }
+
+        public Tile Parse(string s)
+        {
+            int tileId;
+            if (int.TryParse(s, out tileId))
+            {
+                return new Tile(tileId);
+            }
+            throw new Exception($"Found no tile named {s}, either set the \"name\" property or use tile gids.");
         }
     }
 }

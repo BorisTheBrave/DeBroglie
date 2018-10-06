@@ -10,20 +10,66 @@ using System.Linq;
 
 namespace DeBroglie.Console
 {
-    public abstract class ItemsProcessor
+        public interface ISampleSetLoader
     {
-        protected abstract ITopoArray<Tile> Load(string filename, DeBroglieConfig config);
+        SampleSet Load(string filename);
 
-        protected abstract void Save(TileModel model, TilePropagator tilePropagator, string filename, DeBroglieConfig config);
+        Tile Parse(string tile);
+    }
 
-        protected virtual void LoadSamples(string src, DeBroglieConfig config, out Directions directions, out ITopoArray<Tile>[] samples)
+    public class SampleSet
+    {
+        public Directions Directions { get; set; }
+        public ITopoArray<Tile>[] Samples { get; set; }
+        public IDictionary<string, Tile> TilesByName { get; set; }
+
+        // TODO: Clean this up
+        public object Template { get; set; }
+
+    }
+
+    public interface ISampleSetSaver
+    {
+        void Save(TileModel model, TilePropagator tilePropagator, string filename, DeBroglieConfig config, object template);
+
+    }
+
+
+    public class ItemsProcessor
+    {
+        private readonly ISampleSetLoader loader;
+        private readonly ISampleSetSaver saver;
+        private readonly DeBroglieConfig config;
+
+        public ItemsProcessor(ISampleSetLoader loader, ISampleSetSaver saver, DeBroglieConfig config)
         {
-            var sample = Load(src, config);
-            directions = sample.Topology.Directions;
-            samples = new[] { sample };
+            this.loader = loader;
+            this.saver = saver;
+            this.config = config;
         }
 
-        protected abstract Tile Parse(string s);
+        private SampleSet Load(string filename)
+        {
+            var sampleSet = loader.Load(filename);
+            sampleSet.Samples = sampleSet.Samples
+                .Select(x => x.WithPeriodic(
+                    config.PeriodicInputX,
+                    config.PeriodicInputY,
+                    config.PeriodicInputZ))
+                    .ToArray();
+            return sampleSet;
+        }
+
+        private Tile Parse(string s)
+        {
+            // TODO: Apply tiles by name
+            return loader.Parse(s);
+        }
+
+        public void Save(TileModel model, TilePropagator tilePropagator, string filename, object template)
+        {
+            saver.Save(model, tilePropagator, filename, config, template);
+        }
 
         private static TileModel GetModel(DeBroglieConfig config, Directions directions, ITopoArray<Tile>[] samples, TileRotation tileRotation)
         {
@@ -49,7 +95,7 @@ namespace DeBroglie.Console
             throw new System.Exception($"Unrecognized model type {modelConfig.GetType()}");
         }
 
-        public void ProcessItem(DeBroglieConfig config)
+        public void ProcessItem()
         {
             if (config.Src == null)
             {
@@ -68,7 +114,9 @@ namespace DeBroglie.Console
             var contdest = Path.ChangeExtension(dest, ".contradiction" + Path.GetExtension(dest));
             System.Console.WriteLine($"Reading {src}");
 
-            LoadSamples(src, config, out var directions, out var samples);
+            var sampleSet = Load(src);
+            var directions = sampleSet.Directions;
+            var samples = sampleSet.Samples;
 
             var is3d = directions.Type == DirectionsType.Cartesian3d;
             var topology = new Topology(directions, config.Width, config.Height, is3d ? config.Depth : 1, config.PeriodicX, config.PeriodicY, config.PeriodicZ);
@@ -192,7 +240,7 @@ namespace DeBroglie.Console
                 }
                 if (config.Animate)
                 {
-                    status = RunAnimate(config, model, propagator, dest);
+                    status = RunAnimate(model, propagator, dest, sampleSet.Template);
                 }
                 else
                 {
@@ -209,18 +257,18 @@ namespace DeBroglie.Console
             if (status == Resolution.Decided)
             {
                 System.Console.WriteLine($"Writing {dest}");
-                Save(model, propagator, dest, config);
+                Save(model, propagator, dest, sampleSet.Template);
                 File.Delete(contdest);
             }
             else
             {
                 System.Console.WriteLine($"Writing {contdest}");
-                Save(model, propagator, contdest, config);
+                Save(model, propagator, contdest, sampleSet.Template);
                 File.Delete(dest);
             }
         }
 
-        private Resolution RunAnimate(DeBroglieConfig config, TileModel model, TilePropagator propagator, string dest)
+        private Resolution RunAnimate(TileModel model, TilePropagator propagator, string dest, object template)
         {
             if(!config.Animate)
             {
@@ -236,7 +284,7 @@ namespace DeBroglie.Console
                 Directory.CreateDirectory(Path.GetDirectoryName(dest));
                 var currentDest = Path.ChangeExtension(dest, i + Path.GetExtension(dest));
                 allFiles.Add(currentDest);
-                Save(model, propagator, currentDest, config);
+                Save(model, propagator, currentDest, template);
                 i++;
                 if (status != Resolution.Undecided) return status;
             }
@@ -303,34 +351,40 @@ namespace DeBroglie.Console
                 directory = ".";
             var config = LoadItemsFile(filename);
             config.BaseDirectory = config.BaseDirectory == null ? directory : Path.Combine(directory, config.BaseDirectory);
-            if(config.Src == null)
+            ISampleSetLoader loader;
+            ISampleSetSaver saver;
+            if (config.Src == null)
             {
                 throw new Exception("src should be provided.");
             }
             else if (config.Src.EndsWith(".png"))
             {
-                var processor = new BitmapItemsProcessor();
-                processor.ProcessItem(config);
+                loader = new BitmapLoader();
+                saver = new BitmapSaver();
             }
             else if (config.Src.EndsWith(".tmx"))
             {
-                var processor = new TiledItemsProcessor();
-                processor.ProcessItem(config);
+                loader = new TiledMapLoader();
+                saver = new TiledMapSaver();
             }
             else if (config.Src.EndsWith(".tsx"))
             {
-                var processor = new TiledTilesetItemsProcessor();
-                processor.ProcessItem(config);
+                loader = new TiledTilesetLoader();
+                saver = new TiledMapSaver();
             }
             else if (config.Src.EndsWith(".vox"))
             {
-                var processor = new VoxItemsProcessor();
-                processor.ProcessItem(config);
+                loader = new MagicaVoxelLoader();
+                saver = new MagicaVoxelSaver();
             }
             else
             {
                 throw new System.Exception($"Unrecongized extenion for {config.Src}");
             }
+
+
+            var processor = new ItemsProcessor(loader, saver, config);
+            processor.ProcessItem();
         }
     }
 }

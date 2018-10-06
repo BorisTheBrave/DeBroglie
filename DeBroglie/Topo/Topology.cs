@@ -62,6 +62,14 @@
         }
 
         /// <summary>
+        /// Returns a <see cref="Topology"/> with the same parameters, with the dimensions overridden.
+        /// </summary>
+        public Topology WithPeriodic(bool periodicX, bool periodicY, bool periodicZ = false)
+        {
+            return new Topology(Directions, Width, Height, Depth, periodicX, periodicY, periodicZ, Mask);
+        }
+
+        /// <summary>
         /// Characterizes the adjacency relationship between locations.
         /// </summary>
         public Directions Directions { get; set; }

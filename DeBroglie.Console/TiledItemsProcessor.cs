@@ -9,13 +9,9 @@ using TiledLib.Layer;
 
 namespace DeBroglie.Console
 {
-    public class TiledItemsProcessor : ItemsProcessor
+    public class TiledMapLoader : ISampleSetLoader
     {
-        protected TiledLib.Map map;
-        protected string srcFilename;
-        protected IDictionary<string, int> tilesByName;
-
-        protected void AddTileset(ITileset tileset)
+        internal static void AddTileset(IDictionary<string, Tile> tilesByName, ITileset tileset)
         {
             if (tileset.TileProperties == null)
                 return;
@@ -25,26 +21,27 @@ namespace DeBroglie.Console
                 var properties = kv.Value;
                 if (properties.TryGetValue("name", out var name))
                 {
-                    tilesByName[name] = tileset.FirstGid + localTileId;
+                    tilesByName[name] = new Tile(tileset.FirstGid + localTileId);
                 }
             }
         }
 
-        protected override ITopoArray<Tile> Load(string filename, DeBroglieConfig config)
+        public SampleSet Load(string filename)
         {
-            srcFilename = filename;
-            map = TiledUtil.Load(filename);
+            var srcFilename = filename;
+            var map = TiledUtil.Load(filename);
             // Scan tilesets for tiles with a custom property "name"
-            tilesByName = new Dictionary<string, int>();
-            foreach(var tileset in map.Tilesets)
+            var tilesByName = new Dictionary<string, Tile>();
+            foreach (var tileset in map.Tilesets)
             {
-                AddTileset(tileset);
+                AddTileset(tilesByName, tileset);
             }
+            ITopoArray<Tile> sample;
             if (map.Orientation == Orientation.hexagonal)
             {
                 // Read a single layer
                 var layer = (TileLayer)map.Layers[0];
-                return TiledUtil.ReadLayer(map, layer);
+                sample = TiledUtil.ReadLayer(map, layer);
             }
             else
             {
@@ -80,26 +77,37 @@ namespace DeBroglie.Console
                 {
                     topology = new Topology(topology.Directions, topology.Width, topology.Height, tileLayers.Count, false, false, false);
                 }
-                return TopoArray.Create(results, topology);
+                sample = TopoArray.Create(results, topology);
             }
+
+            return new SampleSet
+            {
+                Directions = sample.Topology.Directions,
+                Samples = new[] { sample },
+                TilesByName = tilesByName,
+                Template = new object[] { map, srcFilename },
+            };
         }
 
-        protected override Tile Parse(string s)
+        public Tile Parse(string s)
         {
             int tileId;
-            if(tilesByName.TryGetValue(s, out tileId))
-            {
-                return new Tile(tileId);
-            }
-            if(int.TryParse(s, out tileId))
+            if (int.TryParse(s, out tileId))
             {
                 return new Tile(tileId);
             }
             throw new Exception($"Found no tile named {s}, either set the \"name\" property or use tile gids.");
         }
+    }
 
-        protected override void Save(TileModel model, TilePropagator tilePropagator, string filename, DeBroglieConfig config)
+    public class TiledMapSaver : ISampleSetSaver
+    {
+        public void Save(TileModel model, TilePropagator tilePropagator, string filename, DeBroglieConfig config, object template)
         {
+            var templateArray = template as object[];
+            var map = (Map)templateArray[0];
+            var srcFilename = (string)templateArray[1];
+
             var layerArray = tilePropagator.ToArray();
             map.Layers = new BaseLayer[layerArray.Topology.Depth];
             for(var z = 0; z < layerArray.Topology.Depth; z++)

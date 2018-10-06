@@ -76,5 +76,11 @@ namespace DeBroglie.Topo
         {
             return topoArray.Map(v => new Tile(v));
         }
+
+        public static ITopoArray<T> WithPeriodic<T>(this ITopoArray<T> topoArray, bool periodicX, bool periodicY, bool periodicZ = false)
+        {
+            return TopoArray.Create(topoArray.ToArray3d(), topoArray.Topology.WithPeriodic(periodicX, periodicY, periodicZ));
+        }
+
     }
 }

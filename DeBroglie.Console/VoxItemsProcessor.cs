@@ -5,28 +5,36 @@ using System.IO;
 
 namespace DeBroglie.Console
 {
-    public class VoxItemsProcessor : ItemsProcessor
+    public class MagicaVoxelLoader : ISampleSetLoader
     {
-        Vox vox;
-
-        protected override ITopoArray<Tile> Load(string filename, DeBroglieConfig config)
+        public SampleSet Load(string filename)
         {
+            Vox vox;
             using (var stream = File.OpenRead(filename))
             {
                 var br = new BinaryReader(stream);
                 vox = VoxSerializer.Read(br);
             }
-            return VoxUtils.Load(vox).ToTiles();
-
+            var sample = VoxUtils.Load(vox).ToTiles();
+            return new SampleSet
+            {
+                Directions = sample.Topology.Directions,
+                Samples = new[] { sample },
+                Template = vox,
+            };
         }
 
-        protected override Tile Parse(string s)
+        public Tile Parse(string s)
         {
             return new Tile(byte.Parse(s));
         }
+    }
 
-        protected override void Save(TileModel model, TilePropagator tilePropagator, string filename, DeBroglieConfig config)
+    public class MagicaVoxelSaver : ISampleSetSaver
+    { 
+        public void Save(TileModel model, TilePropagator tilePropagator, string filename, DeBroglieConfig config, object template)
         {
+            var vox = template as Vox;
             var array = tilePropagator.ToValueArray<byte>();
             VoxUtils.Save(vox, array);
 
