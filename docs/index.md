@@ -13,7 +13,7 @@ _gitContribute: false
     <p class="lead">Generate tile based maps using Wave Function Collapse</p>
     <small class="text-muted"><a class="github-link" href="https://github.com/BorisTheBrave/DeBroglie">View in Github</a><small>
     <hr class="my-4">
-    <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+    <p>Stuffed with loads of features to provide precise control over generation.</p>
     <p class="lead">
       <a class="btn btn-primary btl-lg" href="articles/index.md" role="button">Getting Started</a>
       <a class="btn btn-primary btl-lg" href="https://github.com/BorisTheBrave/DeBroglie/releases" role="button">Download Latest</a>
@@ -40,7 +40,7 @@ _gitContribute: false
         <h3><a href="articles/features.md#topology">2d, 3d and hexagonal generation</a></h3>
         <a href="images/columns_out.png"><img src="images/columns_out.png"/></a>
         <a href="images/hexmini_out.png"><img src="images/hexmini_out.png"/></a>
-        <h3>Constrain generation to only connected paths</h3>
+        <h3>Constraint generation to only connected paths</h3>
         <img src="images/pathway_overlapping_path.png">
         <h3>Backtracking support for tough-to-generate setups</h3>
       </section>
