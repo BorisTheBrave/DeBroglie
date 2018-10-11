@@ -50,17 +50,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BitmapItemsProcessor.cs" />
+    <Compile Include="BitmapLoader.cs" />
+    <Compile Include="BitmapSaver.cs" />
+    <Compile Include="BitmapUtils.cs" />
     <Compile Include="ConsoleUtils.cs" />
     <Compile Include="ConstraintArrayConverter.cs" />
+    <Compile Include="CsvSaver.cs" />
     <Compile Include="DeBroglieConfig.cs" />
     <Compile Include="ItemsProcessor.cs" />
+    <Compile Include="MagicaVoxelLoader.cs" />
+    <Compile Include="MagicaVoxelSaver.cs" />
     <Compile Include="ModelConverter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TiledItemsProcessor.cs" />
-    <Compile Include="TiledTilesetItemsProcessor.cs" />
-    <Compile Include="VoxItemsProcessor.cs" />
+    <Compile Include="TiledMapLoader.cs" />
+    <Compile Include="TiledMapSaver.cs" />
+    <Compile Include="TiledTilesetLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

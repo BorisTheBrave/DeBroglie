@@ -344,6 +344,66 @@ namespace DeBroglie.Console
             }
         }
 
+        private static ISampleSetLoader GetLoader(string filename)
+        {
+            if (filename == null)
+            {
+                throw new Exception("src should be provided.");
+            }
+            else if (filename.EndsWith(".png"))
+            {
+                return new BitmapLoader();
+            }
+            else if (filename.EndsWith(".tmx"))
+            {
+                return new TiledMapLoader();
+            }
+            else if (filename.EndsWith(".tsx"))
+            {
+                return new TiledTilesetLoader();
+            }
+            else if (filename.EndsWith(".vox"))
+            {
+                return new MagicaVoxelLoader();
+            }
+            else
+            {
+                throw new System.Exception($"Loading {Path.GetExtension(filename)} files not supported.");
+            }
+        }
+
+        private static ISampleSetSaver GetSaver(string filename)
+        {
+            if (filename == null)
+            {
+                throw new Exception("dest should be provided.");
+            }
+            else if (filename.EndsWith(".png"))
+            {
+                return new BitmapSaver();
+            }
+            else if (filename.EndsWith(".tmx"))
+            {
+                return new TiledMapSaver();
+            }
+            else if (filename.EndsWith(".tsx"))
+            {
+                return new TiledMapSaver();
+            }
+            else if (filename.EndsWith(".vox"))
+            {
+                return new MagicaVoxelSaver();
+            }
+            else if (filename.EndsWith(".csv"))
+            {
+                return new CsvSaver();
+            }
+            else
+            {
+                throw new System.Exception($"Saving {Path.GetExtension(filename)} files not supported.");
+            }
+        }
+
         public static void Process(string filename)
         {
             var directory = Path.GetDirectoryName(filename);
@@ -351,37 +411,8 @@ namespace DeBroglie.Console
                 directory = ".";
             var config = LoadItemsFile(filename);
             config.BaseDirectory = config.BaseDirectory == null ? directory : Path.Combine(directory, config.BaseDirectory);
-            ISampleSetLoader loader;
-            ISampleSetSaver saver;
-            if (config.Src == null)
-            {
-                throw new Exception("src should be provided.");
-            }
-            else if (config.Src.EndsWith(".png"))
-            {
-                loader = new BitmapLoader();
-                saver = new BitmapSaver();
-            }
-            else if (config.Src.EndsWith(".tmx"))
-            {
-                loader = new TiledMapLoader();
-                saver = new TiledMapSaver();
-            }
-            else if (config.Src.EndsWith(".tsx"))
-            {
-                loader = new TiledTilesetLoader();
-                saver = new TiledMapSaver();
-            }
-            else if (config.Src.EndsWith(".vox"))
-            {
-                loader = new MagicaVoxelLoader();
-                saver = new MagicaVoxelSaver();
-            }
-            else
-            {
-                throw new System.Exception($"Unrecongized extenion for {config.Src}");
-            }
-
+            var loader = GetLoader(config.Src);
+            var saver = GetSaver(config.Dest);
 
             var processor = new ItemsProcessor(loader, saver, config);
             processor.ProcessItem();

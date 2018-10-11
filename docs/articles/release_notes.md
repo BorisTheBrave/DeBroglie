@@ -5,6 +5,7 @@ title: Release Notes
 
 # Upcoming
 * Support for loading .tsx files
+* Support for saving .csv files.
 * Direct specification of adjacencies.
 * Default tile rotation treatment is now Unchanged. [breaking]
 

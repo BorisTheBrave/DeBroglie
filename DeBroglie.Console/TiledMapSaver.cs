@@ -1,0 +1,51 @@
+﻿using DeBroglie.Models;
+using System.IO;
+using TiledLib;
+using TiledLib.Layer;
+
+namespace DeBroglie.Console
+{
+
+    public class TiledMapSaver : ISampleSetSaver
+    {
+        public void Save(TileModel model, TilePropagator tilePropagator, string filename, DeBroglieConfig config, object template)
+        {
+            var templateArray = template as object[];
+            var map = (Map)templateArray[0];
+            var srcFilename = (string)templateArray[1];
+
+            var layerArray = tilePropagator.ToArray();
+            map.Layers = new BaseLayer[layerArray.Topology.Depth];
+            for(var z = 0; z < layerArray.Topology.Depth; z++)
+            {
+                map.Layers[z] = TiledUtil.MakeTileLayer(map, layerArray, z);
+            }
+            map.Width = map.Layers[0].Width;
+            map.Height = map.Layers[0].Height;
+            TiledUtil.Save(filename, map);
+
+            // Check for any external files that may also need copying
+            foreach(var tileset in map.Tilesets)
+            {
+                if(tileset is ExternalTileset e)
+                {
+                    var srcPath = Path.Combine(Path.GetDirectoryName(srcFilename), e.source);
+                    var destPath = Path.Combine(Path.GetDirectoryName(filename), e.source);
+                    if (File.Exists(srcPath) && !File.Exists(destPath))
+                    {
+                        File.Copy(srcPath, destPath);
+                    }
+                }
+                if(tileset.ImagePath != null)
+                {
+                    var srcImagePath = Path.Combine(Path.GetDirectoryName(srcFilename), tileset.ImagePath);
+                    var destImagePath = Path.Combine(Path.GetDirectoryName(filename), tileset.ImagePath);
+                    if(File.Exists(srcImagePath) && !File.Exists(destImagePath))
+                    {
+                        File.Copy(srcImagePath, destImagePath);
+                    }
+                }
+            }
+        }
+    }
+}
