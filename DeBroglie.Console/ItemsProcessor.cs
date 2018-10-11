@@ -95,6 +95,61 @@ namespace DeBroglie.Console
             throw new System.Exception($"Unrecognized model type {modelConfig.GetType()}");
         }
 
+        private List<ITileConstraint> GetConstraints(bool is3d)
+        {
+            var constraints = new List<ITileConstraint>();
+            if (config.Ground != null)
+            {
+                var groundTile = Parse(config.Ground);
+                constraints.Add(new BorderConstraint
+                {
+                    Sides = is3d ? BorderSides.ZMin : BorderSides.YMax,
+                    Tile = groundTile,
+                });
+                constraints.Add(new BorderConstraint
+                {
+                    Sides = is3d ? BorderSides.ZMin : BorderSides.YMax,
+                    Tile = groundTile,
+                    InvertArea = true,
+                    Ban = true,
+                });
+            }
+
+            if (config.Constraints != null)
+            {
+                foreach (var constraint in config.Constraints)
+                {
+                    if (constraint is PathConfig pathData)
+                    {
+                        var pathTiles = new HashSet<Tile>(pathData.PathTiles.Select(Parse));
+                        var p = new PathConstraint(pathTiles);
+                        constraints.Add(p);
+                    }
+                    else if (constraint is BorderConfig borderData)
+                    {
+                        var tile = Parse(borderData.Tile);
+                        var sides = borderData.Sides == null ? BorderSides.All : (BorderSides)Enum.Parse(typeof(BorderSides), borderData.Sides, true);
+                        var excludeSides = borderData.ExcludeSides == null ? BorderSides.None : (BorderSides)Enum.Parse(typeof(BorderSides), borderData.ExcludeSides, true);
+                        if (!is3d)
+                        {
+                            sides = sides & ~BorderSides.ZMin & ~BorderSides.ZMax;
+                            excludeSides = excludeSides & ~BorderSides.ZMin & ~BorderSides.ZMax;
+                        }
+                        constraints.Add(new BorderConstraint
+                        {
+                            Tile = tile,
+                            Sides = sides,
+                            ExcludeSides = excludeSides,
+                            InvertArea = borderData.InvertArea,
+                            Ban = borderData.Ban,
+                        });
+                    }
+                }
+            }
+
+            return constraints;
+        }
+
         public void ProcessItem()
         {
             if (config.Src == null)
@@ -172,55 +227,7 @@ namespace DeBroglie.Console
             }
 
             // Setup constraints
-            var constraints = new List<ITileConstraint>();
-            if (config.Ground != null)
-            {
-                var groundTile = Parse(config.Ground);
-                constraints.Add(new BorderConstraint
-                {
-                    Sides = is3d ? BorderSides.ZMin : BorderSides.YMax,
-                    Tile = groundTile,
-                });
-                constraints.Add(new BorderConstraint
-                {
-                    Sides = is3d ? BorderSides.ZMin : BorderSides.YMax,
-                    Tile = groundTile,
-                    InvertArea = true,
-                    Ban = true,
-                });
-            }
-
-            if (config.Constraints != null)
-            {
-                foreach (var constraint in config.Constraints)
-                {
-                    if (constraint is PathConfig pathData)
-                    {
-                        var pathTiles = new HashSet<Tile>(pathData.PathTiles.Select(Parse));
-                        var p = new PathConstraint(pathTiles);
-                        constraints.Add(p);
-                    }
-                    else if (constraint is BorderConfig borderData)
-                    {
-                        var tile = Parse(borderData.Tile);
-                        var sides = borderData.Sides == null ? BorderSides.All : (BorderSides)Enum.Parse(typeof(BorderSides), borderData.Sides, true);
-                        var excludeSides = borderData.ExcludeSides == null ? BorderSides.None : (BorderSides)Enum.Parse(typeof(BorderSides), borderData.ExcludeSides, true);
-                        if (!is3d)
-                        {
-                            sides = sides & ~BorderSides.ZMin & ~BorderSides.ZMax;
-                            excludeSides = excludeSides & ~BorderSides.ZMin & ~BorderSides.ZMax;
-                        }
-                        constraints.Add(new BorderConstraint
-                        {
-                            Tile = tile,
-                            Sides = sides,
-                            ExcludeSides = excludeSides,
-                            InvertArea = borderData.InvertArea,
-                            Ban = borderData.Ban,
-                        });
-                    }
-                }
-            }
+            var constraints = GetConstraints(is3d);
 
             System.Console.WriteLine($"Processing {dest}");
             var propagator = new TilePropagator(model, topology, config.Backtrack, constraints: constraints.ToArray());
