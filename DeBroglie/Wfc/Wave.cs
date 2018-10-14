@@ -69,7 +69,7 @@ namespace DeBroglie.Wfc
             for (int pattern = 0; pattern < patternCount; pattern++)
             {
                 var f = frequencies[pattern];
-                var v = f * Math.Log(f);
+                var v = f > 0 ? f * Math.Log(f) : 0.0;
                 plogp[pattern] = v;
                 initial.PlogpSum += v;
                 initial.Sum += f;

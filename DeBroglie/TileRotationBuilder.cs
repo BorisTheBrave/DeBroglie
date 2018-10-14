@@ -182,6 +182,7 @@ namespace DeBroglie
                 tg);
         }
 
+        // Gets the rotation group containing Tile, creating it if it doesn't exist
         private void GetGroup(Tile tile, out RotationGroup rg)
         {
             if(tileToRotationGroup.TryGetValue(tile, out rg))
@@ -194,6 +195,8 @@ namespace DeBroglie
             tileToRotationGroup[tile] = rg;
         }
 
+        // Ensures that rg.Tiles is fully filled in
+        // according to rg.Entries.
         private void Expand(RotationGroup rg)
         {
             bool expanded;

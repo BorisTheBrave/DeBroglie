@@ -1,0 +1,30 @@
+{
+    "$schema": "./schema.json",
+    "srcType": "bitmapSet",
+    "dest": "output/circles.png",
+    "width": 10,
+    "height": 10,
+    "periodic": true,
+    "symmetry": 8,
+    "rotationTreatment": "generated", 
+    "tiles": [
+        {"src": "Circles/b_half.png", "value": "b_half", "tileSymmetry": "T"},
+        {"src": "Circles/b_i.png", "value": "b_i", "tileSymmetry": "I"},
+        {"src": "Circles/b_quarter.png", "value": "b_quarter", "tileSymmetry": "L"},
+        {"src": "Circles/w_half.png", "value": "w_half", "tileSymmetry": "T"},
+        {"src": "Circles/w_i.png", "value": "w_i", "tileSymmetry": "I"},
+        {"src": "Circles/w_quarter.png", "value": "w_quarter", "tileSymmetry": "L"},
+        {"src": "Circles/b.png", "value": "b", "tileSymmetry": "X"},
+        {"src": "Circles/w.png", "value": "w", "tileSymmetry": "X"}
+    ],
+    "adjacencies": [
+        {
+            "left": ["b", "b_half!90", "b_i!90", "b_quarter", "b_quarter!90", "w_half", "w_half!180", "w_half!270", "w_i", "w_quarter!180", "w_quarter!270"],
+            "right": ["b", "b_half!270", "b_1!90", "b_quarter!180", "b_quarter!270", "w_half", "w_half!90", "w_half!180", "w_i", "w_quarter", "w_quarter!90"]
+        },
+        {
+            "left": ["w", "w_half!90", "w_i!90", "w_quarter", "w_quarter!90", "b_half", "b_half!180", "b_half!270", "b_i", "b_quarter!180", "b_quarter!270"],
+            "right": ["w", "w_half!270", "w_1!90", "w_quarter!180", "w_quarter!270", "b_half", "b_half!90", "b_half!180", "b_i", "b_quarter", "b_quarter!90"]
+        }
+    ],
+}

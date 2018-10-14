@@ -74,7 +74,7 @@ namespace DeBroglie.Console
                 }
                 if (tile.Src == null)
                     throw new Exception($"All tiles must have a src set when using SrcType {config.SrcType}.");
-                filenames[new Tile(Parse(tile.Value))] = tile.Src;
+                filenames[Parse(tile.Value)] = tile.Src;
             }
 
             if(filenames.Count == 0)
@@ -121,6 +121,20 @@ namespace DeBroglie.Console
 
         private Tile Parse(string s)
         {
+            if(s.Contains("!"))
+            {
+                // TODO: Cleanup and validate
+                // TODO: Support reflection
+                // TODO: Support hexagonal directions
+                var a = s.Split('!');
+                var rotation = ((int.Parse(a[1]) / 90) + 4) % 4;
+                return new Tile(new RotatedTile
+                {
+                    Tile = Parse(a[0]),
+                    ReflectX = false,
+                    RotateCw = rotation,
+                });
+            }
             // TODO: Apply tiles by name
             if (loader != null)
             {
@@ -258,8 +272,8 @@ namespace DeBroglie.Console
 
                 foreach(var a in config.Adjacencies)
                 {
-                    var srcAdj = a.Src.Select(Parse).ToList();
-                    var destAdj = a.Dest.Select(Parse).ToList();
+                    var srcAdj = a.Src.Select(Parse).Select(tileRotation.Canonicalize).ToList();
+                    var destAdj = a.Dest.Select(Parse).Select(tileRotation.Canonicalize).ToList();
                     adjacentModel.AddAdjacency(srcAdj, destAdj, a.X, a.Y, a.Z, config.RotationalSymmetry, config.ReflectionalSymmetry, tileRotation);
                     // If there are no samples, set frequency to 1 for everything mentioned in this block
                     if (samples.Length == 0)

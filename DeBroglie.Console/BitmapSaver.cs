@@ -106,7 +106,8 @@ namespace DeBroglie.Console
         {
             if(tile.Value is RotatedTile rt)
             {
-                subTiles.TryGetValue(rt.Tile, out var subTile);
+                if (!subTiles.TryGetValue(rt.Tile, out var subTile))
+                    return null;
                 return TopoArrayUtils.Rotate(subTile, rt.RotateCw, rt.ReflectX);
             }
             else

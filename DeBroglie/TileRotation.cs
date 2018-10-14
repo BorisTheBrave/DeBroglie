@@ -74,8 +74,7 @@ namespace DeBroglie
                     result = new Tile(new RotatedTile { RotateCw = tf.RotateCw, ReflectX = tf.ReflectX, Tile = tile });
                     return true;
                 default:
-                    result = default(Tile);
-                    return false;
+                    throw new Exception($"Unknown treatment {treatment}");
             }
         }
 
@@ -87,6 +86,20 @@ namespace DeBroglie
                 {
                     yield return tile2;
                 }
+            }
+        }
+
+        public Tile Canonicalize(Tile t)
+        {
+            if(t.Value is RotatedTile rt)
+            {
+                if (!Rotate(rt.Tile, rt.RotateCw, rt.ReflectX, out var result))
+                    throw new Exception($"No tile corresponds to {t}");
+                return result;
+            }
+            else
+            {
+                return t;
             }
         }
 
