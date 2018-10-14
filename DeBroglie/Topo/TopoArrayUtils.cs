@@ -3,7 +3,7 @@
 namespace DeBroglie.Topo
 {
 
-    internal static class TopoArrayUtils
+    public static class TopoArrayUtils
     {
         public static ValueTuple<int, int> RotateVector(int x, int y, int rotateCw, bool reflectX)
         {

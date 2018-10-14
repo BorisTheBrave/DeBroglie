@@ -52,5 +52,13 @@
         {
             return new TopoArray3D<T>(values, topology);
         }
+
+        /// <summary>
+        /// Constructs an <see cref="ITopoArray{T}"/> from an array. <c>result.Get(x, y, z) == values[x, y, z].</c>
+        /// </summary>
+        public static ITopoArray<T> FromConstant<T>(T value, Topology topology)
+        {
+            return new TopoArrayConstant<T>(value, topology);
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using DeBroglie.Models;
+﻿using DeBroglie.Console.Export;
+using DeBroglie.Models;
 using System.IO;
 using TiledLib;
 using TiledLib.Layer;
@@ -8,11 +9,16 @@ namespace DeBroglie.Console
 
     public class TiledMapSaver : ISampleSetSaver
     {
-        public void Save(TileModel model, TilePropagator tilePropagator, string filename, DeBroglieConfig config, object template)
+        public void Save(TileModel model, TilePropagator tilePropagator, string filename, DeBroglieConfig config, ExportOptions exportOptions)
         {
-            var templateArray = template as object[];
-            var map = (Map)templateArray[0];
-            var srcFilename = (string)templateArray[1];
+            var tiledExportOptions = exportOptions as TiledExportOptions;
+            if(tiledExportOptions == null)
+            {
+                throw new System.Exception($"Cannot export from {exportOptions.TypeDescription} to .tmx");
+            }
+
+            var map = tiledExportOptions.Template;
+            var srcFilename = tiledExportOptions.SrcFileName;
 
             var layerArray = tilePropagator.ToArray();
             map.Layers = new BaseLayer[layerArray.Topology.Depth];

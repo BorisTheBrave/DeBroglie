@@ -57,6 +57,8 @@
     <Compile Include="ConstraintArrayConverter.cs" />
     <Compile Include="CsvSaver.cs" />
     <Compile Include="DeBroglieConfig.cs" />
+    <Compile Include="Export\ExportOptions.cs" />
+    <Compile Include="ISampleSetSaver.cs" />
     <Compile Include="ItemsProcessor.cs" />
     <Compile Include="MagicaVoxelLoader.cs" />
     <Compile Include="MagicaVoxelSaver.cs" />

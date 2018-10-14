@@ -440,6 +440,44 @@ namespace DeBroglie
             return new TopoArray3D<ISet<Tile>>(result, topology);
         }
 
+        /// <summary>
+        /// Convert the generated result to an array of sets, where each set
+        /// indicates the values of tiles that are still valid at the location.
+        /// The size of the set indicates the resolution of that location:
+        /// * Greater than 1: <see cref="Resolution.Undecided"/>
+        /// * Exactly 1: <see cref="Resolution.Decided"/>
+        /// * Exactly 0: <see cref="Resolution.Contradiction"/>
+        /// </summary>
+        public ITopoArray<ISet<T>> ToValueSets<T>()
+        {
+            var width = topology.Width;
+            var height = topology.Height;
+            var depth = topology.Depth;
+
+            var patternArray = wavePropagator.ToTopoArraySets();
+
+            var result = new ISet<T>[width, height, depth];
+            for (var x = 0; x < width; x++)
+            {
+                for (var y = 0; y < height; y++)
+                {
+                    for (var z = 0; z < depth; z++)
+                    {
+                        TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var ox, out var oy, out var oz);
+                        var patterns = patternArray.Get(px, py, pz);
+                        var hs = new HashSet<T>();
+                        var patternToTiles = patternsToTilesByOffset[CombineOffsets(ox, oy, oz)];
+                        foreach (var pattern in patterns)
+                        {
+                            hs.Add((T)patternToTiles[pattern].Value);
+                        }
+                        result[x, y, z] = hs;
+                    }
+                }
+            }
+            return new TopoArray3D<ISet<T>>(result, topology);
+        }
+
         private enum MappingType
         {
             OneToOne,

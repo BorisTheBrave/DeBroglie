@@ -1,4 +1,5 @@
-﻿using DeBroglie.Topo;
+﻿using DeBroglie.Console.Export;
+using DeBroglie.Topo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -83,7 +84,11 @@ namespace DeBroglie.Console
                 Directions = sample.Topology.Directions,
                 Samples = new[] { sample },
                 TilesByName = tilesByName,
-                Template = new object[] { map, srcFilename },
+                ExportOptions = new TiledExportOptions
+                {
+                    Template = map,
+                    SrcFileName = srcFilename,
+                },
             };
         }
 

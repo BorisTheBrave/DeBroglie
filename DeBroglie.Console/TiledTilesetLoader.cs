@@ -1,4 +1,5 @@
-﻿using DeBroglie.Topo;
+﻿using DeBroglie.Console.Export;
+using DeBroglie.Topo;
 using System;
 using System.Collections.Generic;
 using TiledLib;
@@ -32,7 +33,10 @@ namespace DeBroglie.Console
                 Directions = directions,
                 Samples = samples,
                 TilesByName = tilesByName,
-                Template = new object[] { map, srcFilename },
+                ExportOptions = new TiledExportOptions {
+                    Template = map,
+                    SrcFileName= srcFilename,
+                },
             };
         }
 

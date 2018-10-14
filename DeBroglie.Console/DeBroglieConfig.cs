@@ -7,17 +7,32 @@ using System.Threading.Tasks;
 namespace DeBroglie.Console
 {
 
+    public enum SrcType
+    {
+        /// <summary>
+        /// Load a single file specified by
+        /// </summary>
+        Sample,
+        BitmapSet,
+        VoxSet,
+    }
+
     public class DeBroglieConfig
     {
         /// <summary>
-        /// The file to load as the initial sample.
+        /// 
         /// </summary>
-        public string Dest { get; set; }
+        public SrcType SrcType { get; set; }
+
+        /// <summary>
+        /// The file to load as the initial sample. Use when SrcType is Sample.
+        /// </summary>
+        public string Src { get; set; }
 
         /// <summary>
         /// The file to write the result to. The file has the same format as Src. 
         /// </summary>
-        public string Src { get; set; }
+        public string Dest { get; set; }
 
         /// <summary>
         /// The directory that Src and Dest are relative to. 
@@ -211,6 +226,11 @@ namespace DeBroglie.Console
         public string RotateCcw { get; set; }
 
         public TileRotationTreatment? RotationTreatment { get; set; }
+
+        /// <summary>
+        /// The file to load representing this tile. Use when SrcType is BitmapSet or VoxSet.
+        /// </summary>
+        public string Src { get; set; }
     }
 
     public class AdjacencyData

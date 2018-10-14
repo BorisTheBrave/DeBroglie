@@ -1,16 +1,19 @@
-﻿using DeBroglie.Constraints;
+﻿using DeBroglie.Console.Export;
+using DeBroglie.Constraints;
+using DeBroglie.MagicaVoxel;
 using DeBroglie.Models;
 using DeBroglie.Topo;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 
 namespace DeBroglie.Console
 {
-        public interface ISampleSetLoader
+    public interface ISampleSetLoader
     {
         SampleSet Load(string filename);
 
@@ -22,15 +25,7 @@ namespace DeBroglie.Console
         public Directions Directions { get; set; }
         public ITopoArray<Tile>[] Samples { get; set; }
         public IDictionary<string, Tile> TilesByName { get; set; }
-
-        // TODO: Clean this up
-        public object Template { get; set; }
-
-    }
-
-    public interface ISampleSetSaver
-    {
-        void Save(TileModel model, TilePropagator tilePropagator, string filename, DeBroglieConfig config, object template);
+        public ExportOptions ExportOptions { get; set; }
 
     }
 
@@ -48,8 +43,13 @@ namespace DeBroglie.Console
             this.config = config;
         }
 
-        private SampleSet Load(string filename)
+        private SampleSet LoadSample()
         {
+            if (config.Src == null)
+                throw new Exception("Src sample should be set");
+            var filename = Path.Combine(config.BaseDirectory, config.Src);
+            System.Console.WriteLine($"Reading {filename}");
+
             var sampleSet = loader.Load(filename);
             sampleSet.Samples = sampleSet.Samples
                 .Select(x => x.WithPeriodic(
@@ -60,15 +60,81 @@ namespace DeBroglie.Console
             return sampleSet;
         }
 
+        private SampleSet LoadFileSet()
+        {
+            if (config.Tiles == null)
+                throw new Exception($"You must specify tile data when using SrcType {config.SrcType}.");
+
+            var filenames = new Dictionary<Tile, string>();
+            foreach (var tile in config.Tiles)
+            {
+                if (tile.Value == null)
+                {
+                    tile.Value = new Guid().ToString();
+                }
+                if (tile.Src == null)
+                    throw new Exception($"All tiles must have a src set when using SrcType {config.SrcType}.");
+                filenames[new Tile(Parse(tile.Value))] = tile.Src;
+            }
+
+            if(filenames.Count == 0)
+                throw new Exception($"Must supply at least one tile when using SrcType {config.SrcType}.");
+
+            if (config.SrcType == SrcType.BitmapSet)
+            {
+                var bitmaps = filenames.ToDictionary(x => x.Key, x => new Bitmap(Path.Combine(config.BaseDirectory, x.Value)));
+                var first = bitmaps.First().Value;
+                return new SampleSet
+                {
+                    Directions = Directions.Cartesian2d,
+                    Samples = new ITopoArray<Tile>[0],
+                    ExportOptions = new BitmapSetExportOptions
+                    {
+                        Bitmaps = bitmaps,
+                        TileWidth = first.Width,
+                        TileHeight = first.Height,
+                    }
+                };
+            }
+            else if(config.SrcType == SrcType.VoxSet)
+            {
+                var subtiles = filenames.ToDictionary(x => x.Key, x => VoxUtils.Load(x.Value));
+                var first = VoxUtils.ToTopoArray(subtiles.First().Value);
+                return new SampleSet
+                {
+                    Directions = Directions.Cartesian3d,
+                    Samples = new ITopoArray<Tile>[0],
+                    ExportOptions = new VoxSetExportOptions
+                    {
+                        SubTiles = subtiles,
+                        TileWidth = first.Topology.Width,
+                        TileHeight = first.Topology.Height,
+                        TileDepth = first.Topology.Depth,
+                    }
+                };
+            }
+            else
+            {
+                throw new NotImplementedException($"Unrecognized src type {config.SrcType}");
+            }
+        }
+
         private Tile Parse(string s)
         {
             // TODO: Apply tiles by name
-            return loader.Parse(s);
+            if (loader != null)
+            {
+                return loader.Parse(s);
+            }
+            else
+            {
+                return new Tile(s);
+            }
         }
 
-        public void Save(TileModel model, TilePropagator tilePropagator, string filename, object template)
+        public void Save(TileModel model, TilePropagator tilePropagator, string filename, ExportOptions exportOptions)
         {
-            saver.Save(model, tilePropagator, filename, config, template);
+            saver.Save(model, tilePropagator, filename, config, exportOptions);
         }
 
         private static TileModel GetModel(DeBroglieConfig config, Directions directions, ITopoArray<Tile>[] samples, TileRotation tileRotation)
@@ -152,11 +218,6 @@ namespace DeBroglie.Console
 
         public void ProcessItem()
         {
-            if (config.Src == null)
-            {
-                throw new System.Exception("src attribute must be set");
-            }
-
             if (config.Dest == null)
             {
                 throw new System.Exception("dest attribute must be set");
@@ -164,12 +225,18 @@ namespace DeBroglie.Console
 
             var directory = config.BaseDirectory;
 
-            var src = Path.Combine(directory, config.Src);
             var dest = Path.Combine(directory, config.Dest);
             var contdest = Path.ChangeExtension(dest, ".contradiction" + Path.GetExtension(dest));
-            System.Console.WriteLine($"Reading {src}");
 
-            var sampleSet = Load(src);
+            SampleSet sampleSet;
+            if (config.SrcType == SrcType.Sample)
+            {
+                sampleSet = LoadSample();
+            }
+            else
+            {
+                sampleSet = LoadFileSet();
+            }
             var directions = sampleSet.Directions;
             var samples = sampleSet.Samples;
 
@@ -247,7 +314,7 @@ namespace DeBroglie.Console
                 }
                 if (config.Animate)
                 {
-                    status = RunAnimate(model, propagator, dest, sampleSet.Template);
+                    status = RunAnimate(model, propagator, dest, sampleSet.ExportOptions);
                 }
                 else
                 {
@@ -264,18 +331,18 @@ namespace DeBroglie.Console
             if (status == Resolution.Decided)
             {
                 System.Console.WriteLine($"Writing {dest}");
-                Save(model, propagator, dest, sampleSet.Template);
+                Save(model, propagator, dest, sampleSet.ExportOptions);
                 File.Delete(contdest);
             }
             else
             {
                 System.Console.WriteLine($"Writing {contdest}");
-                Save(model, propagator, contdest, sampleSet.Template);
+                Save(model, propagator, contdest, sampleSet.ExportOptions);
                 File.Delete(dest);
             }
         }
 
-        private Resolution RunAnimate(TileModel model, TilePropagator propagator, string dest, object template)
+        private Resolution RunAnimate(TileModel model, TilePropagator propagator, string dest, ExportOptions exportOptions)
         {
             if(!config.Animate)
             {
@@ -291,7 +358,7 @@ namespace DeBroglie.Console
                 Directory.CreateDirectory(Path.GetDirectoryName(dest));
                 var currentDest = Path.ChangeExtension(dest, i + Path.GetExtension(dest));
                 allFiles.Add(currentDest);
-                Save(model, propagator, currentDest, template);
+                Save(model, propagator, currentDest, exportOptions);
                 i++;
                 if (status != Resolution.Undecided) return status;
             }
@@ -347,7 +414,25 @@ namespace DeBroglie.Console
             using(var tr = new StreamReader(fs))
             using (var jsonReader = new JsonTextReader(tr))
             {
-                return serializer.Deserialize<DeBroglieConfig>(jsonReader);
+                var errors = new List<string>();
+
+                serializer.Error += (object sender, Newtonsoft.Json.Serialization.ErrorEventArgs args) =>
+                {
+                    // only log an error once
+                    if (args.CurrentObject == args.ErrorContext.OriginalObject)
+                    {
+                        errors.Add(args.ErrorContext.Error.Message);
+                    }
+                };
+                var result = serializer.Deserialize<DeBroglieConfig>(jsonReader);
+                if(errors.Count != 0)
+                {
+                    // TODO: Better diagnostics
+                    throw new Exception(errors[0]);
+                }
+                if (result == null)
+                    throw new Exception($"{filename} is empty.");
+                return result;
             }
         }
 
@@ -355,7 +440,7 @@ namespace DeBroglie.Console
         {
             if (filename == null)
             {
-                throw new Exception("src should be provided.");
+                return null;
             }
             else if (filename.EndsWith(".png"))
             {

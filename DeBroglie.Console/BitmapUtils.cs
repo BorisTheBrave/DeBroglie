@@ -31,16 +31,15 @@ namespace DeBroglie.Console
             return bitmap;
         }
 
-        public static Color ColorAverage(ISet<Tile> tiles)
+        public static Color ColorAverage(IEnumerable<Color> colors)
         {
             int alpha = 0;
             int red = 0;
             int green = 0;
             int blue = 0;
             int n = 0;
-            foreach (var tile in tiles)
+            foreach (var color in colors)
             {
-                var color = (Color)tile.Value;
                 alpha += color.A;
                 red += color.R;
                 green += color.G;

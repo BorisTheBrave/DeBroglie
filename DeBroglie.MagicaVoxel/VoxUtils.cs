@@ -1,13 +1,22 @@
 ﻿using DeBroglie.Topo;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.IO;
 
 namespace DeBroglie.MagicaVoxel
 {
     public static class VoxUtils
     {
-        public static ITopoArray<byte> Load(Vox vox)
+        public static Vox Load(string filename)
+        {
+            using (var stream = File.OpenRead(filename))
+            {
+                var br = new BinaryReader(stream);
+                return VoxSerializer.Read(br);
+            }
+        }
+
+        public static ITopoArray<byte> ToTopoArray(Vox vox)
         {
             Size size = null;
             foreach (var chunk in vox.Chunks)

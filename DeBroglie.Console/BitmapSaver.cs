@@ -1,27 +1,63 @@
-﻿using DeBroglie.Models;
+﻿using DeBroglie.Console.Export;
+using DeBroglie.Models;
 using DeBroglie.Topo;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace DeBroglie.Console
 {
 
     public class BitmapSaver : ISampleSetSaver
     { 
-        public void Save(TileModel model, TilePropagator propagator, string filename, DeBroglieConfig config, object template)
+        public void Save(TileModel model, TilePropagator propagator, string filename, DeBroglieConfig config, ExportOptions exportOptions)
         {
             if (config.Animate)
             {
+                if (exportOptions is BitmapExportOptions)
+                {
+                    var topoArray = propagator.ToValueSets<Color>().Map(BitmapUtils.ColorAverage);
+                    var bitmap = BitmapUtils.ToBitmap(topoArray.ToArray2d());
+                    bitmap.Save(filename);
+                }
+                else if (exportOptions is BitmapSetExportOptions)
+                {
+                    throw new Exception("Animate not supported with bitmap sets yet");
+                }
+                else
+                {
+                    throw new System.Exception($"Cannot export from {exportOptions.TypeDescription} to bitmap.");
+                }
 
-                var topoArray = propagator.ToArraySets().Map(BitmapUtils.ColorAverage);
-                var bitmap = BitmapUtils.ToBitmap(topoArray.ToArray2d());
-                bitmap.Save(filename);
             }
             else
             {
-                var topoArray = propagator.ToValueArray(Color.Gray, Color.Magenta);
-                var bitmap = BitmapUtils.ToBitmap(topoArray.ToArray2d());
-                bitmap.Save(filename);
+                if (exportOptions is BitmapExportOptions)
+                {
+                    var topoArray = propagator.ToValueArray(Color.Gray, Color.Magenta);
+                    var bitmap = BitmapUtils.ToBitmap(topoArray.ToArray2d());
+                    bitmap.Save(filename);
+                }
+                else if (exportOptions is BitmapSetExportOptions bseo)
+                {
+                    var undecided = new Tile(new object());
+                    var contradiction = new Tile(new object());
+                    var topoArray = propagator.ToArray(undecided, contradiction);
+
+                    var tileTopology = topoArray.Topology.WithSize(bseo.TileWidth, bseo.TileHeight, 1);
+                    var tiles = bseo.Bitmaps.ToDictionary(x => x.Key, x => TopoArray.Create(BitmapUtils.ToColorArray(x.Value), tileTopology));
+                    tiles[undecided] = TopoArray.FromConstant(Color.Gray, tileTopology);
+                    tiles[contradiction] = TopoArray.FromConstant(Color.Magenta, tileTopology);
+
+                    var exploded = ExplodeTiles(topoArray, tiles, bseo.TileWidth, bseo.TileHeight, 1);
+                    var bitmap = BitmapUtils.ToBitmap(exploded.ToArray2d());
+                    bitmap.Save(filename);
+                }
+                else
+                {
+                    throw new System.Exception($"Cannot export from {exportOptions.TypeDescription} to bitmap.");
+                }
             }
         }
 
@@ -52,6 +88,156 @@ namespace DeBroglie.Console
                 }
             }
             var resultTopology = topology.WithSize(topology.Width * scale, topology.Height * scale, topology.Depth * scale);
+            return TopoArray.Create(result, resultTopology);
+        }
+
+        private static ITopoArray<V> ExplodeTiles<V>(ITopoArray<Tile> topoArray, IDictionary<Tile, ITopoArray<V>> subTiles, int tileWidth, int tileHeight, int tileDepth)
+        {
+            return Explode(topoArray, tile => GetSubTile(tile, subTiles), tileWidth, tileHeight, tileDepth);
+        }
+
+        private static ITopoArray<IEnumerable<V>> ExplodeTileSets<V>(ITopoArray<ISet<Tile>> topoArray, IDictionary<Tile, ITopoArray<V>> subTiles, int tileWidth, int tileHeight, int tileDepth)
+        {
+            return ExplodeSets(topoArray, tile => GetSubTile(tile, subTiles), tileWidth, tileHeight, tileDepth);
+
+        }
+
+        private static ITopoArray<V> GetSubTile<V>(Tile tile, IDictionary<Tile, ITopoArray<V>> subTiles)
+        {
+            if(tile.Value is RotatedTile rt)
+            {
+                subTiles.TryGetValue(rt.Tile, out var subTile);
+                return TopoArrayUtils.Rotate(subTile, rt.RotateCw, rt.ReflectX);
+            }
+            else
+            {
+                subTiles.TryGetValue(tile, out var result);
+                return result;
+            }
+        }
+
+        private static ITopoArray<V> Explode<U, V>(ITopoArray<U> topoArray, Func<U, ITopoArray<V>> getSubTile, int tileWidth, int tileHeight, int tileDepth)
+        {
+            if (topoArray.Topology.Directions.Type != DirectionsType.Cartesian2d && topoArray.Topology.Directions.Type != DirectionsType.Cartesian3d)
+                throw new NotImplementedException();
+
+            var inTopology = topoArray.Topology;
+            var inWidth = inTopology.Width;
+            var inHeight = inTopology.Height;
+            var inDepth = inTopology.Depth;
+
+            var resultTopology = inTopology.WithSize(
+                inWidth * tileWidth,
+                inHeight * tileHeight,
+                inDepth * tileDepth
+                );
+            var result = new V[resultTopology.Width, resultTopology.Height, resultTopology.Depth];
+            var mask = new bool[resultTopology.Width * resultTopology.Height * resultTopology.Depth];
+
+            for (var z = 0; z < inDepth; z++)
+            {
+                for (var y = 0; y < inHeight; y++)
+                {
+                    for (var x = 0; x < inWidth; x++)
+                    {
+                        if(inTopology.Mask != null)
+                        {
+                            var index = inTopology.GetIndex(x, y, z);
+                            if (!inTopology.Mask[index])
+                                continue;
+                        }
+                        var inTile = topoArray.Get(x, y, z);
+                        var subTile = getSubTile(inTile);
+                        if (subTile == null)
+                            continue;
+                        for (var tz = 0; tz < tileDepth; tz++)
+                        {
+                            for (var ty = 0; ty < tileHeight; ty++)
+                            {
+                                for (var tx = 0; tx < tileWidth; tx++)
+                                {
+                                    if(subTile.Topology.Mask != null)
+                                    {
+                                        var index = subTile.Topology.GetIndex(tx, ty, tz);
+                                        if (!subTile.Topology.Mask[index])
+                                            continue;
+                                    }
+                                    result[x * tileWidth + tx, y * tileHeight + ty, z * tileDepth * tz]
+                                        = subTile.Get(tx, ty, tz);
+                                    mask[resultTopology.GetIndex(x * tileWidth + tx, y * tileHeight + ty, z * tileDepth * tz)] = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return TopoArray.Create(result, resultTopology);
+        }
+
+        private static ITopoArray<IEnumerable<V>> ExplodeSets<U, V>(ITopoArray<ISet<U>> topoArray, Func<U, ITopoArray<V>> getSubTile, int tileWidth, int tileHeight, int tileDepth)
+        {
+            if (topoArray.Topology.Directions.Type != DirectionsType.Cartesian2d && topoArray.Topology.Directions.Type != DirectionsType.Cartesian3d)
+                throw new NotImplementedException();
+
+            var inTopology = topoArray.Topology;
+            var inWidth = inTopology.Width;
+            var inHeight = inTopology.Height;
+            var inDepth = inTopology.Depth;
+
+            var resultTopology = inTopology.WithSize(
+                inWidth * tileWidth,
+                inHeight * tileHeight,
+                inDepth * tileDepth
+                );
+            var result = new IEnumerable<V>[resultTopology.Width, resultTopology.Height, resultTopology.Depth];
+            var mask = new bool[resultTopology.Width * resultTopology.Height * resultTopology.Depth];
+
+            for (var z = 0; z < inDepth; z++)
+            {
+                for (var y = 0; y < inHeight; y++)
+                {
+                    for (var x = 0; x < inWidth; x++)
+                    {
+                        if (inTopology.Mask != null)
+                        {
+                            var index = inTopology.GetIndex(x, y, z);
+                            if (!inTopology.Mask[index])
+                                continue;
+                        }
+                        var inTileSet = topoArray.Get(x, y, z);
+                        if (inTileSet.Count == 0)
+                            continue;
+                        for (var tz = 0; tz < tileDepth; tz++)
+                        {
+                            for (var ty = 0; ty < tileHeight; ty++)
+                            {
+                                for (var tx = 0; tx < tileWidth; tx++)
+                                {
+                                    var outSet = new List<V>();
+                                    foreach (var inTile in inTileSet)
+                                    {
+                                        var subTile = getSubTile(inTile);
+                                        if (subTile == null)
+                                            continue;
+
+                                        if (subTile.Topology.Mask != null)
+                                        {
+                                            var index = subTile.Topology.GetIndex(tx, ty, tz);
+                                            if (!subTile.Topology.Mask[index])
+                                                continue;
+                                        }
+                                        outSet.Add(subTile.Get(tx, ty, tz));
+                                        mask[resultTopology.GetIndex(x * tileWidth + tx, y * tileHeight + ty, z * tileDepth * tz)] = true;
+                                    }
+                                    result[x * tileWidth + tx, y * tileHeight + ty, z * tileDepth * tz] = outSet;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             return TopoArray.Create(result, resultTopology);
         }
     }

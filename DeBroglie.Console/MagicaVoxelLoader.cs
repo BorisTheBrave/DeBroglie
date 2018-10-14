@@ -1,4 +1,5 @@
-﻿using DeBroglie.MagicaVoxel;
+﻿using DeBroglie.Console.Export;
+using DeBroglie.MagicaVoxel;
 using DeBroglie.Topo;
 using System.IO;
 
@@ -8,18 +9,13 @@ namespace DeBroglie.Console
     {
         public SampleSet Load(string filename)
         {
-            Vox vox;
-            using (var stream = File.OpenRead(filename))
-            {
-                var br = new BinaryReader(stream);
-                vox = VoxSerializer.Read(br);
-            }
-            var sample = VoxUtils.Load(vox).ToTiles();
+            var vox = VoxUtils.Load(filename);
+            var sample = VoxUtils.ToTopoArray(vox).ToTiles();
             return new SampleSet
             {
                 Directions = sample.Topology.Directions,
                 Samples = new[] { sample },
-                Template = vox,
+                ExportOptions = new VoxExportOptions { Template = vox },
             };
         }
 
