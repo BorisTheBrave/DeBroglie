@@ -21,9 +21,15 @@ namespace DeBroglie.Console
                     var bitmap = BitmapUtils.ToBitmap(topoArray.ToArray2d());
                     bitmap.Save(filename);
                 }
-                else if (exportOptions is BitmapSetExportOptions)
+                else if (exportOptions is BitmapSetExportOptions bseo)
                 {
-                    throw new Exception("Animate not supported with bitmap sets yet");
+
+                    var topoArray = propagator.ToArraySets();
+                    var tileTopology = topoArray.Topology.WithSize(bseo.TileWidth, bseo.TileHeight, 1);
+                    var subTiles = bseo.Bitmaps.ToDictionary(x => x.Key, x => TopoArray.Create(BitmapUtils.ToColorArray(x.Value), tileTopology));
+                    var exploded = ExplodeTileSets(topoArray, subTiles, bseo.TileWidth, bseo.TileHeight, 1).Map(BitmapUtils.ColorAverage);
+                    var bitmap = BitmapUtils.ToBitmap(exploded.ToArray2d());
+                    bitmap.Save(filename);
                 }
                 else
                 {
@@ -46,11 +52,11 @@ namespace DeBroglie.Console
                     var topoArray = propagator.ToArray(undecided, contradiction);
 
                     var tileTopology = topoArray.Topology.WithSize(bseo.TileWidth, bseo.TileHeight, 1);
-                    var tiles = bseo.Bitmaps.ToDictionary(x => x.Key, x => TopoArray.Create(BitmapUtils.ToColorArray(x.Value), tileTopology));
-                    tiles[undecided] = TopoArray.FromConstant(Color.Gray, tileTopology);
-                    tiles[contradiction] = TopoArray.FromConstant(Color.Magenta, tileTopology);
+                    var subTiles = bseo.Bitmaps.ToDictionary(x => x.Key, x => TopoArray.Create(BitmapUtils.ToColorArray(x.Value), tileTopology));
+                    subTiles[undecided] = TopoArray.FromConstant(Color.Gray, tileTopology);
+                    subTiles[contradiction] = TopoArray.FromConstant(Color.Magenta, tileTopology);
 
-                    var exploded = ExplodeTiles(topoArray, tiles, bseo.TileWidth, bseo.TileHeight, 1);
+                    var exploded = ExplodeTiles(topoArray, subTiles, bseo.TileWidth, bseo.TileHeight, 1);
                     var bitmap = BitmapUtils.ToBitmap(exploded.ToArray2d());
                     bitmap.Save(filename);
                 }
@@ -93,28 +99,31 @@ namespace DeBroglie.Console
 
         private static ITopoArray<V> ExplodeTiles<V>(ITopoArray<Tile> topoArray, IDictionary<Tile, ITopoArray<V>> subTiles, int tileWidth, int tileHeight, int tileDepth)
         {
-            return Explode(topoArray, tile => GetSubTile(tile, subTiles), tileWidth, tileHeight, tileDepth);
+            var subTilesCopy = subTiles.ToDictionary(x => x.Key, x => x.Value);
+            return Explode(topoArray, tile => GetSubTile(tile, subTilesCopy), tileWidth, tileHeight, tileDepth);
         }
 
         private static ITopoArray<IEnumerable<V>> ExplodeTileSets<V>(ITopoArray<ISet<Tile>> topoArray, IDictionary<Tile, ITopoArray<V>> subTiles, int tileWidth, int tileHeight, int tileDepth)
         {
-            return ExplodeSets(topoArray, tile => GetSubTile(tile, subTiles), tileWidth, tileHeight, tileDepth);
+            var subTilesCopy = subTiles.ToDictionary(x => x.Key, x => x.Value);
+            return ExplodeSets(topoArray, tile => GetSubTile(tile, subTilesCopy), tileWidth, tileHeight, tileDepth);
 
         }
 
         private static ITopoArray<V> GetSubTile<V>(Tile tile, IDictionary<Tile, ITopoArray<V>> subTiles)
         {
-            if(tile.Value is RotatedTile rt)
+            if (subTiles.TryGetValue(tile, out var result))
+                return result;
+
+            if (tile.Value is RotatedTile rt)
             {
                 if (!subTiles.TryGetValue(rt.Tile, out var subTile))
                     return null;
-                return TopoArrayUtils.Rotate(subTile, rt.RotateCw, rt.ReflectX);
+                result = TopoArrayUtils.Rotate(subTile, rt.RotateCw, rt.ReflectX);
+                return subTiles[tile] = result;
             }
-            else
-            {
-                subTiles.TryGetValue(tile, out var result);
-                return result;
-            }
+
+            return null;
         }
 
         private static ITopoArray<V> Explode<U, V>(ITopoArray<U> topoArray, Func<U, ITopoArray<V>> getSubTile, int tileWidth, int tileHeight, int tileDepth)
