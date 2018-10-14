@@ -33,7 +33,7 @@ Quick Start
 
 There are three common use cases in DeBroglie.
 
-### Single pixles / voxels
+### Single pixels / voxels
 
 If your tiles are single pixels, or single voxels, then you do not need set up any extra information, because all your tiles are fully symmetric.
 
