@@ -63,6 +63,7 @@
     <Compile Include="MagicaVoxelLoader.cs" />
     <Compile Include="MagicaVoxelSaver.cs" />
     <Compile Include="ModelConverter.cs" />
+    <Compile Include="MoreTopoArrayUtils.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TiledMapLoader.cs" />

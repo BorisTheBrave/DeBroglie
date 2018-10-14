@@ -98,7 +98,7 @@ namespace DeBroglie.Console
             }
             else if(config.SrcType == SrcType.VoxSet)
             {
-                var subtiles = filenames.ToDictionary(x => x.Key, x => VoxUtils.Load(x.Value));
+                var subtiles = filenames.ToDictionary(x => x.Key, x => VoxUtils.Load(Path.Combine(config.BaseDirectory, x.Value)));
                 var first = VoxUtils.ToTopoArray(subtiles.First().Value);
                 return new SampleSet
                 {
@@ -106,6 +106,7 @@ namespace DeBroglie.Console
                     Samples = new ITopoArray<Tile>[0],
                     ExportOptions = new VoxSetExportOptions
                     {
+                        Template = subtiles.First().Value,
                         SubTiles = subtiles,
                         TileWidth = first.Topology.Width,
                         TileHeight = first.Topology.Height,
@@ -275,14 +276,16 @@ namespace DeBroglie.Console
                     var srcAdj = a.Src.Select(Parse).Select(tileRotation.Canonicalize).ToList();
                     var destAdj = a.Dest.Select(Parse).Select(tileRotation.Canonicalize).ToList();
                     adjacentModel.AddAdjacency(srcAdj, destAdj, a.X, a.Y, a.Z, config.RotationalSymmetry, config.ReflectionalSymmetry, tileRotation);
-                    // If there are no samples, set frequency to 1 for everything mentioned in this block
-                    if (samples.Length == 0)
-                    {
-                        srcAdj.ForEach(tile => adjacentModel.SetFrequency(tile, 1));
-                        destAdj.ForEach(tile => adjacentModel.SetFrequency(tile, 1));
-                    }
+                }
+
+                // If there are no samples, set frequency to 1 for everything mentioned in this block
+                foreach (var tile in adjacentModel.PatternsToTiles.Values)
+                {
+                    adjacentModel.SetFrequency(tile, 1);
                 }
             }
+
+
 
             // Setup tiles
             if(config.Tiles != null)

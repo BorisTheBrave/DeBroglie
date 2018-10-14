@@ -49,6 +49,8 @@ namespace DeBroglie.Console.Export
     {
         public override string TypeDescription => "Bitmap set";
 
+        public Vox Template { get; set; }
+
         public IDictionary<Tile, Vox> SubTiles { get; set; }
 
         public int TileWidth { get; set; }

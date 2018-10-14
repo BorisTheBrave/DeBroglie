@@ -1,0 +1,70 @@
+{
+    "srcType": "voxSet",
+    "dest": "output/castle.vox",
+    "width": 10,
+    "height": 10,
+    "depth": 10,
+    "symmetry": 8,
+    "rotationTreatment": "generated", 
+    "tiles": [
+        {"src": "empty.vox", "value": "empty", "tileSymmetry": "X"},
+        {"src": "ground.vox", "value": "ground", "tileSymmetry": "X"},
+        {"src": "wall.vox", "value": "wall", "tileSymmetry": "E"},
+        {"src": "wall_outer_corner.vox", "value": "wall_outer_corner", "tileSymmetry": "L"},
+        {"src": "wall_inner_corner.vox", "value": "wall_inner_corner", "tileSymmetry": "L"},
+        {"src": "wall_top.vox", "value": "wall_top", "tileSymmetry": "E"},
+        {"src": "wall_top_outer_corner.vox", "value": "wall_top_outer_corner", "tileSymmetry": "L", "multiplyFrequency": 0.3},
+        {"src": "wall_top_inner_corner.vox", "value": "wall_top_inner_corner", "tileSymmetry": "L", "multiplyFrequency": 0.3},
+    ],
+    "adjacencies": [
+        {"left": ["ground"], "right": ["ground"]},
+        {"left": ["empty"], "right": ["empty"]},
+        {"above": ["empty"], "below": ["ground"]},
+        {"above": ["empty"], "below": ["empty"]},
+
+        {"above": ["wall"], "below": ["ground", "wall"]},
+        {"up": ["wall"], "down": ["wall"]},
+        {"left": ["wall"], "right": ["empty"]},
+        {"left": ["empty"], "right": ["wall"]},
+
+        {"above": ["wall_outer_corner"], "below": ["ground", "wall_outer_corner"]},
+        {"left": ["wall!270"], "right": ["wall_outer_corner"]},
+        {"left": ["wall_outer_corner"], "right": ["empty"]},
+        {"up": ["wall_outer_corner"], "down": ["wall"]},
+        {"up": ["empty"], "down": ["wall_outer_corner"]},
+        
+        {"above": ["wall_inner_corner"], "below": ["ground", "wall_inner_corner"]},
+        {"right": ["wall!270"], "left": ["wall_inner_corner"]},
+        {"right": ["wall_inner_corner"], "left": ["empty"]},
+        {"down": ["wall_inner_corner"], "up": ["wall"]},
+        {"down": ["empty"], "up": ["wall_inner_corner"]},
+        {"above": ["wall_top"], "below": ["wall"]},
+        {"above": ["empty"], "below": ["wall_top"]},
+        {"up": ["wall_top"], "down": ["wall_top"]},
+        {"left": ["wall_top"], "right": ["empty"]},
+        {"left": ["empty"], "right": ["wall_top"]},
+
+        {"above": ["wall_top_outer_corner"], "below": ["wall_outer_corner"]},
+        {"above": ["empty"], "below": ["wall_top_outer_corner"]},
+        {"left": ["wall_top!270"], "right": ["wall_top_outer_corner"]},
+        {"left": ["wall_top_outer_corner"], "right": ["empty"]},
+        {"up": ["wall_top_outer_corner"], "down": ["wall_top"]},
+        {"up": ["empty"], "down": ["wall_top_outer_corner"]},
+
+        {"above": ["wall_top_inner_corner"], "below": ["wall_inner_corner"]},
+        {"above": ["empty"], "below": ["wall_top_inner_corner"]},
+        {"right": ["wall_top!270"], "left": ["wall_top_inner_corner"]},
+        {"right": ["wall_top_inner_corner"], "left": ["empty"]},
+        {"down": ["wall_top_inner_corner"], "up": ["wall_top"]},
+        {"down": ["empty"], "up": ["wall_top_inner_corner"]},
+    ],
+
+    "ground": "ground",
+    "constraints": [
+        {
+            "type": "border",
+            "tile": "empty",
+            "excludeSides": "zmin"
+        }
+    ]
+}

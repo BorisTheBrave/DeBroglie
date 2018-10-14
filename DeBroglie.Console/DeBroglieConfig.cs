@@ -280,7 +280,7 @@ namespace DeBroglie.Console
                 Src = value;
                 X = 0;
                 Y = 0;
-                Z = 1;
+                Z = -1;
             }
         }
 

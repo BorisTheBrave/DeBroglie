@@ -147,7 +147,7 @@ namespace DeBroglie.Topo
                         var (newX, newY) = mapCoord(x, y);
                         newX += offsetx;
                         newY += offsety;
-                        int newIndex = topology.GetIndex(newX, newY, 0);
+                        int newIndex = topology.GetIndex(newX, newY, z);
                         var newValue = original.Get(x, y, z);
                         bool hasNewValue = true;
                         if(tileRotate != null)
