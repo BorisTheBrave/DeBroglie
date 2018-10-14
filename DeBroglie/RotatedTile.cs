@@ -31,5 +31,10 @@
                 return base.Equals(obj);
             }
         }
+
+        public override string ToString()
+        {
+            return Tile.ToString() + "!" + (ReflectX ? "x" : "") + (RotateCw * 90);
+        }
     }
 }

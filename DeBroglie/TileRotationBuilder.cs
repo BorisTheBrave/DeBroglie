@@ -65,6 +65,7 @@ namespace DeBroglie
                 foreach (var kv in destRg.Tiles)
                 {
                     Set(srcRg, kv.Key, kv.Value, $"record rotation from {src} to {dest} by {tf}");
+                    tileToRotationGroup[kv.Value] = srcRg;
                 }
             }
             srcRg.Entries.Add(new Entry
@@ -87,7 +88,6 @@ namespace DeBroglie
                 return false;
             }
             rg.Tiles[tf] = tile;
-            tileToRotationGroup[tile] = rg;
             return true;
         }
 
@@ -162,6 +162,12 @@ namespace DeBroglie
             // Find the full set of tiles it rotates to.
             IDictionary<Transform, Tile> GetDict(Tile t, RotationGroup rg)
             {
+                var treatment = rg.Treatment ?? defaultTreatment;
+                if(treatment == TileRotationTreatment.Generated)
+                {
+                    rg = Clone(rg);
+                    Generate(rg);
+                }
                 var tf = rg.GetTransforms(t)[0];
                 var result = new Dictionary<Transform, Tile>();
                 foreach(var tf2 in tg.Transforms)
@@ -174,7 +180,6 @@ namespace DeBroglie
                 }
                 return result;
             }
-
             return new TileRotation(
                 tileToRotationGroup.ToDictionary(kv => kv.Key, kv => GetDict(kv.Key, kv.Value)),
                 tileToRotationGroup.Where(kv=>kv.Value.Treatment.HasValue).ToDictionary(kv => kv.Key, kv => kv.Value.Treatment.Value),
@@ -218,6 +223,80 @@ namespace DeBroglie
                     }
                 }
             } while (expanded);
+        }
+
+        private RotationGroup Clone(RotationGroup rg)
+        {
+            return new RotationGroup
+            {
+                Entries = rg.Entries.ToList(),
+                Tiles = rg.Tiles.ToDictionary(x => x.Key, x => x.Value),
+                Treatment = rg.Treatment,
+                TreatmentSetBy = rg.TreatmentSetBy,
+            };
+        }
+
+        // Fills all remaining slots with RotatedTile
+        // Care is taken that as few distinct RotatedTiles are used as possible
+        // If there's two possible choices, prefernce is given to rotations over reflections.
+        private void Generate(RotationGroup rg)
+        {
+            start:
+            for (var refl = 0; refl < 2; refl++)
+            {
+                for (var rot = 0; rot < tg.RotationalSymmetry; rot++)
+                {
+                    var transform = new Transform { ReflectX = refl > 0, RotateCw = rot };
+                    if (rg.Tiles.ContainsKey(transform))
+                        continue;
+
+                    // Found an empty spot, figure out what to rotate from
+                    for (var refl2 = 0; refl2 < 2; refl2++)
+                    {
+                        for (var rot2 = 0; rot2 < tg.RotationalSymmetry; rot2++)
+                        {
+                            var transform2 = new Transform { ReflectX = (refl2 > 0) != (refl > 0), RotateCw = rot2 };
+                            if (!rg.Tiles.TryGetValue(transform2, out var srcTile))
+                                continue;
+
+                            // Don't allow RotatedTiles to nest.
+                            if(srcTile.Value is RotatedTile rt)
+                            {
+                                srcTile = rt.Tile;
+                                var rtTransform = new Transform { RotateCw = rt.RotateCw, ReflectX = rt.ReflectX };
+                                transform2 = tg.Mul(tg.Inverse(rtTransform), transform2);
+                            }
+
+                            var srcToDest = tg.Mul(tg.Inverse(transform2), transform);
+
+                            Tile destTile;
+                            if (srcToDest.ReflectX == false && srcToDest.RotateCw == 0)
+                            {
+                                destTile = srcTile;
+                            }
+                            else
+                            {
+                                destTile = new Tile(new RotatedTile
+                                {
+                                    Tile = srcTile,
+                                    ReflectX = srcToDest.ReflectX,
+                                    RotateCw = srcToDest.RotateCw,
+                                });
+                            }
+
+                            // Found where we want to rotate from
+                            rg.Entries.Add(new Entry
+                            {
+                                Src = srcTile,
+                                Tf = srcToDest,
+                                Dest = destTile,
+                            });
+                            Expand(rg);
+                            goto start;
+                        }
+                    }
+                }
+            }
         }
 
 

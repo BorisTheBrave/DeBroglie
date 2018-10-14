@@ -10,14 +10,16 @@ namespace DeBroglie
         {
             this.rotationalSymmetry = rotationalSymmetry;
             Transforms = new List<Transform>();
-            for(var refl =0;refl<2;refl++)
+            for (var refl = 0; refl < 2; refl++)
             {
-                for(var rot=0;rot<rotationalSymmetry;rot++)
+                for (var rot = 0; rot < rotationalSymmetry; rot++)
                 {
                     Transforms.Add(new Transform { RotateCw = rot, ReflectX = refl > 0 });
                 }
             }
         }
+
+        public int RotationalSymmetry => rotationalSymmetry;
 
         public Transform Mul(Transform a, Transform b)
         {

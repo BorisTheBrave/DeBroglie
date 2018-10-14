@@ -71,13 +71,19 @@ namespace DeBroglie
                     result = tile;
                     return true;
                 case TileRotationTreatment.Generated:
-                    result = new Tile(new RotatedTile { RotateCw = tf.RotateCw, ReflectX = tf.ReflectX, Tile = tile });
+                    if (tf.ReflectX == false && tf.RotateCw == 0)
+                        result = tile;
+                    else
+                        result = new Tile(new RotatedTile { RotateCw = tf.RotateCw, ReflectX = tf.ReflectX, Tile = tile });
                     return true;
                 default:
                     throw new Exception($"Unknown treatment {treatment}");
             }
         }
 
+        /// <summary>
+        /// Convenience method for calling Rotate on each tile in a list, skipping any that cannot be rotated.
+        /// </summary>
         public IEnumerable<Tile> Rotate(IEnumerable<Tile> tiles, int rotateCw, bool reflectX)
         {
             foreach(var tile in tiles)
@@ -89,6 +95,10 @@ namespace DeBroglie
             }
         }
 
+        /// <summary>
+        /// For a rotated tile, finds the canonical representation.
+        /// Leaves all other tiles unchanged.
+        /// </summary>
         public Tile Canonicalize(Tile t)
         {
             if(t.Value is RotatedTile rt)
