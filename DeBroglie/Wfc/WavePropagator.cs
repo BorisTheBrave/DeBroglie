@@ -90,6 +90,7 @@ namespace DeBroglie.Wfc
         public bool PeriodicY => periodicY;
         public bool PeriodicZ => periodicZ;
         public Topology Topology => topology;
+        public Random Random => random;
 
         public int[][][] Propagator => propagator;
         public int PatternCount => patternCount;

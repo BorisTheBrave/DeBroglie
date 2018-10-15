@@ -125,14 +125,20 @@ namespace DeBroglie.Console
             if(s.Contains("!"))
             {
                 // TODO: Cleanup and validate
-                // TODO: Support reflection
                 // TODO: Support hexagonal directions
                 var a = s.Split('!');
-                var rotation = ((int.Parse(a[1]) / 90) + 4) % 4;
+                var b = a[1];
+                var refl = false;
+                if(b.StartsWith("x"))
+                {
+                    refl = true;
+                    b = b.Substring(1);
+                }
+                var rotation = ((int.Parse(b) / 90) + 4) % 4;
                 return new Tile(new RotatedTile
                 {
                     Tile = Parse(a[0]),
-                    ReflectX = false,
+                    ReflectX = refl,
                     RotateCw = rotation,
                 });
             }
@@ -223,6 +229,15 @@ namespace DeBroglie.Console
                             ExcludeSides = excludeSides,
                             InvertArea = borderData.InvertArea,
                             Ban = borderData.Ban,
+                        });
+                    }else if (constraint is FixedTileConfig fixedTileConfig)
+                    {
+                        constraints.Add(new FixedTileConstraint
+                        {
+                            Tile = Parse(fixedTileConfig.Tile),
+                            X = fixedTileConfig.X,
+                            Y = fixedTileConfig.Y,
+                            Z = fixedTileConfig.Z,
                         });
                     }
                 }

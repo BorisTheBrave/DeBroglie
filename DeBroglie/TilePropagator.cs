@@ -165,6 +165,12 @@ namespace DeBroglie
         public Topology Topology => topology;
 
         /// <summary>
+        /// The source of randomness
+        /// </summary>
+        public Random Random => wavePropagator.Random;
+
+
+        /// <summary>
         /// The model to use when generating.
         /// </summary>
         public TileModel TileModel => tileModel;

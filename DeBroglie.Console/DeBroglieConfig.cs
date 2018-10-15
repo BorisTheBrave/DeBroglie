@@ -323,4 +323,20 @@ namespace DeBroglie.Console
 
         public bool Ban { get; set; }
     }
+
+    public class FixedTileConfig : ConstraintConfig
+    {
+        public const string TypeString = "fixedTile";
+
+        public override string Type => TypeString;
+
+        public string Tile { get; set; }
+
+        public int? X { get; set; }
+
+        public int? Y { get; set; }
+
+        public int? Z { get; set; }
+
+    }
 }

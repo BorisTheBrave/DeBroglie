@@ -37,6 +37,9 @@ namespace DeBroglie.Console
                     case BorderConfig.TypeString:
                         constraintConfig = new BorderConfig();
                         break;
+                    case FixedTileConfig.TypeString:
+                        constraintConfig = new FixedTileConfig();
+                        break;
                     default:
                         throw new Exception($"Unrecognized constraint type {type}");
                 }
