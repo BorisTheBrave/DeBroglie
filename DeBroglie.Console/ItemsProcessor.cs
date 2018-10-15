@@ -235,9 +235,7 @@ namespace DeBroglie.Console
                         constraints.Add(new FixedTileConstraint
                         {
                             Tile = Parse(fixedTileConfig.Tile),
-                            X = fixedTileConfig.X,
-                            Y = fixedTileConfig.Y,
-                            Z = fixedTileConfig.Z,
+                            Point = fixedTileConfig.Point,
                         });
                     }
                 }

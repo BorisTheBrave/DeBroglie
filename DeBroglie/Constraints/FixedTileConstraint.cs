@@ -7,11 +7,7 @@ namespace DeBroglie.Constraints
     {
         public Tile Tile { get; set; }
 
-        public int? X { get; set; }
-
-        public int? Y { get; set; }
-
-        public int? Z { get; set; }
+        public Point? Point { get; set; }
 
         public Resolution Check(TilePropagator propagator)
         {
@@ -20,21 +16,24 @@ namespace DeBroglie.Constraints
 
         public Resolution Init(TilePropagator propagator)
         {
+            var point = Point ?? GetRandomPoint(propagator);
+
+            propagator.Select(point.X, point.Y, point.Z, Tile);
+
+            return Resolution.Undecided;
+        }
+
+        public Point GetRandomPoint(TilePropagator propagator)
+        {
             var topology = propagator.Topology;
+
             var points = new List<Point>();
             for (var z = 0; z < topology.Depth; z++)
             {
-                if (Z != null && z != Z)
-                    continue;
                 for (var y = 0; y < topology.Height; y++)
                 {
-                    if (Y != null && y != Y)
-                        continue;
                     for (var x = 0; x < topology.Width; x++)
                     {
-                        if (X != null && x != X)
-                            continue;
-
                         if (topology.Mask != null)
                         {
                             var index = topology.GetIndex(x, y, z);
@@ -56,11 +55,8 @@ namespace DeBroglie.Constraints
 
             var i = (int)(propagator.Random.NextDouble() * points.Count);
 
-            var point = points[i];
+            return points[i];
 
-            propagator.Select(point.X, point.Y, point.Z, Tile);
-
-            return Resolution.Undecided;
         }
     }
 }
