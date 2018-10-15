@@ -12,9 +12,13 @@
         {"src": "wall.vox", "value": "wall", "tileSymmetry": "E"},
         {"src": "wall_outer_corner.vox", "value": "wall_outer_corner", "tileSymmetry": "L"},
         {"src": "wall_inner_corner.vox", "value": "wall_inner_corner", "tileSymmetry": "L"},
+        {"src": "solid.vox", "value": "solid", "tileSymmetry": "X"},
         {"src": "wall_top.vox", "value": "wall_top", "tileSymmetry": "E"},
         {"src": "wall_top_outer_corner.vox", "value": "wall_top_outer_corner", "tileSymmetry": "L", "multiplyFrequency": 0.3},
         {"src": "wall_top_inner_corner.vox", "value": "wall_top_inner_corner", "tileSymmetry": "L", "multiplyFrequency": 0.3},
+        {"src": "solid_top.vox", "value": "solid_top", "tileSymmetry": "X"},
+        {"src": "solid_top_with_wall.vox", "value": "solid_top_with_wall", "tileSymmetry": "E"},
+        {"src": "wall_top_with_outer_corner.vox", "value": "wall_top_with_outer_corner"},
     ],
     "adjacencies": [
         {"left": ["ground"], "right": ["ground"]},
@@ -23,9 +27,44 @@
         {"above": ["empty"], "below": ["empty"]},
 
         {"above": ["wall"], "below": ["ground", "wall"]},
-        {"up": ["wall"], "down": ["wall"]},
+
+        // Things that go on the ground
+        {"below": ["ground"], "above": ["wall", "wall_outer_corner", "wall_inner_corner", "solid"]},
+
+        // Stackable items and their tops
+        {"below": ["wall", "solid_top_with_wall"], "above": ["wall", "wall_top", "wall_top_with_outer_corner"]},
+        {"below": ["wall_outer_corner", "wall_top_with_outer_corner"], "above": ["wall_outer_corner", "wall_top_outer_corner"]},
+        {"below": ["wall_inner_corner"], "above": ["wall_inner_corner", "wall_top_inner_corner"]},
+        {"below": ["solid"], "above": ["solid", "solid_top", "solid_top_with_wall"]},
+
+        // Things that are on top
+        {"above": ["empty"], "below": ["wall_top", "wall_top_outer_corner", "wall_top_inner_corner", "solid_top"]},
+
+        // Wall interior
+        {"left": ["wall!180", "wall_inner_corner!180", "wall_inner_corner!270", "solid", "solid_top_with_wall!180"], "right": ["wall", "wall_inner_corner", "wall_inner_corner!90", "solid", "solid_top_with_wall"]},
+
+        // Wall end
+        {"left": ["wall!270", "wall_inner_corner", "wall_outer_corner!270", "wall_top_with_outer_corner!270"], "right": ["wall!270", "wall_inner_corner!270", "wall_outer_corner", "wall_top_with_outer_corner!x90"]},
+
+        // Empty space
+        {"left": ["empty", "wall", "wall_outer_corner", "wall_outer_corner!90", "wall_top_with_outer_corner"], "right": ["empty"]},
+
+        // Wall top interior
+        {"left": ["wall_top!180", "wall_top_inner_corner!180", "wall_top_inner_corner!270", "solid_top", "solid_top_with_wall"], "right": ["wall_top", "wall_top_inner_corner", "wall_top_inner_corner!90", "solid_top", "solid_top_with_wall!180"]},
+
+        // wall top end
+        {"left": ["wall_top!270", "wall_top_inner_corner", "wall_top_outer_corner!270", "wall_top_with_outer_corner!x90"], "right": ["wall_top!270", "wall_top_inner_corner!270", "wall_top_outer_corner", "wall_top_with_outer_corner!270"]},
+
+        // Empty space
+        {"left": ["empty", "wall_top", "wall_top_outer_corner", "wall_top_outer_corner!90"], "right": ["empty"]},
+
+        // Wall top interior with outer corner
+        {"left": ["wall_top_with_outer_corner!x0", "solid_top_with_wall!270"], "right": [ "wall_top_with_outer_corner", "solid_top_with_wall!270"]},
+        
+
+        /*
         {"left": ["wall"], "right": ["empty"]},
-        {"left": ["empty"], "right": ["wall"]},
+        {"left": ["wall!180"], "right": ["wall"]},
 
         {"above": ["wall_outer_corner"], "below": ["ground", "wall_outer_corner"]},
         {"left": ["wall!270"], "right": ["wall_outer_corner"]},
@@ -57,6 +96,7 @@
         {"right": ["wall_top_inner_corner"], "left": ["empty"]},
         {"down": ["wall_top_inner_corner"], "up": ["wall_top"]},
         {"down": ["empty"], "up": ["wall_top_inner_corner"]},
+        */
     ],
 
     "ground": "ground",
