@@ -19,6 +19,8 @@
         {"src": "solid_top.vox", "value": "solid_top", "tileSymmetry": "X"},
         {"src": "solid_top_with_wall.vox", "value": "solid_top_with_wall", "tileSymmetry": "E"},
         {"src": "wall_top_with_outer_corner.vox", "value": "wall_top_with_outer_corner"},
+        {"src": "turret.vox", "value": "turret", "tileSymmetry": "L"},
+        {"src": "turret_top.vox", "value": "turret_top", "tileSymmetry": "L"},
     ],
     "adjacencies": [
         {"left": ["ground"], "right": ["ground"]},
@@ -33,12 +35,14 @@
 
         // Stackable items and their tops
         {"below": ["wall", "solid_top_with_wall"], "above": ["wall", "wall_top", "wall_top_with_outer_corner"]},
-        {"below": ["wall_outer_corner", "wall_top_with_outer_corner"], "above": ["wall_outer_corner", "wall_top_outer_corner"]},
+        {"below": ["wall_outer_corner", "wall_top_with_outer_corner"], "above": ["wall_outer_corner", "wall_top_outer_corner", "turret"]},
         {"below": ["wall_inner_corner"], "above": ["wall_inner_corner", "wall_top_inner_corner"]},
         {"below": ["solid"], "above": ["solid", "solid_top", "solid_top_with_wall"]},
+        {"below": ["turret"], "above": ["turret_top"]},
+
 
         // Things that are on top
-        {"above": ["empty"], "below": ["wall_top", "wall_top_outer_corner", "wall_top_inner_corner", "solid_top"]},
+        {"above": ["empty"], "below": ["wall_top", "wall_top_outer_corner", "wall_top_inner_corner", "solid_top", "turret_top"]},
 
         // Wall interior
         {"left": ["wall!180", "wall_inner_corner!180", "wall_inner_corner!270", "solid", "solid_top_with_wall!180"], "right": ["wall", "wall_inner_corner", "wall_inner_corner!90", "solid", "solid_top_with_wall"]},
@@ -56,47 +60,17 @@
         {"left": ["wall_top!270", "wall_top_inner_corner", "wall_top_outer_corner!270", "wall_top_with_outer_corner!x90"], "right": ["wall_top!270", "wall_top_inner_corner!270", "wall_top_outer_corner", "wall_top_with_outer_corner!270"]},
 
         // Empty space
-        {"left": ["empty", "wall_top", "wall_top_outer_corner", "wall_top_outer_corner!90"], "right": ["empty"]},
+        {"left": ["empty", "wall_top", "wall_top_outer_corner", "wall_top_outer_corner!90", "turret", "turret!90", "turret_top", "turret_top!90"], "right": ["empty"]},
 
         // Wall top interior with outer corner
         {"left": ["wall_top_with_outer_corner!x0", "solid_top_with_wall!270"], "right": [ "wall_top_with_outer_corner", "solid_top_with_wall!270"]},
-        
 
-        /*
-        {"left": ["wall"], "right": ["empty"]},
-        {"left": ["wall!180"], "right": ["wall"]},
+        // Turret
+        {"left": ["turret!270"], "right": [ "turret"]},
 
-        {"above": ["wall_outer_corner"], "below": ["ground", "wall_outer_corner"]},
-        {"left": ["wall!270"], "right": ["wall_outer_corner"]},
-        {"left": ["wall_outer_corner"], "right": ["empty"]},
-        {"up": ["wall_outer_corner"], "down": ["wall"]},
-        {"up": ["empty"], "down": ["wall_outer_corner"]},
-        
-        {"above": ["wall_inner_corner"], "below": ["ground", "wall_inner_corner"]},
-        {"right": ["wall!270"], "left": ["wall_inner_corner"]},
-        {"right": ["wall_inner_corner"], "left": ["empty"]},
-        {"down": ["wall_inner_corner"], "up": ["wall"]},
-        {"down": ["empty"], "up": ["wall_inner_corner"]},
-        {"above": ["wall_top"], "below": ["wall"]},
-        {"above": ["empty"], "below": ["wall_top"]},
-        {"up": ["wall_top"], "down": ["wall_top"]},
-        {"left": ["wall_top"], "right": ["empty"]},
-        {"left": ["empty"], "right": ["wall_top"]},
+        // Turret top
+        {"left": ["turret_top!270"], "right": [ "turret_top"]},
 
-        {"above": ["wall_top_outer_corner"], "below": ["wall_outer_corner"]},
-        {"above": ["empty"], "below": ["wall_top_outer_corner"]},
-        {"left": ["wall_top!270"], "right": ["wall_top_outer_corner"]},
-        {"left": ["wall_top_outer_corner"], "right": ["empty"]},
-        {"up": ["wall_top_outer_corner"], "down": ["wall_top"]},
-        {"up": ["empty"], "down": ["wall_top_outer_corner"]},
-
-        {"above": ["wall_top_inner_corner"], "below": ["wall_inner_corner"]},
-        {"above": ["empty"], "below": ["wall_top_inner_corner"]},
-        {"right": ["wall_top!270"], "left": ["wall_top_inner_corner"]},
-        {"right": ["wall_top_inner_corner"], "left": ["empty"]},
-        {"down": ["wall_top_inner_corner"], "up": ["wall_top"]},
-        {"down": ["empty"], "up": ["wall_top_inner_corner"]},
-        */
     ],
 
     "ground": "ground",
@@ -105,6 +79,6 @@
             "type": "border",
             "tile": "empty",
             "excludeSides": "zmin"
-        }
+        },
     ]
 }
