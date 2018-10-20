@@ -80,5 +80,10 @@
             "tile": "empty",
             "excludeSides": "zmin"
         },
+        {
+            "type": "fixedTile",
+            "tile": "turret_top",
+            "point": {"x": 5, "y": 4, "z": 8}
+        },
     ]
 }

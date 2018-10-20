@@ -133,6 +133,7 @@ For each affected location, BorderConstratin calls [Select](xref:DeBroglie.TileP
 <figcaption>Using a border constraint ensures that none of the blue leaves the edge, forcing loops.</figcaption>
 </figure>
 
+
 ### Path
 
 The <xref:DeBroglie.Constraints.PathConstraint> checks that it is possible to connect several locations together via a continuous path of adjacent tiles. It does this by banning any tile placement that would make such a path impossible.
@@ -153,6 +154,20 @@ By default, <xref:DeBroglie.Constraints.PathConstraint> forces all path tiles to
 <img src="../images/pathway_overlapping_path.png"/>
 </a>
 <figcaption>Using a path constraint ensures you can trace a path from any blue pixel to any other one.</figcaption>
+</figure>
+
+### Fixed Tile
+
+The <xref:DeBroglie.Constraints.FixedTileConstraint> class forces a given location to be the specified Tile at initialization. If you don't specify a location, a random legal location is chosen.
+
+You can use <xref:DeBroglie.Constraints.FixedTileConstraint> to force certain features to always be generated.
+
+<figure>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/castle/castle.json">
+<video src="../images/castle_fixed.webm" autoplay loop>
+</a>
+</video>
+<figcaption>Several castles all generated with a fixed turret location</figcaption>
 </figure>
 
 ### Custom Constraints
