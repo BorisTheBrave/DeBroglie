@@ -6,9 +6,9 @@ using System.Linq;
 using TiledLib;
 using TiledLib.Layer;
 
-namespace DeBroglie.Console
+namespace DeBroglie.Console.Import
 {
-    public class TiledMapLoader : ISampleSetLoader
+    public class TiledMapImporter : ISampleSetImporter
     {
         internal static void AddTileset(IDictionary<string, Tile> tilesByName, ITileset tileset)
         {

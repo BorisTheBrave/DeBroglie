@@ -1,15 +1,16 @@
-﻿using DeBroglie.Console.Export;
+﻿using DeBroglie.Console.Config;
+using DeBroglie.Console.Export;
 using DeBroglie.Models;
 using System.IO;
 using TiledLib;
 using TiledLib.Layer;
 
-namespace DeBroglie.Console
+namespace DeBroglie.Console.Export
 {
 
-    public class TiledMapSaver : ISampleSetSaver
+    public class TiledMapExporter : IExporter
     {
-        public void Save(TileModel model, TilePropagator tilePropagator, string filename, DeBroglieConfig config, ExportOptions exportOptions)
+        public void Export(TileModel model, TilePropagator tilePropagator, string filename, DeBroglieConfig config, ExportOptions exportOptions)
         {
             var tiledExportOptions = exportOptions as TiledExportOptions;
             if(tiledExportOptions == null)

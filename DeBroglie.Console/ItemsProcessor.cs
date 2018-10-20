@@ -1,4 +1,6 @@
-﻿using DeBroglie.Console.Export;
+﻿using DeBroglie.Console.Config;
+using DeBroglie.Console.Export;
+using DeBroglie.Console.Import;
 using DeBroglie.Constraints;
 using DeBroglie.MagicaVoxel;
 using DeBroglie.Models;
@@ -13,33 +15,15 @@ using System.Linq;
 
 namespace DeBroglie.Console
 {
-    public interface ISampleSetLoader
-    {
-        SampleSet Load(string filename);
-
-        Tile Parse(string tile);
-    }
-
-    public class SampleSet
-    {
-        public Directions Directions { get; set; }
-        public ITopoArray<Tile>[] Samples { get; set; }
-        public IDictionary<string, Tile> TilesByName { get; set; }
-        public ExportOptions ExportOptions { get; set; }
-
-    }
-
 
     public class ItemsProcessor
     {
-        private readonly ISampleSetLoader loader;
-        private readonly ISampleSetSaver saver;
+        private readonly ISampleSetImporter loader;
         private readonly DeBroglieConfig config;
 
-        public ItemsProcessor(ISampleSetLoader loader, ISampleSetSaver saver, DeBroglieConfig config)
+        public ItemsProcessor(ISampleSetImporter loader, DeBroglieConfig config)
         {
             this.loader = loader;
-            this.saver = saver;
             this.config = config;
         }
 
@@ -151,11 +135,6 @@ namespace DeBroglie.Console
             {
                 return new Tile(s);
             }
-        }
-
-        public void Save(TileModel model, TilePropagator tilePropagator, string filename, ExportOptions exportOptions)
-        {
-            saver.Save(model, tilePropagator, filename, config, exportOptions);
         }
 
         private static TileModel GetModel(DeBroglieConfig config, Directions directions, ITopoArray<Tile>[] samples, TileRotation tileRotation)
@@ -361,13 +340,13 @@ namespace DeBroglie.Console
             if (status == Resolution.Decided)
             {
                 System.Console.WriteLine($"Writing {dest}");
-                Save(model, propagator, dest, sampleSet.ExportOptions);
+                Exporter.Export(model, propagator, dest, config, sampleSet.ExportOptions);
                 File.Delete(contdest);
             }
             else
             {
                 System.Console.WriteLine($"Writing {contdest}");
-                Save(model, propagator, contdest, sampleSet.ExportOptions);
+                Exporter.Export(model, propagator, contdest, config, sampleSet.ExportOptions);
                 File.Delete(dest);
             }
         }
@@ -378,7 +357,7 @@ namespace DeBroglie.Console
             {
                 return propagator.Run();
             }
-            // Animate is true - we run the propagator, and save after every step
+            // Animate is true - we run the propagator, and export after every step
             Resolution status = Resolution.Undecided;
             var allFiles = new List<string>();
             int i = 0;
@@ -388,7 +367,7 @@ namespace DeBroglie.Console
                 Directory.CreateDirectory(Path.GetDirectoryName(dest));
                 var currentDest = Path.ChangeExtension(dest, i + Path.GetExtension(dest));
                 allFiles.Add(currentDest);
-                Save(model, propagator, currentDest, exportOptions);
+                Exporter.Export(model, propagator, currentDest, config, exportOptions);
                 i++;
                 if (status != Resolution.Undecided) return status;
             }
@@ -466,66 +445,6 @@ namespace DeBroglie.Console
             }
         }
 
-        private static ISampleSetLoader GetLoader(string filename)
-        {
-            if (filename == null)
-            {
-                return null;
-            }
-            else if (filename.EndsWith(".png"))
-            {
-                return new BitmapLoader();
-            }
-            else if (filename.EndsWith(".tmx"))
-            {
-                return new TiledMapLoader();
-            }
-            else if (filename.EndsWith(".tsx"))
-            {
-                return new TiledTilesetLoader();
-            }
-            else if (filename.EndsWith(".vox"))
-            {
-                return new MagicaVoxelLoader();
-            }
-            else
-            {
-                throw new System.Exception($"Loading {Path.GetExtension(filename)} files not supported.");
-            }
-        }
-
-        private static ISampleSetSaver GetSaver(string filename)
-        {
-            if (filename == null)
-            {
-                throw new Exception("dest should be provided.");
-            }
-            else if (filename.EndsWith(".png"))
-            {
-                return new BitmapSaver();
-            }
-            else if (filename.EndsWith(".tmx"))
-            {
-                return new TiledMapSaver();
-            }
-            else if (filename.EndsWith(".tsx"))
-            {
-                return new TiledMapSaver();
-            }
-            else if (filename.EndsWith(".vox"))
-            {
-                return new MagicaVoxelSaver();
-            }
-            else if (filename.EndsWith(".csv"))
-            {
-                return new CsvSaver();
-            }
-            else
-            {
-                throw new System.Exception($"Saving {Path.GetExtension(filename)} files not supported.");
-            }
-        }
-
         public static void Process(string filename)
         {
             var directory = Path.GetDirectoryName(filename);
@@ -533,10 +452,9 @@ namespace DeBroglie.Console
                 directory = ".";
             var config = LoadItemsFile(filename);
             config.BaseDirectory = config.BaseDirectory == null ? directory : Path.Combine(directory, config.BaseDirectory);
-            var loader = GetLoader(config.Src);
-            var saver = GetSaver(config.Dest);
+            var importer = Importer.GetImporter(config.Src);
 
-            var processor = new ItemsProcessor(loader, saver, config);
+            var processor = new ItemsProcessor(importer, config);
             processor.ProcessItem();
         }
     }

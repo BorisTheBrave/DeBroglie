@@ -3,9 +3,9 @@ using DeBroglie.MagicaVoxel;
 using DeBroglie.Topo;
 using System.IO;
 
-namespace DeBroglie.Console
+namespace DeBroglie.Console.Import
 {
-    public class MagicaVoxelLoader : ISampleSetLoader
+    public class MagicaVoxelImporter : ISampleSetImporter
     {
         public SampleSet Load(string filename)
         {

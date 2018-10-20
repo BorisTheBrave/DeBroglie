@@ -1,4 +1,5 @@
-﻿using DeBroglie.Console.Export;
+﻿using DeBroglie.Console.Config;
+using DeBroglie.Console.Export;
 using DeBroglie.Models;
 using DeBroglie.Topo;
 using System;
@@ -6,12 +7,12 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
-namespace DeBroglie.Console
+namespace DeBroglie.Console.Export
 {
 
-    public class BitmapSaver : ISampleSetSaver
+    public class BitmapExporter : IExporter
     { 
-        public void Save(TileModel model, TilePropagator propagator, string filename, DeBroglieConfig config, ExportOptions exportOptions)
+        public void Export(TileModel model, TilePropagator propagator, string filename, DeBroglieConfig config, ExportOptions exportOptions)
         {
             if (config.Animate)
             {

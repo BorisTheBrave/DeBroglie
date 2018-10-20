@@ -50,25 +50,29 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BitmapLoader.cs" />
-    <Compile Include="BitmapSaver.cs" />
+    <Compile Include="Export\BitmapExporter.cs" />
     <Compile Include="BitmapUtils.cs" />
     <Compile Include="ConsoleUtils.cs" />
-    <Compile Include="ConstraintArrayConverter.cs" />
-    <Compile Include="CsvSaver.cs" />
-    <Compile Include="DeBroglieConfig.cs" />
+    <Compile Include="Config\ConstraintArrayConverter.cs" />
+    <Compile Include="Config\DeBroglieConfig.cs" />
+    <Compile Include="Export\CsvExporter.cs" />
+    <Compile Include="Export\Exporter.cs" />
     <Compile Include="Export\ExportOptions.cs" />
-    <Compile Include="ISampleSetSaver.cs" />
+    <Compile Include="Export\IExporter.cs" />
+    <Compile Include="Export\TiledMapExporter.cs" />
+    <Compile Include="Import\BitmapImporter.cs" />
+    <Compile Include="Import\Importer.cs" />
+    <Compile Include="Import\ISampleSetImporter.cs" />
+    <Compile Include="Import\MagicaVoxelImporter.cs" />
+    <Compile Include="Import\TiledMapImporter.cs" />
+    <Compile Include="Import\TiledTilesetImporter.cs" />
     <Compile Include="ItemsProcessor.cs" />
-    <Compile Include="MagicaVoxelLoader.cs" />
-    <Compile Include="MagicaVoxelSaver.cs" />
-    <Compile Include="ModelConverter.cs" />
+    <Compile Include="Export\MagicaVoxelExporter.cs" />
+    <Compile Include="Config\ModelConverter.cs" />
     <Compile Include="MoreTopoArrayUtils.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TiledMapLoader.cs" />
-    <Compile Include="TiledMapSaver.cs" />
-    <Compile Include="TiledTilesetLoader.cs" />
+    <Compile Include="Import\SampleSet.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -84,5 +88,6 @@
       <Name>DeBroglie</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

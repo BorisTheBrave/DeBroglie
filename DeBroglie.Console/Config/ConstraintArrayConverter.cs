@@ -3,7 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 
-namespace DeBroglie.Console
+namespace DeBroglie.Console.Config
 {
     public class ConstraintArrayConverter : JsonConverter
     {

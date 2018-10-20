@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using TiledLib;
 
-namespace DeBroglie.Console
+namespace DeBroglie.Console.Import
 {
-    public class TiledTilesetLoader : ISampleSetLoader
+    public class TiledTilesetImporter : ISampleSetImporter
     {
         public SampleSet Load(string filename)
         {
@@ -23,7 +23,7 @@ namespace DeBroglie.Console
                 RenderOrder = RenderOrder.rightdown,
             };
             var tilesByName = new Dictionary<string, Tile>();
-            TiledMapLoader.AddTileset(tilesByName, tileset);
+            TiledMapImporter.AddTileset(tilesByName, tileset);
             // TODO: Other directions
             var directions = Directions.Cartesian2d;
             map.Orientation = Orientation.orthogonal;

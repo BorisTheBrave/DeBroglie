@@ -1,16 +1,17 @@
-﻿using DeBroglie.Console.Export;
+﻿using DeBroglie.Console.Config;
+using DeBroglie.Console.Export;
 using DeBroglie.MagicaVoxel;
 using DeBroglie.Models;
 using DeBroglie.Topo;
 using System.IO;
 using System.Linq;
 
-namespace DeBroglie.Console
+namespace DeBroglie.Console.Export
 {
 
-    public class MagicaVoxelSaver : ISampleSetSaver
+    public class MagicaVoxelExporter : IExporter
     { 
-        public void Save(TileModel model, TilePropagator tilePropagator, string filename, DeBroglieConfig config, ExportOptions exportOptions)
+        public void Export(TileModel model, TilePropagator tilePropagator, string filename, DeBroglieConfig config, ExportOptions exportOptions)
         {
             Vox vox;
             ITopoArray<byte> array;

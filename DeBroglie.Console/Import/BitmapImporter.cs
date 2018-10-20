@@ -2,9 +2,9 @@
 using System;
 using System.Drawing;
 
-namespace DeBroglie.Console
+namespace DeBroglie.Console.Import
 {
-    public class BitmapLoader : ISampleSetLoader
+    public class BitmapImporter : ISampleSetImporter
     {
 
         public SampleSet Load(string filename)

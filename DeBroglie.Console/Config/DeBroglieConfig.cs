@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DeBroglie.Console
+namespace DeBroglie.Console.Config
 {
 
     public enum SrcType

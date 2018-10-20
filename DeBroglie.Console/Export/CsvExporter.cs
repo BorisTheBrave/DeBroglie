@@ -1,12 +1,12 @@
-﻿using DeBroglie.Console.Export;
+﻿using DeBroglie.Console.Config;
 using DeBroglie.Models;
 using System.IO;
 
-namespace DeBroglie.Console
+namespace DeBroglie.Console.Export
 {
-    public class CsvSaver : ISampleSetSaver
+    public class CsvExporter : IExporter
     {
-        public void Save(TileModel model, TilePropagator tilePropagator, string filename, DeBroglieConfig config, ExportOptions exportOptions)
+        public void Export(TileModel model, TilePropagator tilePropagator, string filename, DeBroglieConfig config, ExportOptions exportOptions)
         {
             var array = tilePropagator.ToArray(new Tile("?"), new Tile("!"));
             using (var s = File.OpenWrite(filename))

@@ -2,7 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 
-namespace DeBroglie.Console
+namespace DeBroglie.Console.Config
 {
 
     public class ModelConverter : JsonConverter
