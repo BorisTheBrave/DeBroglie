@@ -12,7 +12,7 @@ title: Release Notes
 * Direct specification of adjacencies.
 * Generated tile rotations mostly working.
 * Default tile rotation treatment is now Unchanged. [breaking]
-* Added FixedTileConstraint.
+* Added [FixedTileConstraint](xref:DeBroglie.Constraints.FixedTileConstraint).
 
 # v0.1
 

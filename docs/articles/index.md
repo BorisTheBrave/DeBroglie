@@ -44,9 +44,10 @@ DeBroglie uses the core idea mostly unchanged, though enhanced in various ways e
 Usage
 ---------------
 
-To use DeBroglie, you start with a simple image or tilemap you want to generalize.
+To use DeBroglie, select one of the [models](features.md#models) that controls the generation process. 
 
-Then, select one of the [models](features.md#models) that controls the generation process. 
+You then give the model a sample array want to generalize. Or you can [specify a model directly](adjacency.md).
+
 There's lot of [features](features.md) that can be applied at this point.
 
 The last detail needed is the size of the output image desired.

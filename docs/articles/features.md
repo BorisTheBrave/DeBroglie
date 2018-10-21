@@ -12,7 +12,7 @@ Key Concepts
 
 **<xref:DeBroglie.Topo.Topology>** - Specifies an area or volume of [space](https://en.wikipedia.org/wiki/Discrete_space) and how to navigate it. There's more detail in the [topology section](#topology).
 
-**<xref:DeBroglie.Topo.ITopoArray`1>** - A 2d or 3d read-only array with one entry per space in the corresponding @DeBroglie.Topo.Topology. They are used as both the input and output format for the library. You can construct these with methods on @DeBroglie.Topo.TopoArray. ITopoArray objects can also have a mask associated with them, indicating missing values.
+**<xref:DeBroglie.Topo.ITopoArray`1>** - A 2d or 3d read-only array with one entry per space in the corresponding @DeBroglie.Topo.Topology. They are used as both the input and output format for the library. You can construct these with methods on @DeBroglie.Topo.TopoArray. ITopoArray objects can optionally have a mask associated with them, indicating missing values.
 
 **[Model](xref:DeBroglie.Models.TileModel)** - A model specifies constraints between nearby tiles in the generated output. See [models](#models) for more info.
 
@@ -34,7 +34,7 @@ Models have only have a few parameters - most information is inferred by giving 
 a list of tiles that can be placed next to it in each direction. The list is always symmetric, i.e. if it is legal to place tile B directly above tile A, 
 then it is legal to place A directly below B.
 
-Adding a sample to an adjacent model adds all adjacent tile pairs in the sample into the legal adjacency lists. You can also directly specify adjacent tile pairs using the various overloads of <a href="xref:DeBroglie.Models.AdjacentModel.AddAdjacency(DeBroglie.Tile,DeBroglie.Tile,System.Int32,System.Int32,System.Int32)">AddAjacency</a>.
+Adding a sample to an adjacent model adds all adjacent tile pairs in the sample into the legal adjacency lists. You can also [directly specify adjacent tile pairs](adjacency.md).
 
 The adjacenct model is very "loose" - it doesn't constrain the choice of tiles as much as the overlapping model. This makes it a good choice
 when the relationship between tiles is very complex, or you are adding a lot other [constraints](#constraints) directly.

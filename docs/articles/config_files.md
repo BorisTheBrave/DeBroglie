@@ -125,7 +125,7 @@ There are several rotation/reflection based fields, see the [Rotation section](x
 
 ### Tile References
 
-Various parts of the config expect a reference to a tile. Tile references can either be the name of a tile, or the value. Names and values of tiles depend on what file format is being used.
+Various parts of the config expect a reference to a tile. Tile references can either be the name of a tile, or the value. Names and values of tiles depend on what sample file format is being used.
 
 **Bitmap** - Tile values are colors, and can be expressed as a HTML style hex code, e.g. `"#FF0000"`.
 
@@ -133,10 +133,12 @@ Various parts of the config expect a reference to a tile. Tile references can ei
 
 **MagicaVoxel** - Tile values are palette indices (a value between 0 and 255). Using zero means the empty voxel.
 
+When using file sets, the value of a tile is taken from the `value` property of the tile config.
+
 ### Adjacency Config
 
 Adjacency config is a way of configuring the [adjacent model](features.md#adjacent) without using sample inputs. You set an array of adjacency entries,
-where each entry adds extra permissible neighbours for some tiles in some directions. 
+where each entry adds extra permissible neighbours for some tiles in some directions. Further details can be found on the [Adjacency page](adjacency.md).
 
 Each adjacency entry it composed of two named lists of [Tile references](#tile-references). Specifically, they take one of three forms:
 
@@ -154,23 +156,56 @@ A tile must be listed at least once in every relevant direction, or else it'll h
 As documented in [here](xref:DeBroglie.Models.AdjacentModel.AddAdjacency(System.Collections.Generic.IList{DeBroglie.Tile},System.Collections.Generic.IList{DeBroglie.Tile},System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean,DeBroglie.TileRotation), if there are rotations specified for tiles, then adjacencies are added for the rotated pairs as appropriate.
 
 
-File formats
+Import / Export File formats
 ------------
 
-When specifying the `src` property, you can load files from a number of different sources. `dest` is written to in the same format. In each case DeBroglie tries to handle the format sensibly, which means there are some notes particular to each format.
+DeBroglie supports reading and writing to a wide variety of formats. There are two sorts of inputs: **samples**, which are single files containing an arrangment of tiles, and **file sets** which are a collection of files, one per tile.
 
-### Bitmap
+Samples are specified by setting the `src` property in the config. File sets are specified by setting the `src` property for each tile in the `tiles` array. When using file sets, there is no data for the model to learn from, so you must manually specify the model as documented in [Adjacency](#adjacency-config).
 
-When loading bitmaps (or pngs), each pixel is assumed to be one tile, with the color desribing which tile.
+### Supported formats
+
+Not all formats can be converted between. You must pick file extensions for
+`src` and `dest` fields to match the following table.
+
+<table>
+<tr><td></td><td colspan="6">Inputs</td></tr>
+<tr><td></td><td colspan="4">Samples</td><td colspan="2">File sets</td></tr>
+<tr><td></td><td>Bitmap (.png)</td><td>Tiled Map(.tmx)</td><td>Tiled Tileset (.tsx)</td><td>MagicaVoxel (.vox)</td><td>File set of Bitmap (.png)</td><td>File set of MagicaVoxel (.vox)</td></tr>
+<tr><td>Outputs</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>.csv</td><td>&#x2713;</td><td>&#x2713;</td><td>&#x2713;</td><td>&#x2713;</td><td>&#x2713;</td><td>&#x2713;</td></tr>
+<tr><td>.png</td><td>&#x2713;</td><td></td><td></td><td></td><td>&#x2713;</td><td></td></tr>
+<tr><td>.tmx</td><td></td><td>&#x2713;</td><td>&#x2713;</td><td></td><td></td><td></td></tr>
+<tr><td>.vox</td><td></td><td></td><td></td><td>&#x2713;</td><td></td><td>&#x2713;</td></tr>
+</table>
+
+### Format details
+
+Most formats have special properties and limitations, those are listed below.
+
+#### Csv
+
+This is a very basic export format.
+
+Values are delimited with commas along the x-axis, and then new lines along the y-axis.
+If 3d, then the plane z=0 is dumped first, then a new line, then z=1 and so on.
+
+#### Bitmap
+
+When loading bitmap samples, each pixel is assumed to be one tile, with the color being the tile value. If you want each tile to have it's own bitmap, you must use a file set of bitmaps by specifying a `src` value for each tile in the `tiles` array.
 
 Additionally, the `animate` setting behaves differently for bitmaps. Uncertain tiles will be drawn as a color blend of all possible tiles.
 
-### Tiled
+#### Tiled
 
 [Tiled](https://www.mapeditor.org/) .tmx files are supported, though Tiled has many features that are ignored. Both square and hex grids can be read. If there are multiple layers in a square grid, then they are taken to be a 3d topology.
 
-You can also load .tsx files (Tiled tilesets). As these do not come with a map to use as sample input, you must set [adjacencies](#adjacency-config) instead. The output is a .tmx file referencing the .tsx.
+You can also load .tsx files (Tiled tilesets). As these do not come with a map to use as sample input, you must set [adjacencies](#adjacency-config) instead.
 
-### MagicaVoxel
+Tile rotations in Tiled are supported in DeBroglie. They are treated like "generated" tiles as described on the [Rotation page](rotation.md).
 
-[MagicaVoxel](http://magicavoxel.net/) .vox files are supported. Each voxel becomes one tile. You must abide to the limits of the format when using this, specifically there can only be 255 different tiles (plus the empty tile), and the maximum dimension generated is a cube of size 126.
+#### MagicaVoxel
+
+[MagicaVoxel](http://magicavoxel.net/) .vox files are supported. As a sample, each voxel becomes one tile. If you want each tile to have it's own cube of voxels, you must use a file set of voxels by specifying a `src` value for each tile in the `tiles` array.
+
+You must abide to the limits of the format when using this, specifically there can only be 255 different tiles (plus the empty tile), and the maximum dimension generated is a cube of size 126.
