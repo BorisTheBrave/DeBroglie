@@ -174,7 +174,7 @@ Not all formats can be converted between. You must pick file extensions for
 <tr><td></td><td>Bitmap (.png)</td><td>Tiled Map(.tmx)</td><td>Tiled Tileset (.tsx)</td><td>MagicaVoxel (.vox)</td><td>File set of Bitmap (.png)</td><td>File set of MagicaVoxel (.vox)</td></tr>
 <tr><td>Outputs</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 <tr><td>.csv</td><td>&#x2713;</td><td>&#x2713;</td><td>&#x2713;</td><td>&#x2713;</td><td>&#x2713;</td><td>&#x2713;</td></tr>
-<tr><td>.png</td><td>&#x2713;</td><td></td><td></td><td></td><td>&#x2713;</td><td></td></tr>
+<tr><td>.png</td><td>&#x2713;</td><td>&#x2713;</td><td>&#x2713;</td><td></td><td>&#x2713;</td><td></td></tr>
 <tr><td>.tmx</td><td></td><td>&#x2713;</td><td>&#x2713;</td><td></td><td></td><td></td></tr>
 <tr><td>.vox</td><td></td><td></td><td></td><td>&#x2713;</td><td></td><td>&#x2713;</td></tr>
 </table>

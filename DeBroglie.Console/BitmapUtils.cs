@@ -48,5 +48,21 @@ namespace DeBroglie.Console
             }
             return Color.FromArgb(alpha / n, red / n, green / n, blue / n);
         }
+
+        public static Bitmap Slice(Bitmap b, int x, int y, int width, int height)
+        {
+            var newImage = new Bitmap(width, height);
+            Blit(newImage, b, 0, 0, x, y, width, height);
+            return newImage;
+        }
+
+        public static void Blit(Bitmap dest, Bitmap src, int destX, int destY, int srcX, int srcY, int width, int height)
+        {
+            var graphics = Graphics.FromImage(dest);
+            var size = new SizeF(width, height);
+            var dstRect = new RectangleF(new PointF(destX, destY), size);
+            var srcRect = new RectangleF(new PointF(srcX, srcY), size);
+            graphics.DrawImage(src, dstRect, srcRect, GraphicsUnit.Pixel);
+        }
     }
 }
