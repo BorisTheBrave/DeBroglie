@@ -4,6 +4,8 @@
   href: features.md
 - name: Rotation
   href: rotation.md
+- name: Adjacency
+  href: adjacency.md
 - name: Using the Command Line
   href: config_files.md
 - name: FAQ
