@@ -29,12 +29,12 @@ Some examples post processing applied to them, either using <a href="https://eph
 </figure>
 
 <figure>
-<a href="../images/columns_out.png"><img src="../images/columns_out.png"/></a>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/columns.json"><img src="../images/columns_out.png"/></a>
 <figcaption>Simple voxel example. <a href="https://github.com/sylefeb/VoxModSynth">Inspired by VoxModSynth</a></figcaption>
 </figure>
 
 <figure>
-<a href="../images/hexmini_out.png"><img src="../images/hexmini_out.png"/></a>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/hexmini.json"><img src="../images/hexmini_out.png"/></a>
 <figcaption>Generate hexagonal layouts. <a href="http://opengameart.org/content/pixel-hex-tilesets-enhanced">Tiles by pixel32</a></figcaption>
 </figure>
 
