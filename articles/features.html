@@ -73,7 +73,7 @@
 <p><strong>2d/3d</strong> - DeBroglie works for both 2d and 3d generation, by selecting an appropriate <a class="xref" href="../api/DeBroglie.Topo.Topology.html">Topology</a>. Generally, most APIs accept <code>(x,y,z)</code> co-ordinates - the <code>z</code> value should just be 0 if you are working in 2d.</p>
 <p><strong><a class="xref" href="../api/DeBroglie.Tile.html">Tile</a></strong> - The individual units the generation algorithm works with. Tiles wrap a value of any type, but they are usually an integer index into a tileset, or a <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.drawing.color">Color</a> when working with bitmaps. The value isn't important, all relevant information about a tile is stored externally.</p>
 <p><strong><a class="xref" href="../api/DeBroglie.Topo.Topology.html">Topology</a></strong> - Specifies an area or volume of <a href="https://en.wikipedia.org/wiki/Discrete_space">space</a> and how to navigate it. There's more detail in the <a href="#topology">topology section</a>.</p>
-<p><strong><a class="xref" href="../api/DeBroglie.Topo.ITopoArray-1.html">ITopoArray&lt;T&gt;</a></strong> - A 2d or 3d read-only array with one entry per space in the corresponding <a class="xref" href="../api/DeBroglie.Topo.Topology.html">Topology</a>. They are used as both the input and output format for the library. You can construct these with methods on <a class="xref" href="../api/DeBroglie.Topo.TopoArray.html">TopoArray</a>. ITopoArray objects can also have a mask associated with them, indicating missing values.</p>
+<p><strong><a class="xref" href="../api/DeBroglie.Topo.ITopoArray-1.html">ITopoArray&lt;T&gt;</a></strong> - A 2d or 3d read-only array with one entry per space in the corresponding <a class="xref" href="../api/DeBroglie.Topo.Topology.html">Topology</a>. They are used as both the input and output format for the library. You can construct these with methods on <a class="xref" href="../api/DeBroglie.Topo.TopoArray.html">TopoArray</a>. ITopoArray objects can optionally have a mask associated with them, indicating missing values.</p>
 <p><strong><a class="xref" href="../api/DeBroglie.Models.TileModel.html">Model</a></strong> - A model specifies constraints between nearby tiles in the generated output. See <a href="#models">models</a> for more info.</p>
 <p><strong><a class="xref" href="../api/DeBroglie.TilePropagator.html">Propagator</a></strong> - A propogator is responsible for generating an output that satifies the constraints specified by the <a class="xref" href="../api/DeBroglie.Models.TileModel.html">model</a> and other <a class="xref" href="../api/DeBroglie.Constraints.ITileConstraint.html">constraints</a>.</p>
 <h1 id="features">Features</h1>
@@ -84,7 +84,7 @@
 <p><a class="xref" href="../api/DeBroglie.Models.AdjacentModel.html">AdjacentModel</a> constrains which tiles can be placed adjacent to which other ones. It does so by maintaining for each tile,
 a list of tiles that can be placed next to it in each direction. The list is always symmetric, i.e. if it is legal to place tile B directly above tile A,
 then it is legal to place A directly below B.</p>
-<p>Adding a sample to an adjacent model adds all adjacent tile pairs in the sample into the legal adjacency lists.</p>
+<p>Adding a sample to an adjacent model adds all adjacent tile pairs in the sample into the legal adjacency lists. You can also <a href="adjacency.html">directly specify adjacent tile pairs</a>.</p>
 <p>The adjacenct model is very &quot;loose&quot; - it doesn't constrain the choice of tiles as much as the overlapping model. This makes it a good choice
 when the relationship between tiles is very complex, or you are adding a lot other <a href="#constraints">constraints</a> directly.</p>
 <p><strong>Example</strong></p>
@@ -99,7 +99,7 @@ when the relationship between tiles is very complex, or you are adding a lot oth
 <h3 id="overlapping">Overlapping</h3>
 <p><a class="xref" href="../api/DeBroglie.Models.OverlappingModel.html">OverlappingModel</a> constrains that every <code>n</code> by <code>n</code> rectangle in the output is a copy of a rectangle taken from the sample (potentially with rotation / reflection).</p>
 <img src="https://camo.githubusercontent.com/c9a04da9ed7815de79b3f2236cd32d3e2dffc68f/687474703a2f2f692e696d6775722e636f6d2f4b554c475838362e706e67">
-<p>The model has three parametrs, <code>nx</code>, <code>ny</code> and <code>nz</code> which specify the dimensions of the rectangle/cuboid in the output. For convenience, you can just specify a value for <code>n</code> that sets all three. Typically <code>n</code> is only 2 or 3 - any larger and the algorithm can run quite slow and becomes increasingly unlikely to find a result.</p>
+<p>The model has three parametrs, <code>nx</code>, <code>ny</code> and <code>nz</code> which specify the dimensions of the rectangle/cuboid in the output. For convenience, you can just specify a value for <code>n</code> that sets all three. Typically <code>n</code> is only 2 or 3 - any larger and the algorithm can run quite slow and becomes increasingly unlikely to find a result. It also requires at least one sample - this model cannot be directly configured.</p>
 <p>Compared to the adjacent model, the overlapping model is quite strict. This means it typically needs a larger amount of sample input to get good results, but when it does work, it can accurately reproduce many features of the samples that the adjacent model will simply scramble.</p>
 <p>In particular, the overlapping model can detect corners, lines and junctions. In conjunction with the propogation by the Wave Function Collapse algorithm, this means that rooms and pathways will get detected and output, but with variations on the placement, size and direction.</p>
 <p><strong>Example</strong></p>
@@ -174,6 +174,16 @@ not just within a small rectangles.</p>
 <img src="../images/pathway_overlapping_path.png">
 </a>
 <figcaption>Using a path constraint ensures you can trace a path from any blue pixel to any other one.</figcaption>
+</figure>
+<h3 id="fixed-tile">Fixed Tile</h3>
+<p>The <a class="xref" href="../api/DeBroglie.Constraints.FixedTileConstraint.html">FixedTileConstraint</a> class forces a given location to be the specified Tile at initialization. If you don't specify a location, a random legal location is chosen.</p>
+<p>You can use <a class="xref" href="../api/DeBroglie.Constraints.FixedTileConstraint.html">FixedTileConstraint</a> to force certain features to always be generated.</p>
+<figure>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/castle/castle.json">
+<video src="../images/castle_fixed.webm" autoplay="" loop="">
+</video></a>
+
+<figcaption>Several castles all generated with a fixed turret location</figcaption>
 </figure>
 <h3 id="custom-constraints">Custom Constraints</h3>
 <p>You can define your own constraints by extending <a class="xref" href="../api/DeBroglie.Constraints.ITileConstraint.html">ITileConstraint</a>. The Init method is called once per propagator run, and the Check method is called after each step, each time tiles are selected.</p>

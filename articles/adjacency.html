@@ -1,0 +1,261 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Adjacency </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Adjacency ">
+    <meta name="generator" content="docfx 2.39.2.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/custom.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="adjacency">
+<h1 id="specifing-the-adjacency-model-directly">Specifing the Adjacency Model Directly</h1>
+
+<p>The simplest way to configure the adjacency model is to provide it with a sample as input.</p>
+<div class="tabGroup" id="tabgroup_CeZOj-G++Q">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_CeZOj-G++Q_lib" role="tab" aria-controls="tabpanel_CeZOj-G++Q_lib" data-tab="lib" tabindex="0" aria-selected="true">Library Example</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_CeZOj-G++Q_config" role="tab" aria-controls="tabpanel_CeZOj-G++Q_config" data-tab="config" tabindex="-1">Config Example</a>
+</li>
+</ul>
+<section id="tabpanel_CeZOj-G++Q_lib" role="tabpanel" data-tab="lib">
+
+<pre><code class="lang-csharp">var model = new AdjacentModel();
+ITopoArray&lt;Tile&gt; sample = ...;
+model.AddSample(sample);
+</code></pre>
+</section>
+<section id="tabpanel_CeZOj-G++Q_config" role="tabpanel" data-tab="config" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-javascript">{
+    &quot;model&quot;: {&quot;type&quot;: &quot;adjacent&quot;},
+    &quot;src&quot;: &quot;my_sample.png&quot;,
+    ...
+}
+</code></pre>
+</section>
+</div>
+
+<p>The model then analyses the sample for <strong>adjacency pairs</strong>.</p>
+<p>For example, if we had a sample of 3x3 tiles like the following</p>
+<figure>
+<img src="../images/adjacent_tiles1.png">
+</figure>
+<p>Then it would extract the following pairs.</p>
+<figure>
+<img src="../images/adjacent_tiles2.png">
+</figure>
+<p>The sample has given 6 left-right pairs, and 6 up-down pairs (if this was a 3d example, there could also be pairs along the z-axis).</p>
+<p>These pairs are then used when generating the result - thanks to the model, it knows that tile A can be placed left of tile B, and so on.</p>
+<p>Sometimes, it's not convienient to specify the pairs by giving a sample image:</p>
+<ul>
+<li>There might be too many combinations to represent in one image.</li>
+<li>(console app only) some tile formats do not let you specify a sample at all</li>
+</ul>
+<p>In these cases, you can specify all the adjacency pairs directly. It requires some care though - you need to define a lot of pairs before there are enough legal placements that WFC can find a result.</p>
+<h2 id="adding-a-single-pair">Adding a single pair</h2>
+<p>To add a pair, you need to specify the two tiles, and the axis on which they can be placed next to each other. This example allows the model to place tile 2 to the right of tile 1, and similarly to place tile 1 to the left of tile 2.</p>
+<div class="tabGroup" id="tabgroup_CeZOj-G++Q-1">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_CeZOj-G++Q-1_lib" role="tab" aria-controls="tabpanel_CeZOj-G++Q-1_lib" data-tab="lib" tabindex="0" aria-selected="true">Library Example</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_CeZOj-G++Q-1_config" role="tab" aria-controls="tabpanel_CeZOj-G++Q-1_config" data-tab="config" tabindex="-1">Config Example</a>
+</li>
+</ul>
+<section id="tabpanel_CeZOj-G++Q-1_lib" role="tabpanel" data-tab="lib">
+
+<pre><code class="lang-csharp">var model = new AdjacentModel();
+var tile1 = new Tile(1);
+var tile2 = new Tile(2);
+model.AddAdjacency(tile1, tile2, 1, 0, 0);
+</code></pre>
+</section>
+<section id="tabpanel_CeZOj-G++Q-1_config" role="tabpanel" data-tab="config" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-javascript">{
+    ...
+    &quot;adjacencies&quot;: [
+        {&quot;left&quot;: [1], &quot;right&quot;: [2]}
+    ]
+}
+</code></pre>
+<p>The format used in javascript is described in more detail <a href="config_files.html#adjacency-config">here</a>.</p>
+</section>
+</div>
+<h2 id="adding-pairs-combinatorially">Adding pairs combinatorially</h2>
+<p>It's often the case that tiles can be grouped together, and any tile in one group can be placed next to any tile in another group. This is particularly common with <a href="https://en.wikipedia.org/wiki/Wang_tile">Wang tiles</a>, where the adjacent tiles are <em>entirely</em> determined by the border of the tile.</p>
+<p>The following example shows how to connect two groups. Tiles 1 and 2 can be placed above tiles 3 and 4. It is equivalent to adding 4 adjacent pairs between single tiles, 1 and 3, 1 and 4, 2 and 3, 2 and 4.</p>
+<div class="tabGroup" id="tabgroup_CeZOj-G++Q-2">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_CeZOj-G++Q-2_lib" role="tab" aria-controls="tabpanel_CeZOj-G++Q-2_lib" data-tab="lib" tabindex="0" aria-selected="true">Library Example</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_CeZOj-G++Q-2_config" role="tab" aria-controls="tabpanel_CeZOj-G++Q-2_config" data-tab="config" tabindex="-1">Config Example</a>
+</li>
+</ul>
+<section id="tabpanel_CeZOj-G++Q-2_lib" role="tabpanel" data-tab="lib">
+
+<pre><code class="lang-csharp">var model = new AdjacentModel();
+var tile1 = new Tile(1);
+var tile2 = new Tile(2);
+var tile3 = new Tile(3);
+var tile4 = new Tile(4);
+model.AddAdjacency(new []{tile1, tile2}, new []{tile3, tile4}, 0, 1, 0);
+</code></pre>
+</section>
+<section id="tabpanel_CeZOj-G++Q-2_config" role="tabpanel" data-tab="config" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-javascript">{
+    ...
+    &quot;adjacencies&quot;: [
+        {&quot;up&quot;: [1, 2], &quot;down&quot;: [3, 4]}
+    ]
+}
+</code></pre>
+</section>
+</div>
+<h2 id="pairs-and-rotations">Pairs and rotations</h2>
+<p>So far, we've just been adding adjacency pairs along a single axis. But if you have configured <a href="rotation.html">tiles with rotation</a>, then often there are rotated versions of an adjacenty pair that go together.</p>
+<p>For example, if you allowed all rotations and reflections of tiles, then you'd likely want all 8 pairs below to be legal placements.</p>
+<figure>
+<img src="../images/adjacent_tiles3.png">
+</figure>
+<p>DeBroglie can automatically generate these rotations for you. It uses the same configuration as used elsewhere for rotations.</p>
+<div class="tabGroup" id="tabgroup_CeZOj-G++Q-3">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_CeZOj-G++Q-3_lib" role="tab" aria-controls="tabpanel_CeZOj-G++Q-3_lib" data-tab="lib" tabindex="0" aria-selected="true">Library Example</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_CeZOj-G++Q-3_config" role="tab" aria-controls="tabpanel_CeZOj-G++Q-3_config" data-tab="config" tabindex="-1">Config Example</a>
+</li>
+</ul>
+<section id="tabpanel_CeZOj-G++Q-3_lib" role="tabpanel" data-tab="lib">
+
+<pre><code class="lang-csharp">var model = new AdjacentModel();
+var rotationalSymmetry = 4;
+var reflectionalSymmetry = true;
+var rotations = tileRotationBuilder.Build();
+var tile1 = new Tile(1);
+var tile2 = new Tile(2);
+model.AddAdjacency(new []{tile1}, new []{tile2}, 0, 1, 0, rotationalSymmetry, reflectionalSymmetry, rotations);
+</code></pre>
+</section>
+<section id="tabpanel_CeZOj-G++Q-3_config" role="tabpanel" data-tab="config" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-javascript">{
+    ...
+    &quot;adjacencies&quot;: [
+        {&quot;left&quot;: [1], &quot;down&quot;: [2]}
+    ],
+    &quot;rotationalSymmetry&quot;: 4,
+    &quot;reflectionalSymmetry&quot;: true
+}
+</code></pre>
+<p>In the console app, any rotation configuration is automatically applied to <code>adjacencies</code>.</p>
+</section>
+</div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/docs/articles/adjacency.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

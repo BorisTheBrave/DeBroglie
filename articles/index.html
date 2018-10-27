@@ -82,7 +82,7 @@ and procedurally generating a larger image in the same style, such as:</p>
 </figure>
  
 DeBroglie is stocked with loads of features to help customize the generation process.
-<p>TODO: Motivating examples:</p>
+<p><b><a href="gallery.html">See the gallery for some visual examples of what DeBroglie can do</a></b>.</p>
 <h2 id="feature-overview">Feature Overview</h2>
 <ul>
 <li><a href="features.html#overlapping">&quot;Overlapped&quot;</a> model implementation of WFC</li>
@@ -96,9 +96,9 @@ DeBroglie is stocked with loads of features to help customize the generation pro
 <p>The original author of WFC has an excellent <a href="https://github.com/mxgmn/WaveFunctionCollapse">explanation of the core algorithm</a></p>
 <p>DeBroglie uses the core idea mostly unchanged, though enhanced in various ways explained in <a href="features.html">Features</a>.</p>
 <h2 id="usage">Usage</h2>
-<p>To use DeBroglie, you start with a simple image or tilemap you want to generalize.</p>
-<p>Then, select one of the <a href="features.html#models">models</a> that controls the generation process.
-There's lot of <a href="features.html">features</a> that can be applied at this point.</p>
+<p>To use DeBroglie, select one of the <a href="features.html#models">models</a> that controls the generation process.</p>
+<p>You then give the model a sample array want to generalize. Or you can <a href="adjacency.html">specify a model directly</a>.</p>
+<p>There's lot of <a href="features.html">features</a> that can be applied at this point.</p>
 <p>The last detail needed is the size of the output image desired.</p>
 <p>Then you run a propagator that will generate the output one tile at a time.
 Depending on the difficulty of the generation, the process can fail and require restarting.</p>
@@ -155,7 +155,8 @@ for (var y = 0; y &lt; 10; y++)
 </code></pre>
 <img src="../images/cmd.png">
 <p>Either way, it should create a new image called <code>generated-sewers.png</code>.</p>
-<p>Read about the <a href="config_files.html">JSON file format</a> for details of what you can do with the JSON file.</p>
+<p>Read about the <a href="config_files.html">JSON file format</a> for details of what you can do with the JSON file,
+or browse the <a href="https://github.com/BorisTheBrave/DeBroglie/tree/master/samples">samples</a> for inspiration.</p>
 </article>
           </div>
           

@@ -89,7 +89,7 @@
 <tr>
 <td><code>src</code></td>
 <td>string</td>
-<td>The file to load as the initial sample.  See <a href="#file-formats">file formats</a> for what is supported. Required.</td>
+<td>The file to load as the initial sample. Only used for sample based formats. See <a href="#supported-formats">Supported Formats</a>.</td>
 </tr>
 <tr>
 <td><code>dest</code></td>
@@ -189,12 +189,17 @@
 <tr>
 <td><code>animate</code></td>
 <td>bool</td>
-<td>Dumps snapshots of the output while the generation process is running. Experimental.</td>
+<td>Dumps snapshots of the output while the generation process is running.</td>
 </tr>
 <tr>
 <td><code>tiles</code></td>
 <td>array of <a href="#tile-data-config">TileData</a></td>
 <td>Specifies various per-tile information.</td>
+</tr>
+<tr>
+<td><code>adjacencies</code></td>
+<td>array of <a href="#adjacency-config">Adjacency</a></td>
+<td>Indicates which tiles can be adjacent to which other ones (<a href="features.html#adjacent">adjacent model only</a>).</td>
 </tr>
 <tr>
 <td><code>constraints</code></td>
@@ -325,6 +330,61 @@
 </tr>
 </tbody>
 </table>
+<p>For constructing a <a href="features.html#fixed-tile">fixed tile constraint</a></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>type</code></td>
+<td>string</td>
+<td><code>&quot;fixedTile&quot;</code></td>
+</tr>
+<tr>
+<td><code>tile</code></td>
+<td><a href="#tile-references">Tile</a></td>
+<td>The tile to select.</td>
+</tr>
+<tr>
+<td><code>point</code></td>
+<td><a href="#point-config">Point</a></td>
+<td>The location to select the tile at. If not specified, the location is chosen randomly.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="point-config">Point Config</h3>
+<p>The Point class is used for specifying a location in the input or output.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>x</code></td>
+<td>int</td>
+<td></td>
+</tr>
+<tr>
+<td><code>y</code></td>
+<td>int</td>
+<td></td>
+</tr>
+<tr>
+<td><code>z</code></td>
+<td>int</td>
+<td>Optional, defaults to 0.</td>
+</tr>
+</tbody>
+</table>
 <h3 id="tile-data-config">Tile Data Config</h3>
 <p>There are several rotation/reflection based fields, see the <a class="xref" href="rotation.html">Rotation section</a> for details on how they work.</p>
 <table>
@@ -339,7 +399,12 @@
 <tr>
 <td><code>value</code></td>
 <td><a href="#tile-references">Tile</a></td>
-<td>Specifies which tile this object is configurating. <code>value</code> is interpreted differently for different <a href="#tile-references">file formats</a>. Required.</td>
+<td>Specifies which tile this object is configurating. <code>value</code> is interpreted differently for different <a href="#tile-references">file formats</a>.<br> Specifically, for sample based formats, it is a reference to tiles occuring in the sample. For file set based formats, it's just a unique name for the tile. <br> Required.</td>
+</tr>
+<tr>
+<td><code>src</code></td>
+<td>string</td>
+<td>When using a <a href="#import--export-file-formats">file set</a>, indicates which file contains image data for the tile.</td>
 </tr>
 <tr>
 <td><code>multiplyFrequency</code></td>
@@ -425,20 +490,57 @@
 </tr>
 </tbody>
 </table>
+<p>More details can be found in the <a href="rotation.html">rotations article</a>.</p>
 <h3 id="tile-references">Tile References</h3>
-<p>Various parts of the config expect a reference to a tile. Tile references can either be the name of a tile, or the value. Names and values of tiles depend on what file format is being used.</p>
+<p>Various parts of the config expect a reference to a tile. When using file sets, tile references are easy - they are just what you entered in the <code>value</code> field for the tile in the <code>tiles</code> array. But when working with samples you need to refer to the tiles that the samples use, which is done in a predefined way described below.</p>
+<p>Tile references can either be the name of a tile, or the value. Names and values of tiles depend on what sample file format is being used.</p>
 <p><strong>Bitmap</strong> - Tile values are colors, and can be expressed as a HTML style hex code, e.g. <code>&quot;#FF0000&quot;</code>.</p>
 <p><strong>Tiled</strong> - Tile values are integer &quot;global ids&quot; e.g. <code>1</code>. Using zero means the empty tile. If you set a <a href="http://docs.mapeditor.org/en/stable/manual/custom-properties/">custom property</a> called <code>name</code> on a tile in the tileset, you can also use that to reference a tile.</p>
 <p><strong>MagicaVoxel</strong> - Tile values are palette indices (a value between 0 and 255). Using zero means the empty voxel.</p>
-<h2 id="file-formats">File formats</h2>
-<p>When specifying the <code>src</code> property, you can load files from a number of different sources. <code>dest</code> is written to in the same format. In each case DeBroglie tries to handle the format sensibly, which means there are some notes particular to each format.</p>
-<h3 id="bitmap">Bitmap</h3>
-<p>When loading bitmaps (or pngs), each pixel is assumed to be one tile, with the color desribing which tile.</p>
+<h3 id="adjacency-config">Adjacency Config</h3>
+<p>Adjacency config is a way of configuring the <a href="features.html#adjacent">adjacent model</a> without using sample inputs. You set an array of adjacency entries,
+where each entry adds extra permissible neighbours for some tiles in some directions. Further details can be found on the <a href="adjacency.html">Adjacency page</a>.</p>
+<p>Each adjacency entry it composed of two named lists of <a href="#tile-references">Tile references</a>. Specifically, they take one of three forms:</p>
+<pre><code class="lang-javascript">{&quot;left&quot;: [...], &quot;right&quot;: [...] }
+{&quot;up&quot;: [...], &quot;down&quot;: [...] }
+{&quot;above&quot;: [...], &quot;below&quot;: [...] }
+</code></pre>
+<p>For <code>left</code>/<code>right</code>, this means that it is legal to place any tile found on the <code>left</code> list to the left of any tile in the <code>right</code> list.
+Similarly <code>up</code>/<code>down</code> are along the y-axis and <code>above</code>/<code>below</code> are on the z-axis.</p>
+<p>A tile must be listed at least once in every relevant direction, or else it'll have no possible neighbours in some direction, and the generation will never include it (except maybe on the edge, where it doesn't need a neighbour).</p>
+<p>As documented in <a class="xref" href="../api/DeBroglie.Models.AdjacentModel.html#DeBroglie_Models_AdjacentModel_AddAdjacency_System_Collections_Generic_IList_DeBroglie_Tile__System_Collections_Generic_IList_DeBroglie_Tile__System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_DeBroglie_TileRotation_">AddAdjacency</a>, if there are rotations specified for tiles, then adjacencies are added for the rotated pairs as appropriate.</p>
+<h2 id="import--export-file-formats">Import / Export File formats</h2>
+<p>DeBroglie supports reading and writing to a wide variety of formats. There are two sorts of inputs: <strong>samples</strong>, which are single files containing an arrangment of tiles, and <strong>file sets</strong> which are a collection of files, one per tile.</p>
+<p>Samples are specified by setting the <code>src</code> property in the config. File sets are specified by setting the <code>src</code> property for each tile in the <code>tiles</code> array. When using file sets, there is no data for the model to learn from, so you must manually specify the model as documented in <a href="#adjacency-config">Adjacency</a>.</p>
+<h3 id="supported-formats">Supported formats</h3>
+<p>Not all formats can be converted between. You must pick file extensions for
+<code>src</code> and <code>dest</code> fields to match the following table.</p>
+<table>
+<tr><td></td><td colspan="6">Inputs</td></tr>
+<tr><td></td><td colspan="4">Samples</td><td colspan="2">File sets</td></tr>
+<tr><td></td><td>Bitmap (.png)</td><td>Tiled Map(.tmx)</td><td>Tiled Tileset (.tsx)</td><td>MagicaVoxel (.vox)</td><td>File set of Bitmap (.png)</td><td>File set of MagicaVoxel (.vox)</td></tr>
+<tr><td>Outputs</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>.csv</td><td>&#x2713;</td><td>&#x2713;</td><td>&#x2713;</td><td>&#x2713;</td><td>&#x2713;</td><td>&#x2713;</td></tr>
+<tr><td>.png</td><td>&#x2713;</td><td>&#x2713;</td><td>&#x2713;</td><td></td><td>&#x2713;</td><td></td></tr>
+<tr><td>.tmx</td><td></td><td>&#x2713;</td><td>&#x2713;</td><td></td><td></td><td></td></tr>
+<tr><td>.vox</td><td></td><td></td><td></td><td>&#x2713;</td><td></td><td>&#x2713;</td></tr>
+</table>
+<h3 id="format-details">Format details</h3>
+<p>Most formats have special properties and limitations, those are listed below.</p>
+<h4 id="csv">Csv</h4>
+<p>This is a very basic export format.</p>
+<p>Values are delimited with commas along the x-axis, and then new lines along the y-axis.
+If 3d, then the plane z=0 is dumped first, then a new line, then z=1 and so on.</p>
+<h4 id="bitmap">Bitmap</h4>
+<p>When loading bitmap samples, each pixel is assumed to be one tile, with the color being the tile value. If you want each tile to have it's own bitmap, you must use a file set of bitmaps by specifying a <code>src</code> value for each tile in the <code>tiles</code> array.</p>
 <p>Additionally, the <code>animate</code> setting behaves differently for bitmaps. Uncertain tiles will be drawn as a color blend of all possible tiles.</p>
-<h3 id="tiled">Tiled</h3>
+<h4 id="tiled">Tiled</h4>
 <p><a href="https://www.mapeditor.org/">Tiled</a> .tmx files are supported, though Tiled has many features that are ignored. Both square and hex grids can be read. If there are multiple layers in a square grid, then they are taken to be a 3d topology.</p>
-<h3 id="magicavoxel">MagicaVoxel</h3>
-<p><a href="http://magicavoxel.net/">MagicaVoxel</a> .vox files are supported. Each voxel becomes one tile. You must abide to the limits of the format when using this, specifically there can only be 255 different tiles (plus the empty tile), and the maximum dimension generated is a cube of size 126.</p>
+<p>You can also load .tsx files (Tiled tilesets). As these do not come with a map to use as sample input, you must set <a href="#adjacency-config">adjacencies</a> instead.</p>
+<p>Tile rotations in Tiled are supported in DeBroglie. They are treated like &quot;generated&quot; tiles as described on the <a href="rotation.html">Rotation page</a>.</p>
+<h4 id="magicavoxel">MagicaVoxel</h4>
+<p><a href="http://magicavoxel.net/">MagicaVoxel</a> .vox files are supported. As a sample, each voxel becomes one tile. If you want each tile to have it's own cube of voxels, you must use a file set of voxels by specifying a <code>src</code> value for each tile in the <code>tiles</code> array.</p>
+<p>You must abide to the limits of the format when using this, specifically there can only be 255 different tiles (plus the empty tile), and the maximum dimension generated is a cube of size 126.</p>
 </article>
           </div>
           

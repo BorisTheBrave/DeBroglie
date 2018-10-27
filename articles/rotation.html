@@ -78,7 +78,7 @@
 <img src="../images/arrow.png">
 <img src="../images/rotation_output.png">
 </a>
-<figcaption>Extra rotation (<a href="../images/rotation.webm">animated</a>)</figcaption>
+<figcaption>See how the output contains rotated parts of the input image. (<a href="../images/rotation.webm">animated</a>)</figcaption>
 </figure>
 <p>The core WFC algorithm used has no notion of rotation. DeBroglie handles rotation entirely as a pre-processing effect on input samples. So it's not necessary to specify rotations as described below, you can always just add more tiles and more samples. But it's much more convenient to let DeBroglie do it.</p>
 <p>DeBroglie works on tile samples, and you cannot just naively rotate the sample image but otherwise leave the tiles unchanged. The tiles will stop joining up with each other:</p>
@@ -87,7 +87,7 @@
 <p>So when rotating a sample, it's necessary to rotate the tiles as well, and that requires extra information to be passed to DeBroglie.</p>
 <h2 id="quick-start">Quick Start</h2>
 <p>There are three common use cases in DeBroglie.</p>
-<h3 id="single-pixles--voxels">Single pixles / voxels</h3>
+<h3 id="single-pixels--voxels">Single pixels / voxels</h3>
 <p>If your tiles are single pixels, or single voxels, then you do not need set up any extra information, because all your tiles are fully symmetric.</p>
 <h3 id="complete-tilesets">Complete tilesets</h3>
 <p>If your tileset comes extra tiles for all rotations, e.g.</p>
@@ -150,7 +150,7 @@ but new tiles are created for anything left unspecified.</p>
 // tile 1 reflects in x-axis to give itself.
 builder.Add(tile1, 0, true, tile1);
 // We haven't added a rotation, so a new rotation tile will
-// be created when we try to rotation tile 1.
+// be created when DeBroglie tries to rotate tile 1.
 
 // You can also specify self-symmetries like so
 //builder.AddSymmetry(tile1, TileSymmetry.T);
@@ -171,7 +171,7 @@ model.AddSample(sample, 4, true, rotations)
         // tile 1 reflects in x-axis to give itself.
         {&quot;value&quot;: 1, &quot;reflectX&quot;: 1}
         // We haven't added a rotation, so a new rotation tile will
-        // be created when we try to rotation tile 1.
+        // be created when DeBroglie tries to rotate tile 1.
 
         // You can also specify self-symmetries like so
         //{&quot;value&quot;: 1, &quot;tileSymmetry&quot;: &quot;T&quot;}
