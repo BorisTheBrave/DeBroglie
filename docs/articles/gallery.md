@@ -37,3 +37,11 @@ Some examples post processing applied to them, either using <a href="https://eph
 <a href="../images/hexmini_out.png"><img src="../images/hexmini_out.png"/></a>
 <figcaption>Generate hexagonal layouts. <a href="http://opengameart.org/content/pixel-hex-tilesets-enhanced">Tiles by pixel32</a></figcaption>
 </figure>
+
+<figure>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/mxgmn/circles.json">
+<video src="../images/circles.webm" autoplay loop>
+</a>
+</video>
+<figcaption>Tripy circle based tile set. <a href="https://github.com/mxgmn/WaveFunctionCollapse">Used with permission</a></figcaption>  
+</figure>
