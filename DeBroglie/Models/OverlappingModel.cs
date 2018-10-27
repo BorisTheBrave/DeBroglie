@@ -51,7 +51,7 @@ namespace DeBroglie.Models
         public OverlappingModel(int nx, int ny, int nz)
         {
             this.nx = nx;
-            this.ny = nz;
+            this.ny = ny;
             this.nz = nz;
             patternIndices = new Dictionary<PatternArray, int>(new PatternArrayComparer());
             frequencies = new List<double>();
