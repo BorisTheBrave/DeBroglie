@@ -1,4 +1,5 @@
-﻿using DeBroglie.Topo;
+﻿using DeBroglie.Console.Export;
+using DeBroglie.Topo;
 using System;
 using System.Drawing;
 
@@ -24,6 +25,7 @@ namespace DeBroglie.Console.Import
             {
                 Directions = Directions.Cartesian2d,
                 Samples = new[] { TopoArray.Create(colorArray, topology).ToTiles() },
+                ExportOptions = new BitmapExportOptions(),
             };
         }
 
