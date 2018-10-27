@@ -3,6 +3,10 @@ uid: release_notes
 title: Release Notes
 ---
 
+# Unreleased
+
+* Reduced memory usage of WFC
+
 # v0.2
 
 * Support more input formats:

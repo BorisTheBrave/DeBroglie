@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 
 namespace DeBroglie.Wfc
 {
@@ -14,9 +15,9 @@ namespace DeBroglie.Wfc
         int patternCount;
         private double[] frequencies;
 
-        // possibilities[index, pattern] is true if we haven't eliminated putting
+        // possibilities[index*patternCount + pattern] is true if we haven't eliminated putting
         // that pattern at that index.
-        private bool[,] possibilites;
+        private BitArray possibilites;
 
         // Track some useful per-cell values
         private EntropyValues[] entropyValues;
@@ -28,7 +29,7 @@ namespace DeBroglie.Wfc
 
         private Wave(int patternCount, 
             double[] frequencies,
-            bool[,] possibilites,
+            BitArray possibilites,
             EntropyValues[] entropyValues,
             double[] plogp,
             int indices)
@@ -50,14 +51,7 @@ namespace DeBroglie.Wfc
             this.indices = indices;
 
             // Initialize possibilities
-            possibilites = new bool[indices, patternCount];
-            for (int index = 0; index < indices; index++)
-            {
-                for (int pattern = 0; pattern < patternCount; pattern++)
-                {
-                    possibilites[index, pattern] = true;
-                }
-            }
+            possibilites = new BitArray(indices * patternCount, true);
 
             // Initialize plogp and entropyValues
             plogp = new double[patternCount];
@@ -88,7 +82,7 @@ namespace DeBroglie.Wfc
             return new Wave(
                 patternCount,
                 frequencies,
-                (bool[,])possibilites.Clone(),
+                (BitArray)possibilites.Clone(),
                 (EntropyValues[])entropyValues.Clone(),
                 plogp,
                 indices);
@@ -96,13 +90,13 @@ namespace DeBroglie.Wfc
 
         public bool Get(int index, int pattern)
         {
-            return possibilites[index, pattern];
+            return possibilites[index * patternCount + pattern];
         }
 
         // Returns true if there is a contradiction
         public bool RemovePossibility(int index, int pattern)
         {
-            possibilites[index, pattern] = false;
+            possibilites[index * patternCount + pattern] = false;
             int c = entropyValues[index].Decrement(frequencies[pattern], plogp[pattern]);
             return c == 0;
         }
