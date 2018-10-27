@@ -8,6 +8,8 @@
   href: adjacency.md
 - name: Using the Command Line
   href: config_files.md
+- name: Gallery
+  href: gallery.md
 - name: FAQ
   href: faq.md
 - name: Release Notes

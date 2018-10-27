@@ -31,7 +31,9 @@ The model then analyses the sample for **adjacency pairs**.
 
 For example, if we had a sample of 3x3 tiles like the following
 
+<figure>
 <img src="../images/adjacent_tiles1.png"/>
+</figure>
 
 Then it would extract the following pairs.
 
@@ -74,7 +76,7 @@ model.AddAdjacency(tile1, tile2, 1, 0, 0);
 }
 ```
 
-The format used in javascript is described in more detail [here](config_files.md#adjacency_config).
+The format used in javascript is described in more detail [here](config_files.md#adjacency-config).
 
 ----
 

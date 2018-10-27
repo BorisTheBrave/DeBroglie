@@ -22,9 +22,9 @@ The file format very closely resembles the library API described in the main doc
 
 | Field                | Type           | Description  |
 | -------------------- |---------------|-------|
-| `src`                | string | The file to load as the initial sample.  See [file formats](#file-formats) for what is supported. Required. |
-| `dest`               | string |   The file to write the result to. The file has the same format as `src`. Required. |
-| `baseDirectory`      | string |   The directory that `src` and `dest` are relative to. <br/>`baseDirectory` itself is relative to the directory of the config file, and defaults to that directory.|
+| `src`                | string | The file to load as the initial sample. Only used for sample based formats. See [Supported Formats](#supported-formats). |
+| `dest`               | string | The file to write the result to. The file has the same format as `src`. Required. |
+| `baseDirectory`      | string | The directory that `src` and `dest` are relative to. <br/>`baseDirectory` itself is relative to the directory of the config file, and defaults to that directory.|
 | `model`              | [Model](#model-config) | Specifies the [model](features.md#models) to use. Defaults to adjacent. |
 |`periodicInput`       | bool | Shorthand for setting `periodicInputX`, `periodicInputY`, `periodicInputZ`.|
 |`periodicInputX`      | bool | Does the input image wrap around on the x axis?|
@@ -42,7 +42,7 @@ The file format very closely resembles the library API described in the main doc
 |`reflectionalSymmetry`|bool|If set, extra copies of the `src` are used as samples, as described in [Rotation](xref:rotation_article)|
 |`rotationalSymmetry`  |int|If set, extra copies of the `src` are used as samples, as described in [Rotation](xref:rotation_article)|
 |`backtrack`           |bool|Specifies if [backtracking](features.md#backtracking) is enabled.|
-|`animate`             |bool|Dumps snapshots of the output while the generation process is running. Experimental.|
+|`animate`             |bool|Dumps snapshots of the output while the generation process is running.|
 |`tiles`               |array of [TileData](#tile-data-config)|Specifies various per-tile information.|
 |`adjacencies`         |array of [Adjacency](#adjacency-config)|Indicates which tiles can be adjacent to which other ones ([adjacent model only](features.md#adjacent)).|
 |`constraints`         |array of [Constraint](#constraint-config)|Specifies constraints to add.|
@@ -89,6 +89,23 @@ For constructing a [border constraint](features.md#border)
 |`invertArea`|bool| Inverts the area specified by `sides` and `excludeSides` |
 |`ban`|bool| If true, ban `tile` from the area. Otherwise, select it (i.e. ban every other tile). |
 
+For constructing a [fixed tile constraint](features.md#fixed-tile)
+
+| Field                | Type           | Description  |
+| -------------------- |---------------|-------|
+|`type`|string| `"fixedTile"`|
+|`tile`|[Tile](#tile-references)| The tile to select. |
+|`point`|[Point](#point-config)|The location to select the tile at. If not specified, the location is chosen randomly.|
+
+### Point Config
+
+The Point class is used for specifying a location in the input or output.
+
+| Field                | Type           | Description  |
+| -------------------- |---------------|-------|
+|`x`|int| |
+|`y`|int| |
+|`z`|int| Optional, defaults to 0.|
 
 ### Tile Data Config
 
@@ -97,7 +114,8 @@ There are several rotation/reflection based fields, see the [Rotation section](x
 
 | Field                | Type           | Description  |
 | -------------------- |---------------|-------|
-| `value` | [Tile](#tile-references) | Specifies which tile this object is configurating. `value` is interpreted differently for different [file formats](#tile-references). Required. |
+| `value` | [Tile](#tile-references) | Specifies which tile this object is configurating. `value` is interpreted differently for different [file formats](#tile-references).<br/> Specifically, for sample based formats, it is a reference to tiles occuring in the sample. For file set based formats, it's just a unique name for the tile. <br/> Required. |
+| `src` | string | When using a [file set](#import--export-file-formats), indicates which file contains image data for the tile. |
 | `multiplyFrequency` | number | Scales the frequency of the configured tile, using [MultiplyFrequency](xref:DeBroglie.Models.TileModel.MultiplyFrequency(DeBroglie.Tile,System.Double)) |
 | `tileSymmetry`| string | [See here](#tile-symmetry) |
 | `reflectX`| [Tile](#tile-references)| Gives the tile you get if you reflect the configured tile in the x-axis.|
@@ -123,17 +141,19 @@ There are several rotation/reflection based fields, see the [Rotation section](x
 |`N`| Can rotate 180 degrees. |
 |`cyclic`| Any rotation, but no reflection. |
 
+More details can be found in the [rotations article](rotation.md).
+
 ### Tile References
 
-Various parts of the config expect a reference to a tile. Tile references can either be the name of a tile, or the value. Names and values of tiles depend on what sample file format is being used.
+Various parts of the config expect a reference to a tile. When using file sets, tile references are easy - they are just what you entered in the `value` field for the tile in the `tiles` array. But when working with samples you need to refer to the tiles that the samples use, which is done in a predefined way described below.
+
+Tile references can either be the name of a tile, or the value. Names and values of tiles depend on what sample file format is being used.
 
 **Bitmap** - Tile values are colors, and can be expressed as a HTML style hex code, e.g. `"#FF0000"`.
 
 **Tiled** - Tile values are integer "global ids" e.g. `1`. Using zero means the empty tile. If you set a [custom property](http://docs.mapeditor.org/en/stable/manual/custom-properties/) called `name` on a tile in the tileset, you can also use that to reference a tile.
 
 **MagicaVoxel** - Tile values are palette indices (a value between 0 and 255). Using zero means the empty voxel.
-
-When using file sets, the value of a tile is taken from the `value` property of the tile config.
 
 ### Adjacency Config
 
@@ -151,9 +171,9 @@ Each adjacency entry it composed of two named lists of [Tile references](#tile-r
 For `left`/`right`, this means that it is legal to place any tile found on the `left` list to the left of any tile in the `right` list. 
 Similarly `up`/`down` are along the y-axis and `above`/`below` are on the z-axis.
 
-A tile must be listed at least once in every relevant direction, or else it'll have no possible neighbours in some direction, and the generation never include it.
+A tile must be listed at least once in every relevant direction, or else it'll have no possible neighbours in some direction, and the generation will never include it (except maybe on the edge, where it doesn't need a neighbour).
 
-As documented in [here](xref:DeBroglie.Models.AdjacentModel.AddAdjacency(System.Collections.Generic.IList{DeBroglie.Tile},System.Collections.Generic.IList{DeBroglie.Tile},System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean,DeBroglie.TileRotation), if there are rotations specified for tiles, then adjacencies are added for the rotated pairs as appropriate.
+As documented in [AddAdjacency](xref:DeBroglie.Models.AdjacentModel.AddAdjacency(System.Collections.Generic.IList{DeBroglie.Tile},System.Collections.Generic.IList{DeBroglie.Tile},System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean,DeBroglie.TileRotation)), if there are rotations specified for tiles, then adjacencies are added for the rotated pairs as appropriate.
 
 
 Import / Export File formats

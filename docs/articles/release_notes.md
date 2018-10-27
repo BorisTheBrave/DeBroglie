@@ -10,7 +10,7 @@ title: Release Notes
   * list of .vox
 * Support for saving .csv files.
 * Direct specification of adjacencies.
-* Generated tile rotations mostly working.
+* Generated tile rotations now working.
 * Default tile rotation treatment is now Unchanged. [breaking]
 * Added [FixedTileConstraint](xref:DeBroglie.Constraints.FixedTileConstraint).
 

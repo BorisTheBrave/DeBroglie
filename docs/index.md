@@ -17,6 +17,7 @@ _gitContribute: false
     <p class="lead">
       <a class="btn btn-primary btl-lg" href="articles/index.md" role="button">Getting Started</a>
       <a class="btn btn-primary btl-lg" href="https://github.com/BorisTheBrave/DeBroglie/releases" role="button">Download Latest</a>
+      <a class="btn btn-primary btl-lg" href="articles/release_notes.md" role="button">Update Log</a>
     </p>
   </div>
 
@@ -36,7 +37,7 @@ _gitContribute: false
       <section>
         <h2>Features</h2>
         <h3>Generate tile maps using the WFC algorithm</h3>
-        <video src="images/rotation.webm" autoplay loop></video>
+        <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/grass/map.json"><video src="images/rotation.webm" autoplay loop></video></a>
         <h3><a href="articles/features.md#topology">2d, 3d and hexagonal generation</a></h3>
         <a href="images/columns_out.png"><img src="images/columns_out.png"/></a>
         <a href="images/hexmini_out.png"><img src="images/hexmini_out.png"/></a>

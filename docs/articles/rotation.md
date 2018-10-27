@@ -16,7 +16,7 @@ When you supply an input sample, you can optionally specify the `rotationalSymme
 <img src="../images/arrow.png"/>
 <img src="../images/rotation_output.png"/>
 </a>
-<figcaption>Extra rotation (<a href="../images/rotation.webm">animated</a>)</figcaption>
+<figcaption>See how the output contains rotated parts of the input image. (<a href="../images/rotation.webm">animated</a>)</figcaption>
 </figure>
 
 The core WFC algorithm used has no notion of rotation. DeBroglie handles rotation entirely as a pre-processing effect on input samples. So it's not necessary to specify rotations as described below, you can always just add more tiles and more samples. But it's much more convenient to let DeBroglie do it.
@@ -93,7 +93,7 @@ var builder = new TileRotationBuilder(TileRotationTreatment.Generated);
 // tile 1 reflects in x-axis to give itself.
 builder.Add(tile1, 0, true, tile1);
 // We haven't added a rotation, so a new rotation tile will
-// be created when we try to rotation tile 1.
+// be created when DeBroglie tries to rotate tile 1.
 
 // You can also specify self-symmetries like so
 //builder.AddSymmetry(tile1, TileSymmetry.T);
@@ -115,7 +115,7 @@ model.AddSample(sample, 4, true, rotations)
         // tile 1 reflects in x-axis to give itself.
         {"value": 1, "reflectX": 1}
         // We haven't added a rotation, so a new rotation tile will
-        // be created when we try to rotation tile 1.
+        // be created when DeBroglie tries to rotate tile 1.
 
         // You can also specify self-symmetries like so
         //{"value": 1, "tileSymmetry": "T"}

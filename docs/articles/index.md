@@ -16,11 +16,7 @@ and procedurally generating a larger image in the same style, such as:
  
 DeBroglie is stocked with loads of features to help customize the generation process.
 
-<figure>
-<video src="../images/platformer.webm" autoplay loop
-    style="background-color: #55b4ff">
-</video>
-</figure>
+<b>[See the gallery for some visual examples of what DeBroglie can do](gallery.md)</b>.
 
 Feature Overview
 --------
@@ -128,4 +124,5 @@ path_to_debroglie/DeBroglie.Console.exe path_to_json/sewers.json
 
 Either way, it should create a new image called `generated-sewers.png`.
 
-Read about the [JSON file format](config_files.md) for details of what you can do with the JSON file.
+Read about the [JSON file format](config_files.md) for details of what you can do with the JSON file, 
+or browse the <a href="https://github.com/BorisTheBrave/DeBroglie/tree/master/samples">samples</a> for inspiration.
