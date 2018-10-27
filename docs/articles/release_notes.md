@@ -3,7 +3,8 @@ uid: release_notes
 title: Release Notes
 ---
 
-# Upcoming
+# v0.2
+
 * Support more input formats:
   * .tsx
   * list of bitmaps
