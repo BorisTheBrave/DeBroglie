@@ -50,7 +50,31 @@
         /// </summary>
         public Topology WithMask(bool[] mask)
         {
+            if (Width * Height * Depth != mask.Length)
+                throw new System.Exception("Mask size doesn't fit the topology");
+
             return new Topology(Directions, Width, Height, Depth, PeriodicX, PeriodicY, PeriodicZ, mask);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="Topology"/> with the same parameters, but with the specified mask
+        /// </summary>
+        public Topology WithMask(ITopoArray<bool> mask)
+        {
+            if (!IsSameSize(mask.Topology))
+                throw new System.Exception("Mask size doesn't fit the topology");
+            var boolMask = new bool[Width * Height * Depth];
+            for (var z = 0; z < Depth; z++)
+            {
+                for (var y = 0; y < Height; y++)
+                {
+                    for (var x = 0; x < Width; x++)
+                    {
+                        boolMask[x + y * Width + z * Width * Height] = mask.Get(x, y, z);
+                    }
+                }
+            }
+            return WithMask(boolMask);
         }
 
         /// <summary>
@@ -109,6 +133,11 @@
         /// Not all uses of Topology support masks.
         /// </summary>
         public bool[] Mask { get; set; }
+
+        public bool IsSameSize(Topology other)
+        {
+            return Width == other.Width && Height == other.Height && Depth == other.Depth;
+        }
 
         /// <summary>
         /// Returns true if a given index has not been masked out.

@@ -264,7 +264,7 @@ namespace DeBroglie.Wfc
          */
         public Resolution Clear()
         {
-            wave = new Wave(frequencies, indices);
+            wave = new Wave(frequencies, indices, topology.Mask);
             toPropagate.Clear();
             status = Resolution.Undecided;
 
@@ -279,6 +279,9 @@ namespace DeBroglie.Wfc
             compatible = new int[indices, patternCount, directionsCount];
             for (int index = 0; index < indices; index++)
             {
+                if (!topology.ContainsIndex(index))
+                    continue;
+
                 for (int pattern = 0; pattern < patternCount; pattern++)
                 {
                     for (int d = 0; d < directionsCount; d++)

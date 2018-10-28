@@ -106,6 +106,8 @@ namespace DeBroglie
                 };
             }
 
+            TODO: Handle pattern mask
+
             var waveConstraints =
                 (constraints?.Select(x => new TileConstraintAdaptor(x, this)).ToArray() ?? Enumerable.Empty<IWaveConstraint>())
                 .ToArray();

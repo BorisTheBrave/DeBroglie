@@ -42,6 +42,21 @@ namespace DeBroglie.Test
             propagator = new WavePropagator(model, topology);
             status = propagator.Run();
             Assert.AreEqual(Resolution.Contradiction, status);
+
+            // Should be possible with an odd sized region, if we have the right mask
+            var mask = new bool[(width + 1) * (height + 1)];
+            for (var x = 0; x < width; x++)
+            {
+                for (var y = 0; y < height; y++)
+                {
+                    mask[x + y * (width + 1)] = true;
+                }
+            }
+            topology = new Topology(width + 1, height + 1, true).WithMask(mask);
+            propagator = new WavePropagator(model, topology);
+            status = propagator.Run();
+            Assert.AreEqual(Resolution.Decided, status);
+
         }
 
         [Test]

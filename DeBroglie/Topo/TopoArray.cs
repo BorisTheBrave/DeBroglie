@@ -1,4 +1,6 @@
-﻿namespace DeBroglie.Topo
+﻿using System;
+
+namespace DeBroglie.Topo
 {
     /// <summary>
     /// Utility class containing methods for construction <see cref="ITopoArray{T}"/> objects.
@@ -59,6 +61,29 @@
         public static ITopoArray<T> FromConstant<T>(T value, Topology topology)
         {
             return new TopoArrayConstant<T>(value, topology);
+        }
+
+        /// <summary>
+        /// Constructs an <see cref="ITopoArray{T}"/> by invoking f at each location in the topology.
+        /// </summary>
+        public static ITopoArray<T> Create<T>(Func<Point, T> f, Topology topology)
+        {
+            var array = new T[topology.Width, topology.Height, topology.Depth];
+            for (var z = 0; z < topology.Depth; z++)
+            {
+                for (var y = 0; y < topology.Height; y++)
+                {
+                    for (var x = 0; x < topology.Width; x++)
+                    {
+                        var index = topology.GetIndex(x, y, z);
+                        if (topology.ContainsIndex(index))
+                        {
+                            array[x, y, z] = f(new Point(x, y, z));
+                        }
+                    }
+                }
+            }
+            return Create(array, topology);
         }
     }
 }

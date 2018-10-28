@@ -25,6 +25,8 @@ namespace DeBroglie.Wfc
         // See the definition in EntropyValues
         private double[] plogp;
 
+        private bool[] mask;
+
         private int indices;
 
         private Wave(int patternCount, 
@@ -32,7 +34,8 @@ namespace DeBroglie.Wfc
             BitArray possibilites,
             EntropyValues[] entropyValues,
             double[] plogp,
-            int indices)
+            int indices,
+            bool[] mask)
         {
             this.patternCount = patternCount;
             this.frequencies = frequencies;
@@ -43,12 +46,13 @@ namespace DeBroglie.Wfc
         }
 
 
-        public Wave(double[] frequencies, int indices)
+        public Wave(double[] frequencies, int indices, bool[] mask)
         {
             this.patternCount = frequencies.Length;
             this.frequencies = frequencies;
 
             this.indices = indices;
+            this.mask = mask;
 
             // Initialize possibilities
             possibilites = new BitArray(indices * patternCount, true);
@@ -85,7 +89,8 @@ namespace DeBroglie.Wfc
                 (BitArray)possibilites.Clone(),
                 (EntropyValues[])entropyValues.Clone(),
                 plogp,
-                indices);
+                indices,
+                mask);
         }
 
         public bool Get(int index, int pattern)
@@ -111,6 +116,8 @@ namespace DeBroglie.Wfc
             double randomizer = 0;
             for (int i = 0; i < indices; i++)
             {
+                if (mask != null && !mask[i])
+                    continue;
                 var c = entropyValues[i].PatternCount;
                 var e = entropyValues[i].Entropy;
                 if (c <= 1)
