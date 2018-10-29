@@ -42,7 +42,8 @@ namespace DeBroglie.Test
                 { 1, 0 },
                 { 0, 1 },
             };
-            var model = OverlappingModel.Create(a, 2, false, 8);
+            var model = new AdjacentModel();
+            model.AddSample(TopoArray.Create(a, true).ToTiles());
 
             var mask = new bool[5 * 5];
             for (var x = 0; x < 5; x++)
@@ -78,12 +79,12 @@ namespace DeBroglie.Test
             };
             var model = OverlappingModel.Create(a, 2, false, 8);
 
-            var mask = new bool[5 * 5];
+            var mask = new bool[4 * 5];
             for (var x = 0; x < 5; x++)
             {
-                for (var y = 0; y < 5; y++)
+                for (var y = 0; y < 4; y++)
                 {
-                    if (x == 2)
+                    if (x == 2 || x == 3)
                     {
                         mask[x + y * 5] = false;
                     }
@@ -93,7 +94,7 @@ namespace DeBroglie.Test
                     }
                 }
             }
-            var topology = new Topology(5, 5, false).WithMask(mask);
+            var topology = new Topology(5, 4, false).WithMask(mask);
 
             var propagator = new TilePropagator(model, topology);
 
@@ -105,35 +106,44 @@ namespace DeBroglie.Test
             Assert.AreEqual(Resolution.Decided, propagator.Status);
         }
 
-
-
+        // This test illustrates a problem with how masks interact with the overlapping model.
+        // The two select calls are not possible to fulfill with one pattern across the entire
+        // output.
+        // But cut the output region in two using a mask, and the overlap rectangle is 2x2 and so
+        // not wide enough to cause interactions across the divide. So this should give Resolution.Decided,
+        // Filling each half of the output with a chess pattern.
+        //
+        // But at the moment, it gives contradiction. The implementation doesn't handle masks properly,
+        // and errs on the side of caution, basically ignoring the mask entirely.
+        //
+        // I hope to resolve this with https://github.com/BorisTheBrave/DeBroglie/issues/7
         [Test]
-        public void TestMaskWithWideOverlapping()
+        [Ignore("Overlapping masks don't work ideally at the moment")]
+        public void TestMaskWithThinOverlapping()
         {
 
             var a = new int[,]{
-                { 1, 0, 1, 0 },
-                { 0, 1, 0, 1 },
-                { 1, 0, 1, 0 },
+                { 1, 0 },
+                { 0, 1 },
             };
-            var model = OverlappingModel.Create(a, 3, false, 8);
+            var model = OverlappingModel.Create(a, 2, false, 8);
 
-            var mask = new bool[6 * 5];
-            for (var x = 0; x < 6; x++)
+            var mask = new bool[4 * 5];
+            for (var x = 0; x < 5; x++)
             {
-                for (var y = 0; y < 5; y++)
+                for (var y = 0; y < 4; y++)
                 {
                     if (x == 2)
                     {
-                        mask[x + y * 6] = false;
+                        mask[x + y * 5] = false;
                     }
                     else
                     {
-                        mask[x + y * 6] = true;
+                        mask[x + y * 5] = true;
                     }
                 }
             }
-            var topology = new Topology(6, 5, false).WithMask(mask);
+            var topology = new Topology(5, 4, false).WithMask(mask);
 
             var propagator = new TilePropagator(model, topology);
 
@@ -142,9 +152,7 @@ namespace DeBroglie.Test
 
             propagator.Run();
 
-            var v = propagator.ToValueArray(-1, -2);
-
-            Assert.AreEqual(Resolution.Contradiction, propagator.Status);
+            Assert.AreEqual(Resolution.Decided, propagator.Status);
         }
 
     }

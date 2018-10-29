@@ -49,8 +49,10 @@ namespace DeBroglie
             this.tileModel = tileModel;
             this.topology = topology;
 
-            var patternTopology = topology;
-            if(!(topology.PeriodicX && topology.PeriodicY && topology.PeriodicZ) && tileModel is OverlappingModel overlapping)
+            var overlapping = tileModel as OverlappingModel;
+
+            Topology patternTopology;
+            if(!(topology.PeriodicX && topology.PeriodicY && topology.PeriodicZ) && overlapping != null)
             {
                 // Shrink the topology as patterns can cover multiple tiles.
                 patternTopology = topology.WithSize(
@@ -95,6 +97,7 @@ namespace DeBroglie
             }
             else
             {
+                patternTopology = topology;
                 mappingType = MappingType.OneToOne;
                 tilesToPatternsByOffset = new Dictionary<int, IReadOnlyDictionary<Tile, ISet<int>>>()
                 {
@@ -106,7 +109,51 @@ namespace DeBroglie
                 };
             }
 
-            TODO: Handle pattern mask
+            // Masks interact a bit weirdly with the overlapping model
+            // We choose a pattern mask that is a expansion of the topology mask
+            // i.e. a pattern location is masked out if all the tile locations it covers is masked out.
+            // This makes the propagator a bit conservative - it'll always preserve the overlapping property
+            // but might ban some layouts that make sense.
+            // The alternative is to contract the mask - that is more permissive, but sometimes will
+            // violate the overlapping property.
+            // (passing the mask verbatim is unacceptable as does not lead to symmetric behaviour)
+            // See TestTileMaskWithThinOverlapping for an example of the problem, and
+            // https://github.com/BorisTheBrave/DeBroglie/issues/7 for a possible solution.
+            if (topology.Mask != null && overlapping != null)
+            {
+                // TODO: This could probably do with some cleanup
+                bool GetTopologyMask(int x, int y, int z)
+                {
+                    if (!topology.PeriodicX && x >= topology.Width)
+                        return false;
+                    if (!topology.PeriodicY && y >= topology.Height)
+                        return false;
+                    if (!topology.PeriodicZ && z >= topology.Depth)
+                        return false;
+                    x = x % topology.Width;
+                    y = y % topology.Height;
+                    z = z % topology.Depth;
+                    return topology.Mask[topology.GetIndex(x, y, z)];
+                }
+                bool GetPatternTopologyMask(Point p)
+                {
+                    for (var oz = 0; oz < overlapping.NZ; oz++)
+                    {
+                        for (var oy = 0; oy < overlapping.NY; oy++)
+                        {
+                            for (var ox = 0; ox < overlapping.NX; ox++)
+                            {
+                                if (GetTopologyMask(p.X + ox, p.Y + oy, p.Z + oz))
+                                    return true;
+                            }
+                        }
+                    }
+                    return false;
+                }
+
+                var patternMask = TopoArray.Create(GetPatternTopologyMask, patternTopology);
+                patternTopology = patternTopology.WithMask(patternMask);
+            }
 
             var waveConstraints =
                 (constraints?.Select(x => new TileConstraintAdaptor(x, this)).ToArray() ?? Enumerable.Empty<IWaveConstraint>())
