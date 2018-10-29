@@ -1,4 +1,5 @@
-﻿using DeBroglie.Topo;
+﻿using DeBroglie.Rot;
+using DeBroglie.Topo;
 using DeBroglie.Wfc;
 using System;
 using System.Collections.Generic;
@@ -128,8 +129,8 @@ namespace DeBroglie.Models
                     }
 
                     AddAdjacency(
-                        rotations.Rotate(src, rotateCw, reflectX).ToList(),
-                        rotations.Rotate(dest, rotateCw, reflectX).ToList(),
+                        rotations.Rotate(src, new Rotation(rotateCw, reflectX)).ToList(),
+                        rotations.Rotate(dest, new Rotation(rotateCw, reflectX)).ToList(),
                         x2, y2, z);
                 }
             }

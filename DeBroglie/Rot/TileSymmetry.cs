@@ -1,4 +1,4 @@
-﻿namespace DeBroglie
+﻿namespace DeBroglie.Rot
 {
     /// <summary>
     /// Specifies the way in which a tile can be symmetric.

@@ -3,6 +3,10 @@ uid: release_notes
 title: Release Notes
 ---
 
+# Unreleased
+
+* Support setting a mask on the output topology of TilePropagator. Doesn't work perfectly with Overlapping, so undocumented feature for now.
+
 # v0.2.1
 
 * Reduced memory usage of WFC

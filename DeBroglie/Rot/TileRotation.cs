@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DeBroglie
+namespace DeBroglie.Rot
 {
 
     /// <summary>
@@ -10,21 +10,21 @@ namespace DeBroglie
     /// </summary>
     public class TileRotation
     {
-        private readonly IDictionary<Tile, IDictionary<Transform, Tile>> transforms;
+        private readonly IDictionary<Tile, IDictionary<Rotation, Tile>> rotations;
         private readonly IDictionary<Tile, TileRotationTreatment> treatments;
         private readonly TileRotationTreatment defaultTreatment;
-        private readonly TransformGroup tg;
+        private readonly RotationGroup rotationGroup;
 
         internal TileRotation(
-            IDictionary<Tile, IDictionary<Transform, Tile>> transforms,
+            IDictionary<Tile, IDictionary<Rotation, Tile>> rotations,
             IDictionary<Tile, TileRotationTreatment> treatments,
             TileRotationTreatment defaultTreatment, 
-            TransformGroup tg)
+            RotationGroup rotationGroup)
         {
-            this.transforms = transforms;
+            this.rotations = rotations;
             this.treatments = treatments;
             this.defaultTreatment = defaultTreatment;
-            this.tg = tg;
+            this.rotationGroup = rotationGroup;
         }
 
         internal TileRotation(TileRotationTreatment defaultTreatment = TileRotationTreatment.Unchanged)
@@ -38,24 +38,19 @@ namespace DeBroglie
         /// If there is a corresponding tile (possibly the same one), then it is set to result.
         /// Otherwise, false is returned.
         /// </summary>
-        public bool Rotate(Tile tile, int rotateCw, bool reflectX, out Tile result)
+        public bool Rotate(Tile tile, Rotation rotation, out Tile result)
         {
-            Transform tf;
-            if(tg != null && tile.Value is RotatedTile rt)
+            if(rotationGroup != null && tile.Value is RotatedTile rt)
             {
-                tf = tg.Mul(
-                    new Transform { RotateCw = rt.RotateCw, ReflectX = rt.ReflectX },
-                    new Transform { RotateCw = rotateCw, ReflectX = reflectX });
+                rotation = rotationGroup.Mul(
+                    rt.Rotation,
+                    rotation);
                 tile = rt.Tile;
             }
-            else
-            {
-                tf = new Transform { RotateCw = rotateCw, ReflectX = reflectX };
-            }
 
-            if(transforms != null && transforms.TryGetValue(tile, out var d))
+            if(rotations != null && rotations.TryGetValue(tile, out var d))
             {
-                if (d.TryGetValue(tf, out result))
+                if (d.TryGetValue(rotation, out result))
                     return true;
             }
 
@@ -71,10 +66,10 @@ namespace DeBroglie
                     result = tile;
                     return true;
                 case TileRotationTreatment.Generated:
-                    if (tf.ReflectX == false && tf.RotateCw == 0)
+                    if (rotation.IsIdentity)
                         result = tile;
                     else
-                        result = new Tile(new RotatedTile { RotateCw = tf.RotateCw, ReflectX = tf.ReflectX, Tile = tile });
+                        result = new Tile(new RotatedTile { Rotation = rotation, Tile = tile });
                     return true;
                 default:
                     throw new Exception($"Unknown treatment {treatment}");
@@ -84,11 +79,11 @@ namespace DeBroglie
         /// <summary>
         /// Convenience method for calling Rotate on each tile in a list, skipping any that cannot be rotated.
         /// </summary>
-        public IEnumerable<Tile> Rotate(IEnumerable<Tile> tiles, int rotateCw, bool reflectX)
+        public IEnumerable<Tile> Rotate(IEnumerable<Tile> tiles, Rotation rotation)
         {
             foreach(var tile in tiles)
             {
-                if(Rotate(tile, rotateCw, reflectX, out var tile2))
+                if(Rotate(tile, rotation, out var tile2))
                 {
                     yield return tile2;
                 }
@@ -103,7 +98,7 @@ namespace DeBroglie
         {
             if(t.Value is RotatedTile rt)
             {
-                if (!Rotate(rt.Tile, rt.RotateCw, rt.ReflectX, out var result))
+                if (!Rotate(rt.Tile, rt.Rotation, out var result))
                     throw new Exception($"No tile corresponds to {t}");
                 return result;
             }

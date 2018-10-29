@@ -1,4 +1,5 @@
 ﻿using DeBroglie.Models;
+using DeBroglie.Rot;
 using DeBroglie.Topo;
 using NUnit.Framework;
 using System;
@@ -72,9 +73,9 @@ namespace DeBroglie.Test
             var tile3 = new Tile(3);
             var tile4 = new Tile(4);
 
-            var rotationBuilder = new TileRotationBuilder(TileRotationTreatment.Missing);
-            rotationBuilder.Add(tile1, 1, false, tile3);
-            rotationBuilder.Add(tile2, 1, false, tile4);
+            var rotationBuilder = new TileRotationBuilder(4, true, TileRotationTreatment.Missing);
+            rotationBuilder.Add(tile1, new Rotation(1, false), tile3);
+            rotationBuilder.Add(tile2, new Rotation(1, false), tile4);
             var rotations = rotationBuilder.Build();
 
             model.AddAdjacency(new[] { tile1 }, new[] { tile2 }, 1, 0, 0, 4, false, rotations);

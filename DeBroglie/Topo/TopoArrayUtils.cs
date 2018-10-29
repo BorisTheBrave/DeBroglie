@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeBroglie.Rot;
+using System;
 
 namespace DeBroglie.Topo
 {
@@ -68,7 +69,7 @@ namespace DeBroglie.Topo
         {
             bool TileRotate(Tile tile, out Tile result)
             {
-                return tileRotation.Rotate(tile, rotateCw, reflectX, out result);
+                return tileRotation.Rotate(tile, new Rotation(rotateCw, reflectX), out result);
             }
             return Rotate<Tile>(original, rotateCw, reflectX, tileRotation == null ? null : (TileRotate<Tile> )TileRotate);
         }
@@ -90,7 +91,7 @@ namespace DeBroglie.Topo
         {
             bool TileRotate(Tile tile, out Tile result)
             {
-                return tileRotation.Rotate(tile, rotate, reflectX, out result);
+                return tileRotation.Rotate(tile, new Rotation(rotate, reflectX), out result);
             }
             return HexRotate<Tile>(original, rotate, reflectX, tileRotation == null ? null : (TileRotate<Tile>)TileRotate);
         }

@@ -1,4 +1,5 @@
-﻿using DeBroglie.Topo;
+﻿using DeBroglie.Rot;
+using DeBroglie.Topo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,7 +62,7 @@ namespace DeBroglie.Console
             {
                 if (!subTiles.TryGetValue(rt.Tile, out var subTile))
                     return null;
-                result = TopoArrayUtils.Rotate(subTile, rt.RotateCw, rt.ReflectX);
+                result = TopoArrayUtils.Rotate(subTile, rt.Rotation.RotateCw, rt.Rotation.ReflectX);
                 return subTiles[tile] = result;
             }
 

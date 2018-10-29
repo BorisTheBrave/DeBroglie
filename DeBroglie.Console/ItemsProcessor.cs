@@ -4,6 +4,7 @@ using DeBroglie.Console.Import;
 using DeBroglie.Constraints;
 using DeBroglie.MagicaVoxel;
 using DeBroglie.Models;
+using DeBroglie.Rot;
 using DeBroglie.Topo;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -118,12 +119,11 @@ namespace DeBroglie.Console
                     refl = true;
                     b = b.Substring(1);
                 }
-                var rotation = ((int.Parse(b) / 90) + 4) % 4;
+                var rotateCw = ((int.Parse(b) / 90) + 4) % 4;
                 return new Tile(new RotatedTile
                 {
                     Tile = Parse(a[0]),
-                    ReflectX = refl,
-                    RotateCw = rotation,
+                    Rotation = new Rotation(rotateCw, refl),
                 });
             }
             // TODO: Apply tiles by name
@@ -375,8 +375,9 @@ namespace DeBroglie.Console
 
         private TileRotation GetTileRotation(List<TileData> tileData, TileRotationTreatment? rotationTreatment, Topology topology)
         {
-
-            var tileRotationBuilder = new TileRotationBuilder(rotationTreatment ?? TileRotationTreatment.Unchanged);
+            int rotationalSymmetry = topology.Directions.Count;
+            bool reflectionalSymmetry = true;
+            var tileRotationBuilder = new TileRotationBuilder(rotationalSymmetry, reflectionalSymmetry, rotationTreatment ?? TileRotationTreatment.Unchanged);
 
             // Setup tiles
             if (tileData != null)
@@ -391,19 +392,19 @@ namespace DeBroglie.Console
                     }
                     if (td.ReflectX != null)
                     {
-                        tileRotationBuilder.Add(tile, 0, true, Parse(td.ReflectX));
+                        tileRotationBuilder.Add(tile, new Rotation(0, true), Parse(td.ReflectX));
                     }
                     if (td.ReflectY != null)
                     {
-                        tileRotationBuilder.Add(tile, topology.Directions.Count / 2, true, Parse(td.ReflectY));
+                        tileRotationBuilder.Add(tile, new Rotation(rotationalSymmetry / 2, true), Parse(td.ReflectY));
                     }
                     if (td.RotateCw != null)
                     {
-                        tileRotationBuilder.Add(tile, 1, false, Parse(td.RotateCw));
+                        tileRotationBuilder.Add(tile, new Rotation(1, false), Parse(td.RotateCw));
                     }
                     if (td.RotateCcw != null)
                     {
-                        tileRotationBuilder.Add(tile, -1, false, Parse(td.RotateCcw));
+                        tileRotationBuilder.Add(tile, new Rotation(rotationalSymmetry - 1, false), Parse(td.RotateCcw));
                     }
                     if(td.RotationTreatment != null)
                     {

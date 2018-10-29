@@ -1,21 +1,19 @@
-﻿namespace DeBroglie
+﻿namespace DeBroglie.Rot
 {
     /// <summary>
     /// Represents a tile that has been rotated and reflected in some way.
     /// </summary>
     public struct RotatedTile
     {
-        public int RotateCw { get; set; }
-        public bool ReflectX { get; set; }
         public Tile Tile { get; set; }
+        public Rotation Rotation { get; set; }
 
         public override int GetHashCode()
         {
             unchecked
             {
                 int hash = 17;
-                hash = hash * 23 + RotateCw.GetHashCode();
-                hash = hash * 23 + ReflectX.GetHashCode();
+                hash = hash * 23 + Rotation.GetHashCode();
                 hash = hash * 23 + Tile.GetHashCode();
                 return hash;
             }
@@ -25,7 +23,7 @@
         {
             if (obj is RotatedTile other)
             {
-                return RotateCw == other.RotateCw && ReflectX == other.ReflectX && Tile == other.Tile;
+                return Rotation.Equals(other.Rotation) && Tile == other.Tile;
             }
             else {
                 return base.Equals(obj);
@@ -34,7 +32,7 @@
 
         public override string ToString()
         {
-            return Tile.ToString() + "!" + (ReflectX ? "x" : "") + (RotateCw * 90);
+            return Tile.ToString() + "!" + (Rotation.ReflectX ? "x" : "") + (Rotation.RotateCw * 90);
         }
     }
 }
