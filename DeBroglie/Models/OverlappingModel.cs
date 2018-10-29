@@ -151,8 +151,13 @@ namespace DeBroglie.Models
         public override IReadOnlyDictionary<int, Tile> PatternsToTiles => patternsToTiles;
         public override ILookup<Tile, int> TilesToPatterns => tilesToPatterns;
 
-        public override void MultiplyFrequency(Tile tile, double multiplier)
+        public override void MultiplyFrequency(Tile tile, double multiplier, bool includeRotatedTiles = false)
         {
+            Tile GetTile(Tile _tile)
+            {
+                return includeRotatedTiles ? GetUnrotatedTile(_tile) : _tile;
+            }
+
             for (var p = 0; p < patternArrays.Count; p++)
             {
                 var patternArray = patternArrays[p];
@@ -162,7 +167,7 @@ namespace DeBroglie.Models
                     {
                         for (var z = 0; z < patternArray.Depth; z++)
                         {
-                            if (patternArray.Values[x, y, z] == tile)
+                            if (GetTile(patternArray.Values[x, y, z]) == tile)
                             {
                                 frequencies[p] *= multiplier;
                             }
@@ -171,6 +176,14 @@ namespace DeBroglie.Models
                 }
             }
         }
-    }
 
+        private Tile GetUnrotatedTile(Tile tile)
+        {
+            if (tile.Value is RotatedTile rotatedTile)
+            {
+                return rotatedTile.Tile;
+            }
+            return tile;
+        }
+    }
 }
