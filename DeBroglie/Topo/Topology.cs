@@ -141,20 +141,20 @@
         /// Given an index and a direction, gives the index that is one step in that direction,
         /// if it exists and is not masked out. Otherwise, it returns false.
         /// </summary>
-        public bool TryMove(int index, int direction, out int dest)
+        public bool TryMove(int index, int direction, out int dest, int n = 1)
         {
             int x, y, z;
             GetCoord(index, out x, out y, out z);
-            return TryMove(x, y, z, direction, out dest);
+            return TryMove(x, y, z, direction, out dest, n);
         }
 
         /// <summary>
         /// Given a co-ordinate and a direction, gives the index that is one step in that direction,
         /// if it exists and is not masked out. Otherwise, it returns false.
         /// </summary>
-        public bool TryMove(int x, int y, int z, int direction, out int dest)
+        public bool TryMove(int x, int y, int z, int direction, out int dest, int n = 1)
         {
-            if (TryMove(x, y, z, direction, out x, out y, out z))
+            if (TryMove(x, y, z, direction, out x, out y, out z, n))
             {
                 dest = GetIndex(x, y, z);
                 return true;
@@ -170,11 +170,11 @@
         /// Given a co-ordinate and a direction, gives the co-ordinate that is one step in that direction,
         /// if it exists and is not masked out. Otherwise, it returns false.
         /// </summary>
-        public bool TryMove(int x, int y, int z, int direction, out int destx, out int desty, out int destz)
+        public bool TryMove(int x, int y, int z, int direction, out int destx, out int desty, out int destz, int n = 1)
         {
-            x += Directions.DX[direction];
-            y += Directions.DY[direction];
-            z += Directions.DZ[direction];
+            x += Directions.DX[direction] * n;
+            y += Directions.DY[direction] * n;
+            z += Directions.DZ[direction] * n;
             if (PeriodicX)
             {
                 if (x < 0) x += Width;
