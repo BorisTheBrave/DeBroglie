@@ -79,11 +79,9 @@ namespace DeBroglie.Constraints
             {
                 topology.GetCoord(i, out var x, out var y, out var z);
 
-                lengths[i] = 0;
-                for (int j = 0; j < Tiles.Length && lengths[i] == 0; j++)
-                {
-                    lengths[i] = propagator.IsSelected(x, y, z, Tiles[j]) ? 1 : 0;
-                }
+                // This is significantly faster than calling IsSelected on each tile individually.
+                propagator.GetBannedSelected(x, y, z, Tiles, out _, out bool isSelected);
+                lengths[i] =  isSelected ? 1 : 0;
             }
 
             // For each coordinate calculate its consecutive length by taking 
