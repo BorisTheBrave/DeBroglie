@@ -1,30 +1,34 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace DeBroglie.Rot
 {
-    internal class RotationGroup
+    /// <summary>
+    /// Describes a group of rotations and reflections,
+    /// and provides methods for combining them.
+    /// </summary>
+    public class RotationGroup : IEnumerable<Rotation>
     {
         private readonly int rotationalSymmetry;
         private readonly bool reflectionalSymmetry;
+        private List<Rotation> rotations;
 
         public RotationGroup(int rotationalSymmetry, bool reflectionalSymmetry)
         {
             this.rotationalSymmetry = rotationalSymmetry;
             this.reflectionalSymmetry = reflectionalSymmetry;
-            Rotations = new List<Rotation>();
+            rotations = new List<Rotation>();
             for (var refl = 0; refl < (reflectionalSymmetry ? 2 : 1); refl++)
             {
                 for (var rot = 0; rot < rotationalSymmetry; rot++)
                 {
-                    Rotations.Add(new Rotation { RotateCw = rot, ReflectX = refl > 0 });
+                    rotations.Add(new Rotation { RotateCw = rot, ReflectX = refl > 0 });
                 }
             }
         }
 
         public int RotationalSymmetry => rotationalSymmetry;
         public bool ReflectionalSymmetry => reflectionalSymmetry;
-
-        public List<Rotation> Rotations { get; }
 
         public Rotation Mul(Rotation a, Rotation b)
         {
@@ -53,5 +57,14 @@ namespace DeBroglie.Rot
             };
         }
 
+        public IEnumerator<Rotation> GetEnumerator()
+        {
+            return rotations.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return rotations.GetEnumerator();
+        }
     }
 }

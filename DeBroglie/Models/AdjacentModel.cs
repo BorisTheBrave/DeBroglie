@@ -99,9 +99,11 @@ namespace DeBroglie.Models
         /// Declares that the tiles in dest can be placed adjacent to the tiles in src, in the direction specified by (x, y, z).
         /// Then it adds similar declarations for other rotations and reflections, as specified by rotations.
         /// </summary>
-        public void AddAdjacency(IList<Tile> src, IList<Tile> dest, int x, int y, int z, int rotationalSymmetry, bool reflectionalSymmetry, TileRotation rotations = null)
+        public void AddAdjacency(IList<Tile> src, IList<Tile> dest, int x, int y, int z, TileRotation tileRotation = null)
         {
-            rotations = rotations ?? new TileRotation();
+            tileRotation = tileRotation ?? new TileRotation();
+            var rotationalSymmetry = tileRotation.RotationGroup.RotationalSymmetry;
+            var reflectionalSymmetry = tileRotation.RotationGroup.ReflectionalSymmetry;
             int totalRotationalSymmetry;
             if (directions.Type == DirectionsType.Hexagonal2d)
             {
@@ -112,27 +114,25 @@ namespace DeBroglie.Models
                 totalRotationalSymmetry = 4;
             }
 
-            int reflections = reflectionalSymmetry ? 2 : 1;
-            for (var r = 0; r < reflections; r++)
+            foreach (var rotation in tileRotation.RotationGroup)
             {
-                var reflectX = r > 0 ? true : false;
-                for (var rotateCw = 0; rotateCw < totalRotationalSymmetry; rotateCw += (totalRotationalSymmetry / rotationalSymmetry))
-                {
-                    int x2, y2;
-                    if(directions.Type == DirectionsType.Hexagonal2d)
-                    {
-                        (x2, y2) = TopoArrayUtils.HexRotateVector(x, y, rotateCw, reflectX);
-                    }
-                    else
-                    {
-                        (x2, y2) = TopoArrayUtils.RotateVector(x, y, rotateCw, reflectX);
-                    }
+                var rotateCw = rotation.RotateCw * (totalRotationalSymmetry / rotationalSymmetry);
+                var reflectX = rotation.ReflectX;
 
-                    AddAdjacency(
-                        rotations.Rotate(src, new Rotation(rotateCw, reflectX)).ToList(),
-                        rotations.Rotate(dest, new Rotation(rotateCw, reflectX)).ToList(),
-                        x2, y2, z);
+                int x2, y2;
+                if (directions.Type == DirectionsType.Hexagonal2d)
+                {
+                    (x2, y2) = TopoArrayUtils.HexRotateVector(x, y, rotateCw, reflectX);
                 }
+                else
+                {
+                    (x2, y2) = TopoArrayUtils.RotateVector(x, y, rotateCw, reflectX);
+                }
+
+                AddAdjacency(
+                    tileRotation.Rotate(src, new Rotation(rotateCw, reflectX)).ToList(),
+                    tileRotation.Rotate(dest, new Rotation(rotateCw, reflectX)).ToList(),
+                    x2, y2, z);
             }
         }
 
@@ -172,9 +172,9 @@ namespace DeBroglie.Models
             propagator[destPattern][id].Add(srcPattern);
         }
 
-        public void AddSample(ITopoArray<Tile> sample, int rotationalSymmetry, bool reflectionalSymmetry, TileRotation tileRotation = null)
+        public void AddSample(ITopoArray<Tile> sample, TileRotation tileRotation = null)
         {
-            foreach (var s in OverlappingAnalysis.GetRotatedSamples(sample, rotationalSymmetry, reflectionalSymmetry, tileRotation))
+            foreach (var s in OverlappingAnalysis.GetRotatedSamples(sample, tileRotation))
             {
                 AddSample(s);
             }

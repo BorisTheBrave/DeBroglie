@@ -5,7 +5,8 @@ namespace DeBroglie.Rot
 {
 
     /// <summary>
-    /// Stores how tiles transform to each other via rotations and reflections.
+    /// Describes which rotations and reflections are allowed, and
+    /// and stores how to process each tile during a rotation.
     /// These are constructed with a <see cref="TileRotationBuilder"/>
     /// </summary>
     public class TileRotation
@@ -15,6 +16,7 @@ namespace DeBroglie.Rot
         private readonly TileRotationTreatment defaultTreatment;
         private readonly RotationGroup rotationGroup;
 
+        // Used by TileRotationBuilder
         internal TileRotation(
             IDictionary<Tile, IDictionary<Rotation, Tile>> rotations,
             IDictionary<Tile, TileRotationTreatment> treatments,
@@ -27,11 +29,29 @@ namespace DeBroglie.Rot
             this.rotationGroup = rotationGroup;
         }
 
-        internal TileRotation(TileRotationTreatment defaultTreatment = TileRotationTreatment.Unchanged)
+        /// <summary>
+        /// Constructs a TileRotation that allows rotations and reflections as passed in,
+        /// but leaves all tiles unchanged when rotating.
+        /// <paramref name="rotationalSymmetry"></paramref>
+        /// </summary>
+        /// <param name="rotationalSymmetry">Permits rotations of 360 / rotationalSymmetry</param>
+        /// <param name="reflectionalSymmetry">If true, reflections in the x-axis are permited</param>
+        public TileRotation(int rotationalSymmetry, bool reflectionalSymmetry)
         {
             this.treatments = new Dictionary<Tile, TileRotationTreatment>();
-            this.defaultTreatment = defaultTreatment;
+            this.defaultTreatment = TileRotationTreatment.Unchanged;
+            this.rotationGroup = new RotationGroup(rotationalSymmetry, reflectionalSymmetry);
         }
+
+        /// <summary>
+        /// A TileRotation that permits no rotation at all.
+        /// </summary>
+        public TileRotation():this(1, false)
+        {
+
+        }
+
+        public RotationGroup RotationGroup => rotationGroup;
 
         /// <summary>
         /// Attempts to reflect, then rotate clockwise, a given Tile.

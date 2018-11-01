@@ -145,7 +145,7 @@ namespace DeBroglie.Console
                 var model = new OverlappingModel(overlapping.NX, overlapping.NY, overlapping.NZ);
                 foreach (var sample in samples)
                 {
-                    model.AddSample(sample, config.RotationalSymmetry, config.ReflectionalSymmetry, tileRotation);
+                    model.AddSample(sample, tileRotation);
                 }
                 return model;
             }
@@ -154,7 +154,7 @@ namespace DeBroglie.Console
                 var model = new AdjacentModel(directions);
                 foreach (var sample in samples)
                 {
-                    model.AddSample(sample, config.RotationalSymmetry, config.ReflectionalSymmetry, tileRotation);
+                    model.AddSample(sample, tileRotation);
                 }
                 return model;
             }
@@ -267,7 +267,7 @@ namespace DeBroglie.Console
                 {
                     var srcAdj = a.Src.Select(Parse).Select(tileRotation.Canonicalize).ToList();
                     var destAdj = a.Dest.Select(Parse).Select(tileRotation.Canonicalize).ToList();
-                    adjacentModel.AddAdjacency(srcAdj, destAdj, a.X, a.Y, a.Z, config.RotationalSymmetry, config.ReflectionalSymmetry, tileRotation);
+                    adjacentModel.AddAdjacency(srcAdj, destAdj, a.X, a.Y, a.Z, tileRotation);
                 }
 
                 // If there are no samples, set frequency to 1 for everything mentioned in this block
@@ -375,9 +375,8 @@ namespace DeBroglie.Console
 
         private TileRotation GetTileRotation(List<TileData> tileData, TileRotationTreatment? rotationTreatment, Topology topology)
         {
-            int rotationalSymmetry = topology.Directions.Count;
-            bool reflectionalSymmetry = true;
-            var tileRotationBuilder = new TileRotationBuilder(rotationalSymmetry, reflectionalSymmetry, rotationTreatment ?? TileRotationTreatment.Unchanged);
+            int rotationalSymmetry = config.RotationalSymmetry;
+            var tileRotationBuilder = new TileRotationBuilder(config.RotationalSymmetry, config.ReflectionalSymmetry, rotationTreatment ?? TileRotationTreatment.Unchanged);
 
             // Setup tiles
             if (tileData != null)

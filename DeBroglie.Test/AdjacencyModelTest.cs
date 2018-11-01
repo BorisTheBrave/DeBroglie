@@ -48,7 +48,7 @@ namespace DeBroglie.Test
             model.SetFrequency(tile1, 1);
             model.SetFrequency(tile2, 5);
 
-            model.AddAdjacency(new[] { tile1 }, new[] { tile2 }, 1, 0, 0, 4, false);
+            model.AddAdjacency(new[] { tile1 }, new[] { tile2 }, 1, 0, 0, new TileRotation(4, false));
 
             var patternModel = model.GetPatternModel();
             Assert.AreEqual(1, patternModel.Frequencies[0]);
@@ -73,12 +73,12 @@ namespace DeBroglie.Test
             var tile3 = new Tile(3);
             var tile4 = new Tile(4);
 
-            var rotationBuilder = new TileRotationBuilder(4, true, TileRotationTreatment.Missing);
+            var rotationBuilder = new TileRotationBuilder(4, false, TileRotationTreatment.Missing);
             rotationBuilder.Add(tile1, new Rotation(1, false), tile3);
             rotationBuilder.Add(tile2, new Rotation(1, false), tile4);
             var rotations = rotationBuilder.Build();
 
-            model.AddAdjacency(new[] { tile1 }, new[] { tile2 }, 1, 0, 0, 4, false, rotations);
+            model.AddAdjacency(new[] { tile1 }, new[] { tile2 }, 1, 0, 0, rotations);
 
             var patternModel = model.GetPatternModel();
 

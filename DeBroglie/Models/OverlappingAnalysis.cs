@@ -13,30 +13,31 @@ namespace DeBroglie.Models
     {
         public static IEnumerable<ITopoArray<Tile>> GetRotatedSamples(
             ITopoArray<Tile> sample,
-            int rotationalSymmetry,
-            bool reflectionalSymmetry,
             TileRotation tileRotation = null)
         {
+            tileRotation = tileRotation ?? new TileRotation();
+            int totalRotationalSymmetry;
             if (sample.Topology.Directions.Type == DirectionsType.Hexagonal2d)
             {
-                var reflections = reflectionalSymmetry ? 2 : 1;
-                for (var r = 0; r < reflections; r++)
-                {
-                    for (var i = 0; i < 6; i += (6 / rotationalSymmetry))
-                    {
-                        yield return TopoArrayUtils.HexRotate(sample, i, r > 0, tileRotation);
-                    }
-                }
+                totalRotationalSymmetry = 6;
             }
             else
             {
-                var reflections = reflectionalSymmetry ? 2 : 1;
-                for (var r = 0; r < reflections; r++)
+                totalRotationalSymmetry = 4;
+            }
+
+            foreach (var rotation in tileRotation.RotationGroup)
+            {
+                var rotateCw = rotation.RotateCw * (totalRotationalSymmetry / tileRotation.RotationGroup.RotationalSymmetry);
+                var reflectX = rotation.ReflectX;
+
+                if (sample.Topology.Directions.Type == DirectionsType.Hexagonal2d)
                 {
-                    for (var i = 0; i < 4; i += (4 / rotationalSymmetry))
-                    {
-                        yield return TopoArrayUtils.Rotate(sample, i, r > 0, tileRotation);
-                    }
+                    yield return TopoArrayUtils.HexRotate(sample, rotateCw, reflectX, tileRotation);
+                }
+                else
+                {
+                    yield return TopoArrayUtils.Rotate(sample, rotateCw, reflectX, tileRotation);
                 }
             }
         }

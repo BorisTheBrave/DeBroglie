@@ -153,7 +153,7 @@ namespace DeBroglie.Rot
                 }
                 var r1 = sg.GetRotations(t)[0];
                 var result = new Dictionary<Rotation, Tile>();
-                foreach(var r2 in rotationGroup.Rotations)
+                foreach(var r2 in rotationGroup)
                 {
                     if (!sg.Tiles.TryGetValue(r2, out var dest))
                     {

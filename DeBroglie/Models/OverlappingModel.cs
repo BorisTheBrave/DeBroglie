@@ -36,7 +36,7 @@ namespace DeBroglie.Models
         public OverlappingModel(ITopoArray<Tile> sample, int n, int rotationalSymmetry, bool reflectionalSymmetry)
             :this(n)
         {
-            AddSample(sample, rotationalSymmetry, reflectionalSymmetry);
+            AddSample(sample, new TileRotation(rotationalSymmetry, reflectionalSymmetry));
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace DeBroglie.Models
             propagator = new List<HashSet<int>[]>();
         }
 
-        public void AddSample(ITopoArray<Tile> sample, int rotationalSymmetry, bool reflectionalSymmetry, TileRotation tileRotation = null)
+        public void AddSample(ITopoArray<Tile> sample, TileRotation tileRotation = null)
         {
             if (sample.Topology.Depth == 1)
                 nz = 1;
@@ -69,7 +69,7 @@ namespace DeBroglie.Models
             var periodicY = sample.Topology.PeriodicY;
             var periodicZ = sample.Topology.PeriodicZ;
 
-            foreach(var s in OverlappingAnalysis.GetRotatedSamples(sample, rotationalSymmetry, reflectionalSymmetry, tileRotation))
+            foreach(var s in OverlappingAnalysis.GetRotatedSamples(sample, tileRotation))
             {
                 OverlappingAnalysis.GetPatterns(s, nx, ny, nz, periodicX, periodicY, periodicZ, patternIndices, patternArrays, frequencies);
             }
