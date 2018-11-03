@@ -4,8 +4,7 @@ using System.Collections.Generic;
 namespace DeBroglie.Rot
 {
     /// <summary>
-    /// Describes a group of rotations and reflections,
-    /// and provides methods for combining them.
+    /// Describes a group of rotations and reflections.
     /// </summary>
     public class RotationGroup : IEnumerable<Rotation>
     {
@@ -29,13 +28,29 @@ namespace DeBroglie.Rot
             }
         }
 
+        /// <summary>
+        /// Indicates the number of distinct rotations in the group.
+        /// </summary>
         public int RotationalSymmetry => rotationalSymmetry;
+
+        /// <summary>
+        /// If true, the group also contains reflections as well as rotations.
+        /// </summary>
         public bool ReflectionalSymmetry => reflectionalSymmetry;
+
+        /// <summary>
+        /// Defined as 360 / RotationalSymmetry, this is the the smallest angle of any rotation
+        /// in the group.
+        /// </summary>
         public int SmallestAngle => smallestAngle;
 
+        /// <summary>
+        /// Throws if rotation is not a member of the group.
+        /// </summary>
+        /// <param name="rotation"></param>
         public void CheckContains(Rotation rotation)
         {
-            if(rotation.RotateCw / smallestAngle * SmallestAngle != rotation.RotateCw)
+            if(rotation.RotateCw / smallestAngle * smallestAngle != rotation.RotateCw)
             {
                 throw new System.Exception($"Rotation angle {rotation.RotateCw} not permitted.");
             }
