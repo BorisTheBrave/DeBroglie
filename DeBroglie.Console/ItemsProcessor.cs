@@ -296,7 +296,7 @@ namespace DeBroglie.Console
                         {
                             cfd = double.Parse(cf);
                         }
-                        model.MultiplyFrequency(value, cfd);
+                        model.MultiplyFrequency(value, cfd, tileRotation);
                     }
                 }
             }
