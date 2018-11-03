@@ -62,7 +62,7 @@ namespace DeBroglie.Console
             {
                 if (!subTiles.TryGetValue(rt.Tile, out var subTile))
                     return null;
-                result = TopoArrayUtils.Rotate(subTile, rt.Rotation.RotateCw, rt.Rotation.ReflectX);
+                result = TopoArrayUtils.Rotate(subTile, rt.Rotation);
                 return subTiles[tile] = result;
             }
 

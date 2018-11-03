@@ -105,17 +105,14 @@ namespace DeBroglie.Models
 
             foreach (var rotation in tileRotation.RotationGroup)
             {
-                var rotateCw = rotation.RotateCw;
-                var reflectX = rotation.ReflectX;
-
                 int x2, y2;
                 if (directions.Type == DirectionsType.Hexagonal2d)
                 {
-                    (x2, y2) = TopoArrayUtils.HexRotateVector(x, y, rotateCw, reflectX);
+                    (x2, y2) = TopoArrayUtils.HexRotateVector(x, y, rotation);
                 }
                 else
                 {
-                    (x2, y2) = TopoArrayUtils.RotateVector(x, y, rotateCw, reflectX);
+                    (x2, y2) = TopoArrayUtils.RotateVector(x, y, rotation);
                 }
 
                 AddAdjacency(

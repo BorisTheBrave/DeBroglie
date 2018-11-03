@@ -1,4 +1,5 @@
 ﻿using DeBroglie.Topo;
+using DeBroglie.Rot;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -18,15 +19,15 @@ namespace DeBroglie.Test
 
             var ta = TopoArray.Create(a, new Topology(2, 2, false));
 
-            var r1 = TopoArrayUtils.Rotate(ta, 3 * 90);
+            var r1 = TopoArrayUtils.Rotate(ta, new Rotation(3 * 90));
             Assert.AreEqual(2, r1.Get(0, 0)); Assert.AreEqual(4, r1.Get(1, 0));
             Assert.AreEqual(1, r1.Get(0, 1)); Assert.AreEqual(3, r1.Get(1, 1));
 
-            var r3 = TopoArrayUtils.Rotate(ta, 1 * 90);
+            var r3 = TopoArrayUtils.Rotate(ta, new Rotation(1 * 90));
             Assert.AreEqual(3, r3.Get(0, 0)); Assert.AreEqual(1, r3.Get(1, 0));
             Assert.AreEqual(4, r3.Get(0, 1)); Assert.AreEqual(2, r3.Get(1, 1));
 
-            var refl = TopoArrayUtils.Rotate(ta, 0 * 90, true);
+            var refl = TopoArrayUtils.Rotate(ta, new Rotation(0 * 90, true));
             Assert.AreEqual(2, refl.Get(0, 0)); Assert.AreEqual(1, refl.Get(1, 0));
             Assert.AreEqual(4, refl.Get(0, 1)); Assert.AreEqual(3, refl.Get(1, 1));
         }
@@ -40,26 +41,26 @@ namespace DeBroglie.Test
 
             var ta = TopoArray.Create(a, new Topology(Directions.Hexagonal2d, 2, 2, false, false));
 
-            var r5 = TopoArrayUtils.HexRotate(ta, 5 * 60, false);
+            var r5 = TopoArrayUtils.HexRotate(ta, new Rotation(5 * 60, false));
                 Assert.AreEqual(2, r5.Get(0, 0)); 
             Assert.AreEqual(1, r5.Get(0, 1)); Assert.AreEqual(4, r5.Get(1, 1));
                 Assert.AreEqual(3, r5.Get(1, 2));
 
-            var r1 = TopoArrayUtils.HexRotate(ta, 1 * 60, false);
+            var r1 = TopoArrayUtils.HexRotate(ta, new Rotation(1 * 60, false));
             Assert.AreEqual(3, r1.Get(0, 0)); Assert.AreEqual(1, r1.Get(1, 0));
                 Assert.AreEqual(4, r1.Get(1, 1)); Assert.AreEqual(2, r1.Get(2, 1));
 
-            var r2 = TopoArrayUtils.HexRotate(ta, 2 * 60, false);
+            var r2 = TopoArrayUtils.HexRotate(ta, new Rotation(2 * 60, false));
                 Assert.AreEqual(3, r2.Get(0, 0));
             Assert.AreEqual(4, r2.Get(0, 1)); Assert.AreEqual(1, r2.Get(1, 1));
                 Assert.AreEqual(2, r2.Get(1, 2));
 
-            var r3 = TopoArrayUtils.HexRotate(ta, 3 * 60, false);
+            var r3 = TopoArrayUtils.HexRotate(ta, new Rotation(3 * 60, false));
                 Assert.AreEqual(4, r3.Get(0, 0)); Assert.AreEqual(3, r3.Get(1, 0));
             Assert.AreEqual(2, r3.Get(0, 1)); Assert.AreEqual(1, r3.Get(1, 1));
 
 
-            var refl = TopoArrayUtils.HexRotate(ta, 0 * 60, true);
+            var refl = TopoArrayUtils.HexRotate(ta, new Rotation(0 * 60, true));
             Assert.AreEqual(2, refl.Get(0, 0)); Assert.AreEqual(1, refl.Get(1, 0));
                 Assert.AreEqual(4, refl.Get(1, 1)); Assert.AreEqual(3, refl.Get(2, 1));
 

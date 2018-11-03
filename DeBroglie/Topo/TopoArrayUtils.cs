@@ -6,13 +6,13 @@ namespace DeBroglie.Topo
 
     public static class TopoArrayUtils
     {
-        public static ValueTuple<int, int> RotateVector(int x, int y, int rotateCw, bool reflectX)
+        public static ValueTuple<int, int> RotateVector(int x, int y, Rotation rotation)
         {
-            if (reflectX)
+            if (rotation.ReflectX)
             {
                 x = -x;
             }
-            switch (rotateCw)
+            switch (rotation.RotateCw)
             {
                 case 0 * 90:
                     return (x, y);
@@ -27,11 +27,11 @@ namespace DeBroglie.Topo
             }
         }
 
-        public static ValueTuple<int, int> HexRotateVector(int x, int y, int rotateCw, bool reflectX)
+        public static ValueTuple<int, int> HexRotateVector(int x, int y, Rotation rotation)
         {
-            var microRotate = (rotateCw / 60) % 3;
-            var rotate180 = (rotateCw / 60) % 2 == 1;
-            return HexRotateVector(x, y, microRotate, rotate180, reflectX);
+            var microRotate = (rotation.RotateCw / 60) % 3;
+            var rotate180 = (rotation.RotateCw / 60) % 2 == 1;
+            return HexRotateVector(x, y, microRotate, rotate180, rotation.ReflectX);
         }
 
         private static ValueTuple<int, int> HexRotateVector(int x, int y, int microRotate, bool rotate180, bool reflectX)
@@ -65,49 +65,49 @@ namespace DeBroglie.Topo
 
         public delegate bool TileRotate<T>(T tile, out T result);
 
-        public static ITopoArray<Tile> Rotate(ITopoArray<Tile> original, int rotateCw, bool reflectX = false, TileRotation tileRotation = null)
+        public static ITopoArray<Tile> Rotate(ITopoArray<Tile> original, Rotation rotation, TileRotation tileRotation = null)
         {
             bool TileRotate(Tile tile, out Tile result)
             {
-                return tileRotation.Rotate(tile, new Rotation(rotateCw, reflectX), out result);
+                return tileRotation.Rotate(tile, rotation, out result);
             }
-            return Rotate<Tile>(original, rotateCw, reflectX, tileRotation == null ? null : (TileRotate<Tile> )TileRotate);
+            return Rotate<Tile>(original, rotation, tileRotation == null ? null : (TileRotate<Tile> )TileRotate);
         }
 
-        public static ITopoArray<T> Rotate<T>(ITopoArray<T> original, int rotateCw, bool reflectX = false, TileRotate<T> tileRotate = null)
+        public static ITopoArray<T> Rotate<T>(ITopoArray<T> original, Rotation rotation, TileRotate<T> tileRotate = null)
         {
-            if (rotateCw == 0 && !reflectX)
+            if (rotation.IsIdentity)
                 return original;
 
             ValueTuple<int, int> MapCoord(int x, int y)
             {
-                return RotateVector(x, y, rotateCw, reflectX);
+                return RotateVector(x, y, rotation);
             }
 
             return RotateInner(original, MapCoord, tileRotate);
         }
 
-        public static ITopoArray<Tile> HexRotate(ITopoArray<Tile> original, int rotate, bool reflectX = false, TileRotation tileRotation = null)
+        public static ITopoArray<Tile> HexRotate(ITopoArray<Tile> original, Rotation rotation, TileRotation tileRotation = null)
         {
             bool TileRotate(Tile tile, out Tile result)
             {
-                return tileRotation.Rotate(tile, new Rotation(rotate, reflectX), out result);
+                return tileRotation.Rotate(tile, rotation, out result);
             }
-            return HexRotate<Tile>(original, rotate, reflectX, tileRotation == null ? null : (TileRotate<Tile>)TileRotate);
+            return HexRotate<Tile>(original, rotation, tileRotation == null ? null : (TileRotate<Tile>)TileRotate);
         }
 
-        public static ITopoArray<T> HexRotate<T>(ITopoArray<T> original, int rotateCw, bool reflectX, TileRotate<T> tileRotate = null)
+        public static ITopoArray<T> HexRotate<T>(ITopoArray<T> original, Rotation rotation, TileRotate<T> tileRotate = null)
         {
-            if (rotateCw == 0 && !reflectX)
+            if (rotation.IsIdentity)
                 return original;
 
-            var microRotate = (rotateCw / 60) % 3;
-            var rotate180 = (rotateCw / 60) % 2 == 1;
+            var microRotate = (rotation.RotateCw / 60) % 3;
+            var rotate180 = (rotation.RotateCw / 60) % 2 == 1;
 
             // Actually do a reflection/rotation
             ValueTuple<int, int> MapCoord(int x, int y)
             {
-                return HexRotateVector(x, y, microRotate, rotate180, reflectX);
+                return HexRotateVector(x, y, microRotate, rotate180, rotation.ReflectX);
             }
 
             return RotateInner(original, MapCoord, tileRotate);

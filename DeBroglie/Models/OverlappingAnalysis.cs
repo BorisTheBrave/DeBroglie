@@ -21,11 +21,11 @@ namespace DeBroglie.Models
             {
                 if (sample.Topology.Directions.Type == DirectionsType.Hexagonal2d)
                 {
-                    yield return TopoArrayUtils.HexRotate(sample, rotation.RotateCw, rotation.ReflectX, tileRotation);
+                    yield return TopoArrayUtils.HexRotate(sample, rotation, tileRotation);
                 }
                 else
                 {
-                    yield return TopoArrayUtils.Rotate(sample, rotation.RotateCw, rotation.ReflectX, tileRotation);
+                    yield return TopoArrayUtils.Rotate(sample, rotation, tileRotation);
                 }
             }
         }
