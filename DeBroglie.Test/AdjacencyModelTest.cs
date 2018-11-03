@@ -74,8 +74,8 @@ namespace DeBroglie.Test
             var tile4 = new Tile(4);
 
             var rotationBuilder = new TileRotationBuilder(4, false, TileRotationTreatment.Missing);
-            rotationBuilder.Add(tile1, new Rotation(1, false), tile3);
-            rotationBuilder.Add(tile2, new Rotation(1, false), tile4);
+            rotationBuilder.Add(tile1, new Rotation(90), tile3);
+            rotationBuilder.Add(tile2, new Rotation(90), tile4);
             var rotations = rotationBuilder.Build();
 
             model.AddAdjacency(new[] { tile1 }, new[] { tile2 }, 1, 0, 0, rotations);

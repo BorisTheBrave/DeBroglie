@@ -14,13 +14,13 @@ namespace DeBroglie.Topo
             }
             switch (rotateCw)
             {
-                case 0:
+                case 0 * 90:
                     return (x, y);
-                case 1:
+                case 1 * 90:
                     return (-y, x);
-                case 2:
+                case 2 * 90:
                     return (-x, -y);
-                case 3:
+                case 3 * 90:
                     return (y, -x);
                 default:
                     throw new Exception();
@@ -29,8 +29,8 @@ namespace DeBroglie.Topo
 
         public static ValueTuple<int, int> HexRotateVector(int x, int y, int rotateCw, bool reflectX)
         {
-            var microRotate = rotateCw % 3;
-            var rotate180 = rotateCw % 2 == 1;
+            var microRotate = (rotateCw / 60) % 3;
+            var rotate180 = (rotateCw / 60) % 2 == 1;
             return HexRotateVector(x, y, microRotate, rotate180, reflectX);
         }
 
@@ -101,8 +101,8 @@ namespace DeBroglie.Topo
             if (rotateCw == 0 && !reflectX)
                 return original;
 
-            var microRotate = rotateCw % 3;
-            var rotate180 = rotateCw % 2 == 1;
+            var microRotate = (rotateCw / 60) % 3;
+            var rotate180 = (rotateCw / 60) % 2 == 1;
 
             // Actually do a reflection/rotation
             ValueTuple<int, int> MapCoord(int x, int y)

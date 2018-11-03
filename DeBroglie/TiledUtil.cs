@@ -196,28 +196,17 @@ namespace DeBroglie
                 {
                     case 0:
                         return new Tile(tileId);
-                    case 0b0010:
-                        return new Tile(new RotatedTile { Rotation = new Rotation { RotateCw = 1, ReflectX = false }, Tile = new Tile(tileId) });
-                    case 0b0001:
-                        return new Tile(new RotatedTile { Rotation = new Rotation { RotateCw = 2, ReflectX = false }, Tile = new Tile(tileId) });
-                    case 0b1100:
-                        return new Tile(new RotatedTile { Rotation = new Rotation { RotateCw = 3, ReflectX = false }, Tile = new Tile(tileId) });
-                    case 0b1110:
-                        return new Tile(new RotatedTile { Rotation = new Rotation { RotateCw = 4, ReflectX = false }, Tile = new Tile(tileId) });
-                    case 0b1101:
-                        return new Tile(new RotatedTile { Rotation = new Rotation { RotateCw = 5, ReflectX = false }, Tile = new Tile(tileId) });
-                    case 0b1000:
-                        return new Tile(new RotatedTile { Rotation = new Rotation { RotateCw = 0, ReflectX = true }, Tile = new Tile(tileId) });
-                    case 0b1010:
-                        return new Tile(new RotatedTile { Rotation = new Rotation { RotateCw = 1, ReflectX = true }, Tile = new Tile(tileId) });
-                    case 0b1001:
-                        return new Tile(new RotatedTile { Rotation = new Rotation { RotateCw = 2, ReflectX = true }, Tile = new Tile(tileId) });
-                    case 0b0100:
-                        return new Tile(new RotatedTile { Rotation = new Rotation { RotateCw = 3, ReflectX = true }, Tile = new Tile(tileId) });
-                    case 0b0110:
-                        return new Tile(new RotatedTile { Rotation = new Rotation { RotateCw = 4, ReflectX = true }, Tile = new Tile(tileId) });
-                    case 0b0101:
-                        return new Tile(new RotatedTile { Rotation = new Rotation { RotateCw = 5, ReflectX = true }, Tile = new Tile(tileId) });
+                    case 0b0010: return new Tile(new RotatedTile { Rotation = new Rotation(1 * 60, false), Tile = new Tile(tileId) });
+                    case 0b0001: return new Tile(new RotatedTile { Rotation = new Rotation(2 * 60, false), Tile = new Tile(tileId) });
+                    case 0b1100: return new Tile(new RotatedTile { Rotation = new Rotation(3 * 60, false), Tile = new Tile(tileId) });
+                    case 0b1110: return new Tile(new RotatedTile { Rotation = new Rotation(4 * 60, false), Tile = new Tile(tileId) });
+                    case 0b1101: return new Tile(new RotatedTile { Rotation = new Rotation(5 * 60, false), Tile = new Tile(tileId) });
+                    case 0b1000: return new Tile(new RotatedTile { Rotation = new Rotation(0 * 60, true ), Tile = new Tile(tileId) });
+                    case 0b1010: return new Tile(new RotatedTile { Rotation = new Rotation(1 * 60, true ), Tile = new Tile(tileId) });
+                    case 0b1001: return new Tile(new RotatedTile { Rotation = new Rotation(2 * 60, true ), Tile = new Tile(tileId) });
+                    case 0b0100: return new Tile(new RotatedTile { Rotation = new Rotation(3 * 60, true ), Tile = new Tile(tileId) });
+                    case 0b0110: return new Tile(new RotatedTile { Rotation = new Rotation(4 * 60, true ), Tile = new Tile(tileId) });
+                    case 0b0101: return new Tile(new RotatedTile { Rotation = new Rotation(5 * 60, true ), Tile = new Tile(tileId) });
                 }
             }
             else
@@ -228,20 +217,13 @@ namespace DeBroglie
                 {
                     case 0:
                         return new Tile(tileId);
-                    case 0b101:
-                        return new Tile(new RotatedTile { Rotation = new Rotation { RotateCw = 1, ReflectX = false }, Tile = new Tile(tileId) });
-                    case 0b110:
-                        return new Tile(new RotatedTile { Rotation = new Rotation { RotateCw = 2, ReflectX = false }, Tile = new Tile(tileId) });
-                    case 0b011:
-                        return new Tile(new RotatedTile { Rotation = new Rotation { RotateCw = 3, ReflectX = false }, Tile = new Tile(tileId) });
-                    case 0b100:
-                        return new Tile(new RotatedTile { Rotation = new Rotation { RotateCw = 0, ReflectX = true }, Tile = new Tile(tileId) });
-                    case 0b111:
-                        return new Tile(new RotatedTile { Rotation = new Rotation { RotateCw = 1, ReflectX = true }, Tile = new Tile(tileId) });
-                    case 0b010:
-                        return new Tile(new RotatedTile { Rotation = new Rotation { RotateCw = 2, ReflectX = true }, Tile = new Tile(tileId) });
-                    case 0b001:
-                        return new Tile(new RotatedTile { Rotation = new Rotation { RotateCw = 3, ReflectX = true }, Tile = new Tile(tileId) });
+                    case 0b101: return new Tile(new RotatedTile { Rotation = new Rotation(1 * 90, false ), Tile = new Tile(tileId) });
+                    case 0b110: return new Tile(new RotatedTile { Rotation = new Rotation(2 * 90, false ), Tile = new Tile(tileId) });
+                    case 0b011: return new Tile(new RotatedTile { Rotation = new Rotation(3 * 90, false ), Tile = new Tile(tileId) });
+                    case 0b100: return new Tile(new RotatedTile { Rotation = new Rotation(0 * 90, true  ), Tile = new Tile(tileId) });
+                    case 0b111: return new Tile(new RotatedTile { Rotation = new Rotation(1 * 90, true  ), Tile = new Tile(tileId) });
+                    case 0b010: return new Tile(new RotatedTile { Rotation = new Rotation(2 * 90, true  ), Tile = new Tile(tileId) });
+                    case 0b001: return new Tile(new RotatedTile { Rotation = new Rotation(3 * 90, true  ), Tile = new Tile(tileId) });
                 }
             }
             throw new Exception();
@@ -259,24 +241,24 @@ namespace DeBroglie
                     {
                         switch(rt.Rotation.RotateCw)
                         {
-                            case 0: return (int)(0b0000L << 28 | tileId);
-                            case 1: return (int)(0b0010L << 28 | tileId);
-                            case 2: return (int)(0b0001L << 28 | tileId);
-                            case 3: return (int)(0b1100L << 28 | tileId);
-                            case 4: return (int)(0b1110L << 28 | tileId);
-                            case 5: return (int)(0b1101L << 28 | tileId);
+                            case 0 * 60: return (int)(0b0000L << 28 | tileId);
+                            case 1 * 60: return (int)(0b0010L << 28 | tileId);
+                            case 2 * 60: return (int)(0b0001L << 28 | tileId);
+                            case 3 * 60: return (int)(0b1100L << 28 | tileId);
+                            case 4 * 60: return (int)(0b1110L << 28 | tileId);
+                            case 5 * 60: return (int)(0b1101L << 28 | tileId);
                         }
                     }
                     else
                     {
                         switch (rt.Rotation.RotateCw)
                         {
-                            case 0: return (int)(0b1000L << 28 | tileId);
-                            case 1: return (int)(0b1010L << 28 | tileId);
-                            case 2: return (int)(0b1001L << 28 | tileId);
-                            case 3: return (int)(0b0100L << 28 | tileId);
-                            case 4: return (int)(0b0110L << 28 | tileId);
-                            case 5: return (int)(0b0101L << 28 | tileId);
+                            case 0 * 60: return (int)(0b1000L << 28 | tileId);
+                            case 1 * 60: return (int)(0b1010L << 28 | tileId);
+                            case 2 * 60: return (int)(0b1001L << 28 | tileId);
+                            case 3 * 60: return (int)(0b0100L << 28 | tileId);
+                            case 4 * 60: return (int)(0b0110L << 28 | tileId);
+                            case 5 * 60: return (int)(0b0101L << 28 | tileId);
                         }
                     }
                 }
@@ -286,24 +268,24 @@ namespace DeBroglie
                     {
                         switch (rt.Rotation.RotateCw)
                         {
-                            case 0: return (int)(0b000L << 29 | tileId);
-                            case 1: return (int)(0b101L << 29 | tileId);
-                            case 2: return (int)(0b110L << 29 | tileId);
-                            case 3: return (int)(0b011L << 29 | tileId);
+                            case 0 * 90: return (int)(0b000L << 29 | tileId);
+                            case 1 * 90: return (int)(0b101L << 29 | tileId);
+                            case 2 * 90: return (int)(0b110L << 29 | tileId);
+                            case 3 * 90: return (int)(0b011L << 29 | tileId);
                         }
                     }
                     else
                     {
                         switch (rt.Rotation.RotateCw)
                         {
-                            case 0: return (int)(0b100L << 29 | tileId);
-                            case 1: return (int)(0b111L << 29 | tileId);
-                            case 2: return (int)(0b010L << 29 | tileId);
-                            case 3: return (int)(0b001L << 29 | tileId);
+                            case 0 * 90: return (int)(0b100L << 29 | tileId);
+                            case 1 * 90: return (int)(0b111L << 29 | tileId);
+                            case 2 * 90: return (int)(0b010L << 29 | tileId);
+                            case 3 * 90: return (int)(0b001L << 29 | tileId);
                         }
                     }
                 }
-                throw new Exception();
+                throw new Exception($"Unsupported rotation of {rt.Rotation.RotateCw} degrees");
             }
             else if(tile.Value == null)
             {

@@ -33,7 +33,7 @@ namespace DeBroglie.Test
             var builder = new TileRotationBuilder(4, true);
 
             builder.Add(new Tile(1), new Rotation(0, true), new Tile(2));
-            builder.Add(new Tile(2), new Rotation(1, false), new Tile(2));
+            builder.Add(new Tile(2), new Rotation(90), new Tile(2));
 
             var rotation = builder.Build();
             var b1 = rotation.Rotate(new Tile(1), new Rotation(1, false), out var r1);

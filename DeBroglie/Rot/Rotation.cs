@@ -8,10 +8,22 @@
             this.ReflectX = reflectX;
         }
 
-        public int RotateCw { get; set; }
-        public bool ReflectX { get; set; }
+        public int RotateCw { get; }
+        public bool ReflectX { get; }
 
         public bool IsIdentity => RotateCw == 0 && !ReflectX;
+
+        public Rotation Inverse()
+        {
+            return new Rotation(ReflectX ? RotateCw : (360 - RotateCw), ReflectX);
+        }
+
+        public static Rotation operator *(Rotation a, Rotation b)
+        {
+            return new Rotation(
+                ((b.ReflectX ? -a.RotateCw : a.RotateCw) + b.RotateCw + 360) % 360,
+                a.ReflectX ^ b.ReflectX);
+        }
 
         public override bool Equals(object obj)
         {
@@ -29,7 +41,7 @@
 
         public override string ToString()
         {
-            return $"({RotateCw}, {ReflectX})";
+            return "!" + (ReflectX ? "x" : "") + (RotateCw);
         }
     }
 }

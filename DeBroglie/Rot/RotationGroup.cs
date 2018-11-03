@@ -11,50 +11,36 @@ namespace DeBroglie.Rot
     {
         private readonly int rotationalSymmetry;
         private readonly bool reflectionalSymmetry;
-        private List<Rotation> rotations;
+        private readonly int smallestAngle;
+        private readonly List<Rotation> rotations;
 
         public RotationGroup(int rotationalSymmetry, bool reflectionalSymmetry)
         {
             this.rotationalSymmetry = rotationalSymmetry;
             this.reflectionalSymmetry = reflectionalSymmetry;
+            this.smallestAngle = 360 / rotationalSymmetry;
             rotations = new List<Rotation>();
             for (var refl = 0; refl < (reflectionalSymmetry ? 2 : 1); refl++)
             {
-                for (var rot = 0; rot < rotationalSymmetry; rot++)
+                for (var rot = 0; rot < 360; rot += smallestAngle)
                 {
-                    rotations.Add(new Rotation { RotateCw = rot, ReflectX = refl > 0 });
+                    rotations.Add(new Rotation(rot, refl > 0));
                 }
             }
         }
 
         public int RotationalSymmetry => rotationalSymmetry;
         public bool ReflectionalSymmetry => reflectionalSymmetry;
+        public int SmallestAngle => smallestAngle;
 
-        public Rotation Mul(Rotation a, Rotation b)
+        public void CheckContains(Rotation rotation)
         {
-            var r = new Rotation(
-                ((b.ReflectX ? -a.RotateCw : a.RotateCw) + b.RotateCw + rotationalSymmetry) % rotationalSymmetry,
-                a.ReflectX ^ b.ReflectX);
-            return r;
-        }
-
-        public Rotation Mul(Rotation a, Rotation b, Rotation c)
-        {
-            return Mul(Mul(a, b), c);
-        }
-
-        public Rotation Mul(Rotation a, Rotation b, Rotation c, Rotation d)
-        {
-            return Mul(Mul(Mul(a, b), c), d);
-        }
-
-        public Rotation Inverse(Rotation tf)
-        {
-            return new Rotation
+            if(rotation.RotateCw / smallestAngle * SmallestAngle != rotation.RotateCw)
             {
-                RotateCw = tf.ReflectX ? tf.RotateCw : (rotationalSymmetry - tf.RotateCw),
-                ReflectX = tf.ReflectX,
-            };
+                throw new System.Exception($"Rotation angle {rotation.RotateCw} not permitted.");
+            }
+            if(rotation.ReflectX && ! reflectionalSymmetry)
+                throw new System.Exception($"Reflections are not permitted.");
         }
 
         public IEnumerator<Rotation> GetEnumerator()

@@ -32,7 +32,7 @@
 
         public override string ToString()
         {
-            return Tile.ToString() + "!" + (Rotation.ReflectX ? "x" : "") + (Rotation.RotateCw * 90);
+            return Tile.ToString() + Rotation.ToString();
         }
     }
 }

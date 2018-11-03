@@ -62,9 +62,7 @@ namespace DeBroglie.Rot
         {
             if(rotationGroup != null && tile.Value is RotatedTile rt)
             {
-                rotation = rotationGroup.Mul(
-                    rt.Rotation,
-                    rotation);
+                rotation = rt.Rotation * rotation;
                 tile = rt.Tile;
             }
 

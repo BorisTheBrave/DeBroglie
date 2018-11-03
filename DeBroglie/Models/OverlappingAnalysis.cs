@@ -16,28 +16,16 @@ namespace DeBroglie.Models
             TileRotation tileRotation = null)
         {
             tileRotation = tileRotation ?? new TileRotation();
-            int totalRotationalSymmetry;
-            if (sample.Topology.Directions.Type == DirectionsType.Hexagonal2d)
-            {
-                totalRotationalSymmetry = 6;
-            }
-            else
-            {
-                totalRotationalSymmetry = 4;
-            }
 
             foreach (var rotation in tileRotation.RotationGroup)
             {
-                var rotateCw = rotation.RotateCw * (totalRotationalSymmetry / tileRotation.RotationGroup.RotationalSymmetry);
-                var reflectX = rotation.ReflectX;
-
                 if (sample.Topology.Directions.Type == DirectionsType.Hexagonal2d)
                 {
-                    yield return TopoArrayUtils.HexRotate(sample, rotateCw, reflectX, tileRotation);
+                    yield return TopoArrayUtils.HexRotate(sample, rotation.RotateCw, rotation.ReflectX, tileRotation);
                 }
                 else
                 {
-                    yield return TopoArrayUtils.Rotate(sample, rotateCw, reflectX, tileRotation);
+                    yield return TopoArrayUtils.Rotate(sample, rotation.RotateCw, rotation.ReflectX, tileRotation);
                 }
             }
         }

@@ -10,13 +10,13 @@ namespace DeBroglie.Test
     public class TiledUtilTest
     {
         [Test]
-        [TestCase(1, false)]
-        [TestCase(2, false)]
-        [TestCase(3, false)]
-        [TestCase(0, true)]
-        [TestCase(1, true)]
-        [TestCase(2, true)]
-        [TestCase(3, true)]
+        [TestCase(1 * 90, false)]
+        [TestCase(2 * 90, false)]
+        [TestCase(3 * 90, false)]
+        [TestCase(0 * 90, true)]
+        [TestCase(1 * 90, true)]
+        [TestCase(2 * 90, true)]
+        [TestCase(3 * 90, true)]
         public void TestOrthogonalRoundTrip(int rotateCw, bool reflectX)
         {
             var tile = new Tile(123);
@@ -28,17 +28,17 @@ namespace DeBroglie.Test
         }
 
         [Test]
-        [TestCase(1, false)]
-        [TestCase(2, false)]
-        [TestCase(3, false)]
-        [TestCase(4, false)]
-        [TestCase(5, false)]
-        [TestCase(0, true)]
-        [TestCase(1, true)]
-        [TestCase(2, true)]
-        [TestCase(3, true)]
-        [TestCase(4, true)]
-        [TestCase(5, true)]
+        [TestCase(1 * 60, false)]
+        [TestCase(2 * 60, false)]
+        [TestCase(3 * 60, false)]
+        [TestCase(4 * 60, false)]
+        [TestCase(5 * 60, false)]
+        [TestCase(0 * 60, true)]
+        [TestCase(1 * 60, true)]
+        [TestCase(2 * 60, true)]
+        [TestCase(3 * 60, true)]
+        [TestCase(4 * 60, true)]
+        [TestCase(5 * 60, true)]
         public void TestHexagonalRoundTrip(int rotateCw, bool reflectX)
         {
             var tile = new Tile(123);

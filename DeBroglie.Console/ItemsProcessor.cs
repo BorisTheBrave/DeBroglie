@@ -110,7 +110,6 @@ namespace DeBroglie.Console
             if(s.Contains("!"))
             {
                 // TODO: Cleanup and validate
-                // TODO: Support hexagonal directions
                 var a = s.Split('!');
                 var b = a[1];
                 var refl = false;
@@ -119,7 +118,7 @@ namespace DeBroglie.Console
                     refl = true;
                     b = b.Substring(1);
                 }
-                var rotateCw = ((int.Parse(b) / 90) + 4) % 4;
+                var rotateCw = (int.Parse(b) + 360) % 360;
                 return new Tile(new RotatedTile
                 {
                     Tile = Parse(a[0]),
@@ -375,8 +374,8 @@ namespace DeBroglie.Console
 
         private TileRotation GetTileRotation(List<TileData> tileData, TileRotationTreatment? rotationTreatment, Topology topology)
         {
-            int rotationalSymmetry = config.RotationalSymmetry;
             var tileRotationBuilder = new TileRotationBuilder(config.RotationalSymmetry, config.ReflectionalSymmetry, rotationTreatment ?? TileRotationTreatment.Unchanged);
+            var rotationGroup = tileRotationBuilder.RotationGroup;
 
             // Setup tiles
             if (tileData != null)
@@ -395,15 +394,15 @@ namespace DeBroglie.Console
                     }
                     if (td.ReflectY != null)
                     {
-                        tileRotationBuilder.Add(tile, new Rotation(rotationalSymmetry / 2, true), Parse(td.ReflectY));
+                        tileRotationBuilder.Add(tile, new Rotation(180, true), Parse(td.ReflectY));
                     }
                     if (td.RotateCw != null)
                     {
-                        tileRotationBuilder.Add(tile, new Rotation(1, false), Parse(td.RotateCw));
+                        tileRotationBuilder.Add(tile, new Rotation(rotationGroup.SmallestAngle, false), Parse(td.RotateCw));
                     }
                     if (td.RotateCcw != null)
                     {
-                        tileRotationBuilder.Add(tile, new Rotation(rotationalSymmetry - 1, false), Parse(td.RotateCcw));
+                        tileRotationBuilder.Add(tile, new Rotation(360 - rotationGroup.SmallestAngle, false), Parse(td.RotateCcw));
                     }
                     if(td.RotationTreatment != null)
                     {

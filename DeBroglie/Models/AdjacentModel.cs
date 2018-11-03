@@ -102,21 +102,10 @@ namespace DeBroglie.Models
         public void AddAdjacency(IList<Tile> src, IList<Tile> dest, int x, int y, int z, TileRotation tileRotation = null)
         {
             tileRotation = tileRotation ?? new TileRotation();
-            var rotationalSymmetry = tileRotation.RotationGroup.RotationalSymmetry;
-            var reflectionalSymmetry = tileRotation.RotationGroup.ReflectionalSymmetry;
-            int totalRotationalSymmetry;
-            if (directions.Type == DirectionsType.Hexagonal2d)
-            {
-                totalRotationalSymmetry = 6;
-            }
-            else
-            {
-                totalRotationalSymmetry = 4;
-            }
 
             foreach (var rotation in tileRotation.RotationGroup)
             {
-                var rotateCw = rotation.RotateCw * (totalRotationalSymmetry / rotationalSymmetry);
+                var rotateCw = rotation.RotateCw;
                 var reflectX = rotation.ReflectX;
 
                 int x2, y2;
@@ -130,8 +119,8 @@ namespace DeBroglie.Models
                 }
 
                 AddAdjacency(
-                    tileRotation.Rotate(src, new Rotation(rotateCw, reflectX)).ToList(),
-                    tileRotation.Rotate(dest, new Rotation(rotateCw, reflectX)).ToList(),
+                    tileRotation.Rotate(src, rotation).ToList(),
+                    tileRotation.Rotate(dest, rotation).ToList(),
                     x2, y2, z);
             }
         }

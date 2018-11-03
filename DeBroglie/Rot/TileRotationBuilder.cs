@@ -26,11 +26,14 @@ namespace DeBroglie.Rot
             this.defaultTreatment = defaultTreatment;
         }
 
+        public RotationGroup RotationGroup => rotationGroup;
+
         /// <summary>
         /// Indicates that if you reflect then rotate clockwise the src tile as indicated, then you get the dest tile.
         /// </summary>
         public void Add(Tile src, Rotation rotation, Tile dest)
         {
+            rotationGroup.CheckContains(rotation);
             GetGroup(src, out var srcSg);
             GetGroup(dest, out var destSg);
             // Groups need merging
@@ -41,7 +44,7 @@ namespace DeBroglie.Rot
 
                 // Arrange destRG so that it is relatively rotated
                 // to srcRG as specified by r.
-                destSg.Permute(rot => rotationGroup.Mul(rot, rotationGroup.Inverse(destR), srcR, rotation));
+                destSg.Permute(rot => rot * destR.Inverse() * srcR * rotation);
 
                 // Attempt to copy over tiles
                 srcSg.Entries.AddRange(destSg.Entries);
@@ -99,38 +102,38 @@ namespace DeBroglie.Rot
                 case TileSymmetry.F:
                     break;
                 case TileSymmetry.N:
-                    Add(tile, new Rotation(2, false), tile);
+                    Add(tile, new Rotation(2 * 90, false), tile);
                     break;
 
                 case TileSymmetry.T:
-                    Add(tile, new Rotation(0, true), tile);
+                    Add(tile, new Rotation(0 * 90, true), tile);
                     break;
                 case TileSymmetry.L:
-                    Add(tile, new Rotation(1, true), tile);
+                    Add(tile, new Rotation(1 * 90, true), tile);
                     break;
                 case TileSymmetry.E:
-                    Add(tile, new Rotation(2, true), tile);
+                    Add(tile, new Rotation(2 * 90, true), tile);
                     break;
                 case TileSymmetry.Q:
-                    Add(tile, new Rotation(3, true), tile);
+                    Add(tile, new Rotation(3 * 90, true), tile);
                     break;
 
                 case TileSymmetry.I:
-                    Add(tile, new Rotation(0, true), tile);
-                    Add(tile, new Rotation(2, false), tile);
+                    Add(tile, new Rotation(0 * 90, true), tile);
+                    Add(tile, new Rotation(2 * 90, false), tile);
                     break;
                 case TileSymmetry.Slash:
-                    Add(tile, new Rotation(1, true), tile);
-                    Add(tile, new Rotation(2, false), tile);
+                    Add(tile, new Rotation(1 * 90, true), tile);
+                    Add(tile, new Rotation(2 * 90, false), tile);
                     break;
 
                 case TileSymmetry.Cyclic:
-                    Add(tile, new Rotation(1, false), tile);
+                    Add(tile, new Rotation(1 * 90, false), tile);
                     break;
 
                 case TileSymmetry.X:
-                    Add(tile, new Rotation(0, true), tile);
-                    Add(tile, new Rotation(1, false), tile);
+                    Add(tile, new Rotation(0 * 90, true), tile);
+                    Add(tile, new Rotation(1 * 90, false), tile);
                     break;
             }
         }
@@ -159,7 +162,7 @@ namespace DeBroglie.Rot
                     {
                         continue;
                     }
-                    result[rotationGroup.Mul(rotationGroup.Inverse(r1), r2)] = dest;
+                    result[r1.Inverse() * r2] = dest;
                 }
                 return result;
             }
@@ -197,11 +200,11 @@ namespace DeBroglie.Rot
                     {
                         if (kv.Value == entry.Src)
                         {
-                            expanded = expanded || Set(sg, rotationGroup.Mul(kv.Key, entry.Rotation), entry.Dest, "resolve conflicting rotations");
+                            expanded = expanded || Set(sg, kv.Key * entry.Rotation, entry.Dest, "resolve conflicting rotations");
                         }
                         if (kv.Value == entry.Dest)
                         {
-                            expanded = expanded || Set(sg, rotationGroup.Mul(kv.Key, rotationGroup.Inverse(entry.Rotation)), entry.Src, "resolve conflicting rotations");
+                            expanded = expanded || Set(sg, kv.Key * entry.Rotation.Inverse(), entry.Src, "resolve conflicting rotations");
                         }
                     }
                 }
@@ -225,20 +228,21 @@ namespace DeBroglie.Rot
         private void Generate(SubGroup sg)
         {
             start:
+            // This doesn't use rotationGroup.Rotations as the order is well defined;
             for (var refl = 0; refl < (rotationGroup.ReflectionalSymmetry ? 2 : 1); refl++)
             {
-                for (var rot = 0; rot < rotationGroup.RotationalSymmetry; rot++)
+                for (var rot = 0; rot < 360; rot += rotationGroup.SmallestAngle)
                 {
-                    var rotation = new Rotation { ReflectX = refl > 0, RotateCw = rot };
+                    var rotation = new Rotation(rot, refl > 0);
                     if (sg.Tiles.ContainsKey(rotation))
                         continue;
 
                     // Found an empty spot, figure out what to rotate from
                     for (var refl2 = 0; refl2 < (rotationGroup.ReflectionalSymmetry ? 2 : 1); refl2++)
                     {
-                        for (var rot2 = 0; rot2 < rotationGroup.RotationalSymmetry; rot2++)
+                        for (var rot2 = 0; rot2 < 360; rot2 += rotationGroup.SmallestAngle)
                         {
-                            var rotation2 = new Rotation { ReflectX = (refl2 > 0) != (refl > 0), RotateCw = rot2 };
+                            var rotation2 = new Rotation(rot2, (refl2 > 0) != (refl > 0));
                             if (!sg.Tiles.TryGetValue(rotation2, out var srcTile))
                                 continue;
 
@@ -247,10 +251,10 @@ namespace DeBroglie.Rot
                             {
                                 srcTile = rt.Tile;
                                 var rtRotation = rt.Rotation;
-                                rotation2 = rotationGroup.Mul(rotationGroup.Inverse(rtRotation), rotation2);
+                                rotation2 = rtRotation.Inverse() * rotation2;
                             }
 
-                            var srcToDest = rotationGroup.Mul(rotationGroup.Inverse(rotation2), rotation);
+                            var srcToDest = rotation2.Inverse() * rotation;
 
                             Tile destTile;
                             if (srcToDest.ReflectX == false && srcToDest.RotateCw == 0)
