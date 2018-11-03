@@ -4,6 +4,7 @@ using DeBroglie.Topo;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DeBroglie.Test
@@ -98,6 +99,49 @@ namespace DeBroglie.Test
             CollectionAssert.AreEquivalent(new int[] {   }, patternModel.Propagator[3][1]);
             CollectionAssert.AreEquivalent(new int[] {   }, patternModel.Propagator[3][2]);
             CollectionAssert.AreEquivalent(new int[] { 2 }, patternModel.Propagator[3][3]);
+        }
+
+        [Test]
+        public void TestSetFrequency()
+        {
+            var model = new AdjacentModel(Directions.Cartesian2d);
+            model.SetFrequency(new Tile(1), 0.5);
+            model.SetFrequency(new Tile(2), 2.0);
+
+            var patternModel = model.GetPatternModel();
+
+            Assert.AreEqual(0.5, patternModel.Frequencies[0]);
+            Assert.AreEqual(2.0, patternModel.Frequencies[1]);
+        }
+
+        [Test]
+        public void TestSetFrequencyWithRotations()
+        {
+            var model = new AdjacentModel(Directions.Cartesian2d);
+
+            var tile1 = new Tile(1);
+            var tile2 = new Tile(2);
+
+            var builder = new TileRotationBuilder(4, true);
+            builder.AddSymmetry(tile1, TileSymmetry.T);
+            builder.SetTreatment(tile1, TileRotationTreatment.Generated);
+            builder.SetTreatment(tile2, TileRotationTreatment.Generated);
+
+            var rotations = builder.Build();
+
+            model.SetFrequency(tile1, 1.0, rotations);
+            model.SetFrequency(tile2, 1.0, rotations);
+
+            var patternModel = model.GetPatternModel();
+
+            double GetFrequency(Tile tile)
+            {
+                return patternModel.Frequencies[model.TilesToPatterns[tile].First()];
+            }
+
+            Assert.AreEqual(0.25, GetFrequency(tile1));
+            Assert.AreEqual(0.25, GetFrequency(new Tile(new RotatedTile { Tile = tile1, Rotation = new Rotation(90) })));
+            Assert.AreEqual(0.125, GetFrequency(tile2));
         }
     }
 }

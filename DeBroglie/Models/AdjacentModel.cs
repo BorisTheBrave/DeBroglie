@@ -86,6 +86,34 @@ namespace DeBroglie.Models
         }
 
         /// <summary>
+        /// Finds a tile and all its rotations, and sets their total frequency.
+        /// </summary>
+        public void SetFrequency(Tile tile, double frequency, TileRotation tileRotation)
+        {
+            var rotatedTiles = new List<Tile>();
+            foreach(var rotation in tileRotation.RotationGroup)
+            {
+                if(tileRotation.Rotate(tile, rotation, out var result))
+                {
+                    // Note this deliberatly can count tiles twice
+                    rotatedTiles.Add(result);
+                }
+            }
+            foreach(var rt in rotatedTiles)
+            {
+                int pattern = GetPattern(rt);
+                frequencies[pattern] = 0.0;
+            }
+            var incrementalFrequency = frequency / rotatedTiles.Count;
+            foreach (var rt in rotatedTiles)
+            {
+                int pattern = GetPattern(rt);
+                frequencies[pattern] += incrementalFrequency;
+            }
+        }
+
+
+        /// <summary>
         /// Sets the frequency of a given tile.
         /// </summary>
         public void SetFrequency(Tile tile, double frequency)
