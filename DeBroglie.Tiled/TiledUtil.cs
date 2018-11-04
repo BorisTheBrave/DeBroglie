@@ -6,7 +6,7 @@ using System.Text;
 using TiledLib;
 using TiledLib.Layer;
 
-namespace DeBroglie
+namespace DeBroglie.Tiled
 {
     /// <summary>
     /// Utilities for working with <see href="https://www.mapeditor.org/">Tiled files</see>. 
@@ -67,7 +67,7 @@ namespace DeBroglie
                         layerArray[x, y] = GidToTile(layer.Data[i++], map.Orientation);
                     }
                 }
-                return new TopoArray2D<Tile>(layerArray, false);
+                return TopoArray.Create(layerArray, false);
             }
             else if(map.Orientation == Orientation.hexagonal)
             {
@@ -100,7 +100,7 @@ namespace DeBroglie
                     }
                     isStaggered = !isStaggered;
                 }
-                return new TopoArray2D<Tile>(layerArray, topology);
+                return TopoArray.Create(layerArray, topology);
             }
             else
             {

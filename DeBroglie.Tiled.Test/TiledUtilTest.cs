@@ -1,10 +1,11 @@
-﻿using DeBroglie.Rot;
+﻿using DeBroglie;
+using DeBroglie.Rot;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DeBroglie.Test
+namespace DeBroglie.Tiled.Test
 {
     [TestFixture]
     public class TiledUtilTest
