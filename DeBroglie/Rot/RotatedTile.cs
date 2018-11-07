@@ -8,6 +8,12 @@
         public Tile Tile { get; set; }
         public Rotation Rotation { get; set; }
 
+        public RotatedTile(Tile tile, Rotation rotation)
+        {
+            Tile = tile;
+            Rotation = rotation;
+        }
+
         public override int GetHashCode()
         {
             unchecked

@@ -6,7 +6,8 @@ title: Release Notes
 # Unreleased
 
 * Support setting a mask on the output topology of TilePropagator. Doesn't work perfectly with Overlapping, so undocumented feature for now.
-* Rotation's are now specified in degrees [breaking]
+* Rotation is now specified in degrees [breaking]
+* Core library no longer depends on TiledLib [breaking]
 
 # v0.2.1
 

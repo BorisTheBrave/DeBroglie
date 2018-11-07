@@ -117,31 +117,11 @@ There are several rotation/reflection based fields, see the [Rotation section](x
 | `value` | [Tile](#tile-references) | Specifies which tile this object is configurating. `value` is interpreted differently for different [file formats](#tile-references).<br/> Specifically, for sample based formats, it is a reference to tiles occuring in the sample. For file set based formats, it's just a unique name for the tile. <br/> Required. |
 | `src` | string | When using a [file set](#import--export-file-formats), indicates which file contains image data for the tile. |
 | `multiplyFrequency` | number | Scales the frequency of the configured tile, using [MultiplyFrequency](xref:DeBroglie.Models.TileModel.MultiplyFrequency(DeBroglie.Tile,System.Double)) |
-| `tileSymmetry`| string | [See here](#tile-symmetry) |
+| `tileSymmetry`| string | [See here](rotation.md#tile-symmetries) |
 | `reflectX`| [Tile](#tile-references)| Gives the tile you get if you reflect the configured tile in the x-axis.|
 | `reflectY`| [Tile](#tile-references)| Gives the tile you get if you reflect the configured tile in the y-axis.|
 | `rotateCw`| [Tile](#tile-references)| Gives the tile you get if you rotate the configured tile clockwise  in the xy-plane.|
 | `rotateCcw`| [Tile](#tile-references)| Gives the tile you get if you rotate the configured tile counter clockwise in the xy-plane.|
-
-
-### Tile Symmetry
-
-<xref:DeBroglie.TileSymmetry>, is a quick way of saying that a tile is unaffected by some reflections or rotations. It's equivalent to setting the reflect and rotation properties of the tile data to the same value as the tile itself. There several possibilities, each named after a letter that has the same symmetry:
-
-| Letter| Description|
-|-------|-------------|
-|`F` or `none`| No symmetry. |
-|`X` or `full` | Fully symmetric. |
-|`T`| Reflectable on y-axis. |
-|`I`| Reflectable on x-axis and y-axis. |
-|`L`| Reflectable on one diagonal. |
-|`\`| Reflectable on both diagonals.|
-|`Q`| Reflectable on other diagonal. |
-|`E`| Reflectable on x-axis. |
-|`N`| Can rotate 180 degrees. |
-|`cyclic`| Any rotation, but no reflection. |
-
-More details can be found in the [rotations article](rotation.md).
 
 ### Tile References
 
@@ -173,7 +153,7 @@ Similarly `up`/`down` are along the y-axis and `above`/`below` are on the z-axis
 
 A tile must be listed at least once in every relevant direction, or else it'll have no possible neighbours in some direction, and the generation will never include it (except maybe on the edge, where it doesn't need a neighbour).
 
-As documented in [AddAdjacency](xref:DeBroglie.Models.AdjacentModel.AddAdjacency(System.Collections.Generic.IList{DeBroglie.Tile},System.Collections.Generic.IList{DeBroglie.Tile},System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean,DeBroglie.TileRotation)), if there are rotations specified for tiles, then adjacencies are added for the rotated pairs as appropriate.
+As documented in [AddAdjacency](xref:DeBroglie.Models.AdjacentModel.AddAdjacency(System.Collections.Generic.IList{DeBroglie.Tile},System.Collections.Generic.IList{DeBroglie.Tile},System.Int32,System.Int32,System.Int32,DeBroglie.Rot.TileRotation)), if there are rotations specified for tiles, then adjacencies are added for the rotated pairs as appropriate.
 
 
 Import / Export File formats

@@ -7,7 +7,7 @@ namespace DeBroglie.Rot
     /// <summary>
     /// Builds a <see cref="TileRotation"/>.
     /// This class lets you specify some transformations between tiles via rotation and reflection.
-    /// It then infers the full set of transformations possible, and informs you if there are contradictions.
+    /// It then infers the full set of rotations possible, and informs you if there are contradictions.
     /// 
     /// As an example of inference, if a square tile 1 transforms to tile 2 when rotated clockwise, and tile 2 transforms to itself when reflected in the x-axis,
     /// then we can infer that tile 1 must transform to tile 1 when reflected in the y-axis.
@@ -90,8 +90,7 @@ namespace DeBroglie.Rot
 
         /// <summary>
         /// Declares that a tile is symetric, and therefore transforms to iteself.
-        /// This is a shorthand for calling Add(tile,..., tile) with the list of transformations
-        /// related to the symmetry.
+        /// This is a shorthand for calling Add(tile,..., tile) for specific rotations.
         /// </summary>
         public void AddSymmetry(Tile tile, TileSymmetry ts)
         {
