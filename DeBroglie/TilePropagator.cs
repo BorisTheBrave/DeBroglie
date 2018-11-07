@@ -29,10 +29,7 @@ namespace DeBroglie
         private readonly IDictionary<int, IReadOnlyDictionary<Tile, ISet<int>>> tilesToPatternsByOffset;
         private readonly IDictionary<int, IReadOnlyDictionary<int, Tile>> patternsToTilesByOffset;
 
-        private readonly MappingType mappingType;
-        private readonly int mappingNX;
-        private readonly int mappingNY;
-        private readonly int mappingNZ;
+        private readonly ITopoArray<(Point, int)> tileCoordToPatternCoord;
 
         /// <summary>
         /// Constructs a TilePropagator.
@@ -60,10 +57,36 @@ namespace DeBroglie
                     topology.PeriodicY ? topology.Height : topology.Height - overlapping.NY + 1,
                     topology.PeriodicZ ? topology.Depth : topology.Depth - overlapping.NZ + 1);
 
-                mappingType = MappingType.Overlapping;
-                mappingNX = overlapping.NX;
-                mappingNY = overlapping.NY;
-                mappingNZ = overlapping.NZ;
+
+                void OverlapCoord(int x, int width, out int px, out int ox)
+                {
+                    if (x < width)
+                    {
+                        px = x;
+                        ox = 0;
+                    }
+                    else
+                    {
+                        px = width - 1;
+                        ox = x - px;
+                    }
+                }
+
+                int CombineOffsets(int ox, int oy, int oz)
+                {
+                    return ox + oy * overlapping.NX + oz * overlapping.NX * overlapping.NY;
+                }
+
+                (Point, int) Map(Point t)
+                {
+                    OverlapCoord(t.X, patternTopology.Width, out var px, out var ox);
+                    OverlapCoord(t.Y, patternTopology.Height, out var py, out var oy);
+                    OverlapCoord(t.Z, patternTopology.Depth, out var pz, out var oz);
+                    return (new Point(px, py, pz), CombineOffsets(ox, oy, oz));
+                }
+
+                tileCoordToPatternCoord = TopoArray.Create(Map, topology);
+
 
                 // Compute tilesToPatterns and patternsToTiles
                 var patternArrays = overlapping.PatternArrays;
@@ -97,8 +120,9 @@ namespace DeBroglie
             }
             else
             {
+
                 patternTopology = topology;
-                mappingType = MappingType.OneToOne;
+                tileCoordToPatternCoord = null;
                 tilesToPatternsByOffset = new Dictionary<int, IReadOnlyDictionary<Tile, ISet<int>>>()
                 {
                     {0, tileModel.TilesToPatterns.ToDictionary(g=>g.Key, g=>(ISet<int>)new HashSet<int>(g)) }
@@ -170,42 +194,23 @@ namespace DeBroglie
             return tilesToPatterns.TryGetValue(tile, out var ps) ? ps : Empty;
         }
 
-        private static void OverlapCoord(int x, int width, out int px, out int ox)
+        private void TileCoordToPatternCoord(int x, int y, int z, out int px, out int py, out int pz, out int offset)
         {
-            if(x<width)
-            {
-                px = x;
-                ox = 0;
-            }
-            else
-            {
-                px = width - 1;
-                ox = x - px;
-            }
-        }
-
-        private int CombineOffsets(int ox, int oy, int oz)
-        {
-            return ox + oy * mappingNX + oz * mappingNX * mappingNY;
-        }
-
-        private void TileCoordToPatternCoord(int x, int y, int z, out int px, out int py, out int pz, out int ox, out int oy, out int oz)
-        {
-            if(mappingType == MappingType.Overlapping)
-            {
-                var patternTopology = wavePropagator.Topology;
-                OverlapCoord(x, patternTopology.Width,  out px, out ox);
-                OverlapCoord(y, patternTopology.Height, out py, out oy);
-                OverlapCoord(z, patternTopology.Depth,  out pz, out oz);
-
-            }
-            else
+            if(tileCoordToPatternCoord == null)
             {
                 px = x;
                 py = y;
                 pz = z;
-                ox = oy = oz = 0;
+                offset = 0;
+
+                return;
             }
+
+            var (point, o) = tileCoordToPatternCoord.Get(x, y, z);
+            px = point.X;
+            py = point.Y;
+            pz = point.Z;
+            offset = o;
         }
 
         /// <summary>
@@ -255,8 +260,8 @@ namespace DeBroglie
         /// <returns>The current <see cref="Status"/></returns>
         public Resolution Ban(int x, int y, int z, Tile tile)
         {
-            TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var ox, out var oy, out var oz);
-            var patterns = GetPatterns(tilesToPatternsByOffset[CombineOffsets(ox, oy, oz)], tile);
+            TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
+            var patterns = GetPatterns(tilesToPatternsByOffset[o], tile);
             foreach(var p in patterns)
             {
                 var status = wavePropagator.Ban(px, py, pz, p);
@@ -275,8 +280,8 @@ namespace DeBroglie
         /// <returns>The current <see cref="Status"/></returns>
         public Resolution Select(int x, int y, int z, Tile tile)
         {
-            TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var ox, out var oy, out var oz);
-            var patterns = GetPatterns(tilesToPatternsByOffset[CombineOffsets(ox, oy, oz)], tile);
+            TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
+            var patterns = GetPatterns(tilesToPatternsByOffset[o], tile);
             for (var p = 0; p < wavePropagator.PatternCount; p++)
             {
                 if (patterns.Contains(p))
@@ -331,8 +336,8 @@ namespace DeBroglie
         /// </summary>
         public void GetBannedSelected(int x, int y, int z, Tile tile, out bool isBanned, out bool isSelected)
         {
-            TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var ox, out var oy, out var oz);
-            var patterns = tilesToPatternsByOffset[CombineOffsets(ox, oy, oz)][tile];
+            TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
+            var patterns = tilesToPatternsByOffset[o][tile];
             GetBannedSelectedInternal(px, py, pz, patterns, out isBanned, out isSelected);
         }
 
@@ -342,8 +347,8 @@ namespace DeBroglie
         /// </summary>
         public void GetBannedSelected(int x, int y, int z, IEnumerable<Tile> tiles, out bool isBanned, out bool isSelected)
         {
-            TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var ox, out var oy, out var oz);
-            var tilesToPatterns = tilesToPatternsByOffset[CombineOffsets(ox, oy, oz)];
+            TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
+            var tilesToPatterns = tilesToPatternsByOffset[o];
             var patterns = new HashSet<int>(tiles.SelectMany(tile => GetPatterns(tilesToPatterns, tile)));
             GetBannedSelectedInternal(px, py, pz, patterns, out isBanned, out isSelected);
         }
@@ -391,7 +396,7 @@ namespace DeBroglie
                 {
                     for (var z = 0; z < depth; z++)
                     {
-                        TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var ox, out var oy, out var oz);
+                        TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
                         var pattern = patternArray.Get(px, py, pz);
                         Tile tile;
                         if (pattern == (int)Resolution.Undecided)
@@ -403,7 +408,7 @@ namespace DeBroglie
                         }
                         else
                         {
-                            tile = patternsToTilesByOffset[CombineOffsets(ox, oy, oz)][pattern];
+                            tile = patternsToTilesByOffset[o][pattern];
                         }
                         result[x, y, z] = tile;
                     }
@@ -435,7 +440,7 @@ namespace DeBroglie
                 {
                     for (var z = 0; z < depth; z++)
                     {
-                        TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var ox, out var oy, out var oz);
+                        TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
                         var pattern = patternArray.Get(px, py, pz);
                         T value;
                         if (pattern == (int)Resolution.Undecided)
@@ -448,7 +453,7 @@ namespace DeBroglie
                         }
                         else
                         {
-                            value = (T)patternsToTilesByOffset[CombineOffsets(ox, oy, oz)][pattern].Value;
+                            value = (T)patternsToTilesByOffset[o][pattern].Value;
                         }
                         result[x, y, z] = value;
                     }
@@ -480,10 +485,10 @@ namespace DeBroglie
                 {
                     for (var z = 0; z < depth; z++)
                     {
-                        TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var ox, out var oy, out var oz);
+                        TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
                         var patterns = patternArray.Get(px, py, pz);
                         var hs = new HashSet<Tile>();
-                        var patternToTiles = patternsToTilesByOffset[CombineOffsets(ox, oy, oz)];
+                        var patternToTiles = patternsToTilesByOffset[o];
                         foreach(var pattern in patterns)
                         {
                             hs.Add(patternToTiles[pattern]);
@@ -518,10 +523,10 @@ namespace DeBroglie
                 {
                     for (var z = 0; z < depth; z++)
                     {
-                        TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var ox, out var oy, out var oz);
+                        TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
                         var patterns = patternArray.Get(px, py, pz);
                         var hs = new HashSet<T>();
-                        var patternToTiles = patternsToTilesByOffset[CombineOffsets(ox, oy, oz)];
+                        var patternToTiles = patternsToTilesByOffset[o];
                         foreach (var pattern in patterns)
                         {
                             hs.Add((T)patternToTiles[pattern].Value);
@@ -531,12 +536,6 @@ namespace DeBroglie
                 }
             }
             return new TopoArray3D<ISet<T>>(result, topology);
-        }
-
-        private enum MappingType
-        {
-            OneToOne,
-            Overlapping,
         }
     }
 }
