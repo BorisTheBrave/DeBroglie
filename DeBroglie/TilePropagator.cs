@@ -48,142 +48,18 @@ namespace DeBroglie
 
             var overlapping = tileModel as OverlappingModel;
 
-            Topology patternTopology;
-            if(!(topology.PeriodicX && topology.PeriodicY && topology.PeriodicZ) && overlapping != null)
-            {
-                // Shrink the topology as patterns can cover multiple tiles.
-                patternTopology = topology.WithSize(
-                    topology.PeriodicX ? topology.Width : topology.Width - overlapping.NX + 1,
-                    topology.PeriodicY ? topology.Height : topology.Height - overlapping.NY + 1,
-                    topology.PeriodicZ ? topology.Depth : topology.Depth - overlapping.NZ + 1);
-
-
-                void OverlapCoord(int x, int width, out int px, out int ox)
-                {
-                    if (x < width)
-                    {
-                        px = x;
-                        ox = 0;
-                    }
-                    else
-                    {
-                        px = width - 1;
-                        ox = x - px;
-                    }
-                }
-
-                int CombineOffsets(int ox, int oy, int oz)
-                {
-                    return ox + oy * overlapping.NX + oz * overlapping.NX * overlapping.NY;
-                }
-
-                (Point, int) Map(Point t)
-                {
-                    OverlapCoord(t.X, patternTopology.Width, out var px, out var ox);
-                    OverlapCoord(t.Y, patternTopology.Height, out var py, out var oy);
-                    OverlapCoord(t.Z, patternTopology.Depth, out var pz, out var oz);
-                    return (new Point(px, py, pz), CombineOffsets(ox, oy, oz));
-                }
-
-                tileCoordToPatternCoord = TopoArray.Create(Map, topology);
-
-
-                // Compute tilesToPatterns and patternsToTiles
-                var patternArrays = overlapping.PatternArrays;
-                tilesToPatternsByOffset = new Dictionary<int, IReadOnlyDictionary<Tile, ISet<int>>>();
-                patternsToTilesByOffset = new Dictionary<int, IReadOnlyDictionary<int, Tile>>();
-                for (int ox = 0; ox < overlapping.NX; ox++)
-                {
-                    for (int oy = 0; oy < overlapping.NY; oy++)
-                    {
-                        for (int oz = 0; oz < overlapping.NZ; oz++)
-                        {
-                            var o = CombineOffsets(ox, oy, oz);
-                            var tilesToPatterns = new Dictionary<Tile, ISet<int>>();
-                            tilesToPatternsByOffset[o] = tilesToPatterns;
-                            var patternsToTiles = new Dictionary<int, Tile>();
-                            patternsToTilesByOffset[o] = patternsToTiles;
-                            for(var pattern = 0; pattern<patternArrays.Count; pattern++)
-                            {
-                                var patternArray = patternArrays[pattern];
-                                var tile = patternArray.Values[ox, oy, oz];
-                                patternsToTiles[pattern] = tile;
-                                if(!tilesToPatterns.TryGetValue(tile, out var patternSet))
-                                {
-                                    patternSet = tilesToPatterns[tile] = new HashSet<int>();
-                                }
-                                patternSet.Add(pattern);
-                            }
-                        }
-                    }
-                }
-            }
-            else
-            {
-
-                patternTopology = topology;
-                tileCoordToPatternCoord = null;
-                tilesToPatternsByOffset = new Dictionary<int, IReadOnlyDictionary<Tile, ISet<int>>>()
-                {
-                    {0, tileModel.TilesToPatterns.ToDictionary(g=>g.Key, g=>(ISet<int>)new HashSet<int>(g)) }
-                };
-                patternsToTilesByOffset = new Dictionary<int, IReadOnlyDictionary<int, Tile>>
-                {
-                    {0, tileModel.PatternsToTiles},
-                };
-            }
-
-            // Masks interact a bit weirdly with the overlapping model
-            // We choose a pattern mask that is a expansion of the topology mask
-            // i.e. a pattern location is masked out if all the tile locations it covers is masked out.
-            // This makes the propagator a bit conservative - it'll always preserve the overlapping property
-            // but might ban some layouts that make sense.
-            // The alternative is to contract the mask - that is more permissive, but sometimes will
-            // violate the overlapping property.
-            // (passing the mask verbatim is unacceptable as does not lead to symmetric behaviour)
-            // See TestTileMaskWithThinOverlapping for an example of the problem, and
-            // https://github.com/BorisTheBrave/DeBroglie/issues/7 for a possible solution.
-            if (topology.Mask != null && overlapping != null)
-            {
-                // TODO: This could probably do with some cleanup
-                bool GetTopologyMask(int x, int y, int z)
-                {
-                    if (!topology.PeriodicX && x >= topology.Width)
-                        return false;
-                    if (!topology.PeriodicY && y >= topology.Height)
-                        return false;
-                    if (!topology.PeriodicZ && z >= topology.Depth)
-                        return false;
-                    x = x % topology.Width;
-                    y = y % topology.Height;
-                    z = z % topology.Depth;
-                    return topology.Mask[topology.GetIndex(x, y, z)];
-                }
-                bool GetPatternTopologyMask(Point p)
-                {
-                    for (var oz = 0; oz < overlapping.NZ; oz++)
-                    {
-                        for (var oy = 0; oy < overlapping.NY; oy++)
-                        {
-                            for (var ox = 0; ox < overlapping.NX; ox++)
-                            {
-                                if (GetTopologyMask(p.X + ox, p.Y + oy, p.Z + oz))
-                                    return true;
-                            }
-                        }
-                    }
-                    return false;
-                }
-
-                var patternMask = TopoArray.Create(GetPatternTopologyMask, patternTopology);
-                patternTopology = patternTopology.WithMask(patternMask);
-            }
+            var tileModelMapping = tileModel.GetTileModelMapping(topology);
+            var patternTopology = tileModelMapping.PatternTopology;
+            var patternModel = tileModelMapping.PatternModel;
+            this.patternsToTilesByOffset = tileModelMapping.PatternsToTilesByOffset;
+            this.tilesToPatternsByOffset = tileModelMapping.TilesToPatternsByOffset;
+            this.tileCoordToPatternCoord = tileModelMapping.TileCoordToPatternCoord;
 
             var waveConstraints =
                 (constraints?.Select(x => new TileConstraintAdaptor(x, this)).ToArray() ?? Enumerable.Empty<IWaveConstraint>())
                 .ToArray();
 
-            this.wavePropagator = new WavePropagator(tileModel.GetPatternModel(), patternTopology, backtrack, waveConstraints, random, clear: false);
+            this.wavePropagator = new WavePropagator(patternModel, patternTopology, backtrack, waveConstraints, random, clear: false);
             wavePropagator.Clear();
 
         }

@@ -82,7 +82,7 @@ namespace DeBroglie.Constraints
                 {
                     continue;
                 }
-                foreach(var tile in propagator.TileModel.TilesToPatterns.Select(x=>x.Key))
+                foreach(var tile in propagator.TileModel.Tiles)
                 {
                     if (PathTiles.Contains(tile))
                         continue;

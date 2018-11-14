@@ -16,7 +16,6 @@ namespace DeBroglie.Models
     public class AdjacentModel : TileModel
     {
         private Directions directions;
-        private IReadOnlyDictionary<int, Tile> patternsToTiles;
         private Dictionary<Tile, int> tilesToPatterns;
         private List<double> frequencies;
         private List<HashSet<int>[]> propagator;
@@ -53,7 +52,7 @@ namespace DeBroglie.Models
         /// Constructs an AdjacentModel.
         /// </summary>
         public AdjacentModel(Directions directions)
-            :this()
+            : this()
         {
             SetDirections(directions);
         }
@@ -64,10 +63,12 @@ namespace DeBroglie.Models
         /// Constructs an AdjacentModel and initializees it with a given sample.
         /// </summary>
         public AdjacentModel(ITopoArray<Tile> sample)
-            :this()
+            : this()
         {
             AddSample(sample);
         }
+
+        public override IEnumerable<Tile> Tiles => tilesToPatterns.Keys;
 
         /// <summary>
         /// Sets the directions of the Adjacent model, if it has not been set at construction.
@@ -77,7 +78,7 @@ namespace DeBroglie.Models
         /// <param name="directions"></param>
         public void SetDirections(Directions directions)
         {
-            if(this.directions.Type != DirectionsType.Unknown && this.directions.Type != directions.Type)
+            if (this.directions.Type != DirectionsType.Unknown && this.directions.Type != directions.Type)
             {
                 throw new Exception($"Cannot set directions to {directions.Type}, it has already been set to {this.directions.Type}");
             }
@@ -91,15 +92,15 @@ namespace DeBroglie.Models
         public void SetFrequency(Tile tile, double frequency, TileRotation tileRotation)
         {
             var rotatedTiles = new List<Tile>();
-            foreach(var rotation in tileRotation.RotationGroup)
+            foreach (var rotation in tileRotation.RotationGroup)
             {
-                if(tileRotation.Rotate(tile, rotation, out var result))
+                if (tileRotation.Rotate(tile, rotation, out var result))
                 {
                     // Note this deliberatly can count tiles twice
                     rotatedTiles.Add(result);
                 }
             }
-            foreach(var rt in rotatedTiles)
+            foreach (var rt in rotatedTiles)
             {
                 int pattern = GetPattern(rt);
                 frequencies[pattern] = 0.0;
@@ -160,7 +161,7 @@ namespace DeBroglie.Models
 
             foreach (var s in src)
             {
-                foreach(var d in dest)
+                foreach (var d in dest)
                 {
                     AddAdjacency(s, d, dir);
                 }
@@ -234,33 +235,35 @@ namespace DeBroglie.Models
             }
         }
 
-        internal override PatternModel GetPatternModel()
+        internal override TileModelMapping GetTileModelMapping(Topology topology)
         {
-
-            return new PatternModel
+            var patternModel = new PatternModel
             {
                 Propagator = propagator.Select(x => x.Select(y => y.ToArray()).ToArray()).ToArray(),
                 Frequencies = frequencies.ToArray(),
             };
-        }
-
-        public override IReadOnlyDictionary<int, Tile> PatternsToTiles
-        {
-            get
+            var tilesToPatternsByOffset = new Dictionary<int, IReadOnlyDictionary<Tile, ISet<int>>>()
+                {
+                    {0, tilesToPatterns.ToLookup(x=>x.Key, x=>x.Value).ToDictionary(g=>g.Key, g=>(ISet<int>)new HashSet<int>(g)) }
+                };
+            var patternsToTilesByOffset = new Dictionary<int, IReadOnlyDictionary<int, Tile>>
+                {
+                    {0, tilesToPatterns.ToDictionary(x => x.Value, x => x.Key)},
+                };
+            return new TileModelMapping
             {
-                // Lazily evaluated
-                return patternsToTiles = patternsToTiles ?? tilesToPatterns.ToDictionary(x => x.Value, x => x.Key); ;
-            }
+                PatternTopology = topology,
+                PatternModel = patternModel,
+                PatternsToTilesByOffset = patternsToTilesByOffset,
+                TilesToPatternsByOffset = tilesToPatternsByOffset,
+                TileCoordToPatternCoord = null,
+            };
         }
-        public override ILookup<Tile, int> TilesToPatterns  => tilesToPatterns.ToLookup(x=>x.Key, x=>x.Value);
 
         public override void MultiplyFrequency(Tile tile, double multiplier)
         {
-            var patterns = TilesToPatterns[tile];
-            foreach (var pattern in patterns)
-            {
-                frequencies[pattern] *= multiplier;
-            }
+            var pattern = tilesToPatterns[tile];
+            frequencies[pattern] *= multiplier;
         }
 
         private int GetPattern(Tile tile)
@@ -277,7 +280,6 @@ namespace DeBroglie.Models
                 {
                     propagator[pattern][d] = new HashSet<int>();
                 }
-                patternsToTiles = null;
             }
             return pattern;
         }

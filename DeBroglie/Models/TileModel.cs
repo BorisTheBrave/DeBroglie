@@ -6,7 +6,18 @@ using System.Linq;
 
 namespace DeBroglie.Models
 {
+    internal class TileModelMapping
+    {
+        public Topology PatternTopology { get; set; }
 
+        public PatternModel PatternModel { get; set; }
+
+        public IDictionary<int, IReadOnlyDictionary<Tile, ISet<int>>> TilesToPatternsByOffset { get; set; }
+
+        public IDictionary<int, IReadOnlyDictionary<int, Tile>> PatternsToTilesByOffset { get; set; }
+
+        public ITopoArray<(Point, int)> TileCoordToPatternCoord { get; set; }
+    }
 
     /// <summary>
     /// Base class for the models used in generation.
@@ -20,17 +31,9 @@ namespace DeBroglie.Models
         /// <summary>
         /// Extracts the actual model of patterns used.
         /// </summary>
-        internal abstract PatternModel GetPatternModel();
+        internal abstract TileModelMapping GetTileModelMapping(Topology topology);
 
-        /// <summary>
-        /// Relates patterns to tiles
-        /// </summary>
-        public abstract IReadOnlyDictionary<int, Tile> PatternsToTiles { get; }
-
-        /// <summary>
-        /// Relates patterns to tiles
-        /// </summary>
-        public abstract ILookup<Tile, int> TilesToPatterns { get; }
+        public abstract IEnumerable<Tile> Tiles { get; }
 
         /// <summary>
         /// Scales the the occurency frequency of a given tile by the given multiplier.
