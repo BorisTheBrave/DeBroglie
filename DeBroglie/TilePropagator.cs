@@ -190,6 +190,40 @@ namespace DeBroglie
         }
 
         /// <summary>
+        /// Creates a set of tiles. This set can be used with some operations, and is marginally
+        /// faster than passing in a fresh list of tiles ever time.
+        /// </summary>
+        public TilePropogatorTileSet CreateTileSet(IEnumerable<Tile> tiles)
+        {
+            var set =  new TilePropogatorTileSet(tiles);
+            // Quick optimization for size one sets
+            if(set.Tiles.Count == 1)
+            {
+                var tile = set.Tiles.First();
+                foreach(var o in tilesToPatternsByOffset.Keys)
+                {
+                    set.OffsetToPatterns[o] = tilesToPatternsByOffset[o][tile];
+                }
+            }
+            return set;
+        }
+
+        /// <summary>
+        /// Gets the patterns associated with a set of tiles at a given offset.
+        /// </summary>
+        private ISet<int> GetPatterns(TilePropogatorTileSet tileSet, int offset)
+        {
+            if(!tileSet.OffsetToPatterns.TryGetValue(offset, out var patterns))
+            {
+                var tilesToPatterns = tilesToPatternsByOffset[offset];
+                patterns = new HashSet<int>(tileSet.Tiles.SelectMany(tile => GetPatterns(tilesToPatterns, tile)));
+                tileSet.OffsetToPatterns[offset] = patterns;
+            }
+            return patterns;
+        }
+
+
+        /// <summary>
         /// Returns true if this tile is the only valid selection for a given location.
         /// </summary>
         public bool IsSelected(int x, int y, int z, Tile tile)
@@ -223,11 +257,20 @@ namespace DeBroglie
         /// </summary>
         public void GetBannedSelected(int x, int y, int z, IEnumerable<Tile> tiles, out bool isBanned, out bool isSelected)
         {
+            GetBannedSelected(x, y, z, CreateTileSet(tiles), out isBanned, out isSelected);
+        }
+
+        /// <summary>
+        /// isBanned is set to true if all the tiles are not valid in the location.
+        /// isSelected is set to true if no other the tiles are valid in the location.
+        /// </summary>
+        public void GetBannedSelected(int x, int y, int z, TilePropogatorTileSet tiles, out bool isBanned, out bool isSelected)
+        {
             TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
-            var tilesToPatterns = tilesToPatternsByOffset[o];
-            var patterns = new HashSet<int>(tiles.SelectMany(tile => GetPatterns(tilesToPatterns, tile)));
+            var patterns = GetPatterns(tiles, o);
             GetBannedSelectedInternal(px, py, pz, patterns, out isBanned, out isSelected);
         }
+
 
         private void GetBannedSelectedInternal(int px, int py, int pz, ISet<int> patterns, out bool isBanned, out bool isSelected)
         {

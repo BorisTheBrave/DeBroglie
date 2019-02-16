@@ -9,6 +9,8 @@ namespace DeBroglie.Constraints
     /// </summary>
     public class PathConstraint : ITileConstraint
     {
+        private TilePropogatorTileSet pathTileSet;
+
         /// <summary>
         /// Set of patterns that are considered on the path
         /// </summary>
@@ -29,6 +31,7 @@ namespace DeBroglie.Constraints
 
         public Resolution Init(TilePropagator propagator)
         {
+            pathTileSet = propagator.CreateTileSet(PathTiles);
             return Resolution.Undecided;
         }
 
@@ -42,7 +45,7 @@ namespace DeBroglie.Constraints
             for (int i = 0; i < indices; i++)
             {
                 topology.GetCoord(i, out var x, out var y, out var z);
-                propagator.GetBannedSelected(x, y, z, PathTiles, out var isBanned, out var isSelected);
+                propagator.GetBannedSelected(x, y, z, pathTileSet, out var isBanned, out var isSelected);
                 couldBePath[i] = !isBanned;
                 mustBePath[i] = isSelected;
             }

@@ -2,7 +2,6 @@
 using DeBroglie.Topo;
 using DeBroglie.Wfc;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace DeBroglie.Models
 {
