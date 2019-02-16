@@ -1,4 +1,6 @@
-﻿namespace DeBroglie.Topo
+﻿using System.Collections.Generic;
+
+namespace DeBroglie.Topo
 {
     /// <summary>
     /// A Topology specifies the type of area or volume, what size it is, and whether it should wrap around at the edges (i.e. is it periodic). 
@@ -26,7 +28,7 @@
         /// Constructs a 2d topology.
         /// </summary>
         public Topology(Directions directions, int width, int height, bool periodicX, bool periodicY, bool[] mask = null)
-            :this(directions, width, height, 1, periodicX, periodicY, false, mask)
+            : this(directions, width, height, 1, periodicX, periodicY, false, mask)
         {
         }
 
@@ -134,9 +136,27 @@
         /// </summary>
         public bool[] Mask { get; set; }
 
+        /// <summary>
+        /// Number of unique indices (distinct locations) in the topology
+        /// </summary>
+        public int IndexCount => Width * Height * Depth;
+
         public bool IsSameSize(Topology other)
         {
             return Width == other.Width && Height == other.Height && Depth == other.Depth;
+        }
+
+        public IEnumerable<int> Indicies
+        {
+            get
+            {
+                var indexCount = IndexCount;
+                for (var i = 0; i < indexCount; i++)
+                {
+                    if (ContainsIndex(i))
+                        yield return i;
+                }
+            }
         }
 
         /// <summary>

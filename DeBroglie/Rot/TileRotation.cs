@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DeBroglie.Rot
 {
@@ -106,6 +107,22 @@ namespace DeBroglie.Rot
                     yield return tile2;
                 }
             }
+        }
+
+        public IEnumerable<Tile> RotateAll(Tile tile)
+        {
+            foreach (var rotation in RotationGroup)
+            {
+                if (Rotate(tile, rotation, out var tile2))
+                {
+                    yield return tile2;
+                }
+            }
+        }
+
+        public IEnumerable<Tile> RotateAll(IEnumerable<Tile> tiles)
+        {
+            return tiles.SelectMany(tile => RotateAll(tile));
         }
 
         /// <summary>
