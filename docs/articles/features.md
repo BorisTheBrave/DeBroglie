@@ -170,6 +170,46 @@ You can use <xref:DeBroglie.Constraints.FixedTileConstraint> to force certain fe
 <figcaption>Several castles all generated with a fixed turret location</figcaption>
 </figure>
 
+### Max Consecutive
+
+The <xref:DeBroglie.Constraints.MaxConsecutiveConstraint> class prevents more than a certain number of tiles appearing consecutively along the x, y or z axis.
+
+<figure>
+<table>
+<tr>
+<td>
+MaxCount
+</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/max_constraint_2.json">
+<img src="../images/max_constraint_2.png" />
+</a>
+</td>
+</tr>
+<tr>
+<td>3</td>
+<td>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/max_constraint_3.json">
+<img src="../images/max_constraint_3.png" />
+</a>
+</td>
+</tr>
+<tr>
+<td>10</td>
+<td>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/max_constraint_10.json">
+<img src="../images/max_constraint_10.png" />
+</a>
+</td>
+</tr>
+<figcaption>Platforms generated with the MaxConsecutive constraint with different values of MaxCount.</figcaption>
+</figure>
+
+
 ### Custom Constraints
 
 You can define your own constraints by extending <xref:DeBroglie.Constraints.ITileConstraint>. The Init method is called once per propagator run, and the Check method is called after each step, each time tiles are selected. 

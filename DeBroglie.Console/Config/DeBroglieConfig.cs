@@ -335,4 +335,19 @@ namespace DeBroglie.Console.Config
 
         public Point? Point { get; set; }
     }
+
+    public class MaxConsecutiveConfig : ConstraintConfig
+    {
+        public const string TypeString = "maxConsecutive";
+
+        public override string Type => TypeString;
+
+        public string[] Tiles { get; set; }
+
+        public int MaxCount { get; set; } = 3;
+
+        public bool XAxis { get; set; } = true;
+        public bool YAxis { get; set; } = true;
+        public bool ZAxis { get; set; } = true;
+    }
 }

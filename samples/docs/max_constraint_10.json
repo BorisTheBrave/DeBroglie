@@ -1,0 +1,24 @@
+{
+    "src": "generic_platformer_tileset.tsx",
+    "dest": "output/max_constraint_10.png",
+    "adjacencies": [
+        {"left": [2, 5], "right": [5, 7]},
+        {"left": [0, 7], "right": [0]},
+        {"left": [0], "right": [0, 2]},
+        {"up": [0], "down": [0, 2, 5, 7]},
+        {"up": [0, 2, 5, 7], "down": [0]}
+    ],
+    "tiles": [
+        {"value": 5, "multiplyFrequency": 3},
+    ],
+    "constraints": [
+        {
+            "type": "maxConsecutive",
+            "tiles": [2, 5, 7],
+            "maxCount": 10
+        }
+    ],
+    "width": 15,
+    "height": 5,
+    "periodicX": true
+}

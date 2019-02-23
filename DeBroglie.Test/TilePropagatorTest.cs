@@ -155,5 +155,65 @@ namespace DeBroglie.Test
             Assert.AreEqual(Resolution.Decided, propagator.Status);
         }
 
+        [Test]
+        public void TestBannedSelected()
+        {
+            var a = new int[,]{
+                { 1, 2, 3 },
+                { 3, 1, 2 },
+                { 2, 3, 1 },
+            };
+            var model = AdjacentModel.Create(a, true);
+            var topology = new Topology(10, 10, false);
+            var propagator = new TilePropagator(model, topology);
+
+            var tile1 = new Tile(1);
+            var set1 = propagator.CreateTileSet(new[] { new Tile(1) });
+            var set12 = propagator.CreateTileSet(new[] { new Tile(1), new Tile(2) });
+
+            {
+                propagator.GetBannedSelected(0, 0, 0, tile1, out var isBanned1, out var isSelected1);
+                propagator.GetBannedSelected(0, 0, 0, set1, out var isBanned2, out var isSelected2);
+                propagator.GetBannedSelected(0, 0, 0, set12, out var isBanned3, out var isSelected3);
+
+                Assert.AreEqual(false, isBanned1);
+                Assert.AreEqual(false, isBanned2);
+                Assert.AreEqual(false, isBanned3);
+                Assert.AreEqual(false, isSelected1);
+                Assert.AreEqual(false, isSelected2);
+                Assert.AreEqual(false, isSelected3);
+            }
+
+            propagator.Ban(0, 0, 0, new Tile(3));
+
+            {
+                propagator.GetBannedSelected(0, 0, 0, tile1, out var isBanned1, out var isSelected1);
+                propagator.GetBannedSelected(0, 0, 0, set1, out var isBanned2, out var isSelected2);
+                propagator.GetBannedSelected(0, 0, 0, set12, out var isBanned3, out var isSelected3);
+
+                Assert.AreEqual(false, isBanned1);
+                Assert.AreEqual(false, isBanned2);
+                Assert.AreEqual(false, isBanned3);
+                Assert.AreEqual(false, isSelected1);
+                Assert.AreEqual(false, isSelected2);
+                Assert.AreEqual(true, isSelected3);
+            }
+
+            propagator.Ban(0, 0, 0, new Tile(1));
+
+            {
+                propagator.GetBannedSelected(0, 0, 0, tile1, out var isBanned1, out var isSelected1);
+                propagator.GetBannedSelected(0, 0, 0, set1, out var isBanned2, out var isSelected2);
+                propagator.GetBannedSelected(0, 0, 0, set12, out var isBanned3, out var isSelected3);
+
+                Assert.AreEqual(true, isBanned1);
+                Assert.AreEqual(true, isBanned2);
+                Assert.AreEqual(false, isBanned3);
+                Assert.AreEqual(false, isSelected1);
+                Assert.AreEqual(false, isSelected2);
+                Assert.AreEqual(true, isSelected3);
+            }
+        }
+
     }
 }

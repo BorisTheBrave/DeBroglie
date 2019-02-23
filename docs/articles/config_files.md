@@ -97,6 +97,18 @@ For constructing a [fixed tile constraint](features.md#fixed-tile)
 |`tile`|[Tile](#tile-references)| The tile to select. |
 |`point`|[Point](#point-config)|The location to select the tile at. If not specified, the location is chosen randomly.|
 
+For constructing a [max consecutive constraint](features.md#max-consecutive)
+
+| Field                | Type           | Description  |
+| -------------------- |---------------|-------|
+|`type`|string| `"maxConsectuive"`|
+|`tiles`|array [Tile](#tile-references)| The set of tiles to restrict|
+|`maxCount`|int|The maximum number of tiles to allow to appear consecutive. Default 3.|
+|`xAxis`|bool|Should the x-axis be restricted. Default true.|
+|`yAxis`|bool|Should the y-axis be restricted. Default true.|
+|`zAxis`|bool|Should the z-axis be restricted. Default true.|
+
+
 ### Point Config
 
 The Point class is used for specifying a location in the input or output.

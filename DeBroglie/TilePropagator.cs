@@ -147,6 +147,33 @@ namespace DeBroglie
             return Resolution.Undecided;
         }
 
+        /// <summary>
+        /// Marks the given tiles as not being a valid choice at a given location.
+        /// Then it propogates that information to other nearby tiles.
+        /// </summary>
+        /// <returns>The current <see cref="Status"/></returns>
+        public Resolution Ban(int x, int y, int z, IEnumerable<Tile> tiles)
+        {
+            return Ban(x, y, z, CreateTileSet(tiles));
+        }
+
+        /// <summary>
+        /// Marks the given tiles as not being a valid choice at a given location.
+        /// Then it propogates that information to other nearby tiles.
+        /// </summary>
+        /// <returns>The current <see cref="Status"/></returns>
+        public Resolution Ban(int x, int y, int z, TilePropogatorTileSet tiles)
+        {
+            TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
+            var patterns = GetPatterns(tiles, o);
+            foreach (var p in patterns)
+            {
+                var status = wavePropagator.Ban(px, py, pz, p);
+                if (status != Resolution.Undecided)
+                    return status;
+            }
+            return Resolution.Undecided;
+        }
 
         /// <summary>
         /// Marks the given tile as the only valid choice at a given location.
@@ -158,6 +185,38 @@ namespace DeBroglie
         {
             TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
             var patterns = GetPatterns(tilesToPatternsByOffset[o], tile);
+            for (var p = 0; p < wavePropagator.PatternCount; p++)
+            {
+                if (patterns.Contains(p))
+                    continue;
+                var status = wavePropagator.Ban(px, py, pz, p);
+                if (status != Resolution.Undecided)
+                    return status;
+            }
+            return Resolution.Undecided;
+        }
+
+        /// <summary>
+        /// Marks the given tiles as the only valid choice at a given location.
+        /// This is equivalent to banning all other tiles.
+        /// Then it propogates that information to other nearby tiles.
+        /// </summary>
+        /// <returns>The current <see cref="Status"/></returns>
+        public Resolution Select(int x, int y, int z, IEnumerable<Tile> tiles)
+        {
+            return Select(x, y, z, CreateTileSet(tiles));
+        }
+
+        /// <summary>
+        /// Marks the given tiles as the only valid choice at a given location.
+        /// This is equivalent to banning all other tiles.
+        /// Then it propogates that information to other nearby tiles.
+        /// </summary>
+        /// <returns>The current <see cref="Status"/></returns>
+        public Resolution Select(int x, int y, int z, TilePropogatorTileSet tiles)
+        {
+            TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
+            var patterns = GetPatterns(tiles, o);
             for (var p = 0; p < wavePropagator.PatternCount; p++)
             {
                 if (patterns.Contains(p))

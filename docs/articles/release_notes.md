@@ -8,6 +8,7 @@ title: Release Notes
 * Support setting a mask on the output topology of TilePropagator. Doesn't work perfectly with Overlapping, so undocumented feature for now.
 * Rotation is now specified in degrees [breaking]
 * Core library no longer depends on TiledLib [breaking]
+* Added [MaxConsecutiveConstraint](xref:DeBroglie.Constraints.MaxConsecutiveConstraint)
 
 # v0.2.1
 

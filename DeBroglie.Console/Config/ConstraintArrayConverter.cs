@@ -40,6 +40,9 @@ namespace DeBroglie.Console.Config
                     case FixedTileConfig.TypeString:
                         constraintConfig = new FixedTileConfig();
                         break;
+                    case MaxConsecutiveConfig.TypeString:
+                        constraintConfig = new MaxConsecutiveConfig();
+                        break;
                     default:
                         throw new Exception($"Unrecognized constraint type {type}");
                 }

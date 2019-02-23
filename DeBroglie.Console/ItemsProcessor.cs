@@ -208,12 +208,24 @@ namespace DeBroglie.Console
                             InvertArea = borderData.InvertArea,
                             Ban = borderData.Ban,
                         });
-                    }else if (constraint is FixedTileConfig fixedTileConfig)
+                    }
+                    else if (constraint is FixedTileConfig fixedTileConfig)
                     {
                         constraints.Add(new FixedTileConstraint
                         {
                             Tile = Parse(fixedTileConfig.Tile),
                             Point = fixedTileConfig.Point,
+                        });
+                    }
+                    else if (constraint is MaxConsecutiveConfig maxConsecutiveConfig)
+                    {
+                        constraints.Add(new MaxConsecutiveConstraint
+                        {
+                            Tiles = new HashSet<Tile>(maxConsecutiveConfig.Tiles.Select(Parse)),
+                            MaxCount = maxConsecutiveConfig.MaxCount,
+                            XAxis = maxConsecutiveConfig.XAxis,
+                            YAxis = maxConsecutiveConfig.YAxis,
+                            ZAxis = maxConsecutiveConfig.ZAxis,
                         });
                     }
                 }
