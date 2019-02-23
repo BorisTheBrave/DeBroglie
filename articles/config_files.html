@@ -357,6 +357,48 @@
 </tr>
 </tbody>
 </table>
+<p>For constructing a <a href="features.html#max-consecutive">max consecutive constraint</a></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>type</code></td>
+<td>string</td>
+<td><code>&quot;maxConsectuive&quot;</code></td>
+</tr>
+<tr>
+<td><code>tiles</code></td>
+<td>array <a href="#tile-references">Tile</a></td>
+<td>The set of tiles to restrict</td>
+</tr>
+<tr>
+<td><code>maxCount</code></td>
+<td>int</td>
+<td>The maximum number of tiles to allow to appear consecutive. Default 3.</td>
+</tr>
+<tr>
+<td><code>xAxis</code></td>
+<td>bool</td>
+<td>Should the x-axis be restricted. Default true.</td>
+</tr>
+<tr>
+<td><code>yAxis</code></td>
+<td>bool</td>
+<td>Should the y-axis be restricted. Default true.</td>
+</tr>
+<tr>
+<td><code>zAxis</code></td>
+<td>bool</td>
+<td>Should the z-axis be restricted. Default true.</td>
+</tr>
+</tbody>
+</table>
 <h3 id="point-config">Point Config</h3>
 <p>The Point class is used for specifying a location in the input or output.</p>
 <table>
@@ -414,7 +456,7 @@
 <tr>
 <td><code>tileSymmetry</code></td>
 <td>string</td>
-<td><a href="#tile-symmetry">See here</a></td>
+<td><a href="rotation.html#tile-symmetries">See here</a></td>
 </tr>
 <tr>
 <td><code>reflectX</code></td>
@@ -438,59 +480,6 @@
 </tr>
 </tbody>
 </table>
-<h3 id="tile-symmetry">Tile Symmetry</h3>
-<p><a class="xref" href="../api/DeBroglie.TileSymmetry.html">TileSymmetry</a>, is a quick way of saying that a tile is unaffected by some reflections or rotations. It's equivalent to setting the reflect and rotation properties of the tile data to the same value as the tile itself. There several possibilities, each named after a letter that has the same symmetry:</p>
-<table>
-<thead>
-<tr>
-<th>Letter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>F</code> or <code>none</code></td>
-<td>No symmetry.</td>
-</tr>
-<tr>
-<td><code>X</code> or <code>full</code></td>
-<td>Fully symmetric.</td>
-</tr>
-<tr>
-<td><code>T</code></td>
-<td>Reflectable on y-axis.</td>
-</tr>
-<tr>
-<td><code>I</code></td>
-<td>Reflectable on x-axis and y-axis.</td>
-</tr>
-<tr>
-<td><code>L</code></td>
-<td>Reflectable on one diagonal.</td>
-</tr>
-<tr>
-<td><code>\</code></td>
-<td>Reflectable on both diagonals.</td>
-</tr>
-<tr>
-<td><code>Q</code></td>
-<td>Reflectable on other diagonal.</td>
-</tr>
-<tr>
-<td><code>E</code></td>
-<td>Reflectable on x-axis.</td>
-</tr>
-<tr>
-<td><code>N</code></td>
-<td>Can rotate 180 degrees.</td>
-</tr>
-<tr>
-<td><code>cyclic</code></td>
-<td>Any rotation, but no reflection.</td>
-</tr>
-</tbody>
-</table>
-<p>More details can be found in the <a href="rotation.html">rotations article</a>.</p>
 <h3 id="tile-references">Tile References</h3>
 <p>Various parts of the config expect a reference to a tile. When using file sets, tile references are easy - they are just what you entered in the <code>value</code> field for the tile in the <code>tiles</code> array. But when working with samples you need to refer to the tiles that the samples use, which is done in a predefined way described below.</p>
 <p>Tile references can either be the name of a tile, or the value. Names and values of tiles depend on what sample file format is being used.</p>
@@ -508,7 +497,7 @@ where each entry adds extra permissible neighbours for some tiles in some direct
 <p>For <code>left</code>/<code>right</code>, this means that it is legal to place any tile found on the <code>left</code> list to the left of any tile in the <code>right</code> list.
 Similarly <code>up</code>/<code>down</code> are along the y-axis and <code>above</code>/<code>below</code> are on the z-axis.</p>
 <p>A tile must be listed at least once in every relevant direction, or else it'll have no possible neighbours in some direction, and the generation will never include it (except maybe on the edge, where it doesn't need a neighbour).</p>
-<p>As documented in <a class="xref" href="../api/DeBroglie.Models.AdjacentModel.html#DeBroglie_Models_AdjacentModel_AddAdjacency_System_Collections_Generic_IList_DeBroglie_Tile__System_Collections_Generic_IList_DeBroglie_Tile__System_Int32_System_Int32_System_Int32_System_Int32_System_Boolean_DeBroglie_TileRotation_">AddAdjacency</a>, if there are rotations specified for tiles, then adjacencies are added for the rotated pairs as appropriate.</p>
+<p>As documented in <a class="xref" href="../api/DeBroglie.Models.AdjacentModel.html#DeBroglie_Models_AdjacentModel_AddAdjacency_System_Collections_Generic_IList_DeBroglie_Tile__System_Collections_Generic_IList_DeBroglie_Tile__System_Int32_System_Int32_System_Int32_DeBroglie_Rot_TileRotation_">AddAdjacency</a>, if there are rotations specified for tiles, then adjacencies are added for the rotated pairs as appropriate.</p>
 <h2 id="import--export-file-formats">Import / Export File formats</h2>
 <p>DeBroglie supports reading and writing to a wide variety of formats. There are two sorts of inputs: <strong>samples</strong>, which are single files containing an arrangment of tiles, and <strong>file sets</strong> which are a collection of files, one per tile.</p>
 <p>Samples are specified by setting the <code>src</code> property in the config. File sets are specified by setting the <code>src</code> property for each tile in the <code>tiles</code> array. When using file sets, there is no data for the model to learn from, so you must manually specify the model as documented in <a href="#adjacency-config">Adjacency</a>.</p>

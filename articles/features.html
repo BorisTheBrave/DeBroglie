@@ -185,6 +185,42 @@ not just within a small rectangles.</p>
 
 <figcaption>Several castles all generated with a fixed turret location</figcaption>
 </figure>
+<h3 id="max-consecutive">Max Consecutive</h3>
+<p>The <a class="xref" href="../api/DeBroglie.Constraints.MaxConsecutiveConstraint.html">MaxConsecutiveConstraint</a> class prevents more than a certain number of tiles appearing consecutively along the x, y or z axis.</p>
+<figure>
+<table>
+<tr>
+<td>
+MaxCount
+</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/max_constraint_2.json">
+<img src="../images/max_constraint_2.png">
+</a>
+</td>
+</tr>
+<tr>
+<td>3</td>
+<td>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/max_constraint_3.json">
+<img src="../images/max_constraint_3.png">
+</a>
+</td>
+</tr>
+<tr>
+<td>10</td>
+<td>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/max_constraint_10.json">
+<img src="../images/max_constraint_10.png">
+</a>
+</td>
+</tr>
+<figcaption>Platforms generated with the MaxConsecutive constraint with different values of MaxCount.</figcaption>
+</table></figure>
 <h3 id="custom-constraints">Custom Constraints</h3>
 <p>You can define your own constraints by extending <a class="xref" href="../api/DeBroglie.Constraints.ITileConstraint.html">ITileConstraint</a>. The Init method is called once per propagator run, and the Check method is called after each step, each time tiles are selected.</p>
 <p>Inside these methods, you can call <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Select_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Select</a> and <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Ban_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Ban</a> to control what tiles can be legally placed. You can also return <a class="xref" href="../api/DeBroglie.Resolution.html#DeBroglie_Resolution_Contradiction">Contradiction</a> to indicate that something is wrong and generation cannot continue. Otherwise, return <a class="xref" href="../api/DeBroglie.Resolution.html#DeBroglie_Resolution_Undecided">Undecided</a> to indicate that generation should continue.</p>
@@ -216,7 +252,7 @@ not just within a small rectangles.</p>
 <p>So you must directly call the <a class="xref" href="../api/DeBroglie.Topo.Topology.html">Topology</a> constructor, and then create <a class="xref" href="../api/DeBroglie.Topo.ITopoArray-1.html">ITopoArray&lt;T&gt;</a> objects using the methods on <a class="xref" href="../api/DeBroglie.Topo.TopoArray.html">TopoArray</a>.  There's also many shortcut methods that don't require a topology if you just want to work with square grids.</p>
 <h3 id="hexagonal-topology">Hexagonal Topology</h3>
 <p>Hexagonal topologies use a convention of &quot;pointy side up&quot;. The x-axis moves to the right, and the y-axis moves down and to the left. This means the library generates rhombus shaped output. Additionally, periodic input / output is not supported.</p>
-<p>Using the <a href="https://www.mapeditor.org/">Tiled format</a> for import/export of hexagonal tilemaps is recommended, as most software doesn't have support for hexagons. DeBroglie comes with <a class="xref" href="../api/DeBroglie.TiledUtil.html">TiledUtil</a> to facilitate converting between <a class="xref" href="../api/DeBroglie.Topo.ITopoArray-1.html">ITopoArray&lt;T&gt;</a> objects and Tiled maps.</p>
+<p>Using the <a href="https://www.mapeditor.org/">Tiled format</a> for import/export of hexagonal tilemaps is recommended, as most software doesn't have support for hexagons. DeBroglie comes with &lt;xref:DeBroglie.TiledUtil&gt; to facilitate converting between <a class="xref" href="../api/DeBroglie.Topo.ITopoArray-1.html">ITopoArray&lt;T&gt;</a> objects and Tiled maps.</p>
 <p>When using the <a href="#overlapping">overlapping</a> model, the constraints are based on <code>n</code> by <code>n</code> rhombus shapes, rather than <code>n</code> by <code>n</code> rectangles.</p>
 <h2 id="rotation">Rotation</h2>
 <p>Handling rotation of the input sample is a complex topic, and is discussed <a class="xref" href="rotation.html">in a separate article</a>.</p>

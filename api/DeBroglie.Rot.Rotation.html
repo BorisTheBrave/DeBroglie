@@ -1,0 +1,521 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Struct Rotation
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Struct Rotation
+   ">
+    <meta name="generator" content="docfx 2.39.2.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/custom.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="DeBroglie.Rot.Rotation">
+  
+  
+  <h1 id="DeBroglie_Rot_Rotation" data-uid="DeBroglie.Rot.Rotation" class="text-break">Struct Rotation
+  </h1>
+  <div class="markdown level0 summary"><p>Represents an rotation in the x-y plane.
+Despite the fact this is labelled rotation, it also includes reflections as well.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.iequatable-1">IEquatable</a>&lt;<a class="xref" href="DeBroglie.Rot.Rotation.html">Rotation</a>&gt;</div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="DeBroglie.Rot.html">DeBroglie.Rot</a></h6>
+  <h6><strong>Assembly</strong>: DeBroglie.dll</h6>
+  <h5 id="DeBroglie_Rot_Rotation_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public struct Rotation : IEquatable&lt;Rotation&gt;</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Rot_Rotation__ctor_System_Int32_System_Boolean_.md&amp;value=---%0Auid%3A%20DeBroglie.Rot.Rotation.%23ctor(System.Int32%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Rot/Rotation.cs/#L11">View Source</a>
+  </span>
+  <a id="DeBroglie_Rot_Rotation__ctor_" data-uid="DeBroglie.Rot.Rotation.#ctor*"></a>
+  <h4 id="DeBroglie_Rot_Rotation__ctor_System_Int32_System_Boolean_" data-uid="DeBroglie.Rot.Rotation.#ctor(System.Int32,System.Boolean)">Rotation(Int32, Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Rotation(int rotateCw = 0, bool reflectX = false)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><span class="parametername">rotateCw</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><span class="parametername">reflectX</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Rot_Rotation_IsIdentity.md&amp;value=---%0Auid%3A%20DeBroglie.Rot.Rotation.IsIdentity%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Rot/Rotation.cs/#L32">View Source</a>
+  </span>
+  <a id="DeBroglie_Rot_Rotation_IsIdentity_" data-uid="DeBroglie.Rot.Rotation.IsIdentity*"></a>
+  <h4 id="DeBroglie_Rot_Rotation_IsIdentity" data-uid="DeBroglie.Rot.Rotation.IsIdentity">IsIdentity</h4>
+  <div class="markdown level1 summary"><p>True for the default constructed rotation, that doesn't do anything.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsIdentity { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Rot_Rotation_ReflectX.md&amp;value=---%0Auid%3A%20DeBroglie.Rot.Rotation.ReflectX%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Rot/Rotation.cs/#L27">View Source</a>
+  </span>
+  <a id="DeBroglie_Rot_Rotation_ReflectX_" data-uid="DeBroglie.Rot.Rotation.ReflectX*"></a>
+  <h4 id="DeBroglie_Rot_Rotation_ReflectX" data-uid="DeBroglie.Rot.Rotation.ReflectX">ReflectX</h4>
+  <div class="markdown level1 summary"><p>If true, this &quot;rotation&quot; also includes a reflection along the x-axis.
+The reflection is applied before doing any rotation by RotateCw.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool ReflectX { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Rot_Rotation_RotateCw.md&amp;value=---%0Auid%3A%20DeBroglie.Rot.Rotation.RotateCw%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Rot/Rotation.cs/#L21">View Source</a>
+  </span>
+  <a id="DeBroglie_Rot_Rotation_RotateCw_" data-uid="DeBroglie.Rot.Rotation.RotateCw*"></a>
+  <h4 id="DeBroglie_Rot_Rotation_RotateCw" data-uid="DeBroglie.Rot.Rotation.RotateCw">RotateCw</h4>
+  <div class="markdown level1 summary"><p>Rotation in degrees, clockwise (assuming a y-down co-ordinate system, typically used
+for 2d graphics).</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int RotateCw { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Rot_Rotation_Equals_DeBroglie_Rot_Rotation_.md&amp;value=---%0Auid%3A%20DeBroglie.Rot.Rotation.Equals(DeBroglie.Rot.Rotation)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Rot/Rotation.cs/#L72">View Source</a>
+  </span>
+  <a id="DeBroglie_Rot_Rotation_Equals_" data-uid="DeBroglie.Rot.Rotation.Equals*"></a>
+  <h4 id="DeBroglie_Rot_Rotation_Equals_DeBroglie_Rot_Rotation_" data-uid="DeBroglie.Rot.Rotation.Equals(DeBroglie.Rot.Rotation)">Equals(Rotation)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Equals(Rotation other)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="DeBroglie.Rot.Rotation.html">Rotation</a></td>
+        <td><span class="parametername">other</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Rot_Rotation_Equals_System_Object_.md&amp;value=---%0Auid%3A%20DeBroglie.Rot.Rotation.Equals(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Rot/Rotation.cs/#L53">View Source</a>
+  </span>
+  <a id="DeBroglie_Rot_Rotation_Equals_" data-uid="DeBroglie.Rot.Rotation.Equals*"></a>
+  <h4 id="DeBroglie_Rot_Rotation_Equals_System_Object_" data-uid="DeBroglie.Rot.Rotation.Equals(System.Object)">Equals(Object)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool Equals(object obj)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></td>
+        <td><span class="parametername">obj</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.valuetype.equals#System_ValueType_Equals_System_Object_">ValueType.Equals(Object)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Rot_Rotation_GetHashCode.md&amp;value=---%0Auid%3A%20DeBroglie.Rot.Rotation.GetHashCode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Rot/Rotation.cs/#L62">View Source</a>
+  </span>
+  <a id="DeBroglie_Rot_Rotation_GetHashCode_" data-uid="DeBroglie.Rot.Rotation.GetHashCode*"></a>
+  <h4 id="DeBroglie_Rot_Rotation_GetHashCode" data-uid="DeBroglie.Rot.Rotation.GetHashCode">GetHashCode()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override int GetHashCode()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.valuetype.gethashcode#System_ValueType_GetHashCode">ValueType.GetHashCode()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Rot_Rotation_Inverse.md&amp;value=---%0Auid%3A%20DeBroglie.Rot.Rotation.Inverse%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Rot/Rotation.cs/#L38">View Source</a>
+  </span>
+  <a id="DeBroglie_Rot_Rotation_Inverse_" data-uid="DeBroglie.Rot.Rotation.Inverse*"></a>
+  <h4 id="DeBroglie_Rot_Rotation_Inverse" data-uid="DeBroglie.Rot.Rotation.Inverse">Inverse()</h4>
+  <div class="markdown level1 summary"><p>Returns the rotation that rotates back from this one.
+i.e. r.Inverse() * r gives the identity rotation for all Rotation objects.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Rotation Inverse()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="DeBroglie.Rot.Rotation.html">Rotation</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Rot_Rotation_ToString.md&amp;value=---%0Auid%3A%20DeBroglie.Rot.Rotation.ToString%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Rot/Rotation.cs/#L67">View Source</a>
+  </span>
+  <a id="DeBroglie_Rot_Rotation_ToString_" data-uid="DeBroglie.Rot.Rotation.ToString*"></a>
+  <h4 id="DeBroglie_Rot_Rotation_ToString" data-uid="DeBroglie.Rot.Rotation.ToString">ToString()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string ToString()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.string">String</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.valuetype.tostring#System_ValueType_ToString">ValueType.ToString()</a></div>
+  <h3 id="operators">Operators
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Rot_Rotation_op_Multiply_DeBroglie_Rot_Rotation_DeBroglie_Rot_Rotation_.md&amp;value=---%0Auid%3A%20DeBroglie.Rot.Rotation.op_Multiply(DeBroglie.Rot.Rotation%2CDeBroglie.Rot.Rotation)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Rot/Rotation.cs/#L46">View Source</a>
+  </span>
+  <a id="DeBroglie_Rot_Rotation_op_Multiply_" data-uid="DeBroglie.Rot.Rotation.op_Multiply*"></a>
+  <h4 id="DeBroglie_Rot_Rotation_op_Multiply_DeBroglie_Rot_Rotation_DeBroglie_Rot_Rotation_" data-uid="DeBroglie.Rot.Rotation.op_Multiply(DeBroglie.Rot.Rotation,DeBroglie.Rot.Rotation)">Multiply(Rotation, Rotation)</h4>
+  <div class="markdown level1 summary"><p>Returns the rotation which is equivalent to rotating first by b, then by a.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Rotation operator *(Rotation a, Rotation b)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="DeBroglie.Rot.Rotation.html">Rotation</a></td>
+        <td><span class="parametername">a</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="DeBroglie.Rot.Rotation.html">Rotation</a></td>
+        <td><span class="parametername">b</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="DeBroglie.Rot.Rotation.html">Rotation</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.iequatable-1">System.IEquatable&lt;T&gt;</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Rot_Rotation.md&amp;value=---%0Auid%3A%20DeBroglie.Rot.Rotation%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Rot/Rotation.cs/#L9" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

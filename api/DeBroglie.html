@@ -78,35 +78,20 @@
   <div class="markdown level0 remarks"></div>
     <h3 id="classes">Classes
   </h3>
-      <h4><a class="xref" href="DeBroglie.TiledUtil.html">TiledUtil</a></h4>
-      <section><p>Utilities for working with <a href="https://www.mapeditor.org/">Tiled files</a>.
-This class mostly delegates work to <a href="https://github.com/Ragath/TiledLib.Net">TiledLib.Net</a></p>
-</section>
       <h4><a class="xref" href="DeBroglie.TilePropagator.html">TilePropagator</a></h4>
       <section><p>TilePropagator is the main entrypoint to the DeBroglie library.
 It takes a <a class="xref" href="DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_TileModel">TileModel</a> and an output <a class="xref" href="DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Topology">Topology</a> and generates
 an output array using those parameters.</p>
 </section>
-      <h4><a class="xref" href="DeBroglie.TileRotation.html">TileRotation</a></h4>
-      <section><p>Stores how tiles transform to each other via rotations and reflections.
-These are constructed with a <a class="xref" href="DeBroglie.TileRotationBuilder.html">TileRotationBuilder</a></p>
+      <h4><a class="xref" href="DeBroglie.TilePropogatorTileSet.html">TilePropogatorTileSet</a></h4>
+      <section><p>A set of tiles, specific to a particular TilePropogator.
+This class internally caches some computations, making it faster
+if you have lots of operations using the same set of tiles.</p>
 </section>
-      <h4><a class="xref" href="DeBroglie.TileRotationBuilder.html">TileRotationBuilder</a></h4>
-      <section><p>Builds a <a class="xref" href="DeBroglie.TileRotation.html">TileRotation</a>.
-This class lets you specify some transformations between tiles via rotation and reflection.
-It then infers the full set of transformations possible, and informs you if there are contradictions.</p>
-<p>As an example of inference, if a square tile 1 transforms to tile 2 when rotated clockwise, and tile 2 transforms to itself when reflected in the x-axis,
-then we can infer that tile 1 must transform to tile 1 when reflected in the y-axis.</p>
-</section>
-      <h4><a class="xref" href="DeBroglie.TileSymmetryUtils.html">TileSymmetryUtils</a></h4>
-      <section></section>
     <h3 id="structs">Structs
   </h3>
       <h4><a class="xref" href="DeBroglie.Point.html">Point</a></h4>
       <section><p>Represents a location in a topology.</p>
-</section>
-      <h4><a class="xref" href="DeBroglie.RotatedTile.html">RotatedTile</a></h4>
-      <section><p>Represents a tile that has been rotated and reflected in some way.</p>
 </section>
       <h4><a class="xref" href="DeBroglie.Tile.html">Tile</a></h4>
       <section><p>A wrapper around <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a> to give some clarity to the code.
@@ -121,13 +106,6 @@ and the Tile struct is used elsewhere to indicate the relationship to generation
       <section><p>Indicates whether something has been fully resolved or not.
 This is the return code for many functions, but can also
 describe the state of individual locations in a generated output.</p>
-</section>
-      <h4><a class="xref" href="DeBroglie.TileRotationTreatment.html">TileRotationTreatment</a></h4>
-      <section></section>
-      <h4><a class="xref" href="DeBroglie.TileSymmetry.html">TileSymmetry</a></h4>
-      <section><p>Specifies the way in which a tile can be symmetric.
-The letters are chosen that they have the letter itself
-has the symmetry group it represents.</p>
 </section>
 </article>
           </div>

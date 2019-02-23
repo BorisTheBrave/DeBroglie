@@ -68,10 +68,16 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="rotation_article">
-<h2 id="rotation-motivation">Rotation Motivation</h2>
 
-<p>When you supply an input sample, you can optionally specify the <code>rotationalSymmetry</code> and <code>reflectionalSymmetry</code>. If you do, extra copies of the sample will be generated, by rotating and reflecting. This can be very handy, as it means you don't need as large an input sample, and you are guaranteed that there will be no bias towards a particular direction.</p>
-<p>Specifing rotations means even small samples can provide a lot of output variety:</p>
+
+<p>While the core WFC algorithm DeBroglie uses is agnostic to rotation and reflections, many tiles sets and designs have some amount of symmetry. DeBroglie lets you specify what symmetry to use. This has several advantages:</p>
+<ol>
+<li><strong>You need smaller input</strong> - DeBroglie can take your samples, and create rotated and reflected copies, greatly expanding the amount of data to work with.</li>
+<li><strong>You need smaller configuration</strong> - most methods come with a rotation aware overload, which will repeat the operation for other rortations and reflections</li>
+<li><strong>You need fewer tiles</strong> - DeBroglie can generate additional tiles that are rotated and reflected copies of existing tiles.</li>
+<li><strong>You can avoid bias</strong> - by enforcing symmetry, you cannot accidentally introduce patterns that only work at a given orientation.</li>
+</ol>
+<p>Overall, it means a small amount of input can specify a lot of output variety:</p>
 <figure>
 <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/grass/map.json">
 <img src="../images/rotation_input.png">
@@ -80,20 +86,19 @@
 </a>
 <figcaption>See how the output contains rotated parts of the input image. (<a href="../images/rotation.webm">animated</a>)</figcaption>
 </figure>
-<p>The core WFC algorithm used has no notion of rotation. DeBroglie handles rotation entirely as a pre-processing effect on input samples. So it's not necessary to specify rotations as described below, you can always just add more tiles and more samples. But it's much more convenient to let DeBroglie do it.</p>
-<p>DeBroglie works on tile samples, and you cannot just naively rotate the sample image but otherwise leave the tiles unchanged. The tiles will stop joining up with each other:</p>
-<p><canvas id="myCanvas" width="300" height="300"></canvas></p>
-<script src="animation.js"></script>
-<p>So when rotating a sample, it's necessary to rotate the tiles as well, and that requires extra information to be passed to DeBroglie.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Rotations and reflections are part of the same system in DeBroglie. For brevity, both rotations and reflections are called rotations in code and documentation, and they share the <a class="xref" href="../api/DeBroglie.Rot.Rotation.html">Rotation class</a></p>
+</div>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Rotations are entirely a pre-processing step for convenience. It's always possible to achieve the same effects manually with more reptitions.</p>
+</div>
+<p>To work with rotations, you need construct a <a class="xref" href="../api/DeBroglie.Rot.TileRotation.html">TileRotation</a> object that contains rotation configuration. You can use a <a class="xref" href="../api/DeBroglie.Rot.TileRotationBuilder.html">TileRotationBuilder</a> for this. Many DeBroglie methods have an overload that takes a <a class="xref" href="../api/DeBroglie.Rot.TileRotation.html">TileRotation</a>, this indicates they are rotation aware. Usually this means that the method body will be repeated for each configured rotation.</p>
 <h2 id="quick-start">Quick Start</h2>
 <p>There are three common use cases in DeBroglie.</p>
 <h3 id="single-pixels--voxels">Single pixels / voxels</h3>
-<p>If your tiles are single pixels, or single voxels, then you do not need set up any extra information, because all your tiles are fully symmetric.</p>
-<h3 id="complete-tilesets">Complete tilesets</h3>
-<p>If your tileset comes extra tiles for all rotations, e.g.</p>
-<img src="../images/overworld_tileset_cropped.png">
-<p>Then you need to specify how the tiles relate to each other. If you specify one reflection
-and one rotation for each tile, then DeBroglie can all other rotations and reflections.</p>
+<p>If your &quot;tiles&quot; are single pixels, or single voxels, then you just need to set the desired symmetry by passing in <code>rotationalSymmetry</code> and <code>reflectionalSymmetry</code> (as described <a href="#specifying-symmetry">below</a>). No further configuration is needed.</p>
 <div class="tabGroup" id="tabgroup_CeZOj-G++Q">
 <ul role="tablist">
 <li role="presentation">
@@ -105,22 +110,57 @@ and one rotation for each tile, then DeBroglie can all other rotations and refle
 </ul>
 <section id="tabpanel_CeZOj-G++Q_lib" role="tabpanel" data-tab="lib">
 
-<pre><code class="lang-csharp">var builder = new TileRotationBuilder();
-// tile 1 rotates clockwise to give tile 2
-builder.Add(tile1, 1, false, tile2); 
-// tile 1 reflects in x-axis to give itself.
-builder.Add(tile1, 0, true, tile1);
-var rotations = builder.Build();
-...
-// Add a new sample to the model, using all
-// eight rotations and reflections.
-model.AddSample(sample, 4, true, rotations)
+<pre><code class="lang-csharp">// Specifies we're using all 8 rotations and reflections
+var rotations = new TileRotation(4, true);
+// Add a new sample to the model, using 8 copies
+model.AddSample(sample, rotations)
 </code></pre>
 </section>
 <section id="tabpanel_CeZOj-G++Q_config" role="tabpanel" data-tab="config" aria-hidden="true" hidden="hidden">
 
 <pre><code class="lang-javascript">{
+    &quot;src&quot;: &quot;sample...&quot;,
+    &quot;rotationalSymmetry&quot;: 4,
+    &quot;reflectionalSymmetry&quot;: true,
+}
+</code></pre>
+</section>
+</div>
+<h3 id="complete-tilesets">Complete tilesets</h3>
+<p>If your tileset comes extra tiles for all rotations, e.g.</p>
+<img src="../images/overworld_tileset_cropped.png">
+<p>Then you need to specify how the tiles relate to each other. If you specify one reflection
+and one rotation for each tile, then DeBroglie can infer all other rotations and reflections.</p>
+<div class="tabGroup" id="tabgroup_CeZOj-G++Q-1">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_CeZOj-G++Q-1_lib" role="tab" aria-controls="tabpanel_CeZOj-G++Q-1_lib" data-tab="lib" tabindex="0" aria-selected="true">Library Example</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_CeZOj-G++Q-1_config" role="tab" aria-controls="tabpanel_CeZOj-G++Q-1_config" data-tab="config" tabindex="-1">Config Example</a>
+</li>
+</ul>
+<section id="tabpanel_CeZOj-G++Q-1_lib" role="tabpanel" data-tab="lib">
+
+<pre><code class="lang-csharp">var builder = new TileRotationBuilder(4, true);
+// tile 1 rotates clockwise to give tile 2
+builder.Add(tile1, new Rotation(90), tile2); 
+// tile 1 reflects in x-axis to give itself.
+builder.Add(tile1, new Rotation(0, true), tile1);
+var rotations = builder.Build();
+...
+// Add a new sample to the model, using all
+// eight rotations and reflections, replacing
+// tiles as specified above
+model.AddSample(sample, rotations)
+</code></pre>
+</section>
+<section id="tabpanel_CeZOj-G++Q-1_config" role="tabpanel" data-tab="config" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-javascript">{
     ...
+    &quot;rotationalSymmetry&quot;: 4,
+    &quot;reflectionalSymmetry&quot;: true,
     &quot;tiles&quot;: [
         // tile 1 rotates clockwise to give tile 2
         // tile 1 reflects in x-axis to give itself.
@@ -133,22 +173,22 @@ model.AddSample(sample, 4, true, rotations)
 <h3 id="incomplete-tilesets">Incomplete tilesets</h3>
 <p>Some tileset only comes with fewer tiles, and expects you make more tiles via rotation:</p>
 <img src="../images/overworld_tileset_incomplete.png">
-<p>In this case, you can use DeBroglie to generate the extra tiles for you. This feature is experimental. You specify relations between tiles as in the complete tileset case,
+<p>In this case, you can use DeBroglie to generate the extra tiles for you. You specify relations between tiles as in the complete tileset case,
 but new tiles are created for anything left unspecified.</p>
-<div class="tabGroup" id="tabgroup_CeZOj-G++Q-1">
+<div class="tabGroup" id="tabgroup_CeZOj-G++Q-2">
 <ul role="tablist">
 <li role="presentation">
-<a href="#tabpanel_CeZOj-G++Q-1_lib" role="tab" aria-controls="tabpanel_CeZOj-G++Q-1_lib" data-tab="lib" tabindex="0" aria-selected="true">Library Example</a>
+<a href="#tabpanel_CeZOj-G++Q-2_lib" role="tab" aria-controls="tabpanel_CeZOj-G++Q-2_lib" data-tab="lib" tabindex="0" aria-selected="true">Library Example</a>
 </li>
 <li role="presentation">
-<a href="#tabpanel_CeZOj-G++Q-1_config" role="tab" aria-controls="tabpanel_CeZOj-G++Q-1_config" data-tab="config" tabindex="-1">Config Example</a>
+<a href="#tabpanel_CeZOj-G++Q-2_config" role="tab" aria-controls="tabpanel_CeZOj-G++Q-2_config" data-tab="config" tabindex="-1">Config Example</a>
 </li>
 </ul>
-<section id="tabpanel_CeZOj-G++Q-1_lib" role="tabpanel" data-tab="lib">
+<section id="tabpanel_CeZOj-G++Q-2_lib" role="tabpanel" data-tab="lib">
 
-<pre><code class="lang-csharp">var builder = new TileRotationBuilder(TileRotationTreatment.Generated);
+<pre><code class="lang-csharp">var builder = new TileRotationBuilder(4, true, TileRotationTreatment.Generated);
 // tile 1 reflects in x-axis to give itself.
-builder.Add(tile1, 0, true, tile1);
+builder.Add(tile1, new Rotation(0, true), tile1);
 // We haven't added a rotation, so a new rotation tile will
 // be created when DeBroglie tries to rotate tile 1.
 
@@ -158,15 +198,18 @@ builder.Add(tile1, 0, true, tile1);
 var rotations = builder.Build();
 ...
 // Add a new sample to the model, using all
-// eight rotations and reflections.
-model.AddSample(sample, 4, true, rotations)
+// eight rotations and reflections, generating new tiles as needed
+model.AddSample(sample,  rotations)
 </code></pre>
 </section>
-<section id="tabpanel_CeZOj-G++Q-1_config" role="tabpanel" data-tab="config" aria-hidden="true" hidden="hidden">
+<section id="tabpanel_CeZOj-G++Q-2_config" role="tabpanel" data-tab="config" aria-hidden="true" hidden="hidden">
 
 <pre><code class="lang-javascript">{
     ...
     &quot;rotationTreatment&quot;: &quot;generated&quot;,
+
+    &quot;rotationalSymmetry&quot;: 4,
+    &quot;reflectionalSymmetry&quot;: true,
     &quot;tiles&quot;: [
         // tile 1 reflects in x-axis to give itself.
         {&quot;value&quot;: 1, &quot;reflectX&quot;: 1}
@@ -180,7 +223,82 @@ model.AddSample(sample, 4, true, rotations)
 </code></pre>
 </section>
 </div>
-<h2 id="handling-rotating-a-tile">Handling rotating a tile</h2>
+<h2 id="specifying-symmetry">Specifying Symmetry</h2>
+<p>In order to use rotations, you must specify what <a href="https://en.wikipedia.org/wiki/Symmetry_group">symmetry group</a> you are using. This determines the list of rotations which are used for making copies of input samples and for other things.</p>
+<p>There are two parameters: <code>rotationalSymmetry</code> and <code>reflectionalSymmetry</code>. The following table table how different choices effect what set of rotations are used.</p>
+<table>
+<thead>
+<tr>
+<th>Rotational<br>Symmetry</th>
+<th>Reflectional<br>Symmetry</th>
+<th>All Rotations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>false</td>
+<td><img src="../images/F.png">     (default)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>false</td>
+<td><img src="../images/F.png"> <img src="../images/F180.png"></td>
+</tr>
+<tr>
+<td>4</td>
+<td>false</td>
+<td><img src="../images/F.png"> <img src="../images/F90.png"> <img src="../images/F180.png"> <img src="../images/F270.png"></td>
+</tr>
+<tr>
+<td>1</td>
+<td>true</td>
+<td><img src="../images/F.png"> <img src="../images/Fx.png"></td>
+</tr>
+<tr>
+<td>2</td>
+<td>true</td>
+<td><img src="../images/F.png"> <img src="../images/F180.png"> <img src="../images/Fx.png"> <img src="../images/Fx180.png"></td>
+</tr>
+<tr>
+<td>4</td>
+<td>true</td>
+<td><img src="../images/F.png"> <img src="../images/F90.png"> <img src="../images/F180.png"> <img src="../images/F270.png"> <img src="../images/Fx.png"> <img src="../images/Fx90.png"> <img src="../images/Fx180.png"> <img src="../images/Fx270.png"></td>
+</tr>
+</tbody>
+</table>
+<p>It works similarly for hexagonal grids, except <code>rotationalSymmetry</code> can take values 1, 2, 3 or 6.</p>
+<p>Rotation can be used in 3d, but it only effects the x-y plane.</p>
+<div class="tabGroup" id="tabgroup_CeZOj-G++Q-3">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_CeZOj-G++Q-3_lib" role="tab" aria-controls="tabpanel_CeZOj-G++Q-3_lib" data-tab="lib" tabindex="0" aria-selected="true">Library Example</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_CeZOj-G++Q-3_config" role="tab" aria-controls="tabpanel_CeZOj-G++Q-3_config" data-tab="config" tabindex="-1">Config Example</a>
+</li>
+</ul>
+<section id="tabpanel_CeZOj-G++Q-3_lib" role="tabpanel" data-tab="lib">
+
+<pre><code class="lang-csharp">var rotations = new TileRotation(4, true);
+</code></pre>
+</section>
+<section id="tabpanel_CeZOj-G++Q-3_config" role="tabpanel" data-tab="config" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-javascript">{
+    &quot;rotationalSymmetry&quot;: 4,
+    &quot;reflectionalSymmetry&quot;: true,
+}
+</code></pre>
+</section>
+</div>
+<h2 id="specifying-tile-rotations">Specifying Tile Rotations</h2>
+<p>The symmetry specified above is the most fundamental configuration for rotations. If you are rotating a pixel or voxel array, it's likely all you need.</p>
+<p>In other cases, it can be insufficient.</p>
+<p>DeBroglie works on tiles, and you cannot just naively rotate the sample array but otherwise leave the tiles unchanged. The tiles will stop joining up with each other:</p>
+<p><canvas id="myCanvas" width="300" height="300"></canvas></p>
+<script src="animation.js"></script>
+<p>So when rotating a sample, it's necessary to rotate the tiles as well, and that requires extra information to be passed to DeBroglie.</p>
 <p>Starting with a given tile, and for a given rotation / reflection, there are 4 choices for what we might want to do:</p>
 <ol>
 <li>Re-use the same tile <strong>unchanged</strong>. This is typically the case when the tile is symmetric.</li>
@@ -193,12 +311,116 @@ model.AddSample(sample, 4, true, rotations)
  <img src="../images/rotate_arrow.png">
  <img src="../images/rotation_example_scene_rotated.png">
 <p>The we had to treat the different tiles in different ways.</p>
-<p>The crossroad tile <img src="../images/grass_crossroad.png"> is <strong>unchanged</strong> as it is fully symetric.</p>
+<p>The crossroad tile <img src="../images/grass_crossroad.png"> is <strong>unchanged</strong> as it is fully symmetric.</p>
 <p>The bottom left cliff corner <img src="../images/grass_corner1.png"> gets <strong>replaced</strong> with the top left corner <img src="../images/grass_corner2.png">. These two images don't look similar due to the change in perspective, but you can easily see that a curve in the cliff would change as you rotate the view by 90 degrees.</p>
 <p>The path tiles have no perspective in them, so we are free to take a path tile <img src="../images/grass_corner3.png"> and <strong>generate</strong> a rotation from it <img src="../images/grass_corner4.png"> by simply rotating the image.</p>
 <p>The steps <img src="../images/grass_steps.png"> cannot be generated due to perspective and the tileset doesn't have an appropriate replacement, so it <strong>fails</strong> and just leaves a hole in the rotated sample. Holes are ok, though! We're just using the rotated sample as more input examples for the selected model, and the model will know to ignore holes.</p>
-<h2 id="specifying-rotations">Specifying Rotations</h2>
-<p>The choice of unchanged, replacement, generate or fail is stored in an <a class="xref" href="../api/DeBroglie.TileRotation.html">TileRotation</a> object. To create one of these, you need a <a class="xref" href="../api/DeBroglie.TileRotationBuilder.html">TileRotationBuilder</a>.</p>
+<p>The default treatment of a tile is Unchanged. If we want anything else, we must specify it using a <a class="xref" href="../api/DeBroglie.Rot.TileRotationBuilder.html">TileRotationBuilder</a> (or in <a href="config_files.html#tile-data-config">tile data</a>, when using JSON configuration).</p>
+<h3 id="tile-symmetries">Tile Symmetries</h3>
+<p><a class="xref" href="../api/DeBroglie.Rot.TileSymmetry.html">TileSymmetry</a> is a quick way of saying that a tile is unaffected by some reflections or rotations. The more symmetric a tile is, the fewer rotations of a tile are needed, as DeBroglie can re-use the tile itself.</p>
+<p>Tile symmetries are set by calling <a class="xref" href="../api/DeBroglie.Rot.TileRotationBuilder.html#DeBroglie_Rot_TileRotationBuilder_AddSymmetry_DeBroglie_Tile_DeBroglie_Rot_TileSymmetry_">AddSymmetry(Tile, TileSymmetry)</a></p>
+<p>The following table shows the possible tile symmetries. Each is named after a letter which is similarly symmetric.</p>
+<table>
+<thead>
+<tr>
+<th>Letter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>F</code> or <code>none</code></td>
+<td>No symmetry.</td>
+</tr>
+<tr>
+<td><code>X</code> or <code>full</code></td>
+<td>Fully symmetric.</td>
+</tr>
+<tr>
+<td><code>T</code></td>
+<td>Reflectable on y-axis.</td>
+</tr>
+<tr>
+<td><code>I</code></td>
+<td>Reflectable on x-axis and y-axis.</td>
+</tr>
+<tr>
+<td><code>L</code></td>
+<td>Reflectable on one diagonal.</td>
+</tr>
+<tr>
+<td><code>\</code></td>
+<td>Reflectable on both diagonals.</td>
+</tr>
+<tr>
+<td><code>Q</code></td>
+<td>Reflectable on other diagonal.</td>
+</tr>
+<tr>
+<td><code>E</code></td>
+<td>Reflectable on x-axis.</td>
+</tr>
+<tr>
+<td><code>N</code></td>
+<td>Can rotate 180 degrees.</td>
+</tr>
+<tr>
+<td><code>cyclic</code></td>
+<td>Any rotation, but no reflection.</td>
+</tr>
+</tbody>
+</table>
+<div class="WARNING">
+<h5>Warning</h5>
+<p>Tile symmetry is only available for square grids. Use <a href="#tile-replacements">Tile Replacements</a> to get the same effect on hex grids.</p>
+</div>
+<h3 id="tile-replacements">Tile Replacements</h3>
+<p>The most flexible way to configure rotations in DeBroglie is to literally specify what tile to use when rotating any tile in a given way. You can do this by calling <a class="xref" href="../api/DeBroglie.Rot.TileRotationBuilder.html#DeBroglie_Rot_TileRotationBuilder_Add_DeBroglie_Tile_DeBroglie_Rot_Rotation_DeBroglie_Tile_">Add(Tile, Rotation, Tile)</a>.</p>
+<p>DeBroglie is able to make <strong>infererences</strong>, so you don't need specify every possible combination. For example, if the reflecting tile A along the x-axis gives tile B, and rotating tile B 180 degrees gives tile C, then DeBroglie also knows that that reflecting tile A along the y-axis gives tile C, and that rotating tile C 180 degrees gives tile B, and so on.</p>
+<p>Thanks to inferences, it's usually only necessary to specify what happens to each tile under a single rotation and a single reflection, and it can infer the rest. If you have tile symmetries set, you may not even need that.</p>
+<div class="tabGroup" id="tabgroup_CeZOj-G++Q-4">
+<ul role="tablist">
+<li role="presentation">
+<a href="#tabpanel_CeZOj-G++Q-4_lib" role="tab" aria-controls="tabpanel_CeZOj-G++Q-4_lib" data-tab="lib" tabindex="0" aria-selected="true">Library Example</a>
+</li>
+<li role="presentation">
+<a href="#tabpanel_CeZOj-G++Q-4_config" role="tab" aria-controls="tabpanel_CeZOj-G++Q-4_config" data-tab="config" tabindex="-1">Config Example</a>
+</li>
+</ul>
+<section id="tabpanel_CeZOj-G++Q-4_lib" role="tabpanel" data-tab="lib">
+
+<pre><code class="lang-csharp">var builder = new TileRotationBuilder(4, true);
+// tile 1 rotates clockwise to give tile 2
+builder.Add(tile1, new Rotation(90), tile2); 
+// tile 1 reflects in x-axis to give itself.
+builder.Add(tile1, new Rotation(0, true), tile1);
+</code></pre>
+</section>
+<section id="tabpanel_CeZOj-G++Q-4_config" role="tabpanel" data-tab="config" aria-hidden="true" hidden="hidden">
+
+<pre><code class="lang-javascript">{
+    ...
+    &quot;tiles&quot;: [
+        // tile 1 rotates clockwise to give tile 2
+        // tile 1 reflects in x-axis to give itself.
+        {&quot;value&quot;: 1, &quot;rotateCw&quot;: 2, &quot;reflectX&quot;: 1}
+    ]
+}
+</code></pre>
+</section>
+</div>
+<h3 id="tile-treatments">Tile Treatments</h3>
+<p>If DeBroglie tries to rotate a tile in a way which is not specified by a tile replacement or tile symmetry, then it falls back to the <a class="xref" href="../api/DeBroglie.Rot.TileRotationTreatment.html">TileRotationTreatment</a>:</p>
+<ul>
+<li><strong>Unchanged</strong> - Re-use the tile as is</li>
+<li><strong>Missing</strong> - Fail to rotate the tile. Exactly what this does is context specific. For rotating input samples, it creates a hole in the sample that will not be read from.</li>
+<li><strong>Generate</strong> - Create a new tile.</li>
+</ul>
+<h3 id="working-with-generated-tiles">Working with Generated Tiles</h3>
+<p>Although DeBroglie will generate rotated copies of tiles for you, it is sometimes necessary to directly refer to them. You can construct a rotated version of any tile as follows:</p>
+<pre><code class="lang-csharp">new Tile(new RotatedTile(oldTile, rotation));
+</code></pre>
+<p>In javascript config, generated tiles have a value which is the value of the original tile, plus a &quot;rotation string&quot;. The rotation string is <code>&quot;!&quot; + &lt;&quot;x&quot; if reflected&gt; + &lt;rotation in degrees&gt;</code>. For example <code>oldTile!90</code> is oldTile rotated clockwise by 90 degrees. <code>oldTile!x180</code> is oldTile reflected along the x-axis, then rotated by 180 degrees (in other words, reflected along the y-axis).</p>
 </article>
           </div>
           

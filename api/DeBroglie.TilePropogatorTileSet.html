@@ -5,9 +5,11 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Release Notes </title>
+    <title>Class TilePropogatorTileSet
+   </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Release Notes ">
+    <meta name="title" content="Class TilePropogatorTileSet
+   ">
     <meta name="generator" content="docfx 2.39.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
@@ -67,39 +69,59 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="release_notes">
-<h1 id="v030">v0.3.0</h1>
-
-<ul>
-<li>Support setting a mask on the output topology of TilePropagator. Doesn't work perfectly with Overlapping, so undocumented feature for now.</li>
-<li>Rotation is now specified in degrees [breaking]</li>
-<li>Core library no longer depends on TiledLib [breaking]</li>
-<li>Added <a class="xref" href="../api/DeBroglie.Constraints.MaxConsecutiveConstraint.html">MaxConsecutiveConstraint</a></li>
-</ul>
-<h1 id="v021">v0.2.1</h1>
-<ul>
-<li>Reduced memory usage of WFC</li>
-<li>Fixed <a href="https://github.com/BorisTheBrave/DeBroglie/issues/5">#5</a></li>
-</ul>
-<h1 id="v020">v0.2.0</h1>
-<ul>
-<li>Support more input formats:
-<ul>
-<li>.tsx</li>
-<li>list of bitmaps</li>
-<li>list of .vox</li>
-</ul>
-</li>
-<li>Support for saving .csv files.</li>
-<li>Direct specification of adjacencies.</li>
-<li>Generated tile rotations now working.</li>
-<li>Default tile rotation treatment is now Unchanged. [breaking]</li>
-<li>Added <a class="xref" href="../api/DeBroglie.Constraints.FixedTileConstraint.html">FixedTileConstraint</a>.</li>
-</ul>
-<h1 id="v010">v0.1.0</h1>
-<ul>
-<li>Initial release</li>
-</ul>
+            <article class="content wrap" id="_content" data-uid="DeBroglie.TilePropogatorTileSet">
+  
+  
+  <h1 id="DeBroglie_TilePropogatorTileSet" data-uid="DeBroglie.TilePropogatorTileSet" class="text-break">Class TilePropogatorTileSet
+  </h1>
+  <div class="markdown level0 summary"><p>A set of tiles, specific to a particular TilePropogator.
+This class internally caches some computations, making it faster
+if you have lots of operations using the same set of tiles.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></div>
+    <div class="level1"><span class="xref">TilePropogatorTileSet</span></div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="DeBroglie.html">DeBroglie</a></h6>
+  <h6><strong>Assembly</strong>: DeBroglie.dll</h6>
+  <h5 id="DeBroglie_TilePropogatorTileSet_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class TilePropogatorTileSet</code></pre>
+  </div>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_TilePropogatorTileSet_Tiles.md&amp;value=---%0Auid%3A%20DeBroglie.TilePropogatorTileSet.Tiles%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/TilePropogatorTileSet.cs/#L22">View Source</a>
+  </span>
+  <a id="DeBroglie_TilePropogatorTileSet_Tiles_" data-uid="DeBroglie.TilePropogatorTileSet.Tiles*"></a>
+  <h4 id="DeBroglie_TilePropogatorTileSet_Tiles" data-uid="DeBroglie.TilePropogatorTileSet.Tiles">Tiles</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IReadOnlyCollection&lt;Tile&gt; Tiles { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1">IReadOnlyCollection</a>&lt;<a class="xref" href="DeBroglie.Tile.html">Tile</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
 </article>
           </div>
           
@@ -108,7 +130,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/docs/articles/release_notes.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_TilePropogatorTileSet.md&amp;value=---%0Auid%3A%20DeBroglie.TilePropogatorTileSet%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/TilePropogatorTileSet.cs/#L14" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
