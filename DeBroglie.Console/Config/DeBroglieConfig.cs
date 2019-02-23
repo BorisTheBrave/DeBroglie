@@ -308,6 +308,18 @@ namespace DeBroglie.Console.Config
         public string[] PathTiles { get; set; }
     }
 
+    public class EdgedPathConfig : ConstraintConfig
+    {
+        public const string TypeString = "edgedPath";
+
+        public override string Type => TypeString;
+
+        /// <summary>
+        /// The set of tiles that are considered "on the path".
+        /// </summary>
+        public Dictionary<string, string[]> Exits { get; set; }
+    }
+
     public class BorderConfig : ConstraintConfig
     {
         public const string TypeString = "border";

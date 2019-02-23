@@ -75,9 +75,9 @@ namespace DeBroglie.Topo
 
         public int GetDirection(int x, int y, int z=0)
         {
-            for(int d=0;d<Count;d++)
+            for (int d = 0; d < Count; d++)
             {
-                if(x == DX[d] && y == DY[d] && z == DZ[d])
+                if (x == DX[d] && y == DY[d] && z == DZ[d])
                 {
                     return d;
                 }

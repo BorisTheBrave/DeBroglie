@@ -11,6 +11,8 @@ namespace DeBroglie.Constraints
     {
         private TilePropogatorTileSet pathTileSet;
 
+        private PathConstraintUtils.SimpleGraph graph;
+
         /// <summary>
         /// Set of patterns that are considered on the path
         /// </summary>
@@ -32,6 +34,7 @@ namespace DeBroglie.Constraints
         public Resolution Init(TilePropagator propagator)
         {
             pathTileSet = propagator.CreateTileSet(PathTiles);
+            graph = PathConstraintUtils.CreateGraph(propagator.Topology);
             return Resolution.Undecided;
         }
 
@@ -69,7 +72,7 @@ namespace DeBroglie.Constraints
             }
             var walkable = couldBePath;
 
-            var isArticulation = PathConstraintUtils.GetArticulationPoints(topology, walkable, relevant);
+            var isArticulation = PathConstraintUtils.GetArticulationPoints(graph, walkable, relevant);
 
             if (isArticulation == null)
             {
@@ -81,16 +84,10 @@ namespace DeBroglie.Constraints
             // So ban any other possibilities
             for (var i = 0; i < indices; i++)
             {
-                if (!isArticulation[i])
+                if (isArticulation[i])
                 {
-                    continue;
-                }
-                foreach(var tile in propagator.TileModel.Tiles)
-                {
-                    if (PathTiles.Contains(tile))
-                        continue;
                     topology.GetCoord(i, out var x, out var y, out var z);
-                    propagator.Ban(x, y, z, tile);
+                    propagator.Select(x, y, z, pathTileSet);
                 }
             }
 

@@ -34,6 +34,9 @@ namespace DeBroglie.Console.Config
                     case PathConfig.TypeString:
                         constraintConfig = new PathConfig();
                         break;
+                    case EdgedPathConfig.TypeString:
+                        constraintConfig = new EdgedPathConfig();
+                        break;
                     case BorderConfig.TypeString:
                         constraintConfig = new BorderConfig();
                         break;

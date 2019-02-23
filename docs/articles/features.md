@@ -156,6 +156,38 @@ By default, <xref:DeBroglie.Constraints.PathConstraint> forces all path tiles to
 <figcaption>Using a path constraint ensures you can trace a path from any blue pixel to any other one.</figcaption>
 </figure>
 
+### Edged Path Constraint
+
+The <xref:DeBroglie.Constraints.EdgedPathConstraint> is a more advanced variant of the <xref:DeBroglie.Constraints.PathConstraint>.
+The normal path constraint records which tiles can part of the path, and finds a path consisting of adjacent tiles.
+The edged path constraint is more restrictive. Not only do the tiles have to be placed adjacent, but their edges must match. This is configured by setting a set of "exits" for each tile. Other than this restriction, the constraint works identically.
+
+For example consider placing the tiles <img src="../images/grass_corner3.png"> and <img src="../images/grass_corner4.png"> together. Both tiles have a picture of a path on them, but the path exits the tiles only on certain edges. <span><img src="../images/grass_corner3.png"><img src="../images/grass_corner4.png"></span> means they are connected, but <span><img src="../images/grass_corner4.png"><img src="../images/grass_corner3.png"></span> is not. We can use Edged Path Constraint to specify this, the normal path constraint isn't specific enough.
+
+
+#### [Library Example](#tab/lib)
+
+```csharp
+var north = Directions.Cartesian2d.GetDirection(0, -1);
+var south = Directions.Cartesian2d.GetDirection(0, 1);
+var east = Directions.Cartesian2d.GetDirection(1, 0);
+var west = Directions.Cartesian2d.GetDirection(-1, 0);
+var exits = new Dictionary<Tile, ISet<int>>()
+{
+    { southEastCornerTile, new [] { south, east }.ToHashSet() },
+    { southWestCornerTile, new [] { south, west }.ToHashSet() },
+};
+var constraint = new EdgedPathConstraint(exits);
+```
+
+#### [Config Example](#tab/config)
+
+```javascript
+TODO
+```
+
+***
+
 ### Fixed Tile
 
 The <xref:DeBroglie.Constraints.FixedTileConstraint> class forces a given location to be the specified Tile at initialization. If you don't specify a location, a random legal location is chosen.

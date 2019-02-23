@@ -105,6 +105,12 @@ namespace DeBroglie.Console
             }
         }
 
+        private int ParseDirection(string s)
+        {
+            // TODO: Decide a convention for this
+            throw new Exception("Specifying directions is not yet supported");
+        }
+
         private Tile Parse(string s)
         {
             if(s.Contains("!"))
@@ -188,6 +194,13 @@ namespace DeBroglie.Console
                     {
                         var pathTiles = new HashSet<Tile>(pathData.PathTiles.Select(Parse));
                         var p = new PathConstraint(pathTiles);
+                        constraints.Add(p);
+                    }
+                    if (constraint is EdgedPathConfig edgedPathData)
+                    {
+                        var exits = edgedPathData.Exits.ToDictionary(
+                            kv => Parse(kv.Key), x => x.Value.Select(ParseDirection).ToHashSet());
+                        var p = new EdgedPathConstraint(exits);
                         constraints.Add(p);
                     }
                     else if (constraint is BorderConfig borderData)

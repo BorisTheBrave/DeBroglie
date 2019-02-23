@@ -2,6 +2,9 @@
 uid: release_notes
 title: Release Notes
 ---
+# Unreleased
+
+* Added [EdgedPathConstraint](xref:DeBroglie.Constraints.EdgedPathConstraint)
 
 # v0.3.0
 
