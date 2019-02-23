@@ -3,7 +3,7 @@ uid: release_notes
 title: Release Notes
 ---
 
-# Unreleased
+# v0.3.0
 
 * Support setting a mask on the output topology of TilePropagator. Doesn't work perfectly with Overlapping, so undocumented feature for now.
 * Rotation is now specified in degrees [breaking]
