@@ -134,7 +134,7 @@ namespace DeBroglie.Wfc
         }
         #endregion
 
-        private Resolution Propagate()
+        private void Propagate()
         {
             while (toPropagate.Count > 0)
             {
@@ -157,13 +157,14 @@ namespace DeBroglie.Wfc
                         {
                             if (InternalBan(i2, p))
                             {
-                                return status = Resolution.Contradiction;
+                                status = Resolution.Contradiction;
+                                return;
                             }
                         }
                     }
                 }
             }
-            return status;
+            return;
         }
 
         private int GetRandomPossiblePatternAt(int index)
@@ -191,23 +192,22 @@ namespace DeBroglie.Wfc
             return patternCount - 1;
         }
 
-        private Resolution Observe(out int index, out int pattern)
+        private void Observe(out int index, out int pattern)
         {
             // Choose a random cell
             index = wave.GetRandomMinEntropyIndex(random);
             if (index == -1)
             {
                 pattern = -1;
-                return status = Resolution.Decided;
+                return;
             }
             // Choose a random pattern
             pattern = GetRandomPossiblePatternAt(index);
             // Decide on the given cell
             if (InternalSelect(index, pattern))
             {
-                return status = Resolution.Contradiction;
+                status = Resolution.Contradiction;
             }
-            return status;
         }
 
         // Returns the only possible value of a cell if there is only one,
@@ -244,16 +244,15 @@ namespace DeBroglie.Wfc
             return status;
         }
 
-        private Resolution StepConstraints()
+        private void StepConstraints()
         {
             foreach (var constraint in constraints)
             {
                 status = constraint.Check(this);
-                if (status != Resolution.Undecided) return status;
+                if (status != Resolution.Undecided) return;
                 Propagate();
-                if (status != Resolution.Undecided) return status;
+                if (status != Resolution.Undecided) return;
             }
-            return status;
         }
 
         public Resolution Status => status;
@@ -317,7 +316,8 @@ namespace DeBroglie.Wfc
                     return status = Resolution.Contradiction;
                 }
             }
-            return Propagate();
+            Propagate();
+            return status;
         }
 
         /**
@@ -330,7 +330,8 @@ namespace DeBroglie.Wfc
             {
                 return status = Resolution.Contradiction;
             }
-            return Propagate();
+            Propagate();
+            return status;
         }
 
         /**
@@ -349,18 +350,28 @@ namespace DeBroglie.Wfc
             int index, pattern;
             Observe(out index, out pattern);
 
-            if(backtrack)
+            if(index != -1 && backtrack)
             {
                 prevChoices.Push(new PropagateItem { Index = index, Pattern = pattern });
             }
 
             restart:
 
-            if (status == Resolution.Undecided) status = Propagate();
-            if (status == Resolution.Undecided) status = StepConstraints();
+            if (status == Resolution.Undecided) Propagate();
+            if (status == Resolution.Undecided) StepConstraints();
+
+            // All things are fully chosen
+            if (index == -1 && status == Resolution.Undecided)
+            {
+                status = Resolution.Decided;
+                return status;
+            }
 
             if (backtrack && status == Resolution.Contradiction)
             {
+                // After back tracking, it's no logner the case things are fully chose
+                index = 0;
+
                 // Actually backtrack
                 while (true)
                 {
