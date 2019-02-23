@@ -86,6 +86,14 @@ namespace DeBroglie.Models
             this.directions = directions;
         }
 
+        private void RequireDirections()
+        {
+            if(this.directions.Type == DirectionsType.Unknown)
+            {
+                throw new Exception("Directions must be set before calling this method");
+            }
+        }
+
         /// <summary>
         /// Finds a tile and all its rotations, and sets their total frequency.
         /// </summary>
@@ -122,6 +130,8 @@ namespace DeBroglie.Models
         /// </summary>
         public void AddAdjacency(IList<Tile> src, IList<Tile> dest, int x, int y, int z, TileRotation tileRotation = null)
         {
+            RequireDirections();
+
             tileRotation = tileRotation ?? new TileRotation();
 
             foreach (var rotation in tileRotation.RotationGroup)
@@ -149,6 +159,8 @@ namespace DeBroglie.Models
         /// </summary>
         public void AddAdjacency(IList<Tile> src, IList<Tile> dest, int x, int y, int z)
         {
+            RequireDirections();
+
             var dir = directions.GetDirection(x, y, z);
 
             foreach (var s in src)
@@ -166,6 +178,7 @@ namespace DeBroglie.Models
         /// </summary>
         public void AddAdjacency(Tile src, Tile dest, int x, int y, int z)
         {
+            RequireDirections();
             var d = directions.GetDirection(x, y, z);
             AddAdjacency(src, dest, d);
         }
