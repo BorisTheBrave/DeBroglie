@@ -2,6 +2,8 @@
   href: index.md
 - name: Features
   href: features.md
+- name: Constraints
+  href: constraints.md
 - name: Rotation
   href: rotation.md
 - name: Adjacency
