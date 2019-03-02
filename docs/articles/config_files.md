@@ -77,6 +77,15 @@ For constructing a [path constraint](features.md#path)
 | -------------------- |---------------|-------|
 |`type`|string| `"path"`|
 |`pathTiles`|array of [Tile](#tile-references)| The set of tiles that are considered "on the path".|
+|`endPoints`|array of [Point](#point-config)| Set of points that must be connected by paths. If unset, then all path cells must be are connected.|
+
+For constructing an [edged path constraint](features.md#edged-path)
+
+| Field                | Type           | Description  |
+| -------------------- |---------------|-------|
+|`type`|string| `"edgedPath"`|
+|`pathTiles`|dictionary from [Tile](#tile-references) to array of `Directions` (`"xplus"`, `"yminus"` etc)| The set of tiles that are considered "on the path", and which directions out of those tiles are path connections.|
+|`endPoints`|array of [Point](#point-config)| Set of points that must be connected by paths. If unset, then all path cells must be are connected.|
 
 For constructing a [border constraint](features.md#border)
 
@@ -102,11 +111,9 @@ For constructing a [max consecutive constraint](features.md#max-consecutive)
 | Field                | Type           | Description  |
 | -------------------- |---------------|-------|
 |`type`|string| `"maxConsectuive"`|
-|`tiles`|array [Tile](#tile-references)| The set of tiles to restrict|
+|`tiles`|array of [Tile](#tile-references)| The set of tiles to restrict|
 |`maxCount`|int|The maximum number of tiles to allow to appear consecutive. Default 3.|
-|`xAxis`|bool|Should the x-axis be restricted. Default true.|
-|`yAxis`|bool|Should the y-axis be restricted. Default true.|
-|`zAxis`|bool|Should the z-axis be restricted. Default true.|
+|`axes`|array of Axis (i.e. `"x"`, `"y"`, `"z"`)|Which axes should be restricted. Default: all axes|
 
 
 ### Point Config

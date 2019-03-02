@@ -12,7 +12,7 @@ namespace DeBroglie.Topo
         /// Constructs a 2d square grid topology of given dimensions and periodicity.
         /// </summary>
         public Topology(int width, int height, bool periodic)
-            : this(Directions.Cartesian2d, width, height, 1, periodic, periodic, periodic)
+            : this(DirectionSet.Cartesian2d, width, height, 1, periodic, periodic, periodic)
         {
         }
 
@@ -20,14 +20,14 @@ namespace DeBroglie.Topo
         /// Constructs a 3d cube grid topology of given dimensions and periodicity.
         /// </summary>
         public Topology(int width, int height, int depth, bool periodic)
-            : this(Directions.Cartesian3d, width, height, depth, periodic, periodic, periodic)
+            : this(DirectionSet.Cartesian3d, width, height, depth, periodic, periodic, periodic)
         {
         }
 
         /// <summary>
         /// Constructs a 2d topology.
         /// </summary>
-        public Topology(Directions directions, int width, int height, bool periodicX, bool periodicY, bool[] mask = null)
+        public Topology(DirectionSet directions, int width, int height, bool periodicX, bool periodicY, bool[] mask = null)
             : this(directions, width, height, 1, periodicX, periodicY, false, mask)
         {
         }
@@ -35,7 +35,7 @@ namespace DeBroglie.Topo
         /// <summary>
         /// Constructs a topology.
         /// </summary>
-        public Topology(Directions directions, int width, int height, int depth, bool periodicX, bool periodicY, bool periodicZ, bool[] mask = null)
+        public Topology(DirectionSet directions, int width, int height, int depth, bool periodicX, bool periodicY, bool periodicZ, bool[] mask = null)
         {
             Directions = directions;
             Width = width;
@@ -98,7 +98,7 @@ namespace DeBroglie.Topo
         /// <summary>
         /// Characterizes the adjacency relationship between locations.
         /// </summary>
-        public Directions Directions { get; set; }
+        public DirectionSet Directions { get; set; }
 
         /// <summary>
         /// The extent along the x-axis.
@@ -190,7 +190,7 @@ namespace DeBroglie.Topo
         /// Given an index and a direction, gives the index that is one step in that direction,
         /// if it exists and is not masked out. Otherwise, it returns false.
         /// </summary>
-        public bool TryMove(int index, int direction, out int dest)
+        public bool TryMove(int index, Direction direction, out int dest)
         {
             int x, y, z;
             GetCoord(index, out x, out y, out z);
@@ -201,7 +201,7 @@ namespace DeBroglie.Topo
         /// Given a co-ordinate and a direction, gives the index that is one step in that direction,
         /// if it exists and is not masked out. Otherwise, it returns false.
         /// </summary>
-        public bool TryMove(int x, int y, int z, int direction, out int dest)
+        public bool TryMove(int x, int y, int z, Direction direction, out int dest)
         {
             if (TryMove(x, y, z, direction, out x, out y, out z))
             {
@@ -219,11 +219,12 @@ namespace DeBroglie.Topo
         /// Given a co-ordinate and a direction, gives the co-ordinate that is one step in that direction,
         /// if it exists and is not masked out. Otherwise, it returns false.
         /// </summary>
-        public bool TryMove(int x, int y, int z, int direction, out int destx, out int desty, out int destz)
+        public bool TryMove(int x, int y, int z, Direction direction, out int destx, out int desty, out int destz)
         {
-            x += Directions.DX[direction];
-            y += Directions.DY[direction];
-            z += Directions.DZ[direction];
+            var d = (int)direction;
+            x += Directions.DX[d];
+            y += Directions.DY[d];
+            z += Directions.DZ[d];
             if (PeriodicX)
             {
                 if (x < 0) x += Width;

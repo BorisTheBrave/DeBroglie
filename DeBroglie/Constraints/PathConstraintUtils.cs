@@ -23,9 +23,9 @@ namespace DeBroglie.Constraints
                 }
 
                 var n = new List<int>();
-                for(var d=0;d<topology.Directions.Count;d++)
+                foreach (var d in topology.Directions)
                 {
-                    if(topology.TryMove(i, d, out var dest))
+                    if (topology.TryMove(i, d, out var dest))
                     {
                         n.Add(dest);
                     }

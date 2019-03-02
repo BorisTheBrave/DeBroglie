@@ -19,14 +19,7 @@ namespace DeBroglie.Models
 
             foreach (var rotation in tileRotation.RotationGroup)
             {
-                if (sample.Topology.Directions.Type == DirectionsType.Hexagonal2d)
-                {
-                    yield return TopoArrayUtils.HexRotate(sample, rotation, tileRotation);
-                }
-                else
-                {
-                    yield return TopoArrayUtils.Rotate(sample, rotation, tileRotation);
-                }
+                yield return TopoArrayUtils.Rotate(sample, rotation, tileRotation);
             }
         }
 

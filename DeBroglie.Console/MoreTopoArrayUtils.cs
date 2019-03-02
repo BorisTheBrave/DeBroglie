@@ -71,7 +71,7 @@ namespace DeBroglie.Console
 
         public static ITopoArray<V> Explode<U, V>(ITopoArray<U> topoArray, Func<U, ITopoArray<V>> getSubTile, int tileWidth, int tileHeight, int tileDepth)
         {
-            if (topoArray.Topology.Directions.Type != DirectionsType.Cartesian2d && topoArray.Topology.Directions.Type != DirectionsType.Cartesian3d)
+            if (topoArray.Topology.Directions.Type != DirectionSetType.Cartesian2d && topoArray.Topology.Directions.Type != DirectionSetType.Cartesian3d)
                 throw new NotImplementedException();
 
             var inTopology = topoArray.Topology;
@@ -130,7 +130,7 @@ namespace DeBroglie.Console
 
         public static ITopoArray<IEnumerable<V>> ExplodeSets<U, V>(ITopoArray<ISet<U>> topoArray, Func<U, ITopoArray<V>> getSubTile, int tileWidth, int tileHeight, int tileDepth)
         {
-            if (topoArray.Topology.Directions.Type != DirectionsType.Cartesian2d && topoArray.Topology.Directions.Type != DirectionsType.Cartesian3d)
+            if (topoArray.Topology.Directions.Type != DirectionSetType.Cartesian2d && topoArray.Topology.Directions.Type != DirectionSetType.Cartesian3d)
                 throw new NotImplementedException();
 
             var inTopology = topoArray.Topology;

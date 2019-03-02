@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeBroglie.Topo;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -15,14 +16,12 @@ namespace DeBroglie.Constraints
 
         public int MaxCount { get; set; }
 
-        public bool XAxis { get; set; } = true;
-        public bool YAxis { get; set; } = true;
-        public bool ZAxis { get; set; } = true;
+        public ISet<Axis> Axes { get; set; }
 
         public Resolution Init(TilePropagator propagator)
         {
-            if(propagator.Topology.Directions.Type != Topo.DirectionsType.Cartesian2d &&
-                propagator.Topology.Directions.Type != Topo.DirectionsType.Cartesian3d)
+            if(propagator.Topology.Directions.Type != Topo.DirectionSetType.Cartesian2d &&
+                propagator.Topology.Directions.Type != Topo.DirectionSetType.Cartesian3d)
             {
                 // This wouldn't be that hard to fix
                 throw new Exception("MaxConsecutiveConstraint only supports cartesian topologies.");
@@ -38,7 +37,7 @@ namespace DeBroglie.Constraints
             var height = topology.Height;
             var depth = topology.Depth;
 
-            if (XAxis)
+            if (Axes == null || Axes.Contains(Axis.X))
             {
                 int y = 0, z = 0;
                 var sm = new StateMachine((x) => propagator.Ban(x, y, z, tileSet), propagator.Topology.PeriodicX, width, MaxCount);
@@ -68,7 +67,7 @@ namespace DeBroglie.Constraints
             }
 
             // Same thing as XAxis, just swizzled
-            if (YAxis)
+            if (Axes == null || Axes.Contains(Axis.Y))
             {
                 int x = 0, z = 0;
                 var sm = new StateMachine((y) => propagator.Ban(x, y, z, tileSet), propagator.Topology.PeriodicY, height, MaxCount);
@@ -98,7 +97,7 @@ namespace DeBroglie.Constraints
             }
 
             // Same thing as XAxis, just swizzled
-            if (ZAxis)
+            if (Axes == null || Axes.Contains(Axis.Z))
             {
                 int x = 0, y = 0;
                 var sm = new StateMachine((z) => propagator.Ban(x, y, z, tileSet), propagator.Topology.PeriodicZ, depth, MaxCount);

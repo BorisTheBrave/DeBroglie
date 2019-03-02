@@ -27,9 +27,9 @@ namespace DeBroglie.Test
                  {0, 0, 0, 0, 0, 0}
             };
 
-            var allDirections = Enumerable.Range(0, 4).ToHashSet();
+            var allDirections = DirectionSet.Cartesian2d.ToHashSet();
 
-            var exits = new Dictionary<Tile, ISet<int>>()
+            var exits = new Dictionary<Tile, ISet<Direction>>()
             {
                 { new Tile(1), allDirections },
             };
@@ -78,16 +78,16 @@ namespace DeBroglie.Test
         [Test]
         public void TestDirectionality()
         {
-            var model = new AdjacentModel(Directions.Cartesian2d);
+            var model = new AdjacentModel(DirectionSet.Cartesian2d);
             model.AddAdjacency(new Tile(1), new Tile(2), 1, 0, 0);
 
             var topology = new Topology(2, 1, false);
 
-            var up = topology.Directions.GetDirection(0, 1);
-            var down = topology.Directions.GetDirection(0, -1);
+            var up = Direction.YPlus;
+            var down = Direction.YMinus;
 
             var edgedPathConstraint = new EdgedPathConstraint(
-                new Dictionary<Tile, ISet<int>>()
+                new Dictionary<Tile, ISet<Direction>>()
                 {
                    { new Tile(1), new[]{ up, down }.ToHashSet() },
                    { new Tile(2), new[]{ up, down }.ToHashSet() },
@@ -104,16 +104,16 @@ namespace DeBroglie.Test
         [Test]
         public void TestDirectionality2()
         {
-            var model = new AdjacentModel(Directions.Cartesian2d);
+            var model = new AdjacentModel(DirectionSet.Cartesian2d);
             model.AddAdjacency(new Tile(1), new Tile(2), 1, 0, 0);
 
             var topology = new Topology(2, 1, false);
 
-            var left = topology.Directions.GetDirection(1, 0);
-            var right = topology.Directions.GetDirection(-1, 0);
+            var left = Direction.XMinus;
+            var right = Direction.XPlus;
 
             var edgedPathConstraint = new EdgedPathConstraint(
-                new Dictionary<Tile, ISet<int>>()
+                new Dictionary<Tile, ISet<Direction>>()
                 {
                    { new Tile(1), new[]{ left, right }.ToHashSet() },
                    { new Tile(2), new[]{ left, right }.ToHashSet() },

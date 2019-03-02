@@ -6,7 +6,24 @@ namespace DeBroglie.Topo
 
     public static class TopoArrayUtils
     {
-        public static ValueTuple<int, int> RotateVector(int x, int y, Rotation rotation)
+        public static ValueTuple<int, int> RotateVector(DirectionSetType type, int x, int y, Rotation rotation)
+        {
+            if (type == DirectionSetType.Cartesian2d ||
+                type == DirectionSetType.Cartesian3d)
+            {
+                return SquareRotateVector(x, y, rotation);
+            }
+            else if (type == DirectionSetType.Hexagonal2d)
+            {
+                return HexRotateVector(x, y, rotation);
+            }
+            else
+            {
+                throw new Exception($"Unknown directions type {type}");
+            }
+        }
+
+        public static ValueTuple<int, int> SquareRotateVector(int x, int y, Rotation rotation)
         {
             if (rotation.ReflectX)
             {
@@ -62,26 +79,75 @@ namespace DeBroglie.Topo
             return (x, y);
         }
 
+        public static Direction RotateDirection(DirectionSet directions, Direction direction, Rotation rotation)
+        {
+            var x = directions.DX[(int)direction];
+            var y = directions.DY[(int)direction];
+            var z = directions.DZ[(int)direction];
+
+            (x, y) = RotateVector(directions.Type, x, y, rotation);
+
+            return directions.GetDirection(x, y, z);
+        }
+
 
         public delegate bool TileRotate<T>(T tile, out T result);
 
         public static ITopoArray<Tile> Rotate(ITopoArray<Tile> original, Rotation rotation, TileRotation tileRotation = null)
         {
+            var type = original.Topology.Directions.Type;
+            if (type == DirectionSetType.Cartesian2d ||
+                type == DirectionSetType.Cartesian3d)
+            {
+                return SquareRotate(original, rotation, tileRotation);
+            }
+            else if (type == DirectionSetType.Hexagonal2d)
+            {
+                return HexRotate(original, rotation, tileRotation);
+            }
+            else
+            {
+                throw new Exception($"Unknown directions type {type}");
+            }
+        }
+
+        public static ITopoArray<T> Rotate<T>(ITopoArray<T> original, Rotation rotation, TileRotate<T> tileRotate = null)
+        {
+            var type = original.Topology.Directions.Type;
+            if (type == DirectionSetType.Cartesian2d ||
+                type == DirectionSetType.Cartesian3d)
+            {
+                return SquareRotate(original, rotation, tileRotate);
+            }
+            else if (type == DirectionSetType.Hexagonal2d)
+            {
+                return HexRotate(original, rotation, tileRotate);
+            }
+            else
+            {
+                throw new Exception($"Unknown directions type {type}");
+            }
+
+        }
+
+
+        public static ITopoArray<Tile> SquareRotate(ITopoArray<Tile> original, Rotation rotation, TileRotation tileRotation = null)
+        {
             bool TileRotate(Tile tile, out Tile result)
             {
                 return tileRotation.Rotate(tile, rotation, out result);
             }
-            return Rotate<Tile>(original, rotation, tileRotation == null ? null : (TileRotate<Tile> )TileRotate);
+            return SquareRotate<Tile>(original, rotation, tileRotation == null ? null : (TileRotate<Tile> )TileRotate);
         }
 
-        public static ITopoArray<T> Rotate<T>(ITopoArray<T> original, Rotation rotation, TileRotate<T> tileRotate = null)
+        public static ITopoArray<T> SquareRotate<T>(ITopoArray<T> original, Rotation rotation, TileRotate<T> tileRotate = null)
         {
             if (rotation.IsIdentity)
                 return original;
 
             ValueTuple<int, int> MapCoord(int x, int y)
             {
-                return RotateVector(x, y, rotation);
+                return SquareRotateVector(x, y, rotation);
             }
 
             return RotateInner(original, MapCoord, tileRotate);

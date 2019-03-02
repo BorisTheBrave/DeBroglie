@@ -5,6 +5,8 @@ title: Release Notes
 # Unreleased
 
 * Added [EdgedPathConstraint](xref:DeBroglie.Constraints.EdgedPathConstraint)
+* Use Direction enum instead of int [breaking]
+* Path contraint can now specify end points in JSON
 
 # v0.3.0
 

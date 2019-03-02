@@ -156,7 +156,7 @@ By default, <xref:DeBroglie.Constraints.PathConstraint> forces all path tiles to
 <figcaption>Using a path constraint ensures you can trace a path from any blue pixel to any other one.</figcaption>
 </figure>
 
-### Edged Path Constraint
+### Edged Path
 
 The <xref:DeBroglie.Constraints.EdgedPathConstraint> is a more advanced variant of the <xref:DeBroglie.Constraints.PathConstraint>.
 The normal path constraint records which tiles can part of the path, and finds a path consisting of adjacent tiles.

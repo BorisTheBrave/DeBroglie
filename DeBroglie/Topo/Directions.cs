@@ -1,11 +1,36 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace DeBroglie.Topo
 {
+    public enum Axis
+    {
+        X,
+        Y,
+        Z,
+        // The "third" axis used for DirectionSet.Hexagonal2d 
+        // it's redundant with X and Y, but still useful to refer to.
+        W,
+    }
+
+    public enum Direction
+    {
+        XPlus = 0,
+        XMinus = 1,
+        YPlus = 2,
+        YMinus = 3,
+        ZPlus = 4,
+        ZMinus = 5,
+        // Shared with Z, there's no DirectionSet that uses both.
+        WPlus = 4,
+        WMinus = 5,
+    }
+
     /// <summary>
     /// DirectionType indicates what neighbors are considered adjacent to each tile.
     /// </summary>
-    public enum DirectionsType
+    public enum DirectionSetType
     {
         Unknown,
         Cartesian2d,
@@ -16,7 +41,7 @@ namespace DeBroglie.Topo
     /// <summary>
     /// Wrapper around DirectionsType supplying some convenience data.
     /// </summary>
-    public struct Directions
+    public struct DirectionSet : IEnumerable<Direction>
     {
         public int[] DX { get; private set; }
         public int[] DY { get; private set; }
@@ -24,18 +49,18 @@ namespace DeBroglie.Topo
 
         public int Count { get; private set; }
 
-        public DirectionsType Type { get; private set; }
+        public DirectionSetType Type { get; private set; }
 
         /// <summary>
         /// The Directions associated with square grids.
         /// </summary>
-        public static readonly Directions Cartesian2d = new Directions
+        public static readonly DirectionSet Cartesian2d = new DirectionSet
         {
             DX = new[] { 1, -1, 0, 0 },
             DY = new[] { 0, 0, 1, -1 },
             DZ = new[] { 0, 0, 0, 0 },
             Count = 4,
-            Type = DirectionsType.Cartesian2d,
+            Type = DirectionSetType.Cartesian2d,
         };
 
         /// <summary>
@@ -44,45 +69,58 @@ namespace DeBroglie.Topo
         /// But the same Directions object will work just as well will several other conventions
         /// as long as you are consistent.
         /// </summary>
-        public static readonly Directions Hexagonal2d = new Directions
+        public static readonly DirectionSet Hexagonal2d = new DirectionSet
         {
             DX = new[] { 1, -1, 0, 0, 1, -1 },
             DY = new[] { 0, 0, 1, -1, 1, -1 },
             DZ = new[] { 0, 0, 0, 0, 0, 0 },
             Count = 6,
-            Type = DirectionsType.Hexagonal2d,
+            Type = DirectionSetType.Hexagonal2d,
         };
 
         /// <summary>
         /// The Directions associated with cubic grids.
         /// </summary>
-        public static readonly Directions Cartesian3d = new Directions
+        public static readonly DirectionSet Cartesian3d = new DirectionSet
         {
             DX = new[] { 1, -1, 0, 0, 0, 0 },
             DY = new[] { 0, 0, 1, -1, 0, 0 },
             DZ = new[] { 0, 0, 0, 0, 1, -1 },
             Count = 6,
-            Type = DirectionsType.Cartesian3d,
+            Type = DirectionSetType.Cartesian3d,
         };
 
         /// <summary>
         /// Given a direction index, returns the direction index that makes the reverse movement.
         /// </summary>
-        public int Inverse(int d)
+        public Direction Inverse(Direction d)
         {
-            return d ^ 1;
+            return (Direction)((int)d ^ 1);
         }
 
-        public int GetDirection(int x, int y, int z=0)
+        public Direction GetDirection(int x, int y, int z=0)
         {
             for (int d = 0; d < Count; d++)
             {
                 if (x == DX[d] && y == DY[d] && z == DZ[d])
                 {
-                    return d;
+                    return (Direction)d;
                 }
             }
             throw new Exception($"No direction corresponds to ({x}, {y}, {z})");
+        }
+
+        public IEnumerator<Direction> GetEnumerator()
+        {
+            for (int d = 0; d < Count; d++)
+            {
+                yield return (Direction)d;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

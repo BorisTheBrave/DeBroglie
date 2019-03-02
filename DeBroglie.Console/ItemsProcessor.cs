@@ -71,7 +71,7 @@ namespace DeBroglie.Console
                 var first = bitmaps.First().Value;
                 return new SampleSet
                 {
-                    Directions = Directions.Cartesian2d,
+                    Directions = DirectionSet.Cartesian2d,
                     Samples = new ITopoArray<Tile>[0],
                     ExportOptions = new BitmapSetExportOptions
                     {
@@ -87,7 +87,7 @@ namespace DeBroglie.Console
                 var first = VoxUtils.ToTopoArray(subtiles.First().Value);
                 return new SampleSet
                 {
-                    Directions = Directions.Cartesian3d,
+                    Directions = DirectionSet.Cartesian3d,
                     Samples = new ITopoArray<Tile>[0],
                     ExportOptions = new VoxSetExportOptions
                     {
@@ -105,10 +105,34 @@ namespace DeBroglie.Console
             }
         }
 
-        private int ParseDirection(string s)
+        private Direction ParseDirection(string s)
         {
-            // TODO: Decide a convention for this
-            throw new Exception("Specifying directions is not yet supported");
+            switch (s.ToLower())
+            {
+                case "x+": return Direction.XPlus;
+                case "x-": return Direction.XMinus;
+                case "y+": return Direction.YPlus;
+                case "y-": return Direction.YMinus;
+                case "z+": return Direction.ZPlus;
+                case "z-": return Direction.ZMinus;
+                case "w+": return Direction.WPlus;
+                case "w-": return Direction.WMinus;
+            }
+
+            if (!Enum.TryParse(s, true, out Direction r))
+            {
+                throw new Exception($"Unable to parse direction \"{s}\"");
+            }
+            return r;
+        }
+
+        private Axis ParseAxis(string s)
+        {
+            if(!Enum.TryParse(s, true, out Axis r))
+            {
+                throw new Exception($"Unable to parse axis \"{s}\"");
+            }
+            return r;
         }
 
         private Tile Parse(string s)
@@ -142,7 +166,7 @@ namespace DeBroglie.Console
             }
         }
 
-        private static TileModel GetModel(DeBroglieConfig config, Directions directions, ITopoArray<Tile>[] samples, TileRotation tileRotation)
+        private static TileModel GetModel(DeBroglieConfig config, DirectionSet directions, ITopoArray<Tile>[] samples, TileRotation tileRotation)
         {
             var modelConfig = config.Model ?? new Adjacent();
             if (modelConfig is Overlapping overlapping)
@@ -166,7 +190,7 @@ namespace DeBroglie.Console
             throw new System.Exception($"Unrecognized model type {modelConfig.GetType()}");
         }
 
-        private List<ITileConstraint> GetConstraints(bool is3d)
+        private List<ITileConstraint> GetConstraints(bool is3d, TileRotation tileRotation)
         {
             var constraints = new List<ITileConstraint>();
             if (config.Ground != null)
@@ -193,14 +217,14 @@ namespace DeBroglie.Console
                     if (constraint is PathConfig pathData)
                     {
                         var pathTiles = new HashSet<Tile>(pathData.PathTiles.Select(Parse));
-                        var p = new PathConstraint(pathTiles);
+                        var p = new PathConstraint(pathTiles, pathData.EndPoints);
                         constraints.Add(p);
                     }
                     if (constraint is EdgedPathConfig edgedPathData)
                     {
                         var exits = edgedPathData.Exits.ToDictionary(
-                            kv => Parse(kv.Key), x => x.Value.Select(ParseDirection).ToHashSet());
-                        var p = new EdgedPathConstraint(exits);
+                            kv => Parse(kv.Key), x => (ISet<Direction>)new HashSet<Direction>(x.Value.Select(ParseDirection)));
+                        var p = new EdgedPathConstraint(exits, edgedPathData.EndPoints, tileRotation);
                         constraints.Add(p);
                     }
                     else if (constraint is BorderConfig borderData)
@@ -232,13 +256,12 @@ namespace DeBroglie.Console
                     }
                     else if (constraint is MaxConsecutiveConfig maxConsecutiveConfig)
                     {
+                        var axes = maxConsecutiveConfig.Axes?.Select(ParseAxis);
                         constraints.Add(new MaxConsecutiveConstraint
                         {
                             Tiles = new HashSet<Tile>(maxConsecutiveConfig.Tiles.Select(Parse)),
                             MaxCount = maxConsecutiveConfig.MaxCount,
-                            XAxis = maxConsecutiveConfig.XAxis,
-                            YAxis = maxConsecutiveConfig.YAxis,
-                            ZAxis = maxConsecutiveConfig.ZAxis,
+                            Axes = axes == null ? null : new HashSet<Axis>(axes),
                         });
                     }
                 }
@@ -271,7 +294,7 @@ namespace DeBroglie.Console
             var directions = sampleSet.Directions;
             var samples = sampleSet.Samples;
 
-            var is3d = directions.Type == DirectionsType.Cartesian3d;
+            var is3d = directions.Type == DirectionSetType.Cartesian3d;
             var topology = new Topology(directions, config.Width, config.Height, is3d ? config.Depth : 1, config.PeriodicX, config.PeriodicY, config.PeriodicZ);
 
             var tileRotation = GetTileRotation(config.Tiles, config.RotationTreatment, topology);
@@ -325,7 +348,7 @@ namespace DeBroglie.Console
             }
 
             // Setup constraints
-            var constraints = GetConstraints(is3d);
+            var constraints = GetConstraints(is3d, tileRotation);
 
             System.Console.WriteLine($"Processing {dest}");
             var propagator = new TilePropagator(model, topology, config.Backtrack, constraints: constraints.ToArray());

@@ -1,4 +1,5 @@
-﻿using DeBroglie.Topo;
+﻿using DeBroglie.Rot;
+using DeBroglie.Topo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +13,14 @@ namespace DeBroglie.Constraints
 
         private PathConstraintUtils.SimpleGraph graph;
 
-        private IDictionary<int, TilePropogatorTileSet> tilesByExit;
+        private IDictionary<Direction, TilePropogatorTileSet> tilesByExit;
+        private IDictionary<Tile, ISet<Direction>> actualExits { get; set; }
+
 
         /// <summary>
         /// For each tile on the path, the set of direction values that paths exit out of this tile.
         /// </summary>
-        public IDictionary<Tile, ISet<int>> Exits { get; set; }
+        public IDictionary<Tile, ISet<Direction>> Exits { get; set; }
 
         /// <summary>
         /// Set of points that must be connected by paths.
@@ -26,10 +29,16 @@ namespace DeBroglie.Constraints
         /// </summary>
         public Point[] EndPoints { get; set; }
 
-        public EdgedPathConstraint(IDictionary<Tile, ISet<int>> exits, Point[] endPoints = null)
+        /// <summary>
+        /// If set, Exits is augmented with extra copies as dicted by the tile rotations
+        /// </summary>
+        public TileRotation TileRotation { get; set; }
+
+        public EdgedPathConstraint(IDictionary<Tile, ISet<Direction>> exits, Point[] endPoints = null, TileRotation tileRotation = null)
         {
             this.Exits = exits;
             this.EndPoints = endPoints;
+            this.TileRotation = tileRotation;
         }
 
 
@@ -37,10 +46,32 @@ namespace DeBroglie.Constraints
         {
             pathTileSet = propagator.CreateTileSet(Exits.Keys);
             graph = CreateEdgedGraph(propagator.Topology);
-            tilesByExit = Exits
+
+            var tileRotation = TileRotation ?? new TileRotation();
+
+            actualExits = new Dictionary<Tile, ISet<Direction>>();
+            foreach(var kv in Exits)
+            {
+                foreach(var rot in tileRotation.RotationGroup)
+                {
+                    if(tileRotation.Rotate(kv.Key, rot, out var rtile))
+                    {
+                        Direction Rotate(Direction d)
+                        {
+                            return TopoArrayUtils.RotateDirection(propagator.Topology.Directions, d, rot);
+                        }
+                        var rexits = new HashSet<Direction>(kv.Value.Select(Rotate));
+                        actualExits[rtile] = rexits;
+                    }
+                }
+            }
+
+            tilesByExit = actualExits
                 .SelectMany(kv => kv.Value.Select(e => Tuple.Create(kv.Key, e)))
                 .GroupBy(x => x.Item2, x => x.Item1)
                 .ToDictionary(g => g.Key, propagator.CreateTileSet);
+
+
             return Resolution.Undecided;
         }
 
@@ -51,7 +82,7 @@ namespace DeBroglie.Constraints
             var indices = topology.Width * topology.Height * topology.Depth;
 
             // TODO: This shouldn't be too hard to implement
-            if (topology.Directions.Type != Topo.DirectionsType.Cartesian2d)
+            if (topology.Directions.Type != Topo.DirectionSetType.Cartesian2d)
                 throw new Exception("EdgedPathConstraint only supported for Cartesiant2d");
 
             var nodesPerIndex = topology.Directions.Count + 1;
@@ -64,7 +95,7 @@ namespace DeBroglie.Constraints
                 topology.GetCoord(i, out var x, out var y, out var z);
 
                 couldBePath[i * nodesPerIndex] = false;
-                foreach (var kv in Exits)
+                foreach (var kv in actualExits)
                 {
                     var tile = kv.Key;
                     var exits = kv.Value;
@@ -76,7 +107,7 @@ namespace DeBroglie.Constraints
                         couldBePath[i * nodesPerIndex] = true;
                         foreach (var exit in exits)
                         {
-                            couldBePath[i * nodesPerIndex + 1 + exit] = true;
+                            couldBePath[i * nodesPerIndex + 1 + (int)exit] = true;
                         }
                     }
                 }
@@ -127,7 +158,7 @@ namespace DeBroglie.Constraints
                 {
                     if(isArticulation[i * nodesPerIndex + 1 + d])
                     {
-                        propagator.Select(x, y, z, tilesByExit[d]);
+                        propagator.Select(x, y, z, tilesByExit[(Direction)d]);
                     }
                 }
             }
@@ -152,12 +183,12 @@ namespace DeBroglie.Constraints
 
             int GetNodeId(int index) => index * nodesPerIndex;
 
-            int GetDirNodeId(int index, int direction) => index * nodesPerIndex + 1 + direction;
+            int GetDirNodeId(int index, Direction direction) => index * nodesPerIndex + 1 + (int)direction;
 
             foreach (var i in topology.Indicies)
             {
                 var n = new List<int>();
-                for (int d = 0; d < topology.Directions.Count; d++)
+                foreach(var d in topology.Directions)
                 {
                     if (topology.TryMove(i, d, out var dest))
                     {

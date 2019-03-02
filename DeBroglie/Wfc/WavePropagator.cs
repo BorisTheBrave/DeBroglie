@@ -144,7 +144,7 @@ namespace DeBroglie.Wfc
                 for (var d = 0; d < directionsCount; d++)
                 {
                     int i2;
-                    if (!topology.TryMove(x, y, z, d, out i2))
+                    if (!topology.TryMove(x, y, z, (Direction)d, out i2))
                     {
                         continue;
                     }
@@ -285,8 +285,8 @@ namespace DeBroglie.Wfc
                 {
                     for (int d = 0; d < directionsCount; d++)
                     {
-                        var inverseDirection = topology.Directions.Inverse(d);
-                        var compatiblePatterns = propagator[pattern][inverseDirection].Length;
+                        var inverseDirection = topology.Directions.Inverse((Direction)d);
+                        var compatiblePatterns = propagator[pattern][(int)inverseDirection].Length;
                         compatible[index, pattern, d] = compatiblePatterns;
                         if(compatiblePatterns == 0 && topology.TryMove(index, inverseDirection, out var dest) && wave.Get(index, pattern))
                         {

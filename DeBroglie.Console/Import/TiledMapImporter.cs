@@ -69,9 +69,9 @@ namespace DeBroglie.Console.Import
                         }
                     }
                 }
-                if (tileLayers.Count > 1 && topology.Directions.Type == DirectionsType.Cartesian2d)
+                if (tileLayers.Count > 1 && topology.Directions.Type == DirectionSetType.Cartesian2d)
                 {
-                    topology = new Topology(Directions.Cartesian3d, map.Width, map.Height, tileLayers.Count, false, false, false);
+                    topology = new Topology(DirectionSet.Cartesian3d, map.Width, map.Height, tileLayers.Count, false, false, false);
                 }
                 else
                 {

@@ -306,6 +306,13 @@ namespace DeBroglie.Console.Config
         /// The set of tiles that are considered "on the path".
         /// </summary>
         public string[] PathTiles { get; set; }
+
+        /// <summary>
+        /// Set of points that must be connected by paths.
+        /// If null, then PathConstraint ensures that all path cells
+        /// are connected.
+        /// </summary>
+        public Point[] EndPoints { get; set; }
     }
 
     public class EdgedPathConfig : ConstraintConfig
@@ -318,6 +325,13 @@ namespace DeBroglie.Console.Config
         /// The set of tiles that are considered "on the path".
         /// </summary>
         public Dictionary<string, string[]> Exits { get; set; }
+
+        /// <summary>
+        /// Set of points that must be connected by paths.
+        /// If null, then PathConstraint ensures that all path cells
+        /// are connected.
+        /// </summary>
+        public Point[] EndPoints { get; set; }
     }
 
     public class BorderConfig : ConstraintConfig
@@ -358,8 +372,9 @@ namespace DeBroglie.Console.Config
 
         public int MaxCount { get; set; } = 3;
 
-        public bool XAxis { get; set; } = true;
-        public bool YAxis { get; set; } = true;
-        public bool ZAxis { get; set; } = true;
+        /// <summary>
+        /// The set of axes that
+        /// </summary>
+        public string[] Axes { get; set; }
     }
 }

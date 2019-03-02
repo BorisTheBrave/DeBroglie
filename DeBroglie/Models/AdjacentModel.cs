@@ -15,7 +15,7 @@ namespace DeBroglie.Models
     /// </summary>
     public class AdjacentModel : TileModel
     {
-        private Directions directions;
+        private DirectionSet directions;
         private Dictionary<Tile, int> tilesToPatterns;
         private List<double> frequencies;
         private List<HashSet<int>[]> propagator;
@@ -51,7 +51,7 @@ namespace DeBroglie.Models
         /// <summary>
         /// Constructs an AdjacentModel.
         /// </summary>
-        public AdjacentModel(Directions directions)
+        public AdjacentModel(DirectionSet directions)
             : this()
         {
             SetDirections(directions);
@@ -76,9 +76,9 @@ namespace DeBroglie.Models
         /// Once set, it cannot be changed.
         /// </summary>
         /// <param name="directions"></param>
-        public void SetDirections(Directions directions)
+        public void SetDirections(DirectionSet directions)
         {
-            if (this.directions.Type != DirectionsType.Unknown && this.directions.Type != directions.Type)
+            if (this.directions.Type != DirectionSetType.Unknown && this.directions.Type != directions.Type)
             {
                 throw new Exception($"Cannot set directions to {directions.Type}, it has already been set to {this.directions.Type}");
             }
@@ -88,7 +88,7 @@ namespace DeBroglie.Models
 
         private void RequireDirections()
         {
-            if(this.directions.Type == DirectionsType.Unknown)
+            if(this.directions.Type == DirectionSetType.Unknown)
             {
                 throw new Exception("Directions must be set before calling this method");
             }
@@ -123,6 +123,19 @@ namespace DeBroglie.Models
             frequencies[pattern] = frequency;
         }
 
+        /// <summary>
+        /// Declares that the tiles in dest can be placed adjacent to the tiles in src, in the direction specified.
+        /// Then it adds similar declarations for other rotations and reflections, as specified by rotations.
+        /// </summary>
+        public void AddAdjacency(IList<Tile> src, IList<Tile> dest, Direction dir, TileRotation tileRotation = null)
+        {
+            RequireDirections();
+            var d = (int)dir;
+            var x = directions.DX[d];
+            var y = directions.DY[d];
+            var z = directions.DZ[d];
+            AddAdjacency(src, dest, x, y, z, tileRotation);
+        }
 
         /// <summary>
         /// Declares that the tiles in dest can be placed adjacent to the tiles in src, in the direction specified by (x, y, z).
@@ -136,15 +149,7 @@ namespace DeBroglie.Models
 
             foreach (var rotation in tileRotation.RotationGroup)
             {
-                int x2, y2;
-                if (directions.Type == DirectionsType.Hexagonal2d)
-                {
-                    (x2, y2) = TopoArrayUtils.HexRotateVector(x, y, rotation);
-                }
-                else
-                {
-                    (x2, y2) = TopoArrayUtils.RotateVector(x, y, rotation);
-                }
+                var (x2, y2) = TopoArrayUtils.RotateVector(directions.Type, x, y, rotation);
 
                 AddAdjacency(
                     tileRotation.Rotate(src, rotation).ToList(),
@@ -160,8 +165,16 @@ namespace DeBroglie.Models
         public void AddAdjacency(IList<Tile> src, IList<Tile> dest, int x, int y, int z)
         {
             RequireDirections();
+            AddAdjacency(src, dest, directions.GetDirection(x, y, z));
+        }
 
-            var dir = directions.GetDirection(x, y, z);
+        /// <summary>
+        /// Declares that the tiles in dest can be placed adjacent to the tiles in src, in the direction specified by (x, y, z).
+        /// (x, y, z) must be a valid direction, which usually means a unit vector.
+        /// </summary>
+        public void AddAdjacency(IList<Tile> src, IList<Tile> dest, Direction dir)
+        {
+            RequireDirections();
 
             foreach (var s in src)
             {
@@ -183,13 +196,13 @@ namespace DeBroglie.Models
             AddAdjacency(src, dest, d);
         }
 
-        private void AddAdjacency(Tile src, Tile dest, int d)
+        private void AddAdjacency(Tile src, Tile dest, Direction d)
         {
             var id = directions.Inverse(d);
             var srcPattern = GetPattern(src);
             var destPattern = GetPattern(dest);
-            propagator[srcPattern][d].Add(destPattern);
-            propagator[destPattern][id].Add(srcPattern);
+            propagator[srcPattern][(int)d].Add(destPattern);
+            propagator[destPattern][(int)id].Add(srcPattern);
         }
 
         public void AddSample(ITopoArray<Tile> sample, TileRotation tileRotation = null)
@@ -229,7 +242,7 @@ namespace DeBroglie.Models
                         for (var d = 0; d < directionCount; d++)
                         {
                             int x2, y2, z2;
-                            if (topology.TryMove(x, y, z, d, out x2, out y2, out z2))
+                            if (topology.TryMove(x, y, z, (Direction)d, out x2, out y2, out z2))
                             {
                                 var pattern2 = GetPattern(sample.Get(x2, y2, z2));
                                 propagator[pattern][d].Add(pattern2);

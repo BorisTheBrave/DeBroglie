@@ -26,7 +26,7 @@ namespace DeBroglie.Console.Import
             var tilesByName = new Dictionary<string, Tile>();
             TiledMapImporter.AddTileset(tilesByName, tileset);
             // TODO: Other directions
-            var directions = Directions.Cartesian2d;
+            var directions = DirectionSet.Cartesian2d;
             map.Orientation = Orientation.orthogonal;
             var samples = new ITopoArray<Tile>[0];
             return new SampleSet

@@ -20,10 +20,10 @@ namespace DeBroglie.Console.Import
                 throw new Exception($"Couldn't load filename: {filename}");
             }
             var colorArray = BitmapUtils.ToColorArray(bitmap);
-            var topology = new Topology(Directions.Cartesian2d, colorArray.GetLength(0), colorArray.GetLength(1), false, false);
+            var topology = new Topology(DirectionSet.Cartesian2d, colorArray.GetLength(0), colorArray.GetLength(1), false, false);
             return new SampleSet
             {
-                Directions = Directions.Cartesian2d,
+                Directions = DirectionSet.Cartesian2d,
                 Samples = new[] { TopoArray.Create(colorArray, topology).ToTiles() },
                 ExportOptions = new BitmapExportOptions(),
             };

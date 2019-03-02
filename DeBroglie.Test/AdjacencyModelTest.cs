@@ -15,7 +15,7 @@ namespace DeBroglie.Test
         [Test]
         public void TestSimpleAddAdjacencies()
         {
-            var model = new AdjacentModel(Directions.Cartesian2d);
+            var model = new AdjacentModel(DirectionSet.Cartesian2d);
             var tile1 = new Tile(1);
             var tile2 = new Tile(2);
             model.SetFrequency(tile1, 1);
@@ -42,7 +42,7 @@ namespace DeBroglie.Test
         [Test]
         public void TestRotationalAddAdjacencies()
         {
-            var model = new AdjacentModel(Directions.Cartesian2d);
+            var model = new AdjacentModel(DirectionSet.Cartesian2d);
             var tile1 = new Tile(1);
             var tile2 = new Tile(2);
 
@@ -68,7 +68,7 @@ namespace DeBroglie.Test
         [Test]
         public void TestRotationalAddAdjacenciesAdvanced()
         {
-            var model = new AdjacentModel(Directions.Cartesian2d);
+            var model = new AdjacentModel(DirectionSet.Cartesian2d);
             var tile1 = new Tile(1);
             var tile2 = new Tile(2);
             var tile3 = new Tile(3);
@@ -104,7 +104,7 @@ namespace DeBroglie.Test
         [Test]
         public void TestSetFrequency()
         {
-            var model = new AdjacentModel(Directions.Cartesian2d);
+            var model = new AdjacentModel(DirectionSet.Cartesian2d);
             model.SetFrequency(new Tile(1), 0.5);
             model.SetFrequency(new Tile(2), 2.0);
 
@@ -117,7 +117,7 @@ namespace DeBroglie.Test
         [Test]
         public void TestSetFrequencyWithRotations()
         {
-            var model = new AdjacentModel(Directions.Cartesian2d);
+            var model = new AdjacentModel(DirectionSet.Cartesian2d);
 
             var tile1 = new Tile(1);
             var tile2 = new Tile(2);
