@@ -4,6 +4,7 @@ $FfmpegDir="C:\Unbacked up documents\Small Programs\ffmpeg\bin"
 $env:Path += ";$TiledDir;$FfmpegDir"
 
 Remove-Item -Recurse output
+& $DeBroglie edged_path_constraint.json
 & $DeBroglie map.json
 
 Write-Output "Rasterising.."

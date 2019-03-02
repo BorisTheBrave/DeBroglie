@@ -164,29 +164,17 @@ The edged path constraint is more restrictive. Not only do the tiles have to be 
 
 For example consider placing the tiles <img src="../images/grass_corner3.png"> and <img src="../images/grass_corner4.png"> together. Both tiles have a picture of a path on them, but the path exits the tiles only on certain edges. <span><img src="../images/grass_corner3.png"><img src="../images/grass_corner4.png"></span> means they are connected, but <span><img src="../images/grass_corner4.png"><img src="../images/grass_corner3.png"></span> is not. We can use Edged Path Constraint to specify this, the normal path constraint isn't specific enough.
 
+**Example**
 
-#### [Library Example](#tab/lib)
+<figure>
+<img src="../images/edged_path_constraint_missing.png"/>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/grass/edged_path_constraint.json">
+<img src="../images/edged_path_constraint.png"/>
+</a>
+<figcaption>Generating dirt paths before and adding EdgedPathConstraint.<br/>
+The normal PathConstraint cannot cope with path tiles so close together.</figcaption>
+</figure>
 
-```csharp
-var north = Directions.Cartesian2d.GetDirection(0, -1);
-var south = Directions.Cartesian2d.GetDirection(0, 1);
-var east = Directions.Cartesian2d.GetDirection(1, 0);
-var west = Directions.Cartesian2d.GetDirection(-1, 0);
-var exits = new Dictionary<Tile, ISet<int>>()
-{
-    { southEastCornerTile, new [] { south, east }.ToHashSet() },
-    { southWestCornerTile, new [] { south, west }.ToHashSet() },
-};
-var constraint = new EdgedPathConstraint(exits);
-```
-
-#### [Config Example](#tab/config)
-
-```javascript
-TODO
-```
-
-***
 
 ### Fixed Tile
 
