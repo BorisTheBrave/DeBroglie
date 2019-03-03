@@ -21,6 +21,7 @@ namespace DeBroglie.Console
     {
         private readonly ISampleSetImporter loader;
         private readonly DeBroglieConfig config;
+        private IDictionary<string, Tile> tilesByName;
 
         public ItemsProcessor(ISampleSetImporter loader, DeBroglieConfig config)
         {
@@ -155,7 +156,11 @@ namespace DeBroglie.Console
                     Rotation = new Rotation(rotateCw, refl),
                 });
             }
-            // TODO: Apply tiles by name
+
+            if (tilesByName.TryGetValue(s, out var tile))
+            {
+                return tile;
+            }
             if (loader != null)
             {
                 return loader.Parse(s);
@@ -263,6 +268,12 @@ namespace DeBroglie.Console
                             MaxCount = maxConsecutiveConfig.MaxCount,
                             Axes = axes == null ? null : new HashSet<Axis>(axes),
                         });
+                    }else if (constraint is MirrorConfig mirrorConfig)
+                    {
+                        constraints.Add(new MirrorConstraint
+                        {
+                            TileRotation = tileRotation,
+                        });
                     }
                 }
             }
@@ -282,10 +293,14 @@ namespace DeBroglie.Console
             var dest = Path.Combine(directory, config.Dest);
             var contdest = Path.ChangeExtension(dest, ".contradiction" + Path.GetExtension(dest));
 
+            // TODO: Neat way to do this without mutability?
+            tilesByName = new Dictionary<string, Tile>();
+
             SampleSet sampleSet;
             if (config.SrcType == SrcType.Sample)
             {
                 sampleSet = LoadSample();
+                tilesByName = sampleSet.TilesByName;
             }
             else
             {

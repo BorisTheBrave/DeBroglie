@@ -95,8 +95,7 @@ namespace DeBroglie.Console.Import
 
         public Tile Parse(string s)
         {
-            int tileId;
-            if (int.TryParse(s, out tileId))
+            if (int.TryParse(s, out var tileId))
             {
                 return new Tile(tileId);
             }
