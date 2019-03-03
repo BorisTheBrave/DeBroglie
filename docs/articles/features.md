@@ -119,7 +119,7 @@ Backtracking
 
 By default when you call <xref:DeBroglie.TilePropagator.Run> the WFC algorithm keeps adding tiles until it has filled every location, or until it is impossible to place a tile that satisfies all the constraints set up. It then returns <xref:DeBroglie.Resolution.Contradiction>.
 
-If you set the backtrack argument to `true` when constructing the <xref:DeBroglie.TilePropagator>, then the propagator does not give up when a contradiction occurs. I will attempt to roll back the most recent tile placement, and try another placment instead. [In this manner](https://en.wikipedia.org/wiki/Backtracking), it can explore the entire space of possible tile placements, seeking one that satifies the constraints. <xref:DeBroglie.Resolution.Contradiction> is only returned if all possibilities have been exhausted.
+If you set the backtrack argument to `true` when constructing the <xref:DeBroglie.TilePropagator>, then the propagator does not give up when a contradiction occurs. It will attempt to roll back the most recent tile placement, and try another placment instead. [In this manner](https://en.wikipedia.org/wiki/Backtracking), it can explore the entire space of possible tile placements, seeking one that satifies the constraints. <xref:DeBroglie.Resolution.Contradiction> is only returned if all possibilities have been exhausted.
 
 Backtracking is very powerful and general, and can solve extremely difficult layouts. However, it can be quite slow, and consumes a great deal of memory, so it is generally only appropriate for generating small arrays.
 

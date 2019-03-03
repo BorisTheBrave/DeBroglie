@@ -41,12 +41,12 @@ For each affected location, BorderConstratin calls [Select](xref:DeBroglie.TileP
 
 The <xref:DeBroglie.Constraints.PathConstraint> checks that it is possible to connect several locations together via a continuous path of adjacent tiles. It does this by banning any tile placement that would make such a path impossible.
 
-Set <xref:DeBroglie.Constraints.PathConstraint.PathTiles> to the set of tiles that are considered on the path. Any two adjacent locations with tiles in this set are connected, and if x is connected to y and y is connected to z, then x and z are also connected.
+Set <xref:DeBroglie.Constraints.PathConstraint.Tiles> to the set of tiles that are considered on the path. Any two adjacent locations with tiles in this set are connected, and if x is connected to y and y is connected to z, then x and z are also connected.
 
 By default, <xref:DeBroglie.Constraints.PathConstraint> forces all path tiles to be connect to each others. However, if you set <xref:DeBroglie.Constraints.PathConstraint.EndPoints> then instead it forces that those specific points connect to each other, but doesn't stop extra path tiles being placed.
 
 > [!WARNING]
-> <xref:DeBroglie.Constraints.PathConstraint> does not have a great deal of lookahead, so adding it will significantly increase the amount of retries needed to get a successful generation. You may need to enable [backtracking](#backtracking) to get a successful result.
+> <xref:DeBroglie.Constraints.PathConstraint> does not have a great deal of lookahead, so adding it will significantly increase the amount of retries needed to get a successful generation. You may need to enable [backtracking](features.md#backtracking) to get a successful result.
 
 **Example**
 
@@ -131,6 +131,12 @@ MaxCount
 </tr>
 <figcaption>Platforms generated with the MaxConsecutive constraint with different values of MaxCount.</figcaption>
 </figure>
+
+## Mirror
+
+The <xref:DeBroglie.Constraints.MirrorConstraint> class forces the generated output to be symetric about the x-axis.
+
+TOOD
 
 
 ## Custom Constraints

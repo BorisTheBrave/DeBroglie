@@ -25,7 +25,7 @@ Some examples post processing applied to them, either using <a href="https://eph
 
 <figure>
 <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/grass/map.json"><video src="../images/rotation.webm" autoplay loop></video></a>
-<figcaption>Generate paths, with the <a href="features.md#border">border set to grass tiles</a> and <a href="features.md#path">constrainted to be fully connected</a>. Uses <a href="features.md#backtracking">backtracking</a>. <a href="https://opengameart.org/content/overworld-grass-biome">Tiles by beast</a></figcaption>
+<figcaption>Generate paths, with the <a href="constraints.md#border">border set to grass tiles</a> and <a href="constraints.md#path">constrainted to be fully connected</a>. Uses <a href="features.md#backtracking">backtracking</a>. <a href="https://opengameart.org/content/overworld-grass-biome">Tiles by beast</a></figcaption>
 </figure>
 
 <figure>

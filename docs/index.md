@@ -111,7 +111,7 @@ _gitContribute: false
         <h2>Features</h2>
         <h3>Generate tile maps using the WFC algorithm</h3>
         <h3><a href="articles/features.md#topology">2d, 3d and hexagonal generation</a></h3>
-        <h3><a href="articles/features.md#path">Constraint generation to only connected paths</a></h3>
+        <h3><a href="articles/constraints.md#path">Constraint generation to only connected paths</a></h3>
         <h3><a href="articles/features.md#backtracking">Backtracking support for tough-to-generate setups</a></h3>
       </section>
     </div>

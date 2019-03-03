@@ -37,7 +37,7 @@ The file format very closely resembles the library API described in the main doc
 |`width`               |int| Length of the x-axis in pixels / tiles of the output result. Default 48.|
 |`height`              |int| Length of the y-axis in pixels / tiles of the output result. Default 48.|
 |`depth`               |int| Length of the z-axis in pixels / tiles of the output result. Default 48.|
-|`ground`              |[Tile](#tile-references)|Shorthand for adding a pair of [border constraints](features.md#border). <br/> The first one constrains the bottom of the output to be the specified tile.<br/> The second bans the tile from all other locations.<br/> The bottom is taken to be ymax for 2d generation, zmin for 3d.|
+|`ground`              |[Tile](#tile-references)|Shorthand for adding a pair of [border constraints](constraints.md#border). <br/> The first one constrains the bottom of the output to be the specified tile.<br/> The second bans the tile from all other locations.<br/> The bottom is taken to be ymax for 2d generation, zmin for 3d.|
 |`symmetry`            |int|Shorthand for setting `reflectionalSymmetry` and `rotationalSymmetry`. <br/> If even, reflections are on, and rotations is half `symmetry`. <br/>Otherwise reflections are off and rotations are equal to `symmetry`|
 |`reflectionalSymmetry`|bool|If set, extra copies of the `src` are used as samples, as described in [Rotation](xref:rotation_article)|
 |`rotationalSymmetry`  |int|If set, extra copies of the `src` are used as samples, as described in [Rotation](xref:rotation_article)|
@@ -71,7 +71,7 @@ For constructing an [overlapping model](features.md#overlapping)
 
 Constraints are a JSON object taking one of the following formats. The `type` field is set to a constant to indicate what sort of model is used.
 
-For constructing a [path constraint](features.md#path)
+For constructing a [path constraint](constraints.md#path)
 
 | Field                | Type           | Description  |
 | -------------------- |---------------|-------|
@@ -80,7 +80,7 @@ For constructing a [path constraint](features.md#path)
 |`tiles`|array of [Tile](#tile-references)| The set of tiles that are considered "on the path".|
 |`endPoints`|array of [Point](#point-config)| Set of points that must be connected by paths. If unset, then all path cells must be are connected.|
 
-For constructing an [edged path constraint](features.md#edged-path)
+For constructing an [edged path constraint](constraints.md#edged-path)
 
 | Field                | Type           | Description  |
 | -------------------- |---------------|-------|
@@ -88,7 +88,7 @@ For constructing an [edged path constraint](features.md#edged-path)
 |`exits`|dictionary from [Tile](#tile-references) to array of `Directions` (`"xplus"`, `"yminus"` etc)| The set of tiles that are considered "on the path", and which directions out of those tiles are path connections.|
 |`endPoints`|array of [Point](#point-config)| Set of points that must be connected by paths. If unset, then all path cells must be are connected.|
 
-For constructing a [border constraint](features.md#border)
+For constructing a [border constraint](constraints.md#border)
 
 | Field                | Type           | Description  |
 | -------------------- |---------------|-------|
@@ -100,7 +100,7 @@ For constructing a [border constraint](features.md#border)
 |`invertArea`|bool| Inverts the area specified by `sides` and `excludeSides` |
 |`ban`|bool| If true, ban `tile` from the area. Otherwise, select it (i.e. ban every other tile). |
 
-For constructing a [fixed tile constraint](features.md#fixed-tile)
+For constructing a [fixed tile constraint](constraints.md#fixed-tile)
 
 | Field                | Type           | Description  |
 | -------------------- |---------------|-------|
@@ -109,7 +109,7 @@ For constructing a [fixed tile constraint](features.md#fixed-tile)
 |`tiles`|array of [Tile](#tile-references)| The tiles to select. |
 |`point`|[Point](#point-config)|The location to select the tile at. If not specified, the location is chosen randomly.|
 
-For constructing a [max consecutive constraint](features.md#max-consecutive)
+For constructing a [max consecutive constraint](constraints.md#max-consecutive)
 
 | Field                | Type           | Description  |
 | -------------------- |---------------|-------|
@@ -118,6 +118,12 @@ For constructing a [max consecutive constraint](features.md#max-consecutive)
 |`tiles`|array of [Tile](#tile-references)| The set of tiles to restrict|
 |`maxCount`|int|The maximum number of tiles to allow to appear consecutive. Default 3.|
 |`axes`|array of Axis (i.e. `"x"`, `"y"`, `"z"`)|Which axes should be restricted. Default: all axes|
+
+For constructing a [mirror constraint](constraints.md#mirror)
+
+| Field                | Type           | Description  |
+| -------------------- |---------------|-------|
+|`type`|string| `"mirror"`|
 
 
 ### Point Config

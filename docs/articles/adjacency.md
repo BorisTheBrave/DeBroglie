@@ -128,12 +128,10 @@ DeBroglie can automatically generate these rotations for you. It uses the same c
 
 ```csharp
 var model = new AdjacentModel();
-var rotationalSymmetry = 4;
-var reflectionalSymmetry = true;
 var rotations = tileRotationBuilder.Build();
 var tile1 = new Tile(1);
 var tile2 = new Tile(2);
-model.AddAdjacency(new []{tile1}, new []{tile2}, 0, 1, 0, rotationalSymmetry, reflectionalSymmetry, rotations);
+model.AddAdjacency(new []{tile1}, new []{tile2}, 0, 1, 0, rotations);
 ```
 
 #### [Config Example](#tab/config)
