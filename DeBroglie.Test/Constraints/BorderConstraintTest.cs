@@ -3,7 +3,7 @@ using DeBroglie.Models;
 using DeBroglie.Topo;
 using NUnit.Framework;
 
-namespace DeBroglie.Test
+namespace DeBroglie.Test.Constraints
 {
     [TestFixture]
     public class BorderConstraintTest

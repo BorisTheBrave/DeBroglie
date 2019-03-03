@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DeBroglie.Test
+namespace DeBroglie.Test.Constraints
 {
     [TestFixture]
     class EdgedPathConstraintTest

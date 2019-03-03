@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DeBroglie.Test
+namespace DeBroglie.Test.Constraints
 {
     [TestFixture]
     class MaxConsecutiveConstraintTest
