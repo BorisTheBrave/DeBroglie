@@ -5,7 +5,7 @@ namespace DeBroglie.Constraints
 {
     public class FixedTileConstraint : ITileConstraint
     {
-        public Tile Tile { get; set; }
+        public Tile[] Tiles { get; set; }
 
         public Point? Point { get; set; }
 
@@ -16,14 +16,16 @@ namespace DeBroglie.Constraints
 
         public Resolution Init(TilePropagator propagator)
         {
-            var point = Point ?? GetRandomPoint(propagator);
+            var tileSet = propagator.CreateTileSet(Tiles);
 
-            propagator.Select(point.X, point.Y, point.Z, Tile);
+            var point = Point ?? GetRandomPoint(propagator, tileSet);
+
+            propagator.Select(point.X, point.Y, point.Z, tileSet);
 
             return Resolution.Undecided;
         }
 
-        public Point GetRandomPoint(TilePropagator propagator)
+        public Point GetRandomPoint(TilePropagator propagator, TilePropogatorTileSet tileSet)
         {
             var topology = propagator.Topology;
 
@@ -41,7 +43,8 @@ namespace DeBroglie.Constraints
                                 continue;
                         }
 
-                        if (propagator.IsBanned(x, y, z, Tile))
+                        propagator.GetBannedSelected(x, y, z, tileSet, out var isBanned, out var _);
+                        if (isBanned)
                             continue;
 
                         points.Add(new Point(x, y, z));
@@ -51,7 +54,7 @@ namespace DeBroglie.Constraints
 
             // Choose a random point to select
             if (points.Count == 0)
-                throw new System.Exception($"No legal placement of {Tile}");
+                throw new System.Exception($"No legal placement of {tileSet}");
 
             var i = (int)(propagator.Random.NextDouble() * points.Count);
 

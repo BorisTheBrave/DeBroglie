@@ -340,7 +340,9 @@ namespace DeBroglie.Console.Config
 
         public override string Type => TypeString;
 
-        public string Tile { get; set; }
+        public string Tile { set { Tiles = new[] { value }; } }
+
+        public string[] Tiles { get; set; }
 
         public string Sides { get; set; }
 
@@ -357,7 +359,9 @@ namespace DeBroglie.Console.Config
 
         public override string Type => TypeString;
 
-        public string Tile { get; set; }
+        public string Tile { set { Tiles = new[] { value }; } }
+
+        public string[] Tiles { get; set; }
 
         public Point? Point { get; set; }
     }

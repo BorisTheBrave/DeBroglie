@@ -28,9 +28,9 @@ namespace DeBroglie.Constraints
     public class BorderConstraint : ITileConstraint
     {
         /// <summary>
-        /// The tile to select or ban fromthe  border area.
+        /// The tiles to select or ban fromthe  border area.
         /// </summary>
-        public Tile Tile { get; set; }
+        public Tile[] Tiles { get; set; }
 
         /// <summary>
         /// A set of flags specifying which sides of the output are affected by the constraint. 
@@ -52,6 +52,7 @@ namespace DeBroglie.Constraints
 
         public Resolution Check(TilePropagator propagator)
         {
+
             return Resolution.Undecided;
         }
 
@@ -69,6 +70,8 @@ namespace DeBroglie.Constraints
 
         public Resolution Init(TilePropagator propagator)
         {
+            var tiles = propagator.CreateTileSet(Tiles);
+
             var width = propagator.Topology.Width;
             var height = propagator.Topology.Height;
             var depth = propagator.Topology.Depth;
@@ -94,13 +97,13 @@ namespace DeBroglie.Constraints
                         {
                             if (Ban)
                             {
-                                var cellStatus = propagator.Ban(x, y, z, Tile);
+                                var cellStatus = propagator.Ban(x, y, z, tiles);
                                 if (cellStatus != Resolution.Undecided)
                                     return cellStatus;
                             }
                             else
                             {
-                                var cellStatus = propagator.Select(x, y, z, Tile);
+                                var cellStatus = propagator.Select(x, y, z, tiles);
                                 if (cellStatus != Resolution.Undecided)
                                     return cellStatus;
                             }

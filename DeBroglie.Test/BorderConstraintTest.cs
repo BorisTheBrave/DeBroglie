@@ -20,7 +20,7 @@ namespace DeBroglie.Test
             var model = AdjacentModel.Create(a, true);
             var propagator = new TilePropagator(model, new Topology(10, 10, false), true, constraints: new[] {
                 new BorderConstraint{
-                    Tile = new Tile(0),
+                    Tiles = new [] { new Tile(0) },
                 }
             });
             var status = propagator.Run();

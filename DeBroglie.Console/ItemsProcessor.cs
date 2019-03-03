@@ -204,12 +204,12 @@ namespace DeBroglie.Console
                 constraints.Add(new BorderConstraint
                 {
                     Sides = is3d ? BorderSides.ZMin : BorderSides.YMax,
-                    Tile = groundTile,
+                    Tiles = new[] { groundTile },
                 });
                 constraints.Add(new BorderConstraint
                 {
                     Sides = is3d ? BorderSides.ZMin : BorderSides.YMax,
-                    Tile = groundTile,
+                    Tiles = new[] { groundTile },
                     InvertArea = true,
                     Ban = true,
                 });
@@ -234,7 +234,7 @@ namespace DeBroglie.Console
                     }
                     else if (constraint is BorderConfig borderData)
                     {
-                        var tile = Parse(borderData.Tile);
+                        var tiles = borderData.Tiles.Select(Parse).ToArray();
                         var sides = borderData.Sides == null ? BorderSides.All : (BorderSides)Enum.Parse(typeof(BorderSides), borderData.Sides, true);
                         var excludeSides = borderData.ExcludeSides == null ? BorderSides.None : (BorderSides)Enum.Parse(typeof(BorderSides), borderData.ExcludeSides, true);
                         if (!is3d)
@@ -244,7 +244,7 @@ namespace DeBroglie.Console
                         }
                         constraints.Add(new BorderConstraint
                         {
-                            Tile = tile,
+                            Tiles = tiles,
                             Sides = sides,
                             ExcludeSides = excludeSides,
                             InvertArea = borderData.InvertArea,
@@ -255,7 +255,7 @@ namespace DeBroglie.Console
                     {
                         constraints.Add(new FixedTileConstraint
                         {
-                            Tile = Parse(fixedTileConfig.Tile),
+                            Tiles = fixedTileConfig.Tiles.Select(Parse).ToArray(),
                             Point = fixedTileConfig.Point,
                         });
                     }

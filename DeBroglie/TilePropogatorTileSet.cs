@@ -22,5 +22,10 @@ namespace DeBroglie
         public IReadOnlyCollection<Tile> Tiles { get; }
 
         internal Dictionary<int, ISet<int>> OffsetToPatterns { get; }
+
+        public override string ToString()
+        {
+            return string.Join(",", Tiles);
+        }
     }
 }
