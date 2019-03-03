@@ -80,6 +80,7 @@ namespace DeBroglie.Test.Constraints
         {
             var model = new AdjacentModel(DirectionSet.Cartesian2d);
             model.AddAdjacency(new Tile(1), new Tile(2), 1, 0, 0);
+            model.SetUniformFrequency();
 
             var topology = new Topology(2, 1, false);
 
@@ -106,6 +107,7 @@ namespace DeBroglie.Test.Constraints
         {
             var model = new AdjacentModel(DirectionSet.Cartesian2d);
             model.AddAdjacency(new Tile(1), new Tile(2), 1, 0, 0);
+            model.SetUniformFrequency();
 
             var topology = new Topology(2, 1, false);
 

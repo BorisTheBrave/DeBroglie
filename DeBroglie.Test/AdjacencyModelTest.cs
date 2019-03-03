@@ -74,12 +74,15 @@ namespace DeBroglie.Test
             var tile3 = new Tile(3);
             var tile4 = new Tile(4);
 
+
             var rotationBuilder = new TileRotationBuilder(4, false, TileRotationTreatment.Missing);
             rotationBuilder.Add(tile1, new Rotation(90), tile3);
             rotationBuilder.Add(tile2, new Rotation(90), tile4);
             var rotations = rotationBuilder.Build();
 
             model.AddAdjacency(new[] { tile1 }, new[] { tile2 }, 1, 0, 0, rotations);
+
+            model.SetUniformFrequency();
 
             var patternModel = model.GetTileModelMapping(new Topology(10, 10, false)).PatternModel;
 

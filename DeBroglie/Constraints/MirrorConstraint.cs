@@ -19,12 +19,31 @@ namespace DeBroglie.Constraints
             // In practise, this is useful to stop WFC from blundering
             // into easy avoided contradictions.
 
+
             var topology = propagator.Topology;
 
             var width = topology.Width;
             var height = topology.Height;
             var depth = topology.Depth;
 
+            // Ban any tiles which don't have a reflection
+            // Note we don't require the topology mask to be symmetric
+            // So there may be some spots they are ok
+            var reflectableTileSet = propagator.CreateTileSet(propagator.TileModel.Tiles
+                .Where(tile => TileRotation.Rotate(tile, reflectX, out var _)));
+            foreach (var i in topology.Indicies)
+            {
+                topology.GetCoord(i, out var x, out var y, out var z);
+                var x2 = topology.Width - 1 - x;
+                var i2 = topology.GetIndex(x2, y, z);
+                if(topology.ContainsIndex(i2))
+                {
+                    propagator.Select(x, y, z, reflectableTileSet);
+                }
+            }
+
+            // Ensure we don't pick a central tile that interacts badly
+            // with its own reflection
             if (propagator.TileModel is AdjacentModel adjacentModel)
             {
                 TilePropagatorTileSet symetricTileSet;
@@ -33,22 +52,42 @@ namespace DeBroglie.Constraints
                     // Enforce the center strip is symetric
                     symetricTileSet = propagator.CreateTileSet(adjacentModel.Tiles
                         .Where(tile => TileRotation.Rotate(tile, reflectX, out var otherTile) && tile == otherTile));
+
+                    var x = width / 2;
+                    for (var z = 0; z < depth; z++)
+                    {
+                        for (var y = 0; y < height; y++)
+                        {
+                            var i = topology.GetIndex(x, y, z);
+                            if (topology.ContainsIndex(i))
+                            {
+                                propagator.Select(x, y, z, symetricTileSet);
+                            }
+                        }
+                    }
                 }
                 else
                 {
                     // Enforce column left of center connect to their mirrored selves
                     symetricTileSet = propagator.CreateTileSet(adjacentModel.Tiles
                         .Where(tile => TileRotation.Rotate(tile, reflectX, out var otherTile) && adjacentModel.IsAdjacent(tile, otherTile, Topo.Direction.XPlus)));
-                }
 
-                var x = width / 2;
-                for (var z = 0; z < depth; z++)
-                {
-                    for (var y = 0; y < height; y++)
+                    var x = width / 2 - 1;
+                    var x2 = width / 2;
+                    for (var z = 0; z < depth; z++)
                     {
-                        propagator.Select(x, y, z, symetricTileSet);
+                        for (var y = 0; y < height; y++)
+                        {
+                            var i = topology.GetIndex(x, y, z);
+                            var i2 = topology.GetIndex(x2, y, z);
+                            if (topology.ContainsIndex(i) && topology.ContainsIndex(i2))
+                            {
+                                propagator.Select(x, y, z, symetricTileSet);
+                            }
+                        }
                     }
                 }
+
             }
 
             // TODO: Something similar for OverlappingModel

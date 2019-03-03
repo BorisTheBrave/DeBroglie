@@ -124,6 +124,17 @@ namespace DeBroglie.Models
         }
 
         /// <summary>
+        /// Sets all tiles as equally likely to be picked
+        /// </summary>
+        public void SetUniformFrequency()
+        {
+            foreach(var tile in Tiles)
+            {
+                SetFrequency(tile, 1.0);
+            }
+        }
+
+        /// <summary>
         /// Declares that the tiles in dest can be placed adjacent to the tiles in src, in the direction specified.
         /// Then it adds similar declarations for other rotations and reflections, as specified by rotations.
         /// </summary>
@@ -265,6 +276,11 @@ namespace DeBroglie.Models
 
         internal override TileModelMapping GetTileModelMapping(Topology topology)
         {
+            if(frequencies.Sum() == 0.0)
+            {
+                throw new Exception("No tiles have assigned frequences.");
+            }
+
             var patternModel = new PatternModel
             {
                 Propagator = propagator.Select(x => x.Select(y => y.ToArray()).ToArray()).ToArray(),
