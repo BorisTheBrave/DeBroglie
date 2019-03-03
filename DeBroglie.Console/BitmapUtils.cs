@@ -33,6 +33,11 @@ namespace DeBroglie.Console
 
         public static Color ColorAverage(IEnumerable<Color> colors)
         {
+            if (colors == null)
+            {
+                return Color.Transparent;
+            }
+
             int alpha = 0;
             int red = 0;
             int green = 0;
@@ -46,7 +51,14 @@ namespace DeBroglie.Console
                 blue += color.B;
                 n += 1;
             }
-            return Color.FromArgb(alpha / n, red / n, green / n, blue / n);
+            if (n == 0)
+            {
+                return Color.Transparent;
+            }
+            else
+            {
+                return Color.FromArgb(alpha / n, red / n, green / n, blue / n);
+            }
         }
 
         public static Bitmap Slice(Bitmap b, int x, int y, int width, int height)

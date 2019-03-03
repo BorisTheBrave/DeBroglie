@@ -196,13 +196,23 @@ namespace DeBroglie.Models
             AddAdjacency(src, dest, d);
         }
 
-        private void AddAdjacency(Tile src, Tile dest, Direction d)
+        /// <summary>
+        /// Declares that dest can be placed adjacent to src, in the direction specified.
+        /// </summary>
+        public void AddAdjacency(Tile src, Tile dest, Direction d)
         {
             var id = directions.Inverse(d);
             var srcPattern = GetPattern(src);
             var destPattern = GetPattern(dest);
             propagator[srcPattern][(int)d].Add(destPattern);
             propagator[destPattern][(int)id].Add(srcPattern);
+        }
+
+        public bool IsAdjacent(Tile src, Tile dest, Direction d)
+        {
+            var srcPattern = GetPattern(src);
+            var destPattern = GetPattern(dest);
+            return propagator[srcPattern][(int)d].Contains(destPattern);
         }
 
         public void AddSample(ITopoArray<Tile> sample, TileRotation tileRotation = null)
