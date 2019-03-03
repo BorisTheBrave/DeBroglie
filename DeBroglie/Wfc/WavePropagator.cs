@@ -232,23 +232,25 @@ namespace DeBroglie.Wfc
             return decidedPattern;
         }
 
-        private Resolution InitConstraints()
+        private void InitConstraints()
         {
             foreach (var constraint in constraints)
             {
-                status = constraint.Init(this);
-                if (status != Resolution.Undecided) return status;
+                var constraintStatus = constraint.Init(this);
+                if (constraintStatus != Resolution.Undecided) status = constraintStatus;
+                if (status != Resolution.Undecided) return;
                 Propagate();
-                if (status != Resolution.Undecided) return status;
+                if (status != Resolution.Undecided) return;
             }
-            return status;
+            return;
         }
 
         private void StepConstraints()
         {
             foreach (var constraint in constraints)
             {
-                status = constraint.Check(this);
+                var constraintStatus = constraint.Check(this);
+                if (constraintStatus != Resolution.Undecided) status = constraintStatus;
                 if (status != Resolution.Undecided) return;
                 Propagate();
                 if (status != Resolution.Undecided) return;
@@ -300,7 +302,9 @@ namespace DeBroglie.Wfc
                 }
             }
 
-            return InitConstraints();
+            InitConstraints();
+
+            return status;
         }
 
         /**
