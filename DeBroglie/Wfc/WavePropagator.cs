@@ -36,7 +36,14 @@ namespace DeBroglie.Wfc
         private readonly IWaveConstraint[] constraints;
         private Random random;
 
+        // List of locations that still need to be checked against for fulfilling the model's conditions
         private Stack<PropagateItem> toPropagate;
+
+        // We evaluate constraints at the last possible minute, instead of eagerly like the model,
+        // As they can potentially be expensive.
+        private bool deferredConstraintsStep;
+
+        // The overall status of the propagator, always kept up to date
         private Resolution status;
 
 
@@ -196,7 +203,7 @@ namespace DeBroglie.Wfc
         {
             // Choose a random cell
             index = wave.GetRandomMinEntropyIndex(random);
-            if (index == -1)
+            if (index == Wave.AllCellsDecided)
             {
                 pattern = -1;
                 return;
@@ -247,6 +254,7 @@ namespace DeBroglie.Wfc
 
         private void StepConstraints()
         {
+            // TODO: Do we need to worry about evaluating constraints multiple times?
             foreach (var constraint in constraints)
             {
                 var constraintStatus = constraint.Check(this);
@@ -255,6 +263,7 @@ namespace DeBroglie.Wfc
                 Propagate();
                 if (status != Resolution.Undecided) return;
             }
+            deferredConstraintsStep = false;
         }
 
         public Resolution Status => status;
@@ -321,6 +330,7 @@ namespace DeBroglie.Wfc
                 }
             }
             Propagate();
+            deferredConstraintsStep = true;
             return status;
         }
 
@@ -335,6 +345,7 @@ namespace DeBroglie.Wfc
                 return status = Resolution.Contradiction;
             }
             Propagate();
+            deferredConstraintsStep = true;
             return status;
         }
 
@@ -343,29 +354,46 @@ namespace DeBroglie.Wfc
          */
         public Resolution Step()
         {
-            if (status != Resolution.Undecided) return status;
+            int index;
 
+            // This will true if the user has called Ban, etc, since the last step.
+            if (deferredConstraintsStep)
+            {
+                StepConstraints();
+            }
+
+            // If we're already in a final state. skip making an observiation, 
+            // and jump to backtrack handling / return.
+            if (status != Resolution.Undecided)
+            {
+                index = 0;
+                goto restart;
+            }
+
+            // Record state before making a choice
             if (backtrack)
             {
                 prevWaves.Push(wave.Clone());
                 prevCompatible.Push((int[,,])compatible.Clone());
             }
 
-            int index, pattern;
-            Observe(out index, out pattern);
+            // Pick a tile and Select a pattern from it.
+            Observe(out index, out var pattern);
 
-            if(index != -1 && backtrack)
+            // Record what was selected for backtracking purposes
+            if(index != Wave.AllCellsDecided && backtrack)
             {
                 prevChoices.Push(new PropagateItem { Index = index, Pattern = pattern });
             }
 
+            // After a backtrack we resume here
             restart:
 
             if (status == Resolution.Undecided) Propagate();
             if (status == Resolution.Undecided) StepConstraints();
 
-            // All things are fully chosen
-            if (index == -1 && status == Resolution.Undecided)
+            // Are all things are fully chosen?
+            if (index == Wave.AllCellsDecided && status == Resolution.Undecided)
             {
                 status = Resolution.Decided;
                 return status;
@@ -373,7 +401,7 @@ namespace DeBroglie.Wfc
 
             if (backtrack && status == Resolution.Contradiction)
             {
-                // After back tracking, it's no logner the case things are fully chose
+                // After back tracking, it's no logner the case things are fully chosen
                 index = 0;
 
                 // Actually backtrack

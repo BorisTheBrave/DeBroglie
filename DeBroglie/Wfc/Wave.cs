@@ -12,6 +12,8 @@ namespace DeBroglie.Wfc
      */
     internal class Wave
     {
+        public int AllCellsDecided = -1;
+
         int patternCount;
         private double[] frequencies;
 
@@ -108,10 +110,10 @@ namespace DeBroglie.Wfc
 
         // Finds the cells with minimal entropy (excluding 0, decided cells)
         // and picks one randomly.
-        // Returns -1 if every cell is decided.
+        // Returns AllCellsDecided if every cell is decided.
         public int GetRandomMinEntropyIndex(Random r)
         {
-            int selectedIndex = -1;
+            int selectedIndex = AllCellsDecided;
             double minEntropy = double.PositiveInfinity;
             double randomizer = 0;
             for (int i = 0; i < indices; i++)
