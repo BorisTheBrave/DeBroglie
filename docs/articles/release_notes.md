@@ -7,8 +7,9 @@ title: Release Notes
 * Added [EdgedPathConstraint](xref:DeBroglie.Constraints.EdgedPathConstraint)
 * Use Direction enum instead of int [breaking]
 * Path contraint can now specify end points in JSON
-* Added MirrorConstraint (undocumented)
+* Added [MirrorConstraint](xref:DeBroglie.Constraints.MirrorConstraint)
 * Several constraints now support using an array of tiles instead of a single tile [breaking]
+* Fixed several subtle bugs in the core WFC+constraint system.
 
 # v0.3.0
 
