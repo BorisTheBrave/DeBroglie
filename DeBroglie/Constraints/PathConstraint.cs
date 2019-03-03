@@ -9,14 +9,14 @@ namespace DeBroglie.Constraints
     /// </summary>
     public class PathConstraint : ITileConstraint
     {
-        private TilePropogatorTileSet pathTileSet;
+        private TilePropogatorTileSet tileSet;
 
         private PathConstraintUtils.SimpleGraph graph;
 
         /// <summary>
         /// Set of patterns that are considered on the path
         /// </summary>
-        public ISet<Tile> PathTiles { get; set; }
+        public ISet<Tile> Tiles { get; set; }
 
         /// <summary>
         /// Set of points that must be connected by paths.
@@ -25,15 +25,15 @@ namespace DeBroglie.Constraints
         /// </summary>
         public Point[] EndPoints { get; set; }
 
-        public PathConstraint(ISet<Tile> pathTiles, Point[] endPoints = null)
+        public PathConstraint(ISet<Tile> tiles, Point[] endPoints = null)
         {
-            this.PathTiles = pathTiles;
+            this.Tiles = tiles;
             this.EndPoints = endPoints;
         }
 
         public Resolution Init(TilePropagator propagator)
         {
-            pathTileSet = propagator.CreateTileSet(PathTiles);
+            tileSet = propagator.CreateTileSet(Tiles);
             graph = PathConstraintUtils.CreateGraph(propagator.Topology);
             return Resolution.Undecided;
         }
@@ -48,7 +48,7 @@ namespace DeBroglie.Constraints
             for (int i = 0; i < indices; i++)
             {
                 topology.GetCoord(i, out var x, out var y, out var z);
-                propagator.GetBannedSelected(x, y, z, pathTileSet, out var isBanned, out var isSelected);
+                propagator.GetBannedSelected(x, y, z, tileSet, out var isBanned, out var isSelected);
                 couldBePath[i] = !isBanned;
                 mustBePath[i] = isSelected;
             }
@@ -87,7 +87,7 @@ namespace DeBroglie.Constraints
                 if (isArticulation[i])
                 {
                     topology.GetCoord(i, out var x, out var y, out var z);
-                    propagator.Select(x, y, z, pathTileSet);
+                    propagator.Select(x, y, z, tileSet);
                 }
             }
 

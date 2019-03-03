@@ -76,7 +76,8 @@ For constructing a [path constraint](features.md#path)
 | Field                | Type           | Description  |
 | -------------------- |---------------|-------|
 |`type`|string| `"path"`|
-|`pathTiles`|array of [Tile](#tile-references)| The set of tiles that are considered "on the path".|
+|`tile`|[Tile](#tile-references)|Sorthand for setting `tiles` with a single value|
+|`tiles`|array of [Tile](#tile-references)| The set of tiles that are considered "on the path".|
 |`endPoints`|array of [Point](#point-config)| Set of points that must be connected by paths. If unset, then all path cells must be are connected.|
 
 For constructing an [edged path constraint](features.md#edged-path)
@@ -84,7 +85,7 @@ For constructing an [edged path constraint](features.md#edged-path)
 | Field                | Type           | Description  |
 | -------------------- |---------------|-------|
 |`type`|string| `"edgedPath"`|
-|`pathTiles`|dictionary from [Tile](#tile-references) to array of `Directions` (`"xplus"`, `"yminus"` etc)| The set of tiles that are considered "on the path", and which directions out of those tiles are path connections.|
+|`exits`|dictionary from [Tile](#tile-references) to array of `Directions` (`"xplus"`, `"yminus"` etc)| The set of tiles that are considered "on the path", and which directions out of those tiles are path connections.|
 |`endPoints`|array of [Point](#point-config)| Set of points that must be connected by paths. If unset, then all path cells must be are connected.|
 
 For constructing a [border constraint](features.md#border)
@@ -92,7 +93,8 @@ For constructing a [border constraint](features.md#border)
 | Field                | Type           | Description  |
 | -------------------- |---------------|-------|
 |`type`|string| `"border"`|
-|`tile`|[Tile](#tile-references)| The tile to select or ban fromthe  border area. |
+|`tile`|[Tile](#tile-references)|Sorthand for setting `tiles` with a single value|
+|`tiles`|array of [Tile](#tile-references)| The tiles to select or ban fromthe  border area. |
 |`sides`|string|A comma separated list of the values `"xmin"`, `"xmax"`, `"ymin"`, `"ymax"`, `"zmin"`, `"zmax"`, specifying which sides of the output are affected by the constraint. Defaults to all of them (except zmin/zmax for 2d).|
 |`excludeSides`|string| Same format as `sides`, these locations are subtracted from the ones specified in `sides`. Defaults to empty.|
 |`invertArea`|bool| Inverts the area specified by `sides` and `excludeSides` |
@@ -103,7 +105,8 @@ For constructing a [fixed tile constraint](features.md#fixed-tile)
 | Field                | Type           | Description  |
 | -------------------- |---------------|-------|
 |`type`|string| `"fixedTile"`|
-|`tile`|[Tile](#tile-references)| The tile to select. |
+|`tile`|[Tile](#tile-references)|Sorthand for setting `tiles` with a single value|
+|`tiles`|array of [Tile](#tile-references)| The tiles to select. |
 |`point`|[Point](#point-config)|The location to select the tile at. If not specified, the location is chosen randomly.|
 
 For constructing a [max consecutive constraint](features.md#max-consecutive)
@@ -111,6 +114,7 @@ For constructing a [max consecutive constraint](features.md#max-consecutive)
 | Field                | Type           | Description  |
 | -------------------- |---------------|-------|
 |`type`|string| `"maxConsectuive"`|
+|`tile`|[Tile](#tile-references)|Sorthand for setting `tiles` with a single value|
 |`tiles`|array of [Tile](#tile-references)| The set of tiles to restrict|
 |`maxCount`|int|The maximum number of tiles to allow to appear consecutive. Default 3.|
 |`axes`|array of Axis (i.e. `"x"`, `"y"`, `"z"`)|Which axes should be restricted. Default: all axes|

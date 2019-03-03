@@ -302,10 +302,12 @@ namespace DeBroglie.Console.Config
 
         public override string Type => TypeString;
 
+        public string Tile { set { Tiles = new[] { value }; } }
+
         /// <summary>
         /// The set of tiles that are considered "on the path".
         /// </summary>
-        public string[] PathTiles { get; set; }
+        public string[] Tiles { get; set; }
 
         /// <summary>
         /// Set of points that must be connected by paths.
@@ -371,6 +373,8 @@ namespace DeBroglie.Console.Config
         public const string TypeString = "maxConsecutive";
 
         public override string Type => TypeString;
+
+        public string Tile { set { Tiles = new[] { value }; } }
 
         public string[] Tiles { get; set; }
 

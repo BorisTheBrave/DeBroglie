@@ -8,7 +8,7 @@ title: Release Notes
 * Use Direction enum instead of int [breaking]
 * Path contraint can now specify end points in JSON
 * Added MirrorConstraint (undocumented)
-* FixedTileConstraint and BorderConstraint now support using an array of tiles.
+* Several constraints now support using an array of tiles instead of a single tile [breaking]
 
 # v0.3.0
 
