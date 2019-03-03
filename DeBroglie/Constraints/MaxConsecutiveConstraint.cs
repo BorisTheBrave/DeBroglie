@@ -10,7 +10,7 @@ namespace DeBroglie.Constraints
     /// </summary>
     public class MaxConsecutiveConstraint : ITileConstraint
     {
-        private TilePropogatorTileSet tileSet;
+        private TilePropagatorTileSet tileSet;
 
         public ISet<Tile> Tiles { get; set; }
 

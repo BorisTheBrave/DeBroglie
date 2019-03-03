@@ -25,7 +25,7 @@ namespace DeBroglie.Constraints
             return Resolution.Undecided;
         }
 
-        public Point GetRandomPoint(TilePropagator propagator, TilePropogatorTileSet tileSet)
+        public Point GetRandomPoint(TilePropagator propagator, TilePropagatorTileSet tileSet)
         {
             var topology = propagator.Topology;
 

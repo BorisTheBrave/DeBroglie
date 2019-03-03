@@ -9,7 +9,7 @@ namespace DeBroglie.Constraints
     /// </summary>
     public class PathConstraint : ITileConstraint
     {
-        private TilePropogatorTileSet tileSet;
+        private TilePropagatorTileSet tileSet;
 
         private PathConstraintUtils.SimpleGraph graph;
 

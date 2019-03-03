@@ -6,7 +6,7 @@
     public interface ITileConstraint
     {
         /// <summary>
-        /// Called once when the propogator first initializes.
+        /// Called once when the propagator first initializes.
         /// </summary>
         /// <param name="propagator">The propagator to constraint</param>
         /// <returns>Contradiction if something is wrong, Undecided if generation should continue</returns>

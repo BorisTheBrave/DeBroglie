@@ -9,11 +9,11 @@ namespace DeBroglie.Constraints
 {
     public class EdgedPathConstraint : ITileConstraint
     {
-        private TilePropogatorTileSet pathTileSet;
+        private TilePropagatorTileSet pathTileSet;
 
         private PathConstraintUtils.SimpleGraph graph;
 
-        private IDictionary<Direction, TilePropogatorTileSet> tilesByExit;
+        private IDictionary<Direction, TilePropagatorTileSet> tilesByExit;
         private IDictionary<Tile, ISet<Direction>> actualExits { get; set; }
 
 

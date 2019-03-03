@@ -248,7 +248,7 @@ namespace DeBroglie.Models
 
                         frequencies[pattern] += 1;
 
-                        // Update propogator
+                        // Update propagator
                         for (var d = 0; d < directionCount; d++)
                         {
                             int x2, y2, z2;

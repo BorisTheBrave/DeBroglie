@@ -131,7 +131,7 @@ namespace DeBroglie
 
         /// <summary>
         /// Marks the given tile as not being a valid choice at a given location.
-        /// Then it propogates that information to other nearby tiles.
+        /// Then it propagates that information to other nearby tiles.
         /// </summary>
         /// <returns>The current <see cref="Status"/></returns>
         public Resolution Ban(int x, int y, int z, Tile tile)
@@ -149,7 +149,7 @@ namespace DeBroglie
 
         /// <summary>
         /// Marks the given tiles as not being a valid choice at a given location.
-        /// Then it propogates that information to other nearby tiles.
+        /// Then it propagates that information to other nearby tiles.
         /// </summary>
         /// <returns>The current <see cref="Status"/></returns>
         public Resolution Ban(int x, int y, int z, IEnumerable<Tile> tiles)
@@ -159,10 +159,10 @@ namespace DeBroglie
 
         /// <summary>
         /// Marks the given tiles as not being a valid choice at a given location.
-        /// Then it propogates that information to other nearby tiles.
+        /// Then it propagates that information to other nearby tiles.
         /// </summary>
         /// <returns>The current <see cref="Status"/></returns>
-        public Resolution Ban(int x, int y, int z, TilePropogatorTileSet tiles)
+        public Resolution Ban(int x, int y, int z, TilePropagatorTileSet tiles)
         {
             TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
             var patterns = GetPatterns(tiles, o);
@@ -178,7 +178,7 @@ namespace DeBroglie
         /// <summary>
         /// Marks the given tile as the only valid choice at a given location.
         /// This is equivalent to banning all other tiles.
-        /// Then it propogates that information to other nearby tiles.
+        /// Then it propagates that information to other nearby tiles.
         /// </summary>
         /// <returns>The current <see cref="Status"/></returns>
         public Resolution Select(int x, int y, int z, Tile tile)
@@ -199,7 +199,7 @@ namespace DeBroglie
         /// <summary>
         /// Marks the given tiles as the only valid choice at a given location.
         /// This is equivalent to banning all other tiles.
-        /// Then it propogates that information to other nearby tiles.
+        /// Then it propagates that information to other nearby tiles.
         /// </summary>
         /// <returns>The current <see cref="Status"/></returns>
         public Resolution Select(int x, int y, int z, IEnumerable<Tile> tiles)
@@ -210,10 +210,10 @@ namespace DeBroglie
         /// <summary>
         /// Marks the given tiles as the only valid choice at a given location.
         /// This is equivalent to banning all other tiles.
-        /// Then it propogates that information to other nearby tiles.
+        /// Then it propagates that information to other nearby tiles.
         /// </summary>
         /// <returns>The current <see cref="Status"/></returns>
-        public Resolution Select(int x, int y, int z, TilePropogatorTileSet tiles)
+        public Resolution Select(int x, int y, int z, TilePropagatorTileSet tiles)
         {
             TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
             var patterns = GetPatterns(tiles, o);
@@ -230,7 +230,7 @@ namespace DeBroglie
 
         /// <summary>
         /// Makes a single tile selection.
-        /// Then it propogates that information to other nearby tiles.
+        /// Then it propagates that information to other nearby tiles.
         /// If backtracking is enabled a single step can include several backtracks,.
         /// </summary>
         /// <returns>The current <see cref="Status"/></returns>
@@ -252,9 +252,9 @@ namespace DeBroglie
         /// Creates a set of tiles. This set can be used with some operations, and is marginally
         /// faster than passing in a fresh list of tiles ever time.
         /// </summary>
-        public TilePropogatorTileSet CreateTileSet(IEnumerable<Tile> tiles)
+        public TilePropagatorTileSet CreateTileSet(IEnumerable<Tile> tiles)
         {
-            var set =  new TilePropogatorTileSet(tiles);
+            var set =  new TilePropagatorTileSet(tiles);
             // Quick optimization for size one sets
             if(set.Tiles.Count == 1)
             {
@@ -270,7 +270,7 @@ namespace DeBroglie
         /// <summary>
         /// Gets the patterns associated with a set of tiles at a given offset.
         /// </summary>
-        private ISet<int> GetPatterns(TilePropogatorTileSet tileSet, int offset)
+        private ISet<int> GetPatterns(TilePropagatorTileSet tileSet, int offset)
         {
             if(!tileSet.OffsetToPatterns.TryGetValue(offset, out var patterns))
             {
@@ -323,7 +323,7 @@ namespace DeBroglie
         /// isBanned is set to true if all the tiles are not valid in the location.
         /// isSelected is set to true if no other the tiles are valid in the location.
         /// </summary>
-        public void GetBannedSelected(int x, int y, int z, TilePropogatorTileSet tiles, out bool isBanned, out bool isSelected)
+        public void GetBannedSelected(int x, int y, int z, TilePropagatorTileSet tiles, out bool isBanned, out bool isSelected)
         {
             TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
             var patterns = GetPatterns(tiles, o);

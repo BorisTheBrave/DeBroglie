@@ -27,7 +27,7 @@ namespace DeBroglie.Constraints
 
             if (propagator.TileModel is AdjacentModel adjacentModel)
             {
-                TilePropogatorTileSet symetricTileSet;
+                TilePropagatorTileSet symetricTileSet;
                 if (width % 2 == 1)
                 {
                     // Enforce the center strip is symetric
