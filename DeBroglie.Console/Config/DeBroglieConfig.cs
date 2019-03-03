@@ -377,4 +377,11 @@ namespace DeBroglie.Console.Config
         /// </summary>
         public string[] Axes { get; set; }
     }
+
+    public class MirrorConfig : ConstraintConfig
+    {
+        public const string TypeString = "mirror";
+
+        public override string Type => TypeString;
+    }
 }
