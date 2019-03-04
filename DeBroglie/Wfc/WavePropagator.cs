@@ -324,28 +324,13 @@ namespace DeBroglie.Wfc
             var index = topology.GetIndex(x, y, z);
             if (wave.Get(index, pattern))
             {
+                deferredConstraintsStep = true;
                 if (InternalBan(index, pattern))
                 {
                     return status = Resolution.Contradiction;
                 }
             }
             Propagate();
-            deferredConstraintsStep = true;
-            return status;
-        }
-
-        /**
-         * Removes all other patterns as possibilities for index.
-         */
-        public Resolution Select(int x, int y, int z, int pattern)
-        {
-            var index = topology.GetIndex(x, y, z);
-            if (InternalSelect(index, pattern))
-            {
-                return status = Resolution.Contradiction;
-            }
-            Propagate();
-            deferredConstraintsStep = true;
             return status;
         }
 

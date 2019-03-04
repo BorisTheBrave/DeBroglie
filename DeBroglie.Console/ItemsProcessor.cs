@@ -221,8 +221,8 @@ namespace DeBroglie.Console
                 {
                     if (constraint is PathConfig pathData)
                     {
-                        var pathTiles = new HashSet<Tile>(pathData.Tiles.Select(Parse));
-                        var p = new PathConstraint(pathTiles, pathData.EndPoints);
+                        var tiles = new HashSet<Tile>(pathData.Tiles.Select(Parse));
+                        var p = new PathConstraint(tiles, pathData.EndPoints);
                         constraints.Add(p);
                     }
                     if (constraint is EdgedPathConfig edgedPathData)

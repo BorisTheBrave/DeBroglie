@@ -11,7 +11,7 @@
     "constraints": [
         {
             "type": "path",
-            "pathTiles": ["#0d2572"]
+            "tiles": ["#0d2572"]
         }
     ]
 }

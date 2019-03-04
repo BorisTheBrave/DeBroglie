@@ -12,7 +12,7 @@ namespace DeBroglie.Wfc
      */
     internal class Wave
     {
-        public int AllCellsDecided = -1;
+        public static int AllCellsDecided = -1;
 
         int patternCount;
         private double[] frequencies;
