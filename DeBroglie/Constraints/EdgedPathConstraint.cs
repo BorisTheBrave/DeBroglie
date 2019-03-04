@@ -42,7 +42,7 @@ namespace DeBroglie.Constraints
         }
 
 
-        public Resolution Init(TilePropagator propagator)
+        public void Init(TilePropagator propagator)
         {
             pathTileSet = propagator.CreateTileSet(Exits.Keys);
             graph = CreateEdgedGraph(propagator.Topology);
@@ -70,12 +70,9 @@ namespace DeBroglie.Constraints
                 .SelectMany(kv => kv.Value.Select(e => Tuple.Create(kv.Key, e)))
                 .GroupBy(x => x.Item2, x => x.Item1)
                 .ToDictionary(g => g.Key, propagator.CreateTileSet);
-
-
-            return Resolution.Undecided;
         }
 
-        public Resolution Check(TilePropagator propagator)
+        public void Check(TilePropagator propagator)
         {
 
             var topology = propagator.Topology;
@@ -114,8 +111,6 @@ namespace DeBroglie.Constraints
                 // TODO: There's probably a more efficient way to do this
                 propagator.GetBannedSelected(x, y, z, pathTileSet, out var allIsBanned, out var allIsSelected);
                 mustBePath[i * nodesPerIndex] = allIsSelected;
-
-
             }
 
             // Select relevant cells, i.e. those that must be connected.
@@ -128,7 +123,7 @@ namespace DeBroglie.Constraints
             {
                 relevant = new bool[indices * nodesPerIndex];
                 if (EndPoints.Length == 0)
-                    return Resolution.Undecided;
+                    return;
                 foreach (var endPoint in EndPoints)
                 {
                     var index = topology.GetIndex(endPoint.X, endPoint.Y, endPoint.Z);
@@ -141,7 +136,8 @@ namespace DeBroglie.Constraints
 
             if (isArticulation == null)
             {
-                return Resolution.Contradiction;
+                propagator.SetContradiction();
+                return;
             }
 
 
@@ -162,8 +158,6 @@ namespace DeBroglie.Constraints
                     }
                 }
             }
-
-            return Resolution.Undecided;
         }
 
         private static readonly int[] Empty = { };

@@ -18,7 +18,7 @@ namespace DeBroglie.Constraints
 
         public ISet<Axis> Axes { get; set; }
 
-        public Resolution Init(TilePropagator propagator)
+        public void Init(TilePropagator propagator)
         {
             if(propagator.Topology.Directions.Type != Topo.DirectionSetType.Cartesian2d &&
                 propagator.Topology.Directions.Type != Topo.DirectionSetType.Cartesian3d)
@@ -27,10 +27,9 @@ namespace DeBroglie.Constraints
                 throw new Exception("MaxConsecutiveConstraint only supports cartesian topologies.");
             }
             tileSet = propagator.CreateTileSet(Tiles);
-            return Resolution.Undecided;
         }
 
-        public Resolution Check(TilePropagator propagator)
+        public void Check(TilePropagator propagator)
         {
             var topology = propagator.Topology;
             var width = topology.Width;
@@ -51,7 +50,10 @@ namespace DeBroglie.Constraints
                         {
                             propagator.GetBannedSelected(x, y, z, tileSet, out var isBanned, out var isSelected);
                             if (sm.Next(x, isBanned, isSelected))
-                                return Resolution.Contradiction;
+                            {
+                                propagator.SetContradiction();
+                                return;
+                            }
                         }
                         if (propagator.Topology.PeriodicX)
                         {
@@ -59,7 +61,10 @@ namespace DeBroglie.Constraints
                             {
                                 propagator.GetBannedSelected(x, y, z, tileSet, out var isBanned, out var isSelected);
                                 if (sm.Next(x, isBanned, isSelected))
-                                    return Resolution.Contradiction;
+                                {
+                                    propagator.SetContradiction();
+                                    return;
+                                }
                             }
                         }
                     }
@@ -81,7 +86,10 @@ namespace DeBroglie.Constraints
                         {
                             propagator.GetBannedSelected(x, y, z, tileSet, out var isBanned, out var isSelected);
                             if (sm.Next(y, isBanned, isSelected))
-                                return Resolution.Contradiction;
+                            {
+                                propagator.SetContradiction();
+                                return;
+                            }
                         }
                         if (propagator.Topology.PeriodicY)
                         {
@@ -89,7 +97,10 @@ namespace DeBroglie.Constraints
                             {
                                 propagator.GetBannedSelected(x, y, z, tileSet, out var isBanned, out var isSelected);
                                 if (sm.Next(y, isBanned, isSelected))
-                                    return Resolution.Contradiction;
+                                {
+                                    propagator.SetContradiction();
+                                    return;
+                                }
                             }
                         }
                     }
@@ -111,7 +122,10 @@ namespace DeBroglie.Constraints
                         {
                             propagator.GetBannedSelected(x, y, z, tileSet, out var isBanned, out var isSelected);
                             if (sm.Next(z, isBanned, isSelected))
-                                return Resolution.Contradiction;
+                            {
+                                propagator.SetContradiction();
+                                return;
+                            }
                         }
                         if (propagator.Topology.PeriodicZ)
                         {
@@ -119,14 +133,15 @@ namespace DeBroglie.Constraints
                             {
                                 propagator.GetBannedSelected(x, y, z, tileSet, out var isBanned, out var isSelected);
                                 if (sm.Next(z, isBanned, isSelected))
-                                    return Resolution.Contradiction;
+                                {
+                                    propagator.SetContradiction();
+                                    return;
+                                }
                             }
                         }
                     }
                 }
             }
-
-            return Resolution.Undecided;
         }
 
         // Internal for testing

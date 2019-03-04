@@ -5,8 +5,8 @@
     /// </summary>
     internal interface IWaveConstraint
     {
-        Resolution Init(WavePropagator wavePropagator);
+        void Init(WavePropagator wavePropagator);
 
-        Resolution Check(WavePropagator wavePropagator);
+        void Check(WavePropagator wavePropagator);
     }
 }

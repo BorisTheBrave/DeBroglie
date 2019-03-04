@@ -10,6 +10,7 @@ title: Release Notes
 * Added [MirrorConstraint](xref:DeBroglie.Constraints.MirrorConstraint)
 * Several constraints now support using an array of tiles instead of a single tile [breaking]
 * Fixed several subtle bugs in the core WFC+constraint system.
+* Constraint methods now return void [breaking]
 
 # v0.3.0
 

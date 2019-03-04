@@ -13,7 +13,7 @@ namespace DeBroglie.Constraints
 
         public TileRotation TileRotation { get; set; }
 
-        public Resolution Init(TilePropagator propagator)
+        public void Init(TilePropagator propagator)
         {
             // Strictly speaking, no initialization is needed.
             // In practise, this is useful to stop WFC from blundering
@@ -91,11 +91,9 @@ namespace DeBroglie.Constraints
             }
 
             // TODO: Something similar for OverlappingModel
-
-            return Resolution.Undecided;
         }
 
-        public Resolution Check(TilePropagator propagator)
+        public void Check(TilePropagator propagator)
         {
             var topology = propagator.Topology;
             foreach(var i in topology.Indicies)
@@ -114,7 +112,6 @@ namespace DeBroglie.Constraints
                     }
                 }
             }
-            return Resolution.Undecided;
         }
     }
 }

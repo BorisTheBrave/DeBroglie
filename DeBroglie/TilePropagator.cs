@@ -130,6 +130,14 @@ namespace DeBroglie
         }
 
         /// <summary>
+        /// Indicates that the generation cannot proceed, forcing the algorithm to backtrack or exit.
+        /// </summary>
+        public void SetContradiction()
+        {
+            wavePropagator.SetContradiction();
+        }
+
+        /// <summary>
         /// Marks the given tile as not being a valid choice at a given location.
         /// Then it propagates that information to other nearby tiles.
         /// </summary>

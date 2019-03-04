@@ -243,8 +243,7 @@ namespace DeBroglie.Wfc
         {
             foreach (var constraint in constraints)
             {
-                var constraintStatus = constraint.Init(this);
-                if (constraintStatus != Resolution.Undecided) status = constraintStatus;
+                constraint.Init(this);
                 if (status != Resolution.Undecided) return;
                 Propagate();
                 if (status != Resolution.Undecided) return;
@@ -257,8 +256,7 @@ namespace DeBroglie.Wfc
             // TODO: Do we need to worry about evaluating constraints multiple times?
             foreach (var constraint in constraints)
             {
-                var constraintStatus = constraint.Check(this);
-                if (constraintStatus != Resolution.Undecided) status = constraintStatus;
+                constraint.Check(this);
                 if (status != Resolution.Undecided) return;
                 Propagate();
                 if (status != Resolution.Undecided) return;
@@ -314,6 +312,14 @@ namespace DeBroglie.Wfc
             InitConstraints();
 
             return status;
+        }
+
+        /**
+         * Indicates that the generation cannot proceed, forcing the algorithm to backtrack or exit.
+         */
+        public void SetContradiction()
+        {
+            status = Resolution.Contradiction;
         }
 
         /**

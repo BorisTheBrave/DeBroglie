@@ -9,20 +9,17 @@ namespace DeBroglie.Constraints
 
         public Point? Point { get; set; }
 
-        public Resolution Check(TilePropagator propagator)
+        public void Check(TilePropagator propagator)
         {
-            return Resolution.Undecided;
         }
 
-        public Resolution Init(TilePropagator propagator)
+        public void Init(TilePropagator propagator)
         {
             var tileSet = propagator.CreateTileSet(Tiles);
 
             var point = Point ?? GetRandomPoint(propagator, tileSet);
 
             propagator.Select(point.X, point.Y, point.Z, tileSet);
-
-            return Resolution.Undecided;
         }
 
         public Point GetRandomPoint(TilePropagator propagator, TilePropagatorTileSet tileSet)
