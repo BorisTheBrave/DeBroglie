@@ -1,0 +1,44 @@
+{
+    "$schema": "./schema.json",
+    "src": "grass_biome.tsx",
+    "dest": "output/mirror_constraint.png",
+    "symmetry": 8,
+    "model": {
+        "type": "adjacent"
+    },
+    "tiles": [
+        {"value": 1, "rotateCw": 1, "reflectX": 1, "changeFrequency": -0.9},
+        {"value": 6, "rotateCw": 17, "reflectX": 8, "changeFrequency": -0.9},
+        {"value": 8, "rotateCw": 41, "reflectX": 6, "changeFrequency": -0.9},
+        {"value": 17, "rotateCw": 8, "reflectX": 17, "changeFrequency": -0.9},
+        {"value": 41, "rotateCw": 6, "reflectX": 41, "changeFrequency": -0.9},
+        {"value": 18, "rotateCw": 20, "reflectX": 20},
+        {"value": 20, "rotateCw": 44, "reflectX": 18},
+        {"value": 44, "rotateCw": 42, "reflectX": 42},
+        {"value": 42, "rotateCw": 18, "reflectX": 44},
+        {"value": 7, "rotateCw": 29, "reflectX": 7},
+        {"value": 29, "rotateCw": 7, "reflectX": 29},
+        {"value": 30, "rotateCw": 19, "reflectX": 32},
+        {"value": 19, "rotateCw": 32, "reflectX": 19},
+        {"value": 32, "rotateCw": 43, "reflectX": 30},
+        {"value": 43, "rotateCw": 30, "reflectX": 43}
+    ],
+    "adjacencies": [
+        // Grass 
+        {"left": [1, 8, 17, 20, 29, 32, 41, 44], "right": [1, 6, 17, 18, 29, 30, 41, 42]},
+        {"up": [1, 6, 7, 8, 41, 42, 43, 44], "down": [1, 6, 7, 8, 17, 18, 19, 20]},
+        // Path
+        {"left": [6, 7, 18, 19, 30, 31, 42, 43], "right": [7, 8, 19, 20, 31, 32, 43, 44]},
+        {"up": [17, 18, 19, 20, 29, 30, 31, 32], "down": [29, 30, 31, 32, 41, 42, 43, 44]}
+    ],
+    "constraints": [
+        {
+            "type": "mirror"
+        }
+    ],
+    "width": 10,
+    "height": 10,
+    "periodic": false,
+    "backtrack": false,
+    "animate": false
+}

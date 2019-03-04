@@ -5,6 +5,7 @@ $env:Path += ";$TiledDir;$FfmpegDir"
 
 Remove-Item -Recurse output
 & $DeBroglie edged_path_constraint.json
+& $DeBroglie mirror.json
 & $DeBroglie map.json
 
 Write-Output "Rasterising.."

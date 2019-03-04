@@ -85,6 +85,8 @@ The <xref:DeBroglie.Constraints.FixedTileConstraint> class forces a given locati
 
 You can use <xref:DeBroglie.Constraints.FixedTileConstraint> to force certain features to always be generated.
 
+**Example**
+
 <figure>
 <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/castle/castle.json">
 <video src="../images/castle_fixed.webm" autoplay loop>
@@ -136,8 +138,13 @@ MaxCount
 
 The <xref:DeBroglie.Constraints.MirrorConstraint> class forces the generated output to be symetric about the x-axis.
 
-TOOD
+**Example**
 
+<figure>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/grass/mirror_constraint.json">
+<img src="../images/mirror_constraint.png"/>
+</a>
+</figure>
 
 ## Custom Constraints
 
