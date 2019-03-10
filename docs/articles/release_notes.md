@@ -2,7 +2,7 @@
 uid: release_notes
 title: Release Notes
 ---
-# Unreleased
+# v0.4.0
 
 * Added [EdgedPathConstraint](xref:DeBroglie.Constraints.EdgedPathConstraint)
 * Use Direction enum instead of int [breaking]
