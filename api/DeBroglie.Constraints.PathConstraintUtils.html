@@ -92,21 +92,18 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_PathConstraintUtils_GetArticulationPoints_DeBroglie_Topo_Topology_System_Boolean___System_Boolean___.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints(DeBroglie.Topo.Topology%2CSystem.Boolean%5B%5D%2CSystem.Boolean%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_PathConstraintUtils_CreateGraph_DeBroglie_Topo_Topology_.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.PathConstraintUtils.CreateGraph(DeBroglie.Topo.Topology)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/PathConstraintUtils.cs/#L16">View Source</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/PathConstraintUtils.cs/#L14">View Source</a>
   </span>
-  <a id="DeBroglie_Constraints_PathConstraintUtils_GetArticulationPoints_" data-uid="DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints*"></a>
-  <h4 id="DeBroglie_Constraints_PathConstraintUtils_GetArticulationPoints_DeBroglie_Topo_Topology_System_Boolean___System_Boolean___" data-uid="DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints(DeBroglie.Topo.Topology,System.Boolean[],System.Boolean[])">GetArticulationPoints(Topology, Boolean[], Boolean[])</h4>
-  <div class="markdown level1 summary"><p>Find articulation points.
-For an explanation, see:
-<a href="https://www.boristhebrave.com/2018/04/28/random-paths-via-chiseling/">https://www.boristhebrave.com/2018/04/28/random-paths-via-chiseling/</a></p>
-</div>
+  <a id="DeBroglie_Constraints_PathConstraintUtils_CreateGraph_" data-uid="DeBroglie.Constraints.PathConstraintUtils.CreateGraph*"></a>
+  <h4 id="DeBroglie_Constraints_PathConstraintUtils_CreateGraph_DeBroglie_Topo_Topology_" data-uid="DeBroglie.Constraints.PathConstraintUtils.CreateGraph(DeBroglie.Topo.Topology)">CreateGraph(Topology)</h4>
+  <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static bool[] GetArticulationPoints(Topology topology, bool[] walkable, bool[] relevant)</code></pre>
+    <pre><code class="lang-csharp hljs">public static PathConstraintUtils.SimpleGraph CreateGraph(Topology topology)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -121,6 +118,56 @@ For an explanation, see:
       <tr>
         <td><a class="xref" href="DeBroglie.Topo.Topology.html">Topology</a></td>
         <td><span class="parametername">topology</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="DeBroglie.Constraints.PathConstraintUtils.SimpleGraph.html">PathConstraintUtils.SimpleGraph</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_PathConstraintUtils_GetArticulationPoints_DeBroglie_Constraints_PathConstraintUtils_SimpleGraph_System_Boolean___System_Boolean___.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints(DeBroglie.Constraints.PathConstraintUtils.SimpleGraph%2CSystem.Boolean%5B%5D%2CSystem.Boolean%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/PathConstraintUtils.cs/#L48">View Source</a>
+  </span>
+  <a id="DeBroglie_Constraints_PathConstraintUtils_GetArticulationPoints_" data-uid="DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints*"></a>
+  <h4 id="DeBroglie_Constraints_PathConstraintUtils_GetArticulationPoints_DeBroglie_Constraints_PathConstraintUtils_SimpleGraph_System_Boolean___System_Boolean___" data-uid="DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints(DeBroglie.Constraints.PathConstraintUtils.SimpleGraph,System.Boolean[],System.Boolean[])">GetArticulationPoints(PathConstraintUtils.SimpleGraph, Boolean[], Boolean[])</h4>
+  <div class="markdown level1 summary"><p>Find articulation points.
+For an explanation, see:
+<a href="https://www.boristhebrave.com/2018/04/28/random-paths-via-chiseling/">https://www.boristhebrave.com/2018/04/28/random-paths-via-chiseling/</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool[] GetArticulationPoints(PathConstraintUtils.SimpleGraph graph, bool[] walkable, bool[] relevant)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="DeBroglie.Constraints.PathConstraintUtils.SimpleGraph.html">PathConstraintUtils.SimpleGraph</a></td>
+        <td><span class="parametername">graph</span></td>
         <td></td>
       </tr>
       <tr>
@@ -161,7 +208,7 @@ For an explanation, see:
                     <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_PathConstraintUtils.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.PathConstraintUtils%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/PathConstraintUtils.cs/#L9" class="contribution-link">View Source</a>
+                    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/PathConstraintUtils.cs/#L10" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

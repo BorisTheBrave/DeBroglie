@@ -1,0 +1,223 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Constraints </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Constraints ">
+    <meta name="generator" content="docfx 2.39.2.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/custom.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="constraints">
+<h1 id="constraints">Constraints</h1>
+
+<p>Constraints are a way to make additional hard requirements about the generated output.
+Unlike models, constraints can be <em>non-local</em>, meaning they force some property of the entire output,
+not just within a small rectangles.</p>
+<p>You can have as many constraints as you like during generation, however with multiple constraints it
+can be hard for the WFC to find a valid solution. Turning on backtracking can aleviate this.</p>
+<p>Each constraint is for enforcing a different effect. The available constraints are discussed below.</p>
+<h2 id="border">Border</h2>
+<p><a class="xref" href="../api/DeBroglie.Constraints.BorderConstraint.html">BorderConstraint</a> class restricts what tiles can be selected in various regions of the output. It's pretty common that you want to specify the borders as being ground, or empty, or whatever, as otherwise if DeBroglie will often generate structures that lead off the edge and are clipped.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p><a class="xref" href="../api/DeBroglie.Constraints.BorderConstraint.html">BorderConstraint</a> only affects the initial set of tiles that can be legally placed. That means it is not doing anything except calling <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Ban_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Ban</a> and <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Select_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Select</a> on startup, which you can also do manually. <a class="xref" href="../api/DeBroglie.Constraints.BorderConstraint.html">BorderConstraint</a> is just a convenience.</p>
+</div>
+<p>BorderConstraing specifies a set of cells using a simple logic. First, an inclusion set of cells is defined by the <a class="xref" href="../api/DeBroglie.Constraints.BorderConstraint.html#DeBroglie_Constraints_BorderConstraint_Sides">Sides</a> field. This field is a bit field of flags, where there is one flag for each of the boundary sides of the output area (4 in 2d, 6 in 3d). An exclusion set is defined similarly from the  <a class="xref" href="../api/DeBroglie.Constraints.BorderConstraint.html#DeBroglie_Constraints_BorderConstraint_ExcludeSides">ExcludeSides</a> field. To get the set of locations affected, subtract the exclusion set from the inclusion set, then optionally invert if <a class="xref" href="../api/DeBroglie.Constraints.BorderConstraint.html#DeBroglie_Constraints_BorderConstraint_InvertArea">InvertArea</a> is set.</p>
+<p>For each affected location, BorderConstratin calls <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Select_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Select</a> with the Tile specified. If the <a class="xref" href="../api/DeBroglie.Constraints.BorderConstraint.html#DeBroglie_Constraints_BorderConstraint_Ban">Ban</a> field is set, then it calls <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Ban_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Ban</a> isntead of <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Select_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Select</a>.</p>
+<p><strong>Example</strong></p>
+<figure>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/pathway_overlapping_border.json">
+<img src="../images/pathway.png">
+<img src="../images/arrow.png">
+<img src="../images/pathway_overlapping_border.png">
+</a>
+<figcaption>Using a border constraint ensures that none of the blue leaves the edge, forcing loops.</figcaption>
+</figure>
+<h2 id="path">Path</h2>
+<p>The <a class="xref" href="../api/DeBroglie.Constraints.PathConstraint.html">PathConstraint</a> checks that it is possible to connect several locations together via a continuous path of adjacent tiles. It does this by banning any tile placement that would make such a path impossible.</p>
+<p>Set <a class="xref" href="../api/DeBroglie.Constraints.PathConstraint.html#DeBroglie_Constraints_PathConstraint_Tiles">Tiles</a> to the set of tiles that are considered on the path. Any two adjacent locations with tiles in this set are connected, and if x is connected to y and y is connected to z, then x and z are also connected.</p>
+<p>By default, <a class="xref" href="../api/DeBroglie.Constraints.PathConstraint.html">PathConstraint</a> forces all path tiles to be connect to each others. However, if you set <a class="xref" href="../api/DeBroglie.Constraints.PathConstraint.html#DeBroglie_Constraints_PathConstraint_EndPoints">EndPoints</a> then instead it forces that those specific points connect to each other, but doesn't stop extra path tiles being placed.</p>
+<div class="WARNING">
+<h5>Warning</h5>
+<p><a class="xref" href="../api/DeBroglie.Constraints.PathConstraint.html">PathConstraint</a> does not have a great deal of lookahead, so adding it will significantly increase the amount of retries needed to get a successful generation. You may need to enable <a href="features.html#backtracking">backtracking</a> to get a successful result.</p>
+</div>
+<p><strong>Example</strong></p>
+<figure>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/pathway_overlapping_path.json">
+<img src="../images/pathway.png">
+<img src="../images/arrow.png">
+<img src="../images/pathway_overlapping_path.png">
+</a>
+<figcaption>Using a path constraint ensures you can trace a path from any blue pixel to any other one.</figcaption>
+</figure>
+<h2 id="edged-path">Edged Path</h2>
+<p>The <a class="xref" href="../api/DeBroglie.Constraints.EdgedPathConstraint.html">EdgedPathConstraint</a> is a more advanced variant of the <a class="xref" href="../api/DeBroglie.Constraints.PathConstraint.html">PathConstraint</a>.
+The normal path constraint records which tiles can part of the path, and finds a path consisting of adjacent tiles.
+The edged path constraint is more restrictive. Not only do the tiles have to be placed adjacent, but their edges must match. This is configured by setting a set of &quot;exits&quot; for each tile. Other than this restriction, the constraint works identically.</p>
+<p>For example consider placing the tiles <img src="../images/grass_corner3.png"> and <img src="../images/grass_corner4.png"> together. Both tiles have a picture of a path on them, but the path exits the tiles only on certain edges. <span><img src="../images/grass_corner3.png"><img src="../images/grass_corner4.png"></span> means they are connected, but <span><img src="../images/grass_corner4.png"><img src="../images/grass_corner3.png"></span> is not. We can use Edged Path Constraint to specify this, the normal path constraint isn't specific enough.</p>
+<p><strong>Example</strong></p>
+<figure>
+<img src="../images/edged_path_constraint_missing.png">
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/grass/edged_path_constraint.json">
+<img src="../images/edged_path_constraint.png">
+</a>
+<figcaption>Generating dirt paths before and adding EdgedPathConstraint.<br>
+The normal PathConstraint cannot cope with path tiles so close together.</figcaption>
+</figure>
+<h2 id="fixed-tile">Fixed Tile</h2>
+<p>The <a class="xref" href="../api/DeBroglie.Constraints.FixedTileConstraint.html">FixedTileConstraint</a> class forces a given location to be the specified Tile at initialization. If you don't specify a location, a random legal location is chosen.</p>
+<p>You can use <a class="xref" href="../api/DeBroglie.Constraints.FixedTileConstraint.html">FixedTileConstraint</a> to force certain features to always be generated.</p>
+<p><strong>Example</strong></p>
+<figure>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/castle/castle.json">
+<video src="../images/castle_fixed.webm" autoplay="" loop="">
+</video></a>
+
+<figcaption>Several castles all generated with a fixed turret location</figcaption>
+</figure>
+<h2 id="max-consecutive">Max Consecutive</h2>
+<p>The <a class="xref" href="../api/DeBroglie.Constraints.MaxConsecutiveConstraint.html">MaxConsecutiveConstraint</a> class prevents more than a certain number of tiles appearing consecutively along the x, y or z axis.</p>
+<figure>
+<table>
+<tr>
+<td>
+MaxCount
+</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/max_constraint_2.json">
+<img src="../images/max_constraint_2.png">
+</a>
+</td>
+</tr>
+<tr>
+<td>3</td>
+<td>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/max_constraint_3.json">
+<img src="../images/max_constraint_3.png">
+</a>
+</td>
+</tr>
+<tr>
+<td>10</td>
+<td>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/max_constraint_10.json">
+<img src="../images/max_constraint_10.png">
+</a>
+</td>
+</tr>
+<figcaption>Platforms generated with the MaxConsecutive constraint with different values of MaxCount.</figcaption>
+</table></figure>
+<h2 id="mirror">Mirror</h2>
+<p>The <a class="xref" href="../api/DeBroglie.Constraints.MirrorConstraint.html">MirrorConstraint</a> class forces the generated output to be symetric about the x-axis.</p>
+<p><strong>Example</strong></p>
+<figure>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/grass/mirror_constraint.json">
+<img src="../images/mirror_constraint.png">
+</a>
+</figure>
+<h2 id="custom-constraints">Custom Constraints</h2>
+<p>You can define your own constraints by extending <a class="xref" href="../api/DeBroglie.Constraints.ITileConstraint.html">ITileConstraint</a>. The Init method is called once per propagator run, and the Check method is called after each step, each time tiles are selected.</p>
+<p>Inside these methods, you can call <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Select_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Select</a> and <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Ban_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Ban</a> to control what tiles can be legally placed. You can also call <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_SetContradiction">SetContradiction()</a> to indicate that something is wrong and generation cannot continue. This will cause the propagator to give up, or backtrack, according to settings.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/docs/articles/constraints.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

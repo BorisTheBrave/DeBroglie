@@ -198,12 +198,10 @@ model.AddAdjacency(new []{tile1, tile2}, new []{tile3, tile4}, 0, 1, 0);
 <section id="tabpanel_CeZOj-G++Q-3_lib" role="tabpanel" data-tab="lib">
 
 <pre><code class="lang-csharp">var model = new AdjacentModel();
-var rotationalSymmetry = 4;
-var reflectionalSymmetry = true;
 var rotations = tileRotationBuilder.Build();
 var tile1 = new Tile(1);
 var tile2 = new Tile(2);
-model.AddAdjacency(new []{tile1}, new []{tile2}, 0, 1, 0, rotationalSymmetry, reflectionalSymmetry, rotations);
+model.AddAdjacency(new []{tile1}, new []{tile2}, 0, 1, 0, rotations);
 </code></pre>
 </section>
 <section id="tabpanel_CeZOj-G++Q-3_config" role="tabpanel" data-tab="config" aria-hidden="true" hidden="hidden">

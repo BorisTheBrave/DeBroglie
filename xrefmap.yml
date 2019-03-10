@@ -7,6 +7,9 @@ references:
 - uid: config_files
   name: Using the Command Line
   href: articles/config_files.html
+- uid: constraints
+  name: Constraints
+  href: articles/constraints.html
 - uid: DeBroglie
   name: DeBroglie
   href: api/DeBroglie.html
@@ -103,19 +106,19 @@ references:
   isSpec: "True"
   fullName: DeBroglie.Constraints.BorderConstraint.Sides
   nameWithType: BorderConstraint.Sides
-- uid: DeBroglie.Constraints.BorderConstraint.Tile
-  name: Tile
-  href: api/DeBroglie.Constraints.BorderConstraint.html#DeBroglie_Constraints_BorderConstraint_Tile
-  commentId: P:DeBroglie.Constraints.BorderConstraint.Tile
-  fullName: DeBroglie.Constraints.BorderConstraint.Tile
-  nameWithType: BorderConstraint.Tile
-- uid: DeBroglie.Constraints.BorderConstraint.Tile*
-  name: Tile
-  href: api/DeBroglie.Constraints.BorderConstraint.html#DeBroglie_Constraints_BorderConstraint_Tile_
-  commentId: Overload:DeBroglie.Constraints.BorderConstraint.Tile
+- uid: DeBroglie.Constraints.BorderConstraint.Tiles
+  name: Tiles
+  href: api/DeBroglie.Constraints.BorderConstraint.html#DeBroglie_Constraints_BorderConstraint_Tiles
+  commentId: P:DeBroglie.Constraints.BorderConstraint.Tiles
+  fullName: DeBroglie.Constraints.BorderConstraint.Tiles
+  nameWithType: BorderConstraint.Tiles
+- uid: DeBroglie.Constraints.BorderConstraint.Tiles*
+  name: Tiles
+  href: api/DeBroglie.Constraints.BorderConstraint.html#DeBroglie_Constraints_BorderConstraint_Tiles_
+  commentId: Overload:DeBroglie.Constraints.BorderConstraint.Tiles
   isSpec: "True"
-  fullName: DeBroglie.Constraints.BorderConstraint.Tile
-  nameWithType: BorderConstraint.Tile
+  fullName: DeBroglie.Constraints.BorderConstraint.Tiles
+  nameWithType: BorderConstraint.Tiles
 - uid: DeBroglie.Constraints.BorderSides
   name: BorderSides
   href: api/DeBroglie.Constraints.BorderSides.html
@@ -170,6 +173,93 @@ references:
   commentId: F:DeBroglie.Constraints.BorderSides.ZMin
   fullName: DeBroglie.Constraints.BorderSides.ZMin
   nameWithType: BorderSides.ZMin
+- uid: DeBroglie.Constraints.EdgedPathConstraint
+  name: EdgedPathConstraint
+  href: api/DeBroglie.Constraints.EdgedPathConstraint.html
+  commentId: T:DeBroglie.Constraints.EdgedPathConstraint
+  fullName: DeBroglie.Constraints.EdgedPathConstraint
+  nameWithType: EdgedPathConstraint
+- uid: DeBroglie.Constraints.EdgedPathConstraint.#ctor(System.Collections.Generic.IDictionary{DeBroglie.Tile,System.Collections.Generic.ISet{DeBroglie.Topo.Direction}},DeBroglie.Point[],DeBroglie.Rot.TileRotation)
+  name: EdgedPathConstraint(IDictionary<Tile, ISet<Direction>>, Point[], TileRotation)
+  href: api/DeBroglie.Constraints.EdgedPathConstraint.html#DeBroglie_Constraints_EdgedPathConstraint__ctor_System_Collections_Generic_IDictionary_DeBroglie_Tile_System_Collections_Generic_ISet_DeBroglie_Topo_Direction___DeBroglie_Point___DeBroglie_Rot_TileRotation_
+  commentId: M:DeBroglie.Constraints.EdgedPathConstraint.#ctor(System.Collections.Generic.IDictionary{DeBroglie.Tile,System.Collections.Generic.ISet{DeBroglie.Topo.Direction}},DeBroglie.Point[],DeBroglie.Rot.TileRotation)
+  name.vb: EdgedPathConstraint(IDictionary(Of Tile, ISet(Of Direction)), Point(), TileRotation)
+  fullName: DeBroglie.Constraints.EdgedPathConstraint.EdgedPathConstraint(System.Collections.Generic.IDictionary<DeBroglie.Tile, System.Collections.Generic.ISet<DeBroglie.Topo.Direction>>, DeBroglie.Point[], DeBroglie.Rot.TileRotation)
+  fullName.vb: DeBroglie.Constraints.EdgedPathConstraint.EdgedPathConstraint(System.Collections.Generic.IDictionary(Of DeBroglie.Tile, System.Collections.Generic.ISet(Of DeBroglie.Topo.Direction)), DeBroglie.Point(), DeBroglie.Rot.TileRotation)
+  nameWithType: EdgedPathConstraint.EdgedPathConstraint(IDictionary<Tile, ISet<Direction>>, Point[], TileRotation)
+  nameWithType.vb: EdgedPathConstraint.EdgedPathConstraint(IDictionary(Of Tile, ISet(Of Direction)), Point(), TileRotation)
+- uid: DeBroglie.Constraints.EdgedPathConstraint.#ctor*
+  name: EdgedPathConstraint
+  href: api/DeBroglie.Constraints.EdgedPathConstraint.html#DeBroglie_Constraints_EdgedPathConstraint__ctor_
+  commentId: Overload:DeBroglie.Constraints.EdgedPathConstraint.#ctor
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.EdgedPathConstraint.EdgedPathConstraint
+  nameWithType: EdgedPathConstraint.EdgedPathConstraint
+- uid: DeBroglie.Constraints.EdgedPathConstraint.Check(DeBroglie.TilePropagator)
+  name: Check(TilePropagator)
+  href: api/DeBroglie.Constraints.EdgedPathConstraint.html#DeBroglie_Constraints_EdgedPathConstraint_Check_DeBroglie_TilePropagator_
+  commentId: M:DeBroglie.Constraints.EdgedPathConstraint.Check(DeBroglie.TilePropagator)
+  fullName: DeBroglie.Constraints.EdgedPathConstraint.Check(DeBroglie.TilePropagator)
+  nameWithType: EdgedPathConstraint.Check(TilePropagator)
+- uid: DeBroglie.Constraints.EdgedPathConstraint.Check*
+  name: Check
+  href: api/DeBroglie.Constraints.EdgedPathConstraint.html#DeBroglie_Constraints_EdgedPathConstraint_Check_
+  commentId: Overload:DeBroglie.Constraints.EdgedPathConstraint.Check
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.EdgedPathConstraint.Check
+  nameWithType: EdgedPathConstraint.Check
+- uid: DeBroglie.Constraints.EdgedPathConstraint.EndPoints
+  name: EndPoints
+  href: api/DeBroglie.Constraints.EdgedPathConstraint.html#DeBroglie_Constraints_EdgedPathConstraint_EndPoints
+  commentId: P:DeBroglie.Constraints.EdgedPathConstraint.EndPoints
+  fullName: DeBroglie.Constraints.EdgedPathConstraint.EndPoints
+  nameWithType: EdgedPathConstraint.EndPoints
+- uid: DeBroglie.Constraints.EdgedPathConstraint.EndPoints*
+  name: EndPoints
+  href: api/DeBroglie.Constraints.EdgedPathConstraint.html#DeBroglie_Constraints_EdgedPathConstraint_EndPoints_
+  commentId: Overload:DeBroglie.Constraints.EdgedPathConstraint.EndPoints
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.EdgedPathConstraint.EndPoints
+  nameWithType: EdgedPathConstraint.EndPoints
+- uid: DeBroglie.Constraints.EdgedPathConstraint.Exits
+  name: Exits
+  href: api/DeBroglie.Constraints.EdgedPathConstraint.html#DeBroglie_Constraints_EdgedPathConstraint_Exits
+  commentId: P:DeBroglie.Constraints.EdgedPathConstraint.Exits
+  fullName: DeBroglie.Constraints.EdgedPathConstraint.Exits
+  nameWithType: EdgedPathConstraint.Exits
+- uid: DeBroglie.Constraints.EdgedPathConstraint.Exits*
+  name: Exits
+  href: api/DeBroglie.Constraints.EdgedPathConstraint.html#DeBroglie_Constraints_EdgedPathConstraint_Exits_
+  commentId: Overload:DeBroglie.Constraints.EdgedPathConstraint.Exits
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.EdgedPathConstraint.Exits
+  nameWithType: EdgedPathConstraint.Exits
+- uid: DeBroglie.Constraints.EdgedPathConstraint.Init(DeBroglie.TilePropagator)
+  name: Init(TilePropagator)
+  href: api/DeBroglie.Constraints.EdgedPathConstraint.html#DeBroglie_Constraints_EdgedPathConstraint_Init_DeBroglie_TilePropagator_
+  commentId: M:DeBroglie.Constraints.EdgedPathConstraint.Init(DeBroglie.TilePropagator)
+  fullName: DeBroglie.Constraints.EdgedPathConstraint.Init(DeBroglie.TilePropagator)
+  nameWithType: EdgedPathConstraint.Init(TilePropagator)
+- uid: DeBroglie.Constraints.EdgedPathConstraint.Init*
+  name: Init
+  href: api/DeBroglie.Constraints.EdgedPathConstraint.html#DeBroglie_Constraints_EdgedPathConstraint_Init_
+  commentId: Overload:DeBroglie.Constraints.EdgedPathConstraint.Init
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.EdgedPathConstraint.Init
+  nameWithType: EdgedPathConstraint.Init
+- uid: DeBroglie.Constraints.EdgedPathConstraint.TileRotation
+  name: TileRotation
+  href: api/DeBroglie.Constraints.EdgedPathConstraint.html#DeBroglie_Constraints_EdgedPathConstraint_TileRotation
+  commentId: P:DeBroglie.Constraints.EdgedPathConstraint.TileRotation
+  fullName: DeBroglie.Constraints.EdgedPathConstraint.TileRotation
+  nameWithType: EdgedPathConstraint.TileRotation
+- uid: DeBroglie.Constraints.EdgedPathConstraint.TileRotation*
+  name: TileRotation
+  href: api/DeBroglie.Constraints.EdgedPathConstraint.html#DeBroglie_Constraints_EdgedPathConstraint_TileRotation_
+  commentId: Overload:DeBroglie.Constraints.EdgedPathConstraint.TileRotation
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.EdgedPathConstraint.TileRotation
+  nameWithType: EdgedPathConstraint.TileRotation
 - uid: DeBroglie.Constraints.FixedTileConstraint
   name: FixedTileConstraint
   href: api/DeBroglie.Constraints.FixedTileConstraint.html
@@ -189,12 +279,12 @@ references:
   isSpec: "True"
   fullName: DeBroglie.Constraints.FixedTileConstraint.Check
   nameWithType: FixedTileConstraint.Check
-- uid: DeBroglie.Constraints.FixedTileConstraint.GetRandomPoint(DeBroglie.TilePropagator)
-  name: GetRandomPoint(TilePropagator)
-  href: api/DeBroglie.Constraints.FixedTileConstraint.html#DeBroglie_Constraints_FixedTileConstraint_GetRandomPoint_DeBroglie_TilePropagator_
-  commentId: M:DeBroglie.Constraints.FixedTileConstraint.GetRandomPoint(DeBroglie.TilePropagator)
-  fullName: DeBroglie.Constraints.FixedTileConstraint.GetRandomPoint(DeBroglie.TilePropagator)
-  nameWithType: FixedTileConstraint.GetRandomPoint(TilePropagator)
+- uid: DeBroglie.Constraints.FixedTileConstraint.GetRandomPoint(DeBroglie.TilePropagator,DeBroglie.TilePropagatorTileSet)
+  name: GetRandomPoint(TilePropagator, TilePropagatorTileSet)
+  href: api/DeBroglie.Constraints.FixedTileConstraint.html#DeBroglie_Constraints_FixedTileConstraint_GetRandomPoint_DeBroglie_TilePropagator_DeBroglie_TilePropagatorTileSet_
+  commentId: M:DeBroglie.Constraints.FixedTileConstraint.GetRandomPoint(DeBroglie.TilePropagator,DeBroglie.TilePropagatorTileSet)
+  fullName: DeBroglie.Constraints.FixedTileConstraint.GetRandomPoint(DeBroglie.TilePropagator, DeBroglie.TilePropagatorTileSet)
+  nameWithType: FixedTileConstraint.GetRandomPoint(TilePropagator, TilePropagatorTileSet)
 - uid: DeBroglie.Constraints.FixedTileConstraint.GetRandomPoint*
   name: GetRandomPoint
   href: api/DeBroglie.Constraints.FixedTileConstraint.html#DeBroglie_Constraints_FixedTileConstraint_GetRandomPoint_
@@ -228,19 +318,19 @@ references:
   isSpec: "True"
   fullName: DeBroglie.Constraints.FixedTileConstraint.Point
   nameWithType: FixedTileConstraint.Point
-- uid: DeBroglie.Constraints.FixedTileConstraint.Tile
-  name: Tile
-  href: api/DeBroglie.Constraints.FixedTileConstraint.html#DeBroglie_Constraints_FixedTileConstraint_Tile
-  commentId: P:DeBroglie.Constraints.FixedTileConstraint.Tile
-  fullName: DeBroglie.Constraints.FixedTileConstraint.Tile
-  nameWithType: FixedTileConstraint.Tile
-- uid: DeBroglie.Constraints.FixedTileConstraint.Tile*
-  name: Tile
-  href: api/DeBroglie.Constraints.FixedTileConstraint.html#DeBroglie_Constraints_FixedTileConstraint_Tile_
-  commentId: Overload:DeBroglie.Constraints.FixedTileConstraint.Tile
+- uid: DeBroglie.Constraints.FixedTileConstraint.Tiles
+  name: Tiles
+  href: api/DeBroglie.Constraints.FixedTileConstraint.html#DeBroglie_Constraints_FixedTileConstraint_Tiles
+  commentId: P:DeBroglie.Constraints.FixedTileConstraint.Tiles
+  fullName: DeBroglie.Constraints.FixedTileConstraint.Tiles
+  nameWithType: FixedTileConstraint.Tiles
+- uid: DeBroglie.Constraints.FixedTileConstraint.Tiles*
+  name: Tiles
+  href: api/DeBroglie.Constraints.FixedTileConstraint.html#DeBroglie_Constraints_FixedTileConstraint_Tiles_
+  commentId: Overload:DeBroglie.Constraints.FixedTileConstraint.Tiles
   isSpec: "True"
-  fullName: DeBroglie.Constraints.FixedTileConstraint.Tile
-  nameWithType: FixedTileConstraint.Tile
+  fullName: DeBroglie.Constraints.FixedTileConstraint.Tiles
+  nameWithType: FixedTileConstraint.Tiles
 - uid: DeBroglie.Constraints.ITileConstraint
   name: ITileConstraint
   href: api/DeBroglie.Constraints.ITileConstraint.html
@@ -279,6 +369,19 @@ references:
   commentId: T:DeBroglie.Constraints.MaxConsecutiveConstraint
   fullName: DeBroglie.Constraints.MaxConsecutiveConstraint
   nameWithType: MaxConsecutiveConstraint
+- uid: DeBroglie.Constraints.MaxConsecutiveConstraint.Axes
+  name: Axes
+  href: api/DeBroglie.Constraints.MaxConsecutiveConstraint.html#DeBroglie_Constraints_MaxConsecutiveConstraint_Axes
+  commentId: P:DeBroglie.Constraints.MaxConsecutiveConstraint.Axes
+  fullName: DeBroglie.Constraints.MaxConsecutiveConstraint.Axes
+  nameWithType: MaxConsecutiveConstraint.Axes
+- uid: DeBroglie.Constraints.MaxConsecutiveConstraint.Axes*
+  name: Axes
+  href: api/DeBroglie.Constraints.MaxConsecutiveConstraint.html#DeBroglie_Constraints_MaxConsecutiveConstraint_Axes_
+  commentId: Overload:DeBroglie.Constraints.MaxConsecutiveConstraint.Axes
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.MaxConsecutiveConstraint.Axes
+  nameWithType: MaxConsecutiveConstraint.Axes
 - uid: DeBroglie.Constraints.MaxConsecutiveConstraint.Check(DeBroglie.TilePropagator)
   name: Check(TilePropagator)
   href: api/DeBroglie.Constraints.MaxConsecutiveConstraint.html#DeBroglie_Constraints_MaxConsecutiveConstraint_Check_DeBroglie_TilePropagator_
@@ -331,45 +434,51 @@ references:
   isSpec: "True"
   fullName: DeBroglie.Constraints.MaxConsecutiveConstraint.Tiles
   nameWithType: MaxConsecutiveConstraint.Tiles
-- uid: DeBroglie.Constraints.MaxConsecutiveConstraint.XAxis
-  name: XAxis
-  href: api/DeBroglie.Constraints.MaxConsecutiveConstraint.html#DeBroglie_Constraints_MaxConsecutiveConstraint_XAxis
-  commentId: P:DeBroglie.Constraints.MaxConsecutiveConstraint.XAxis
-  fullName: DeBroglie.Constraints.MaxConsecutiveConstraint.XAxis
-  nameWithType: MaxConsecutiveConstraint.XAxis
-- uid: DeBroglie.Constraints.MaxConsecutiveConstraint.XAxis*
-  name: XAxis
-  href: api/DeBroglie.Constraints.MaxConsecutiveConstraint.html#DeBroglie_Constraints_MaxConsecutiveConstraint_XAxis_
-  commentId: Overload:DeBroglie.Constraints.MaxConsecutiveConstraint.XAxis
+- uid: DeBroglie.Constraints.MirrorConstraint
+  name: MirrorConstraint
+  href: api/DeBroglie.Constraints.MirrorConstraint.html
+  commentId: T:DeBroglie.Constraints.MirrorConstraint
+  fullName: DeBroglie.Constraints.MirrorConstraint
+  nameWithType: MirrorConstraint
+- uid: DeBroglie.Constraints.MirrorConstraint.Check(DeBroglie.TilePropagator)
+  name: Check(TilePropagator)
+  href: api/DeBroglie.Constraints.MirrorConstraint.html#DeBroglie_Constraints_MirrorConstraint_Check_DeBroglie_TilePropagator_
+  commentId: M:DeBroglie.Constraints.MirrorConstraint.Check(DeBroglie.TilePropagator)
+  fullName: DeBroglie.Constraints.MirrorConstraint.Check(DeBroglie.TilePropagator)
+  nameWithType: MirrorConstraint.Check(TilePropagator)
+- uid: DeBroglie.Constraints.MirrorConstraint.Check*
+  name: Check
+  href: api/DeBroglie.Constraints.MirrorConstraint.html#DeBroglie_Constraints_MirrorConstraint_Check_
+  commentId: Overload:DeBroglie.Constraints.MirrorConstraint.Check
   isSpec: "True"
-  fullName: DeBroglie.Constraints.MaxConsecutiveConstraint.XAxis
-  nameWithType: MaxConsecutiveConstraint.XAxis
-- uid: DeBroglie.Constraints.MaxConsecutiveConstraint.YAxis
-  name: YAxis
-  href: api/DeBroglie.Constraints.MaxConsecutiveConstraint.html#DeBroglie_Constraints_MaxConsecutiveConstraint_YAxis
-  commentId: P:DeBroglie.Constraints.MaxConsecutiveConstraint.YAxis
-  fullName: DeBroglie.Constraints.MaxConsecutiveConstraint.YAxis
-  nameWithType: MaxConsecutiveConstraint.YAxis
-- uid: DeBroglie.Constraints.MaxConsecutiveConstraint.YAxis*
-  name: YAxis
-  href: api/DeBroglie.Constraints.MaxConsecutiveConstraint.html#DeBroglie_Constraints_MaxConsecutiveConstraint_YAxis_
-  commentId: Overload:DeBroglie.Constraints.MaxConsecutiveConstraint.YAxis
+  fullName: DeBroglie.Constraints.MirrorConstraint.Check
+  nameWithType: MirrorConstraint.Check
+- uid: DeBroglie.Constraints.MirrorConstraint.Init(DeBroglie.TilePropagator)
+  name: Init(TilePropagator)
+  href: api/DeBroglie.Constraints.MirrorConstraint.html#DeBroglie_Constraints_MirrorConstraint_Init_DeBroglie_TilePropagator_
+  commentId: M:DeBroglie.Constraints.MirrorConstraint.Init(DeBroglie.TilePropagator)
+  fullName: DeBroglie.Constraints.MirrorConstraint.Init(DeBroglie.TilePropagator)
+  nameWithType: MirrorConstraint.Init(TilePropagator)
+- uid: DeBroglie.Constraints.MirrorConstraint.Init*
+  name: Init
+  href: api/DeBroglie.Constraints.MirrorConstraint.html#DeBroglie_Constraints_MirrorConstraint_Init_
+  commentId: Overload:DeBroglie.Constraints.MirrorConstraint.Init
   isSpec: "True"
-  fullName: DeBroglie.Constraints.MaxConsecutiveConstraint.YAxis
-  nameWithType: MaxConsecutiveConstraint.YAxis
-- uid: DeBroglie.Constraints.MaxConsecutiveConstraint.ZAxis
-  name: ZAxis
-  href: api/DeBroglie.Constraints.MaxConsecutiveConstraint.html#DeBroglie_Constraints_MaxConsecutiveConstraint_ZAxis
-  commentId: P:DeBroglie.Constraints.MaxConsecutiveConstraint.ZAxis
-  fullName: DeBroglie.Constraints.MaxConsecutiveConstraint.ZAxis
-  nameWithType: MaxConsecutiveConstraint.ZAxis
-- uid: DeBroglie.Constraints.MaxConsecutiveConstraint.ZAxis*
-  name: ZAxis
-  href: api/DeBroglie.Constraints.MaxConsecutiveConstraint.html#DeBroglie_Constraints_MaxConsecutiveConstraint_ZAxis_
-  commentId: Overload:DeBroglie.Constraints.MaxConsecutiveConstraint.ZAxis
+  fullName: DeBroglie.Constraints.MirrorConstraint.Init
+  nameWithType: MirrorConstraint.Init
+- uid: DeBroglie.Constraints.MirrorConstraint.TileRotation
+  name: TileRotation
+  href: api/DeBroglie.Constraints.MirrorConstraint.html#DeBroglie_Constraints_MirrorConstraint_TileRotation
+  commentId: P:DeBroglie.Constraints.MirrorConstraint.TileRotation
+  fullName: DeBroglie.Constraints.MirrorConstraint.TileRotation
+  nameWithType: MirrorConstraint.TileRotation
+- uid: DeBroglie.Constraints.MirrorConstraint.TileRotation*
+  name: TileRotation
+  href: api/DeBroglie.Constraints.MirrorConstraint.html#DeBroglie_Constraints_MirrorConstraint_TileRotation_
+  commentId: Overload:DeBroglie.Constraints.MirrorConstraint.TileRotation
   isSpec: "True"
-  fullName: DeBroglie.Constraints.MaxConsecutiveConstraint.ZAxis
-  nameWithType: MaxConsecutiveConstraint.ZAxis
+  fullName: DeBroglie.Constraints.MirrorConstraint.TileRotation
+  nameWithType: MirrorConstraint.TileRotation
 - uid: DeBroglie.Constraints.PathConstraint
   name: PathConstraint
   href: api/DeBroglie.Constraints.PathConstraint.html
@@ -431,34 +540,47 @@ references:
   isSpec: "True"
   fullName: DeBroglie.Constraints.PathConstraint.Init
   nameWithType: PathConstraint.Init
-- uid: DeBroglie.Constraints.PathConstraint.PathTiles
-  name: PathTiles
-  href: api/DeBroglie.Constraints.PathConstraint.html#DeBroglie_Constraints_PathConstraint_PathTiles
-  commentId: P:DeBroglie.Constraints.PathConstraint.PathTiles
-  fullName: DeBroglie.Constraints.PathConstraint.PathTiles
-  nameWithType: PathConstraint.PathTiles
-- uid: DeBroglie.Constraints.PathConstraint.PathTiles*
-  name: PathTiles
-  href: api/DeBroglie.Constraints.PathConstraint.html#DeBroglie_Constraints_PathConstraint_PathTiles_
-  commentId: Overload:DeBroglie.Constraints.PathConstraint.PathTiles
+- uid: DeBroglie.Constraints.PathConstraint.Tiles
+  name: Tiles
+  href: api/DeBroglie.Constraints.PathConstraint.html#DeBroglie_Constraints_PathConstraint_Tiles
+  commentId: P:DeBroglie.Constraints.PathConstraint.Tiles
+  fullName: DeBroglie.Constraints.PathConstraint.Tiles
+  nameWithType: PathConstraint.Tiles
+- uid: DeBroglie.Constraints.PathConstraint.Tiles*
+  name: Tiles
+  href: api/DeBroglie.Constraints.PathConstraint.html#DeBroglie_Constraints_PathConstraint_Tiles_
+  commentId: Overload:DeBroglie.Constraints.PathConstraint.Tiles
   isSpec: "True"
-  fullName: DeBroglie.Constraints.PathConstraint.PathTiles
-  nameWithType: PathConstraint.PathTiles
+  fullName: DeBroglie.Constraints.PathConstraint.Tiles
+  nameWithType: PathConstraint.Tiles
 - uid: DeBroglie.Constraints.PathConstraintUtils
   name: PathConstraintUtils
   href: api/DeBroglie.Constraints.PathConstraintUtils.html
   commentId: T:DeBroglie.Constraints.PathConstraintUtils
   fullName: DeBroglie.Constraints.PathConstraintUtils
   nameWithType: PathConstraintUtils
-- uid: DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints(DeBroglie.Topo.Topology,System.Boolean[],System.Boolean[])
-  name: GetArticulationPoints(Topology, Boolean[], Boolean[])
-  href: api/DeBroglie.Constraints.PathConstraintUtils.html#DeBroglie_Constraints_PathConstraintUtils_GetArticulationPoints_DeBroglie_Topo_Topology_System_Boolean___System_Boolean___
-  commentId: M:DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints(DeBroglie.Topo.Topology,System.Boolean[],System.Boolean[])
-  name.vb: GetArticulationPoints(Topology, Boolean(), Boolean())
-  fullName: DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints(DeBroglie.Topo.Topology, System.Boolean[], System.Boolean[])
-  fullName.vb: DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints(DeBroglie.Topo.Topology, System.Boolean(), System.Boolean())
-  nameWithType: PathConstraintUtils.GetArticulationPoints(Topology, Boolean[], Boolean[])
-  nameWithType.vb: PathConstraintUtils.GetArticulationPoints(Topology, Boolean(), Boolean())
+- uid: DeBroglie.Constraints.PathConstraintUtils.CreateGraph(DeBroglie.Topo.Topology)
+  name: CreateGraph(Topology)
+  href: api/DeBroglie.Constraints.PathConstraintUtils.html#DeBroglie_Constraints_PathConstraintUtils_CreateGraph_DeBroglie_Topo_Topology_
+  commentId: M:DeBroglie.Constraints.PathConstraintUtils.CreateGraph(DeBroglie.Topo.Topology)
+  fullName: DeBroglie.Constraints.PathConstraintUtils.CreateGraph(DeBroglie.Topo.Topology)
+  nameWithType: PathConstraintUtils.CreateGraph(Topology)
+- uid: DeBroglie.Constraints.PathConstraintUtils.CreateGraph*
+  name: CreateGraph
+  href: api/DeBroglie.Constraints.PathConstraintUtils.html#DeBroglie_Constraints_PathConstraintUtils_CreateGraph_
+  commentId: Overload:DeBroglie.Constraints.PathConstraintUtils.CreateGraph
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.PathConstraintUtils.CreateGraph
+  nameWithType: PathConstraintUtils.CreateGraph
+- uid: DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints(DeBroglie.Constraints.PathConstraintUtils.SimpleGraph,System.Boolean[],System.Boolean[])
+  name: GetArticulationPoints(PathConstraintUtils.SimpleGraph, Boolean[], Boolean[])
+  href: api/DeBroglie.Constraints.PathConstraintUtils.html#DeBroglie_Constraints_PathConstraintUtils_GetArticulationPoints_DeBroglie_Constraints_PathConstraintUtils_SimpleGraph_System_Boolean___System_Boolean___
+  commentId: M:DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints(DeBroglie.Constraints.PathConstraintUtils.SimpleGraph,System.Boolean[],System.Boolean[])
+  name.vb: GetArticulationPoints(PathConstraintUtils.SimpleGraph, Boolean(), Boolean())
+  fullName: DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints(DeBroglie.Constraints.PathConstraintUtils.SimpleGraph, System.Boolean[], System.Boolean[])
+  fullName.vb: DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints(DeBroglie.Constraints.PathConstraintUtils.SimpleGraph, System.Boolean(), System.Boolean())
+  nameWithType: PathConstraintUtils.GetArticulationPoints(PathConstraintUtils.SimpleGraph, Boolean[], Boolean[])
+  nameWithType.vb: PathConstraintUtils.GetArticulationPoints(PathConstraintUtils.SimpleGraph, Boolean(), Boolean())
 - uid: DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints*
   name: GetArticulationPoints
   href: api/DeBroglie.Constraints.PathConstraintUtils.html#DeBroglie_Constraints_PathConstraintUtils_GetArticulationPoints_
@@ -466,6 +588,38 @@ references:
   isSpec: "True"
   fullName: DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints
   nameWithType: PathConstraintUtils.GetArticulationPoints
+- uid: DeBroglie.Constraints.PathConstraintUtils.SimpleGraph
+  name: PathConstraintUtils.SimpleGraph
+  href: api/DeBroglie.Constraints.PathConstraintUtils.SimpleGraph.html
+  commentId: T:DeBroglie.Constraints.PathConstraintUtils.SimpleGraph
+  fullName: DeBroglie.Constraints.PathConstraintUtils.SimpleGraph
+  nameWithType: PathConstraintUtils.SimpleGraph
+- uid: DeBroglie.Constraints.PathConstraintUtils.SimpleGraph.Neighbours
+  name: Neighbours
+  href: api/DeBroglie.Constraints.PathConstraintUtils.SimpleGraph.html#DeBroglie_Constraints_PathConstraintUtils_SimpleGraph_Neighbours
+  commentId: P:DeBroglie.Constraints.PathConstraintUtils.SimpleGraph.Neighbours
+  fullName: DeBroglie.Constraints.PathConstraintUtils.SimpleGraph.Neighbours
+  nameWithType: PathConstraintUtils.SimpleGraph.Neighbours
+- uid: DeBroglie.Constraints.PathConstraintUtils.SimpleGraph.Neighbours*
+  name: Neighbours
+  href: api/DeBroglie.Constraints.PathConstraintUtils.SimpleGraph.html#DeBroglie_Constraints_PathConstraintUtils_SimpleGraph_Neighbours_
+  commentId: Overload:DeBroglie.Constraints.PathConstraintUtils.SimpleGraph.Neighbours
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.PathConstraintUtils.SimpleGraph.Neighbours
+  nameWithType: PathConstraintUtils.SimpleGraph.Neighbours
+- uid: DeBroglie.Constraints.PathConstraintUtils.SimpleGraph.NodeCount
+  name: NodeCount
+  href: api/DeBroglie.Constraints.PathConstraintUtils.SimpleGraph.html#DeBroglie_Constraints_PathConstraintUtils_SimpleGraph_NodeCount
+  commentId: P:DeBroglie.Constraints.PathConstraintUtils.SimpleGraph.NodeCount
+  fullName: DeBroglie.Constraints.PathConstraintUtils.SimpleGraph.NodeCount
+  nameWithType: PathConstraintUtils.SimpleGraph.NodeCount
+- uid: DeBroglie.Constraints.PathConstraintUtils.SimpleGraph.NodeCount*
+  name: NodeCount
+  href: api/DeBroglie.Constraints.PathConstraintUtils.SimpleGraph.html#DeBroglie_Constraints_PathConstraintUtils_SimpleGraph_NodeCount_
+  commentId: Overload:DeBroglie.Constraints.PathConstraintUtils.SimpleGraph.NodeCount
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.PathConstraintUtils.SimpleGraph.NodeCount
+  nameWithType: PathConstraintUtils.SimpleGraph.NodeCount
 - uid: DeBroglie.Models
   name: DeBroglie.Models
   href: api/DeBroglie.Models.html
@@ -484,12 +638,12 @@ references:
   commentId: M:DeBroglie.Models.AdjacentModel.#ctor
   fullName: DeBroglie.Models.AdjacentModel.AdjacentModel()
   nameWithType: AdjacentModel.AdjacentModel()
-- uid: DeBroglie.Models.AdjacentModel.#ctor(DeBroglie.Topo.Directions)
-  name: AdjacentModel(Directions)
-  href: api/DeBroglie.Models.AdjacentModel.html#DeBroglie_Models_AdjacentModel__ctor_DeBroglie_Topo_Directions_
-  commentId: M:DeBroglie.Models.AdjacentModel.#ctor(DeBroglie.Topo.Directions)
-  fullName: DeBroglie.Models.AdjacentModel.AdjacentModel(DeBroglie.Topo.Directions)
-  nameWithType: AdjacentModel.AdjacentModel(Directions)
+- uid: DeBroglie.Models.AdjacentModel.#ctor(DeBroglie.Topo.DirectionSet)
+  name: AdjacentModel(DirectionSet)
+  href: api/DeBroglie.Models.AdjacentModel.html#DeBroglie_Models_AdjacentModel__ctor_DeBroglie_Topo_DirectionSet_
+  commentId: M:DeBroglie.Models.AdjacentModel.#ctor(DeBroglie.Topo.DirectionSet)
+  fullName: DeBroglie.Models.AdjacentModel.AdjacentModel(DeBroglie.Topo.DirectionSet)
+  nameWithType: AdjacentModel.AdjacentModel(DirectionSet)
 - uid: DeBroglie.Models.AdjacentModel.#ctor(DeBroglie.Topo.ITopoArray{DeBroglie.Tile})
   name: AdjacentModel(ITopoArray<Tile>)
   href: api/DeBroglie.Models.AdjacentModel.html#DeBroglie_Models_AdjacentModel__ctor_DeBroglie_Topo_ITopoArray_DeBroglie_Tile__
@@ -506,12 +660,36 @@ references:
   isSpec: "True"
   fullName: DeBroglie.Models.AdjacentModel.AdjacentModel
   nameWithType: AdjacentModel.AdjacentModel
+- uid: DeBroglie.Models.AdjacentModel.AddAdjacency(DeBroglie.Tile,DeBroglie.Tile,DeBroglie.Topo.Direction)
+  name: AddAdjacency(Tile, Tile, Direction)
+  href: api/DeBroglie.Models.AdjacentModel.html#DeBroglie_Models_AdjacentModel_AddAdjacency_DeBroglie_Tile_DeBroglie_Tile_DeBroglie_Topo_Direction_
+  commentId: M:DeBroglie.Models.AdjacentModel.AddAdjacency(DeBroglie.Tile,DeBroglie.Tile,DeBroglie.Topo.Direction)
+  fullName: DeBroglie.Models.AdjacentModel.AddAdjacency(DeBroglie.Tile, DeBroglie.Tile, DeBroglie.Topo.Direction)
+  nameWithType: AdjacentModel.AddAdjacency(Tile, Tile, Direction)
 - uid: DeBroglie.Models.AdjacentModel.AddAdjacency(DeBroglie.Tile,DeBroglie.Tile,System.Int32,System.Int32,System.Int32)
   name: AddAdjacency(Tile, Tile, Int32, Int32, Int32)
   href: api/DeBroglie.Models.AdjacentModel.html#DeBroglie_Models_AdjacentModel_AddAdjacency_DeBroglie_Tile_DeBroglie_Tile_System_Int32_System_Int32_System_Int32_
   commentId: M:DeBroglie.Models.AdjacentModel.AddAdjacency(DeBroglie.Tile,DeBroglie.Tile,System.Int32,System.Int32,System.Int32)
   fullName: DeBroglie.Models.AdjacentModel.AddAdjacency(DeBroglie.Tile, DeBroglie.Tile, System.Int32, System.Int32, System.Int32)
   nameWithType: AdjacentModel.AddAdjacency(Tile, Tile, Int32, Int32, Int32)
+- uid: DeBroglie.Models.AdjacentModel.AddAdjacency(System.Collections.Generic.IList{DeBroglie.Tile},System.Collections.Generic.IList{DeBroglie.Tile},DeBroglie.Topo.Direction)
+  name: AddAdjacency(IList<Tile>, IList<Tile>, Direction)
+  href: api/DeBroglie.Models.AdjacentModel.html#DeBroglie_Models_AdjacentModel_AddAdjacency_System_Collections_Generic_IList_DeBroglie_Tile__System_Collections_Generic_IList_DeBroglie_Tile__DeBroglie_Topo_Direction_
+  commentId: M:DeBroglie.Models.AdjacentModel.AddAdjacency(System.Collections.Generic.IList{DeBroglie.Tile},System.Collections.Generic.IList{DeBroglie.Tile},DeBroglie.Topo.Direction)
+  name.vb: AddAdjacency(IList(Of Tile), IList(Of Tile), Direction)
+  fullName: DeBroglie.Models.AdjacentModel.AddAdjacency(System.Collections.Generic.IList<DeBroglie.Tile>, System.Collections.Generic.IList<DeBroglie.Tile>, DeBroglie.Topo.Direction)
+  fullName.vb: DeBroglie.Models.AdjacentModel.AddAdjacency(System.Collections.Generic.IList(Of DeBroglie.Tile), System.Collections.Generic.IList(Of DeBroglie.Tile), DeBroglie.Topo.Direction)
+  nameWithType: AdjacentModel.AddAdjacency(IList<Tile>, IList<Tile>, Direction)
+  nameWithType.vb: AdjacentModel.AddAdjacency(IList(Of Tile), IList(Of Tile), Direction)
+- uid: DeBroglie.Models.AdjacentModel.AddAdjacency(System.Collections.Generic.IList{DeBroglie.Tile},System.Collections.Generic.IList{DeBroglie.Tile},DeBroglie.Topo.Direction,DeBroglie.Rot.TileRotation)
+  name: AddAdjacency(IList<Tile>, IList<Tile>, Direction, TileRotation)
+  href: api/DeBroglie.Models.AdjacentModel.html#DeBroglie_Models_AdjacentModel_AddAdjacency_System_Collections_Generic_IList_DeBroglie_Tile__System_Collections_Generic_IList_DeBroglie_Tile__DeBroglie_Topo_Direction_DeBroglie_Rot_TileRotation_
+  commentId: M:DeBroglie.Models.AdjacentModel.AddAdjacency(System.Collections.Generic.IList{DeBroglie.Tile},System.Collections.Generic.IList{DeBroglie.Tile},DeBroglie.Topo.Direction,DeBroglie.Rot.TileRotation)
+  name.vb: AddAdjacency(IList(Of Tile), IList(Of Tile), Direction, TileRotation)
+  fullName: DeBroglie.Models.AdjacentModel.AddAdjacency(System.Collections.Generic.IList<DeBroglie.Tile>, System.Collections.Generic.IList<DeBroglie.Tile>, DeBroglie.Topo.Direction, DeBroglie.Rot.TileRotation)
+  fullName.vb: DeBroglie.Models.AdjacentModel.AddAdjacency(System.Collections.Generic.IList(Of DeBroglie.Tile), System.Collections.Generic.IList(Of DeBroglie.Tile), DeBroglie.Topo.Direction, DeBroglie.Rot.TileRotation)
+  nameWithType: AdjacentModel.AddAdjacency(IList<Tile>, IList<Tile>, Direction, TileRotation)
+  nameWithType.vb: AdjacentModel.AddAdjacency(IList(Of Tile), IList(Of Tile), Direction, TileRotation)
 - uid: DeBroglie.Models.AdjacentModel.AddAdjacency(System.Collections.Generic.IList{DeBroglie.Tile},System.Collections.Generic.IList{DeBroglie.Tile},System.Int32,System.Int32,System.Int32)
   name: AddAdjacency(IList<Tile>, IList<Tile>, Int32, Int32, Int32)
   href: api/DeBroglie.Models.AdjacentModel.html#DeBroglie_Models_AdjacentModel_AddAdjacency_System_Collections_Generic_IList_DeBroglie_Tile__System_Collections_Generic_IList_DeBroglie_Tile__System_Int32_System_Int32_System_Int32_
@@ -587,6 +765,19 @@ references:
   fullName.vb: DeBroglie.Models.AdjacentModel.Create(Of T)(DeBroglie.Topo.ITopoArray(Of T))
   nameWithType: AdjacentModel.Create<T>(ITopoArray<T>)
   nameWithType.vb: AdjacentModel.Create(Of T)(ITopoArray(Of T))
+- uid: DeBroglie.Models.AdjacentModel.IsAdjacent(DeBroglie.Tile,DeBroglie.Tile,DeBroglie.Topo.Direction)
+  name: IsAdjacent(Tile, Tile, Direction)
+  href: api/DeBroglie.Models.AdjacentModel.html#DeBroglie_Models_AdjacentModel_IsAdjacent_DeBroglie_Tile_DeBroglie_Tile_DeBroglie_Topo_Direction_
+  commentId: M:DeBroglie.Models.AdjacentModel.IsAdjacent(DeBroglie.Tile,DeBroglie.Tile,DeBroglie.Topo.Direction)
+  fullName: DeBroglie.Models.AdjacentModel.IsAdjacent(DeBroglie.Tile, DeBroglie.Tile, DeBroglie.Topo.Direction)
+  nameWithType: AdjacentModel.IsAdjacent(Tile, Tile, Direction)
+- uid: DeBroglie.Models.AdjacentModel.IsAdjacent*
+  name: IsAdjacent
+  href: api/DeBroglie.Models.AdjacentModel.html#DeBroglie_Models_AdjacentModel_IsAdjacent_
+  commentId: Overload:DeBroglie.Models.AdjacentModel.IsAdjacent
+  isSpec: "True"
+  fullName: DeBroglie.Models.AdjacentModel.IsAdjacent
+  nameWithType: AdjacentModel.IsAdjacent
 - uid: DeBroglie.Models.AdjacentModel.MultiplyFrequency(DeBroglie.Tile,System.Double)
   name: MultiplyFrequency(Tile, Double)
   href: api/DeBroglie.Models.AdjacentModel.html#DeBroglie_Models_AdjacentModel_MultiplyFrequency_DeBroglie_Tile_System_Double_
@@ -600,12 +791,12 @@ references:
   isSpec: "True"
   fullName: DeBroglie.Models.AdjacentModel.MultiplyFrequency
   nameWithType: AdjacentModel.MultiplyFrequency
-- uid: DeBroglie.Models.AdjacentModel.SetDirections(DeBroglie.Topo.Directions)
-  name: SetDirections(Directions)
-  href: api/DeBroglie.Models.AdjacentModel.html#DeBroglie_Models_AdjacentModel_SetDirections_DeBroglie_Topo_Directions_
-  commentId: M:DeBroglie.Models.AdjacentModel.SetDirections(DeBroglie.Topo.Directions)
-  fullName: DeBroglie.Models.AdjacentModel.SetDirections(DeBroglie.Topo.Directions)
-  nameWithType: AdjacentModel.SetDirections(Directions)
+- uid: DeBroglie.Models.AdjacentModel.SetDirections(DeBroglie.Topo.DirectionSet)
+  name: SetDirections(DirectionSet)
+  href: api/DeBroglie.Models.AdjacentModel.html#DeBroglie_Models_AdjacentModel_SetDirections_DeBroglie_Topo_DirectionSet_
+  commentId: M:DeBroglie.Models.AdjacentModel.SetDirections(DeBroglie.Topo.DirectionSet)
+  fullName: DeBroglie.Models.AdjacentModel.SetDirections(DeBroglie.Topo.DirectionSet)
+  nameWithType: AdjacentModel.SetDirections(DirectionSet)
 - uid: DeBroglie.Models.AdjacentModel.SetDirections*
   name: SetDirections
   href: api/DeBroglie.Models.AdjacentModel.html#DeBroglie_Models_AdjacentModel_SetDirections_
@@ -632,6 +823,19 @@ references:
   isSpec: "True"
   fullName: DeBroglie.Models.AdjacentModel.SetFrequency
   nameWithType: AdjacentModel.SetFrequency
+- uid: DeBroglie.Models.AdjacentModel.SetUniformFrequency
+  name: SetUniformFrequency()
+  href: api/DeBroglie.Models.AdjacentModel.html#DeBroglie_Models_AdjacentModel_SetUniformFrequency
+  commentId: M:DeBroglie.Models.AdjacentModel.SetUniformFrequency
+  fullName: DeBroglie.Models.AdjacentModel.SetUniformFrequency()
+  nameWithType: AdjacentModel.SetUniformFrequency()
+- uid: DeBroglie.Models.AdjacentModel.SetUniformFrequency*
+  name: SetUniformFrequency
+  href: api/DeBroglie.Models.AdjacentModel.html#DeBroglie_Models_AdjacentModel_SetUniformFrequency_
+  commentId: Overload:DeBroglie.Models.AdjacentModel.SetUniformFrequency
+  isSpec: "True"
+  fullName: DeBroglie.Models.AdjacentModel.SetUniformFrequency
+  nameWithType: AdjacentModel.SetUniformFrequency
 - uid: DeBroglie.Models.AdjacentModel.Tiles
   name: Tiles
   href: api/DeBroglie.Models.AdjacentModel.html#DeBroglie_Models_AdjacentModel_Tiles
@@ -1636,12 +1840,12 @@ references:
   commentId: M:DeBroglie.TilePropagator.Ban(System.Int32,System.Int32,System.Int32,DeBroglie.Tile)
   fullName: DeBroglie.TilePropagator.Ban(System.Int32, System.Int32, System.Int32, DeBroglie.Tile)
   nameWithType: TilePropagator.Ban(Int32, Int32, Int32, Tile)
-- uid: DeBroglie.TilePropagator.Ban(System.Int32,System.Int32,System.Int32,DeBroglie.TilePropogatorTileSet)
-  name: Ban(Int32, Int32, Int32, TilePropogatorTileSet)
-  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Ban_System_Int32_System_Int32_System_Int32_DeBroglie_TilePropogatorTileSet_
-  commentId: M:DeBroglie.TilePropagator.Ban(System.Int32,System.Int32,System.Int32,DeBroglie.TilePropogatorTileSet)
-  fullName: DeBroglie.TilePropagator.Ban(System.Int32, System.Int32, System.Int32, DeBroglie.TilePropogatorTileSet)
-  nameWithType: TilePropagator.Ban(Int32, Int32, Int32, TilePropogatorTileSet)
+- uid: DeBroglie.TilePropagator.Ban(System.Int32,System.Int32,System.Int32,DeBroglie.TilePropagatorTileSet)
+  name: Ban(Int32, Int32, Int32, TilePropagatorTileSet)
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Ban_System_Int32_System_Int32_System_Int32_DeBroglie_TilePropagatorTileSet_
+  commentId: M:DeBroglie.TilePropagator.Ban(System.Int32,System.Int32,System.Int32,DeBroglie.TilePropagatorTileSet)
+  fullName: DeBroglie.TilePropagator.Ban(System.Int32, System.Int32, System.Int32, DeBroglie.TilePropagatorTileSet)
+  nameWithType: TilePropagator.Ban(Int32, Int32, Int32, TilePropagatorTileSet)
 - uid: DeBroglie.TilePropagator.Ban(System.Int32,System.Int32,System.Int32,System.Collections.Generic.IEnumerable{DeBroglie.Tile})
   name: Ban(Int32, Int32, Int32, IEnumerable<Tile>)
   href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Ban_System_Int32_System_Int32_System_Int32_System_Collections_Generic_IEnumerable_DeBroglie_Tile__
@@ -1696,15 +1900,15 @@ references:
   fullName.vb: DeBroglie.TilePropagator.GetBannedSelected(System.Int32, System.Int32, System.Int32, DeBroglie.Tile, ByRef System.Boolean, ByRef System.Boolean)
   nameWithType: TilePropagator.GetBannedSelected(Int32, Int32, Int32, Tile, out Boolean, out Boolean)
   nameWithType.vb: TilePropagator.GetBannedSelected(Int32, Int32, Int32, Tile, ByRef Boolean, ByRef Boolean)
-- uid: DeBroglie.TilePropagator.GetBannedSelected(System.Int32,System.Int32,System.Int32,DeBroglie.TilePropogatorTileSet,System.Boolean@,System.Boolean@)
-  name: GetBannedSelected(Int32, Int32, Int32, TilePropogatorTileSet, out Boolean, out Boolean)
-  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_GetBannedSelected_System_Int32_System_Int32_System_Int32_DeBroglie_TilePropogatorTileSet_System_Boolean__System_Boolean__
-  commentId: M:DeBroglie.TilePropagator.GetBannedSelected(System.Int32,System.Int32,System.Int32,DeBroglie.TilePropogatorTileSet,System.Boolean@,System.Boolean@)
-  name.vb: GetBannedSelected(Int32, Int32, Int32, TilePropogatorTileSet, ByRef Boolean, ByRef Boolean)
-  fullName: DeBroglie.TilePropagator.GetBannedSelected(System.Int32, System.Int32, System.Int32, DeBroglie.TilePropogatorTileSet, out System.Boolean, out System.Boolean)
-  fullName.vb: DeBroglie.TilePropagator.GetBannedSelected(System.Int32, System.Int32, System.Int32, DeBroglie.TilePropogatorTileSet, ByRef System.Boolean, ByRef System.Boolean)
-  nameWithType: TilePropagator.GetBannedSelected(Int32, Int32, Int32, TilePropogatorTileSet, out Boolean, out Boolean)
-  nameWithType.vb: TilePropagator.GetBannedSelected(Int32, Int32, Int32, TilePropogatorTileSet, ByRef Boolean, ByRef Boolean)
+- uid: DeBroglie.TilePropagator.GetBannedSelected(System.Int32,System.Int32,System.Int32,DeBroglie.TilePropagatorTileSet,System.Boolean@,System.Boolean@)
+  name: GetBannedSelected(Int32, Int32, Int32, TilePropagatorTileSet, out Boolean, out Boolean)
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_GetBannedSelected_System_Int32_System_Int32_System_Int32_DeBroglie_TilePropagatorTileSet_System_Boolean__System_Boolean__
+  commentId: M:DeBroglie.TilePropagator.GetBannedSelected(System.Int32,System.Int32,System.Int32,DeBroglie.TilePropagatorTileSet,System.Boolean@,System.Boolean@)
+  name.vb: GetBannedSelected(Int32, Int32, Int32, TilePropagatorTileSet, ByRef Boolean, ByRef Boolean)
+  fullName: DeBroglie.TilePropagator.GetBannedSelected(System.Int32, System.Int32, System.Int32, DeBroglie.TilePropagatorTileSet, out System.Boolean, out System.Boolean)
+  fullName.vb: DeBroglie.TilePropagator.GetBannedSelected(System.Int32, System.Int32, System.Int32, DeBroglie.TilePropagatorTileSet, ByRef System.Boolean, ByRef System.Boolean)
+  nameWithType: TilePropagator.GetBannedSelected(Int32, Int32, Int32, TilePropagatorTileSet, out Boolean, out Boolean)
+  nameWithType.vb: TilePropagator.GetBannedSelected(Int32, Int32, Int32, TilePropagatorTileSet, ByRef Boolean, ByRef Boolean)
 - uid: DeBroglie.TilePropagator.GetBannedSelected(System.Int32,System.Int32,System.Int32,System.Collections.Generic.IEnumerable{DeBroglie.Tile},System.Boolean@,System.Boolean@)
   name: GetBannedSelected(Int32, Int32, Int32, IEnumerable<Tile>, out Boolean, out Boolean)
   href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_GetBannedSelected_System_Int32_System_Int32_System_Int32_System_Collections_Generic_IEnumerable_DeBroglie_Tile__System_Boolean__System_Boolean__
@@ -1779,12 +1983,12 @@ references:
   commentId: M:DeBroglie.TilePropagator.Select(System.Int32,System.Int32,System.Int32,DeBroglie.Tile)
   fullName: DeBroglie.TilePropagator.Select(System.Int32, System.Int32, System.Int32, DeBroglie.Tile)
   nameWithType: TilePropagator.Select(Int32, Int32, Int32, Tile)
-- uid: DeBroglie.TilePropagator.Select(System.Int32,System.Int32,System.Int32,DeBroglie.TilePropogatorTileSet)
-  name: Select(Int32, Int32, Int32, TilePropogatorTileSet)
-  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Select_System_Int32_System_Int32_System_Int32_DeBroglie_TilePropogatorTileSet_
-  commentId: M:DeBroglie.TilePropagator.Select(System.Int32,System.Int32,System.Int32,DeBroglie.TilePropogatorTileSet)
-  fullName: DeBroglie.TilePropagator.Select(System.Int32, System.Int32, System.Int32, DeBroglie.TilePropogatorTileSet)
-  nameWithType: TilePropagator.Select(Int32, Int32, Int32, TilePropogatorTileSet)
+- uid: DeBroglie.TilePropagator.Select(System.Int32,System.Int32,System.Int32,DeBroglie.TilePropagatorTileSet)
+  name: Select(Int32, Int32, Int32, TilePropagatorTileSet)
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Select_System_Int32_System_Int32_System_Int32_DeBroglie_TilePropagatorTileSet_
+  commentId: M:DeBroglie.TilePropagator.Select(System.Int32,System.Int32,System.Int32,DeBroglie.TilePropagatorTileSet)
+  fullName: DeBroglie.TilePropagator.Select(System.Int32, System.Int32, System.Int32, DeBroglie.TilePropagatorTileSet)
+  nameWithType: TilePropagator.Select(Int32, Int32, Int32, TilePropagatorTileSet)
 - uid: DeBroglie.TilePropagator.Select(System.Int32,System.Int32,System.Int32,System.Collections.Generic.IEnumerable{DeBroglie.Tile})
   name: Select(Int32, Int32, Int32, IEnumerable<Tile>)
   href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Select_System_Int32_System_Int32_System_Int32_System_Collections_Generic_IEnumerable_DeBroglie_Tile__
@@ -1801,6 +2005,19 @@ references:
   isSpec: "True"
   fullName: DeBroglie.TilePropagator.Select
   nameWithType: TilePropagator.Select
+- uid: DeBroglie.TilePropagator.SetContradiction
+  name: SetContradiction()
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_SetContradiction
+  commentId: M:DeBroglie.TilePropagator.SetContradiction
+  fullName: DeBroglie.TilePropagator.SetContradiction()
+  nameWithType: TilePropagator.SetContradiction()
+- uid: DeBroglie.TilePropagator.SetContradiction*
+  name: SetContradiction
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_SetContradiction_
+  commentId: Overload:DeBroglie.TilePropagator.SetContradiction
+  isSpec: "True"
+  fullName: DeBroglie.TilePropagator.SetContradiction
+  nameWithType: TilePropagator.SetContradiction
 - uid: DeBroglie.TilePropagator.Status
   name: Status
   href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Status
@@ -1911,176 +2128,303 @@ references:
   fullName.vb: DeBroglie.TilePropagator.ToValueSets(Of T)()
   nameWithType: TilePropagator.ToValueSets<T>()
   nameWithType.vb: TilePropagator.ToValueSets(Of T)()
-- uid: DeBroglie.TilePropogatorTileSet
-  name: TilePropogatorTileSet
-  href: api/DeBroglie.TilePropogatorTileSet.html
-  commentId: T:DeBroglie.TilePropogatorTileSet
-  fullName: DeBroglie.TilePropogatorTileSet
-  nameWithType: TilePropogatorTileSet
-- uid: DeBroglie.TilePropogatorTileSet.Tiles
+- uid: DeBroglie.TilePropagatorTileSet
+  name: TilePropagatorTileSet
+  href: api/DeBroglie.TilePropagatorTileSet.html
+  commentId: T:DeBroglie.TilePropagatorTileSet
+  fullName: DeBroglie.TilePropagatorTileSet
+  nameWithType: TilePropagatorTileSet
+- uid: DeBroglie.TilePropagatorTileSet.Tiles
   name: Tiles
-  href: api/DeBroglie.TilePropogatorTileSet.html#DeBroglie_TilePropogatorTileSet_Tiles
-  commentId: P:DeBroglie.TilePropogatorTileSet.Tiles
-  fullName: DeBroglie.TilePropogatorTileSet.Tiles
-  nameWithType: TilePropogatorTileSet.Tiles
-- uid: DeBroglie.TilePropogatorTileSet.Tiles*
+  href: api/DeBroglie.TilePropagatorTileSet.html#DeBroglie_TilePropagatorTileSet_Tiles
+  commentId: P:DeBroglie.TilePropagatorTileSet.Tiles
+  fullName: DeBroglie.TilePropagatorTileSet.Tiles
+  nameWithType: TilePropagatorTileSet.Tiles
+- uid: DeBroglie.TilePropagatorTileSet.Tiles*
   name: Tiles
-  href: api/DeBroglie.TilePropogatorTileSet.html#DeBroglie_TilePropogatorTileSet_Tiles_
-  commentId: Overload:DeBroglie.TilePropogatorTileSet.Tiles
+  href: api/DeBroglie.TilePropagatorTileSet.html#DeBroglie_TilePropagatorTileSet_Tiles_
+  commentId: Overload:DeBroglie.TilePropagatorTileSet.Tiles
   isSpec: "True"
-  fullName: DeBroglie.TilePropogatorTileSet.Tiles
-  nameWithType: TilePropogatorTileSet.Tiles
+  fullName: DeBroglie.TilePropagatorTileSet.Tiles
+  nameWithType: TilePropagatorTileSet.Tiles
+- uid: DeBroglie.TilePropagatorTileSet.ToString
+  name: ToString()
+  href: api/DeBroglie.TilePropagatorTileSet.html#DeBroglie_TilePropagatorTileSet_ToString
+  commentId: M:DeBroglie.TilePropagatorTileSet.ToString
+  fullName: DeBroglie.TilePropagatorTileSet.ToString()
+  nameWithType: TilePropagatorTileSet.ToString()
+- uid: DeBroglie.TilePropagatorTileSet.ToString*
+  name: ToString
+  href: api/DeBroglie.TilePropagatorTileSet.html#DeBroglie_TilePropagatorTileSet_ToString_
+  commentId: Overload:DeBroglie.TilePropagatorTileSet.ToString
+  isSpec: "True"
+  fullName: DeBroglie.TilePropagatorTileSet.ToString
+  nameWithType: TilePropagatorTileSet.ToString
 - uid: DeBroglie.Topo
   name: DeBroglie.Topo
   href: api/DeBroglie.Topo.html
   commentId: N:DeBroglie.Topo
   fullName: DeBroglie.Topo
   nameWithType: DeBroglie.Topo
-- uid: DeBroglie.Topo.Directions
-  name: Directions
-  href: api/DeBroglie.Topo.Directions.html
-  commentId: T:DeBroglie.Topo.Directions
-  fullName: DeBroglie.Topo.Directions
-  nameWithType: Directions
-- uid: DeBroglie.Topo.Directions.Cartesian2d
+- uid: DeBroglie.Topo.Axis
+  name: Axis
+  href: api/DeBroglie.Topo.Axis.html
+  commentId: T:DeBroglie.Topo.Axis
+  fullName: DeBroglie.Topo.Axis
+  nameWithType: Axis
+- uid: DeBroglie.Topo.Axis.W
+  name: W
+  href: api/DeBroglie.Topo.Axis.html#DeBroglie_Topo_Axis_W
+  commentId: F:DeBroglie.Topo.Axis.W
+  fullName: DeBroglie.Topo.Axis.W
+  nameWithType: Axis.W
+- uid: DeBroglie.Topo.Axis.X
+  name: X
+  href: api/DeBroglie.Topo.Axis.html#DeBroglie_Topo_Axis_X
+  commentId: F:DeBroglie.Topo.Axis.X
+  fullName: DeBroglie.Topo.Axis.X
+  nameWithType: Axis.X
+- uid: DeBroglie.Topo.Axis.Y
+  name: Y
+  href: api/DeBroglie.Topo.Axis.html#DeBroglie_Topo_Axis_Y
+  commentId: F:DeBroglie.Topo.Axis.Y
+  fullName: DeBroglie.Topo.Axis.Y
+  nameWithType: Axis.Y
+- uid: DeBroglie.Topo.Axis.Z
+  name: Z
+  href: api/DeBroglie.Topo.Axis.html#DeBroglie_Topo_Axis_Z
+  commentId: F:DeBroglie.Topo.Axis.Z
+  fullName: DeBroglie.Topo.Axis.Z
+  nameWithType: Axis.Z
+- uid: DeBroglie.Topo.Direction
+  name: Direction
+  href: api/DeBroglie.Topo.Direction.html
+  commentId: T:DeBroglie.Topo.Direction
+  fullName: DeBroglie.Topo.Direction
+  nameWithType: Direction
+- uid: DeBroglie.Topo.Direction.WMinus
+  name: WMinus
+  href: api/DeBroglie.Topo.Direction.html#DeBroglie_Topo_Direction_WMinus
+  commentId: F:DeBroglie.Topo.Direction.WMinus
+  fullName: DeBroglie.Topo.Direction.WMinus
+  nameWithType: Direction.WMinus
+- uid: DeBroglie.Topo.Direction.WPlus
+  name: WPlus
+  href: api/DeBroglie.Topo.Direction.html#DeBroglie_Topo_Direction_WPlus
+  commentId: F:DeBroglie.Topo.Direction.WPlus
+  fullName: DeBroglie.Topo.Direction.WPlus
+  nameWithType: Direction.WPlus
+- uid: DeBroglie.Topo.Direction.XMinus
+  name: XMinus
+  href: api/DeBroglie.Topo.Direction.html#DeBroglie_Topo_Direction_XMinus
+  commentId: F:DeBroglie.Topo.Direction.XMinus
+  fullName: DeBroglie.Topo.Direction.XMinus
+  nameWithType: Direction.XMinus
+- uid: DeBroglie.Topo.Direction.XPlus
+  name: XPlus
+  href: api/DeBroglie.Topo.Direction.html#DeBroglie_Topo_Direction_XPlus
+  commentId: F:DeBroglie.Topo.Direction.XPlus
+  fullName: DeBroglie.Topo.Direction.XPlus
+  nameWithType: Direction.XPlus
+- uid: DeBroglie.Topo.Direction.YMinus
+  name: YMinus
+  href: api/DeBroglie.Topo.Direction.html#DeBroglie_Topo_Direction_YMinus
+  commentId: F:DeBroglie.Topo.Direction.YMinus
+  fullName: DeBroglie.Topo.Direction.YMinus
+  nameWithType: Direction.YMinus
+- uid: DeBroglie.Topo.Direction.YPlus
+  name: YPlus
+  href: api/DeBroglie.Topo.Direction.html#DeBroglie_Topo_Direction_YPlus
+  commentId: F:DeBroglie.Topo.Direction.YPlus
+  fullName: DeBroglie.Topo.Direction.YPlus
+  nameWithType: Direction.YPlus
+- uid: DeBroglie.Topo.Direction.ZMinus
+  name: ZMinus
+  href: api/DeBroglie.Topo.Direction.html#DeBroglie_Topo_Direction_ZMinus
+  commentId: F:DeBroglie.Topo.Direction.ZMinus
+  fullName: DeBroglie.Topo.Direction.ZMinus
+  nameWithType: Direction.ZMinus
+- uid: DeBroglie.Topo.Direction.ZPlus
+  name: ZPlus
+  href: api/DeBroglie.Topo.Direction.html#DeBroglie_Topo_Direction_ZPlus
+  commentId: F:DeBroglie.Topo.Direction.ZPlus
+  fullName: DeBroglie.Topo.Direction.ZPlus
+  nameWithType: Direction.ZPlus
+- uid: DeBroglie.Topo.DirectionSet
+  name: DirectionSet
+  href: api/DeBroglie.Topo.DirectionSet.html
+  commentId: T:DeBroglie.Topo.DirectionSet
+  fullName: DeBroglie.Topo.DirectionSet
+  nameWithType: DirectionSet
+- uid: DeBroglie.Topo.DirectionSet.Cartesian2d
   name: Cartesian2d
-  href: api/DeBroglie.Topo.Directions.html#DeBroglie_Topo_Directions_Cartesian2d
-  commentId: F:DeBroglie.Topo.Directions.Cartesian2d
-  fullName: DeBroglie.Topo.Directions.Cartesian2d
-  nameWithType: Directions.Cartesian2d
-- uid: DeBroglie.Topo.Directions.Cartesian3d
+  href: api/DeBroglie.Topo.DirectionSet.html#DeBroglie_Topo_DirectionSet_Cartesian2d
+  commentId: F:DeBroglie.Topo.DirectionSet.Cartesian2d
+  fullName: DeBroglie.Topo.DirectionSet.Cartesian2d
+  nameWithType: DirectionSet.Cartesian2d
+- uid: DeBroglie.Topo.DirectionSet.Cartesian3d
   name: Cartesian3d
-  href: api/DeBroglie.Topo.Directions.html#DeBroglie_Topo_Directions_Cartesian3d
-  commentId: F:DeBroglie.Topo.Directions.Cartesian3d
-  fullName: DeBroglie.Topo.Directions.Cartesian3d
-  nameWithType: Directions.Cartesian3d
-- uid: DeBroglie.Topo.Directions.Count
+  href: api/DeBroglie.Topo.DirectionSet.html#DeBroglie_Topo_DirectionSet_Cartesian3d
+  commentId: F:DeBroglie.Topo.DirectionSet.Cartesian3d
+  fullName: DeBroglie.Topo.DirectionSet.Cartesian3d
+  nameWithType: DirectionSet.Cartesian3d
+- uid: DeBroglie.Topo.DirectionSet.Count
   name: Count
-  href: api/DeBroglie.Topo.Directions.html#DeBroglie_Topo_Directions_Count
-  commentId: P:DeBroglie.Topo.Directions.Count
-  fullName: DeBroglie.Topo.Directions.Count
-  nameWithType: Directions.Count
-- uid: DeBroglie.Topo.Directions.Count*
+  href: api/DeBroglie.Topo.DirectionSet.html#DeBroglie_Topo_DirectionSet_Count
+  commentId: P:DeBroglie.Topo.DirectionSet.Count
+  fullName: DeBroglie.Topo.DirectionSet.Count
+  nameWithType: DirectionSet.Count
+- uid: DeBroglie.Topo.DirectionSet.Count*
   name: Count
-  href: api/DeBroglie.Topo.Directions.html#DeBroglie_Topo_Directions_Count_
-  commentId: Overload:DeBroglie.Topo.Directions.Count
+  href: api/DeBroglie.Topo.DirectionSet.html#DeBroglie_Topo_DirectionSet_Count_
+  commentId: Overload:DeBroglie.Topo.DirectionSet.Count
   isSpec: "True"
-  fullName: DeBroglie.Topo.Directions.Count
-  nameWithType: Directions.Count
-- uid: DeBroglie.Topo.Directions.DX
+  fullName: DeBroglie.Topo.DirectionSet.Count
+  nameWithType: DirectionSet.Count
+- uid: DeBroglie.Topo.DirectionSet.DX
   name: DX
-  href: api/DeBroglie.Topo.Directions.html#DeBroglie_Topo_Directions_DX
-  commentId: P:DeBroglie.Topo.Directions.DX
-  fullName: DeBroglie.Topo.Directions.DX
-  nameWithType: Directions.DX
-- uid: DeBroglie.Topo.Directions.DX*
+  href: api/DeBroglie.Topo.DirectionSet.html#DeBroglie_Topo_DirectionSet_DX
+  commentId: P:DeBroglie.Topo.DirectionSet.DX
+  fullName: DeBroglie.Topo.DirectionSet.DX
+  nameWithType: DirectionSet.DX
+- uid: DeBroglie.Topo.DirectionSet.DX*
   name: DX
-  href: api/DeBroglie.Topo.Directions.html#DeBroglie_Topo_Directions_DX_
-  commentId: Overload:DeBroglie.Topo.Directions.DX
+  href: api/DeBroglie.Topo.DirectionSet.html#DeBroglie_Topo_DirectionSet_DX_
+  commentId: Overload:DeBroglie.Topo.DirectionSet.DX
   isSpec: "True"
-  fullName: DeBroglie.Topo.Directions.DX
-  nameWithType: Directions.DX
-- uid: DeBroglie.Topo.Directions.DY
+  fullName: DeBroglie.Topo.DirectionSet.DX
+  nameWithType: DirectionSet.DX
+- uid: DeBroglie.Topo.DirectionSet.DY
   name: DY
-  href: api/DeBroglie.Topo.Directions.html#DeBroglie_Topo_Directions_DY
-  commentId: P:DeBroglie.Topo.Directions.DY
-  fullName: DeBroglie.Topo.Directions.DY
-  nameWithType: Directions.DY
-- uid: DeBroglie.Topo.Directions.DY*
+  href: api/DeBroglie.Topo.DirectionSet.html#DeBroglie_Topo_DirectionSet_DY
+  commentId: P:DeBroglie.Topo.DirectionSet.DY
+  fullName: DeBroglie.Topo.DirectionSet.DY
+  nameWithType: DirectionSet.DY
+- uid: DeBroglie.Topo.DirectionSet.DY*
   name: DY
-  href: api/DeBroglie.Topo.Directions.html#DeBroglie_Topo_Directions_DY_
-  commentId: Overload:DeBroglie.Topo.Directions.DY
+  href: api/DeBroglie.Topo.DirectionSet.html#DeBroglie_Topo_DirectionSet_DY_
+  commentId: Overload:DeBroglie.Topo.DirectionSet.DY
   isSpec: "True"
-  fullName: DeBroglie.Topo.Directions.DY
-  nameWithType: Directions.DY
-- uid: DeBroglie.Topo.Directions.DZ
+  fullName: DeBroglie.Topo.DirectionSet.DY
+  nameWithType: DirectionSet.DY
+- uid: DeBroglie.Topo.DirectionSet.DZ
   name: DZ
-  href: api/DeBroglie.Topo.Directions.html#DeBroglie_Topo_Directions_DZ
-  commentId: P:DeBroglie.Topo.Directions.DZ
-  fullName: DeBroglie.Topo.Directions.DZ
-  nameWithType: Directions.DZ
-- uid: DeBroglie.Topo.Directions.DZ*
+  href: api/DeBroglie.Topo.DirectionSet.html#DeBroglie_Topo_DirectionSet_DZ
+  commentId: P:DeBroglie.Topo.DirectionSet.DZ
+  fullName: DeBroglie.Topo.DirectionSet.DZ
+  nameWithType: DirectionSet.DZ
+- uid: DeBroglie.Topo.DirectionSet.DZ*
   name: DZ
-  href: api/DeBroglie.Topo.Directions.html#DeBroglie_Topo_Directions_DZ_
-  commentId: Overload:DeBroglie.Topo.Directions.DZ
+  href: api/DeBroglie.Topo.DirectionSet.html#DeBroglie_Topo_DirectionSet_DZ_
+  commentId: Overload:DeBroglie.Topo.DirectionSet.DZ
   isSpec: "True"
-  fullName: DeBroglie.Topo.Directions.DZ
-  nameWithType: Directions.DZ
-- uid: DeBroglie.Topo.Directions.GetDirection(System.Int32,System.Int32,System.Int32)
+  fullName: DeBroglie.Topo.DirectionSet.DZ
+  nameWithType: DirectionSet.DZ
+- uid: DeBroglie.Topo.DirectionSet.GetDirection(System.Int32,System.Int32,System.Int32)
   name: GetDirection(Int32, Int32, Int32)
-  href: api/DeBroglie.Topo.Directions.html#DeBroglie_Topo_Directions_GetDirection_System_Int32_System_Int32_System_Int32_
-  commentId: M:DeBroglie.Topo.Directions.GetDirection(System.Int32,System.Int32,System.Int32)
-  fullName: DeBroglie.Topo.Directions.GetDirection(System.Int32, System.Int32, System.Int32)
-  nameWithType: Directions.GetDirection(Int32, Int32, Int32)
-- uid: DeBroglie.Topo.Directions.GetDirection*
+  href: api/DeBroglie.Topo.DirectionSet.html#DeBroglie_Topo_DirectionSet_GetDirection_System_Int32_System_Int32_System_Int32_
+  commentId: M:DeBroglie.Topo.DirectionSet.GetDirection(System.Int32,System.Int32,System.Int32)
+  fullName: DeBroglie.Topo.DirectionSet.GetDirection(System.Int32, System.Int32, System.Int32)
+  nameWithType: DirectionSet.GetDirection(Int32, Int32, Int32)
+- uid: DeBroglie.Topo.DirectionSet.GetDirection*
   name: GetDirection
-  href: api/DeBroglie.Topo.Directions.html#DeBroglie_Topo_Directions_GetDirection_
-  commentId: Overload:DeBroglie.Topo.Directions.GetDirection
+  href: api/DeBroglie.Topo.DirectionSet.html#DeBroglie_Topo_DirectionSet_GetDirection_
+  commentId: Overload:DeBroglie.Topo.DirectionSet.GetDirection
   isSpec: "True"
-  fullName: DeBroglie.Topo.Directions.GetDirection
-  nameWithType: Directions.GetDirection
-- uid: DeBroglie.Topo.Directions.Hexagonal2d
+  fullName: DeBroglie.Topo.DirectionSet.GetDirection
+  nameWithType: DirectionSet.GetDirection
+- uid: DeBroglie.Topo.DirectionSet.GetEnumerator
+  name: GetEnumerator()
+  href: api/DeBroglie.Topo.DirectionSet.html#DeBroglie_Topo_DirectionSet_GetEnumerator
+  commentId: M:DeBroglie.Topo.DirectionSet.GetEnumerator
+  fullName: DeBroglie.Topo.DirectionSet.GetEnumerator()
+  nameWithType: DirectionSet.GetEnumerator()
+- uid: DeBroglie.Topo.DirectionSet.GetEnumerator*
+  name: GetEnumerator
+  href: api/DeBroglie.Topo.DirectionSet.html#DeBroglie_Topo_DirectionSet_GetEnumerator_
+  commentId: Overload:DeBroglie.Topo.DirectionSet.GetEnumerator
+  isSpec: "True"
+  fullName: DeBroglie.Topo.DirectionSet.GetEnumerator
+  nameWithType: DirectionSet.GetEnumerator
+- uid: DeBroglie.Topo.DirectionSet.Hexagonal2d
   name: Hexagonal2d
-  href: api/DeBroglie.Topo.Directions.html#DeBroglie_Topo_Directions_Hexagonal2d
-  commentId: F:DeBroglie.Topo.Directions.Hexagonal2d
-  fullName: DeBroglie.Topo.Directions.Hexagonal2d
-  nameWithType: Directions.Hexagonal2d
-- uid: DeBroglie.Topo.Directions.Inverse(System.Int32)
-  name: Inverse(Int32)
-  href: api/DeBroglie.Topo.Directions.html#DeBroglie_Topo_Directions_Inverse_System_Int32_
-  commentId: M:DeBroglie.Topo.Directions.Inverse(System.Int32)
-  fullName: DeBroglie.Topo.Directions.Inverse(System.Int32)
-  nameWithType: Directions.Inverse(Int32)
-- uid: DeBroglie.Topo.Directions.Inverse*
+  href: api/DeBroglie.Topo.DirectionSet.html#DeBroglie_Topo_DirectionSet_Hexagonal2d
+  commentId: F:DeBroglie.Topo.DirectionSet.Hexagonal2d
+  fullName: DeBroglie.Topo.DirectionSet.Hexagonal2d
+  nameWithType: DirectionSet.Hexagonal2d
+- uid: DeBroglie.Topo.DirectionSet.Inverse(DeBroglie.Topo.Direction)
+  name: Inverse(Direction)
+  href: api/DeBroglie.Topo.DirectionSet.html#DeBroglie_Topo_DirectionSet_Inverse_DeBroglie_Topo_Direction_
+  commentId: M:DeBroglie.Topo.DirectionSet.Inverse(DeBroglie.Topo.Direction)
+  fullName: DeBroglie.Topo.DirectionSet.Inverse(DeBroglie.Topo.Direction)
+  nameWithType: DirectionSet.Inverse(Direction)
+- uid: DeBroglie.Topo.DirectionSet.Inverse*
   name: Inverse
-  href: api/DeBroglie.Topo.Directions.html#DeBroglie_Topo_Directions_Inverse_
-  commentId: Overload:DeBroglie.Topo.Directions.Inverse
+  href: api/DeBroglie.Topo.DirectionSet.html#DeBroglie_Topo_DirectionSet_Inverse_
+  commentId: Overload:DeBroglie.Topo.DirectionSet.Inverse
   isSpec: "True"
-  fullName: DeBroglie.Topo.Directions.Inverse
-  nameWithType: Directions.Inverse
-- uid: DeBroglie.Topo.Directions.Type
-  name: Type
-  href: api/DeBroglie.Topo.Directions.html#DeBroglie_Topo_Directions_Type
-  commentId: P:DeBroglie.Topo.Directions.Type
-  fullName: DeBroglie.Topo.Directions.Type
-  nameWithType: Directions.Type
-- uid: DeBroglie.Topo.Directions.Type*
-  name: Type
-  href: api/DeBroglie.Topo.Directions.html#DeBroglie_Topo_Directions_Type_
-  commentId: Overload:DeBroglie.Topo.Directions.Type
+  fullName: DeBroglie.Topo.DirectionSet.Inverse
+  nameWithType: DirectionSet.Inverse
+- uid: DeBroglie.Topo.DirectionSet.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator()
+  href: api/DeBroglie.Topo.DirectionSet.html#DeBroglie_Topo_DirectionSet_System_Collections_IEnumerable_GetEnumerator
+  commentId: M:DeBroglie.Topo.DirectionSet.System#Collections#IEnumerable#GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+  fullName: DeBroglie.Topo.DirectionSet.System.Collections.IEnumerable.GetEnumerator()
+  nameWithType: DirectionSet.IEnumerable.GetEnumerator()
+  nameWithType.vb: DirectionSet.System.Collections.IEnumerable.GetEnumerator()
+- uid: DeBroglie.Topo.DirectionSet.System#Collections#IEnumerable#GetEnumerator*
+  name: IEnumerable.GetEnumerator
+  href: api/DeBroglie.Topo.DirectionSet.html#DeBroglie_Topo_DirectionSet_System_Collections_IEnumerable_GetEnumerator_
+  commentId: Overload:DeBroglie.Topo.DirectionSet.System#Collections#IEnumerable#GetEnumerator
   isSpec: "True"
-  fullName: DeBroglie.Topo.Directions.Type
-  nameWithType: Directions.Type
-- uid: DeBroglie.Topo.DirectionsType
-  name: DirectionsType
-  href: api/DeBroglie.Topo.DirectionsType.html
-  commentId: T:DeBroglie.Topo.DirectionsType
-  fullName: DeBroglie.Topo.DirectionsType
-  nameWithType: DirectionsType
-- uid: DeBroglie.Topo.DirectionsType.Cartesian2d
+  name.vb: System.Collections.IEnumerable.GetEnumerator
+  fullName: DeBroglie.Topo.DirectionSet.System.Collections.IEnumerable.GetEnumerator
+  nameWithType: DirectionSet.IEnumerable.GetEnumerator
+  nameWithType.vb: DirectionSet.System.Collections.IEnumerable.GetEnumerator
+- uid: DeBroglie.Topo.DirectionSet.Type
+  name: Type
+  href: api/DeBroglie.Topo.DirectionSet.html#DeBroglie_Topo_DirectionSet_Type
+  commentId: P:DeBroglie.Topo.DirectionSet.Type
+  fullName: DeBroglie.Topo.DirectionSet.Type
+  nameWithType: DirectionSet.Type
+- uid: DeBroglie.Topo.DirectionSet.Type*
+  name: Type
+  href: api/DeBroglie.Topo.DirectionSet.html#DeBroglie_Topo_DirectionSet_Type_
+  commentId: Overload:DeBroglie.Topo.DirectionSet.Type
+  isSpec: "True"
+  fullName: DeBroglie.Topo.DirectionSet.Type
+  nameWithType: DirectionSet.Type
+- uid: DeBroglie.Topo.DirectionSetType
+  name: DirectionSetType
+  href: api/DeBroglie.Topo.DirectionSetType.html
+  commentId: T:DeBroglie.Topo.DirectionSetType
+  fullName: DeBroglie.Topo.DirectionSetType
+  nameWithType: DirectionSetType
+- uid: DeBroglie.Topo.DirectionSetType.Cartesian2d
   name: Cartesian2d
-  href: api/DeBroglie.Topo.DirectionsType.html#DeBroglie_Topo_DirectionsType_Cartesian2d
-  commentId: F:DeBroglie.Topo.DirectionsType.Cartesian2d
-  fullName: DeBroglie.Topo.DirectionsType.Cartesian2d
-  nameWithType: DirectionsType.Cartesian2d
-- uid: DeBroglie.Topo.DirectionsType.Cartesian3d
+  href: api/DeBroglie.Topo.DirectionSetType.html#DeBroglie_Topo_DirectionSetType_Cartesian2d
+  commentId: F:DeBroglie.Topo.DirectionSetType.Cartesian2d
+  fullName: DeBroglie.Topo.DirectionSetType.Cartesian2d
+  nameWithType: DirectionSetType.Cartesian2d
+- uid: DeBroglie.Topo.DirectionSetType.Cartesian3d
   name: Cartesian3d
-  href: api/DeBroglie.Topo.DirectionsType.html#DeBroglie_Topo_DirectionsType_Cartesian3d
-  commentId: F:DeBroglie.Topo.DirectionsType.Cartesian3d
-  fullName: DeBroglie.Topo.DirectionsType.Cartesian3d
-  nameWithType: DirectionsType.Cartesian3d
-- uid: DeBroglie.Topo.DirectionsType.Hexagonal2d
+  href: api/DeBroglie.Topo.DirectionSetType.html#DeBroglie_Topo_DirectionSetType_Cartesian3d
+  commentId: F:DeBroglie.Topo.DirectionSetType.Cartesian3d
+  fullName: DeBroglie.Topo.DirectionSetType.Cartesian3d
+  nameWithType: DirectionSetType.Cartesian3d
+- uid: DeBroglie.Topo.DirectionSetType.Hexagonal2d
   name: Hexagonal2d
-  href: api/DeBroglie.Topo.DirectionsType.html#DeBroglie_Topo_DirectionsType_Hexagonal2d
-  commentId: F:DeBroglie.Topo.DirectionsType.Hexagonal2d
-  fullName: DeBroglie.Topo.DirectionsType.Hexagonal2d
-  nameWithType: DirectionsType.Hexagonal2d
-- uid: DeBroglie.Topo.DirectionsType.Unknown
+  href: api/DeBroglie.Topo.DirectionSetType.html#DeBroglie_Topo_DirectionSetType_Hexagonal2d
+  commentId: F:DeBroglie.Topo.DirectionSetType.Hexagonal2d
+  fullName: DeBroglie.Topo.DirectionSetType.Hexagonal2d
+  nameWithType: DirectionSetType.Hexagonal2d
+- uid: DeBroglie.Topo.DirectionSetType.Unknown
   name: Unknown
-  href: api/DeBroglie.Topo.DirectionsType.html#DeBroglie_Topo_DirectionsType_Unknown
-  commentId: F:DeBroglie.Topo.DirectionsType.Unknown
-  fullName: DeBroglie.Topo.DirectionsType.Unknown
-  nameWithType: DirectionsType.Unknown
+  href: api/DeBroglie.Topo.DirectionSetType.html#DeBroglie_Topo_DirectionSetType_Unknown
+  commentId: F:DeBroglie.Topo.DirectionSetType.Unknown
+  fullName: DeBroglie.Topo.DirectionSetType.Unknown
+  nameWithType: DirectionSetType.Unknown
 - uid: DeBroglie.Topo.ITopoArray`1
   name: ITopoArray<T>
   href: api/DeBroglie.Topo.ITopoArray-1.html
@@ -2379,12 +2723,25 @@ references:
   fullName.vb: DeBroglie.Topo.TopoArrayUtils.Rotate(Of T)(DeBroglie.Topo.ITopoArray(Of T), DeBroglie.Rot.Rotation, DeBroglie.Topo.TopoArrayUtils.TileRotate(Of T))
   nameWithType: TopoArrayUtils.Rotate<T>(ITopoArray<T>, Rotation, TopoArrayUtils.TileRotate<T>)
   nameWithType.vb: TopoArrayUtils.Rotate(Of T)(ITopoArray(Of T), Rotation, TopoArrayUtils.TileRotate(Of T))
-- uid: DeBroglie.Topo.TopoArrayUtils.RotateVector(System.Int32,System.Int32,DeBroglie.Rot.Rotation)
-  name: RotateVector(Int32, Int32, Rotation)
-  href: api/DeBroglie.Topo.TopoArrayUtils.html#DeBroglie_Topo_TopoArrayUtils_RotateVector_System_Int32_System_Int32_DeBroglie_Rot_Rotation_
-  commentId: M:DeBroglie.Topo.TopoArrayUtils.RotateVector(System.Int32,System.Int32,DeBroglie.Rot.Rotation)
-  fullName: DeBroglie.Topo.TopoArrayUtils.RotateVector(System.Int32, System.Int32, DeBroglie.Rot.Rotation)
-  nameWithType: TopoArrayUtils.RotateVector(Int32, Int32, Rotation)
+- uid: DeBroglie.Topo.TopoArrayUtils.RotateDirection(DeBroglie.Topo.DirectionSet,DeBroglie.Topo.Direction,DeBroglie.Rot.Rotation)
+  name: RotateDirection(DirectionSet, Direction, Rotation)
+  href: api/DeBroglie.Topo.TopoArrayUtils.html#DeBroglie_Topo_TopoArrayUtils_RotateDirection_DeBroglie_Topo_DirectionSet_DeBroglie_Topo_Direction_DeBroglie_Rot_Rotation_
+  commentId: M:DeBroglie.Topo.TopoArrayUtils.RotateDirection(DeBroglie.Topo.DirectionSet,DeBroglie.Topo.Direction,DeBroglie.Rot.Rotation)
+  fullName: DeBroglie.Topo.TopoArrayUtils.RotateDirection(DeBroglie.Topo.DirectionSet, DeBroglie.Topo.Direction, DeBroglie.Rot.Rotation)
+  nameWithType: TopoArrayUtils.RotateDirection(DirectionSet, Direction, Rotation)
+- uid: DeBroglie.Topo.TopoArrayUtils.RotateDirection*
+  name: RotateDirection
+  href: api/DeBroglie.Topo.TopoArrayUtils.html#DeBroglie_Topo_TopoArrayUtils_RotateDirection_
+  commentId: Overload:DeBroglie.Topo.TopoArrayUtils.RotateDirection
+  isSpec: "True"
+  fullName: DeBroglie.Topo.TopoArrayUtils.RotateDirection
+  nameWithType: TopoArrayUtils.RotateDirection
+- uid: DeBroglie.Topo.TopoArrayUtils.RotateVector(DeBroglie.Topo.DirectionSetType,System.Int32,System.Int32,DeBroglie.Rot.Rotation)
+  name: RotateVector(DirectionSetType, Int32, Int32, Rotation)
+  href: api/DeBroglie.Topo.TopoArrayUtils.html#DeBroglie_Topo_TopoArrayUtils_RotateVector_DeBroglie_Topo_DirectionSetType_System_Int32_System_Int32_DeBroglie_Rot_Rotation_
+  commentId: M:DeBroglie.Topo.TopoArrayUtils.RotateVector(DeBroglie.Topo.DirectionSetType,System.Int32,System.Int32,DeBroglie.Rot.Rotation)
+  fullName: DeBroglie.Topo.TopoArrayUtils.RotateVector(DeBroglie.Topo.DirectionSetType, System.Int32, System.Int32, DeBroglie.Rot.Rotation)
+  nameWithType: TopoArrayUtils.RotateVector(DirectionSetType, Int32, Int32, Rotation)
 - uid: DeBroglie.Topo.TopoArrayUtils.RotateVector*
   name: RotateVector
   href: api/DeBroglie.Topo.TopoArrayUtils.html#DeBroglie_Topo_TopoArrayUtils_RotateVector_
@@ -2392,6 +2749,44 @@ references:
   isSpec: "True"
   fullName: DeBroglie.Topo.TopoArrayUtils.RotateVector
   nameWithType: TopoArrayUtils.RotateVector
+- uid: DeBroglie.Topo.TopoArrayUtils.SquareRotate(DeBroglie.Topo.ITopoArray{DeBroglie.Tile},DeBroglie.Rot.Rotation,DeBroglie.Rot.TileRotation)
+  name: SquareRotate(ITopoArray<Tile>, Rotation, TileRotation)
+  href: api/DeBroglie.Topo.TopoArrayUtils.html#DeBroglie_Topo_TopoArrayUtils_SquareRotate_DeBroglie_Topo_ITopoArray_DeBroglie_Tile__DeBroglie_Rot_Rotation_DeBroglie_Rot_TileRotation_
+  commentId: M:DeBroglie.Topo.TopoArrayUtils.SquareRotate(DeBroglie.Topo.ITopoArray{DeBroglie.Tile},DeBroglie.Rot.Rotation,DeBroglie.Rot.TileRotation)
+  name.vb: SquareRotate(ITopoArray(Of Tile), Rotation, TileRotation)
+  fullName: DeBroglie.Topo.TopoArrayUtils.SquareRotate(DeBroglie.Topo.ITopoArray<DeBroglie.Tile>, DeBroglie.Rot.Rotation, DeBroglie.Rot.TileRotation)
+  fullName.vb: DeBroglie.Topo.TopoArrayUtils.SquareRotate(DeBroglie.Topo.ITopoArray(Of DeBroglie.Tile), DeBroglie.Rot.Rotation, DeBroglie.Rot.TileRotation)
+  nameWithType: TopoArrayUtils.SquareRotate(ITopoArray<Tile>, Rotation, TileRotation)
+  nameWithType.vb: TopoArrayUtils.SquareRotate(ITopoArray(Of Tile), Rotation, TileRotation)
+- uid: DeBroglie.Topo.TopoArrayUtils.SquareRotate*
+  name: SquareRotate
+  href: api/DeBroglie.Topo.TopoArrayUtils.html#DeBroglie_Topo_TopoArrayUtils_SquareRotate_
+  commentId: Overload:DeBroglie.Topo.TopoArrayUtils.SquareRotate
+  isSpec: "True"
+  fullName: DeBroglie.Topo.TopoArrayUtils.SquareRotate
+  nameWithType: TopoArrayUtils.SquareRotate
+- uid: DeBroglie.Topo.TopoArrayUtils.SquareRotate``1(DeBroglie.Topo.ITopoArray{``0},DeBroglie.Rot.Rotation,DeBroglie.Topo.TopoArrayUtils.TileRotate{``0})
+  name: SquareRotate<T>(ITopoArray<T>, Rotation, TopoArrayUtils.TileRotate<T>)
+  href: api/DeBroglie.Topo.TopoArrayUtils.html#DeBroglie_Topo_TopoArrayUtils_SquareRotate__1_DeBroglie_Topo_ITopoArray___0__DeBroglie_Rot_Rotation_DeBroglie_Topo_TopoArrayUtils_TileRotate___0__
+  commentId: M:DeBroglie.Topo.TopoArrayUtils.SquareRotate``1(DeBroglie.Topo.ITopoArray{``0},DeBroglie.Rot.Rotation,DeBroglie.Topo.TopoArrayUtils.TileRotate{``0})
+  name.vb: SquareRotate(Of T)(ITopoArray(Of T), Rotation, TopoArrayUtils.TileRotate(Of T))
+  fullName: DeBroglie.Topo.TopoArrayUtils.SquareRotate<T>(DeBroglie.Topo.ITopoArray<T>, DeBroglie.Rot.Rotation, DeBroglie.Topo.TopoArrayUtils.TileRotate<T>)
+  fullName.vb: DeBroglie.Topo.TopoArrayUtils.SquareRotate(Of T)(DeBroglie.Topo.ITopoArray(Of T), DeBroglie.Rot.Rotation, DeBroglie.Topo.TopoArrayUtils.TileRotate(Of T))
+  nameWithType: TopoArrayUtils.SquareRotate<T>(ITopoArray<T>, Rotation, TopoArrayUtils.TileRotate<T>)
+  nameWithType.vb: TopoArrayUtils.SquareRotate(Of T)(ITopoArray(Of T), Rotation, TopoArrayUtils.TileRotate(Of T))
+- uid: DeBroglie.Topo.TopoArrayUtils.SquareRotateVector(System.Int32,System.Int32,DeBroglie.Rot.Rotation)
+  name: SquareRotateVector(Int32, Int32, Rotation)
+  href: api/DeBroglie.Topo.TopoArrayUtils.html#DeBroglie_Topo_TopoArrayUtils_SquareRotateVector_System_Int32_System_Int32_DeBroglie_Rot_Rotation_
+  commentId: M:DeBroglie.Topo.TopoArrayUtils.SquareRotateVector(System.Int32,System.Int32,DeBroglie.Rot.Rotation)
+  fullName: DeBroglie.Topo.TopoArrayUtils.SquareRotateVector(System.Int32, System.Int32, DeBroglie.Rot.Rotation)
+  nameWithType: TopoArrayUtils.SquareRotateVector(Int32, Int32, Rotation)
+- uid: DeBroglie.Topo.TopoArrayUtils.SquareRotateVector*
+  name: SquareRotateVector
+  href: api/DeBroglie.Topo.TopoArrayUtils.html#DeBroglie_Topo_TopoArrayUtils_SquareRotateVector_
+  commentId: Overload:DeBroglie.Topo.TopoArrayUtils.SquareRotateVector
+  isSpec: "True"
+  fullName: DeBroglie.Topo.TopoArrayUtils.SquareRotateVector
+  nameWithType: TopoArrayUtils.SquareRotateVector
 - uid: DeBroglie.Topo.TopoArrayUtils.TileRotate`1
   name: TopoArrayUtils.TileRotate<T>
   href: api/DeBroglie.Topo.TopoArrayUtils.TileRotate-1.html
@@ -2407,24 +2802,24 @@ references:
   commentId: T:DeBroglie.Topo.Topology
   fullName: DeBroglie.Topo.Topology
   nameWithType: Topology
-- uid: DeBroglie.Topo.Topology.#ctor(DeBroglie.Topo.Directions,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Boolean[])
-  name: Topology(Directions, Int32, Int32, Boolean, Boolean, Boolean[])
-  href: api/DeBroglie.Topo.Topology.html#DeBroglie_Topo_Topology__ctor_DeBroglie_Topo_Directions_System_Int32_System_Int32_System_Boolean_System_Boolean_System_Boolean___
-  commentId: M:DeBroglie.Topo.Topology.#ctor(DeBroglie.Topo.Directions,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Boolean[])
-  name.vb: Topology(Directions, Int32, Int32, Boolean, Boolean, Boolean())
-  fullName: DeBroglie.Topo.Topology.Topology(DeBroglie.Topo.Directions, System.Int32, System.Int32, System.Boolean, System.Boolean, System.Boolean[])
-  fullName.vb: DeBroglie.Topo.Topology.Topology(DeBroglie.Topo.Directions, System.Int32, System.Int32, System.Boolean, System.Boolean, System.Boolean())
-  nameWithType: Topology.Topology(Directions, Int32, Int32, Boolean, Boolean, Boolean[])
-  nameWithType.vb: Topology.Topology(Directions, Int32, Int32, Boolean, Boolean, Boolean())
-- uid: DeBroglie.Topo.Topology.#ctor(DeBroglie.Topo.Directions,System.Int32,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Boolean[])
-  name: Topology(Directions, Int32, Int32, Int32, Boolean, Boolean, Boolean, Boolean[])
-  href: api/DeBroglie.Topo.Topology.html#DeBroglie_Topo_Topology__ctor_DeBroglie_Topo_Directions_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_System_Boolean_System_Boolean___
-  commentId: M:DeBroglie.Topo.Topology.#ctor(DeBroglie.Topo.Directions,System.Int32,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Boolean[])
-  name.vb: Topology(Directions, Int32, Int32, Int32, Boolean, Boolean, Boolean, Boolean())
-  fullName: DeBroglie.Topo.Topology.Topology(DeBroglie.Topo.Directions, System.Int32, System.Int32, System.Int32, System.Boolean, System.Boolean, System.Boolean, System.Boolean[])
-  fullName.vb: DeBroglie.Topo.Topology.Topology(DeBroglie.Topo.Directions, System.Int32, System.Int32, System.Int32, System.Boolean, System.Boolean, System.Boolean, System.Boolean())
-  nameWithType: Topology.Topology(Directions, Int32, Int32, Int32, Boolean, Boolean, Boolean, Boolean[])
-  nameWithType.vb: Topology.Topology(Directions, Int32, Int32, Int32, Boolean, Boolean, Boolean, Boolean())
+- uid: DeBroglie.Topo.Topology.#ctor(DeBroglie.Topo.DirectionSet,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Boolean[])
+  name: Topology(DirectionSet, Int32, Int32, Boolean, Boolean, Boolean[])
+  href: api/DeBroglie.Topo.Topology.html#DeBroglie_Topo_Topology__ctor_DeBroglie_Topo_DirectionSet_System_Int32_System_Int32_System_Boolean_System_Boolean_System_Boolean___
+  commentId: M:DeBroglie.Topo.Topology.#ctor(DeBroglie.Topo.DirectionSet,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Boolean[])
+  name.vb: Topology(DirectionSet, Int32, Int32, Boolean, Boolean, Boolean())
+  fullName: DeBroglie.Topo.Topology.Topology(DeBroglie.Topo.DirectionSet, System.Int32, System.Int32, System.Boolean, System.Boolean, System.Boolean[])
+  fullName.vb: DeBroglie.Topo.Topology.Topology(DeBroglie.Topo.DirectionSet, System.Int32, System.Int32, System.Boolean, System.Boolean, System.Boolean())
+  nameWithType: Topology.Topology(DirectionSet, Int32, Int32, Boolean, Boolean, Boolean[])
+  nameWithType.vb: Topology.Topology(DirectionSet, Int32, Int32, Boolean, Boolean, Boolean())
+- uid: DeBroglie.Topo.Topology.#ctor(DeBroglie.Topo.DirectionSet,System.Int32,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Boolean[])
+  name: Topology(DirectionSet, Int32, Int32, Int32, Boolean, Boolean, Boolean, Boolean[])
+  href: api/DeBroglie.Topo.Topology.html#DeBroglie_Topo_Topology__ctor_DeBroglie_Topo_DirectionSet_System_Int32_System_Int32_System_Int32_System_Boolean_System_Boolean_System_Boolean_System_Boolean___
+  commentId: M:DeBroglie.Topo.Topology.#ctor(DeBroglie.Topo.DirectionSet,System.Int32,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Boolean[])
+  name.vb: Topology(DirectionSet, Int32, Int32, Int32, Boolean, Boolean, Boolean, Boolean())
+  fullName: DeBroglie.Topo.Topology.Topology(DeBroglie.Topo.DirectionSet, System.Int32, System.Int32, System.Int32, System.Boolean, System.Boolean, System.Boolean, System.Boolean[])
+  fullName.vb: DeBroglie.Topo.Topology.Topology(DeBroglie.Topo.DirectionSet, System.Int32, System.Int32, System.Int32, System.Boolean, System.Boolean, System.Boolean, System.Boolean())
+  nameWithType: Topology.Topology(DirectionSet, Int32, Int32, Int32, Boolean, Boolean, Boolean, Boolean[])
+  nameWithType.vb: Topology.Topology(DirectionSet, Int32, Int32, Int32, Boolean, Boolean, Boolean, Boolean())
 - uid: DeBroglie.Topo.Topology.#ctor(System.Int32,System.Int32,System.Boolean)
   name: Topology(Int32, Int32, Boolean)
   href: api/DeBroglie.Topo.Topology.html#DeBroglie_Topo_Topology__ctor_System_Int32_System_Int32_System_Boolean_
@@ -2616,33 +3011,33 @@ references:
   isSpec: "True"
   fullName: DeBroglie.Topo.Topology.PeriodicZ
   nameWithType: Topology.PeriodicZ
-- uid: DeBroglie.Topo.Topology.TryMove(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32@)
-  name: TryMove(Int32, Int32, Int32, Int32, out Int32)
-  href: api/DeBroglie.Topo.Topology.html#DeBroglie_Topo_Topology_TryMove_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32__
-  commentId: M:DeBroglie.Topo.Topology.TryMove(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32@)
-  name.vb: TryMove(Int32, Int32, Int32, Int32, ByRef Int32)
-  fullName: DeBroglie.Topo.Topology.TryMove(System.Int32, System.Int32, System.Int32, System.Int32, out System.Int32)
-  fullName.vb: DeBroglie.Topo.Topology.TryMove(System.Int32, System.Int32, System.Int32, System.Int32, ByRef System.Int32)
-  nameWithType: Topology.TryMove(Int32, Int32, Int32, Int32, out Int32)
-  nameWithType.vb: Topology.TryMove(Int32, Int32, Int32, Int32, ByRef Int32)
-- uid: DeBroglie.Topo.Topology.TryMove(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32@,System.Int32@,System.Int32@)
-  name: TryMove(Int32, Int32, Int32, Int32, out Int32, out Int32, out Int32)
-  href: api/DeBroglie.Topo.Topology.html#DeBroglie_Topo_Topology_TryMove_System_Int32_System_Int32_System_Int32_System_Int32_System_Int32__System_Int32__System_Int32__
-  commentId: M:DeBroglie.Topo.Topology.TryMove(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32@,System.Int32@,System.Int32@)
-  name.vb: TryMove(Int32, Int32, Int32, Int32, ByRef Int32, ByRef Int32, ByRef Int32)
-  fullName: DeBroglie.Topo.Topology.TryMove(System.Int32, System.Int32, System.Int32, System.Int32, out System.Int32, out System.Int32, out System.Int32)
-  fullName.vb: DeBroglie.Topo.Topology.TryMove(System.Int32, System.Int32, System.Int32, System.Int32, ByRef System.Int32, ByRef System.Int32, ByRef System.Int32)
-  nameWithType: Topology.TryMove(Int32, Int32, Int32, Int32, out Int32, out Int32, out Int32)
-  nameWithType.vb: Topology.TryMove(Int32, Int32, Int32, Int32, ByRef Int32, ByRef Int32, ByRef Int32)
-- uid: DeBroglie.Topo.Topology.TryMove(System.Int32,System.Int32,System.Int32@)
-  name: TryMove(Int32, Int32, out Int32)
-  href: api/DeBroglie.Topo.Topology.html#DeBroglie_Topo_Topology_TryMove_System_Int32_System_Int32_System_Int32__
-  commentId: M:DeBroglie.Topo.Topology.TryMove(System.Int32,System.Int32,System.Int32@)
-  name.vb: TryMove(Int32, Int32, ByRef Int32)
-  fullName: DeBroglie.Topo.Topology.TryMove(System.Int32, System.Int32, out System.Int32)
-  fullName.vb: DeBroglie.Topo.Topology.TryMove(System.Int32, System.Int32, ByRef System.Int32)
-  nameWithType: Topology.TryMove(Int32, Int32, out Int32)
-  nameWithType.vb: Topology.TryMove(Int32, Int32, ByRef Int32)
+- uid: DeBroglie.Topo.Topology.TryMove(System.Int32,DeBroglie.Topo.Direction,System.Int32@)
+  name: TryMove(Int32, Direction, out Int32)
+  href: api/DeBroglie.Topo.Topology.html#DeBroglie_Topo_Topology_TryMove_System_Int32_DeBroglie_Topo_Direction_System_Int32__
+  commentId: M:DeBroglie.Topo.Topology.TryMove(System.Int32,DeBroglie.Topo.Direction,System.Int32@)
+  name.vb: TryMove(Int32, Direction, ByRef Int32)
+  fullName: DeBroglie.Topo.Topology.TryMove(System.Int32, DeBroglie.Topo.Direction, out System.Int32)
+  fullName.vb: DeBroglie.Topo.Topology.TryMove(System.Int32, DeBroglie.Topo.Direction, ByRef System.Int32)
+  nameWithType: Topology.TryMove(Int32, Direction, out Int32)
+  nameWithType.vb: Topology.TryMove(Int32, Direction, ByRef Int32)
+- uid: DeBroglie.Topo.Topology.TryMove(System.Int32,System.Int32,System.Int32,DeBroglie.Topo.Direction,System.Int32@)
+  name: TryMove(Int32, Int32, Int32, Direction, out Int32)
+  href: api/DeBroglie.Topo.Topology.html#DeBroglie_Topo_Topology_TryMove_System_Int32_System_Int32_System_Int32_DeBroglie_Topo_Direction_System_Int32__
+  commentId: M:DeBroglie.Topo.Topology.TryMove(System.Int32,System.Int32,System.Int32,DeBroglie.Topo.Direction,System.Int32@)
+  name.vb: TryMove(Int32, Int32, Int32, Direction, ByRef Int32)
+  fullName: DeBroglie.Topo.Topology.TryMove(System.Int32, System.Int32, System.Int32, DeBroglie.Topo.Direction, out System.Int32)
+  fullName.vb: DeBroglie.Topo.Topology.TryMove(System.Int32, System.Int32, System.Int32, DeBroglie.Topo.Direction, ByRef System.Int32)
+  nameWithType: Topology.TryMove(Int32, Int32, Int32, Direction, out Int32)
+  nameWithType.vb: Topology.TryMove(Int32, Int32, Int32, Direction, ByRef Int32)
+- uid: DeBroglie.Topo.Topology.TryMove(System.Int32,System.Int32,System.Int32,DeBroglie.Topo.Direction,System.Int32@,System.Int32@,System.Int32@)
+  name: TryMove(Int32, Int32, Int32, Direction, out Int32, out Int32, out Int32)
+  href: api/DeBroglie.Topo.Topology.html#DeBroglie_Topo_Topology_TryMove_System_Int32_System_Int32_System_Int32_DeBroglie_Topo_Direction_System_Int32__System_Int32__System_Int32__
+  commentId: M:DeBroglie.Topo.Topology.TryMove(System.Int32,System.Int32,System.Int32,DeBroglie.Topo.Direction,System.Int32@,System.Int32@,System.Int32@)
+  name.vb: TryMove(Int32, Int32, Int32, Direction, ByRef Int32, ByRef Int32, ByRef Int32)
+  fullName: DeBroglie.Topo.Topology.TryMove(System.Int32, System.Int32, System.Int32, DeBroglie.Topo.Direction, out System.Int32, out System.Int32, out System.Int32)
+  fullName.vb: DeBroglie.Topo.Topology.TryMove(System.Int32, System.Int32, System.Int32, DeBroglie.Topo.Direction, ByRef System.Int32, ByRef System.Int32, ByRef System.Int32)
+  nameWithType: Topology.TryMove(Int32, Int32, Int32, Direction, out Int32, out Int32, out Int32)
+  nameWithType.vb: Topology.TryMove(Int32, Int32, Int32, Direction, ByRef Int32, ByRef Int32, ByRef Int32)
 - uid: DeBroglie.Topo.Topology.TryMove*
   name: TryMove
   href: api/DeBroglie.Topo.Topology.html#DeBroglie_Topo_Topology_TryMove_

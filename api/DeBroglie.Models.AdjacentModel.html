@@ -117,19 +117,19 @@ The list is always symmetric, i.e. if it is legal to place tile B directly above
   </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Models_AdjacentModel__ctor_DeBroglie_Topo_Directions_.md&amp;value=---%0Auid%3A%20DeBroglie.Models.AdjacentModel.%23ctor(DeBroglie.Topo.Directions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Models_AdjacentModel__ctor_DeBroglie_Topo_DirectionSet_.md&amp;value=---%0Auid%3A%20DeBroglie.Models.AdjacentModel.%23ctor(DeBroglie.Topo.DirectionSet)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Models/AdjacentModel.cs/#L54">View Source</a>
   </span>
   <a id="DeBroglie_Models_AdjacentModel__ctor_" data-uid="DeBroglie.Models.AdjacentModel.#ctor*"></a>
-  <h4 id="DeBroglie_Models_AdjacentModel__ctor_DeBroglie_Topo_Directions_" data-uid="DeBroglie.Models.AdjacentModel.#ctor(DeBroglie.Topo.Directions)">AdjacentModel(Directions)</h4>
+  <h4 id="DeBroglie_Models_AdjacentModel__ctor_DeBroglie_Topo_DirectionSet_" data-uid="DeBroglie.Models.AdjacentModel.#ctor(DeBroglie.Topo.DirectionSet)">AdjacentModel(DirectionSet)</h4>
   <div class="markdown level1 summary"><p>Constructs an AdjacentModel.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public AdjacentModel(Directions directions)</code></pre>
+    <pre><code class="lang-csharp hljs">public AdjacentModel(DirectionSet directions)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -142,7 +142,7 @@ The list is always symmetric, i.e. if it is legal to place tile B directly above
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="DeBroglie.Topo.Directions.html">Directions</a></td>
+        <td><a class="xref" href="DeBroglie.Topo.DirectionSet.html">DirectionSet</a></td>
         <td><span class="parametername">directions</span></td>
         <td></td>
       </tr>
@@ -219,10 +219,53 @@ The list is always symmetric, i.e. if it is legal to place tile B directly above
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Models_AdjacentModel_AddAdjacency_DeBroglie_Tile_DeBroglie_Tile_DeBroglie_Topo_Direction_.md&amp;value=---%0Auid%3A%20DeBroglie.Models.AdjacentModel.AddAdjacency(DeBroglie.Tile%2CDeBroglie.Tile%2CDeBroglie.Topo.Direction)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Models/AdjacentModel.cs/#L213">View Source</a>
+  </span>
+  <a id="DeBroglie_Models_AdjacentModel_AddAdjacency_" data-uid="DeBroglie.Models.AdjacentModel.AddAdjacency*"></a>
+  <h4 id="DeBroglie_Models_AdjacentModel_AddAdjacency_DeBroglie_Tile_DeBroglie_Tile_DeBroglie_Topo_Direction_" data-uid="DeBroglie.Models.AdjacentModel.AddAdjacency(DeBroglie.Tile,DeBroglie.Tile,DeBroglie.Topo.Direction)">AddAdjacency(Tile, Tile, Direction)</h4>
+  <div class="markdown level1 summary"><p>Declares that dest can be placed adjacent to src, in the direction specified.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddAdjacency(Tile src, Tile dest, Direction d)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="DeBroglie.Tile.html">Tile</a></td>
+        <td><span class="parametername">src</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="DeBroglie.Tile.html">Tile</a></td>
+        <td><span class="parametername">dest</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="DeBroglie.Topo.Direction.html">Direction</a></td>
+        <td><span class="parametername">d</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Models_AdjacentModel_AddAdjacency_DeBroglie_Tile_DeBroglie_Tile_System_Int32_System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20DeBroglie.Models.AdjacentModel.AddAdjacency(DeBroglie.Tile%2CDeBroglie.Tile%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Models/AdjacentModel.cs/#L167">View Source</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Models/AdjacentModel.cs/#L203">View Source</a>
   </span>
   <a id="DeBroglie_Models_AdjacentModel_AddAdjacency_" data-uid="DeBroglie.Models.AdjacentModel.AddAdjacency*"></a>
   <h4 id="DeBroglie_Models_AdjacentModel_AddAdjacency_DeBroglie_Tile_DeBroglie_Tile_System_Int32_System_Int32_System_Int32_" data-uid="DeBroglie.Models.AdjacentModel.AddAdjacency(DeBroglie.Tile,DeBroglie.Tile,System.Int32,System.Int32,System.Int32)">AddAdjacency(Tile, Tile, Int32, Int32, Int32)</h4>
@@ -273,10 +316,103 @@ The list is always symmetric, i.e. if it is legal to place tile B directly above
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Models_AdjacentModel_AddAdjacency_System_Collections_Generic_IList_DeBroglie_Tile__System_Collections_Generic_IList_DeBroglie_Tile__DeBroglie_Topo_Direction_.md&amp;value=---%0Auid%3A%20DeBroglie.Models.AdjacentModel.AddAdjacency(System.Collections.Generic.IList%7BDeBroglie.Tile%7D%2CSystem.Collections.Generic.IList%7BDeBroglie.Tile%7D%2CDeBroglie.Topo.Direction)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Models/AdjacentModel.cs/#L186">View Source</a>
+  </span>
+  <a id="DeBroglie_Models_AdjacentModel_AddAdjacency_" data-uid="DeBroglie.Models.AdjacentModel.AddAdjacency*"></a>
+  <h4 id="DeBroglie_Models_AdjacentModel_AddAdjacency_System_Collections_Generic_IList_DeBroglie_Tile__System_Collections_Generic_IList_DeBroglie_Tile__DeBroglie_Topo_Direction_" data-uid="DeBroglie.Models.AdjacentModel.AddAdjacency(System.Collections.Generic.IList{DeBroglie.Tile},System.Collections.Generic.IList{DeBroglie.Tile},DeBroglie.Topo.Direction)">AddAdjacency(IList&lt;Tile&gt;, IList&lt;Tile&gt;, Direction)</h4>
+  <div class="markdown level1 summary"><p>Declares that the tiles in dest can be placed adjacent to the tiles in src, in the direction specified by (x, y, z).
+(x, y, z) must be a valid direction, which usually means a unit vector.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddAdjacency(IList&lt;Tile&gt; src, IList&lt;Tile&gt; dest, Direction dir)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="DeBroglie.Tile.html">Tile</a>&gt;</td>
+        <td><span class="parametername">src</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="DeBroglie.Tile.html">Tile</a>&gt;</td>
+        <td><span class="parametername">dest</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="DeBroglie.Topo.Direction.html">Direction</a></td>
+        <td><span class="parametername">dir</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Models_AdjacentModel_AddAdjacency_System_Collections_Generic_IList_DeBroglie_Tile__System_Collections_Generic_IList_DeBroglie_Tile__DeBroglie_Topo_Direction_DeBroglie_Rot_TileRotation_.md&amp;value=---%0Auid%3A%20DeBroglie.Models.AdjacentModel.AddAdjacency(System.Collections.Generic.IList%7BDeBroglie.Tile%7D%2CSystem.Collections.Generic.IList%7BDeBroglie.Tile%7D%2CDeBroglie.Topo.Direction%2CDeBroglie.Rot.TileRotation)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Models/AdjacentModel.cs/#L141">View Source</a>
+  </span>
+  <a id="DeBroglie_Models_AdjacentModel_AddAdjacency_" data-uid="DeBroglie.Models.AdjacentModel.AddAdjacency*"></a>
+  <h4 id="DeBroglie_Models_AdjacentModel_AddAdjacency_System_Collections_Generic_IList_DeBroglie_Tile__System_Collections_Generic_IList_DeBroglie_Tile__DeBroglie_Topo_Direction_DeBroglie_Rot_TileRotation_" data-uid="DeBroglie.Models.AdjacentModel.AddAdjacency(System.Collections.Generic.IList{DeBroglie.Tile},System.Collections.Generic.IList{DeBroglie.Tile},DeBroglie.Topo.Direction,DeBroglie.Rot.TileRotation)">AddAdjacency(IList&lt;Tile&gt;, IList&lt;Tile&gt;, Direction, TileRotation)</h4>
+  <div class="markdown level1 summary"><p>Declares that the tiles in dest can be placed adjacent to the tiles in src, in the direction specified.
+Then it adds similar declarations for other rotations and reflections, as specified by rotations.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddAdjacency(IList&lt;Tile&gt; src, IList&lt;Tile&gt; dest, Direction dir, TileRotation tileRotation = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="DeBroglie.Tile.html">Tile</a>&gt;</td>
+        <td><span class="parametername">src</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="DeBroglie.Tile.html">Tile</a>&gt;</td>
+        <td><span class="parametername">dest</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="DeBroglie.Topo.Direction.html">Direction</a></td>
+        <td><span class="parametername">dir</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="DeBroglie.Rot.TileRotation.html">TileRotation</a></td>
+        <td><span class="parametername">tileRotation</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Models_AdjacentModel_AddAdjacency_System_Collections_Generic_IList_DeBroglie_Tile__System_Collections_Generic_IList_DeBroglie_Tile__System_Int32_System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20DeBroglie.Models.AdjacentModel.AddAdjacency(System.Collections.Generic.IList%7BDeBroglie.Tile%7D%2CSystem.Collections.Generic.IList%7BDeBroglie.Tile%7D%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Models/AdjacentModel.cs/#L150">View Source</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Models/AdjacentModel.cs/#L176">View Source</a>
   </span>
   <a id="DeBroglie_Models_AdjacentModel_AddAdjacency_" data-uid="DeBroglie.Models.AdjacentModel.AddAdjacency*"></a>
   <h4 id="DeBroglie_Models_AdjacentModel_AddAdjacency_System_Collections_Generic_IList_DeBroglie_Tile__System_Collections_Generic_IList_DeBroglie_Tile__System_Int32_System_Int32_System_Int32_" data-uid="DeBroglie.Models.AdjacentModel.AddAdjacency(System.Collections.Generic.IList{DeBroglie.Tile},System.Collections.Generic.IList{DeBroglie.Tile},System.Int32,System.Int32,System.Int32)">AddAdjacency(IList&lt;Tile&gt;, IList&lt;Tile&gt;, Int32, Int32, Int32)</h4>
@@ -330,7 +466,7 @@ The list is always symmetric, i.e. if it is legal to place tile B directly above
     <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Models_AdjacentModel_AddAdjacency_System_Collections_Generic_IList_DeBroglie_Tile__System_Collections_Generic_IList_DeBroglie_Tile__System_Int32_System_Int32_System_Int32_DeBroglie_Rot_TileRotation_.md&amp;value=---%0Auid%3A%20DeBroglie.Models.AdjacentModel.AddAdjacency(System.Collections.Generic.IList%7BDeBroglie.Tile%7D%2CSystem.Collections.Generic.IList%7BDeBroglie.Tile%7D%2CSystem.Int32%2CSystem.Int32%2CSystem.Int32%2CDeBroglie.Rot.TileRotation)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Models/AdjacentModel.cs/#L123">View Source</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Models/AdjacentModel.cs/#L155">View Source</a>
   </span>
   <a id="DeBroglie_Models_AdjacentModel_AddAdjacency_" data-uid="DeBroglie.Models.AdjacentModel.AddAdjacency*"></a>
   <h4 id="DeBroglie_Models_AdjacentModel_AddAdjacency_System_Collections_Generic_IList_DeBroglie_Tile__System_Collections_Generic_IList_DeBroglie_Tile__System_Int32_System_Int32_System_Int32_DeBroglie_Rot_TileRotation_" data-uid="DeBroglie.Models.AdjacentModel.AddAdjacency(System.Collections.Generic.IList{DeBroglie.Tile},System.Collections.Generic.IList{DeBroglie.Tile},System.Int32,System.Int32,System.Int32,DeBroglie.Rot.TileRotation)">AddAdjacency(IList&lt;Tile&gt;, IList&lt;Tile&gt;, Int32, Int32, Int32, TileRotation)</h4>
@@ -389,7 +525,7 @@ Then it adds similar declarations for other rotations and reflections, as specif
     <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Models_AdjacentModel_AddSample_DeBroglie_Topo_ITopoArray_DeBroglie_Tile__.md&amp;value=---%0Auid%3A%20DeBroglie.Models.AdjacentModel.AddSample(DeBroglie.Topo.ITopoArray%7BDeBroglie.Tile%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Models/AdjacentModel.cs/#L190">View Source</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Models/AdjacentModel.cs/#L237">View Source</a>
   </span>
   <a id="DeBroglie_Models_AdjacentModel_AddSample_" data-uid="DeBroglie.Models.AdjacentModel.AddSample*"></a>
   <h4 id="DeBroglie_Models_AdjacentModel_AddSample_DeBroglie_Topo_ITopoArray_DeBroglie_Tile__" data-uid="DeBroglie.Models.AdjacentModel.AddSample(DeBroglie.Topo.ITopoArray{DeBroglie.Tile})">AddSample(ITopoArray&lt;Tile&gt;)</h4>
@@ -421,7 +557,7 @@ Then it adds similar declarations for other rotations and reflections, as specif
     <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Models_AdjacentModel_AddSample_DeBroglie_Topo_ITopoArray_DeBroglie_Tile__DeBroglie_Rot_TileRotation_.md&amp;value=---%0Auid%3A%20DeBroglie.Models.AdjacentModel.AddSample(DeBroglie.Topo.ITopoArray%7BDeBroglie.Tile%7D%2CDeBroglie.Rot.TileRotation)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Models/AdjacentModel.cs/#L182">View Source</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Models/AdjacentModel.cs/#L229">View Source</a>
   </span>
   <a id="DeBroglie_Models_AdjacentModel_AddSample_" data-uid="DeBroglie.Models.AdjacentModel.AddSample*"></a>
   <h4 id="DeBroglie_Models_AdjacentModel_AddSample_DeBroglie_Topo_ITopoArray_DeBroglie_Tile__DeBroglie_Rot_TileRotation_" data-uid="DeBroglie.Models.AdjacentModel.AddSample(DeBroglie.Topo.ITopoArray{DeBroglie.Tile},DeBroglie.Rot.TileRotation)">AddSample(ITopoArray&lt;Tile&gt;, TileRotation)</h4>
@@ -586,10 +722,67 @@ Then it adds similar declarations for other rotations and reflections, as specif
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Models_AdjacentModel_IsAdjacent_DeBroglie_Tile_DeBroglie_Tile_DeBroglie_Topo_Direction_.md&amp;value=---%0Auid%3A%20DeBroglie.Models.AdjacentModel.IsAdjacent(DeBroglie.Tile%2CDeBroglie.Tile%2CDeBroglie.Topo.Direction)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Models/AdjacentModel.cs/#L222">View Source</a>
+  </span>
+  <a id="DeBroglie_Models_AdjacentModel_IsAdjacent_" data-uid="DeBroglie.Models.AdjacentModel.IsAdjacent*"></a>
+  <h4 id="DeBroglie_Models_AdjacentModel_IsAdjacent_DeBroglie_Tile_DeBroglie_Tile_DeBroglie_Topo_Direction_" data-uid="DeBroglie.Models.AdjacentModel.IsAdjacent(DeBroglie.Tile,DeBroglie.Tile,DeBroglie.Topo.Direction)">IsAdjacent(Tile, Tile, Direction)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsAdjacent(Tile src, Tile dest, Direction d)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="DeBroglie.Tile.html">Tile</a></td>
+        <td><span class="parametername">src</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="DeBroglie.Tile.html">Tile</a></td>
+        <td><span class="parametername">dest</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="DeBroglie.Topo.Direction.html">Direction</a></td>
+        <td><span class="parametername">d</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Models_AdjacentModel_MultiplyFrequency_DeBroglie_Tile_System_Double_.md&amp;value=---%0Auid%3A%20DeBroglie.Models.AdjacentModel.MultiplyFrequency(DeBroglie.Tile%2CSystem.Double)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Models/AdjacentModel.cs/#L255">View Source</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Models/AdjacentModel.cs/#L307">View Source</a>
   </span>
   <a id="DeBroglie_Models_AdjacentModel_MultiplyFrequency_" data-uid="DeBroglie.Models.AdjacentModel.MultiplyFrequency*"></a>
   <h4 id="DeBroglie_Models_AdjacentModel_MultiplyFrequency_DeBroglie_Tile_System_Double_" data-uid="DeBroglie.Models.AdjacentModel.MultiplyFrequency(DeBroglie.Tile,System.Double)">MultiplyFrequency(Tile, Double)</h4>
@@ -625,13 +818,13 @@ Then it adds similar declarations for other rotations and reflections, as specif
   <div><a class="xref" href="DeBroglie.Models.TileModel.html#DeBroglie_Models_TileModel_MultiplyFrequency_DeBroglie_Tile_System_Double_">TileModel.MultiplyFrequency(Tile, Double)</a></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Models_AdjacentModel_SetDirections_DeBroglie_Topo_Directions_.md&amp;value=---%0Auid%3A%20DeBroglie.Models.AdjacentModel.SetDirections(DeBroglie.Topo.Directions)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Models_AdjacentModel_SetDirections_DeBroglie_Topo_DirectionSet_.md&amp;value=---%0Auid%3A%20DeBroglie.Models.AdjacentModel.SetDirections(DeBroglie.Topo.DirectionSet)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Models/AdjacentModel.cs/#L79">View Source</a>
   </span>
   <a id="DeBroglie_Models_AdjacentModel_SetDirections_" data-uid="DeBroglie.Models.AdjacentModel.SetDirections*"></a>
-  <h4 id="DeBroglie_Models_AdjacentModel_SetDirections_DeBroglie_Topo_Directions_" data-uid="DeBroglie.Models.AdjacentModel.SetDirections(DeBroglie.Topo.Directions)">SetDirections(Directions)</h4>
+  <h4 id="DeBroglie_Models_AdjacentModel_SetDirections_DeBroglie_Topo_DirectionSet_" data-uid="DeBroglie.Models.AdjacentModel.SetDirections(DeBroglie.Topo.DirectionSet)">SetDirections(DirectionSet)</h4>
   <div class="markdown level1 summary"><p>Sets the directions of the Adjacent model, if it has not been set at construction.
 This specifies how many neighbours each tile has.
 Once set, it cannot be changed.</p>
@@ -639,7 +832,7 @@ Once set, it cannot be changed.</p>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void SetDirections(Directions directions)</code></pre>
+    <pre><code class="lang-csharp hljs">public void SetDirections(DirectionSet directions)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -652,7 +845,7 @@ Once set, it cannot be changed.</p>
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="DeBroglie.Topo.Directions.html">Directions</a></td>
+        <td><a class="xref" href="DeBroglie.Topo.DirectionSet.html">DirectionSet</a></td>
         <td><span class="parametername">directions</span></td>
         <td></td>
       </tr>
@@ -663,7 +856,7 @@ Once set, it cannot be changed.</p>
     <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Models_AdjacentModel_SetFrequency_DeBroglie_Tile_System_Double_.md&amp;value=---%0Auid%3A%20DeBroglie.Models.AdjacentModel.SetFrequency(DeBroglie.Tile%2CSystem.Double)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Models/AdjacentModel.cs/#L112">View Source</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Models/AdjacentModel.cs/#L120">View Source</a>
   </span>
   <a id="DeBroglie_Models_AdjacentModel_SetFrequency_" data-uid="DeBroglie.Models.AdjacentModel.SetFrequency*"></a>
   <h4 id="DeBroglie_Models_AdjacentModel_SetFrequency_DeBroglie_Tile_System_Double_" data-uid="DeBroglie.Models.AdjacentModel.SetFrequency(DeBroglie.Tile,System.Double)">SetFrequency(Tile, Double)</h4>
@@ -701,7 +894,7 @@ Once set, it cannot be changed.</p>
     <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Models_AdjacentModel_SetFrequency_DeBroglie_Tile_System_Double_DeBroglie_Rot_TileRotation_.md&amp;value=---%0Auid%3A%20DeBroglie.Models.AdjacentModel.SetFrequency(DeBroglie.Tile%2CSystem.Double%2CDeBroglie.Rot.TileRotation)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Models/AdjacentModel.cs/#L92">View Source</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Models/AdjacentModel.cs/#L100">View Source</a>
   </span>
   <a id="DeBroglie_Models_AdjacentModel_SetFrequency_" data-uid="DeBroglie.Models.AdjacentModel.SetFrequency*"></a>
   <h4 id="DeBroglie_Models_AdjacentModel_SetFrequency_DeBroglie_Tile_System_Double_DeBroglie_Rot_TileRotation_" data-uid="DeBroglie.Models.AdjacentModel.SetFrequency(DeBroglie.Tile,System.Double,DeBroglie.Rot.TileRotation)">SetFrequency(Tile, Double, TileRotation)</h4>
@@ -739,6 +932,22 @@ Once set, it cannot be changed.</p>
       </tr>
     </tbody>
   </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Models_AdjacentModel_SetUniformFrequency.md&amp;value=---%0Auid%3A%20DeBroglie.Models.AdjacentModel.SetUniformFrequency%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Models/AdjacentModel.cs/#L129">View Source</a>
+  </span>
+  <a id="DeBroglie_Models_AdjacentModel_SetUniformFrequency_" data-uid="DeBroglie.Models.AdjacentModel.SetUniformFrequency*"></a>
+  <h4 id="DeBroglie_Models_AdjacentModel_SetUniformFrequency" data-uid="DeBroglie.Models.AdjacentModel.SetUniformFrequency">SetUniformFrequency()</h4>
+  <div class="markdown level1 summary"><p>Sets all tiles as equally likely to be picked</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetUniformFrequency()</code></pre>
+  </div>
 </article>
           </div>
           

@@ -164,7 +164,7 @@
 <tr>
 <td><code>ground</code></td>
 <td><a href="#tile-references">Tile</a></td>
-<td>Shorthand for adding a pair of <a href="features.html#border">border constraints</a>. <br> The first one constrains the bottom of the output to be the specified tile.<br> The second bans the tile from all other locations.<br> The bottom is taken to be ymax for 2d generation, zmin for 3d.</td>
+<td>Shorthand for adding a pair of <a href="constraints.html#border">border constraints</a>. <br> The first one constrains the bottom of the output to be the specified tile.<br> The second bans the tile from all other locations.<br> The bottom is taken to be ymax for 2d generation, zmin for 3d.</td>
 </tr>
 <tr>
 <td><code>symmetry</code></td>
@@ -266,7 +266,7 @@
 </table>
 <h3 id="constraint-config">Constraint Config</h3>
 <p>Constraints are a JSON object taking one of the following formats. The <code>type</code> field is set to a constant to indicate what sort of model is used.</p>
-<p>For constructing a <a href="features.html#path">path constraint</a></p>
+<p>For constructing a <a href="constraints.html#path">path constraint</a></p>
 <table>
 <thead>
 <tr>
@@ -282,13 +282,50 @@
 <td><code>&quot;path&quot;</code></td>
 </tr>
 <tr>
-<td><code>pathTiles</code></td>
+<td><code>tile</code></td>
+<td><a href="#tile-references">Tile</a></td>
+<td>Sorthand for setting <code>tiles</code> with a single value</td>
+</tr>
+<tr>
+<td><code>tiles</code></td>
 <td>array of <a href="#tile-references">Tile</a></td>
 <td>The set of tiles that are considered &quot;on the path&quot;.</td>
 </tr>
+<tr>
+<td><code>endPoints</code></td>
+<td>array of <a href="#point-config">Point</a></td>
+<td>Set of points that must be connected by paths. If unset, then all path cells must be are connected.</td>
+</tr>
 </tbody>
 </table>
-<p>For constructing a <a href="features.html#border">border constraint</a></p>
+<p>For constructing an <a href="constraints.html#edged-path">edged path constraint</a></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>type</code></td>
+<td>string</td>
+<td><code>&quot;edgedPath&quot;</code></td>
+</tr>
+<tr>
+<td><code>exits</code></td>
+<td>dictionary from <a href="#tile-references">Tile</a> to array of <code>Directions</code> (<code>&quot;xplus&quot;</code>, <code>&quot;yminus&quot;</code> etc)</td>
+<td>The set of tiles that are considered &quot;on the path&quot;, and which directions out of those tiles are path connections.</td>
+</tr>
+<tr>
+<td><code>endPoints</code></td>
+<td>array of <a href="#point-config">Point</a></td>
+<td>Set of points that must be connected by paths. If unset, then all path cells must be are connected.</td>
+</tr>
+</tbody>
+</table>
+<p>For constructing a <a href="constraints.html#border">border constraint</a></p>
 <table>
 <thead>
 <tr>
@@ -306,7 +343,12 @@
 <tr>
 <td><code>tile</code></td>
 <td><a href="#tile-references">Tile</a></td>
-<td>The tile to select or ban fromthe  border area.</td>
+<td>Sorthand for setting <code>tiles</code> with a single value</td>
+</tr>
+<tr>
+<td><code>tiles</code></td>
+<td>array of <a href="#tile-references">Tile</a></td>
+<td>The tiles to select or ban fromthe  border area.</td>
 </tr>
 <tr>
 <td><code>sides</code></td>
@@ -330,7 +372,7 @@
 </tr>
 </tbody>
 </table>
-<p>For constructing a <a href="features.html#fixed-tile">fixed tile constraint</a></p>
+<p>For constructing a <a href="constraints.html#fixed-tile">fixed tile constraint</a></p>
 <table>
 <thead>
 <tr>
@@ -348,7 +390,12 @@
 <tr>
 <td><code>tile</code></td>
 <td><a href="#tile-references">Tile</a></td>
-<td>The tile to select.</td>
+<td>Sorthand for setting <code>tiles</code> with a single value</td>
+</tr>
+<tr>
+<td><code>tiles</code></td>
+<td>array of <a href="#tile-references">Tile</a></td>
+<td>The tiles to select.</td>
 </tr>
 <tr>
 <td><code>point</code></td>
@@ -357,7 +404,7 @@
 </tr>
 </tbody>
 </table>
-<p>For constructing a <a href="features.html#max-consecutive">max consecutive constraint</a></p>
+<p>For constructing a <a href="constraints.html#max-consecutive">max consecutive constraint</a></p>
 <table>
 <thead>
 <tr>
@@ -373,8 +420,13 @@
 <td><code>&quot;maxConsectuive&quot;</code></td>
 </tr>
 <tr>
+<td><code>tile</code></td>
+<td><a href="#tile-references">Tile</a></td>
+<td>Sorthand for setting <code>tiles</code> with a single value</td>
+</tr>
+<tr>
 <td><code>tiles</code></td>
-<td>array <a href="#tile-references">Tile</a></td>
+<td>array of <a href="#tile-references">Tile</a></td>
 <td>The set of tiles to restrict</td>
 </tr>
 <tr>
@@ -383,19 +435,26 @@
 <td>The maximum number of tiles to allow to appear consecutive. Default 3.</td>
 </tr>
 <tr>
-<td><code>xAxis</code></td>
-<td>bool</td>
-<td>Should the x-axis be restricted. Default true.</td>
+<td><code>axes</code></td>
+<td>array of Axis (i.e. <code>&quot;x&quot;</code>, <code>&quot;y&quot;</code>, <code>&quot;z&quot;</code>)</td>
+<td>Which axes should be restricted. Default: all axes</td>
 </tr>
+</tbody>
+</table>
+<p>For constructing a <a href="constraints.html#mirror">mirror constraint</a></p>
+<table>
+<thead>
 <tr>
-<td><code>yAxis</code></td>
-<td>bool</td>
-<td>Should the y-axis be restricted. Default true.</td>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
 </tr>
+</thead>
+<tbody>
 <tr>
-<td><code>zAxis</code></td>
-<td>bool</td>
-<td>Should the z-axis be restricted. Default true.</td>
+<td><code>type</code></td>
+<td>string</td>
+<td><code>&quot;mirror&quot;</code></td>
 </tr>
 </tbody>
 </table>

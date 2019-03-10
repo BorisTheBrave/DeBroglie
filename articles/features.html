@@ -141,92 +141,10 @@ when the relationship between tiles is very complex, or you are adding a lot oth
 <p>Constraints are a way to make additional hard requirements about the generated output.
 Unlike models, constraints can be <em>non-local</em>, meaning they force some property of the entire image,
 not just within a small rectangles.</p>
-<h3 id="border">Border</h3>
-<p><a class="xref" href="../api/DeBroglie.Constraints.BorderConstraint.html">BorderConstraint</a> class restricts what tiles can be selected in various regions of the output. It's pretty common that you want to specify the borders as being ground, or empty, or whatever, as otherwise if DeBroglie will often generate structures that lead off the edge and are clipped.</p>
-<div class="NOTE">
-<h5>Note</h5>
-<p><a class="xref" href="../api/DeBroglie.Constraints.BorderConstraint.html">BorderConstraint</a> only affects the initial set of tiles that can be legally placed. That means it is not doing anything except calling <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Ban_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Ban</a> and <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Select_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Select</a> on startup, which you can also do manually. <a class="xref" href="../api/DeBroglie.Constraints.BorderConstraint.html">BorderConstraint</a> is just a convenience.</p>
-</div>
-<p>BorderConstraing specifies a set of cells using a simple logic. First, an inclusion set of cells is defined by the <a class="xref" href="../api/DeBroglie.Constraints.BorderConstraint.html#DeBroglie_Constraints_BorderConstraint_Sides">Sides</a> field. This field is a bit field of flags, where there is one flag for each of the boundary sides of the output area (4 in 2d, 6 in 3d). An exclusion set is defined similarly from the  <a class="xref" href="../api/DeBroglie.Constraints.BorderConstraint.html#DeBroglie_Constraints_BorderConstraint_ExcludeSides">ExcludeSides</a> field. To get the set of locations affected, subtract the exclusion set from the inclusion set, then optionally invert if <a class="xref" href="../api/DeBroglie.Constraints.BorderConstraint.html#DeBroglie_Constraints_BorderConstraint_InvertArea">InvertArea</a> is set.</p>
-<p>For each affected location, BorderConstratin calls <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Select_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Select</a> with the Tile specified. If the <a class="xref" href="../api/DeBroglie.Constraints.BorderConstraint.html#DeBroglie_Constraints_BorderConstraint_Ban">Ban</a> field is set, then it calls <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Ban_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Ban</a> isntead of <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Select_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Select</a>.</p>
-<p><strong>Example</strong></p>
-<figure>
-<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/pathway_overlapping_border.json">
-<img src="../images/pathway.png">
-<img src="../images/arrow.png">
-<img src="../images/pathway_overlapping_border.png">
-</a>
-<figcaption>Using a border constraint ensures that none of the blue leaves the edge, forcing loops.</figcaption>
-</figure>
-<h3 id="path">Path</h3>
-<p>The <a class="xref" href="../api/DeBroglie.Constraints.PathConstraint.html">PathConstraint</a> checks that it is possible to connect several locations together via a continuous path of adjacent tiles. It does this by banning any tile placement that would make such a path impossible.</p>
-<p>Set <a class="xref" href="../api/DeBroglie.Constraints.PathConstraint.html#DeBroglie_Constraints_PathConstraint_PathTiles">PathTiles</a> to the set of tiles that are considered on the path. Any two adjacent locations with tiles in this set are connected, and if x is connected to y and y is connected to z, then x and z are also connected.</p>
-<p>By default, <a class="xref" href="../api/DeBroglie.Constraints.PathConstraint.html">PathConstraint</a> forces all path tiles to be connect to each others. However, if you set <a class="xref" href="../api/DeBroglie.Constraints.PathConstraint.html#DeBroglie_Constraints_PathConstraint_EndPoints">EndPoints</a> then instead it forces that those specific points connect to each other, but doesn't stop extra path tiles being placed.</p>
-<div class="WARNING">
-<h5>Warning</h5>
-<p><a class="xref" href="../api/DeBroglie.Constraints.PathConstraint.html">PathConstraint</a> does not have a great deal of lookahead, so adding it will significantly increase the amount of retries needed to get a successful generation. You may need to enable <a href="#backtracking">backtracking</a> to get a successful result.</p>
-</div>
-<p><strong>Example</strong></p>
-<figure>
-<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/pathway_overlapping_path.json">
-<img src="../images/pathway.png">
-<img src="../images/arrow.png">
-<img src="../images/pathway_overlapping_path.png">
-</a>
-<figcaption>Using a path constraint ensures you can trace a path from any blue pixel to any other one.</figcaption>
-</figure>
-<h3 id="fixed-tile">Fixed Tile</h3>
-<p>The <a class="xref" href="../api/DeBroglie.Constraints.FixedTileConstraint.html">FixedTileConstraint</a> class forces a given location to be the specified Tile at initialization. If you don't specify a location, a random legal location is chosen.</p>
-<p>You can use <a class="xref" href="../api/DeBroglie.Constraints.FixedTileConstraint.html">FixedTileConstraint</a> to force certain features to always be generated.</p>
-<figure>
-<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/castle/castle.json">
-<video src="../images/castle_fixed.webm" autoplay="" loop="">
-</video></a>
-
-<figcaption>Several castles all generated with a fixed turret location</figcaption>
-</figure>
-<h3 id="max-consecutive">Max Consecutive</h3>
-<p>The <a class="xref" href="../api/DeBroglie.Constraints.MaxConsecutiveConstraint.html">MaxConsecutiveConstraint</a> class prevents more than a certain number of tiles appearing consecutively along the x, y or z axis.</p>
-<figure>
-<table>
-<tr>
-<td>
-MaxCount
-</td>
-<td></td>
-</tr>
-<tr>
-<td>2</td>
-<td>
-<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/max_constraint_2.json">
-<img src="../images/max_constraint_2.png">
-</a>
-</td>
-</tr>
-<tr>
-<td>3</td>
-<td>
-<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/max_constraint_3.json">
-<img src="../images/max_constraint_3.png">
-</a>
-</td>
-</tr>
-<tr>
-<td>10</td>
-<td>
-<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/max_constraint_10.json">
-<img src="../images/max_constraint_10.png">
-</a>
-</td>
-</tr>
-<figcaption>Platforms generated with the MaxConsecutive constraint with different values of MaxCount.</figcaption>
-</table></figure>
-<h3 id="custom-constraints">Custom Constraints</h3>
-<p>You can define your own constraints by extending <a class="xref" href="../api/DeBroglie.Constraints.ITileConstraint.html">ITileConstraint</a>. The Init method is called once per propagator run, and the Check method is called after each step, each time tiles are selected.</p>
-<p>Inside these methods, you can call <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Select_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Select</a> and <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Ban_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Ban</a> to control what tiles can be legally placed. You can also return <a class="xref" href="../api/DeBroglie.Resolution.html#DeBroglie_Resolution_Contradiction">Contradiction</a> to indicate that something is wrong and generation cannot continue. Otherwise, return <a class="xref" href="../api/DeBroglie.Resolution.html#DeBroglie_Resolution_Undecided">Undecided</a> to indicate that generation should continue.</p>
+<p>They are discussed on a <a href="constraints.html">separate page</a>.</p>
 <h2 id="backtracking">Backtracking</h2>
 <p>By default when you call <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Run">Run()</a> the WFC algorithm keeps adding tiles until it has filled every location, or until it is impossible to place a tile that satisfies all the constraints set up. It then returns <a class="xref" href="../api/DeBroglie.Resolution.html#DeBroglie_Resolution_Contradiction">Contradiction</a>.</p>
-<p>If you set the backtrack argument to <code>true</code> when constructing the <a class="xref" href="../api/DeBroglie.TilePropagator.html">TilePropagator</a>, then the propagator does not give up when a contradiction occurs. I will attempt to roll back the most recent tile placement, and try another placment instead. <a href="https://en.wikipedia.org/wiki/Backtracking">In this manner</a>, it can explore the entire space of possible tile placements, seeking one that satifies the constraints. <a class="xref" href="../api/DeBroglie.Resolution.html#DeBroglie_Resolution_Contradiction">Contradiction</a> is only returned if all possibilities have been exhausted.</p>
+<p>If you set the backtrack argument to <code>true</code> when constructing the <a class="xref" href="../api/DeBroglie.TilePropagator.html">TilePropagator</a>, then the propagator does not give up when a contradiction occurs. It will attempt to roll back the most recent tile placement, and try another placment instead. <a href="https://en.wikipedia.org/wiki/Backtracking">In this manner</a>, it can explore the entire space of possible tile placements, seeking one that satifies the constraints. <a class="xref" href="../api/DeBroglie.Resolution.html#DeBroglie_Resolution_Contradiction">Contradiction</a> is only returned if all possibilities have been exhausted.</p>
 <p>Backtracking is very powerful and general, and can solve extremely difficult layouts. However, it can be quite slow, and consumes a great deal of memory, so it is generally only appropriate for generating small arrays.</p>
 <h2 id="topology">Topology</h2>
 <p>The most common case of using DeBroglie is to generate 2d images and tile maps, however, that is not all that can be generated.</p>
