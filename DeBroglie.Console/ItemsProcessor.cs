@@ -300,7 +300,7 @@ namespace DeBroglie.Console
             if (config.SrcType == SrcType.Sample)
             {
                 sampleSet = LoadSample();
-                tilesByName = sampleSet.TilesByName;
+                tilesByName = sampleSet.TilesByName ?? tilesByName;
             }
             else
             {

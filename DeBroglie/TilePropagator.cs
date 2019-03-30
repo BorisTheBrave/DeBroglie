@@ -20,6 +20,8 @@ namespace DeBroglie
     /// </summary>
     public class TilePropagator
     {
+        private static readonly ISet<int> EmptyPatternSet = new HashSet<int>();
+
         private readonly WavePropagator wavePropagator;
 
         private readonly Topology topology;
@@ -279,7 +281,7 @@ namespace DeBroglie
                 var tile = set.Tiles.First();
                 foreach(var o in tilesToPatternsByOffset.Keys)
                 {
-                    set.OffsetToPatterns[o] = tilesToPatternsByOffset[o][tile];
+                    set.OffsetToPatterns[o] = tilesToPatternsByOffset[o].TryGetValue(tile, out var patterns) ? patterns : EmptyPatternSet;
                 }
             }
             return set;
