@@ -1,5 +1,6 @@
 Steps to releasing:
  * Run tests
+ * Run and validate samples
  * Choose new version
  * Update docs/articles/release_notes.md
  * Build NuGet package in Visual Studio

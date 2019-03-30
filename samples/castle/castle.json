@@ -69,7 +69,7 @@
         {"left": ["turret!270"], "right": [ "turret"]},
 
         // Turret top
-        {"left": ["turret_top!270"], "right": [ "turret_top"]},
+        {"left": ["turret_top!270"], "right": [ "turret_top"]}
 
     ],
 
@@ -84,6 +84,6 @@
             "type": "fixedTile",
             "tile": "turret_top",
             "point": {"x": 5, "y": 4, "z": 8}
-        },
+        }
     ]
 }

@@ -1,6 +1,22 @@
 {
     "$schema": "http://json-schema.org/schema#",
     "type": "object",
+    "definitions": {
+        "point": {
+            "type": "object",
+            "properties": {
+                "x": {"type":"number"},
+                "y": {"type":"number"},
+                "z": {"type":"number"}
+            }
+        },
+        "tile": {"oneOf": [
+            {"type": "number"},
+            {"type": "string"}
+        ]},
+        
+        "tileArray": {"type": "array", "items": {"$ref": "#/definitions/tile"}}
+    },
     "properties": {
         "src": {"type": "string"},
         "dest": {"type": "string"},
@@ -15,9 +31,13 @@
         "width": {"type": "integer"},
         "height": {"type": "integer"},
         "depth": {"type": "integer"},
+        "ground":  {"$ref": "#/definitions/tile"},
         "symmetry":  {"type": "integer"},
-        "ground":  {"type": "string"},
+        "rotationalSymmetry":  {"type": "integer"},
+        "reflectionalSymmetry":  {"type": "boolean"},
+        "rotationTreatment": {"type": "string", "enum": ["missing", "unchanged", "generated"]},
         "backtrack": {"type": "boolean"},
+        "animate": {"type": "boolean"},
         "model": {
             "oneOf": [
                 {
@@ -41,7 +61,52 @@
                 }
             ]
         },
-        "tiles": {"type": "array"},
+        "tiles": {
+            "type": "array",
+            "items": {
+                "type": "object"
+            }
+        },
+        "adjacencies": {
+            "type": "array",
+            "items": {
+                "oneOf": [
+                    {
+                        "type": "object",
+                        "properties": {
+                            "left": {"$ref": "#/definitions/tileArray"},
+                            "right": {"$ref": "#/definitions/tileArray"}
+                        },
+                        "required": [
+                            "left",
+                            "right"
+                        ]
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "up": {"$ref": "#/definitions/tileArray"},
+                            "down": {"$ref": "#/definitions/tileArray"}
+                        },
+                        "required": [
+                            "up",
+                            "down"
+                        ]
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "above": {"$ref": "#/definitions/tileArray"},
+                            "below": {"$ref": "#/definitions/tileArray"}
+                        },
+                        "required": [
+                            "above",
+                            "below"
+                        ]
+                    },
+                ]
+            }
+        },
         "constraints": {
             "type": "array",
             "items": {
@@ -49,8 +114,21 @@
                     {
                         "type":"object",
                         "properties": {
+                            "type": {"type": "string", "enum": ["path", "edgedPath"]},
+                            "tile": {"$ref": "#/definitions/tile"},
+                            "tiles": {"$ref": "#/definitions/tileArray"},
+                            "endPoints": {"type": "array", "items": {"$ref": "#/definitions/point"}}
+                        },
+                        "required": [
+                            "type"
+                        ]
+                    },
+                    {
+                        "type":"object",
+                        "properties": {
                             "type": {"type": "string", "enum": ["border"]},
-                            "tile": {"type": "string"},
+                            "tile": {"$ref": "#/definitions/tile"},
+                            "tiles": {"$ref": "#/definitions/tileArray"},
                             "sides": {"type": "string"},
                             "excludeSides": {"type": "string"},
                             "invertArea": {"type": "boolean"},
@@ -63,8 +141,32 @@
                     {
                         "type":"object",
                         "properties": {
-                            "type": {"type": "string", "enum": ["path"]},
-                            "pathTiles": {"type": "array", "items": {"type": "string"}}
+                            "type": {"type": "string", "enum": ["fixedTile"]},
+                            "tile": {"$ref": "#/definitions/tile"},
+                            "tiles": {"$ref": "#/definitions/tileArray"},
+                            "point": {"$ref": "#/definitions/point"}
+                        },
+                        "required": [
+                            "type"
+                        ]
+                    },
+                    {
+                        "type":"object",
+                        "properties": {
+                            "type": {"type": "string", "enum": ["maxConsecutive"]},
+                            "tile": {"$ref": "#/definitions/tile"},
+                            "tiles": {"$ref": "#/definitions/tileArray"},
+                            "maxCount": { "type": "number" },
+                            "axes": {"type": "array", "items": {"type": "string"}}
+                        },
+                        "required": [
+                            "type"
+                        ]
+                    },
+                    {
+                        "type":"object",
+                        "properties": {
+                            "type": {"type": "string", "enum": ["mirror"]}
                         },
                         "required": [
                             "type"
@@ -75,8 +177,6 @@
         }
     },
     "required": [
-        "src",
-        "dest",
-        "model"
+        "dest"
     ]
 }
