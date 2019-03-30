@@ -21,7 +21,7 @@ namespace DeBroglie.Wfc
 
         // possibilities[index*patternCount + pattern] is true if we haven't eliminated putting
         // that pattern at that index.
-        private readonly BitArray possibilites;
+        private readonly BitArray possibilities;
 
         // Track some useful per-cell values
         private readonly EntropyValues[] entropyValues;
@@ -44,7 +44,7 @@ namespace DeBroglie.Wfc
         {
             this.patternCount = patternCount;
             this.frequencies = frequencies;
-            this.possibilites = possibilites;
+            this.possibilities = possibilites;
             this.entropyValues = entropyValues;
             this.plogp = plogp;
             this.indices = indices;
@@ -60,7 +60,7 @@ namespace DeBroglie.Wfc
             this.mask = mask;
 
             // Initialize possibilities
-            possibilites = new BitArray(indices * patternCount, true);
+            possibilities = new BitArray(indices * patternCount, true);
 
             // Initialize plogp and entropyValues
             plogp = new double[patternCount];
@@ -91,7 +91,7 @@ namespace DeBroglie.Wfc
             return new Wave(
                 patternCount,
                 frequencies,
-                (BitArray)possibilites.Clone(),
+                (BitArray)possibilities.Clone(),
                 (EntropyValues[])entropyValues.Clone(),
                 plogp,
                 indices,
@@ -100,22 +100,22 @@ namespace DeBroglie.Wfc
 
         public bool Get(int index, int pattern)
         {
-            return possibilites[index * patternCount + pattern];
+            return possibilities[index * patternCount + pattern];
         }
 
         // Returns true if there is a contradiction
         public bool RemovePossibility(int index, int pattern)
         {
-            Debug.Assert(possibilites[index * patternCount + pattern] == true);
-            possibilites[index * patternCount + pattern] = false;
+            Debug.Assert(possibilities[index * patternCount + pattern] == true);
+            possibilities[index * patternCount + pattern] = false;
             int c = entropyValues[index].Decrement(frequencies[pattern], plogp[pattern]);
             return c == 0;
         }
 
         public void AddPossibility(int index, int pattern)
         {
-            Debug.Assert(possibilites[index * patternCount + pattern] == false);
-            possibilites[index * patternCount + pattern] = true;
+            Debug.Assert(possibilities[index * patternCount + pattern] == false);
+            possibilities[index * patternCount + pattern] = true;
             entropyValues[index].Increment(frequencies[pattern], plogp[pattern]);
         }
 
@@ -155,6 +155,17 @@ namespace DeBroglie.Wfc
                 }
             }
             return selectedIndex;
+        }
+
+        public double GetProgress()
+        {
+            var c = 0;
+            foreach(bool b in possibilities)
+            {
+                if (!b) c += 1;
+            }
+            // We're basically done when we've banned all but one pattern for each index
+            return ((double)c) / (patternCount-1) / indices;
         }
 
         /**

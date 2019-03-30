@@ -387,7 +387,7 @@ namespace DeBroglie.Console
                 }
                 else
                 {
-                    status = propagator.Run();
+                    status = Run(propagator);
                 }
                 if (status == Resolution.Contradiction)
                 {
@@ -415,7 +415,7 @@ namespace DeBroglie.Console
         {
             if(!config.Animate)
             {
-                return propagator.Run();
+                return Run(propagator);
             }
             // Animate is true - we run the propagator, and export after every step
             Resolution status = Resolution.Undecided;
@@ -430,6 +430,25 @@ namespace DeBroglie.Console
                 Exporter.Export(model, propagator, currentDest, config, exportOptions);
                 i++;
                 if (status != Resolution.Undecided) return status;
+            }
+        }
+
+        private Resolution Run(TilePropagator propagator)
+        {
+            var next = DateTime.Now + TimeSpan.FromMinutes(1);
+            while (true)
+            {
+                for (var i = 0; i < 100; i++)
+                {
+                    var status = propagator.Step();
+                    if (status != Resolution.Undecided) return status;
+                }
+                if(DateTime.Now > next)
+                {
+                    System.Console.WriteLine($"Progress {propagator.GetProgress():p2}");
+                    next = DateTime.Now + TimeSpan.FromMinutes(1);
+                }
+
             }
         }
 

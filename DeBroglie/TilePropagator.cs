@@ -121,6 +121,16 @@ namespace DeBroglie
         public int BacktrackCount => wavePropagator.BacktrackCount;
 
         /// <summary>
+        /// Returns a number between 0 and 1 indicating how much of the generation is complete.
+        /// This number may decrease at times due to backtracking.
+        /// </summary>
+        /// <returns></returns>
+        public double GetProgress()
+        {
+            return wavePropagator.Wave.GetProgress();
+        }
+
+        /// <summary>
         /// Resets the TilePropagator to the state it was in at construction.
         /// </summary>
         /// <returns>The current <see cref="Status"/> (usually <see cref="Resolution.Undecided"/> unless there are very specific initial conditions)</returns>
