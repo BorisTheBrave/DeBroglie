@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using DeBroglie.Topo;
 
 namespace DeBroglie.Wfc
@@ -14,8 +15,8 @@ namespace DeBroglie.Wfc
         private Wave wave;
 
         // Used for backtracking
-        private Stack<Wave> prevWaves;
-        private Stack<int[,,]> prevCompatible;
+        private List<PropagateItem> backtrackItems;
+        private Stack<int> backtrackItemsLengths;
         private Stack<PropagateItem> prevChoices;
         private int backtrackCount; // Purely informational
 
@@ -108,10 +109,19 @@ namespace DeBroglie.Wfc
          */
         public bool InternalBan(int index, int pattern)
         {
+            // Record information for backtracking
+            if (backtrack)
+            {
+                backtrackItems.Add(new PropagateItem
+                {
+                    Index = index,
+                    Pattern = pattern,
+                });
+            }
             // Update compatible (so that we never ban twice)
             for (var d = 0; d < directionsCount; d++)
             {
-                compatible[index, pattern, d] = 0;
+                compatible[index, pattern, d] -= patternCount;
             }
             // Queue any possible consequences of this changing.
             toPropagate.Push(new PropagateItem
@@ -165,10 +175,15 @@ namespace DeBroglie.Wfc
                             if (InternalBan(i2, p))
                             {
                                 status = Resolution.Contradiction;
-                                return;
                             }
                         }
                     }
+                }
+                // It's important we fully process the item before returning
+                // so that we're in a consistent state for backtracking
+                if(status == Resolution.Contradiction)
+                {
+                    return;
                 }
             }
             return;
@@ -278,8 +293,9 @@ namespace DeBroglie.Wfc
 
             if(backtrack)
             {
-                prevWaves = new Stack<Wave>();
-                prevCompatible = new Stack<int[,,]>();
+                backtrackItems = new List<PropagateItem>();
+                backtrackItemsLengths = new Stack<int>();
+                backtrackItemsLengths.Push(0);
                 prevChoices = new Stack<PropagateItem>();
             }
 
@@ -364,8 +380,8 @@ namespace DeBroglie.Wfc
             // Record state before making a choice
             if (backtrack)
             {
-                prevWaves.Push(wave.Clone());
-                prevCompatible.Push((int[,,])compatible.Clone());
+                Debug.Assert(toPropagate.Count == 0);
+                backtrackItemsLengths.Push(backtrackItems.Count);
             }
 
             // Pick a tile and Select a pattern from it.
@@ -398,29 +414,84 @@ namespace DeBroglie.Wfc
                 // Actually backtrack
                 while (true)
                 {
-                    if(prevWaves.Count == 0)
+                    if(backtrackItemsLengths.Count == 1)
                     {
                         // We've backtracked as much as we can, but 
                         // it's still not possible. That means it is imposible
                         return Resolution.Contradiction;
                     }
-                    wave = prevWaves.Pop();
-                    compatible = prevCompatible.Pop();
+                    DoBacktrack();
                     var item = prevChoices.Pop();
                     backtrackCount++;
                     toPropagate.Clear();
+                    status = Resolution.Undecided;
                     // Mark the given choice as impossible
                     if (InternalBan(item.Index, item.Pattern))
                     {
-                        // Still in contradiction, need to backtrack further
+                        status = Resolution.Contradiction;
+                    }
+                    if (status == Resolution.Undecided) Propagate();
+
+                    if (status == Resolution.Contradiction)
+                    {
+                        // If still in contradiction, repeat backtracking
+
                         continue;
                     }
-                    status = Resolution.Undecided;
+                    else
+                    {
+                        // Include the last ban as part of the previous backtrack
+                        Debug.Assert(toPropagate.Count == 0);
+                        backtrackItemsLengths.Pop();
+                        backtrackItemsLengths.Push(backtrackItems.Count);
+                    }
                     goto restart;
                 }
             }
 
             return status;
+        }
+
+        private void DoBacktrack()
+        {
+            var targetLength = backtrackItemsLengths.Pop();
+            var toPropagateHashSet = new HashSet<PropagateItem>(toPropagate);
+            // Undo each item
+            while(backtrackItems.Count > targetLength)
+            {
+                var item = backtrackItems[backtrackItems.Count - 1];
+                backtrackItems.RemoveAt(backtrackItems.Count - 1);
+                var index = item.Index;
+                var pattern = item.Pattern;
+                // First restore compatible for this cell
+                // As it is set to zero in InteralBan
+                for (var d = 0; d < directionsCount; d++)
+                {
+                    compatible[index, pattern, d] += patternCount;
+                }
+                // Also add the possibility back
+                // as it is removed in InternalBan
+                wave.AddPossibility(index, pattern);
+                // Next, undo the decremenents done in Propagate
+                // We skip this if the item is still in toPropagate, as that means Propagate hasn't run
+                if (!toPropagateHashSet.Contains(item))
+                {
+                    for (var d = 0; d < directionsCount; d++)
+                    {
+                        int i2;
+                        if (!topology.TryMove(index, (Direction)d, out i2))
+                        {
+                            continue;
+                        }
+                        var patterns = propagator[item.Pattern][d];
+                        foreach (var p in patterns)
+                        {
+                            ++compatible[i2, p, d];
+                        }
+                    }
+                }
+
+            }
         }
 
         /**
@@ -486,10 +557,32 @@ namespace DeBroglie.Wfc
             return new TopoArray3D<ISet<int>>(result, topology);
         }
 
-        private struct PropagateItem
+        private struct PropagateItem : IEquatable<PropagateItem>
         {
             public int Index { get; set; }
             public int Pattern { get; set; }
+
+            public bool Equals(PropagateItem other)
+            {
+                return other.Index == Index && other.Pattern == Pattern;
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (obj is PropagateItem other)
+                {
+                    return Equals(other);
+                }
+                return false;
+            }
+
+            public override int GetHashCode()
+            {
+                unchecked
+                {
+                    return Index.GetHashCode() * 17 + Pattern.GetHashCode();
+                }
+            }
         }
     }
 }

@@ -143,7 +143,11 @@ namespace DeBroglie.Test
             };
             var topology = new Topology(10, 10, false);
 
-            var wavePropagator = new WavePropagator(model, topology, true);
+            var seed = Environment.TickCount;
+            var r = new Random(seed);
+            Console.WriteLine("Seed {0}", seed);
+
+            var wavePropagator = new WavePropagator(model, topology, true, random: r);
 
             var status = wavePropagator.Run();
 

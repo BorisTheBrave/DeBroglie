@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace DeBroglie.Wfc
 {
@@ -14,22 +16,23 @@ namespace DeBroglie.Wfc
     {
         public static int AllCellsDecided = -1;
 
-        int patternCount;
-        private double[] frequencies;
+        private readonly int patternCount;
+        private readonly double[] frequencies;
 
         // possibilities[index*patternCount + pattern] is true if we haven't eliminated putting
         // that pattern at that index.
-        private BitArray possibilites;
+        private readonly BitArray possibilites;
 
         // Track some useful per-cell values
-        private EntropyValues[] entropyValues;
+        private readonly EntropyValues[] entropyValues;
 
         // See the definition in EntropyValues
-        private double[] plogp;
+        private readonly double[] plogp;
 
-        private bool[] mask;
+        private readonly bool[] mask;
 
-        private int indices;
+        private readonly int indices;
+
 
         private Wave(int patternCount, 
             double[] frequencies,
@@ -103,9 +106,17 @@ namespace DeBroglie.Wfc
         // Returns true if there is a contradiction
         public bool RemovePossibility(int index, int pattern)
         {
+            Debug.Assert(possibilites[index * patternCount + pattern] == true);
             possibilites[index * patternCount + pattern] = false;
             int c = entropyValues[index].Decrement(frequencies[pattern], plogp[pattern]);
             return c == 0;
+        }
+
+        public void AddPossibility(int index, int pattern)
+        {
+            Debug.Assert(possibilites[index * patternCount + pattern] == false);
+            possibilites[index * patternCount + pattern] = true;
+            entropyValues[index].Increment(frequencies[pattern], plogp[pattern]);
         }
 
         // Finds the cells with minimal entropy (excluding 0, decided cells)
@@ -171,6 +182,14 @@ namespace DeBroglie.Wfc
                 RecomputeEntropy();
                 return PatternCount;
             }
-        };
+
+            public void Increment(double p, double plogp)
+            {
+                PlogpSum += plogp;
+                Sum += p;
+                PatternCount++;
+                RecomputeEntropy();
+            }
+        }
     }
 }

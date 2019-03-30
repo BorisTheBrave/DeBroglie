@@ -34,10 +34,14 @@ namespace DeBroglie.Test.Constraints
                 { new Tile(1), allDirections },
             };
 
+            var seed = Environment.TickCount;
+            var r = new Random(seed);
+            Console.WriteLine("Seed {0}", seed);
+
             var model = OverlappingModel.Create(a, 3, false, 8);
             var propagator = new TilePropagator(model, new Topology(10, 10, false), true, constraints: new[] {
                 new EdgedPathConstraint(exits, new []{new Point(0,0), new Point(9, 9) })
-            });
+            }, random: r);
             var status = propagator.Run();
             Assert.AreEqual(Resolution.Decided, status);
             var result = propagator.ToValueArray<int>().ToArray2d();

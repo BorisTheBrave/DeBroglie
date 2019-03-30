@@ -2,6 +2,9 @@
 uid: release_notes
 title: Release Notes
 ---
+# Unreleased
+* Improved memory and performance of backtracking significantly
+
 # v0.4.0
 
 * Added [EdgedPathConstraint](xref:DeBroglie.Constraints.EdgedPathConstraint)
