@@ -35,7 +35,7 @@ namespace DeBroglie.Console.Config
                     modelConfig = new Adjacent();
                     break;
                 default:
-                    throw new Exception($"Unrecognized model type {modelType}");
+                    throw new ConfigurationException($"Unrecognized model type {modelType}");
             }
             serializer.Populate(jsonObject.CreateReader(), modelConfig);
             return modelConfig;

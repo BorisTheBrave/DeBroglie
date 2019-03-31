@@ -16,23 +16,37 @@ using System.Linq;
 
 namespace DeBroglie.Console
 {
+    public class ConfigurationException : Exception
+    {
+        public ConfigurationException(string message):base(message)
+        {
+
+        }
+    }
+
 
     public class ItemsProcessor
     {
         private readonly ISampleSetImporter loader;
         private readonly DeBroglieConfig config;
-        private IDictionary<string, Tile> tilesByName;
+        private readonly Factory factory;
 
         public ItemsProcessor(ISampleSetImporter loader, DeBroglieConfig config)
         {
             this.loader = loader;
             this.config = config;
+            factory = new Factory();
+            factory.Config = config;
+            if (loader != null)
+            {
+                factory.TileParser = loader.Parse;
+            }
         }
 
         private SampleSet LoadSample()
         {
             if (config.Src == null)
-                throw new Exception("Src sample should be set");
+                throw new ConfigurationException("Src sample should be set");
             var filename = Path.Combine(config.BaseDirectory, config.Src);
             System.Console.WriteLine($"Reading {filename}");
 
@@ -46,10 +60,15 @@ namespace DeBroglie.Console
             return sampleSet;
         }
 
+        private Tile Parse(string s)
+        {
+            return factory.Parse(s);
+        }
+
         private SampleSet LoadFileSet()
         {
             if (config.Tiles == null)
-                throw new Exception($"You must specify tile data when using SrcType {config.SrcType}.");
+                throw new ConfigurationException($"You must specify tile data when using SrcType {config.SrcType}.");
 
             var filenames = new Dictionary<Tile, string>();
             foreach (var tile in config.Tiles)
@@ -59,12 +78,12 @@ namespace DeBroglie.Console
                     tile.Value = new Guid().ToString();
                 }
                 if (tile.Src == null)
-                    throw new Exception($"All tiles must have a src set when using SrcType {config.SrcType}.");
+                    throw new ConfigurationException($"All tiles must have a src set when using SrcType {config.SrcType}.");
                 filenames[Parse(tile.Value)] = tile.Src;
             }
 
             if(filenames.Count == 0)
-                throw new Exception($"Must supply at least one tile when using SrcType {config.SrcType}.");
+                throw new ConfigurationException($"Must supply at least one tile when using SrcType {config.SrcType}.");
 
             if (config.SrcType == SrcType.BitmapSet)
             {
@@ -106,186 +125,11 @@ namespace DeBroglie.Console
             }
         }
 
-        private Direction ParseDirection(string s)
-        {
-            switch (s.ToLower())
-            {
-                case "x+": return Direction.XPlus;
-                case "x-": return Direction.XMinus;
-                case "y+": return Direction.YPlus;
-                case "y-": return Direction.YMinus;
-                case "z+": return Direction.ZPlus;
-                case "z-": return Direction.ZMinus;
-                case "w+": return Direction.WPlus;
-                case "w-": return Direction.WMinus;
-            }
-
-            if (!Enum.TryParse(s, true, out Direction r))
-            {
-                throw new Exception($"Unable to parse direction \"{s}\"");
-            }
-            return r;
-        }
-
-        private Axis ParseAxis(string s)
-        {
-            if(!Enum.TryParse(s, true, out Axis r))
-            {
-                throw new Exception($"Unable to parse axis \"{s}\"");
-            }
-            return r;
-        }
-
-        private Tile Parse(string s)
-        {
-            if(s.Contains("!"))
-            {
-                // TODO: Cleanup and validate
-                var a = s.Split('!');
-                var b = a[1];
-                var refl = false;
-                if(b.StartsWith("x"))
-                {
-                    refl = true;
-                    b = b.Substring(1);
-                }
-                var rotateCw = (int.Parse(b) + 360) % 360;
-                return new Tile(new RotatedTile
-                {
-                    Tile = Parse(a[0]),
-                    Rotation = new Rotation(rotateCw, refl),
-                });
-            }
-
-            if (tilesByName.TryGetValue(s, out var tile))
-            {
-                return tile;
-            }
-            if (loader != null)
-            {
-                return loader.Parse(s);
-            }
-            else
-            {
-                return new Tile(s);
-            }
-        }
-
-        private static TileModel GetModel(DeBroglieConfig config, DirectionSet directions, ITopoArray<Tile>[] samples, TileRotation tileRotation)
-        {
-            var modelConfig = config.Model ?? new Adjacent();
-            if (modelConfig is Overlapping overlapping)
-            {
-                var model = new OverlappingModel(overlapping.NX, overlapping.NY, overlapping.NZ);
-                foreach (var sample in samples)
-                {
-                    model.AddSample(sample, tileRotation);
-                }
-                return model;
-            }
-            else if(modelConfig is Adjacent adjacent)
-            {
-                var model = new AdjacentModel(directions);
-                foreach (var sample in samples)
-                {
-                    model.AddSample(sample, tileRotation);
-                }
-                return model;
-            }
-            throw new System.Exception($"Unrecognized model type {modelConfig.GetType()}");
-        }
-
-        private List<ITileConstraint> GetConstraints(bool is3d, TileRotation tileRotation)
-        {
-            var constraints = new List<ITileConstraint>();
-            if (config.Ground != null)
-            {
-                var groundTile = Parse(config.Ground);
-                constraints.Add(new BorderConstraint
-                {
-                    Sides = is3d ? BorderSides.ZMin : BorderSides.YMax,
-                    Tiles = new[] { groundTile },
-                });
-                constraints.Add(new BorderConstraint
-                {
-                    Sides = is3d ? BorderSides.ZMin : BorderSides.YMax,
-                    Tiles = new[] { groundTile },
-                    InvertArea = true,
-                    Ban = true,
-                });
-            }
-
-            if (config.Constraints != null)
-            {
-                foreach (var constraint in config.Constraints)
-                {
-                    if (constraint is PathConfig pathData)
-                    {
-                        var tiles = new HashSet<Tile>(pathData.Tiles.Select(Parse));
-                        var p = new PathConstraint(tiles, pathData.EndPoints);
-                        constraints.Add(p);
-                    }
-                    if (constraint is EdgedPathConfig edgedPathData)
-                    {
-                        var exits = edgedPathData.Exits.ToDictionary(
-                            kv => Parse(kv.Key), x => (ISet<Direction>)new HashSet<Direction>(x.Value.Select(ParseDirection)));
-                        var p = new EdgedPathConstraint(exits, edgedPathData.EndPoints, tileRotation);
-                        constraints.Add(p);
-                    }
-                    else if (constraint is BorderConfig borderData)
-                    {
-                        var tiles = borderData.Tiles.Select(Parse).ToArray();
-                        var sides = borderData.Sides == null ? BorderSides.All : (BorderSides)Enum.Parse(typeof(BorderSides), borderData.Sides, true);
-                        var excludeSides = borderData.ExcludeSides == null ? BorderSides.None : (BorderSides)Enum.Parse(typeof(BorderSides), borderData.ExcludeSides, true);
-                        if (!is3d)
-                        {
-                            sides = sides & ~BorderSides.ZMin & ~BorderSides.ZMax;
-                            excludeSides = excludeSides & ~BorderSides.ZMin & ~BorderSides.ZMax;
-                        }
-                        constraints.Add(new BorderConstraint
-                        {
-                            Tiles = tiles,
-                            Sides = sides,
-                            ExcludeSides = excludeSides,
-                            InvertArea = borderData.InvertArea,
-                            Ban = borderData.Ban,
-                        });
-                    }
-                    else if (constraint is FixedTileConfig fixedTileConfig)
-                    {
-                        constraints.Add(new FixedTileConstraint
-                        {
-                            Tiles = fixedTileConfig.Tiles.Select(Parse).ToArray(),
-                            Point = fixedTileConfig.Point,
-                        });
-                    }
-                    else if (constraint is MaxConsecutiveConfig maxConsecutiveConfig)
-                    {
-                        var axes = maxConsecutiveConfig.Axes?.Select(ParseAxis);
-                        constraints.Add(new MaxConsecutiveConstraint
-                        {
-                            Tiles = new HashSet<Tile>(maxConsecutiveConfig.Tiles.Select(Parse)),
-                            MaxCount = maxConsecutiveConfig.MaxCount,
-                            Axes = axes == null ? null : new HashSet<Axis>(axes),
-                        });
-                    }else if (constraint is MirrorConfig mirrorConfig)
-                    {
-                        constraints.Add(new MirrorConstraint
-                        {
-                            TileRotation = tileRotation,
-                        });
-                    }
-                }
-            }
-
-            return constraints;
-        }
-
         public void ProcessItem()
         {
             if (config.Dest == null)
             {
-                throw new System.Exception("dest attribute must be set");
+                throw new ConfigurationException("Dest attribute must be set");
             }
 
             var directory = config.BaseDirectory;
@@ -294,13 +138,13 @@ namespace DeBroglie.Console
             var contdest = Path.ChangeExtension(dest, ".contradiction" + Path.GetExtension(dest));
 
             // TODO: Neat way to do this without mutability?
-            tilesByName = new Dictionary<string, Tile>();
+            factory.TilesByName = new Dictionary<string, Tile>();
 
             SampleSet sampleSet;
             if (config.SrcType == SrcType.Sample)
             {
                 sampleSet = LoadSample();
-                tilesByName = sampleSet.TilesByName ?? tilesByName;
+                factory.TilesByName = sampleSet.TilesByName ?? factory.TilesByName;
             }
             else
             {
@@ -309,61 +153,13 @@ namespace DeBroglie.Console
             var directions = sampleSet.Directions;
             var samples = sampleSet.Samples;
 
-            var is3d = directions.Type == DirectionSetType.Cartesian3d;
-            var topology = new Topology(directions, config.Width, config.Height, is3d ? config.Depth : 1, config.PeriodicX, config.PeriodicY, config.PeriodicZ);
+            var topology = factory.GetOutputTopology(directions); 
 
-            var tileRotation = GetTileRotation(config.Tiles, config.RotationTreatment, topology);
+            var tileRotation = factory.GetTileRotation(config.RotationTreatment, topology);
 
-            var model = GetModel(config, directions, samples, tileRotation);
+            var model = factory.GetModel(directions, samples, tileRotation);
 
-            // Setup adjacencies
-            if(config.Adjacencies != null)
-            {
-                var adjacentModel = model as AdjacentModel;
-                if(adjacentModel == null)
-                {
-                    throw new Exception("Setting adjacencies is only supported for the \"adjacent\" model.");
-                }
-
-                foreach(var a in config.Adjacencies)
-                {
-                    var srcAdj = a.Src.Select(Parse).Select(tileRotation.Canonicalize).ToList();
-                    var destAdj = a.Dest.Select(Parse).Select(tileRotation.Canonicalize).ToList();
-                    adjacentModel.AddAdjacency(srcAdj, destAdj, a.X, a.Y, a.Z, tileRotation);
-                }
-
-                // If there are no samples, set frequency to 1 for everything mentioned in this block
-                foreach (var tile in adjacentModel.Tiles)
-                {
-                    adjacentModel.SetFrequency(tile, 1, tileRotation);
-                }
-            }
-
-            // Setup tiles
-            if(config.Tiles != null)
-            {
-                foreach (var tile in config.Tiles)
-                {
-                    var value = Parse(tile.Value);
-                    if(tile.MultiplyFrequency != null)
-                    {
-                        var cf = tile.MultiplyFrequency.Trim();
-                        double cfd;
-                        if(cf.EndsWith("%"))
-                        {
-                            cfd = double.Parse(cf.TrimEnd('%')) / 100;
-                        }
-                        else
-                        {
-                            cfd = double.Parse(cf);
-                        }
-                        model.MultiplyFrequency(value, cfd, tileRotation);
-                    }
-                }
-            }
-
-            // Setup constraints
-            var constraints = GetConstraints(is3d, tileRotation);
+            var constraints = factory.GetConstraints(directions, tileRotation);
 
             System.Console.WriteLine($"Processing {dest}");
             var propagator = new TilePropagator(model, topology, config.Backtrack, constraints: constraints.ToArray());
@@ -448,50 +244,7 @@ namespace DeBroglie.Console
                     System.Console.WriteLine($"Progress {propagator.GetProgress():p2}");
                     next = DateTime.Now + TimeSpan.FromMinutes(1);
                 }
-
             }
-        }
-
-        private TileRotation GetTileRotation(List<TileData> tileData, TileRotationTreatment? rotationTreatment, Topology topology)
-        {
-            var tileRotationBuilder = new TileRotationBuilder(config.RotationalSymmetry, config.ReflectionalSymmetry, rotationTreatment ?? TileRotationTreatment.Unchanged);
-            var rotationGroup = tileRotationBuilder.RotationGroup;
-
-            // Setup tiles
-            if (tileData != null)
-            {
-                foreach (var td in tileData)
-                {
-                    var tile = Parse(td.Value);
-                    if(td.TileSymmetry != null)
-                    {
-                        var ts = TileSymmetryUtils.Parse(td.TileSymmetry);
-                        tileRotationBuilder.AddSymmetry(tile, ts);
-                    }
-                    if (td.ReflectX != null)
-                    {
-                        tileRotationBuilder.Add(tile, new Rotation(0, true), Parse(td.ReflectX));
-                    }
-                    if (td.ReflectY != null)
-                    {
-                        tileRotationBuilder.Add(tile, new Rotation(180, true), Parse(td.ReflectY));
-                    }
-                    if (td.RotateCw != null)
-                    {
-                        tileRotationBuilder.Add(tile, new Rotation(rotationGroup.SmallestAngle, false), Parse(td.RotateCw));
-                    }
-                    if (td.RotateCcw != null)
-                    {
-                        tileRotationBuilder.Add(tile, new Rotation(360 - rotationGroup.SmallestAngle, false), Parse(td.RotateCcw));
-                    }
-                    if(td.RotationTreatment != null)
-                    {
-                        tileRotationBuilder.SetTreatment(tile, td.RotationTreatment.Value);
-                    }
-                }
-            }
-
-            return tileRotationBuilder.Build();
         }
 
         private static DeBroglieConfig LoadItemsFile(string filename)
@@ -519,7 +272,7 @@ namespace DeBroglie.Console
                     throw new Exception(errors[0]);
                 }
                 if (result == null)
-                    throw new Exception($"{filename} is empty.");
+                    throw new ConfigurationException($"{filename} is empty.");
                 return result;
             }
         }

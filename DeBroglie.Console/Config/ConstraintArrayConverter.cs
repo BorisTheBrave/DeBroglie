@@ -50,7 +50,7 @@ namespace DeBroglie.Console.Config
                         constraintConfig = new MirrorConfig();
                         break;
                     default:
-                        throw new Exception($"Unrecognized constraint type {type}");
+                        throw new ConfigurationException($"Unrecognized constraint type {type}");
                 }
                 serializer.Populate(jsonObject.CreateReader(), constraintConfig);
                 constraints.Add(constraintConfig);

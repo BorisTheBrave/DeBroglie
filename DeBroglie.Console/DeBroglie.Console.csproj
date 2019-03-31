@@ -50,6 +50,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config\Factory.cs" />
     <Compile Include="Export\BitmapExporter.cs" />
     <Compile Include="BitmapUtils.cs" />
     <Compile Include="ConsoleUtils.cs" />
