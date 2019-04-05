@@ -10,6 +10,15 @@ using System.Text;
 namespace DeBroglie
 {
 
+    public class TilePropagatorOptions
+    {
+        public int BackTrackDepth { get; set; }
+
+        public ITileConstraint[] Constraints {get;set;}
+
+        public Random Random { get; set; }
+    }
+
     // Implemenation wise, this wraps a WavePropagator to do the majority of the work.
     // The only thing this class handles is conversion of tile objects into sets of patterns
     // And co-ordinate conversion.
@@ -44,6 +53,17 @@ namespace DeBroglie
         public TilePropagator(TileModel tileModel, Topology topology, bool backtrack = false,
             ITileConstraint[] constraints = null,
             Random random = null)
+            :this(tileModel, topology, new TilePropagatorOptions
+            {
+                BackTrackDepth = backtrack ? -1 : 0,
+                Constraints = constraints,
+                Random = random,
+            })
+        {
+
+        }
+
+       public TilePropagator(TileModel tileModel, Topology topology, TilePropagatorOptions options)
         {
             this.tileModel = tileModel;
             this.topology = topology;
@@ -58,10 +78,10 @@ namespace DeBroglie
             this.tileCoordToPatternCoord = tileModelMapping.TileCoordToPatternCoord;
 
             var waveConstraints =
-                (constraints?.Select(x => new TileConstraintAdaptor(x, this)).ToArray() ?? Enumerable.Empty<IWaveConstraint>())
+                (options.Constraints?.Select(x => new TileConstraintAdaptor(x, this)).ToArray() ?? Enumerable.Empty<IWaveConstraint>())
                 .ToArray();
 
-            this.wavePropagator = new WavePropagator(patternModel, patternTopology, backtrack, waveConstraints, random, clear: false);
+            this.wavePropagator = new WavePropagator(patternModel, patternTopology, options.BackTrackDepth, waveConstraints, options.Random, clear: false);
             wavePropagator.Clear();
 
         }

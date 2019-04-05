@@ -5,6 +5,7 @@ using DeBroglie.Topo;
 
 namespace DeBroglie.Wfc
 {
+
     /// <summary>
     /// WavePropagator holds a wave, and supports updating it's possibilities 
     /// according to the model constraints.
@@ -15,9 +16,10 @@ namespace DeBroglie.Wfc
         private Wave wave;
 
         // Used for backtracking
-        private List<PropagateItem> backtrackItems;
-        private Stack<int> backtrackItemsLengths;
-        private Stack<PropagateItem> prevChoices;
+        private Deque<PropagateItem> backtrackItems;
+        private Deque<int> backtrackItemsLengths;
+        private Deque<PropagateItem> prevChoices;
+        private int droppedBacktrackItemsCount;
         private int backtrackCount; // Purely informational
 
         // From model
@@ -34,6 +36,7 @@ namespace DeBroglie.Wfc
         private bool periodicY;
         private bool periodicZ;
         private readonly bool backtrack;
+        private readonly int backtrackDepth;
         private readonly IWaveConstraint[] constraints;
         private Random random;
 
@@ -59,7 +62,7 @@ namespace DeBroglie.Wfc
           */
         private int[,,] compatible;
 
-        public WavePropagator(PatternModel model, Topology topology, bool backtrack = false, IWaveConstraint[] constraints = null, Random random = null, bool clear = true)
+        public WavePropagator(PatternModel model, Topology topology, int backtrackDepth = 0, IWaveConstraint[] constraints = null, Random random = null, bool clear = true)
         {
             this.propagator = model.Propagator;
             this.patternCount = model.PatternCount;
@@ -72,7 +75,8 @@ namespace DeBroglie.Wfc
             this.periodicX = topology.PeriodicX;
             this.periodicY = topology.PeriodicY;
             this.periodicZ = topology.PeriodicZ;
-            this.backtrack = backtrack;
+            this.backtrack = backtrackDepth != 0;
+            this.backtrackDepth = backtrackDepth;
             this.constraints = constraints ?? new IWaveConstraint[0];
             this.topology = topology;
             this.random = random ?? new Random();
@@ -112,7 +116,7 @@ namespace DeBroglie.Wfc
             // Record information for backtracking
             if (backtrack)
             {
-                backtrackItems.Add(new PropagateItem
+                backtrackItems.Push(new PropagateItem
                 {
                     Index = index,
                     Pattern = pattern,
@@ -293,10 +297,10 @@ namespace DeBroglie.Wfc
 
             if(backtrack)
             {
-                backtrackItems = new List<PropagateItem>();
-                backtrackItemsLengths = new Stack<int>();
+                backtrackItems = new Deque<PropagateItem>();
+                backtrackItemsLengths = new Deque<int>();
                 backtrackItemsLengths.Push(0);
-                prevChoices = new Stack<PropagateItem>();
+                prevChoices = new Deque<PropagateItem>();
             }
 
 
@@ -381,7 +385,15 @@ namespace DeBroglie.Wfc
             if (backtrack)
             {
                 Debug.Assert(toPropagate.Count == 0);
-                backtrackItemsLengths.Push(backtrackItems.Count);
+                backtrackItemsLengths.Push(droppedBacktrackItemsCount + backtrackItems.Count);
+                // Clean up backtracks if they are too long
+                while (backtrackDepth != -1 && backtrackItemsLengths.Count > backtrackDepth)
+                {
+                    var newDroppedCount = backtrackItemsLengths.Unshift();
+                    prevChoices.Unshift();
+                    backtrackItems.DropFirst(newDroppedCount - droppedBacktrackItemsCount);
+                    droppedBacktrackItemsCount = newDroppedCount;
+                }
             }
 
             // Pick a tile and Select a pattern from it.
@@ -443,7 +455,7 @@ namespace DeBroglie.Wfc
                         // Include the last ban as part of the previous backtrack
                         Debug.Assert(toPropagate.Count == 0);
                         backtrackItemsLengths.Pop();
-                        backtrackItemsLengths.Push(backtrackItems.Count);
+                        backtrackItemsLengths.Push(droppedBacktrackItemsCount + backtrackItems.Count);
                     }
                     goto restart;
                 }
@@ -454,13 +466,12 @@ namespace DeBroglie.Wfc
 
         private void DoBacktrack()
         {
-            var targetLength = backtrackItemsLengths.Pop();
+            var targetLength = backtrackItemsLengths.Pop() - droppedBacktrackItemsCount;
             var toPropagateHashSet = new HashSet<PropagateItem>(toPropagate);
             // Undo each item
             while(backtrackItems.Count > targetLength)
             {
-                var item = backtrackItems[backtrackItems.Count - 1];
-                backtrackItems.RemoveAt(backtrackItems.Count - 1);
+                var item = backtrackItems.Pop();
                 var index = item.Index;
                 var pattern = item.Pattern;
                 // First restore compatible for this cell
