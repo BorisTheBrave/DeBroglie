@@ -107,23 +107,33 @@ namespace DeBroglie.Console.Config
                     var tile = Parse(td.Value);
                     if (td.TileSymmetry != null)
                     {
+                        if (!rotationGroup.ReflectionalSymmetry && rotationGroup.RotationalSymmetry == 1)
+                            throw new Exception("Must set symmetry to use tile symmetry");
                         var ts = TileSymmetryUtils.Parse(td.TileSymmetry);
                         tileRotationBuilder.AddSymmetry(tile, ts);
                     }
                     if (td.ReflectX != null)
                     {
+                        if (!rotationGroup.ReflectionalSymmetry)
+                            throw new Exception("Must set reflection symmetry to use tile reflections");
                         tileRotationBuilder.Add(tile, new Rotation(0, true), Parse(td.ReflectX));
                     }
                     if (td.ReflectY != null)
                     {
+                        if (!rotationGroup.ReflectionalSymmetry)
+                            throw new Exception("Must set reflection symmetry to use tile reflections");
                         tileRotationBuilder.Add(tile, new Rotation(180, true), Parse(td.ReflectY));
                     }
                     if (td.RotateCw != null)
                     {
+                        if (rotationGroup.RotationalSymmetry == 1)
+                            throw new Exception("Must set rotation symmetry to use tile rotations");
                         tileRotationBuilder.Add(tile, new Rotation(rotationGroup.SmallestAngle, false), Parse(td.RotateCw));
                     }
                     if (td.RotateCcw != null)
                     {
+                        if (rotationGroup.RotationalSymmetry == 1)
+                            throw new Exception("Must set rotation symmetry to use tile rotations");
                         tileRotationBuilder.Add(tile, new Rotation(360 - rotationGroup.SmallestAngle, false), Parse(td.RotateCcw));
                     }
                     if (td.RotationTreatment != null)
