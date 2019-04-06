@@ -1,6 +1,7 @@
 ﻿using DeBroglie.Constraints;
 using DeBroglie.Models;
 using DeBroglie.Rot;
+using DeBroglie.Tiled;
 using DeBroglie.Topo;
 using System;
 using System.Collections.Generic;
@@ -146,21 +147,82 @@ namespace DeBroglie.Console.Config
             return tileRotationBuilder.Build();
         }
 
-        private void SetupAdjacencies(TileModel model, TileRotation tileRotation)
+        // Experimental. Remove adjacencies such that
+        // Anything that can can connect to tile, must connect to tile.
+        // This is hard to express otherwise.
+        IList<AdjacentModel.Adjacency> ForcePadding(IList<AdjacentModel.Adjacency> adjacencies, Tile tile)
+        {
+            var results = new List<AdjacentModel.Adjacency>();
+            var tileSet = new[] { tile };
+            foreach (var a in adjacencies)
+            {
+                if (a.Src.Contains(tile) || a.Dest.Contains(tile))
+                {
+                    results.Add(new AdjacentModel.Adjacency
+                    {
+                        Src = a.Src.Except(tileSet).ToArray(),
+                        Dest = a.Dest.Intersect(tileSet).ToArray(),
+                        Direction = a.Direction,
+                    });
+                    results.Add(new AdjacentModel.Adjacency
+                    {
+                        Src = a.Src.Intersect(tileSet).ToArray(),
+                        Dest = a.Dest.Except(tileSet).ToArray(),
+                        Direction = a.Direction,
+                    });
+                    results.Add(new AdjacentModel.Adjacency
+                    {
+                        Src = a.Src.Intersect(tileSet).ToArray(),
+                        Dest = a.Dest.Intersect(tileSet).ToArray(),
+                        Direction = a.Direction,
+                    });
+                }
+                else
+                {
+                    results.Add(a);
+                }
+            }
+            return results;
+        }
+
+        private void SetupAdjacencies(TileModel model, TileRotation tileRotation, IList<AdjacentModel.Adjacency> adjacencies)
         {
             if (Config.Adjacencies != null)
+            {
+                AdjacentModel.Adjacency Convert(AdjacencyData a)
+                {
+                    return new AdjacentModel.Adjacency
+                    {
+                        Src = a.Src.Select(Parse).Select(tileRotation.Canonicalize).ToArray(),
+                        Dest = a.Dest.Select(Parse).Select(tileRotation.Canonicalize).ToArray(),
+                        Direction = a.Direction,
+                    };
+                }
+
+                var converted = Config.Adjacencies.Select(Convert);
+                if(adjacencies == null)
+                {
+                    adjacencies = converted.ToList();
+                }
+                else
+                {
+                    adjacencies = adjacencies.Concat(converted).ToList();
+                }
+            }
+
+            if (Config.PadTile != null)
+                adjacencies = ForcePadding(adjacencies, Parse(Config.PadTile));
+
+            if (adjacencies != null)
             {
                 var adjacentModel = model as AdjacentModel;
                 if (adjacentModel == null)
                 {
                     throw new ConfigurationException("Setting adjacencies is only supported for the \"adjacent\" model.");
                 }
-
-                foreach (var a in Config.Adjacencies)
+                foreach (var a in adjacencies)
                 {
-                    var srcAdj = a.Src.Select(Parse).Select(tileRotation.Canonicalize).ToList();
-                    var destAdj = a.Dest.Select(Parse).Select(tileRotation.Canonicalize).ToList();
-                    adjacentModel.AddAdjacency(srcAdj, destAdj, a.X, a.Y, a.Z, tileRotation);
+                    adjacentModel.AddAdjacency(a);
                 }
 
                 // If there are no samples, set frequency to 1 for everything mentioned in this block
@@ -223,7 +285,7 @@ namespace DeBroglie.Console.Config
                 throw new ConfigurationException($"Unrecognized model type {modelConfig.GetType()}");
             }
 
-            SetupAdjacencies(tileModel, tileRotation);
+            SetupAdjacencies(tileModel, tileRotation, null);
             SetupTiles(tileModel, tileRotation);
 
             return tileModel;

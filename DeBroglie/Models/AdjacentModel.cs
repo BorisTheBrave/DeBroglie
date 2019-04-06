@@ -219,6 +219,11 @@ namespace DeBroglie.Models
             propagator[destPattern][(int)id].Add(srcPattern);
         }
 
+        public void AddAdjacency(Adjacency adjacency)
+        {
+            AddAdjacency(adjacency.Src, adjacency.Dest, adjacency.Direction);
+        }
+
         public bool IsAdjacent(Tile src, Tile dest, Direction d)
         {
             var srcPattern = GetPattern(src);
@@ -326,6 +331,13 @@ namespace DeBroglie.Models
                 }
             }
             return pattern;
+        }
+
+        public class Adjacency
+        {
+            public Tile[] Src { get; set; }
+            public Tile[] Dest { get; set; }
+            public Direction Direction { get; set; }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DeBroglie.Rot;
+using DeBroglie.Topo;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
@@ -109,6 +110,11 @@ namespace DeBroglie.Console.Config
         /// The bottom is taken to be ymax for 2d generation, zmin for 3d.
         /// </summary>
         public string Ground { get; set; }
+
+        /// <summary>
+        /// Undocumented experimental feature.
+        /// </summary>
+        public string PadTile { get; internal set; }
 
         /// <summary>
         /// Shorthand for setting reflectionalSymmetry and rotationalSymmetry. 
@@ -238,18 +244,14 @@ namespace DeBroglie.Console.Config
     {
         public List<string> Src { get; set; }
         public List<string> Dest { get; set; } 
-        public int X { get; set; }
-        public int Y { get; set; }
-        public int Z { get; set; }
+        public Direction Direction { get; set; }
 
         public List<string> Left
         {
             set
             {
                 Src = value;
-                X = 1;
-                Y = 0;
-                Z = 0;
+                Direction = Direction.XPlus;
             }
         }
 
@@ -263,9 +265,8 @@ namespace DeBroglie.Console.Config
             set
             {
                 Src = value;
-                X = 0;
-                Y = 1;
-                Z = 0;
+                Direction = Direction.YPlus;
+
             }
         }
 
@@ -279,9 +280,7 @@ namespace DeBroglie.Console.Config
             set
             {
                 Src = value;
-                X = 0;
-                Y = 0;
-                Z = -1;
+                Direction = Direction.ZMinus;
             }
         }
 
