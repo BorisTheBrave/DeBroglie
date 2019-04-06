@@ -56,7 +56,7 @@ namespace DeBroglie.Tiled
         /// </summary>
         public static ITopoArray<Tile> ReadLayer(Map map, TileLayer layer)
         {
-            if (map.Orientation == Orientation.orthogonal)
+            if (map.Orientation == Orientation.orthogonal || map.Orientation == Orientation.isometric && map.StaggerAxis == StaggerAxis.None)
             {
                 var layerArray = new Tile[layer.Width, layer.Height];
                 var i = 0;
@@ -114,7 +114,7 @@ namespace DeBroglie.Tiled
         /// </summary>
         public static TileLayer MakeTileLayer(Map map, ITopoArray<Tile> array, int z = 0)
         {
-            if (map.Orientation == Orientation.orthogonal)
+            if (map.Orientation == Orientation.orthogonal || map.Orientation == Orientation.isometric && map.StaggerAxis == StaggerAxis.None)
             {
                 var width = array.Topology.Width;
                 var height = array.Topology.Height;
