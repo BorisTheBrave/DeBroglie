@@ -114,7 +114,7 @@ namespace DeBroglie.Console.Config
         /// <summary>
         /// Undocumented experimental feature.
         /// </summary>
-        public string PadTile { get; internal set; }
+        public string PadTile { get; set; }
 
         /// <summary>
         /// Shorthand for setting reflectionalSymmetry and rotationalSymmetry. 
