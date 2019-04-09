@@ -1,11 +1,7 @@
 ﻿using DeBroglie.MagicaVoxel;
-using DeBroglie.Topo;
-using System;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TiledLib;
 
 namespace DeBroglie.Console.Export
@@ -39,7 +35,7 @@ namespace DeBroglie.Console.Export
     {
         public override string TypeDescription => "Bitmap set";
 
-        public IDictionary<Tile, Bitmap> Bitmaps { get; set; }
+        public IDictionary<Tile, Image<Rgba32>> Bitmaps { get; set; }
 
         public int TileWidth { get; set; }
         public int TileHeight { get; set; }

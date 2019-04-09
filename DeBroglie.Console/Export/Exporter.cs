@@ -1,5 +1,7 @@
 ﻿using DeBroglie.Console.Config;
 using DeBroglie.Models;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -64,11 +66,11 @@ namespace DeBroglie.Console.Export
             var bseo = new BitmapSetExportOptions();
             bseo.TileWidth = teo.Template.CellWidth;
             bseo.TileHeight = teo.Template.CellHeight;
-            bseo.Bitmaps = new Dictionary<Tile, Bitmap>();
+            bseo.Bitmaps = new Dictionary<Tile, Image<Rgba32>>();
             var basePath = Path.GetDirectoryName(teo.SrcFileName);
             foreach (var tileset in teo.Template.Tilesets)
             {
-                var tilesetBitmap = new Bitmap(Path.Combine(basePath, tileset.ImagePath));
+                var tilesetBitmap = Image.Load(Path.Combine(basePath, tileset.ImagePath));
                 for(var i=0;i<tileset.TileCount;i++)
                 {
                     var gid = i + tileset.FirstGid;

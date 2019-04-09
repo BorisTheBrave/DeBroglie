@@ -1,10 +1,8 @@
 ﻿using DeBroglie.Console.Config;
-using DeBroglie.Console.Export;
 using DeBroglie.Models;
 using DeBroglie.Topo;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 using System.Linq;
 
 namespace DeBroglie.Console.Export
@@ -18,7 +16,7 @@ namespace DeBroglie.Console.Export
             {
                 if (exportOptions is BitmapExportOptions)
                 {
-                    var topoArray = propagator.ToValueSets<Color>().Map(BitmapUtils.ColorAverage);
+                    var topoArray = propagator.ToValueSets<Rgba32>().Map(BitmapUtils.ColorAverage);
                     var bitmap = BitmapUtils.ToBitmap(topoArray.ToArray2d());
                     bitmap.Save(filename);
                 }
@@ -42,7 +40,7 @@ namespace DeBroglie.Console.Export
             {
                 if (exportOptions is BitmapExportOptions)
                 {
-                    var topoArray = propagator.ToValueArray(Color.Gray, Color.Magenta);
+                    var topoArray = propagator.ToValueArray(Rgba32.Gray, Rgba32.Magenta);
                     var bitmap = BitmapUtils.ToBitmap(topoArray.ToArray2d());
                     bitmap.Save(filename);
                 }
@@ -54,8 +52,8 @@ namespace DeBroglie.Console.Export
 
                     var tileTopology = topoArray.Topology.WithSize(bseo.TileWidth, bseo.TileHeight, 1);
                     var subTiles = bseo.Bitmaps.ToDictionary(x => x.Key, x => TopoArray.Create(BitmapUtils.ToColorArray(x.Value), tileTopology));
-                    subTiles[undecided] = TopoArray.FromConstant(Color.Gray, tileTopology);
-                    subTiles[contradiction] = TopoArray.FromConstant(Color.Magenta, tileTopology);
+                    subTiles[undecided] = TopoArray.FromConstant(Rgba32.Gray, tileTopology);
+                    subTiles[contradiction] = TopoArray.FromConstant(Rgba32.Magenta, tileTopology);
 
                     var exploded = MoreTopoArrayUtils.ExplodeTiles(topoArray, subTiles, bseo.TileWidth, bseo.TileHeight, 1);
                     var bitmap = BitmapUtils.ToBitmap(exploded.ToArray2d());

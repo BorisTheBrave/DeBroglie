@@ -1,98 +1,22 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5D148AD2-0B0D-452E-AD0B-1E17900A1D11}</ProjectGuid>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <ApplicationIcon />
     <OutputType>Exe</OutputType>
-    <RootNamespace>DeBroglie.Console</RootNamespace>
-    <AssemblyName>DeBroglie.Console</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <TargetFrameworkProfile />
+    <StartupObject>DeBroglie.Console.Program</StartupObject>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-    <Reference Include="TiledLib, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TiledLib.2.3.0\lib\net462\TiledLib.dll</HintPath>
-    </Reference>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0-beta0006" />
+    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta0006" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Config\Factory.cs" />
-    <Compile Include="Export\BitmapExporter.cs" />
-    <Compile Include="BitmapUtils.cs" />
-    <Compile Include="ConsoleUtils.cs" />
-    <Compile Include="Config\ConstraintArrayConverter.cs" />
-    <Compile Include="Config\DeBroglieConfig.cs" />
-    <Compile Include="Export\CsvExporter.cs" />
-    <Compile Include="Export\Exporter.cs" />
-    <Compile Include="Export\ExportOptions.cs" />
-    <Compile Include="Export\IExporter.cs" />
-    <Compile Include="Export\TiledMapExporter.cs" />
-    <Compile Include="Import\BitmapImporter.cs" />
-    <Compile Include="Import\Importer.cs" />
-    <Compile Include="Import\ISampleSetImporter.cs" />
-    <Compile Include="Import\MagicaVoxelImporter.cs" />
-    <Compile Include="Import\TiledMapImporter.cs" />
-    <Compile Include="Import\TiledTilesetImporter.cs" />
-    <Compile Include="ItemsProcessor.cs" />
-    <Compile Include="Export\MagicaVoxelExporter.cs" />
-    <Compile Include="Config\ModelConverter.cs" />
-    <Compile Include="MoreTopoArrayUtils.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Import\SampleSet.cs" />
+    <ProjectReference Include="..\DeBroglie.MagicaVoxel\DeBroglie.MagicaVoxel.csproj" />
+    <ProjectReference Include="..\DeBroglie.Tiled\DeBroglie.Tiled.csproj" />
+    <ProjectReference Include="..\DeBroglie\DeBroglie.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DeBroglie.MagicaVoxel\DeBroglie.MagicaVoxel.csproj">
-      <Project>{63952ab1-714e-4e06-a37e-8b6bc3ffd435}</Project>
-      <Name>DeBroglie.MagicaVoxel</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DeBroglie.Tiled\DeBroglie.Tiled.csproj">
-      <Project>{59018859-e8ef-4d9b-97a9-4d0c4c13e76e}</Project>
-      <Name>DeBroglie.Tiled</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DeBroglie\DeBroglie.csproj">
-      <Project>{504b0511-5b64-4402-8a35-ef1625d07f35}</Project>
-      <Name>DeBroglie</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
 </Project>

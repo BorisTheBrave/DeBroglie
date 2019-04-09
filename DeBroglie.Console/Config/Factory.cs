@@ -226,7 +226,7 @@ namespace DeBroglie.Console.Config
                 }
 
                 // If there are no samples, set frequency to 1 for everything mentioned in this block
-                foreach (var tile in adjacentModel.Tiles)
+                foreach (var tile in adjacentModel.Tiles.ToList())
                 {
                     adjacentModel.SetFrequency(tile, 1, tileRotation);
                 }

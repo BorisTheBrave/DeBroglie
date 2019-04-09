@@ -90,7 +90,8 @@ for (var y = 0; y < 10; y++)
 Quick Start (Command Line)
 ==========================
 
-Download the command line application from [Releases](https://github.com/BorisTheBrave/DeBroglie/releases). The command line app is Windows only.
+Download the command line application from [Releases](https://github.com/BorisTheBrave/DeBroglie/releases). 
+The commandline app is available on Windows/Linux/MacOS, but this guide assume you are on windows.
 
 Then download this sample file: <a href="../images/sewers.png">sewers.png</a>
 

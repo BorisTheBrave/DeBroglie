@@ -1,7 +1,8 @@
 ﻿using DeBroglie.Console.Export;
 using DeBroglie.Topo;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 using System;
-using System.Drawing;
 
 namespace DeBroglie.Console.Import
 {
@@ -10,10 +11,10 @@ namespace DeBroglie.Console.Import
 
         public SampleSet Load(string filename)
         {
-            Bitmap bitmap;
+            Image<Rgba32> bitmap;
             try
             {
-                bitmap = new Bitmap(filename);
+                bitmap = Image.Load(filename);
             }
             catch (ArgumentException)
             {
@@ -31,7 +32,42 @@ namespace DeBroglie.Console.Import
 
         public Tile Parse(string s)
         {
-            return new Tile(ColorTranslator.FromHtml(s));
+            if(!s.StartsWith("#"))
+            {
+                throw new Exception("Expected color to start with #");
+            }
+            s = s.Substring(1);
+            string r, g, b, a;
+            switch(s.Length)
+            {
+                case 3:
+                    r = s.Substring(0, 1);
+                    g = s.Substring(1, 1);
+                    b = s.Substring(2, 1);
+                    a = "f";
+                    break;
+                case 6:
+                    r = s.Substring(0, 2);
+                    g = s.Substring(2, 2);
+                    b = s.Substring(4, 2);
+                    a = "ff";
+                    break;
+                case 8:
+                    r = s.Substring(0, 2);
+                    g = s.Substring(2, 2);
+                    b = s.Substring(4, 2);
+                    a = s.Substring(6, 2);
+                    break;
+                default:
+                    throw new Exception($"Cannot parse color with {s.Length} digits");
+
+            }
+            return new Tile(new Rgba32(
+                int.Parse(r, System.Globalization.NumberStyles.HexNumber),
+                int.Parse(g, System.Globalization.NumberStyles.HexNumber),
+                int.Parse(b, System.Globalization.NumberStyles.HexNumber),
+                int.Parse(a, System.Globalization.NumberStyles.HexNumber)
+                ));
         }
 
     }

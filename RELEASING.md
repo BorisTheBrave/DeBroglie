@@ -8,4 +8,4 @@ Steps to releasing:
  * * Use Release configuration, then `Build > Pack DeBroglie`
  * Publish:
     `dotnet nuget push DeBroglie.<version>.nupkg -k <api-key> -s https://api.nuget.org/v3/index.json`
- * Run release.py, then upload release.zip to GitHub, under a new tag
+ * Run release.py, then upload release-*.zip to GitHub, under a new tag

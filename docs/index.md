@@ -27,7 +27,7 @@ _gitContribute: false
       <section>
         <h2>C# Library and Command line Program</h2>
         <p class="lead">Control generation directly in C# within Unity or .NET Core.</p>
-        <p>Generate maps from JSON configuration files using the executable (Windows only)</p> 
+        <p>Generate maps from JSON configuration files using the executable.</p> 
       </section>
     </div>
   </div>
