@@ -4,6 +4,7 @@ title: Release Notes
 ---
 # Unreleased
 * Improved memory and performance of backtracking significantly
+* Command line program now runs Linux and Mac.
 
 # v0.4.0
 

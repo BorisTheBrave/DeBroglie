@@ -23,7 +23,7 @@ namespace DeBroglie.Constraints
     /// <summary>
     /// BorderConstraint class restricts what tiles can be selected in various regions of the output. 
     /// 
-    /// For each affected location, BorderConstratin calls Select with the Tile specified.If the Ban field is set, then it calls Ban isntead of Select.
+    /// For each affected location, BorderConstratin calls Select with the Tile specified.If the Ban field is set, then it calls Ban instead of Select.
     /// </summary>
     public class BorderConstraint : ITileConstraint
     {
