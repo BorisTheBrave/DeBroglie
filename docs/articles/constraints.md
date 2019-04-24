@@ -89,9 +89,10 @@ You can use <xref:DeBroglie.Constraints.FixedTileConstraint> to force certain fe
 
 <figure>
 <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/castle/castle.json">
-<video src="../images/castle_fixed.webm" autoplay loop>
-</a>
+<video autoplay loop muted>
+  <source src="../images/castle_fixed.webm" type="video/webm">
 </video>
+</a>
 <figcaption>Several castles all generated with a fixed turret location</figcaption>
 </figure>
 

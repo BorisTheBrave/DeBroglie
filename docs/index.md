@@ -67,14 +67,14 @@ _gitContribute: false
         <div class="carousel-inner" role="listbox" style="width:100%; height: 320px !important;">
           <div class="item active">
             <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/platformer/platformer.json">
-            <video src="images/platformer.webm" autoplay loop width="640" height="320"
+            <video src="images/platformer.webm" autoplay loop muted width="640" height="320"
                 style="background-color: #55b4ff">
             </video>
             </a>
           </div>
           <div class="item">
             <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/castle/castle.json">
-            <video src="images/castle_fixed.webm" autoplay loop>
+            <video src="images/castle_fixed.webm" autoplay loop muted>
             </a>
           </div>
           <div class="item">
@@ -88,7 +88,8 @@ _gitContribute: false
           </div>
           <div class="item">
             <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/mxgmn/circles.json">
-            <video src="images/circles.webm" autoplay loop>
+            <video src="images/circles.webm" autoplay loop muted>
+            </video>
             </a>
           </div>
         </div>
