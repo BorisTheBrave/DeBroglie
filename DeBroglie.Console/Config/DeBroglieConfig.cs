@@ -164,6 +164,17 @@ namespace DeBroglie.Console.Config
         public bool Animate { get; set; }
 
         /// <summary>
+        /// If set, automatically detects adjacencies.
+        /// </summary>
+        public bool AutoAdjacency { get; set; }
+
+        /// <summary>
+        /// Value between 0 and 1 indicating how close a match tiles have to be to be considered
+        /// automatically adjacent.
+        /// </summary>
+        public double AutoAdjacencyTolerance { get; set; }
+
+        /// <summary>
         /// Specifies various per-tile information.
         /// </summary>
         public List<TileData> Tiles { get; set; }

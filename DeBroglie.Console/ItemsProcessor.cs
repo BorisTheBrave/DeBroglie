@@ -149,13 +149,12 @@ namespace DeBroglie.Console
                 sampleSet = LoadFileSet();
             }
             var directions = sampleSet.Directions;
-            var samples = sampleSet.Samples;
 
             var topology = factory.GetOutputTopology(directions); 
 
             var tileRotation = factory.GetTileRotation(config.RotationTreatment, topology);
 
-            var model = factory.GetModel(directions, samples, tileRotation);
+            var model = factory.GetModel(directions, sampleSet, tileRotation);
 
             var constraints = factory.GetConstraints(directions, tileRotation);
 

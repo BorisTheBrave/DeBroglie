@@ -43,6 +43,8 @@ The file format very closely resembles the library API described in the main doc
 |`rotationalSymmetry`  |int|If set, extra copies of the `src` are used as samples, as described in [Rotation](xref:rotation_article)|
 |`backtrack`           |bool|Specifies if [backtracking](features.md#backtracking) is enabled.|
 |`animate`             |bool|Dumps snapshots of the output while the generation process is running.|
+|`autoAdjacency`       |bool|Enables [auto adjacency detection](adjacency.md#auto-adjacency).|
+|`autoAdjacencyTolerance`|double|Value between 0 and 1 indicating how close a match tiles have to be to be considered automatically adjacent.|
 |`tiles`               |array of [TileData](#tile-data-config)|Specifies various per-tile information.|
 |`adjacencies`         |array of [Adjacency](#adjacency-config)|Indicates which tiles can be adjacent to which other ones ([adjacent model only](features.md#adjacent)).|
 |`constraints`         |array of [Constraint](#constraint-config)|Specifies constraints to add.|

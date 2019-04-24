@@ -150,3 +150,11 @@ model.AddAdjacency(new []{tile1}, new []{tile2}, 0, 1, 0, rotations);
 In the console app, any rotation configuration is automatically applied to `adjacencies`.
 
 ----
+
+Auto Adjacency
+==============
+DeBroglie Console has a mode that can automatically detect tiles that can be placed adjacent to each other. This feature is only supported for file formats that have color pixel data for each tile. Currently, that means only a set of bitmaps, or set of MagicaVoxel files.
+
+To determine automatically if two tiles can be adjacent to each other, DeBroglie extracts the strip of pixels on the sides of the tiles that will abut, and then compares
+the pixels to see if they match. If their similarity is closer than than configured tolerance, then an adjacency is added to the model. Tolerance varies from 0, meaning an
+exact match, to 1, meaning any two tiles are accepted.

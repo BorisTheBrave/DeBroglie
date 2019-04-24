@@ -22,55 +22,12 @@
         {"src": "turret.vox", "value": "turret", "tileSymmetry": "L"},
         {"src": "turret_top.vox", "value": "turret_top", "tileSymmetry": "L"},
     ],
+    "autoAdjacency": true,
     "adjacencies": [
-        {"left": ["ground"], "right": ["ground"]},
-        {"left": ["empty"], "right": ["empty"]},
-        {"above": ["empty"], "below": ["ground"]},
-        {"above": ["empty"], "below": ["empty"]},
-
-        {"above": ["wall"], "below": ["ground", "wall"]},
-
-        // Things that go on the ground
-        {"below": ["ground"], "above": ["wall", "wall_outer_corner", "wall_inner_corner", "solid"]},
-
-        // Stackable items and their tops
-        {"below": ["wall", "solid_top_with_wall"], "above": ["wall", "wall_top", "wall_top_with_outer_corner"]},
-        {"below": ["wall_outer_corner", "wall_top_with_outer_corner"], "above": ["wall_outer_corner", "wall_top_outer_corner", "turret"]},
-        {"below": ["wall_inner_corner"], "above": ["wall_inner_corner", "wall_top_inner_corner"]},
-        {"below": ["solid"], "above": ["solid", "solid_top", "solid_top_with_wall"]},
-        {"below": ["turret"], "above": ["turret_top"]},
-
-
-        // Things that are on top
-        {"above": ["empty"], "below": ["wall_top", "wall_top_outer_corner", "wall_top_inner_corner", "solid_top", "turret_top"]},
-
-        // Wall interior
-        {"left": ["wall!180", "wall_inner_corner!180", "wall_inner_corner!270", "solid", "solid_top_with_wall!180"], "right": ["wall", "wall_inner_corner", "wall_inner_corner!90", "solid", "solid_top_with_wall"]},
-
-        // Wall end
-        {"left": ["wall!270", "wall_inner_corner", "wall_outer_corner!270", "wall_top_with_outer_corner!270"], "right": ["wall!270", "wall_inner_corner!270", "wall_outer_corner", "wall_top_with_outer_corner!x90"]},
-
-        // Empty space
-        {"left": ["empty", "wall", "wall_outer_corner", "wall_outer_corner!90", "wall_top_with_outer_corner"], "right": ["empty"]},
-
-        // Wall top interior
-        {"left": ["wall_top!180", "wall_top_inner_corner!180", "wall_top_inner_corner!270", "solid_top", "solid_top_with_wall"], "right": ["wall_top", "wall_top_inner_corner", "wall_top_inner_corner!90", "solid_top", "solid_top_with_wall!180"]},
-
-        // wall top end
-        {"left": ["wall_top!270", "wall_top_inner_corner", "wall_top_outer_corner!270", "wall_top_with_outer_corner!x90"], "right": ["wall_top!270", "wall_top_inner_corner!270", "wall_top_outer_corner", "wall_top_with_outer_corner!270"]},
-
-        // Empty space
-        {"left": ["empty", "wall_top", "wall_top_outer_corner", "wall_top_outer_corner!90", "turret", "turret!90", "turret_top", "turret_top!90"], "right": ["empty"]},
-
-        // Wall top interior with outer corner
-        {"left": ["wall_top_with_outer_corner!x0", "solid_top_with_wall!270"], "right": [ "wall_top_with_outer_corner", "solid_top_with_wall!270"]},
-
-        // Turret
-        {"left": ["turret!270"], "right": [ "turret"]},
-
-        // Turret top
-        {"left": ["turret_top!270"], "right": [ "turret_top"]}
-
+        // Auto adjacency figures out most connections, but these ones are not possible as the tile
+        // color isn't continuous across the edge
+        {"below": ["ground"], "above": ["wall", "wall_outer_corner", "wall_inner_corner", "solid", "empty"]},
+        {"below": ["wall_outer_corner", "wall_top_with_outer_corner"], "above": ["turret"]}
     ],
 
     "ground": "ground",

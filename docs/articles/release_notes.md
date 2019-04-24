@@ -3,8 +3,10 @@ uid: release_notes
 title: Release Notes
 ---
 # Unreleased
+
 * Improved memory and performance of backtracking significantly
 * Command line program now runs Linux and Mac.
+* Added [auto adjacency detection](adjacency.md#auto-adjacency) support.
 
 # v0.4.0
 

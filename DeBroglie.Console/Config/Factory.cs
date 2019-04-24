@@ -1,4 +1,5 @@
-﻿using DeBroglie.Constraints;
+﻿using DeBroglie.Console.Import;
+using DeBroglie.Constraints;
 using DeBroglie.Models;
 using DeBroglie.Rot;
 using DeBroglie.Tiled;
@@ -147,71 +148,32 @@ namespace DeBroglie.Console.Config
             return tileRotationBuilder.Build();
         }
 
-        // Experimental. Remove adjacencies such that
-        // Anything that can can connect to tile, must connect to tile.
-        // This is hard to express otherwise.
-        IList<AdjacentModel.Adjacency> ForcePadding(IList<AdjacentModel.Adjacency> adjacencies, Tile tile)
+        private IList<AdjacentModel.Adjacency> GetManualAdjacencies(DirectionSet directions, TileRotation tileRotation)
         {
-            var results = new List<AdjacentModel.Adjacency>();
-            var tileSet = new[] { tile };
-            foreach (var a in adjacencies)
+            if (Config.Adjacencies == null)
+                return new AdjacentModel.Adjacency[0];
+
+            AdjacentModel.Adjacency Convert(AdjacencyData a)
             {
-                if (a.Src.Contains(tile) || a.Dest.Contains(tile))
+                return new AdjacentModel.Adjacency
                 {
-                    results.Add(new AdjacentModel.Adjacency
-                    {
-                        Src = a.Src.Except(tileSet).ToArray(),
-                        Dest = a.Dest.Intersect(tileSet).ToArray(),
-                        Direction = a.Direction,
-                    });
-                    results.Add(new AdjacentModel.Adjacency
-                    {
-                        Src = a.Src.Intersect(tileSet).ToArray(),
-                        Dest = a.Dest.Except(tileSet).ToArray(),
-                        Direction = a.Direction,
-                    });
-                    results.Add(new AdjacentModel.Adjacency
-                    {
-                        Src = a.Src.Intersect(tileSet).ToArray(),
-                        Dest = a.Dest.Intersect(tileSet).ToArray(),
-                        Direction = a.Direction,
-                    });
-                }
-                else
-                {
-                    results.Add(a);
-                }
+                    Src = a.Src.Select(Parse).Select(tileRotation.Canonicalize).ToArray(),
+                    Dest = a.Dest.Select(Parse).Select(tileRotation.Canonicalize).ToArray(),
+                    Direction = a.Direction,
+                };
             }
-            return results;
+
+            return AdjacencyUtils.Rotate(
+                Config.Adjacencies.Select(Convert).ToList(),
+                tileRotation.RotationGroup,
+                directions,
+                tileRotation);
         }
 
         private void SetupAdjacencies(TileModel model, TileRotation tileRotation, IList<AdjacentModel.Adjacency> adjacencies)
         {
-            if (Config.Adjacencies != null)
-            {
-                AdjacentModel.Adjacency Convert(AdjacencyData a)
-                {
-                    return new AdjacentModel.Adjacency
-                    {
-                        Src = a.Src.Select(Parse).Select(tileRotation.Canonicalize).ToArray(),
-                        Dest = a.Dest.Select(Parse).Select(tileRotation.Canonicalize).ToArray(),
-                        Direction = a.Direction,
-                    };
-                }
-
-                var converted = Config.Adjacencies.Select(Convert);
-                if(adjacencies == null)
-                {
-                    adjacencies = converted.ToList();
-                }
-                else
-                {
-                    adjacencies = adjacencies.Concat(converted).ToList();
-                }
-            }
-
             if (Config.PadTile != null)
-                adjacencies = ForcePadding(adjacencies, Parse(Config.PadTile));
+                adjacencies = AdjacencyUtils.ForcePadding(adjacencies, Parse(Config.PadTile));
 
             if (adjacencies != null)
             {
@@ -258,8 +220,9 @@ namespace DeBroglie.Console.Config
             }
         }
 
-        public TileModel GetModel(DirectionSet directions, ITopoArray<Tile>[] samples, TileRotation tileRotation)
+        public TileModel GetModel(DirectionSet directions, SampleSet sampleSet, TileRotation tileRotation)
         {
+            var samples = sampleSet.Samples;
             var modelConfig = Config.Model ?? new Adjacent();
             TileModel tileModel;
             if (modelConfig is Overlapping overlapping)
@@ -285,7 +248,12 @@ namespace DeBroglie.Console.Config
                 throw new ConfigurationException($"Unrecognized model type {modelConfig.GetType()}");
             }
 
-            SetupAdjacencies(tileModel, tileRotation, null);
+            var autoAdjacencies = Config.AutoAdjacency 
+                ? AdjacencyUtils.GetAutoAdjacencies(sampleSet, tileRotation, Config.AutoAdjacencyTolerance)
+                : new AdjacentModel.Adjacency[0];
+            var manualAdjacencies = GetManualAdjacencies(sampleSet.Directions, tileRotation);
+
+            SetupAdjacencies(tileModel, tileRotation, autoAdjacencies.Concat(manualAdjacencies).ToList());
             SetupTiles(tileModel, tileRotation);
 
             return tileModel;
