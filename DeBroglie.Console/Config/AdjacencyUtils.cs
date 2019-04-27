@@ -142,7 +142,7 @@ namespace DeBroglie.Console.Config
                 {
                     foreach (var kv2 in rightSlices)
                     {
-                        if (DiffSlice(kv1.Value, kv2.Value, diff) <= threshold)
+                        if (DiffSlice(kv1.Value, kv2.Value, diff) <= tolerance)
                         {
                             output.Add(new AdjacentModel.Adjacency
                             {
@@ -164,7 +164,7 @@ namespace DeBroglie.Console.Config
                 {
                     foreach (var kv2 in downSlices)
                     {
-                        if (DiffSlice(kv1.Value, kv2.Value, diff) <= threshold)
+                        if (DiffSlice(kv1.Value, kv2.Value, diff) <= tolerance)
                         {
                             output.Add(new AdjacentModel.Adjacency
                             {
@@ -187,7 +187,7 @@ namespace DeBroglie.Console.Config
                 {
                     foreach (var kv2 in belowSlices)
                     {
-                        if (DiffSlice(kv1.Value, kv2.Value, diff) <= threshold)
+                        if (DiffSlice(kv1.Value, kv2.Value, diff) <= tolerance)
                         {
                             output.Add(new AdjacentModel.Adjacency
                             {
