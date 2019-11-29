@@ -38,7 +38,7 @@ namespace DeBroglie.Wfc
         private readonly bool backtrack;
         private readonly int backtrackDepth;
         private readonly IWaveConstraint[] constraints;
-        private Random random;
+        private Func<double> randomDouble;
 
         // List of locations that still need to be checked against for fulfilling the model's conditions
         private Stack<PropagateItem> toPropagate;
@@ -62,7 +62,7 @@ namespace DeBroglie.Wfc
           */
         private int[,,] compatible;
 
-        public WavePropagator(PatternModel model, Topology topology, int backtrackDepth = 0, IWaveConstraint[] constraints = null, Random random = null, bool clear = true)
+        public WavePropagator(PatternModel model, Topology topology, int backtrackDepth = 0, IWaveConstraint[] constraints = null, Func<double> randomDouble = null, bool clear = true)
         {
             this.propagator = model.Propagator;
             this.patternCount = model.PatternCount;
@@ -79,7 +79,7 @@ namespace DeBroglie.Wfc
             this.backtrackDepth = backtrackDepth;
             this.constraints = constraints ?? new IWaveConstraint[0];
             this.topology = topology;
-            this.random = random ?? new Random();
+            this.randomDouble = randomDouble ?? new Random().NextDouble;
             directionsCount = topology.Directions.Count;
 
             this.toPropagate = new Stack<PropagateItem>();
@@ -102,7 +102,7 @@ namespace DeBroglie.Wfc
         public bool PeriodicY => periodicY;
         public bool PeriodicZ => periodicZ;
         public Topology Topology => topology;
-        public Random Random => random;
+        public Func<double> RandomDouble => randomDouble;
 
         public int[][][] Propagator => propagator;
         public int PatternCount => patternCount;
@@ -203,7 +203,7 @@ namespace DeBroglie.Wfc
                     s += frequencies[pattern];
                 }
             }
-            var r = random.NextDouble() * s;
+            var r = randomDouble() * s;
             for (var pattern = 0; pattern < patternCount; pattern++)
             {
                 if (wave.Get(index, pattern))
@@ -221,7 +221,7 @@ namespace DeBroglie.Wfc
         private void Observe(out int index, out int pattern)
         {
             // Choose a random cell
-            index = wave.GetRandomMinEntropyIndex(random);
+            index = wave.GetRandomMinEntropyIndex(randomDouble);
             if (index == Wave.AllCellsDecided)
             {
                 pattern = -1;

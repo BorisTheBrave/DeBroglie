@@ -53,7 +53,7 @@ namespace DeBroglie.Constraints
             if (points.Count == 0)
                 throw new System.Exception($"No legal placement of {tileSet}");
 
-            var i = (int)(propagator.Random.NextDouble() * points.Count);
+            var i = (int)(propagator.RandomDouble() * points.Count);
 
             return points[i];
 

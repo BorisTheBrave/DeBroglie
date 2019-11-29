@@ -147,7 +147,7 @@ namespace DeBroglie.Test
             var r = new Random(seed);
             Console.WriteLine("Seed {0}", seed);
 
-            var wavePropagator = new WavePropagator(model, topology, 10, random: r);
+            var wavePropagator = new WavePropagator(model, topology, 10, randomDouble: r.NextDouble);
 
             var status = wavePropagator.Run();
 

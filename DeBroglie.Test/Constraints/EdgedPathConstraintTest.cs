@@ -39,9 +39,14 @@ namespace DeBroglie.Test.Constraints
             Console.WriteLine("Seed {0}", seed);
 
             var model = OverlappingModel.Create(a, 3, false, 8);
-            var propagator = new TilePropagator(model, new Topology(10, 10, false), true, constraints: new[] {
-                new EdgedPathConstraint(exits, new []{new Point(0,0), new Point(9, 9) })
-            }, random: r);
+            var propagator = new TilePropagator(model, new Topology(10, 10, false), new TilePropagatorOptions
+            {
+                BackTrackDepth = -1,
+                Constraints = new[] {
+                    new EdgedPathConstraint(exits, new []{new Point(0,0), new Point(9, 9) })
+                },
+                RandomDouble = r.NextDouble
+            });
             var status = propagator.Run();
             Assert.AreEqual(Resolution.Decided, status);
             var result = propagator.ToValueArray<int>().ToArray2d();

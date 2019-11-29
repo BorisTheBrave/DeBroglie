@@ -122,7 +122,7 @@ namespace DeBroglie.Wfc
         // Finds the cells with minimal entropy (excluding 0, decided cells)
         // and picks one randomly.
         // Returns AllCellsDecided if every cell is decided.
-        public int GetRandomMinEntropyIndex(Random r)
+        public int GetRandomMinEntropyIndex(Func<double> randomDouble)
         {
             int selectedIndex = AllCellsDecided;
             double minEntropy = double.PositiveInfinity;
@@ -141,11 +141,11 @@ namespace DeBroglie.Wfc
                 {
                     selectedIndex = i;
                     minEntropy = e;
-                    randomizer = r.NextDouble();
+                    randomizer = randomDouble();
                 }
                 else if (e == minEntropy)
                 {
-                    var randomizer2 = r.NextDouble();
+                    var randomizer2 = randomDouble();
                     if (randomizer2 < randomizer)
                     {
                         selectedIndex = i;

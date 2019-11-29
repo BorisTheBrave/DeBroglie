@@ -12,10 +12,23 @@ namespace DeBroglie
 
     public class TilePropagatorOptions
     {
+        /// <summary>
+        /// Maximum number of steps to backtrack.
+        /// Set to 0 to disable backtracking, and -1 for indefinite amounts of backtracking.
+        /// </summary>
         public int BackTrackDepth { get; set; }
 
+        /// <summary>
+        /// Extra constraints to control the generation process.
+        /// </summary>
         public ITileConstraint[] Constraints {get;set;}
 
+        /// <summary>
+        /// Source of randomness used by generation
+        /// </summary>
+        public Func<double> RandomDouble { get; set; }
+
+        [Obsolete("Use RandomDouble")]
         public Random Random { get; set; }
     }
 
@@ -49,10 +62,29 @@ namespace DeBroglie
         /// <param name="topology">The dimensions of the output to generate</param>
         /// <param name="backtrack">If true, store additional information to allow rolling back choices that lead to a contradiction.</param>
         /// <param name="constraints">Extra constraints to control the generation process.</param>
-        /// <param name="random">Source of randomness</param>
         public TilePropagator(TileModel tileModel, Topology topology, bool backtrack = false,
-            ITileConstraint[] constraints = null,
-            Random random = null)
+            ITileConstraint[] constraints = null)
+            : this(tileModel, topology, new TilePropagatorOptions
+            {
+                BackTrackDepth = backtrack ? -1 : 0,
+                Constraints = constraints,
+            })
+        {
+
+        }
+
+        /// <summary>
+        /// Constructs a TilePropagator.
+        /// </summary>
+        /// <param name="tileModel">The model to guide the generation.</param>
+        /// <param name="topology">The dimensions of the output to generate</param>
+        /// <param name="backtrack">If true, store additional information to allow rolling back choices that lead to a contradiction.</param>
+        /// <param name="constraints">Extra constraints to control the generation process.</param>
+        /// <param name="random">Source of randomness</param>
+        [Obsolete("Use TilePropagatorOptions")]
+        public TilePropagator(TileModel tileModel, Topology topology, bool backtrack,
+            ITileConstraint[] constraints,
+            Random random)
             :this(tileModel, topology, new TilePropagatorOptions
             {
                 BackTrackDepth = backtrack ? -1 : 0,
@@ -63,7 +95,7 @@ namespace DeBroglie
 
         }
 
-       public TilePropagator(TileModel tileModel, Topology topology, TilePropagatorOptions options)
+        public TilePropagator(TileModel tileModel, Topology topology, TilePropagatorOptions options)
         {
             this.tileModel = tileModel;
             this.topology = topology;
@@ -81,7 +113,9 @@ namespace DeBroglie
                 (options.Constraints?.Select(x => new TileConstraintAdaptor(x, this)).ToArray() ?? Enumerable.Empty<IWaveConstraint>())
                 .ToArray();
 
-            this.wavePropagator = new WavePropagator(patternModel, patternTopology, options.BackTrackDepth, waveConstraints, options.Random, clear: false);
+#pragma warning disable CS0618 // Type or member is obsolete
+            this.wavePropagator = new WavePropagator(patternModel, patternTopology, options.BackTrackDepth, waveConstraints, options.RandomDouble ?? (options.Random == null ? (Func<double>)null : options.Random.NextDouble), clear: false);
+#pragma warning restore CS0618 // Type or member is obsolete
             wavePropagator.Clear();
 
         }
@@ -119,7 +153,7 @@ namespace DeBroglie
         /// <summary>
         /// The source of randomness
         /// </summary>
-        public Random Random => wavePropagator.Random;
+        public Func<double> RandomDouble => wavePropagator.RandomDouble;
 
 
         /// <summary>
