@@ -3,3 +3,5 @@ bin
 obj
 /packages
 /release
+/rcedit-x64.exe
+DeBroglie.UI
