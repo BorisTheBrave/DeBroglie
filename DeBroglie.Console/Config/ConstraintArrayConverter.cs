@@ -49,6 +49,9 @@ namespace DeBroglie.Console.Config
                     case MirrorConfig.TypeString:
                         constraintConfig = new MirrorConfig();
                         break;
+                    case CountConfig.TypeString:
+                        constraintConfig = new CountConfig();
+                        break;
                     default:
                         throw new ConfigurationException($"Unrecognized constraint type {type}");
                 }

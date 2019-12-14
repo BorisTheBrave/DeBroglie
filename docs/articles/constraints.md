@@ -147,6 +147,11 @@ The <xref:DeBroglie.Constraints.MirrorConstraint> class forces the generated out
 </a>
 </figure>
 
+## Count
+
+The <xref:DeBroglie.Constraints.CountConstraint> class forces the number of a given tile or set of tiles to be at most or at least a given number.
+
+
 ## Custom Constraints
 
 You can define your own constraints by extending <xref:DeBroglie.Constraints.ITileConstraint>. The Init method is called once per propagator run, and the Check method is called after each step, each time tiles are selected. 

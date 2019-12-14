@@ -404,6 +404,12 @@ namespace DeBroglie
             GetBannedSelectedInternal(px, py, pz, patterns, out isBanned, out isSelected);
         }
 
+        internal Tristate GetSelectedTristate(int x, int y, int z, TilePropagatorTileSet tiles)
+        {
+            GetBannedSelected(x, y, z, tiles, out var isBanned, out var isSelected);
+            return isSelected ? Tristate.Yes : isBanned ? Tristate.No : Tristate.Maybe;
+        }
+
 
         private void GetBannedSelectedInternal(int px, int py, int pz, ISet<int> patterns, out bool isBanned, out bool isSelected)
         {
