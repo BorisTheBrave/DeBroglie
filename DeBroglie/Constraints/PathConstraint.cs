@@ -11,6 +11,8 @@ namespace DeBroglie.Constraints
     {
         private TilePropagatorTileSet tileSet;
 
+        private TilePropagatorTileSet endPointTileSet;
+
         private PathConstraintUtils.SimpleGraph graph;
 
         /// <summary>
@@ -20,10 +22,17 @@ namespace DeBroglie.Constraints
 
         /// <summary>
         /// Set of points that must be connected by paths.
-        /// If null, then PathConstraint ensures that all path cells
+        /// If EndPoints and EndPointTiles are null, then PathConstraint ensures that all path cells
         /// are connected.
         /// </summary>
         public Point[] EndPoints { get; set; }
+
+        /// <summary>
+        /// Set of tiles that must be connected by paths.
+        /// If EndPoints and EndPointTiles are null, then PathConstraint ensures that all path cells
+        /// are connected.
+        /// </summary>
+        public ISet<Tile> EndPointTiles { get; set; }
 
         public PathConstraint(ISet<Tile> tiles, Point[] endPoints = null)
         {
@@ -34,6 +43,7 @@ namespace DeBroglie.Constraints
         public void Init(TilePropagator propagator)
         {
             tileSet = propagator.CreateTileSet(Tiles);
+            endPointTileSet = EndPointTiles != null ? propagator.CreateTileSet(EndPointTiles) : null;
             graph = PathConstraintUtils.CreateGraph(propagator.Topology);
         }
 
@@ -54,31 +64,53 @@ namespace DeBroglie.Constraints
 
             // Select relevant cells, i.e. those that must be connected.
             bool[] relevant;
-            if (EndPoints == null)
+            if (EndPoints == null && EndPointTiles == null)
             {
                 relevant = mustBePath;
             }
             else
             {
                 relevant = new bool[indices];
-                if (EndPoints.Length == 0)
-                    return;
-                foreach (var endPoint in EndPoints)
+                var relevantCount = 0;
+                if (EndPoints != null)
                 {
-                    var index = topology.GetIndex(endPoint.X, endPoint.Y, endPoint.Z);
-                    relevant[index] = true;
+                    foreach (var endPoint in EndPoints)
+                    {
+                        var index = topology.GetIndex(endPoint.X, endPoint.Y, endPoint.Z);
+                        relevant[index] = true;
+                        relevantCount++;
+                    }
+                }
+                if (EndPointTiles != null)
+                {
+                    for (int i = 0; i < indices; i++)
+                    {
+                        topology.GetCoord(i, out var x, out var y, out var z);
+                        propagator.GetBannedSelected(x, y, z, endPointTileSet, out var isBanned, out var isSelected);
+                        if (isSelected)
+                        {
+                            relevant[i] = true;
+                            relevantCount++;
+                        }
+                    }
+                }
+                if (relevantCount == 0)
+                {
+                    // Nothing to do.
+                    return;
                 }
             }
             var walkable = couldBePath;
 
-            var isArticulation = PathConstraintUtils.GetArticulationPoints(graph, walkable, relevant);
+            var component = EndPointTiles != null ? new bool[indices] : null;
+
+            var isArticulation = PathConstraintUtils.GetArticulationPoints(graph, walkable, relevant, component);
 
             if (isArticulation == null)
             {
                 propagator.SetContradiction();
                 return;
             }
-
 
             // All articulation points must be paths,
             // So ban any other possibilities
@@ -88,6 +120,19 @@ namespace DeBroglie.Constraints
                 {
                     topology.GetCoord(i, out var x, out var y, out var z);
                     propagator.Select(x, y, z, tileSet);
+                }
+            }
+
+            // Any EndPointTiles not in the connected component aren't safe to add
+            if (EndPointTiles != null)
+            {
+                for (int i = 0; i < indices; i++)
+                {
+                    if (!component[i])
+                    {
+                        topology.GetCoord(i, out var x, out var y, out var z);
+                        propagator.Ban(x, y, z, endPointTileSet);
+                    }
                 }
             }
         }

@@ -289,6 +289,7 @@ namespace DeBroglie.Console.Config
                     {
                         var tiles = new HashSet<Tile>(pathData.Tiles.Select(Parse));
                         var p = new PathConstraint(tiles, pathData.EndPoints);
+                        p.EndPointTiles = pathData.EndPointTiles == null ? null : new HashSet<Tile>(pathData.EndPointTiles.Select(Parse));
                         constraints.Add(p);
                     }
                     else if (constraint is EdgedPathConfig edgedPathData)
@@ -296,6 +297,7 @@ namespace DeBroglie.Console.Config
                         var exits = edgedPathData.Exits.ToDictionary(
                             kv => Parse(kv.Key), x => (ISet<Direction>)new HashSet<Direction>(x.Value.Select(ParseDirection)));
                         var p = new EdgedPathConstraint(exits, edgedPathData.EndPoints, tileRotation);
+                        p.EndPointTiles = edgedPathData.EndPointTiles == null ? null : new HashSet<Tile>(edgedPathData.EndPointTiles.Select(Parse));
                         constraints.Add(p);
                     }
                     else if (constraint is BorderConfig borderData)
@@ -340,6 +342,16 @@ namespace DeBroglie.Console.Config
                         constraints.Add(new MirrorConstraint
                         {
                             TileRotation = tileRotation,
+                        });
+                    }
+                    else if (constraint is CountConfig countConfig)
+                    {
+                        constraints.Add(new CountConstraint
+                        {
+                            Tiles = new HashSet<Tile>(countConfig.Tiles.Select(Parse)),
+                            Comparison = countConfig.Comparison,
+                            Count = countConfig.Count,
+                            Eager = countConfig.Eager,
                         });
                     }
                     else

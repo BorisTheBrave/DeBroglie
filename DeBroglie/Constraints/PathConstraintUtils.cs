@@ -49,11 +49,21 @@ namespace DeBroglie.Constraints
         }
 
         /// <summary>
-        /// Find articulation points.
+        /// First, find the subgraph of graph given by just the walkable vertices.
+        /// Then find any point, that if removed, mean there's no path between two
+        /// given relevant points.
+        /// If it's already not possible to path, then return null.
+        /// Note: relevant points themselves are always returned as true.
+        /// 
+        /// Also optionally returns the extent of the connecteted component containing relevant.
+        /// 
+        /// If relevant is null, instead returns the points, that if removed, increase the number of
+        /// connected components.
+        /// 
         /// For an explanation, see:
         /// https://www.boristhebrave.com/2018/04/28/random-paths-via-chiseling/
         /// </summary>
-        public static bool[] GetArticulationPoints(SimpleGraph graph, bool[] walkable, bool[] relevant)
+        public static bool[] GetArticulationPoints(SimpleGraph graph, bool[] walkable, bool[] relevant = null, bool[] component = null)
         {
             var indices = walkable.Length;
 
@@ -93,6 +103,10 @@ namespace DeBroglie.Constraints
                                 if (isRelevant)
                                 {
                                     isArticulation[u] = true;
+                                }
+                                if (component != null)
+                                {
+                                    component[u] = true;
                                 }
                                 frame.isRelevantSubtree = isRelevant;
                                 low[u] = dfsNum[u] = num++;
@@ -199,6 +213,10 @@ namespace DeBroglie.Constraints
                 {
                     isArticulation[u] = true;
                 }
+                if (component != null) 
+                {
+                    component[u] = true;
+                }
                 var isRelevantSubtree = isRelevant;
                 low[u] = dfsNum[u] = num++;
 
@@ -241,19 +259,35 @@ namespace DeBroglie.Constraints
             {
                 if (!walkable[i]) continue;
                 if (relevant != null && !relevant[i]) continue;
+                // Already visited
+                if (dfsNum[i] != 0) continue;
                 var childCount = CutVertex(i);
-                isArticulation[i] = childCount > 1 || relevant != null;
-                if (isArticulation[i])
+                if(relevant != null)
+                {
+                    // Relevant points are always articulation points
+                    isArticulation[i] = true;
+                    // There can only be a single relevant component, so can stop
                     break;
+                }
+                else
+                {
+                    // The root of the tree is an exception to CutVertex's calculations
+                    // It's an articulation point if it has multiple children
+                    // as removing it would give multiple subtrees.
+                    isArticulation[i] = childCount > 1;
+                }
             }
 
             // Check we've visited every relevant point.
             // If not, there's no way to satisfy the constraint.
-            for (var i = 0; i < indices; i++)
+            if (relevant != null)
             {
-                if (relevant != null && relevant[i] && dfsNum[i] == 0)
+                for (var i = 0; i < indices; i++)
                 {
-                    return null;
+                    if (relevant[i] && dfsNum[i] == 0)
+                    {
+                        return null;
+                    }
                 }
             }
 

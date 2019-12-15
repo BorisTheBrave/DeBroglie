@@ -7,6 +7,8 @@ title: Release Notes
 * Improved memory and performance of backtracking significantly
 * Command line program now runs Linux and Mac.
 * Added [auto adjacency detection](adjacency.md#auto-adjacency) support.
+* Added [CountConstraint](xref:DeBroglie.Constraints.CountConstraint)
+* Added EndPointTiles to PathConstraint and EdgedPathConstraint.
 
 # v0.4.0
 

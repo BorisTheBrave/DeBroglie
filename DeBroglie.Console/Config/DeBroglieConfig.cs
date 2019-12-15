@@ -1,4 +1,5 @@
-﻿using DeBroglie.Rot;
+﻿using DeBroglie.Constraints;
+using DeBroglie.Rot;
 using DeBroglie.Topo;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -321,10 +322,17 @@ namespace DeBroglie.Console.Config
 
         /// <summary>
         /// Set of points that must be connected by paths.
-        /// If null, then PathConstraint ensures that all path cells
+        /// If EndPoints and EndPointTiles are null, then EdgedPathConstraint ensures that all path cells
         /// are connected.
         /// </summary>
         public Point[] EndPoints { get; set; }
+
+        /// <summary>
+        /// Set of tiles that must be connected by paths.
+        /// If EndPoints and EndPointTiles are null, then EdgedPathConstraint ensures that all path cells
+        /// are connected.
+        /// </summary>
+        public string[] EndPointTiles { get; set; }
     }
 
     public class EdgedPathConfig : ConstraintConfig
@@ -340,10 +348,17 @@ namespace DeBroglie.Console.Config
 
         /// <summary>
         /// Set of points that must be connected by paths.
-        /// If null, then PathConstraint ensures that all path cells
+        /// If EndPoints and EndPointTiles are null, then EdgedPathConstraint ensures that all path cells
         /// are connected.
         /// </summary>
         public Point[] EndPoints { get; set; }
+
+        /// <summary>
+        /// Set of tiles that must be connected by paths.
+        /// If EndPoints and EndPointTiles are null, then EdgedPathConstraint ensures that all path cells
+        /// are connected.
+        /// </summary>
+        public string[] EndPointTiles { get; set; }
     }
 
     public class BorderConfig : ConstraintConfig
@@ -401,5 +416,30 @@ namespace DeBroglie.Console.Config
         public const string TypeString = "mirror";
 
         public override string Type => TypeString;
+    }
+
+    public class CountConfig : ConstraintConfig
+    {
+        public const string TypeString = "count";
+
+        public override string Type => TypeString;
+
+        public string[] Tiles { get; set; }
+
+        /// <summary>
+        /// How to compare the count of <see cref="Tiles"/> to <see cref="Count"/>.
+        /// </summary>
+        public CountComparison Comparison { get; set; }
+
+        /// <summary>
+        /// The count to be compared against.
+        /// </summary>
+        public int Count { get; set; }
+
+        /// <summary>
+        /// If set, this constraint will attempt to pick tiles as early as possible.
+        /// This can give a better random distribution, but higher chance of contradictions.
+        /// </summary>
+        public bool Eager { get; set; }
     }
 }
