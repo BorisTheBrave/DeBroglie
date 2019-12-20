@@ -305,7 +305,7 @@ namespace DeBroglie.Models
                 PatternModel = patternModel,
                 PatternsToTilesByOffset = patternsToTilesByOffset,
                 TilesToPatternsByOffset = tilesToPatternsByOffset,
-                TileCoordToPatternCoord = null,
+                TileCoordToPatternCoordIndexAndOffset = null,
             };
         }
 

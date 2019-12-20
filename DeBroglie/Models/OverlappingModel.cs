@@ -153,7 +153,8 @@ namespace DeBroglie.Models
             Topology patternTopology;
             Dictionary<int, IReadOnlyDictionary<Tile, ISet<int>>> tilesToPatternsByOffset;
             Dictionary<int, IReadOnlyDictionary<int, Tile>> patternsToTilesByOffset;
-            ITopoArray<(Point, int)> tileCoordToPatternCoord;
+            ITopoArray<(Point, int, int)> tileCoordToPatternCoordIndexAndOffset;
+            ITopoArray<List<(Point, int, int)>> patternCoordToTileCoordIndexAndOffset;
             if (!(topology.PeriodicX && topology.PeriodicY && topology.PeriodicZ))
             {
                 // Shrink the topology as patterns can cover multiple tiles.
@@ -182,15 +183,37 @@ namespace DeBroglie.Models
                     return ox + oy * NX + oz * NX * NY;
                 }
 
-                (Point, int) Map(Point t)
+                (Point, int, int) Map(Point t)
                 {
                     OverlapCoord(t.X, patternTopology.Width, out var px, out var ox);
                     OverlapCoord(t.Y, patternTopology.Height, out var py, out var oy);
                     OverlapCoord(t.Z, patternTopology.Depth, out var pz, out var oz);
-                    return (new Point(px, py, pz), CombineOffsets(ox, oy, oz));
+                    var patternIndex = patternTopology.GetIndex(px, py, pz);
+                    return (new Point(px, py, pz), patternIndex, CombineOffsets(ox, oy, oz));
                 }
 
-                tileCoordToPatternCoord = TopoArray.Create(Map, topology);
+                (Point, int, int) RMap(Point t)
+                {
+                    OverlapCoord(t.X, patternTopology.Width, out var px, out var ox);
+                    OverlapCoord(t.Y, patternTopology.Height, out var py, out var oy);
+                    OverlapCoord(t.Z, patternTopology.Depth, out var pz, out var oz);
+                    var patternIndex = patternTopology.GetIndex(px, py, pz);
+                    return (new Point(px, py, pz), patternIndex, CombineOffsets(ox, oy, oz));
+                }
+
+                tileCoordToPatternCoordIndexAndOffset = TopoArray.Create(Map, topology);
+                var patternCoordToTileCoordIndexAndOffsetValues = new List<(Point, int, int)>[patternTopology.Width, patternTopology.Height, patternTopology.Depth];
+                foreach(var index in topology.Indicies)
+                {
+                    topology.GetCoord(index, out var x, out var y, out var z);
+                    var (p, patternIndex, offset) = tileCoordToPatternCoordIndexAndOffset.Get(index);
+                    if (patternCoordToTileCoordIndexAndOffsetValues[p.X, p.Y, p.Z] == null)
+                    {
+                        patternCoordToTileCoordIndexAndOffsetValues[p.X, p.Y, p.Z] = new List<(Point, int, int)>();
+                    }
+                    patternCoordToTileCoordIndexAndOffsetValues[p.X, p.Y, p.Z].Add((new Point(x, y, z), index, offset));
+                }
+                patternCoordToTileCoordIndexAndOffset = TopoArray.Create(patternCoordToTileCoordIndexAndOffsetValues, patternTopology);
 
 
                 // Compute tilesToPatterns and patternsToTiles
@@ -226,7 +249,8 @@ namespace DeBroglie.Models
             {
 
                 patternTopology = topology;
-                tileCoordToPatternCoord = null;
+                tileCoordToPatternCoordIndexAndOffset = null;
+                patternCoordToTileCoordIndexAndOffset = null;
                 tilesToPatternsByOffset = new Dictionary<int, IReadOnlyDictionary<Tile, ISet<int>>>()
                 {
                     {0, tilesToPatterns.ToDictionary(g=>g.Key, g=>(ISet<int>)new HashSet<int>(g)) }
@@ -289,7 +313,8 @@ namespace DeBroglie.Models
                 PatternsToTilesByOffset = patternsToTilesByOffset,
                 TilesToPatternsByOffset = tilesToPatternsByOffset,
                 PatternTopology = patternTopology,
-                TileCoordToPatternCoord = tileCoordToPatternCoord,
+                TileCoordToPatternCoordIndexAndOffset = tileCoordToPatternCoordIndexAndOffset,
+                PatternCoordToTileCoordIndexAndOffset = patternCoordToTileCoordIndexAndOffset,
             };
         }
 

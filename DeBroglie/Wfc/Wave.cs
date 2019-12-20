@@ -103,6 +103,11 @@ namespace DeBroglie.Wfc
             return possibilities[index * patternCount + pattern];
         }
 
+        public int GetPatternCount(int index)
+        {
+            return entropyValues[index].PatternCount;
+        }
+
         // Returns true if there is a contradiction
         public bool RemovePossibility(int index, int pattern)
         {

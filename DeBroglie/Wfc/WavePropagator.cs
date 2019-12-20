@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using DeBroglie.Topo;
+using DeBroglie.Trackers;
 
 namespace DeBroglie.Wfc
 {
@@ -61,6 +62,8 @@ namespace DeBroglie.Wfc
           * If possibilites[index][pattern] is set to false, then compatible[index, pattern, direction] has every direction negative or null
           */
         private int[,,] compatible;
+
+        private List<ITracker> trackers;
 
         public WavePropagator(PatternModel model, Topology topology, int backtrackDepth = 0, IWaveConstraint[] constraints = null, Func<double> randomDouble = null, bool clear = true)
         {
@@ -133,6 +136,11 @@ namespace DeBroglie.Wfc
                 Index = index,
                 Pattern = pattern,
             });
+            // Update trackers
+            foreach(var tracker in trackers)
+            {
+                tracker.DoBan(index, pattern);
+            }
             // Update the wave
             return wave.RemovePossibility(index, pattern);
         }
@@ -294,8 +302,9 @@ namespace DeBroglie.Wfc
             wave = new Wave(frequencies, indices, topology.Mask);
             toPropagate.Clear();
             status = Resolution.Undecided;
+            this.trackers = new List<ITracker>();
 
-            if(backtrack)
+            if (backtrack)
             {
                 backtrackItems = new Deque<PropagateItem>();
                 backtrackItemsLengths = new Deque<int>();
@@ -483,6 +492,11 @@ namespace DeBroglie.Wfc
                 // Also add the possibility back
                 // as it is removed in InternalBan
                 wave.AddPossibility(index, pattern);
+                // Update trackers
+                foreach(var tracker in trackers)
+                {
+                    tracker.UndoBan(index, pattern);
+                }
                 // Next, undo the decremenents done in Propagate
                 // We skip this if the item is still in toPropagate, as that means Propagate hasn't run
                 if (!toPropagateHashSet.Contains(item))
@@ -503,6 +517,16 @@ namespace DeBroglie.Wfc
                 }
 
             }
+        }
+
+        public void AddTracker(ITracker tracker)
+        {
+            trackers.Add(tracker);
+        }
+
+        public void RemoveTracker(ITracker tracker)
+        {
+            trackers.Remove(tracker);
         }
 
         /**
