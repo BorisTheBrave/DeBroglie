@@ -7,13 +7,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeBroglie", "DeBroglie\DeBr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeBroglie.Test", "DeBroglie.Test\DeBroglie.Test.csproj", "{7BB92B06-F90E-41E5-A541-12C31AF3FE72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeBroglie.Console", "DeBroglie.Console\DeBroglie.Console.csproj", "{5D148AD2-0B0D-452E-AD0B-1E17900A1D11}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeBroglie.Console", "DeBroglie.Console\DeBroglie.Console.csproj", "{5D148AD2-0B0D-452E-AD0B-1E17900A1D11}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeBroglie.MagicaVoxel", "DeBroglie.MagicaVoxel\DeBroglie.MagicaVoxel.csproj", "{63952AB1-714E-4E06-A37E-8B6BC3FFD435}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeBroglie.Tiled", "DeBroglie.Tiled\DeBroglie.Tiled.csproj", "{59018859-E8EF-4D9B-97A9-4D0C4C13E76E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeBroglie.Tiled", "DeBroglie.Tiled\DeBroglie.Tiled.csproj", "{59018859-E8EF-4D9B-97A9-4D0C4C13E76E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeBroglie.Tiled.Test", "DeBroglie.Tiled.Test\DeBroglie.Tiled.Test.csproj", "{4792F7AC-6BCF-4434-9AE1-C74DD8F056FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeBroglie.Tiled.Test", "DeBroglie.Tiled.Test\DeBroglie.Tiled.Test.csproj", "{4792F7AC-6BCF-4434-9AE1-C74DD8F056FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeBroglie.Benchmark", "DeBroglie.Benchmark\DeBroglie.Benchmark.csproj", "{31FE673D-98D1-4B08-90C4-82E9B0405969}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{4792F7AC-6BCF-4434-9AE1-C74DD8F056FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4792F7AC-6BCF-4434-9AE1-C74DD8F056FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4792F7AC-6BCF-4434-9AE1-C74DD8F056FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31FE673D-98D1-4B08-90C4-82E9B0405969}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31FE673D-98D1-4B08-90C4-82E9B0405969}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31FE673D-98D1-4B08-90C4-82E9B0405969}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31FE673D-98D1-4B08-90C4-82E9B0405969}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
