@@ -1,22 +1,9 @@
 ﻿using DeBroglie.Rot;
 using DeBroglie.Topo;
-using DeBroglie.Wfc;
 using System.Collections.Generic;
 
 namespace DeBroglie.Models
 {
-    internal class TileModelMapping
-    {
-        public Topology PatternTopology { get; set; }
-
-        public PatternModel PatternModel { get; set; }
-
-        public IDictionary<int, IReadOnlyDictionary<Tile, ISet<int>>> TilesToPatternsByOffset { get; set; }
-
-        public IDictionary<int, IReadOnlyDictionary<int, Tile>> PatternsToTilesByOffset { get; set; }
-
-        public ITopoArray<(Point, int)> TileCoordToPatternCoord { get; set; }
-    }
 
     /// <summary>
     /// Base class for the models used in generation.

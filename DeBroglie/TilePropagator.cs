@@ -42,18 +42,13 @@ namespace DeBroglie
     /// </summary>
     public class TilePropagator
     {
-        private static readonly ISet<int> EmptyPatternSet = new HashSet<int>();
-
         private readonly WavePropagator wavePropagator;
 
         private readonly Topology topology;
 
         private readonly TileModel tileModel;
 
-        private readonly IDictionary<int, IReadOnlyDictionary<Tile, ISet<int>>> tilesToPatternsByOffset;
-        private readonly IDictionary<int, IReadOnlyDictionary<int, Tile>> patternsToTilesByOffset;
-
-        private readonly ITopoArray<(Point, int)> tileCoordToPatternCoord;
+        private readonly TileModelMapping tileModelMapping;
 
         /// <summary>
         /// Constructs a TilePropagator.
@@ -102,12 +97,9 @@ namespace DeBroglie
 
             var overlapping = tileModel as OverlappingModel;
 
-            var tileModelMapping = tileModel.GetTileModelMapping(topology);
+            tileModelMapping = tileModel.GetTileModelMapping(topology);
             var patternTopology = tileModelMapping.PatternTopology;
             var patternModel = tileModelMapping.PatternModel;
-            this.patternsToTilesByOffset = tileModelMapping.PatternsToTilesByOffset;
-            this.tilesToPatternsByOffset = tileModelMapping.TilesToPatternsByOffset;
-            this.tileCoordToPatternCoord = tileModelMapping.TileCoordToPatternCoord;
 
             var waveConstraints =
                 (options.Constraints?.Select(x => new TileConstraintAdaptor(x, this)).ToArray() ?? Enumerable.Empty<IWaveConstraint>())
@@ -120,29 +112,9 @@ namespace DeBroglie
 
         }
 
-        private static ISet<int> Empty = new HashSet<int>();
-        private static ISet<int> GetPatterns(IReadOnlyDictionary<Tile, ISet<int>> tilesToPatterns, Tile tile)
-        {
-            return tilesToPatterns.TryGetValue(tile, out var ps) ? ps : Empty;
-        }
-
         private void TileCoordToPatternCoord(int x, int y, int z, out int px, out int py, out int pz, out int offset)
         {
-            if(tileCoordToPatternCoord == null)
-            {
-                px = x;
-                py = y;
-                pz = z;
-                offset = 0;
-
-                return;
-            }
-
-            var (point, o) = tileCoordToPatternCoord.Get(x, y, z);
-            px = point.X;
-            py = point.Y;
-            pz = point.Z;
-            offset = o;
+            tileModelMapping.GetTileCoordToPatternCoord(x, y, z, out px, out py, out pz, out offset);
         }
 
         /// <summary>
@@ -211,7 +183,7 @@ namespace DeBroglie
         public Resolution Ban(int x, int y, int z, Tile tile)
         {
             TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
-            var patterns = GetPatterns(tilesToPatternsByOffset[o], tile);
+            var patterns = tileModelMapping.GetPatterns(tile, o);
             foreach(var p in patterns)
             {
                 var status = wavePropagator.Ban(px, py, pz, p);
@@ -239,7 +211,7 @@ namespace DeBroglie
         public Resolution Ban(int x, int y, int z, TilePropagatorTileSet tiles)
         {
             TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
-            var patterns = GetPatterns(tiles, o);
+            var patterns = tileModelMapping.GetPatterns(tiles, o);
             foreach (var p in patterns)
             {
                 var status = wavePropagator.Ban(px, py, pz, p);
@@ -258,7 +230,7 @@ namespace DeBroglie
         public Resolution Select(int x, int y, int z, Tile tile)
         {
             TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
-            var patterns = GetPatterns(tilesToPatternsByOffset[o], tile);
+            var patterns = tileModelMapping.GetPatterns(tile, o);
             for (var p = 0; p < wavePropagator.PatternCount; p++)
             {
                 if (patterns.Contains(p))
@@ -290,7 +262,7 @@ namespace DeBroglie
         public Resolution Select(int x, int y, int z, TilePropagatorTileSet tiles)
         {
             TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
-            var patterns = GetPatterns(tiles, o);
+            var patterns = tileModelMapping.GetPatterns(tiles, o);
             for (var p = 0; p < wavePropagator.PatternCount; p++)
             {
                 if (patterns.Contains(p))
@@ -328,33 +300,8 @@ namespace DeBroglie
         /// </summary>
         public TilePropagatorTileSet CreateTileSet(IEnumerable<Tile> tiles)
         {
-            var set =  new TilePropagatorTileSet(tiles);
-            // Quick optimization for size one sets
-            if(set.Tiles.Count == 1)
-            {
-                var tile = set.Tiles.First();
-                foreach(var o in tilesToPatternsByOffset.Keys)
-                {
-                    set.OffsetToPatterns[o] = tilesToPatternsByOffset[o].TryGetValue(tile, out var patterns) ? patterns : EmptyPatternSet;
-                }
-            }
-            return set;
+            return tileModelMapping.CreateTileSet(tiles);
         }
-
-        /// <summary>
-        /// Gets the patterns associated with a set of tiles at a given offset.
-        /// </summary>
-        private ISet<int> GetPatterns(TilePropagatorTileSet tileSet, int offset)
-        {
-            if(!tileSet.OffsetToPatterns.TryGetValue(offset, out var patterns))
-            {
-                var tilesToPatterns = tilesToPatternsByOffset[offset];
-                patterns = new HashSet<int>(tileSet.Tiles.SelectMany(tile => GetPatterns(tilesToPatterns, tile)));
-                tileSet.OffsetToPatterns[offset] = patterns;
-            }
-            return patterns;
-        }
-
 
         /// <summary>
         /// Returns true if this tile is the only valid selection for a given location.
@@ -380,7 +327,7 @@ namespace DeBroglie
         public void GetBannedSelected(int x, int y, int z, Tile tile, out bool isBanned, out bool isSelected)
         {
             TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
-            var patterns = tilesToPatternsByOffset[o][tile];
+            var patterns = tileModelMapping.TilesToPatternsByOffset[o][tile];
             GetBannedSelectedInternal(px, py, pz, patterns, out isBanned, out isSelected);
         }
 
@@ -400,7 +347,7 @@ namespace DeBroglie
         public void GetBannedSelected(int x, int y, int z, TilePropagatorTileSet tiles, out bool isBanned, out bool isSelected)
         {
             TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
-            var patterns = GetPatterns(tiles, o);
+            var patterns = tileModelMapping.GetPatterns(tiles, o);
             GetBannedSelectedInternal(px, py, pz, patterns, out isBanned, out isSelected);
         }
 
@@ -466,7 +413,7 @@ namespace DeBroglie
                         }
                         else
                         {
-                            tile = patternsToTilesByOffset[o][pattern];
+                            tile = tileModelMapping.PatternsToTilesByOffset[o][pattern];
                         }
                         result[x, y, z] = tile;
                     }
@@ -511,7 +458,7 @@ namespace DeBroglie
                         }
                         else
                         {
-                            value = (T)patternsToTilesByOffset[o][pattern].Value;
+                            value = (T)tileModelMapping.PatternsToTilesByOffset[o][pattern].Value;
                         }
                         result[x, y, z] = value;
                     }
@@ -546,7 +493,7 @@ namespace DeBroglie
                         TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
                         var patterns = patternArray.Get(px, py, pz);
                         var hs = new HashSet<Tile>();
-                        var patternToTiles = patternsToTilesByOffset[o];
+                        var patternToTiles = tileModelMapping.PatternsToTilesByOffset[o];
                         foreach(var pattern in patterns)
                         {
                             hs.Add(patternToTiles[pattern]);
@@ -584,7 +531,7 @@ namespace DeBroglie
                         TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
                         var patterns = patternArray.Get(px, py, pz);
                         var hs = new HashSet<T>();
-                        var patternToTiles = patternsToTilesByOffset[o];
+                        var patternToTiles = tileModelMapping.PatternsToTilesByOffset[o];
                         foreach (var pattern in patterns)
                         {
                             hs.Add((T)patternToTiles[pattern].Value);
