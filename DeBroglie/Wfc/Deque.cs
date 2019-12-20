@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 namespace DeBroglie.Wfc
@@ -182,6 +183,80 @@ namespace DeBroglie.Wfc
             _dataLength = newLength;
             _lo = 0;
             _hi = j;
+        }
+
+        public IEnumerable<T> Slice(int start, int end)
+        {
+            var lo = _lo;
+            var hi = _hi;
+            var data = _data;
+            var dataLength = _dataLength;
+            var i = lo + start;
+            var e = lo + end;
+
+            if (start < 0)
+                throw new Exception();
+
+            if (hi >= lo)
+            {
+                if (e > hi)
+                    throw new Exception();
+            }
+            else
+            {
+                if (e > hi + dataLength)
+                    throw new Exception();
+            }
+
+            if (start >= end)
+                yield break;
+
+            if (i >= dataLength) i -= dataLength;
+            if (e >= dataLength) e -= dataLength;
+
+            do
+            {
+                yield return data[i];
+                i++;
+                if (i == dataLength) i = 0;
+            } while (i != e);
+        }
+
+        public IEnumerable<T> ReverseSlice(int start, int end)
+        {
+            var lo = _lo;
+            var hi = _hi;
+            var data = _data;
+            var dataLength = _dataLength;
+            var i = lo + start;
+            var e = lo + end;
+
+            if (start < 0)
+                throw new Exception();
+
+            if (hi >= lo)
+            {
+                if (e > hi)
+                    throw new Exception();
+            }
+            else
+            {
+                if (e > hi + dataLength)
+                    throw new Exception();
+            }
+
+            if (start >= end)
+                yield break;
+
+            if (i >= dataLength) i -= dataLength;
+            if (e >= dataLength) e -= dataLength;
+
+            do
+            {
+                e--;
+                yield return data[e];
+                if (e == 0) e = dataLength - 1;
+            } while (i != e);
         }
     }
 }
