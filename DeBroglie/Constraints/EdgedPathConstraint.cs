@@ -88,10 +88,6 @@ namespace DeBroglie.Constraints
             var topology = propagator.Topology;
             var indices = topology.Width * topology.Height * topology.Depth;
 
-            // TODO: This shouldn't be too hard to implement
-            if (topology.Directions.Type != Topo.DirectionSetType.Cartesian2d)
-                throw new Exception("EdgedPathConstraint only supported for Cartesiant2d");
-
             var nodesPerIndex = topology.Directions.Count + 1;
 
             // Initialize couldBePath and mustBePath based on wave possibilities

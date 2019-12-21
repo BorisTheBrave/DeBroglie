@@ -281,6 +281,9 @@ namespace DeBroglie.Models
 
         internal override TileModelMapping GetTileModelMapping(Topology topology)
         {
+            RequireDirections();
+            SetDirections(topology.Directions);
+
             if(frequencies.Sum() == 0.0)
             {
                 throw new Exception("No tiles have assigned frequences.");
