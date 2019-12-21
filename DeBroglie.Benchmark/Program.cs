@@ -6,7 +6,12 @@ namespace DeBroglie.Benchmark
     {
         public static void Main(string[] args)
         {
-            var summary = BenchmarkRunner.Run<Benchmarks>();
+            /*
+            var benchmark = new Benchmarks();
+            benchmark.Setup();
+            benchmark.Path();
+            */
+            BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args);
         }
     }
 }
