@@ -1,5 +1,6 @@
 ﻿using DeBroglie.Rot;
 using DeBroglie.Topo;
+using DeBroglie.Trackers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,16 @@ namespace DeBroglie.Constraints
     {
         private TilePropagatorTileSet pathTileSet;
 
+        private SelectedTracker pathSelectedTracker;
+
         private TilePropagatorTileSet endPointTileSet;
+
+        private SelectedTracker endPointSelectedTracker;
 
         private PathConstraintUtils.SimpleGraph graph;
 
         private IDictionary<Direction, TilePropagatorTileSet> tilesByExit;
+        private IDictionary<Direction, SelectedTracker> trackerByExit;
         private IDictionary<Tile, ISet<Direction>> actualExits { get; set; }
 
 
@@ -54,7 +60,9 @@ namespace DeBroglie.Constraints
         public void Init(TilePropagator propagator)
         {
             pathTileSet = propagator.CreateTileSet(Exits.Keys);
+            pathSelectedTracker = propagator.CreateSelectedTracker(pathTileSet);
             endPointTileSet = EndPointTiles != null ? propagator.CreateTileSet(EndPointTiles) : null;
+            endPointSelectedTracker = EndPointTiles != null ? propagator.CreateSelectedTracker(endPointTileSet) : null;
             graph = CreateEdgedGraph(propagator.Topology);
 
             var tileRotation = TileRotation ?? new TileRotation();
@@ -80,6 +88,9 @@ namespace DeBroglie.Constraints
                 .SelectMany(kv => kv.Value.Select(e => Tuple.Create(kv.Key, e)))
                 .GroupBy(x => x.Item2, x => x.Item1)
                 .ToDictionary(g => g.Key, propagator.CreateTileSet);
+
+            trackerByExit = tilesByExit
+                .ToDictionary(kv => kv.Key, kv => propagator.CreateSelectedTracker(kv.Value));
         }
 
         public void Check(TilePropagator propagator)
@@ -96,18 +107,18 @@ namespace DeBroglie.Constraints
             var exitMustBePath = new bool[indices * nodesPerIndex];
             for (int i = 0; i < indices; i++)
             {
-                topology.GetCoord(i, out var x, out var y, out var z);
-                foreach(var kv in tilesByExit)
+                foreach(var kv in trackerByExit)
                 {
                     var exit = kv.Key;
-                    var tiles = kv.Value;
-                    propagator.GetBannedSelected(x, y, z, tiles, out var isBanned, out var isSelected);
-                    couldBePath[i * nodesPerIndex + 1 + (int)exit] = !isBanned;
-                    exitMustBePath[i * nodesPerIndex + 1 + (int)exit] = isSelected;
+                    var tracker = kv.Value;
+                    var ts = tracker.GetTristate(i);
+                    couldBePath[i * nodesPerIndex + 1 + (int)exit] = ts.Possible;
+                    // Cannot put this in mustBePath these points can be disconnected, depending on topology mask
+                    exitMustBePath[i * nodesPerIndex + 1 + (int)exit] = ts.IsYes;
                 }
-                propagator.GetBannedSelected(x, y, z, pathTileSet, out var allIsBanned, out var allIsSelected);
-                couldBePath[i * nodesPerIndex] = !allIsBanned;
-                mustBePath[i * nodesPerIndex] = allIsSelected;
+                var pathTs = pathSelectedTracker.GetTristate(i);
+                couldBePath[i * nodesPerIndex] = pathTs.Possible;
+                mustBePath[i * nodesPerIndex] = pathTs.IsYes;
             }
             // Select relevant cells, i.e. those that must be connected.
             bool[] relevant;
@@ -133,9 +144,7 @@ namespace DeBroglie.Constraints
                 {
                     for (int i = 0; i < indices; i++)
                     {
-                        topology.GetCoord(i, out var x, out var y, out var z);
-                        propagator.GetBannedSelected(x, y, z, endPointTileSet, out var isBanned, out var isSelected);
-                        if (isSelected)
+                        if (endPointSelectedTracker.IsSelected(i))
                         {
                             relevant[i * nodesPerIndex] = true;
                             relevantCount++;

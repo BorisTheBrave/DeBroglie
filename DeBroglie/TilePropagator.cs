@@ -1,6 +1,7 @@
 ﻿using DeBroglie.Constraints;
 using DeBroglie.Models;
 using DeBroglie.Topo;
+using DeBroglie.Trackers;
 using DeBroglie.Wfc;
 using System;
 using System.Collections.Generic;
@@ -292,6 +293,14 @@ namespace DeBroglie
         public Resolution Run()
         {
             return wavePropagator.Run();
+        }
+
+        internal SelectedTracker CreateSelectedTracker(TilePropagatorTileSet tileSet)
+        {
+            var tracker = new SelectedTracker(this, wavePropagator, tileModelMapping, tileSet);
+            tracker.Reset();
+            wavePropagator.AddTracker(tracker);
+            return tracker;
         }
 
         /// <summary>

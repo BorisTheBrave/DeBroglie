@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DeBroglie.Trackers;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DeBroglie.Constraints
@@ -11,7 +12,11 @@ namespace DeBroglie.Constraints
     {
         private TilePropagatorTileSet tileSet;
 
+        private SelectedTracker selectedTracker;
+
         private TilePropagatorTileSet endPointTileSet;
+
+        private SelectedTracker endPointSelectedTracker;
 
         private PathConstraintUtils.SimpleGraph graph;
 
@@ -43,7 +48,9 @@ namespace DeBroglie.Constraints
         public void Init(TilePropagator propagator)
         {
             tileSet = propagator.CreateTileSet(Tiles);
+            selectedTracker = propagator.CreateSelectedTracker(tileSet);
             endPointTileSet = EndPointTiles != null ? propagator.CreateTileSet(EndPointTiles) : null;
+            endPointSelectedTracker = EndPointTiles != null ? propagator.CreateSelectedTracker(endPointTileSet) : null;
             graph = PathConstraintUtils.CreateGraph(propagator.Topology);
         }
 
@@ -56,10 +63,9 @@ namespace DeBroglie.Constraints
             var mustBePath = new bool[indices];
             for (int i = 0; i < indices; i++)
             {
-                topology.GetCoord(i, out var x, out var y, out var z);
-                propagator.GetBannedSelected(x, y, z, tileSet, out var isBanned, out var isSelected);
-                couldBePath[i] = !isBanned;
-                mustBePath[i] = isSelected;
+                var ts = selectedTracker.GetTristate(i);
+                couldBePath[i] = ts.Possible;
+                mustBePath[i] = ts.IsYes;
             }
 
             // Select relevant cells, i.e. those that must be connected.
@@ -85,9 +91,7 @@ namespace DeBroglie.Constraints
                 {
                     for (int i = 0; i < indices; i++)
                     {
-                        topology.GetCoord(i, out var x, out var y, out var z);
-                        propagator.GetBannedSelected(x, y, z, endPointTileSet, out var isBanned, out var isSelected);
-                        if (isSelected)
+                        if (endPointSelectedTracker.IsSelected(i))
                         {
                             relevant[i] = true;
                             relevantCount++;

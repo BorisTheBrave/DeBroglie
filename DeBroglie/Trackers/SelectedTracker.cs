@@ -33,12 +33,20 @@ namespace DeBroglie.Trackers
             var selectedPatternCount = patternCounts[index];
             if (selectedPatternCount == 0)
                 return Tristate.No;
-                var totalPatternCount = wavePropagator.Wave.GetPatternCount(index);
+
+            tileModelMapping.GetTileCoordToPatternCoord(index, out var patternIndex, out var offset);
+
+            var totalPatternCount = wavePropagator.Wave.GetPatternCount(patternIndex);
             if (totalPatternCount == selectedPatternCount)
             {
                 return Tristate.Yes;
             }
             return Tristate.Maybe;
+        }
+
+        public bool IsSelected(int index)
+        {
+            return GetTristate(index).IsYes;
         }
 
         public void DoBan(int patternIndex, int pattern)
