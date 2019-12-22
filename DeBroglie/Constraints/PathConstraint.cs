@@ -116,7 +116,7 @@ namespace DeBroglie.Constraints
             // So ban any other possibilities
             for (var i = 0; i < indices; i++)
             {
-                if (isArticulation[i])
+                if (isArticulation[i] && !mustBePath[i])
                 {
                     topology.GetCoord(i, out var x, out var y, out var z);
                     propagator.Select(x, y, z, tileSet);

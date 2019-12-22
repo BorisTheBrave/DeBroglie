@@ -93,32 +93,22 @@ namespace DeBroglie.Constraints
             // Initialize couldBePath and mustBePath based on wave possibilities
             var couldBePath = new bool[indices * nodesPerIndex];
             var mustBePath = new bool[indices * nodesPerIndex];
+            var exitMustBePath = new bool[indices * nodesPerIndex];
             for (int i = 0; i < indices; i++)
             {
                 topology.GetCoord(i, out var x, out var y, out var z);
-
-                couldBePath[i * nodesPerIndex] = false;
-                foreach (var kv in actualExits)
+                foreach(var kv in tilesByExit)
                 {
-                    var tile = kv.Key;
-                    var exits = kv.Value;
-
-                    propagator.GetBannedSelected(x, y, z, tile, out var isBanned, out var isSelected);
-
-                    if (!isBanned)
-                    {
-                        couldBePath[i * nodesPerIndex] = true;
-                        foreach (var exit in exits)
-                        {
-                            couldBePath[i * nodesPerIndex + 1 + (int)exit] = true;
-                        }
-                    }
+                    var exit = kv.Key;
+                    var tiles = kv.Value;
+                    propagator.GetBannedSelected(x, y, z, tiles, out var isBanned, out var isSelected);
+                    couldBePath[i * nodesPerIndex + 1 + (int)exit] = !isBanned;
+                    exitMustBePath[i * nodesPerIndex + 1 + (int)exit] = isSelected;
                 }
-                // TODO: There's probably a more efficient way to do this
                 propagator.GetBannedSelected(x, y, z, pathTileSet, out var allIsBanned, out var allIsSelected);
+                couldBePath[i * nodesPerIndex] = !allIsBanned;
                 mustBePath[i * nodesPerIndex] = allIsSelected;
             }
-
             // Select relevant cells, i.e. those that must be connected.
             bool[] relevant;
             if (EndPoints == null && EndPointTiles == null)
@@ -176,13 +166,13 @@ namespace DeBroglie.Constraints
             for (var i = 0; i < indices; i++)
             {
                 topology.GetCoord(i, out var x, out var y, out var z);
-                if (isArticulation[i * nodesPerIndex])
+                if (isArticulation[i * nodesPerIndex] && !mustBePath[i * nodesPerIndex])
                 {
                     propagator.Select(x, y, z, pathTileSet);
                 }
                 for (var d = 0; d < topology.Directions.Count; d++)
                 {
-                    if(isArticulation[i * nodesPerIndex + 1 + d])
+                    if(isArticulation[i * nodesPerIndex + 1 + d] && !exitMustBePath[i * nodesPerIndex + 1 + d])
                     {
                         propagator.Select(x, y, z, tilesByExit[(Direction)d]);
                     }
