@@ -175,8 +175,6 @@ namespace DeBroglie.Benchmark
             propagator4.Clear();
             propagator4.Run();
 
-            Check(propagator4);
-
             if (false)
             {
                 var v = propagator4.ToValueArray<string>();
@@ -189,31 +187,27 @@ namespace DeBroglie.Benchmark
                     System.Console.WriteLine();
                 }
             }
+
+            Check(propagator4);
         }
 
 
 
         public void PathSetup()
         {
-            var topology = new Topology(15, 15, false);
+
+            var tileCount = 10;
+            var topology = new Topology(20, 20, false);
 
             var model = new AdjacentModel(DirectionSet.Cartesian2d);
 
-            var empty = new Tile("-");
-            var solid = new Tile("*");
+            var tiles = Enumerable.Range(0, tileCount).Select(x => new Tile(x)).ToList(); ;
 
-            model.AddAdjacency(
-                new[] { empty, solid },
-                new[] { empty, solid },
-                Direction.XPlus);
-
-            model.AddAdjacency(
-                new[] { empty, solid },
-                new[] { empty, solid },
-                Direction.YPlus);
+            model.AddAdjacency(tiles, tiles, Direction.XPlus);
+            model.AddAdjacency(tiles, tiles, Direction.YPlus);
 
             model.SetUniformFrequency();
-            var pathConstraint = new PathConstraint(new[] { solid }.ToHashSet());
+            var pathConstraint = new PathConstraint(tiles.Skip(1).ToHashSet());
 
             propagator5 = new TilePropagator(model, topology, new TilePropagatorOptions
             {
