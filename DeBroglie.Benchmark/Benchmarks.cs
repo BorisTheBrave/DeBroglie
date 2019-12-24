@@ -17,6 +17,7 @@ namespace DeBroglie.Benchmark
         private TilePropagator propagator3;
         private TilePropagator propagator4;
         private TilePropagator propagator5;
+        private TilePropagator propagator6;
 
         [GlobalSetup]
         public void Setup()
@@ -26,6 +27,7 @@ namespace DeBroglie.Benchmark
             CastleSetup();
             EdgedPathSetup();
             PathSetup();
+            CountSetup();
         }
 
         private void Check(TilePropagator p)
@@ -236,6 +238,46 @@ namespace DeBroglie.Benchmark
                     System.Console.WriteLine();
                 }
             }
+        }
+
+
+        public void CountSetup()
+        {
+            var model = new AdjacentModel(DirectionSet.Cartesian2d);
+            var tile1 = new Tile(1);
+            var tile2 = new Tile(2);
+            var tiles = new[] { tile1, tile2 };
+            model.AddAdjacency(tiles, tiles, Direction.XPlus);
+            model.AddAdjacency(tiles, tiles, Direction.YPlus);
+            model.SetUniformFrequency();
+
+            var topology = new Topology(100, 100, false);
+
+            var count = 30;
+
+            var options = new TilePropagatorOptions
+            {
+                Constraints = new[]
+                {
+                    new CountConstraint
+                    {
+                        Tiles = new[]{tile1 }.ToHashSet(),
+                        Count = count,
+                        Comparison = CountComparison.AtMost,
+                        Eager = false,
+                    }
+                }
+            };
+            propagator6 = new TilePropagator(model, topology, options);
+        }
+
+        [Benchmark]
+        public void Count()
+        {
+            propagator6.Clear();
+            propagator6.Run();
+
+            Check(propagator6);
         }
     }
 }
