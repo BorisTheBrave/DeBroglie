@@ -46,7 +46,7 @@ namespace DeBroglie.Trackers
 
         public bool IsSelected(int index)
         {
-            return GetTristate(index).IsYes;
+            return GetTristate(index).IsYes();
         }
 
         public void DoBan(int patternIndex, int pattern)

@@ -59,9 +59,9 @@ namespace DeBroglie.Constraints
                         if (topology.ContainsIndex(index))
                         {
                             var selected = propagator.GetSelectedTristate(x, y, z, tileSet);
-                            if (selected.IsNo) noCount++;
-                            if (selected.IsMaybe) maybeCount++;
-                            if (selected.IsYes) yesCount++;
+                            if (selected.IsNo()) noCount++;
+                            if (selected.IsMaybe()) maybeCount++;
+                            if (selected.IsYes()) yesCount++;
                         }
                     }
                 }
@@ -88,7 +88,7 @@ namespace DeBroglie.Constraints
                                 if (topology.ContainsIndex(index))
                                 {
                                     var selected = propagator.GetSelectedTristate(x, y, z, tileSet);
-                                    if (selected.IsMaybe)
+                                    if (selected.IsMaybe())
                                     {
                                         propagator.Ban(x, y, z, tileSet);
                                     }
@@ -119,7 +119,7 @@ namespace DeBroglie.Constraints
                                 if (topology.ContainsIndex(index))
                                 {
                                     var selected = propagator.GetSelectedTristate(x, y, z, tileSet);
-                                    if (selected.IsMaybe)
+                                    if (selected.IsMaybe())
                                     {
                                         propagator.Select(x, y, z, tileSet);
                                     }
@@ -191,9 +191,9 @@ namespace DeBroglie.Constraints
                                 if (topology.ContainsIndex(index))
                                 {
                                     var selected = propagator.GetSelectedTristate(x, y, z, tileSet);
-                                    if (selected.IsNo) noCount++;
-                                    if (selected.IsMaybe) maybeList.Add(index);
-                                    if (selected.IsYes) yesCount++;
+                                    if (selected.IsNo()) noCount++;
+                                    if (selected.IsMaybe()) maybeList.Add(index);
+                                    if (selected.IsYes()) yesCount++;
                                 }
                             }
                         }

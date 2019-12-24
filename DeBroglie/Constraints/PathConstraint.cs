@@ -64,8 +64,8 @@ namespace DeBroglie.Constraints
             for (int i = 0; i < indices; i++)
             {
                 var ts = selectedTracker.GetTristate(i);
-                couldBePath[i] = ts.Possible;
-                mustBePath[i] = ts.IsYes;
+                couldBePath[i] = ts.Possible();
+                mustBePath[i] = ts.IsYes();
             }
 
             // Select relevant cells, i.e. those that must be connected.

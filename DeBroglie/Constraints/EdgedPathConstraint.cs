@@ -112,13 +112,13 @@ namespace DeBroglie.Constraints
                     var exit = kv.Key;
                     var tracker = kv.Value;
                     var ts = tracker.GetTristate(i);
-                    couldBePath[i * nodesPerIndex + 1 + (int)exit] = ts.Possible;
+                    couldBePath[i * nodesPerIndex + 1 + (int)exit] = ts.Possible();
                     // Cannot put this in mustBePath these points can be disconnected, depending on topology mask
-                    exitMustBePath[i * nodesPerIndex + 1 + (int)exit] = ts.IsYes;
+                    exitMustBePath[i * nodesPerIndex + 1 + (int)exit] = ts.IsYes();
                 }
                 var pathTs = pathSelectedTracker.GetTristate(i);
-                couldBePath[i * nodesPerIndex] = pathTs.Possible;
-                mustBePath[i * nodesPerIndex] = pathTs.IsYes;
+                couldBePath[i * nodesPerIndex] = pathTs.Possible();
+                mustBePath[i * nodesPerIndex] = pathTs.IsYes();
             }
             // Select relevant cells, i.e. those that must be connected.
             bool[] relevant;

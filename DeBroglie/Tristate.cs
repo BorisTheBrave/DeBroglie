@@ -4,38 +4,19 @@ using System.Text;
 
 namespace DeBroglie
 {
-    internal struct Tristate
+    internal enum Tristate
     {
-        private int v;
+        No = -1,
+        Maybe = 0,
+        Yes = 1,
+    }
 
-        private Tristate(int v)
-        {
-            this.v = v;
-        }
-
-        public bool IsYes => v == 1;
-        public bool IsMaybe=> v == 0;
-        public bool IsNo => v == -1;
-        public bool Impossible => v == -1;
-        public bool Possible => v != -1;
-
-        public static Tristate operator &(Tristate a, Tristate b)
-        {
-            return new Tristate(Math.Min(a.v, b.v));
-        }
-
-        public static Tristate operator |(Tristate a, Tristate b)
-        {
-            return new Tristate(Math.Max(a.v, b.v));
-        }
-
-        public static Tristate operator !(Tristate a)
-        {
-            return new Tristate(-a.v);
-        }
-
-        public static readonly Tristate No = new Tristate(-1);
-        public static readonly Tristate Maybe = new Tristate(0);
-        public static readonly Tristate Yes = new Tristate(1);
+    internal static class TristateExtensions
+    {
+        public static bool IsYes(this Tristate v) => v == Tristate.Yes;
+        public static bool IsMaybe(this Tristate v) => v == Tristate.Maybe;
+        public static bool IsNo(this Tristate v) => v == Tristate.No;
+        public static bool Impossible(this Tristate v) => v == Tristate.No;
+        public static bool Possible(this Tristate v) => v != Tristate.No;
     }
 }
