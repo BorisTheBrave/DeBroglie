@@ -7,7 +7,7 @@ using System.Text;
 using System.Linq;
 using DeBroglie.Constraints;
 
-namespace DeBroglie.Test
+namespace DeBroglie.Test.Constraints
 {
     [TestFixture]
     class CountConstraintTest
