@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class PathConstraint
+    <title>Class CountConstraint
    </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class PathConstraint
+    <meta name="title" content="Class CountConstraint
    ">
     <meta name="generator" content="docfx 2.47.0.0">
     
@@ -69,19 +69,19 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="DeBroglie.Constraints.PathConstraint">
+            <article class="content wrap" id="_content" data-uid="DeBroglie.Constraints.CountConstraint">
   
   
-  <h1 id="DeBroglie_Constraints_PathConstraint" data-uid="DeBroglie.Constraints.PathConstraint" class="text-break">Class PathConstraint
+  <h1 id="DeBroglie_Constraints_CountConstraint" data-uid="DeBroglie.Constraints.CountConstraint" class="text-break">Class CountConstraint
   </h1>
-  <div class="markdown level0 summary"><p>The PathConstraint checks that it is possible to connect several locations together via a continuous path of adjacent tiles.
-It does this by banning any tile placement that would make such a path impossible.</p>
+  <div class="markdown level0 summary"><p>Enforces that the global count of tiles within a given set
+must be at most/least/equal to a given count</p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></div>
-    <div class="level1"><span class="xref">PathConstraint</span></div>
+    <div class="level1"><span class="xref">CountConstraint</span></div>
   </div>
   <div classs="implements">
     <h5>Implements</h5>
@@ -89,68 +89,27 @@ It does this by banning any tile placement that would make such a path impossibl
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="DeBroglie.Constraints.html">DeBroglie.Constraints</a></h6>
   <h6><strong>Assembly</strong>: DeBroglie.dll</h6>
-  <h5 id="DeBroglie_Constraints_PathConstraint_syntax">Syntax</h5>
+  <h5 id="DeBroglie_Constraints_CountConstraint_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class PathConstraint : ITileConstraint</code></pre>
+    <pre><code class="lang-csharp hljs">public class CountConstraint : ITileConstraint</code></pre>
   </div>
-  <h3 id="constructors">Constructors
-  </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_PathConstraint__ctor_System_Collections_Generic_ISet_DeBroglie_Tile__DeBroglie_Point___.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.PathConstraint.%23ctor(System.Collections.Generic.ISet%7BDeBroglie.Tile%7D%2CDeBroglie.Point%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/PathConstraint.cs/#L37">View Source</a>
-  </span>
-  <a id="DeBroglie_Constraints_PathConstraint__ctor_" data-uid="DeBroglie.Constraints.PathConstraint.#ctor*"></a>
-  <h4 id="DeBroglie_Constraints_PathConstraint__ctor_System_Collections_Generic_ISet_DeBroglie_Tile__DeBroglie_Point___" data-uid="DeBroglie.Constraints.PathConstraint.#ctor(System.Collections.Generic.ISet{DeBroglie.Tile},DeBroglie.Point[])">PathConstraint(ISet&lt;Tile&gt;, Point[])</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public PathConstraint(ISet&lt;Tile&gt; tiles, Point[] endPoints = null)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.collections.generic.iset-1">ISet</a>&lt;<a class="xref" href="DeBroglie.Tile.html">Tile</a>&gt;</td>
-        <td><span class="parametername">tiles</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="DeBroglie.Point.html">Point</a>[]</td>
-        <td><span class="parametername">endPoints</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
   <h3 id="properties">Properties
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_PathConstraint_EndPoints.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.PathConstraint.EndPoints%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_CountConstraint_Comparison.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.CountConstraint.Comparison%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/PathConstraint.cs/#L28">View Source</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/CountConstraint.cs/#L30">View Source</a>
   </span>
-  <a id="DeBroglie_Constraints_PathConstraint_EndPoints_" data-uid="DeBroglie.Constraints.PathConstraint.EndPoints*"></a>
-  <h4 id="DeBroglie_Constraints_PathConstraint_EndPoints" data-uid="DeBroglie.Constraints.PathConstraint.EndPoints">EndPoints</h4>
-  <div class="markdown level1 summary"><p>Set of points that must be connected by paths.
-If EndPoints and EndPointTiles are null, then PathConstraint ensures that all path cells
-are connected.</p>
+  <a id="DeBroglie_Constraints_CountConstraint_Comparison_" data-uid="DeBroglie.Constraints.CountConstraint.Comparison*"></a>
+  <h4 id="DeBroglie_Constraints_CountConstraint_Comparison" data-uid="DeBroglie.Constraints.CountConstraint.Comparison">Comparison</h4>
+  <div class="markdown level1 summary"><p>How to compare the count of <a class="xref" href="DeBroglie.Constraints.CountConstraint.html#DeBroglie_Constraints_CountConstraint_Tiles">Tiles</a> to <a class="xref" href="DeBroglie.Constraints.CountConstraint.html#DeBroglie_Constraints_CountConstraint_Count">Count</a>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Point[] EndPoints { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public CountComparison Comparison { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -162,28 +121,26 @@ are connected.</p>
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="DeBroglie.Point.html">Point</a>[]</td>
+        <td><a class="xref" href="DeBroglie.Constraints.CountComparison.html">CountComparison</a></td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_PathConstraint_EndPointTiles.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.PathConstraint.EndPointTiles%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_CountConstraint_Count.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.CountConstraint.Count%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/PathConstraint.cs/#L35">View Source</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/CountConstraint.cs/#L35">View Source</a>
   </span>
-  <a id="DeBroglie_Constraints_PathConstraint_EndPointTiles_" data-uid="DeBroglie.Constraints.PathConstraint.EndPointTiles*"></a>
-  <h4 id="DeBroglie_Constraints_PathConstraint_EndPointTiles" data-uid="DeBroglie.Constraints.PathConstraint.EndPointTiles">EndPointTiles</h4>
-  <div class="markdown level1 summary"><p>Set of tiles that must be connected by paths.
-If EndPoints and EndPointTiles are null, then PathConstraint ensures that all path cells
-are connected.</p>
+  <a id="DeBroglie_Constraints_CountConstraint_Count_" data-uid="DeBroglie.Constraints.CountConstraint.Count*"></a>
+  <h4 id="DeBroglie_Constraints_CountConstraint_Count" data-uid="DeBroglie.Constraints.CountConstraint.Count">Count</h4>
+  <div class="markdown level1 summary"><p>The count to be compared against.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ISet&lt;Tile&gt; EndPointTiles { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public int Count { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -195,21 +152,53 @@ are connected.</p>
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.collections.generic.iset-1">ISet</a>&lt;<a class="xref" href="DeBroglie.Tile.html">Tile</a>&gt;</td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_PathConstraint_Tiles.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.PathConstraint.Tiles%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_CountConstraint_Eager.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.CountConstraint.Eager%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/PathConstraint.cs/#L21">View Source</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/CountConstraint.cs/#L41">View Source</a>
   </span>
-  <a id="DeBroglie_Constraints_PathConstraint_Tiles_" data-uid="DeBroglie.Constraints.PathConstraint.Tiles*"></a>
-  <h4 id="DeBroglie_Constraints_PathConstraint_Tiles" data-uid="DeBroglie.Constraints.PathConstraint.Tiles">Tiles</h4>
-  <div class="markdown level1 summary"><p>Set of patterns that are considered on the path</p>
+  <a id="DeBroglie_Constraints_CountConstraint_Eager_" data-uid="DeBroglie.Constraints.CountConstraint.Eager*"></a>
+  <h4 id="DeBroglie_Constraints_CountConstraint_Eager" data-uid="DeBroglie.Constraints.CountConstraint.Eager">Eager</h4>
+  <div class="markdown level1 summary"><p>If set, this constraint will attempt to pick tiles as early as possible.
+This can give a better random distribution, but higher chance of contradictions.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Eager { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_CountConstraint_Tiles.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.CountConstraint.Tiles%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/CountConstraint.cs/#L25">View Source</a>
+  </span>
+  <a id="DeBroglie_Constraints_CountConstraint_Tiles_" data-uid="DeBroglie.Constraints.CountConstraint.Tiles*"></a>
+  <h4 id="DeBroglie_Constraints_CountConstraint_Tiles" data-uid="DeBroglie.Constraints.CountConstraint.Tiles">Tiles</h4>
+  <div class="markdown level1 summary"><p>The set of tiles to count</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -235,13 +224,13 @@ are connected.</p>
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_PathConstraint_Check_DeBroglie_TilePropagator_.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.PathConstraint.Check(DeBroglie.TilePropagator)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_CountConstraint_Check_DeBroglie_TilePropagator_.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.CountConstraint.Check(DeBroglie.TilePropagator)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/PathConstraint.cs/#L50">View Source</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/CountConstraint.cs/#L43">View Source</a>
   </span>
-  <a id="DeBroglie_Constraints_PathConstraint_Check_" data-uid="DeBroglie.Constraints.PathConstraint.Check*"></a>
-  <h4 id="DeBroglie_Constraints_PathConstraint_Check_DeBroglie_TilePropagator_" data-uid="DeBroglie.Constraints.PathConstraint.Check(DeBroglie.TilePropagator)">Check(TilePropagator)</h4>
+  <a id="DeBroglie_Constraints_CountConstraint_Check_" data-uid="DeBroglie.Constraints.CountConstraint.Check*"></a>
+  <h4 id="DeBroglie_Constraints_CountConstraint_Check_DeBroglie_TilePropagator_" data-uid="DeBroglie.Constraints.CountConstraint.Check(DeBroglie.TilePropagator)">Check(TilePropagator)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -267,13 +256,13 @@ are connected.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_PathConstraint_Init_DeBroglie_TilePropagator_.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.PathConstraint.Init(DeBroglie.TilePropagator)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_CountConstraint_Init_DeBroglie_TilePropagator_.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.CountConstraint.Init(DeBroglie.TilePropagator)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/PathConstraint.cs/#L43">View Source</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/CountConstraint.cs/#L134">View Source</a>
   </span>
-  <a id="DeBroglie_Constraints_PathConstraint_Init_" data-uid="DeBroglie.Constraints.PathConstraint.Init*"></a>
-  <h4 id="DeBroglie_Constraints_PathConstraint_Init_DeBroglie_TilePropagator_" data-uid="DeBroglie.Constraints.PathConstraint.Init(DeBroglie.TilePropagator)">Init(TilePropagator)</h4>
+  <a id="DeBroglie_Constraints_CountConstraint_Init_" data-uid="DeBroglie.Constraints.CountConstraint.Init*"></a>
+  <h4 id="DeBroglie_Constraints_CountConstraint_Init_DeBroglie_TilePropagator_" data-uid="DeBroglie.Constraints.CountConstraint.Init(DeBroglie.TilePropagator)">Init(TilePropagator)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -309,10 +298,10 @@ are connected.</p>
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_PathConstraint.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.PathConstraint%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_CountConstraint.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.CountConstraint%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/PathConstraint.cs/#L10" class="contribution-link">View Source</a>
+                    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/CountConstraint.cs/#L18" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

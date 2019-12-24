@@ -8,7 +8,7 @@
     <title>Constraints </title>
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Constraints ">
-    <meta name="generator" content="docfx 2.39.2.0">
+    <meta name="generator" content="docfx 2.47.0.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -130,9 +130,10 @@ The normal PathConstraint cannot cope with path tiles so close together.</figcap
 <p><strong>Example</strong></p>
 <figure>
 <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/castle/castle.json">
-<video src="../images/castle_fixed.webm" autoplay="" loop="">
-</video></a>
-
+<video autoplay="" loop="" muted="">
+  <source src="../images/castle_fixed.webm" type="video/webm">
+</source></video>
+</a>
 <figcaption>Several castles all generated with a fixed turret location</figcaption>
 </figure>
 <h2 id="max-consecutive">Max Consecutive</h2>
@@ -179,6 +180,8 @@ MaxCount
 <img src="../images/mirror_constraint.png">
 </a>
 </figure>
+<h2 id="count">Count</h2>
+<p>The <a class="xref" href="../api/DeBroglie.Constraints.CountConstraint.html">CountConstraint</a> class forces the number of a given tile or set of tiles to be at most or at least a given number.</p>
 <h2 id="custom-constraints">Custom Constraints</h2>
 <p>You can define your own constraints by extending <a class="xref" href="../api/DeBroglie.Constraints.ITileConstraint.html">ITileConstraint</a>. The Init method is called once per propagator run, and the Check method is called after each step, each time tiles are selected.</p>
 <p>Inside these methods, you can call <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Select_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Select</a> and <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Ban_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Ban</a> to control what tiles can be legally placed. You can also call <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_SetContradiction">SetContradiction()</a> to indicate that something is wrong and generation cannot continue. This will cause the propagator to give up, or backtrack, according to settings.</p>

@@ -5,12 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Enum TileRotationTreatment
-   </title>
+    <title>Quick Start (Command Line) </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Enum TileRotationTreatment
-   ">
-    <meta name="generator" content="docfx 2.47.0.0">
+    <meta name="title" content="Quick Start (Command Line) ">
+    <meta name="generator" content="docfx 2.41.0.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -69,44 +67,34 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="DeBroglie.Rot.TileRotationTreatment">
-  
-  
-  <h1 id="DeBroglie_Rot_TileRotationTreatment" data-uid="DeBroglie.Rot.TileRotationTreatment" class="text-break">Enum TileRotationTreatment
-  </h1>
-  <div class="markdown level0 summary"></div>
-  <div class="markdown level0 conceptual"></div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="DeBroglie.Rot.html">DeBroglie.Rot</a></h6>
-  <h6><strong>Assembly</strong>: DeBroglie.dll</h6>
-  <h5 id="DeBroglie_Rot_TileRotationTreatment_syntax">Syntax</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public enum TileRotationTreatment</code></pre>
-  </div>
-  <h3 id="fields">Fields
-  </h3>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    <thead>
-    <tbody>
-      <tr>
-        <td id="DeBroglie_Rot_TileRotationTreatment_Generated">Generated</td>
-        <td><p>Experimental, this doesn't work properly yet.</p>
-</td>
-      </tr>
-      <tr>
-        <td id="DeBroglie_Rot_TileRotationTreatment_Missing">Missing</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td id="DeBroglie_Rot_TileRotationTreatment_Unchanged">Unchanged</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </thead></thead></table>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="quick-start-command-line">Quick Start (Command Line)</h1>
+
+<p>Download the command line application from <a href="https://github.com/BorisTheBrave/DeBroglie/releases">Releases</a>.
+The commandline app is available on Windows/Linux/MacOS, but this guide assume you are on windows.</p>
+<p>Then download this sample file: <a href="../images/sewers.png">sewers.png</a></p>
+<p>Then, create a json file, <code>sewers.json</code> with the following content. Save it in the same directory as sewers.png.</p>
+<pre><code class="lang-json">{
+    &quot;src&quot;: &quot;sewers.png&quot;,
+    &quot;dest&quot;: &quot;generated-sewers.png&quot;,
+    &quot;model&quot;: {
+        &quot;type&quot;: &quot;overlapping&quot;,
+        &quot;n&quot;: 3
+    },
+    &quot;periodicInput&quot;: true,
+    &quot;periodic&quot;: true,
+    &quot;symmetry&quot;: 8
+}
+</code></pre>
+<p>Now run DeBroglie.Console.exe with the json file. To do so, drag the file onto the executable.</p>
+<img src="../images/drag_drop.png">
+<p>Or you can run something like the following in the command line.</p>
+<pre><code>path_to_debroglie/DeBroglie.Console.exe path_to_json/sewers.json
+</code></pre>
+<img src="../images/cmd.png">
+<p>Either way, it should create a new image called <code>generated-sewers.png</code>.</p>
+<p>Read about the <a href="config_files.html">JSON file format</a> for details of what you can do with the JSON file,
+or browse the <a href="https://github.com/BorisTheBrave/DeBroglie/tree/master/samples">samples</a> for inspiration.</p>
 </article>
           </div>
           
@@ -115,10 +103,7 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Rot_TileRotationTreatment.md&amp;value=---%0Auid%3A%20DeBroglie.Rot.TileRotationTreatment%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
-                  </li>
-                  <li>
-                    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Rot/TileRotationTreatment.cs/#L3" class="contribution-link">View Source</a>
+                    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/DeBroglie.UI/docs/articles/quick_start_console.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>

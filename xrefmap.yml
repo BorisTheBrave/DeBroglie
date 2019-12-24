@@ -173,6 +173,114 @@ references:
   commentId: F:DeBroglie.Constraints.BorderSides.ZMin
   fullName: DeBroglie.Constraints.BorderSides.ZMin
   nameWithType: BorderSides.ZMin
+- uid: DeBroglie.Constraints.CountComparison
+  name: CountComparison
+  href: api/DeBroglie.Constraints.CountComparison.html
+  commentId: T:DeBroglie.Constraints.CountComparison
+  fullName: DeBroglie.Constraints.CountComparison
+  nameWithType: CountComparison
+- uid: DeBroglie.Constraints.CountComparison.AtLeast
+  name: AtLeast
+  href: api/DeBroglie.Constraints.CountComparison.html#DeBroglie_Constraints_CountComparison_AtLeast
+  commentId: F:DeBroglie.Constraints.CountComparison.AtLeast
+  fullName: DeBroglie.Constraints.CountComparison.AtLeast
+  nameWithType: CountComparison.AtLeast
+- uid: DeBroglie.Constraints.CountComparison.AtMost
+  name: AtMost
+  href: api/DeBroglie.Constraints.CountComparison.html#DeBroglie_Constraints_CountComparison_AtMost
+  commentId: F:DeBroglie.Constraints.CountComparison.AtMost
+  fullName: DeBroglie.Constraints.CountComparison.AtMost
+  nameWithType: CountComparison.AtMost
+- uid: DeBroglie.Constraints.CountComparison.Exactly
+  name: Exactly
+  href: api/DeBroglie.Constraints.CountComparison.html#DeBroglie_Constraints_CountComparison_Exactly
+  commentId: F:DeBroglie.Constraints.CountComparison.Exactly
+  fullName: DeBroglie.Constraints.CountComparison.Exactly
+  nameWithType: CountComparison.Exactly
+- uid: DeBroglie.Constraints.CountConstraint
+  name: CountConstraint
+  href: api/DeBroglie.Constraints.CountConstraint.html
+  commentId: T:DeBroglie.Constraints.CountConstraint
+  fullName: DeBroglie.Constraints.CountConstraint
+  nameWithType: CountConstraint
+- uid: DeBroglie.Constraints.CountConstraint.Check(DeBroglie.TilePropagator)
+  name: Check(TilePropagator)
+  href: api/DeBroglie.Constraints.CountConstraint.html#DeBroglie_Constraints_CountConstraint_Check_DeBroglie_TilePropagator_
+  commentId: M:DeBroglie.Constraints.CountConstraint.Check(DeBroglie.TilePropagator)
+  fullName: DeBroglie.Constraints.CountConstraint.Check(DeBroglie.TilePropagator)
+  nameWithType: CountConstraint.Check(TilePropagator)
+- uid: DeBroglie.Constraints.CountConstraint.Check*
+  name: Check
+  href: api/DeBroglie.Constraints.CountConstraint.html#DeBroglie_Constraints_CountConstraint_Check_
+  commentId: Overload:DeBroglie.Constraints.CountConstraint.Check
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.CountConstraint.Check
+  nameWithType: CountConstraint.Check
+- uid: DeBroglie.Constraints.CountConstraint.Comparison
+  name: Comparison
+  href: api/DeBroglie.Constraints.CountConstraint.html#DeBroglie_Constraints_CountConstraint_Comparison
+  commentId: P:DeBroglie.Constraints.CountConstraint.Comparison
+  fullName: DeBroglie.Constraints.CountConstraint.Comparison
+  nameWithType: CountConstraint.Comparison
+- uid: DeBroglie.Constraints.CountConstraint.Comparison*
+  name: Comparison
+  href: api/DeBroglie.Constraints.CountConstraint.html#DeBroglie_Constraints_CountConstraint_Comparison_
+  commentId: Overload:DeBroglie.Constraints.CountConstraint.Comparison
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.CountConstraint.Comparison
+  nameWithType: CountConstraint.Comparison
+- uid: DeBroglie.Constraints.CountConstraint.Count
+  name: Count
+  href: api/DeBroglie.Constraints.CountConstraint.html#DeBroglie_Constraints_CountConstraint_Count
+  commentId: P:DeBroglie.Constraints.CountConstraint.Count
+  fullName: DeBroglie.Constraints.CountConstraint.Count
+  nameWithType: CountConstraint.Count
+- uid: DeBroglie.Constraints.CountConstraint.Count*
+  name: Count
+  href: api/DeBroglie.Constraints.CountConstraint.html#DeBroglie_Constraints_CountConstraint_Count_
+  commentId: Overload:DeBroglie.Constraints.CountConstraint.Count
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.CountConstraint.Count
+  nameWithType: CountConstraint.Count
+- uid: DeBroglie.Constraints.CountConstraint.Eager
+  name: Eager
+  href: api/DeBroglie.Constraints.CountConstraint.html#DeBroglie_Constraints_CountConstraint_Eager
+  commentId: P:DeBroglie.Constraints.CountConstraint.Eager
+  fullName: DeBroglie.Constraints.CountConstraint.Eager
+  nameWithType: CountConstraint.Eager
+- uid: DeBroglie.Constraints.CountConstraint.Eager*
+  name: Eager
+  href: api/DeBroglie.Constraints.CountConstraint.html#DeBroglie_Constraints_CountConstraint_Eager_
+  commentId: Overload:DeBroglie.Constraints.CountConstraint.Eager
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.CountConstraint.Eager
+  nameWithType: CountConstraint.Eager
+- uid: DeBroglie.Constraints.CountConstraint.Init(DeBroglie.TilePropagator)
+  name: Init(TilePropagator)
+  href: api/DeBroglie.Constraints.CountConstraint.html#DeBroglie_Constraints_CountConstraint_Init_DeBroglie_TilePropagator_
+  commentId: M:DeBroglie.Constraints.CountConstraint.Init(DeBroglie.TilePropagator)
+  fullName: DeBroglie.Constraints.CountConstraint.Init(DeBroglie.TilePropagator)
+  nameWithType: CountConstraint.Init(TilePropagator)
+- uid: DeBroglie.Constraints.CountConstraint.Init*
+  name: Init
+  href: api/DeBroglie.Constraints.CountConstraint.html#DeBroglie_Constraints_CountConstraint_Init_
+  commentId: Overload:DeBroglie.Constraints.CountConstraint.Init
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.CountConstraint.Init
+  nameWithType: CountConstraint.Init
+- uid: DeBroglie.Constraints.CountConstraint.Tiles
+  name: Tiles
+  href: api/DeBroglie.Constraints.CountConstraint.html#DeBroglie_Constraints_CountConstraint_Tiles
+  commentId: P:DeBroglie.Constraints.CountConstraint.Tiles
+  fullName: DeBroglie.Constraints.CountConstraint.Tiles
+  nameWithType: CountConstraint.Tiles
+- uid: DeBroglie.Constraints.CountConstraint.Tiles*
+  name: Tiles
+  href: api/DeBroglie.Constraints.CountConstraint.html#DeBroglie_Constraints_CountConstraint_Tiles_
+  commentId: Overload:DeBroglie.Constraints.CountConstraint.Tiles
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.CountConstraint.Tiles
+  nameWithType: CountConstraint.Tiles
 - uid: DeBroglie.Constraints.EdgedPathConstraint
   name: EdgedPathConstraint
   href: api/DeBroglie.Constraints.EdgedPathConstraint.html
@@ -221,6 +329,19 @@ references:
   isSpec: "True"
   fullName: DeBroglie.Constraints.EdgedPathConstraint.EndPoints
   nameWithType: EdgedPathConstraint.EndPoints
+- uid: DeBroglie.Constraints.EdgedPathConstraint.EndPointTiles
+  name: EndPointTiles
+  href: api/DeBroglie.Constraints.EdgedPathConstraint.html#DeBroglie_Constraints_EdgedPathConstraint_EndPointTiles
+  commentId: P:DeBroglie.Constraints.EdgedPathConstraint.EndPointTiles
+  fullName: DeBroglie.Constraints.EdgedPathConstraint.EndPointTiles
+  nameWithType: EdgedPathConstraint.EndPointTiles
+- uid: DeBroglie.Constraints.EdgedPathConstraint.EndPointTiles*
+  name: EndPointTiles
+  href: api/DeBroglie.Constraints.EdgedPathConstraint.html#DeBroglie_Constraints_EdgedPathConstraint_EndPointTiles_
+  commentId: Overload:DeBroglie.Constraints.EdgedPathConstraint.EndPointTiles
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.EdgedPathConstraint.EndPointTiles
+  nameWithType: EdgedPathConstraint.EndPointTiles
 - uid: DeBroglie.Constraints.EdgedPathConstraint.Exits
   name: Exits
   href: api/DeBroglie.Constraints.EdgedPathConstraint.html#DeBroglie_Constraints_EdgedPathConstraint_Exits
@@ -527,6 +648,19 @@ references:
   isSpec: "True"
   fullName: DeBroglie.Constraints.PathConstraint.EndPoints
   nameWithType: PathConstraint.EndPoints
+- uid: DeBroglie.Constraints.PathConstraint.EndPointTiles
+  name: EndPointTiles
+  href: api/DeBroglie.Constraints.PathConstraint.html#DeBroglie_Constraints_PathConstraint_EndPointTiles
+  commentId: P:DeBroglie.Constraints.PathConstraint.EndPointTiles
+  fullName: DeBroglie.Constraints.PathConstraint.EndPointTiles
+  nameWithType: PathConstraint.EndPointTiles
+- uid: DeBroglie.Constraints.PathConstraint.EndPointTiles*
+  name: EndPointTiles
+  href: api/DeBroglie.Constraints.PathConstraint.html#DeBroglie_Constraints_PathConstraint_EndPointTiles_
+  commentId: Overload:DeBroglie.Constraints.PathConstraint.EndPointTiles
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.PathConstraint.EndPointTiles
+  nameWithType: PathConstraint.EndPointTiles
 - uid: DeBroglie.Constraints.PathConstraint.Init(DeBroglie.TilePropagator)
   name: Init(TilePropagator)
   href: api/DeBroglie.Constraints.PathConstraint.html#DeBroglie_Constraints_PathConstraint_Init_DeBroglie_TilePropagator_
@@ -572,15 +706,15 @@ references:
   isSpec: "True"
   fullName: DeBroglie.Constraints.PathConstraintUtils.CreateGraph
   nameWithType: PathConstraintUtils.CreateGraph
-- uid: DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints(DeBroglie.Constraints.PathConstraintUtils.SimpleGraph,System.Boolean[],System.Boolean[])
-  name: GetArticulationPoints(PathConstraintUtils.SimpleGraph, Boolean[], Boolean[])
-  href: api/DeBroglie.Constraints.PathConstraintUtils.html#DeBroglie_Constraints_PathConstraintUtils_GetArticulationPoints_DeBroglie_Constraints_PathConstraintUtils_SimpleGraph_System_Boolean___System_Boolean___
-  commentId: M:DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints(DeBroglie.Constraints.PathConstraintUtils.SimpleGraph,System.Boolean[],System.Boolean[])
-  name.vb: GetArticulationPoints(PathConstraintUtils.SimpleGraph, Boolean(), Boolean())
-  fullName: DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints(DeBroglie.Constraints.PathConstraintUtils.SimpleGraph, System.Boolean[], System.Boolean[])
-  fullName.vb: DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints(DeBroglie.Constraints.PathConstraintUtils.SimpleGraph, System.Boolean(), System.Boolean())
-  nameWithType: PathConstraintUtils.GetArticulationPoints(PathConstraintUtils.SimpleGraph, Boolean[], Boolean[])
-  nameWithType.vb: PathConstraintUtils.GetArticulationPoints(PathConstraintUtils.SimpleGraph, Boolean(), Boolean())
+- uid: DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints(DeBroglie.Constraints.PathConstraintUtils.SimpleGraph,System.Boolean[],System.Boolean[],System.Boolean[])
+  name: GetArticulationPoints(PathConstraintUtils.SimpleGraph, Boolean[], Boolean[], Boolean[])
+  href: api/DeBroglie.Constraints.PathConstraintUtils.html#DeBroglie_Constraints_PathConstraintUtils_GetArticulationPoints_DeBroglie_Constraints_PathConstraintUtils_SimpleGraph_System_Boolean___System_Boolean___System_Boolean___
+  commentId: M:DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints(DeBroglie.Constraints.PathConstraintUtils.SimpleGraph,System.Boolean[],System.Boolean[],System.Boolean[])
+  name.vb: GetArticulationPoints(PathConstraintUtils.SimpleGraph, Boolean(), Boolean(), Boolean())
+  fullName: DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints(DeBroglie.Constraints.PathConstraintUtils.SimpleGraph, System.Boolean[], System.Boolean[], System.Boolean[])
+  fullName.vb: DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints(DeBroglie.Constraints.PathConstraintUtils.SimpleGraph, System.Boolean(), System.Boolean(), System.Boolean())
+  nameWithType: PathConstraintUtils.GetArticulationPoints(PathConstraintUtils.SimpleGraph, Boolean[], Boolean[], Boolean[])
+  nameWithType.vb: PathConstraintUtils.GetArticulationPoints(PathConstraintUtils.SimpleGraph, Boolean(), Boolean(), Boolean())
 - uid: DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints*
   name: GetArticulationPoints
   href: api/DeBroglie.Constraints.PathConstraintUtils.html#DeBroglie_Constraints_PathConstraintUtils_GetArticulationPoints_
@@ -660,6 +794,12 @@ references:
   isSpec: "True"
   fullName: DeBroglie.Models.AdjacentModel.AdjacentModel
   nameWithType: AdjacentModel.AdjacentModel
+- uid: DeBroglie.Models.AdjacentModel.AddAdjacency(DeBroglie.Models.AdjacentModel.Adjacency)
+  name: AddAdjacency(AdjacentModel.Adjacency)
+  href: api/DeBroglie.Models.AdjacentModel.html#DeBroglie_Models_AdjacentModel_AddAdjacency_DeBroglie_Models_AdjacentModel_Adjacency_
+  commentId: M:DeBroglie.Models.AdjacentModel.AddAdjacency(DeBroglie.Models.AdjacentModel.Adjacency)
+  fullName: DeBroglie.Models.AdjacentModel.AddAdjacency(DeBroglie.Models.AdjacentModel.Adjacency)
+  nameWithType: AdjacentModel.AddAdjacency(AdjacentModel.Adjacency)
 - uid: DeBroglie.Models.AdjacentModel.AddAdjacency(DeBroglie.Tile,DeBroglie.Tile,DeBroglie.Topo.Direction)
   name: AddAdjacency(Tile, Tile, Direction)
   href: api/DeBroglie.Models.AdjacentModel.html#DeBroglie_Models_AdjacentModel_AddAdjacency_DeBroglie_Tile_DeBroglie_Tile_DeBroglie_Topo_Direction_
@@ -740,6 +880,51 @@ references:
   isSpec: "True"
   fullName: DeBroglie.Models.AdjacentModel.AddSample
   nameWithType: AdjacentModel.AddSample
+- uid: DeBroglie.Models.AdjacentModel.Adjacency
+  name: AdjacentModel.Adjacency
+  href: api/DeBroglie.Models.AdjacentModel.Adjacency.html
+  commentId: T:DeBroglie.Models.AdjacentModel.Adjacency
+  fullName: DeBroglie.Models.AdjacentModel.Adjacency
+  nameWithType: AdjacentModel.Adjacency
+- uid: DeBroglie.Models.AdjacentModel.Adjacency.Dest
+  name: Dest
+  href: api/DeBroglie.Models.AdjacentModel.Adjacency.html#DeBroglie_Models_AdjacentModel_Adjacency_Dest
+  commentId: P:DeBroglie.Models.AdjacentModel.Adjacency.Dest
+  fullName: DeBroglie.Models.AdjacentModel.Adjacency.Dest
+  nameWithType: AdjacentModel.Adjacency.Dest
+- uid: DeBroglie.Models.AdjacentModel.Adjacency.Dest*
+  name: Dest
+  href: api/DeBroglie.Models.AdjacentModel.Adjacency.html#DeBroglie_Models_AdjacentModel_Adjacency_Dest_
+  commentId: Overload:DeBroglie.Models.AdjacentModel.Adjacency.Dest
+  isSpec: "True"
+  fullName: DeBroglie.Models.AdjacentModel.Adjacency.Dest
+  nameWithType: AdjacentModel.Adjacency.Dest
+- uid: DeBroglie.Models.AdjacentModel.Adjacency.Direction
+  name: Direction
+  href: api/DeBroglie.Models.AdjacentModel.Adjacency.html#DeBroglie_Models_AdjacentModel_Adjacency_Direction
+  commentId: P:DeBroglie.Models.AdjacentModel.Adjacency.Direction
+  fullName: DeBroglie.Models.AdjacentModel.Adjacency.Direction
+  nameWithType: AdjacentModel.Adjacency.Direction
+- uid: DeBroglie.Models.AdjacentModel.Adjacency.Direction*
+  name: Direction
+  href: api/DeBroglie.Models.AdjacentModel.Adjacency.html#DeBroglie_Models_AdjacentModel_Adjacency_Direction_
+  commentId: Overload:DeBroglie.Models.AdjacentModel.Adjacency.Direction
+  isSpec: "True"
+  fullName: DeBroglie.Models.AdjacentModel.Adjacency.Direction
+  nameWithType: AdjacentModel.Adjacency.Direction
+- uid: DeBroglie.Models.AdjacentModel.Adjacency.Src
+  name: Src
+  href: api/DeBroglie.Models.AdjacentModel.Adjacency.html#DeBroglie_Models_AdjacentModel_Adjacency_Src
+  commentId: P:DeBroglie.Models.AdjacentModel.Adjacency.Src
+  fullName: DeBroglie.Models.AdjacentModel.Adjacency.Src
+  nameWithType: AdjacentModel.Adjacency.Src
+- uid: DeBroglie.Models.AdjacentModel.Adjacency.Src*
+  name: Src
+  href: api/DeBroglie.Models.AdjacentModel.Adjacency.html#DeBroglie_Models_AdjacentModel_Adjacency_Src_
+  commentId: Overload:DeBroglie.Models.AdjacentModel.Adjacency.Src
+  isSpec: "True"
+  fullName: DeBroglie.Models.AdjacentModel.Adjacency.Src
+  nameWithType: AdjacentModel.Adjacency.Src
 - uid: DeBroglie.Models.AdjacentModel.Create*
   name: Create
   href: api/DeBroglie.Models.AdjacentModel.html#DeBroglie_Models_AdjacentModel_Create_
@@ -1805,6 +1990,21 @@ references:
   commentId: T:DeBroglie.TilePropagator
   fullName: DeBroglie.TilePropagator
   nameWithType: TilePropagator
+- uid: DeBroglie.TilePropagator.#ctor(DeBroglie.Models.TileModel,DeBroglie.Topo.Topology,DeBroglie.TilePropagatorOptions)
+  name: TilePropagator(TileModel, Topology, TilePropagatorOptions)
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator__ctor_DeBroglie_Models_TileModel_DeBroglie_Topo_Topology_DeBroglie_TilePropagatorOptions_
+  commentId: M:DeBroglie.TilePropagator.#ctor(DeBroglie.Models.TileModel,DeBroglie.Topo.Topology,DeBroglie.TilePropagatorOptions)
+  fullName: DeBroglie.TilePropagator.TilePropagator(DeBroglie.Models.TileModel, DeBroglie.Topo.Topology, DeBroglie.TilePropagatorOptions)
+  nameWithType: TilePropagator.TilePropagator(TileModel, Topology, TilePropagatorOptions)
+- uid: DeBroglie.TilePropagator.#ctor(DeBroglie.Models.TileModel,DeBroglie.Topo.Topology,System.Boolean,DeBroglie.Constraints.ITileConstraint[])
+  name: TilePropagator(TileModel, Topology, Boolean, ITileConstraint[])
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator__ctor_DeBroglie_Models_TileModel_DeBroglie_Topo_Topology_System_Boolean_DeBroglie_Constraints_ITileConstraint___
+  commentId: M:DeBroglie.TilePropagator.#ctor(DeBroglie.Models.TileModel,DeBroglie.Topo.Topology,System.Boolean,DeBroglie.Constraints.ITileConstraint[])
+  name.vb: TilePropagator(TileModel, Topology, Boolean, ITileConstraint())
+  fullName: DeBroglie.TilePropagator.TilePropagator(DeBroglie.Models.TileModel, DeBroglie.Topo.Topology, System.Boolean, DeBroglie.Constraints.ITileConstraint[])
+  fullName.vb: DeBroglie.TilePropagator.TilePropagator(DeBroglie.Models.TileModel, DeBroglie.Topo.Topology, System.Boolean, DeBroglie.Constraints.ITileConstraint())
+  nameWithType: TilePropagator.TilePropagator(TileModel, Topology, Boolean, ITileConstraint[])
+  nameWithType.vb: TilePropagator.TilePropagator(TileModel, Topology, Boolean, ITileConstraint())
 - uid: DeBroglie.TilePropagator.#ctor(DeBroglie.Models.TileModel,DeBroglie.Topo.Topology,System.Boolean,DeBroglie.Constraints.ITileConstraint[],System.Random)
   name: TilePropagator(TileModel, Topology, Boolean, ITileConstraint[], Random)
   href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator__ctor_DeBroglie_Models_TileModel_DeBroglie_Topo_Topology_System_Boolean_DeBroglie_Constraints_ITileConstraint___System_Random_
@@ -1925,6 +2125,19 @@ references:
   isSpec: "True"
   fullName: DeBroglie.TilePropagator.GetBannedSelected
   nameWithType: TilePropagator.GetBannedSelected
+- uid: DeBroglie.TilePropagator.GetProgress
+  name: GetProgress()
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_GetProgress
+  commentId: M:DeBroglie.TilePropagator.GetProgress
+  fullName: DeBroglie.TilePropagator.GetProgress()
+  nameWithType: TilePropagator.GetProgress()
+- uid: DeBroglie.TilePropagator.GetProgress*
+  name: GetProgress
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_GetProgress_
+  commentId: Overload:DeBroglie.TilePropagator.GetProgress
+  isSpec: "True"
+  fullName: DeBroglie.TilePropagator.GetProgress
+  nameWithType: TilePropagator.GetProgress
 - uid: DeBroglie.TilePropagator.IsBanned(System.Int32,System.Int32,System.Int32,DeBroglie.Tile)
   name: IsBanned(Int32, Int32, Int32, Tile)
   href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_IsBanned_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_
@@ -1951,19 +2164,19 @@ references:
   isSpec: "True"
   fullName: DeBroglie.TilePropagator.IsSelected
   nameWithType: TilePropagator.IsSelected
-- uid: DeBroglie.TilePropagator.Random
-  name: Random
-  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Random
-  commentId: P:DeBroglie.TilePropagator.Random
-  fullName: DeBroglie.TilePropagator.Random
-  nameWithType: TilePropagator.Random
-- uid: DeBroglie.TilePropagator.Random*
-  name: Random
-  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Random_
-  commentId: Overload:DeBroglie.TilePropagator.Random
+- uid: DeBroglie.TilePropagator.RandomDouble
+  name: RandomDouble
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_RandomDouble
+  commentId: P:DeBroglie.TilePropagator.RandomDouble
+  fullName: DeBroglie.TilePropagator.RandomDouble
+  nameWithType: TilePropagator.RandomDouble
+- uid: DeBroglie.TilePropagator.RandomDouble*
+  name: RandomDouble
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_RandomDouble_
+  commentId: Overload:DeBroglie.TilePropagator.RandomDouble
   isSpec: "True"
-  fullName: DeBroglie.TilePropagator.Random
-  nameWithType: TilePropagator.Random
+  fullName: DeBroglie.TilePropagator.RandomDouble
+  nameWithType: TilePropagator.RandomDouble
 - uid: DeBroglie.TilePropagator.Run
   name: Run()
   href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Run
@@ -2128,6 +2341,64 @@ references:
   fullName.vb: DeBroglie.TilePropagator.ToValueSets(Of T)()
   nameWithType: TilePropagator.ToValueSets<T>()
   nameWithType.vb: TilePropagator.ToValueSets(Of T)()
+- uid: DeBroglie.TilePropagatorOptions
+  name: TilePropagatorOptions
+  href: api/DeBroglie.TilePropagatorOptions.html
+  commentId: T:DeBroglie.TilePropagatorOptions
+  fullName: DeBroglie.TilePropagatorOptions
+  nameWithType: TilePropagatorOptions
+- uid: DeBroglie.TilePropagatorOptions.BackTrackDepth
+  name: BackTrackDepth
+  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_BackTrackDepth
+  commentId: P:DeBroglie.TilePropagatorOptions.BackTrackDepth
+  fullName: DeBroglie.TilePropagatorOptions.BackTrackDepth
+  nameWithType: TilePropagatorOptions.BackTrackDepth
+- uid: DeBroglie.TilePropagatorOptions.BackTrackDepth*
+  name: BackTrackDepth
+  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_BackTrackDepth_
+  commentId: Overload:DeBroglie.TilePropagatorOptions.BackTrackDepth
+  isSpec: "True"
+  fullName: DeBroglie.TilePropagatorOptions.BackTrackDepth
+  nameWithType: TilePropagatorOptions.BackTrackDepth
+- uid: DeBroglie.TilePropagatorOptions.Constraints
+  name: Constraints
+  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_Constraints
+  commentId: P:DeBroglie.TilePropagatorOptions.Constraints
+  fullName: DeBroglie.TilePropagatorOptions.Constraints
+  nameWithType: TilePropagatorOptions.Constraints
+- uid: DeBroglie.TilePropagatorOptions.Constraints*
+  name: Constraints
+  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_Constraints_
+  commentId: Overload:DeBroglie.TilePropagatorOptions.Constraints
+  isSpec: "True"
+  fullName: DeBroglie.TilePropagatorOptions.Constraints
+  nameWithType: TilePropagatorOptions.Constraints
+- uid: DeBroglie.TilePropagatorOptions.Random
+  name: Random
+  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_Random
+  commentId: P:DeBroglie.TilePropagatorOptions.Random
+  fullName: DeBroglie.TilePropagatorOptions.Random
+  nameWithType: TilePropagatorOptions.Random
+- uid: DeBroglie.TilePropagatorOptions.Random*
+  name: Random
+  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_Random_
+  commentId: Overload:DeBroglie.TilePropagatorOptions.Random
+  isSpec: "True"
+  fullName: DeBroglie.TilePropagatorOptions.Random
+  nameWithType: TilePropagatorOptions.Random
+- uid: DeBroglie.TilePropagatorOptions.RandomDouble
+  name: RandomDouble
+  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_RandomDouble
+  commentId: P:DeBroglie.TilePropagatorOptions.RandomDouble
+  fullName: DeBroglie.TilePropagatorOptions.RandomDouble
+  nameWithType: TilePropagatorOptions.RandomDouble
+- uid: DeBroglie.TilePropagatorOptions.RandomDouble*
+  name: RandomDouble
+  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_RandomDouble_
+  commentId: Overload:DeBroglie.TilePropagatorOptions.RandomDouble
+  isSpec: "True"
+  fullName: DeBroglie.TilePropagatorOptions.RandomDouble
+  nameWithType: TilePropagatorOptions.RandomDouble
 - uid: DeBroglie.TilePropagatorTileSet
   name: TilePropagatorTileSet
   href: api/DeBroglie.TilePropagatorTileSet.html

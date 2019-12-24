@@ -5,12 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Enum TileRotationTreatment
-   </title>
+    <title>Quick Start (C#) </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Enum TileRotationTreatment
-   ">
-    <meta name="generator" content="docfx 2.47.0.0">
+    <meta name="title" content="Quick Start (C#) ">
+    <meta name="generator" content="docfx 2.41.0.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -69,44 +67,38 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="DeBroglie.Rot.TileRotationTreatment">
-  
-  
-  <h1 id="DeBroglie_Rot_TileRotationTreatment" data-uid="DeBroglie.Rot.TileRotationTreatment" class="text-break">Enum TileRotationTreatment
-  </h1>
-  <div class="markdown level0 summary"></div>
-  <div class="markdown level0 conceptual"></div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="DeBroglie.Rot.html">DeBroglie.Rot</a></h6>
-  <h6><strong>Assembly</strong>: DeBroglie.dll</h6>
-  <h5 id="DeBroglie_Rot_TileRotationTreatment_syntax">Syntax</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public enum TileRotationTreatment</code></pre>
-  </div>
-  <h3 id="fields">Fields
-  </h3>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    <thead>
-    <tbody>
-      <tr>
-        <td id="DeBroglie_Rot_TileRotationTreatment_Generated">Generated</td>
-        <td><p>Experimental, this doesn't work properly yet.</p>
-</td>
-      </tr>
-      <tr>
-        <td id="DeBroglie_Rot_TileRotationTreatment_Missing">Missing</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td id="DeBroglie_Rot_TileRotationTreatment_Unchanged">Unchanged</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </thead></thead></table>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="quick-start-c">Quick Start (C#)</h1>
+
+<p>The DeBroglie library can be downloaded via <a href="https://www.nuget.org/packages/DeBroglie">NuGet</a>.
+Or it can easily be built <a href="https://github.com/BorisTheBrave/DeBroglie">from source</a>.</p>
+<p>Once you are referencing the library. here's a simple snippet that demonstrates constructing the relevant objects and running them.</p>
+<pre><code class="lang-csharp">// Define some sample data
+ITopoArray&lt;char&gt; sample = TopoArray.Create(new[]
+{
+    new[]{ '_', '_', '_'},
+    new[]{ '_', '*', '_'},
+    new[]{ '_', '_', '_'},
+}, periodic: false);
+// Specify the model used for generation
+var model = new AdjacentModel(sample.ToTiles());
+// Set the output dimensions
+var topology = new Topology(10, 10, periodic: false);
+// Acturally run the algorithm
+var propagator = new TilePropagator(model, topology);
+var status = propagator.Run();
+if (status != Resolution.Decided) throw new Exception(&quot;Undecided&quot;);
+var output = propagator.ToValueArray&lt;char&gt;();
+// Display the results
+for (var y = 0; y &lt; 10; y++)
+{
+    for (var x = 0; x &lt; 10; x++)
+    {
+        System.Console.Write(output.Get(x, y));
+    }
+    System.Console.WriteLine();
+}
+</code></pre>
 </article>
           </div>
           
@@ -115,10 +107,7 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Rot_TileRotationTreatment.md&amp;value=---%0Auid%3A%20DeBroglie.Rot.TileRotationTreatment%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
-                  </li>
-                  <li>
-                    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Rot/TileRotationTreatment.cs/#L3" class="contribution-link">View Source</a>
+                    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/DeBroglie.UI/docs/articles/quick_start_lib.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>
