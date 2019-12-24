@@ -1,4 +1,5 @@
-﻿using DeBroglie.Trackers;
+﻿using DeBroglie.Topo;
+using DeBroglie.Trackers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,7 +21,9 @@ namespace DeBroglie.Constraints
     {
         private TilePropagatorTileSet tileSet;
 
-        private SelectedTracker selectedTracker;
+        private SelectedChangeTracker selectedChangeTracker;
+
+        private CountTracker countTracker;
 
         /// <summary>
         /// The set of tiles to count
@@ -49,16 +52,10 @@ namespace DeBroglie.Constraints
             var width = topology.Width;
             var height = topology.Height;
             var depth = topology.Depth;
-            var noCount = 0;
-            var yesCount = 0;
-            var maybeCount = 0;
-            foreach (var index in topology.Indicies)
-            {
-                var selected = selectedTracker.GetTristate(index);
-                if (selected.IsNo()) noCount++;
-                if (selected.IsMaybe()) maybeCount++;
-                if (selected.IsYes()) yesCount++;
-            }
+
+            var yesCount = countTracker.YesCount;
+            var noCount = countTracker.NoCount;
+            var maybeCount = countTracker.MaybeCount;
 
             if (Comparison == CountComparison.AtMost || Comparison == CountComparison.Exactly)
             {
@@ -73,7 +70,7 @@ namespace DeBroglie.Constraints
                     // We've reached the limit, ban any more
                     foreach (var index in topology.Indicies)
                     {
-                        var selected = selectedTracker.GetTristate(index);
+                        var selected = selectedChangeTracker.GetTristate(index);
                         if (selected.IsMaybe())
                         {
                             propagator.Topology.GetCoord(index, out var x, out var y, out var z);
@@ -95,7 +92,7 @@ namespace DeBroglie.Constraints
                     // We've reached the limit, select all the rest
                     foreach (var index in topology.Indicies)
                     {
-                        var selected = selectedTracker.GetTristate(index);
+                        var selected = selectedChangeTracker.GetTristate(index);
                         if (selected.IsMaybe())
                         {
                             propagator.Topology.GetCoord(index, out var x, out var y, out var z);
@@ -110,9 +107,11 @@ namespace DeBroglie.Constraints
         {
             tileSet = propagator.CreateTileSet(Tiles);
 
-            selectedTracker = propagator.CreateSelectedTracker(tileSet);
+            countTracker = new CountTracker(propagator.Topology);
 
-            if(Eager)
+            selectedChangeTracker = propagator.CreateSelectedChangeTracker(tileSet, countTracker);
+
+            if (Eager)
             {
                 // Naive implementation
                 /*
@@ -153,7 +152,7 @@ namespace DeBroglie.Constraints
                 var pickedIndices = new List<int>();
                 var remainingIndices = new List<int>(topology.Indicies);
 
-                while(true)
+                while (true)
                 {
                     var noCount = 0;
                     var yesCount = 0;
@@ -217,5 +216,53 @@ namespace DeBroglie.Constraints
                 }
             }
         }
+
+        private class CountTracker : ITristateChanged
+        {
+            private readonly Topology topology;
+
+            public CountTracker(Topology topology)
+            {
+                this.topology = topology;
+            }
+
+            public int NoCount { get; set; }
+            public int YesCount { get; set; }
+            public int MaybeCount { get; set; }
+
+            public void Reset(SelectedChangeTracker tracker)
+            {
+                NoCount = 0;
+                YesCount = 0;
+                MaybeCount = 0;
+                foreach (var index in topology.Indicies)
+                {
+                    var selected = tracker.GetTristate(index);
+                    switch (selected)
+                    {
+                        case Tristate.No: NoCount++; break;
+                        case Tristate.Maybe: MaybeCount++; break;
+                        case Tristate.Yes: YesCount++; break;
+                    }
+                }
+            }
+
+            public void Notify(int index, Tristate before, Tristate after)
+            {
+                switch(before)
+                {
+                    case Tristate.No: NoCount--; break;
+                    case Tristate.Maybe: MaybeCount--; break;
+                    case Tristate.Yes: YesCount--; break;
+                }
+                switch (after)
+                {
+                    case Tristate.No: NoCount++; break;
+                    case Tristate.Maybe: MaybeCount++; break;
+                    case Tristate.Yes: YesCount++; break;
+                }
+            }
+        }
+
     }
 }

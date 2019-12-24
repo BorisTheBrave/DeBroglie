@@ -303,6 +303,14 @@ namespace DeBroglie
             return tracker;
         }
 
+        internal SelectedChangeTracker CreateSelectedChangeTracker(TilePropagatorTileSet tileSet, ITristateChanged onChange)
+        {
+            var tracker = new SelectedChangeTracker(this, wavePropagator, tileModelMapping, tileSet, onChange);
+            tracker.Reset();
+            wavePropagator.AddTracker(tracker);
+            return tracker;
+        }
+
         /// <summary>
         /// Creates a set of tiles. This set can be used with some operations, and is marginally
         /// faster than passing in a fresh list of tiles ever time.

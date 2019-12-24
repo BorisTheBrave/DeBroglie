@@ -136,13 +136,17 @@ namespace DeBroglie.Wfc
                 Index = index,
                 Pattern = pattern,
             });
+            
+            // Update the wave
+            var isContradiction = wave.RemovePossibility(index, pattern);
+
             // Update trackers
-            foreach(var tracker in trackers)
+            foreach (var tracker in trackers)
             {
                 tracker.DoBan(index, pattern);
             }
-            // Update the wave
-            return wave.RemovePossibility(index, pattern);
+
+            return isContradiction;
         }
 
         public bool InternalSelect(int index, int chosenPattern)
