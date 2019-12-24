@@ -130,8 +130,10 @@ namespace DeBroglie.Wfc
         public int GetRandomMinEntropyIndex(Func<double> randomDouble)
         {
             int selectedIndex = AllCellsDecided;
+            // TODO: At the moment this is a linear scan, but potentially
+            // could use some data structure
             double minEntropy = double.PositiveInfinity;
-            double randomizer = 0;
+            int countAtMinEntropy = 0;
             for (int i = 0; i < indices; i++)
             {
                 if (mask != null && !mask[i])
@@ -144,19 +146,34 @@ namespace DeBroglie.Wfc
                 }
                 else if (e < minEntropy)
                 {
-                    selectedIndex = i;
+                    countAtMinEntropy = 1;
                     minEntropy = e;
-                    randomizer = randomDouble();
                 }
                 else if (e == minEntropy)
                 {
-                    var randomizer2 = randomDouble();
-                    if (randomizer2 < randomizer)
+                    countAtMinEntropy++;
+                }
+            }
+            var n = (int)(countAtMinEntropy * randomDouble());
+
+            for (int i = 0; i < indices; i++)
+            {
+                if (mask != null && !mask[i])
+                    continue;
+                var c = entropyValues[i].PatternCount;
+                var e = entropyValues[i].Entropy;
+                if (c <= 1)
+                {
+                    continue;
+                }
+                else if (e == minEntropy)
+                {
+                    if(n == 0)
                     {
                         selectedIndex = i;
-                        minEntropy = e;
-                        randomizer = randomizer2;
+                        break;
                     }
+                    n--;
                 }
             }
             return selectedIndex;
