@@ -19,7 +19,7 @@ namespace DeBroglie.Test.Constraints
 
                 for(var i = 0;i<isSelected.Length;i++)
                 {
-                    var actualContradiction = sm.Next(i, false, isSelected[i]);
+                    var actualContradiction = sm.Next(i, isSelected[i] ? Tristate.Yes : Tristate.Maybe);
                     if (actualContradiction)
                     {
                         if (expectedContradiction)
@@ -31,7 +31,7 @@ namespace DeBroglie.Test.Constraints
                 {
                     for (var i = 0; i < max; i++)
                     {
-                        var actualContradiction = sm.Next(i, false, isSelected[i]);
+                        var actualContradiction = sm.Next(i, isSelected[i] ? Tristate.Yes : Tristate.Maybe);
                         if (actualContradiction)
                         {
                             if (expectedContradiction)

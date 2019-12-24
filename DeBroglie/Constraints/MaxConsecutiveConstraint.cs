@@ -1,4 +1,5 @@
 ﻿using DeBroglie.Topo;
+using DeBroglie.Trackers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,6 +12,8 @@ namespace DeBroglie.Constraints
     public class MaxConsecutiveConstraint : ITileConstraint
     {
         private TilePropagatorTileSet tileSet;
+
+        private SelectedTracker selectedTracker;
 
         public ISet<Tile> Tiles { get; set; }
 
@@ -27,6 +30,7 @@ namespace DeBroglie.Constraints
                 throw new Exception("MaxConsecutiveConstraint only supports cartesian topologies.");
             }
             tileSet = propagator.CreateTileSet(Tiles);
+            selectedTracker = propagator.CreateSelectedTracker(tileSet);
         }
 
         public void Check(TilePropagator propagator)
@@ -48,8 +52,8 @@ namespace DeBroglie.Constraints
                         sm.Reset();
                         for (var x = 0; x < width; x++)
                         {
-                            propagator.GetBannedSelected(x, y, z, tileSet, out var isBanned, out var isSelected);
-                            if (sm.Next(x, isBanned, isSelected))
+                            var index = propagator.Topology.GetIndex(x, y, z);
+                            if (sm.Next(x, selectedTracker.GetTristate(index)))
                             {
                                 propagator.SetContradiction();
                                 return;
@@ -59,8 +63,8 @@ namespace DeBroglie.Constraints
                         {
                             for (var x = 0; x < MaxCount && x < width; x++)
                             {
-                                propagator.GetBannedSelected(x, y, z, tileSet, out var isBanned, out var isSelected);
-                                if (sm.Next(x, isBanned, isSelected))
+                                var index = propagator.Topology.GetIndex(x, y, z);
+                                if (sm.Next(x, selectedTracker.GetTristate(index)))
                                 {
                                     propagator.SetContradiction();
                                     return;
@@ -84,8 +88,8 @@ namespace DeBroglie.Constraints
                         sm.Reset();
                         for (var y = 0; y < height; y++)
                         {
-                            propagator.GetBannedSelected(x, y, z, tileSet, out var isBanned, out var isSelected);
-                            if (sm.Next(y, isBanned, isSelected))
+                            var index = propagator.Topology.GetIndex(x, y, z);
+                            if (sm.Next(y, selectedTracker.GetTristate(index)))
                             {
                                 propagator.SetContradiction();
                                 return;
@@ -95,8 +99,8 @@ namespace DeBroglie.Constraints
                         {
                             for (var y = 0; y < MaxCount && y < height; y++)
                             {
-                                propagator.GetBannedSelected(x, y, z, tileSet, out var isBanned, out var isSelected);
-                                if (sm.Next(y, isBanned, isSelected))
+                                var index = propagator.Topology.GetIndex(x, y, z);
+                                if (sm.Next(y, selectedTracker.GetTristate(index)))
                                 {
                                     propagator.SetContradiction();
                                     return;
@@ -120,8 +124,8 @@ namespace DeBroglie.Constraints
                         sm.Reset();
                         for (var z = 0; z < depth; z++)
                         {
-                            propagator.GetBannedSelected(x, y, z, tileSet, out var isBanned, out var isSelected);
-                            if (sm.Next(z, isBanned, isSelected))
+                            var index = propagator.Topology.GetIndex(x, y, z);
+                            if (sm.Next(z, selectedTracker.GetTristate(index)))
                             {
                                 propagator.SetContradiction();
                                 return;
@@ -131,8 +135,8 @@ namespace DeBroglie.Constraints
                         {
                             for (var z = 0; z < MaxCount && z < depth; z++)
                             {
-                                propagator.GetBannedSelected(x, y, z, tileSet, out var isBanned, out var isSelected);
-                                if (sm.Next(z, isBanned, isSelected))
+                                var index = propagator.Topology.GetIndex(x, y, z);
+                                if (sm.Next(z, selectedTracker.GetTristate(index)))
                                 {
                                     propagator.SetContradiction();
                                     return;
@@ -186,12 +190,12 @@ namespace DeBroglie.Constraints
                 prevRunCount = 0;
             }
 
-            public bool Next(int index, bool isBanned, bool isSelected)
+            public bool Next(int index, Tristate selected)
             {
                 switch (state)
                 {
                     case State.Initial:
-                        if (isSelected)
+                        if (selected.IsYes())
                         {
                             state = State.InRun;
                             runCount = 1;
@@ -199,7 +203,7 @@ namespace DeBroglie.Constraints
                         }
                         return false;
                     case State.JustAfterRun:
-                        if (isSelected)
+                        if (selected.IsYes())
                         {
                             state = State.InRun;
                             runCount = 1;
@@ -214,7 +218,7 @@ namespace DeBroglie.Constraints
                         }
                         return false;
                     case State.InRun:
-                        if(isSelected)
+                        if(selected.IsYes())
                         {
                             state = State.InRun;
                             runCount += 1;
@@ -230,7 +234,7 @@ namespace DeBroglie.Constraints
                             // Also case 1.
                             if (runCount == max)
                             {
-                                if (!isBanned)
+                                if (selected.Possible())
                                 {
                                     banAt(index);
                                 }
