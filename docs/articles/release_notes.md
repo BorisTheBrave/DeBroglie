@@ -2,7 +2,7 @@
 uid: release_notes
 title: Release Notes
 ---
-# Unreleased
+# v0.5.0
 
 * Improved memory and performance of backtracking significantly
 * Command line program now runs Linux and Mac.
