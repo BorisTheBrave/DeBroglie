@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeBroglie.Trackers;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -18,6 +19,8 @@ namespace DeBroglie.Constraints
     public class CountConstraint : ITileConstraint
     {
         private TilePropagatorTileSet tileSet;
+
+        private SelectedTracker selectedTracker;
 
         /// <summary>
         /// The set of tiles to count
@@ -49,22 +52,12 @@ namespace DeBroglie.Constraints
             var noCount = 0;
             var yesCount = 0;
             var maybeCount = 0;
-            for (var z = 0; z < depth; z++)
+            foreach (var index in topology.Indicies)
             {
-                for (var y = 0; y < height; y++)
-                {
-                    for (var x = 0; x < width; x++)
-                    {
-                        var index = topology.GetIndex(x, y, z);
-                        if (topology.ContainsIndex(index))
-                        {
-                            var selected = propagator.GetSelectedTristate(x, y, z, tileSet);
-                            if (selected.IsNo()) noCount++;
-                            if (selected.IsMaybe()) maybeCount++;
-                            if (selected.IsYes()) yesCount++;
-                        }
-                    }
-                }
+                var selected = selectedTracker.GetTristate(index);
+                if (selected.IsNo()) noCount++;
+                if (selected.IsMaybe()) maybeCount++;
+                if (selected.IsYes()) yesCount++;
             }
 
             if (Comparison == CountComparison.AtMost || Comparison == CountComparison.Exactly)
@@ -78,22 +71,13 @@ namespace DeBroglie.Constraints
                 if (yesCount == Count && maybeCount > 0)
                 {
                     // We've reached the limit, ban any more
-                    for (var z = 0; z < depth; z++)
+                    foreach (var index in topology.Indicies)
                     {
-                        for (var y = 0; y < height; y++)
+                        var selected = selectedTracker.GetTristate(index);
+                        if (selected.IsMaybe())
                         {
-                            for (var x = 0; x < width; x++)
-                            {
-                                var index = topology.GetIndex(x, y, z);
-                                if (topology.ContainsIndex(index))
-                                {
-                                    var selected = propagator.GetSelectedTristate(x, y, z, tileSet);
-                                    if (selected.IsMaybe())
-                                    {
-                                        propagator.Ban(x, y, z, tileSet);
-                                    }
-                                }
-                            }
+                            propagator.Topology.GetCoord(index, out var x, out var y, out var z);
+                            propagator.Ban(x, y, z, tileSet);
                         }
                     }
                 }
@@ -109,22 +93,13 @@ namespace DeBroglie.Constraints
                 if (yesCount + maybeCount == Count && maybeCount > 0)
                 {
                     // We've reached the limit, select all the rest
-                    for (var z = 0; z < depth; z++)
+                    foreach (var index in topology.Indicies)
                     {
-                        for (var y = 0; y < height; y++)
+                        var selected = selectedTracker.GetTristate(index);
+                        if (selected.IsMaybe())
                         {
-                            for (var x = 0; x < width; x++)
-                            {
-                                var index = topology.GetIndex(x, y, z);
-                                if (topology.ContainsIndex(index))
-                                {
-                                    var selected = propagator.GetSelectedTristate(x, y, z, tileSet);
-                                    if (selected.IsMaybe())
-                                    {
-                                        propagator.Select(x, y, z, tileSet);
-                                    }
-                                }
-                            }
+                            propagator.Topology.GetCoord(index, out var x, out var y, out var z);
+                            propagator.Select(x, y, z, tileSet);
                         }
                     }
                 }
@@ -134,6 +109,8 @@ namespace DeBroglie.Constraints
         public void Init(TilePropagator propagator)
         {
             tileSet = propagator.CreateTileSet(Tiles);
+
+            selectedTracker = propagator.CreateSelectedTracker(tileSet);
 
             if(Eager)
             {
