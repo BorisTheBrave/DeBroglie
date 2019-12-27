@@ -17,7 +17,6 @@ namespace DeBroglie
         {
             Tiles = tiles.ToArray();
             OffsetToPatterns = new Dictionary<int, ISet<int>>();
-            OffsetToPatternsBitArray = new Dictionary<int, BitArray>();
         }
 
         public IReadOnlyCollection<Tile> Tiles { get; }
