@@ -264,10 +264,10 @@ namespace DeBroglie
         public Resolution Select(int x, int y, int z, TilePropagatorTileSet tiles)
         {
             TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
-            var patterns = tileModelMapping.GetPatternsBitArray(tiles, o);
+            var patterns = tileModelMapping.GetPatterns(tiles, o);
             for (var p = 0; p < wavePropagator.PatternCount; p++)
             {
-                if (patterns.Get(p))
+                if (patterns.Contains(p))
                     continue;
                 var status = wavePropagator.Ban(px, py, pz, p);
                 if (status != Resolution.Undecided)
@@ -365,7 +365,7 @@ namespace DeBroglie
         public void GetBannedSelected(int x, int y, int z, TilePropagatorTileSet tiles, out bool isBanned, out bool isSelected)
         {
             TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
-            var patterns = tileModelMapping.GetPatternsBitArray(tiles, o);
+            var patterns = tileModelMapping.GetPatterns(tiles, o);
             GetBannedSelectedInternal(px, py, pz, patterns, out isBanned, out isSelected);
         }
 
