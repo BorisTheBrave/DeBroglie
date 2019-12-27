@@ -1,5 +1,6 @@
 ﻿using DeBroglie.Topo;
 using DeBroglie.Wfc;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -98,6 +99,24 @@ namespace DeBroglie.Models
                 var tilesToPatterns = TilesToPatternsByOffset[offset];
                 patterns = new HashSet<int>(tileSet.Tiles.SelectMany(tile => GetPatterns(tilesToPatterns, tile)));
                 tileSet.OffsetToPatterns[offset] = patterns;
+            }
+            return patterns;
+        }
+
+        /// <summary>
+        /// Gets the patterns associated with a set of tiles at a given offset.
+        /// </summary>
+        public BitArray GetPatternsBitArray(TilePropagatorTileSet tileSet, int offset)
+        {
+            if (!tileSet.OffsetToPatternsBitArray.TryGetValue(offset, out var patterns))
+            {
+                var tilesToPatterns = TilesToPatternsByOffset[offset];
+                patterns = new BitArray(PatternModel.PatternCount);
+                foreach(var p in tileSet.Tiles.SelectMany(tile => GetPatterns(tilesToPatterns, tile)))
+                {
+                    patterns.Set(p, true);
+                }
+                tileSet.OffsetToPatternsBitArray[offset] = patterns;
             }
             return patterns;
         }

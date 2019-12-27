@@ -4,6 +4,7 @@ using DeBroglie.Topo;
 using DeBroglie.Trackers;
 using DeBroglie.Wfc;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -263,10 +264,10 @@ namespace DeBroglie
         public Resolution Select(int x, int y, int z, TilePropagatorTileSet tiles)
         {
             TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
-            var patterns = tileModelMapping.GetPatterns(tiles, o);
+            var patterns = tileModelMapping.GetPatternsBitArray(tiles, o);
             for (var p = 0; p < wavePropagator.PatternCount; p++)
             {
-                if (patterns.Contains(p))
+                if (patterns.Get(p))
                     continue;
                 var status = wavePropagator.Ban(px, py, pz, p);
                 if (status != Resolution.Undecided)
@@ -364,7 +365,7 @@ namespace DeBroglie
         public void GetBannedSelected(int x, int y, int z, TilePropagatorTileSet tiles, out bool isBanned, out bool isSelected)
         {
             TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
-            var patterns = tileModelMapping.GetPatterns(tiles, o);
+            var patterns = tileModelMapping.GetPatternsBitArray(tiles, o);
             GetBannedSelectedInternal(px, py, pz, patterns, out isBanned, out isSelected);
         }
 
@@ -373,7 +374,6 @@ namespace DeBroglie
             GetBannedSelected(x, y, z, tiles, out var isBanned, out var isSelected);
             return isSelected ? Tristate.Yes : isBanned ? Tristate.No : Tristate.Maybe;
         }
-
 
         private void GetBannedSelectedInternal(int px, int py, int pz, ISet<int> patterns, out bool isBanned, out bool isSelected)
         {
@@ -387,6 +387,30 @@ namespace DeBroglie
                 if (wave.Get(index, p))
                 {
                     if (patterns.Contains(p))
+                    {
+                        isBanned = false;
+                    }
+                    else
+                    {
+                        isSelected = false;
+                    }
+                }
+            }
+        }
+
+
+        private void GetBannedSelectedInternal(int px, int py, int pz, BitArray patterns, out bool isBanned, out bool isSelected)
+        {
+            var index = wavePropagator.Topology.GetIndex(px, py, pz);
+            var wave = wavePropagator.Wave;
+            var patternCount = wavePropagator.PatternCount;
+            isBanned = true;
+            isSelected = true;
+            for (var p = 0; p < patternCount; p++)
+            {
+                if (wave.Get(index, p))
+                {
+                    if (patterns.Get(p))
                     {
                         isBanned = false;
                     }

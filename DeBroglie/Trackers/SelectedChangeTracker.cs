@@ -84,8 +84,8 @@ namespace DeBroglie.Trackers
 
         private void DoBan(int patternIndex, int pattern, int index, int offset)
         {
-            var patterns = tileModelMapping.GetPatterns(tileSet, offset);
-            if (patterns.Contains(pattern))
+            var patterns = tileModelMapping.GetPatternsBitArray(tileSet, offset);
+            if (patterns.Get(pattern))
             {
                 patternCounts[index] -= 1;
             }
@@ -131,8 +131,8 @@ namespace DeBroglie.Trackers
 
         private void UndoBan(int patternIndex, int pattern, int index, int offset)
         {
-            var patterns = tileModelMapping.GetPatterns(tileSet, offset);
-            if (patterns.Contains(pattern))
+            var patterns = tileModelMapping.GetPatternsBitArray(tileSet, offset);
+            if (patterns.Get(pattern))
             {
                 patternCounts[index] += 1;
             }

@@ -16,7 +16,11 @@ namespace DeBroglie.Benchmark
                 System.Console.WriteLine(i);
             }
             */
-            BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args);
+            var benchmark = new Benchmarks();
+            benchmark.FreeSetup();
+            benchmark.Free();
+
+            //BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args);
             //BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args, new DebugInProcessConfig());
         }
     }

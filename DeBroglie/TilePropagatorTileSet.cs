@@ -17,11 +17,13 @@ namespace DeBroglie
         {
             Tiles = tiles.ToArray();
             OffsetToPatterns = new Dictionary<int, ISet<int>>();
+            OffsetToPatternsBitArray = new Dictionary<int, BitArray>();
         }
 
         public IReadOnlyCollection<Tile> Tiles { get; }
 
         internal Dictionary<int, ISet<int>> OffsetToPatterns { get; }
+        internal Dictionary<int, BitArray> OffsetToPatternsBitArray { get; }
 
         public override string ToString()
         {

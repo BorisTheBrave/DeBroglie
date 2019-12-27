@@ -171,7 +171,7 @@ namespace DeBroglie.Benchmark
             });
         }
 
-        [Benchmark]
+        //[Benchmark]
         public void EdgedPath()
         {
             propagator4.Clear();
