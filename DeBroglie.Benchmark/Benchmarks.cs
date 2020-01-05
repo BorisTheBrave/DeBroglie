@@ -1,5 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Diagnosers;
 using BenchmarkDotNet.Diagnostics.Windows.Configs;
+using BenchmarkDotNet.Order;
 using DeBroglie.Constraints;
 using DeBroglie.Models;
 using DeBroglie.Rot;
@@ -10,6 +12,27 @@ using System.Linq;
 namespace DeBroglie.Benchmark
 {
     //[EtwProfiler] // Or use -p ETW on command line
+    //[ClrJob, MonoJob, CoreJob, CoreRtJob]
+    //[LegacyJitX86Job, LegacyJitX64Job, RyuJitX64Job]
+    /*
+    [HardwareCounters(
+        HardwareCounter.Timer,
+        HardwareCounter.TotalIssues,
+        HardwareCounter.BranchInstructions,
+        HardwareCounter.CacheMisses,
+        HardwareCounter.BranchMispredictions
+        //HardwareCounter.TotalCycles,
+        //HardwareCounter.UnhaltedCoreCycles,
+        //HardwareCounter.InstructionRetired,
+        //HardwareCounter.UnhaltedReferenceCycles,
+        //HardwareCounter.LlcReference,
+        //HardwareCounter.LlcMisses,
+        //HardwareCounter.BranchInstructionRetired,
+        //HardwareCounter.BranchMispredictsRetired
+    )]
+    */
+    //[DisassemblyDiagnoser(printAsm: true, printSource: true)]
+    [Orderer(SummaryOrderPolicy.Declared, MethodOrderPolicy.Declared)]
     public class Benchmarks
     {
         private TilePropagator propagator1;
@@ -23,11 +46,6 @@ namespace DeBroglie.Benchmark
         public void Setup()
         {
             FreeSetup();
-            ChessSetup();
-            CastleSetup();
-            EdgedPathSetup();
-            PathSetup();
-            CountSetup();
         }
 
         private void Check(TilePropagator p)
@@ -61,7 +79,6 @@ namespace DeBroglie.Benchmark
             propagator1.Run();
         }
 
-
         public void ChessSetup()
         {
             var topology = new Topology(10, 10, 10, false);
@@ -83,7 +100,7 @@ namespace DeBroglie.Benchmark
             propagator2 = new TilePropagator(model, topology, new TilePropagatorOptions { });
         }
 
-        [Benchmark]
+        //[Benchmark]
         public void Chess()
         {
             propagator2.Clear();
@@ -101,7 +118,7 @@ namespace DeBroglie.Benchmark
         }
 
 
-        [Benchmark]
+        //[Benchmark]
         public void Castle()
         {
             propagator3.Clear();
@@ -193,8 +210,6 @@ namespace DeBroglie.Benchmark
             Check(propagator4);
         }
 
-
-
         public void PathSetup()
         {
 
@@ -218,7 +233,7 @@ namespace DeBroglie.Benchmark
             });
         }
 
-        [Benchmark]
+        //[Benchmark]
         public void Path()
         {
             propagator5.Clear();
@@ -271,7 +286,7 @@ namespace DeBroglie.Benchmark
             propagator6 = new TilePropagator(model, topology, options);
         }
 
-        [Benchmark]
+        //[Benchmark]
         public void Count()
         {
             propagator6.Clear();

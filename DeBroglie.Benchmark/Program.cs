@@ -1,4 +1,6 @@
 ﻿using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Environments;
+using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Running;
 
 namespace DeBroglie.Benchmark
@@ -7,21 +9,13 @@ namespace DeBroglie.Benchmark
     {
         public static void Main(string[] args)
         {
-            /*
-            for (var i = 0; i < 20; i++)
-            {
-                var benchmark = new Benchmarks();
-                benchmark.Setup();
-                benchmark.EdgedPath();
-                System.Console.WriteLine(i);
-            }
-            */
-            var benchmark = new Benchmarks();
-            benchmark.FreeSetup();
-            benchmark.Free();
-
-            //BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args);
-            //BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args, new DebugInProcessConfig());
+            BenchmarkRunner
+                .Run<Benchmarks>(
+                    DefaultConfig.Instance
+                        .With(Job.Default.WithId("A"))
+                        .With(Job.Default)
+                        .With(Job.Default.WithId("Z"))
+                        );
         }
     }
 }
