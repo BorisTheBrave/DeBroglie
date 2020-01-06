@@ -65,6 +65,8 @@ namespace DeBroglie.Wfc
 
         private List<ITracker> trackers;
 
+        private IPickHeuristic pickHeuristic;
+
         public WavePropagator(PatternModel model, Topology topology, int backtrackDepth = 0, IWaveConstraint[] constraints = null, Func<double> randomDouble = null, bool clear = true)
         {
             this.propagator = model.Propagator;
@@ -205,42 +207,15 @@ namespace DeBroglie.Wfc
             return;
         }
 
-        private int GetRandomPossiblePatternAt(int index)
-        {
-            var s = 0.0;
-            for (var pattern = 0; pattern < patternCount; pattern++)
-            {
-                if (wave.Get(index, pattern))
-                {
-                    s += frequencies[pattern];
-                }
-            }
-            var r = randomDouble() * s;
-            for (var pattern = 0; pattern < patternCount; pattern++)
-            {
-                if (wave.Get(index, pattern))
-                {
-                    r -= frequencies[pattern];
-                }
-                if (r <= 0)
-                {
-                    return pattern;
-                }
-            }
-            return patternCount - 1;
-        }
 
         private void Observe(out int index, out int pattern)
         {
-            // Choose a random cell
-            index = wave.GetRandomMinEntropyIndex(randomDouble);
-            if (index == Wave.AllCellsDecided)
+            pickHeuristic.PickObservation(out index, out pattern);
+            if (index == -1)
             {
-                pattern = -1;
                 return;
             }
-            // Choose a random pattern
-            pattern = GetRandomPossiblePatternAt(index);
+
             // Decide on the given cell
             if (InternalSelect(index, pattern))
             {
@@ -303,10 +278,15 @@ namespace DeBroglie.Wfc
          */
         public Resolution Clear()
         {
-            wave = new Wave(frequencies, indices, topology.Mask);
+            wave = new Wave(frequencies.Length, indices);
             toPropagate.Clear();
             status = Resolution.Undecided;
             this.trackers = new List<ITracker>();
+
+            var entropyTracker = new EntropyTracker(wave, frequencies, topology.Mask);
+            entropyTracker.Reset();
+            AddTracker(entropyTracker);
+            pickHeuristic = new EntropyHeuristic(entropyTracker, randomDouble);
 
             if (backtrack)
             {
@@ -413,7 +393,7 @@ namespace DeBroglie.Wfc
             Observe(out index, out var pattern);
 
             // Record what was selected for backtracking purposes
-            if(index != Wave.AllCellsDecided && backtrack)
+            if(index != -1 && backtrack)
             {
                 prevChoices.Push(new PropagateItem { Index = index, Pattern = pattern });
             }
@@ -425,7 +405,7 @@ namespace DeBroglie.Wfc
             if (status == Resolution.Undecided) StepConstraints();
 
             // Are all things are fully chosen?
-            if (index == Wave.AllCellsDecided && status == Resolution.Undecided)
+            if (index == -1 && status == Resolution.Undecided)
             {
                 status = Resolution.Decided;
                 return status;
