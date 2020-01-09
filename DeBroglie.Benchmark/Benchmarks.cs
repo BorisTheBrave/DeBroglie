@@ -159,7 +159,7 @@ namespace DeBroglie.Benchmark
                 {fork1, new []{ Direction.YMinus, Direction.XPlus, Direction.YPlus}.ToHashSet() },
                 {fork2, new []{ Direction.XPlus, Direction.YPlus, Direction.XMinus}.ToHashSet() },
                 {fork3, new []{ Direction.YPlus, Direction.XMinus, Direction.YMinus}.ToHashSet() },
-                {fork4, new []{ Direction.XMinus, Direction.YMinus, Direction.XMinus}.ToHashSet() },
+                {fork4, new []{ Direction.XMinus, Direction.YMinus, Direction.XPlus}.ToHashSet() },
             };
 
             var pathConstraint = new EdgedPathConstraint(exits);
