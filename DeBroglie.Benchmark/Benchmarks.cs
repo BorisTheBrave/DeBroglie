@@ -18,6 +18,7 @@ namespace DeBroglie.Benchmark
         private TilePropagator propagator4;
         private TilePropagator propagator5;
         private TilePropagator propagator6;
+        private TilePropagator propagator7;
 
         [GlobalSetup]
         public void Setup()
@@ -28,6 +29,7 @@ namespace DeBroglie.Benchmark
             EdgedPathSetup();
             PathSetup();
             CountSetup();
+            MirrorSetup();
         }
 
         private void Check(TilePropagator p)
@@ -278,6 +280,58 @@ namespace DeBroglie.Benchmark
             propagator6.Run();
 
             Check(propagator6);
+        }
+
+        public void MirrorSetup()
+        {
+            var trb = new TileRotationBuilder(4, true, TileRotationTreatment.Missing);
+
+            var tile1 = new Tile(1);
+            var tile2 = new Tile(2);
+            var tile3 = new Tile(3);
+            var tile4 = new Tile(4);
+            var tile5 = new Tile(5);
+
+            var tiles = new[] { tile1, tile2, tile3, tile4 };
+
+            var reflectX = new Rotation(0, true);
+
+            trb.Add(tile1, reflectX, tile2);
+            trb.Add(tile3, reflectX, tile3);
+            trb.Add(tile5, reflectX, tile5);
+
+            var model = new AdjacentModel(DirectionSet.Cartesian2d);
+            model.AddAdjacency(tiles, tiles, Direction.XPlus);
+            model.AddAdjacency(new[] { tile5 }, tiles, Direction.XPlus);
+            model.AddAdjacency(new[] { tile5 }, tiles, Direction.XMinus);
+            model.AddAdjacency(tiles, tiles, Direction.YPlus);
+
+
+            model.SetUniformFrequency();
+            model.SetFrequency(tile5, 0.0);
+
+            var tr = trb.Build();
+
+            var constraints = new[] { new MirrorConstraint { TileRotation = tr } };
+
+
+            // NB: It's important that width is an odd number
+            var topology = new Topology(31, 31, false);
+
+            var options = new TilePropagatorOptions
+            {
+                Constraints = constraints,
+            };
+            propagator7 = new TilePropagator(model, topology, options);
+        }
+
+        [Benchmark]
+        public void Mirror()
+        {
+            propagator7.Clear();
+            propagator7.Run();
+
+            Check(propagator7);
         }
     }
 }
