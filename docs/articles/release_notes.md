@@ -2,6 +2,11 @@
 uid: release_notes
 title: Release Notes
 ---
+# Unreleased
+ * Added DeBroglie.Benchmark
+ * Improved performance of most constraints significantly
+ * Improved performance of generation - changed seed output [breaking]
+
 # v0.5.0
 
 * Improved memory and performance of backtracking significantly
