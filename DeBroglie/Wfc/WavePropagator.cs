@@ -169,6 +169,23 @@ namespace DeBroglie.Wfc
         }
         #endregion
 
+        private void PropagateCore(int[] patterns, int i2, int d)
+        {
+            // Hot loop
+            foreach (var p in patterns)
+            {
+                var c = --compatible[i2, p, d];
+                // We've just now ruled out this possible pattern
+                if (c == 0)
+                {
+                    if (InternalBan(i2, p))
+                    {
+                        status = Resolution.Contradiction;
+                    }
+                }
+            }
+        }
+
         private void Propagate()
         {
             while (toPropagate.Count > 0)
@@ -184,18 +201,7 @@ namespace DeBroglie.Wfc
                         continue;
                     }
                     var patterns = propagator[item.Pattern][d];
-                    foreach (var p in patterns)
-                    {
-                        var c = --compatible[i2, p, d];
-                        // We've just now ruled out this possible pattern
-                        if (c == 0)
-                        {
-                            if (InternalBan(i2, p))
-                            {
-                                status = Resolution.Contradiction;
-                            }
-                        }
-                    }
+                    PropagateCore(patterns, i2, d);
                 }
                 // It's important we fully process the item before returning
                 // so that we're in a consistent state for backtracking
