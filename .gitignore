@@ -1,6 +1,7 @@
 /.vs
 bin
 obj
+BenchmarkDotNet.Artifacts
 /packages
 /release
 /rcedit-x64.exe
