@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DeBroglie.Trackers
 {
-    class ChangeTracker : ITracker
+    public class ChangeTracker : ITracker
     {
         private readonly TileModelMapping tileModelMapping;
 
@@ -21,11 +21,14 @@ namespace DeBroglie.Trackers
 
         private int[] lastChangedGeneration;
 
-        public ChangeTracker(TileModelMapping tileModelMapping)
+        internal ChangeTracker(TileModelMapping tileModelMapping)
         {
             this.tileModelMapping = tileModelMapping;
         }
 
+        /// <summary>
+        /// Returns the set of indices that have been changed since the last call.
+        /// </summary>
         public IEnumerable<int> GetChangedIndices()
         {
             var currentChangedIndices = changedIndices;

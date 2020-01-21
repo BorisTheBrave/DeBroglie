@@ -311,7 +311,12 @@ namespace DeBroglie
             return tracker;
         }
 
-        internal ChangeTracker CreateChangeTracker()
+        /// <summary>
+        /// Returns a tracker that indicates all recently changed tiles.
+        /// This is mostly useful as a performance optimization.
+        /// Trackers are valid until <see cref="Clear"/> is called.
+        /// </summary>
+        public ChangeTracker CreateChangeTracker()
         {
             var tracker = new ChangeTracker(tileModelMapping);
             tracker.Reset();
