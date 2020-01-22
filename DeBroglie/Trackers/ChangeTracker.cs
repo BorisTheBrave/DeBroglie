@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DeBroglie.Trackers
 {
-    public class ChangeTracker : ITracker
+    internal class ChangeTracker : ITracker
     {
         private readonly TileModelMapping tileModelMapping;
 

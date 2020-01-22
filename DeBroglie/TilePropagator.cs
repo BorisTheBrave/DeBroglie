@@ -316,7 +316,7 @@ namespace DeBroglie
         /// This is mostly useful as a performance optimization.
         /// Trackers are valid until <see cref="Clear"/> is called.
         /// </summary>
-        public ChangeTracker CreateChangeTracker()
+        internal ChangeTracker CreateChangeTracker()
         {
             var tracker = new ChangeTracker(tileModelMapping);
             tracker.Reset();
