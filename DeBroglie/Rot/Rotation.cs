@@ -37,7 +37,7 @@ namespace DeBroglie.Rot
         /// </summary>
         public Rotation Inverse()
         {
-            return new Rotation(ReflectX ? RotateCw : (360 - RotateCw), ReflectX);
+            return new Rotation(ReflectX ? RotateCw : (360 - RotateCw) % 360, ReflectX);
         }
 
         /// <summary>
