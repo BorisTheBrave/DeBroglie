@@ -215,5 +215,50 @@ namespace DeBroglie.Test
             }
         }
 
+        [Test]
+        public void TestPriority()
+        {
+            var t1 = new Tile(1);
+            var t2 = new Tile(2);
+            var t3 = new Tile(3);
+            var model = new AdjacentModel(DirectionSet.Cartesian2d);
+            model.AddAdjacency(t1, t1, Direction.XPlus);
+            model.AddAdjacency(t1, t2, Direction.XPlus);
+            model.AddAdjacency(t2, t2, Direction.XPlus);
+            model.AddAdjacency(t2, t3, Direction.XPlus);
+            model.AddAdjacency(t3, t3, Direction.XPlus);
+
+            model.SetUniformFrequency();
+
+            var topology = new Topology(5, 1, false);
+
+            IDictionary<Tile, PriorityAndWeight> weights = new Dictionary<Tile, PriorityAndWeight>
+            {
+                {t1, new PriorityAndWeight{Priority=0, Weight = 1} },
+                {t2, new PriorityAndWeight{Priority=1, Weight = 1} },
+                {t3, new PriorityAndWeight{Priority=2, Weight = 1} },
+            };
+
+            var weightsArray = TopoArray.Create(_ => weights, topology);
+
+            var propagator = new TilePropagator(model, topology, new TilePropagatorOptions
+            {
+                Weights = weightsArray,
+            });
+
+            propagator.Select(0, 0, 0, t1);
+
+            propagator.Run();
+
+            Assert.AreEqual(Resolution.Decided, propagator.Status);
+
+            var r = propagator.ToValueArray<int>();
+            Assert.AreEqual(1, r.Get(0, 0));
+            Assert.AreEqual(2, r.Get(1, 0));
+            Assert.AreEqual(3, r.Get(2, 0));
+            Assert.AreEqual(3, r.Get(3, 0));
+
+        }
+
     }
 }

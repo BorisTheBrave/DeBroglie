@@ -40,6 +40,7 @@ namespace DeBroglie.Wfc
         private readonly int backtrackDepth;
         private readonly IWaveConstraint[] constraints;
         private Func<double> randomDouble;
+        private readonly FrequencySet[] frequencySets;
 
         // List of locations that still need to be checked against for fulfilling the model's conditions
         private Stack<PropagateItem> toPropagate;
@@ -67,7 +68,14 @@ namespace DeBroglie.Wfc
 
         private IPickHeuristic pickHeuristic;
 
-        public WavePropagator(PatternModel model, Topology topology, int backtrackDepth = 0, IWaveConstraint[] constraints = null, Func<double> randomDouble = null, bool clear = true)
+        public WavePropagator(
+            PatternModel model,
+            Topology topology,
+            int backtrackDepth = 0,
+            IWaveConstraint[] constraints = null,
+            Func<double> randomDouble = null,
+            FrequencySet[] frequencySets = null,
+            bool clear = true)
         {
             this.propagator = model.Propagator;
             this.patternCount = model.PatternCount;
@@ -85,6 +93,7 @@ namespace DeBroglie.Wfc
             this.constraints = constraints ?? new IWaveConstraint[0];
             this.topology = topology;
             this.randomDouble = randomDouble ?? new Random().NextDouble;
+            this.frequencySets = frequencySets;
             directionsCount = topology.Directions.Count;
 
             this.toPropagate = new Stack<PropagateItem>();
@@ -288,11 +297,20 @@ namespace DeBroglie.Wfc
             toPropagate.Clear();
             status = Resolution.Undecided;
             this.trackers = new List<ITracker>();
-
-            var entropyTracker = new EntropyTracker(wave, frequencies, topology.Mask);
-            entropyTracker.Reset();
-            AddTracker(entropyTracker);
-            pickHeuristic = new EntropyHeuristic(entropyTracker, randomDouble);
+            if (frequencySets != null)
+            {
+                var entropyTracker = new ArrayPriorityEntropyTracker(wave, frequencySets, topology.Mask);
+                entropyTracker.Reset();
+                AddTracker(entropyTracker);
+                pickHeuristic = new ArrayPriorityEntropyHeuristic(entropyTracker, randomDouble);
+            }
+            else
+            {
+                var entropyTracker = new EntropyTracker(wave, frequencies, topology.Mask);
+                entropyTracker.Reset();
+                AddTracker(entropyTracker);
+                pickHeuristic = new EntropyHeuristic(entropyTracker, randomDouble);
+            }
 
             if (backtrack)
             {

@@ -17,8 +17,10 @@ namespace DeBroglie.Models
 
         public IDictionary<int, IReadOnlyDictionary<int, Tile>> PatternsToTilesByOffset { get; set; }
 
+        // Null for 1:1 mappings
         public ITopoArray<(Point, int, int)> TileCoordToPatternCoordIndexAndOffset { get; set; }
 
+        // Null for 1:1 mappings
         public ITopoArray<List<(Point, int, int)>> PatternCoordToTileCoordIndexAndOffset { get; set; }
 
         public void GetTileCoordToPatternCoord(int x, int y, int z, out int px, out int py, out int pz, out int offset)

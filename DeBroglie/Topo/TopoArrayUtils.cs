@@ -40,7 +40,7 @@ namespace DeBroglie.Topo
                 case 3 * 90:
                     return (y, -x);
                 default:
-                    throw new Exception();
+                    throw new Exception($"Unexpected angle {rotation.RotateCw}");
             }
         }
 

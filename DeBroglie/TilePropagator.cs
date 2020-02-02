@@ -6,10 +6,14 @@ using DeBroglie.Wfc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace DeBroglie
 {
+    public class PriorityAndWeight
+    {
+        public int Priority { get; set; }
+        public double Weight { get; set; }
+    }
 
     public class TilePropagatorOptions
     {
@@ -22,7 +26,12 @@ namespace DeBroglie
         /// <summary>
         /// Extra constraints to control the generation process.
         /// </summary>
-        public ITileConstraint[] Constraints {get;set;}
+        public ITileConstraint[] Constraints { get; set; }
+
+        /// <summary>
+        /// Overrides the weights set from the model, on a per-position basis.
+        /// </summary>
+        public ITopoArray<IDictionary<Tile, PriorityAndWeight>> Weights { get; set; }
 
         /// <summary>
         /// Source of randomness used by generation
@@ -106,8 +115,17 @@ namespace DeBroglie
                 (options.Constraints?.Select(x => new TileConstraintAdaptor(x, this)).ToArray() ?? Enumerable.Empty<IWaveConstraint>())
                 .ToArray();
 
+            var waveFrequencySets = options.Weights == null ? null : GetFrequencySets(options.Weights, tileModelMapping);
+
 #pragma warning disable CS0618 // Type or member is obsolete
-            this.wavePropagator = new WavePropagator(patternModel, patternTopology, options.BackTrackDepth, waveConstraints, options.RandomDouble ?? (options.Random == null ? (Func<double>)null : options.Random.NextDouble), clear: false);
+            this.wavePropagator = new WavePropagator(
+                patternModel, 
+                patternTopology, 
+                options.BackTrackDepth, 
+                waveConstraints, 
+                options.RandomDouble ?? (options.Random == null ? (Func<double>)null : options.Random.NextDouble),
+                waveFrequencySets,
+                clear: false);
 #pragma warning restore CS0618 // Type or member is obsolete
             wavePropagator.Clear();
 
@@ -116,6 +134,31 @@ namespace DeBroglie
         private void TileCoordToPatternCoord(int x, int y, int z, out int px, out int py, out int pz, out int offset)
         {
             tileModelMapping.GetTileCoordToPatternCoord(x, y, z, out px, out py, out pz, out offset);
+        }
+
+        private static FrequencySet[] GetFrequencySets(ITopoArray<IDictionary<Tile, PriorityAndWeight>> weights, TileModelMapping tileModelMapping)
+        {
+            var frequencies = new FrequencySet[tileModelMapping.PatternTopology.IndexCount];
+            foreach(var patternIndex in tileModelMapping.PatternTopology.Indicies)
+            {
+                // TODO
+                if (tileModelMapping.PatternCoordToTileCoordIndexAndOffset != null)
+                    throw new NotImplementedException();
+
+                var tileIndex = patternIndex;
+                var offset = 0;
+                var weightDict = weights.Get(tileIndex);
+                var newWeights = new double[tileModelMapping.PatternModel.PatternCount];
+                var newPriorities = new int[tileModelMapping.PatternModel.PatternCount];
+                foreach(var kv in weightDict)
+                {
+                    var pattern = tileModelMapping.TilesToPatternsByOffset[offset][kv.Key].Single();
+                    newWeights[pattern] = kv.Value.Weight;
+                    newPriorities[pattern] = kv.Value.Priority;
+                }
+                frequencies[patternIndex] = new FrequencySet(newWeights, newPriorities);
+            }
+            return frequencies;
         }
 
         /// <summary>
