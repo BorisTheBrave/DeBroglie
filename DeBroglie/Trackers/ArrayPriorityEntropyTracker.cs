@@ -49,6 +49,7 @@ namespace DeBroglie.Trackers
             initial.PriorityIndex = 0;
             initial.PlogpSum = 0;
             initial.Sum = 0;
+            initial.Count = 0;
             initial.Entropy = 0;
             for (int index = 0; index < indices; index++)
             {
@@ -64,8 +65,9 @@ namespace DeBroglie.Trackers
             ref var v = ref entropyValues[index];
             v.PlogpSum = 0;
             v.Sum = 0;
+            v.Count = 0;
             v.Entropy = 0;
-            if (v.PriorityIndex < frequencySet.groups.Length)
+            while (v.PriorityIndex < frequencySet.groups.Length)
             {
                 ref var g = ref frequencySet.groups[v.PriorityIndex];
                 for (var i = 0; i < g.patternCount; i++)
@@ -74,9 +76,17 @@ namespace DeBroglie.Trackers
                     {
                         v.Sum += g.frequencies[i];
                         v.PlogpSum += g.plogp[i];
+                        v.Count += 1;
                     }
                 }
+                if(v.Count == 0)
+                {
+                    // Try again with the next priorityIndex
+                    v.PriorityIndex++;
+                    continue;
+                }
                 v.RecomputeEntropy();
+                return;
             }
         }
 
@@ -187,6 +197,7 @@ namespace DeBroglie.Trackers
             public int PriorityIndex;
             public double PlogpSum;     // The sum of p'(pattern) * log(p'(pattern)).
             public double Sum;          // The sum of p'(pattern).
+            public int Count;
             public double Entropy;      // The entropy of the cell.
 
             public void RecomputeEntropy()
@@ -200,7 +211,8 @@ namespace DeBroglie.Trackers
                 {
                     PlogpSum -= plogp;
                     Sum -= p;
-                    if (Sum == 0)
+                    Count--;
+                    if (Count == 0)
                     {
                         PriorityIndex++;
                         return true;
@@ -216,6 +228,7 @@ namespace DeBroglie.Trackers
                 {
                     PlogpSum += plogp;
                     Sum += p;
+                    Count++;
                     RecomputeEntropy();
                 }
                 if (priorityIndex < PriorityIndex)
