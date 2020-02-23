@@ -2,6 +2,7 @@
 using DeBroglie.Wfc;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace DeBroglie.Trackers
@@ -28,6 +29,7 @@ namespace DeBroglie.Trackers
             patternCounts = new int[tilePropagator.Topology.IndexCount];
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Tristate GetTristate(int index)
         {
             var selectedPatternCount = patternCounts[index];

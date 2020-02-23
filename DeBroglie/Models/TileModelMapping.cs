@@ -2,6 +2,7 @@
 using DeBroglie.Wfc;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace DeBroglie.Models
 {
@@ -42,6 +43,7 @@ namespace DeBroglie.Models
             offset = o;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void GetTileCoordToPatternCoord(int index, out int patternIndex, out int offset)
         {
             if (TileCoordToPatternCoordIndexAndOffset == null)

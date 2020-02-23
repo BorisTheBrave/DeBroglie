@@ -105,17 +105,20 @@ namespace DeBroglie.Constraints
             var couldBePath = new bool[indices * nodesPerIndex];
             var mustBePath = new bool[indices * nodesPerIndex];
             var exitMustBePath = new bool[indices * nodesPerIndex];
-            for (int i = 0; i < indices; i++)
+            foreach (var kv in trackerByExit)
             {
-                foreach(var kv in trackerByExit)
+                var exit = kv.Key;
+                var tracker = kv.Value;
+                for (int i = 0; i < indices; i++)
                 {
-                    var exit = kv.Key;
-                    var tracker = kv.Value;
                     var ts = tracker.GetTristate(i);
                     couldBePath[i * nodesPerIndex + 1 + (int)exit] = ts.Possible();
                     // Cannot put this in mustBePath these points can be disconnected, depending on topology mask
                     exitMustBePath[i * nodesPerIndex + 1 + (int)exit] = ts.IsYes();
                 }
+            }
+            for (int i = 0; i < indices; i++)
+            {
                 var pathTs = pathSelectedTracker.GetTristate(i);
                 couldBePath[i * nodesPerIndex] = pathTs.Possible();
                 mustBePath[i * nodesPerIndex] = pathTs.IsYes();

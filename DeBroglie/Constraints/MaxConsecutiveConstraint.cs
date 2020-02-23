@@ -7,7 +7,8 @@ using System.Text;
 namespace DeBroglie.Constraints
 {
     /// <summary>
-    /// The MaxConsecutiveConstraint checks that no more than the specified amount of
+    /// The MaxConsecutiveConstraint checks that no more than the specified amount of tiles can be placed
+    /// in a row along the given axes.
     /// </summary>
     public class MaxConsecutiveConstraint : ITileConstraint
     {
