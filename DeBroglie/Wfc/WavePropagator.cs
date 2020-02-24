@@ -583,7 +583,7 @@ namespace DeBroglie.Wfc
                 {
                     for (var z = 0; z < depth; z++)
                     {
-                        var index = topology.GetIndex(x, y, 0);
+                        var index = topology.GetIndex(x, y, z);
                         var hs = new HashSet<int>();
                         result[x, y, z] = hs;
 
