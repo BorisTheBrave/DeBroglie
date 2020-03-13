@@ -29,13 +29,7 @@ namespace DeBroglie.Wfc
         private double[] frequencies;
 
         // Basic parameters
-        private int width;
-        private int height;
-        private int depth;
-        private int indices;
-        private bool periodicX;
-        private bool periodicY;
-        private bool periodicZ;
+        private int indexCount;
         private readonly bool backtrack;
         private readonly int backtrackDepth;
         private readonly IWaveConstraint[] constraints;
@@ -81,13 +75,7 @@ namespace DeBroglie.Wfc
             this.patternCount = model.PatternCount;
             this.frequencies = model.Frequencies;
 
-            this.width = topology.Width;
-            this.height = topology.Height;
-            this.depth = topology.Depth;
-            this.indices = width * height * depth;
-            this.periodicX = topology.PeriodicX;
-            this.periodicY = topology.PeriodicY;
-            this.periodicZ = topology.PeriodicZ;
+            this.indexCount = topology.IndexCount;
             this.backtrack = backtrackDepth != 0;
             this.backtrackDepth = backtrackDepth;
             this.constraints = constraints ?? new IWaveConstraint[0];
@@ -108,13 +96,7 @@ namespace DeBroglie.Wfc
         #region Internal API
 
         public Wave Wave => wave;
-        public int Width => width;
-        public int Height => height;
-        public int Depth => depth;
-        public int Indices => indices;
-        public bool PeriodicX => periodicX;
-        public bool PeriodicY => periodicY;
-        public bool PeriodicZ => periodicZ;
+        public int IndexCount => indexCount;
         public Topology Topology => topology;
         public Func<double> RandomDouble => randomDouble;
 
@@ -293,7 +275,7 @@ namespace DeBroglie.Wfc
          */
         public Resolution Clear()
         {
-            wave = new Wave(frequencies.Length, indices);
+            wave = new Wave(frequencies.Length, indexCount);
             toPropagate.Clear();
             status = Resolution.Undecided;
             this.trackers = new List<ITracker>();
@@ -321,8 +303,8 @@ namespace DeBroglie.Wfc
             }
 
 
-            compatible = new int[indices, patternCount, directionsCount];
-            for (int index = 0; index < indices; index++)
+            compatible = new int[indexCount, patternCount, directionsCount];
+            for (int index = 0; index < indexCount; index++)
             {
                 if (!topology.ContainsIndex(index))
                     continue;
@@ -555,19 +537,11 @@ namespace DeBroglie.Wfc
          */
         public ITopoArray<int> ToTopoArray()
         {
-            var result = new int[width, height, depth];
-            for (var x = 0; x < width; x++)
+            return TopoArray.Create(p =>
             {
-                for (var y = 0; y < height; y++)
-                {
-                    for (var z = 0; z < depth; z++)
-                    {
-                        var index = topology.GetIndex(x, y, z);
-                        result[x, y, z] = GetDecidedCell(index);
-                    }
-                }
-            }
-            return new TopoArray3D<int>(result, topology);
+                var index = topology.GetIndex(p.X, p.Y, p.Z);
+                return GetDecidedCell(index);
+            }, topology);
         }
 
         /**
@@ -575,29 +549,21 @@ namespace DeBroglie.Wfc
          */
         public ITopoArray<ISet<int>> ToTopoArraySets()
         {
-            var result = new ISet<int>[width, height, depth];
-
-            for (var x = 0; x < width; x++)
+            return TopoArray.Create(p =>
             {
-                for (var y = 0; y < height; y++)
-                {
-                    for (var z = 0; z < depth; z++)
-                    {
-                        var index = topology.GetIndex(x, y, z);
-                        var hs = new HashSet<int>();
-                        result[x, y, z] = hs;
+                var index = topology.GetIndex(p.X, p.Y, p.Z);
+                var hs = new HashSet<int>();
 
-                        for (var p = 0; p < patternCount; p++)
-                        {
-                            if (wave.Get(index, p))
-                            {
-                                hs.Add(p);
-                            }
-                        }
+                for (var pattern = 0; pattern < patternCount; pattern++)
+                {
+                    if (wave.Get(index, pattern))
+                    {
+                        hs.Add(pattern);
                     }
                 }
-            }
-            return new TopoArray3D<ISet<int>>(result, topology);
+
+                return (ISet<int>)(hs);
+            }, topology);
         }
 
         private struct PropagateItem : IEquatable<PropagateItem>
