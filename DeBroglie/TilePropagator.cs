@@ -54,7 +54,7 @@ namespace DeBroglie
     {
         private readonly WavePropagator wavePropagator;
 
-        private readonly Topology topology;
+        private readonly ITopology topology;
 
         private readonly TileModel tileModel;
 
@@ -164,7 +164,7 @@ namespace DeBroglie
         /// <summary>
         /// The topology of the output.
         /// </summary>
-        public Topology Topology => topology;
+        public ITopology Topology => topology;
 
         /// <summary>
         /// The source of randomness
@@ -467,32 +467,26 @@ namespace DeBroglie
 
             var patternArray = wavePropagator.ToTopoArray();
 
-            var result = new Tile[width, height, depth];
-            for (var x = 0; x < width; x++)
+            return TopoArray.CreateByIndex(index =>
             {
-                for (var y = 0; y < height; y++)
+                topology.GetCoord(index, out var x, out var y, out var z);
+                TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
+                var pattern = patternArray.Get(index);
+                Tile tile;
+                if (pattern == (int)Resolution.Undecided)
                 {
-                    for (var z = 0; z < depth; z++)
-                    {
-                        TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
-                        var pattern = patternArray.Get(px, py, pz);
-                        Tile tile;
-                        if (pattern == (int)Resolution.Undecided)
-                        {
-                            tile = undecided;
-                        }else if (pattern == (int) Resolution.Contradiction)
-                        {
-                            tile = contradiction;
-                        }
-                        else
-                        {
-                            tile = tileModelMapping.PatternsToTilesByOffset[o][pattern];
-                        }
-                        result[x, y, z] = tile;
-                    }
+                    tile = undecided;
                 }
-            }
-            return new TopoArray3D<Tile>(result, topology);
+                else if (pattern == (int)Resolution.Contradiction)
+                {
+                    tile = contradiction;
+                }
+                else
+                {
+                    tile = tileModelMapping.PatternsToTilesByOffset[o][pattern];
+                }
+                return tile;
+            }, topology);
         }
 
         /// <summary>
@@ -511,33 +505,27 @@ namespace DeBroglie
 
             var patternArray = wavePropagator.ToTopoArray();
 
-            var result = new T[width, height, depth];
-            for (var x = 0; x < width; x++)
+            return TopoArray.CreateByIndex(index =>
             {
-                for (var y = 0; y < height; y++)
+                topology.GetCoord(index, out var x, out var y, out var z);
+
+                TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
+                var pattern = patternArray.Get(px, py, pz);
+                T value;
+                if (pattern == (int)Resolution.Undecided)
                 {
-                    for (var z = 0; z < depth; z++)
-                    {
-                        TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
-                        var pattern = patternArray.Get(px, py, pz);
-                        T value;
-                        if (pattern == (int)Resolution.Undecided)
-                        {
-                            value = undecided;
-                        }
-                        else if (pattern == (int)Resolution.Contradiction)
-                        {
-                            value = contradiction;
-                        }
-                        else
-                        {
-                            value = (T)tileModelMapping.PatternsToTilesByOffset[o][pattern].Value;
-                        }
-                        result[x, y, z] = value;
-                    }
+                    value = undecided;
                 }
-            }
-            return new TopoArray3D<T>(result, topology);
+                else if (pattern == (int)Resolution.Contradiction)
+                {
+                    value = contradiction;
+                }
+                else
+                {
+                    value = (T)tileModelMapping.PatternsToTilesByOffset[o][pattern].Value;
+                }
+                return value;
+            }, topology);
         }
 
         /// <summary>
@@ -556,26 +544,20 @@ namespace DeBroglie
 
             var patternArray = wavePropagator.ToTopoArraySets();
 
-            var result = new ISet<Tile>[width, height, depth];
-            for (var x = 0; x < width; x++)
+            return TopoArray.CreateByIndex(index =>
             {
-                for (var y = 0; y < height; y++)
+                topology.GetCoord(index, out var x, out var y, out var z);
+
+                TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
+                var patterns = patternArray.Get(px, py, pz);
+                var hs = new HashSet<Tile>();
+                var patternToTiles = tileModelMapping.PatternsToTilesByOffset[o];
+                foreach (var pattern in patterns)
                 {
-                    for (var z = 0; z < depth; z++)
-                    {
-                        TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
-                        var patterns = patternArray.Get(px, py, pz);
-                        var hs = new HashSet<Tile>();
-                        var patternToTiles = tileModelMapping.PatternsToTilesByOffset[o];
-                        foreach(var pattern in patterns)
-                        {
-                            hs.Add(patternToTiles[pattern]);
-                        }
-                        result[x, y, z] = hs;
-                    }
+                    hs.Add(patternToTiles[pattern]);
                 }
-            }
-            return new TopoArray3D<ISet<Tile>>(result, topology);
+                return(ISet<Tile>)hs;
+            }, topology);
         }
 
         /// <summary>
@@ -594,26 +576,20 @@ namespace DeBroglie
 
             var patternArray = wavePropagator.ToTopoArraySets();
 
-            var result = new ISet<T>[width, height, depth];
-            for (var x = 0; x < width; x++)
+            return TopoArray.CreateByIndex(index =>
             {
-                for (var y = 0; y < height; y++)
+                topology.GetCoord(index, out var x, out var y, out var z);
+
+                TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
+                var patterns = patternArray.Get(px, py, pz);
+                var hs = new HashSet<T>();
+                var patternToTiles = tileModelMapping.PatternsToTilesByOffset[o];
+                foreach (var pattern in patterns)
                 {
-                    for (var z = 0; z < depth; z++)
-                    {
-                        TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
-                        var patterns = patternArray.Get(px, py, pz);
-                        var hs = new HashSet<T>();
-                        var patternToTiles = tileModelMapping.PatternsToTilesByOffset[o];
-                        foreach (var pattern in patterns)
-                        {
-                            hs.Add((T)patternToTiles[pattern].Value);
-                        }
-                        result[x, y, z] = hs;
-                    }
+                    hs.Add((T)patternToTiles[pattern].Value);
                 }
-            }
-            return new TopoArray3D<ISet<T>>(result, topology);
+                return (ISet<T>)hs;
+            }, topology);
         }
     }
 }

@@ -24,8 +24,10 @@ namespace DeBroglie.Constraints
 
         public void Init(TilePropagator propagator)
         {
-            if(propagator.Topology.Directions.Type != Topo.DirectionSetType.Cartesian2d &&
-                propagator.Topology.Directions.Type != Topo.DirectionSetType.Cartesian3d)
+            var topology = propagator.Topology as Topology;
+            if(topology == null ||
+                topology.Directions.Type != Topo.DirectionSetType.Cartesian2d &&
+                topology.Directions.Type != Topo.DirectionSetType.Cartesian3d)
             {
                 // This wouldn't be that hard to fix
                 throw new Exception("MaxConsecutiveConstraint only supports cartesian topologies.");
@@ -36,7 +38,7 @@ namespace DeBroglie.Constraints
 
         public void Check(TilePropagator propagator)
         {
-            var topology = propagator.Topology;
+            var topology = propagator.Topology.AsGridTopology();
             var width = topology.Width;
             var height = topology.Height;
             var depth = topology.Depth;
@@ -44,7 +46,7 @@ namespace DeBroglie.Constraints
             if (Axes == null || Axes.Contains(Axis.X))
             {
                 int y = 0, z = 0;
-                var sm = new StateMachine((x) => propagator.Ban(x, y, z, tileSet), propagator.Topology.PeriodicX, width, MaxCount);
+                var sm = new StateMachine((x) => propagator.Ban(x, y, z, tileSet), topology.PeriodicX, width, MaxCount);
 
                 for (z = 0; z < depth; z++)
                 {
@@ -53,18 +55,18 @@ namespace DeBroglie.Constraints
                         sm.Reset();
                         for (var x = 0; x < width; x++)
                         {
-                            var index = propagator.Topology.GetIndex(x, y, z);
+                            var index = topology.GetIndex(x, y, z);
                             if (sm.Next(x, selectedTracker.GetTristate(index)))
                             {
                                 propagator.SetContradiction();
                                 return;
                             }
                         }
-                        if (propagator.Topology.PeriodicX)
+                        if (topology.PeriodicX)
                         {
                             for (var x = 0; x < MaxCount && x < width; x++)
                             {
-                                var index = propagator.Topology.GetIndex(x, y, z);
+                                var index = topology.GetIndex(x, y, z);
                                 if (sm.Next(x, selectedTracker.GetTristate(index)))
                                 {
                                     propagator.SetContradiction();
@@ -80,7 +82,7 @@ namespace DeBroglie.Constraints
             if (Axes == null || Axes.Contains(Axis.Y))
             {
                 int x = 0, z = 0;
-                var sm = new StateMachine((y) => propagator.Ban(x, y, z, tileSet), propagator.Topology.PeriodicY, height, MaxCount);
+                var sm = new StateMachine((y) => propagator.Ban(x, y, z, tileSet), topology.PeriodicY, height, MaxCount);
 
                 for (z = 0; z < depth; z++)
                 {
@@ -89,18 +91,18 @@ namespace DeBroglie.Constraints
                         sm.Reset();
                         for (var y = 0; y < height; y++)
                         {
-                            var index = propagator.Topology.GetIndex(x, y, z);
+                            var index = topology.GetIndex(x, y, z);
                             if (sm.Next(y, selectedTracker.GetTristate(index)))
                             {
                                 propagator.SetContradiction();
                                 return;
                             }
                         }
-                        if (propagator.Topology.PeriodicY)
+                        if (topology.PeriodicY)
                         {
                             for (var y = 0; y < MaxCount && y < height; y++)
                             {
-                                var index = propagator.Topology.GetIndex(x, y, z);
+                                var index = topology.GetIndex(x, y, z);
                                 if (sm.Next(y, selectedTracker.GetTristate(index)))
                                 {
                                     propagator.SetContradiction();
@@ -116,7 +118,7 @@ namespace DeBroglie.Constraints
             if (Axes == null || Axes.Contains(Axis.Z))
             {
                 int x = 0, y = 0;
-                var sm = new StateMachine((z) => propagator.Ban(x, y, z, tileSet), propagator.Topology.PeriodicZ, depth, MaxCount);
+                var sm = new StateMachine((z) => propagator.Ban(x, y, z, tileSet), topology.PeriodicZ, depth, MaxCount);
 
                 for (y = 0; y < height; y++)
                 {
@@ -125,18 +127,18 @@ namespace DeBroglie.Constraints
                         sm.Reset();
                         for (var z = 0; z < depth; z++)
                         {
-                            var index = propagator.Topology.GetIndex(x, y, z);
+                            var index = topology.GetIndex(x, y, z);
                             if (sm.Next(z, selectedTracker.GetTristate(index)))
                             {
                                 propagator.SetContradiction();
                                 return;
                             }
                         }
-                        if (propagator.Topology.PeriodicZ)
+                        if (topology.PeriodicZ)
                         {
                             for (var z = 0; z < MaxCount && z < depth; z++)
                             {
-                                var index = propagator.Topology.GetIndex(x, y, z);
+                                var index = topology.GetIndex(x, y, z);
                                 if (sm.Next(z, selectedTracker.GetTristate(index)))
                                 {
                                     propagator.SetContradiction();

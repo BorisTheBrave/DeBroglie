@@ -219,9 +219,9 @@ namespace DeBroglie.Constraints
 
         private class CountTracker : ITristateChanged
         {
-            private readonly Topology topology;
+            private readonly ITopology topology;
 
-            public CountTracker(Topology topology)
+            public CountTracker(ITopology topology)
             {
                 this.topology = topology;
             }

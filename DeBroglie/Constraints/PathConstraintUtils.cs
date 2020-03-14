@@ -11,7 +11,7 @@ namespace DeBroglie.Constraints
     {
         private static readonly int[] Emtpy = { };
 
-        public static SimpleGraph CreateGraph(Topology topology)
+        public static SimpleGraph CreateGraph(ITopology topology)
         {
             var nodeCount = topology.IndexCount;
             var neighbours = new int[nodeCount][];
@@ -23,9 +23,9 @@ namespace DeBroglie.Constraints
                 }
 
                 var n = new List<int>();
-                foreach (var d in topology.Directions)
+                for (var d=0; d < topology.DirectionsCount; d++)
                 {
-                    if (topology.TryMove(i, d, out var dest))
+                    if (topology.TryMove(i, (Direction)d, out var dest))
                     {
                         n.Add(dest);
                     }

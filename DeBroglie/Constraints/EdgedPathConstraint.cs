@@ -65,23 +65,28 @@ namespace DeBroglie.Constraints
             endPointSelectedTracker = EndPointTiles != null ? propagator.CreateSelectedTracker(endPointTileSet) : null;
             graph = CreateEdgedGraph(propagator.Topology);
 
-            var tileRotation = TileRotation ?? new TileRotation();
-
-            actualExits = new Dictionary<Tile, ISet<Direction>>();
-            foreach(var kv in Exits)
+            if (TileRotation != null)
             {
-                foreach(var rot in tileRotation.RotationGroup)
+                actualExits = new Dictionary<Tile, ISet<Direction>>();
+                foreach (var kv in Exits)
                 {
-                    if(tileRotation.Rotate(kv.Key, rot, out var rtile))
+                    foreach (var rot in TileRotation.RotationGroup)
                     {
-                        Direction Rotate(Direction d)
+                        if (TileRotation.Rotate(kv.Key, rot, out var rtile))
                         {
-                            return TopoArrayUtils.RotateDirection(propagator.Topology.Directions, d, rot);
+                            Direction Rotate(Direction d)
+                            {
+                                return TopoArrayUtils.RotateDirection(propagator.Topology.AsGridTopology().Directions, d, rot);
+                            }
+                            var rexits = new HashSet<Direction>(kv.Value.Select(Rotate));
+                            actualExits[rtile] = rexits;
                         }
-                        var rexits = new HashSet<Direction>(kv.Value.Select(Rotate));
-                        actualExits[rtile] = rexits;
                     }
                 }
+            }
+            else
+            {
+                actualExits = Exits;
             }
 
             tilesByExit = actualExits
@@ -99,7 +104,7 @@ namespace DeBroglie.Constraints
             var topology = propagator.Topology;
             var indices = topology.Width * topology.Height * topology.Depth;
 
-            var nodesPerIndex = topology.Directions.Count + 1;
+            var nodesPerIndex = topology.DirectionsCount + 1;
 
             // Initialize couldBePath and mustBePath based on wave possibilities
             var couldBePath = new bool[indices * nodesPerIndex];
@@ -182,7 +187,7 @@ namespace DeBroglie.Constraints
                 {
                     propagator.Select(x, y, z, pathTileSet);
                 }
-                for (var d = 0; d < topology.Directions.Count; d++)
+                for (var d = 0; d < topology.DirectionsCount; d++)
                 {
                     if(isArticulation[i * nodesPerIndex + 1 + d] && !exitMustBePath[i * nodesPerIndex + 1 + d])
                     {
@@ -212,9 +217,9 @@ namespace DeBroglie.Constraints
         /// has 1+n nodes in the graph - one for the initial index
         /// and one for each direction leading out of it.
         /// </summary>
-        private static PathConstraintUtils.SimpleGraph CreateEdgedGraph(Topology topology)
+        private static PathConstraintUtils.SimpleGraph CreateEdgedGraph(ITopology topology)
         {
-            var nodesPerIndex = topology.Directions.Count + 1;
+            var nodesPerIndex = topology.DirectionsCount + 1;
 
             var nodeCount = topology.IndexCount * nodesPerIndex;
 
@@ -227,20 +232,21 @@ namespace DeBroglie.Constraints
             foreach (var i in topology.GetIndices())
             {
                 var n = new List<int>();
-                foreach(var d in topology.Directions)
+                for(var d=0;d<topology.DirectionsCount;d++)
                 {
-                    if (topology.TryMove(i, d, out var dest, out var inverseDir))
+                    var direction = (Direction)d;
+                    if (topology.TryMove(i, direction, out var dest, out var inverseDir))
                     {
                         // The central node connects to the direction node
-                        n.Add(GetDirNodeId(i, d));
+                        n.Add(GetDirNodeId(i, direction));
                         // The diction node connects to the central node
                         // and the opposing direction node
-                        neighbours[GetDirNodeId(i, d)] =
+                        neighbours[GetDirNodeId(i, direction)] =
                             new[] { GetNodeId(i), GetDirNodeId(dest, inverseDir) };
                     }
                     else
                     {
-                        neighbours[GetDirNodeId(i, d)] = Empty;
+                        neighbours[GetDirNodeId(i, direction)] = Empty;
                     }
                 }
                 neighbours[GetNodeId(i)] = n.ToArray();

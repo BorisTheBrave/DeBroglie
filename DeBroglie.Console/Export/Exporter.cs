@@ -1,5 +1,6 @@
 ﻿using DeBroglie.Console.Config;
 using DeBroglie.Models;
+using DeBroglie.Topo;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using System;
@@ -20,7 +21,7 @@ namespace DeBroglie.Console.Export
             // Handle conversions
             if(exporter is BitmapExporter && exportOptions is TiledExportOptions)
             {
-                if (tilePropagator.Topology.Directions.Type != Topo.DirectionSetType.Cartesian2d)
+                if (tilePropagator.Topology.AsGridTopology().Directions.Type != Topo.DirectionSetType.Cartesian2d)
                     throw new NotSupportedException("Converting from Tiled format to bitmaps only supported for square grids.");
 
                 exportOptions = ConvertToBitmaps(exportOptions as TiledExportOptions);
