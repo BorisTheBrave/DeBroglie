@@ -1,5 +1,6 @@
 ﻿using DeBroglie.Models;
 using DeBroglie.Rot;
+using DeBroglie.Topo;
 using DeBroglie.Trackers;
 using System;
 using System.Collections.Generic;
@@ -35,7 +36,7 @@ namespace DeBroglie.Constraints
             // So there may be some spots they are ok
             var reflectableTileSet = propagator.CreateTileSet(propagator.TileModel.Tiles
                 .Where(tile => TileRotation.Rotate(tile, reflectX, out var _)));
-            foreach (var i in topology.Indicies)
+            foreach (var i in topology.GetIndices())
             {
                 topology.GetCoord(i, out var x, out var y, out var z);
                 var x2 = topology.Width - 1 - x;

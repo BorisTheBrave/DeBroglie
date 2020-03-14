@@ -95,7 +95,8 @@ namespace DeBroglie.Topo
 
         public static ITopoArray<Tile> Rotate(ITopoArray<Tile> original, Rotation rotation, TileRotation tileRotation = null)
         {
-            var type = original.Topology.Directions.Type;
+            var gridTopology = original.Topology.AsGridTopology();
+            var type = gridTopology.Directions.Type;
             if (type == DirectionSetType.Cartesian2d ||
                 type == DirectionSetType.Cartesian3d)
             {
@@ -113,7 +114,8 @@ namespace DeBroglie.Topo
 
         public static ITopoArray<T> Rotate<T>(ITopoArray<T> original, Rotation rotation, TileRotate<T> tileRotate = null)
         {
-            var type = original.Topology.Directions.Type;
+            var topology = original.Topology.AsGridTopology();
+            var type = topology.Directions.Type;
             if (type == DirectionSetType.Cartesian2d ||
                 type == DirectionSetType.Cartesian3d)
             {
@@ -182,11 +184,13 @@ namespace DeBroglie.Topo
 
         private static ITopoArray<T> RotateInner<T>(ITopoArray<T> original, Func<int, int, ValueTuple<int, int>> mapCoord, TileRotate<T> tileRotate = null)
         {
+            var originalTopology = original.Topology.AsGridTopology();
+
             // Find new bounds
             var (x1, y1) = mapCoord(0, 0);
-            var (x2, y2) = mapCoord(original.Topology.Width - 1, 0);
-            var (x3, y3) = mapCoord(original.Topology.Width - 1, original.Topology.Height - 1);
-            var (x4, y4) = mapCoord(0, original.Topology.Height - 1);
+            var (x2, y2) = mapCoord(originalTopology.Width - 1, 0);
+            var (x3, y3) = mapCoord(originalTopology.Width - 1, originalTopology.Height - 1);
+            var (x4, y4) = mapCoord(0, originalTopology.Height - 1);
 
             var minx = Math.Min(Math.Min(x1, x2), Math.Min(x3, x4));
             var maxx = Math.Max(Math.Max(x1, x2), Math.Max(x3, x4));
@@ -198,18 +202,18 @@ namespace DeBroglie.Topo
             var offsety = -miny;
             var width = maxx - minx + 1;
             var height = maxy - miny + 1;
-            var depth = original.Topology.Depth;
+            var depth = originalTopology.Depth;
 
             var mask = new bool[width * height * depth];
-            var topology = new Topology(original.Topology.Directions, width, height, original.Topology.Depth, false, false, false, mask);
+            var topology = new Topology(originalTopology.Directions, width, height, originalTopology.Depth, false, false, false, mask);
             var values = new T[width, height, depth];
 
             // Copy from original to values based on the rotation, setting up the mask as we go.
-            for (var z = 0; z < original.Topology.Depth; z++)
+            for (var z = 0; z < originalTopology.Depth; z++)
             {
-                for (var y = 0; y < original.Topology.Height; y++)
+                for (var y = 0; y < originalTopology.Height; y++)
                 {
-                    for (var x = 0; x < original.Topology.Width; x++)
+                    for (var x = 0; x < originalTopology.Width; x++)
                     {
                         var (newX, newY) = mapCoord(x, y);
                         newX += offsetx;
@@ -222,7 +226,7 @@ namespace DeBroglie.Topo
                             hasNewValue = tileRotate(newValue, out newValue);
                         }
                         values[newX, newY, z] = newValue;
-                        mask[newIndex] = hasNewValue && original.Topology.ContainsIndex(original.Topology.GetIndex(x, y, z));
+                        mask[newIndex] = hasNewValue && originalTopology.ContainsIndex(originalTopology.GetIndex(x, y, z));
                     }
                 }
             }

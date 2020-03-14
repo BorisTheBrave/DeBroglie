@@ -49,6 +49,7 @@ namespace DeBroglie.Topo
         /// </summary>
         public static ITopoArray<U> Map<T, U>(this ITopoArray<T> topoArray, Func<T, U> func)
         {
+            /*
             var width = topoArray.Topology.Width;
             var height = topoArray.Topology.Height;
             var depth = topoArray.Topology.Depth;
@@ -66,6 +67,13 @@ namespace DeBroglie.Topo
             }
 
             return new TopoArray3D<U>(r, topoArray.Topology);
+            */
+            var r = new U[topoArray.Topology.IndexCount];
+            foreach(var i in topoArray.Topology.GetIndices())
+            {
+                r[i] = func(topoArray.Get(i));
+            }
+            return new TopoArray1D<U>(r, topoArray.Topology);
         }
 
         /// <summary>
@@ -76,11 +84,5 @@ namespace DeBroglie.Topo
         {
             return topoArray.Map(v => new Tile(v));
         }
-
-        public static ITopoArray<T> WithPeriodic<T>(this ITopoArray<T> topoArray, bool periodicX, bool periodicY, bool periodicZ = false)
-        {
-            return TopoArray.Create(topoArray.ToArray3d(), topoArray.Topology.WithPeriodic(periodicX, periodicY, periodicZ));
-        }
-
     }
 }

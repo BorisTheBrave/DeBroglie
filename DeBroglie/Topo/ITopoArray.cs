@@ -8,7 +8,7 @@
         /// <summary>
         /// Gets the Topology associated with an array
         /// </summary>
-        Topology Topology { get; }
+        ITopology Topology { get; }
 
         /// <summary>
         /// Gets the value at a particular location.

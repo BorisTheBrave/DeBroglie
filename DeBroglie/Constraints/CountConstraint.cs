@@ -68,7 +68,7 @@ namespace DeBroglie.Constraints
                 if (yesCount == Count && maybeCount > 0)
                 {
                     // We've reached the limit, ban any more
-                    foreach (var index in topology.Indicies)
+                    foreach (var index in topology.GetIndices())
                     {
                         var selected = selectedChangeTracker.GetTristate(index);
                         if (selected.IsMaybe())
@@ -90,7 +90,7 @@ namespace DeBroglie.Constraints
                 if (yesCount + maybeCount == Count && maybeCount > 0)
                 {
                     // We've reached the limit, select all the rest
-                    foreach (var index in topology.Indicies)
+                    foreach (var index in topology.GetIndices())
                     {
                         var selected = selectedChangeTracker.GetTristate(index);
                         if (selected.IsMaybe())
@@ -150,7 +150,7 @@ namespace DeBroglie.Constraints
                 var height = topology.Height;
                 var depth = topology.Depth;
                 var pickedIndices = new List<int>();
-                var remainingIndices = new List<int>(topology.Indicies);
+                var remainingIndices = new List<int>(topology.GetIndices());
 
                 while (true)
                 {
@@ -235,7 +235,7 @@ namespace DeBroglie.Constraints
                 NoCount = 0;
                 YesCount = 0;
                 MaybeCount = 0;
-                foreach (var index in topology.Indicies)
+                foreach (var index in topology.GetIndices())
                 {
                     var selected = tracker.GetTristate(index);
                     switch (selected)

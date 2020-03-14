@@ -8,6 +8,14 @@ namespace DeBroglie.Topo
     public static class TopoArray
     {
         /// <summary>
+        /// Constructs an <see cref="ITopoArray{T}"/> from an array. <c>result.Get(i) == values[i]</c>
+        /// </summary>
+        public static ITopoArray<T> Create<T>(T[] values, ITopology topology)
+        {
+            return new TopoArray1D<T>(values, topology);
+        }
+
+        /// <summary>
         /// Constructs an <see cref="ITopoArray{T}"/> from an array. <c>result.Get(x, y) == values[x, y]</c>
         /// </summary>
         public static ITopoArray<T> Create<T>(T[,] values, bool periodic)
@@ -66,7 +74,7 @@ namespace DeBroglie.Topo
         /// <summary>
         /// Constructs an <see cref="ITopoArray{T}"/> by invoking f at each location in the topology.
         /// </summary>
-        public static ITopoArray<T> Create<T>(Func<Point, T> f, Topology topology)
+        public static ITopoArray<T> CreateByPoint<T>(Func<Point, T> f, Topology topology)
         {
             var array = new T[topology.Width, topology.Height, topology.Depth];
             for (var z = 0; z < topology.Depth; z++)
@@ -82,6 +90,19 @@ namespace DeBroglie.Topo
                         }
                     }
                 }
+            }
+            return Create(array, topology);
+        }
+
+        /// <summary>
+        /// Constructs an <see cref="ITopoArray{T}"/> by invoking f at each location in the topology.
+        /// </summary>
+        public static ITopoArray<T> CreateByIndex<T>(Func<int, T> f, ITopology topology)
+        {
+            var array = new T[topology.IndexCount];
+            foreach (var i in topology.GetIndices())
+            {
+                array[i] = f(i);
             }
             return Create(array, topology);
         }

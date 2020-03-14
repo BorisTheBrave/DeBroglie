@@ -47,7 +47,7 @@ namespace DeBroglie.Wfc
         private Resolution status;
 
 
-        private Topology topology;
+        private ITopology topology;
         private int directionsCount;
 
         /**
@@ -64,7 +64,7 @@ namespace DeBroglie.Wfc
 
         public WavePropagator(
             PatternModel model,
-            Topology topology,
+            ITopology topology,
             int backtrackDepth = 0,
             IWaveConstraint[] constraints = null,
             Func<double> randomDouble = null,
@@ -82,7 +82,7 @@ namespace DeBroglie.Wfc
             this.topology = topology;
             this.randomDouble = randomDouble ?? new Random().NextDouble;
             this.frequencySets = frequencySets;
-            directionsCount = topology.Directions.Count;
+            directionsCount = topology.DirectionsCount;
 
             this.toPropagate = new Stack<PropagateItem>();
 
@@ -539,11 +539,7 @@ namespace DeBroglie.Wfc
          */
         public ITopoArray<int> ToTopoArray()
         {
-            return TopoArray.Create(p =>
-            {
-                var index = topology.GetIndex(p.X, p.Y, p.Z);
-                return GetDecidedCell(index);
-            }, topology);
+            return TopoArray.CreateByIndex(GetDecidedCell, topology);
         }
 
         /**
@@ -551,11 +547,9 @@ namespace DeBroglie.Wfc
          */
         public ITopoArray<ISet<int>> ToTopoArraySets()
         {
-            return TopoArray.Create(p =>
+            return TopoArray.CreateByIndex(index =>
             {
-                var index = topology.GetIndex(p.X, p.Y, p.Z);
                 var hs = new HashSet<int>();
-
                 for (var pattern = 0; pattern < patternCount; pattern++)
                 {
                     if (wave.Get(index, pattern))

@@ -41,6 +41,11 @@ namespace DeBroglie.Console
             }
         }
 
+        private static ITopoArray<T> WithPeriodic<T>(ITopoArray<T> topoArray, bool periodicX, bool periodicY, bool periodicZ = false)
+        {
+            return TopoArray.Create(topoArray.ToArray3d(), topoArray.Topology.AsGridTopology().WithPeriodic(periodicX, periodicY, periodicZ));
+        }
+
         private SampleSet LoadSample()
         {
             if (config.Src == null)
@@ -50,7 +55,7 @@ namespace DeBroglie.Console
 
             var sampleSet = loader.Load(filename);
             sampleSet.Samples = sampleSet.Samples
-                .Select(x => x.WithPeriodic(
+                .Select(x => WithPeriodic(x,
                     config.PeriodicInputX,
                     config.PeriodicInputY,
                     config.PeriodicInputZ))

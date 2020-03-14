@@ -139,7 +139,7 @@ namespace DeBroglie
         private static FrequencySet[] GetFrequencySets(ITopoArray<IDictionary<Tile, PriorityAndWeight>> weights, TileModelMapping tileModelMapping)
         {
             var frequencies = new FrequencySet[tileModelMapping.PatternTopology.IndexCount];
-            foreach(var patternIndex in tileModelMapping.PatternTopology.Indicies)
+            foreach(var patternIndex in tileModelMapping.PatternTopology.GetIndices())
             {
                 // TODO
                 if (tileModelMapping.PatternCoordToTileCoordIndexAndOffset != null)

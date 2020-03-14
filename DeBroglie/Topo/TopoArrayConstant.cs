@@ -12,6 +12,8 @@
 
         public Topology Topology { get; private set; }
 
+        ITopology ITopoArray<T>.Topology => Topology;
+
         public T Get(int x, int y, int z)
         {
             return value;

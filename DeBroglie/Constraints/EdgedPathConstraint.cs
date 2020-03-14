@@ -224,7 +224,7 @@ namespace DeBroglie.Constraints
 
             int GetDirNodeId(int index, Direction direction) => index * nodesPerIndex + 1 + (int)direction;
 
-            foreach (var i in topology.Indicies)
+            foreach (var i in topology.GetIndices())
             {
                 var n = new List<int>();
                 foreach(var d in topology.Directions)

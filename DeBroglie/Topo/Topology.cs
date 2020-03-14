@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-
-namespace DeBroglie.Topo
+﻿namespace DeBroglie.Topo
 {
     /// <summary>
     /// A Topology specifies the type of area or volume, what size it is, and whether it should wrap around at the edges (i.e. is it periodic). 
     /// Topologies do not actually store data, they just specify the dimensions. Actual data is stored in an <see cref="ITopoArray{T}"/>.
     /// </summary>
-    public class Topology
+    public class Topology : ITopology
     {
         /// <summary>
         /// Constructs an <see cref="ITopoArray{T}"/> from an array. <c>result.Get(i) == values[i]</c>
@@ -71,7 +69,7 @@ namespace DeBroglie.Topo
         /// </summary>
         public Topology WithMask(ITopoArray<bool> mask)
         {
-            if (!IsSameSize(mask.Topology))
+            if (!IsSameSize(mask.Topology.AsGridTopology()))
                 throw new System.Exception("Mask size doesn't fit the topology");
             var boolMask = new bool[Width * Height * Depth];
             for (var z = 0; z < Depth; z++)
@@ -107,6 +105,11 @@ namespace DeBroglie.Topo
         /// Characterizes the adjacency relationship between locations.
         /// </summary>
         public DirectionSet Directions { get; set; }
+
+        /// <summary>
+        /// Number of unique directions
+        /// </summary>
+        public int DirectionsCount => Directions.Count;
 
         /// <summary>
         /// The extent along the x-axis.
@@ -152,27 +155,6 @@ namespace DeBroglie.Topo
         public bool IsSameSize(Topology other)
         {
             return Width == other.Width && Height == other.Height && Depth == other.Depth;
-        }
-
-        public IEnumerable<int> Indicies
-        {
-            get
-            {
-                var indexCount = IndexCount;
-                for (var i = 0; i < indexCount; i++)
-                {
-                    if (ContainsIndex(i))
-                        yield return i;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Returns true if a given index has not been masked out.
-        /// </summary>
-        public bool ContainsIndex(int index)
-        {
-            return Mask == null || Mask[index];
         }
 
         /// <summary>

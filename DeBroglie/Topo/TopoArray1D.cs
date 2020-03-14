@@ -5,13 +5,13 @@
     {
         private readonly T[] values;
 
-        public TopoArray1D(T[] values, Topology topology)
+        public TopoArray1D(T[] values, ITopology topology)
         {
             Topology = topology;
             this.values = values;
         }
 
-        public Topology Topology { get; private set; }
+        public ITopology Topology { get; private set; }
 
         public T Get(int x, int y, int z)
         {

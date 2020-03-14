@@ -1,4 +1,5 @@
 ﻿using DeBroglie.Models;
+using DeBroglie.Topo;
 using DeBroglie.Wfc;
 using System;
 using System.Collections.Generic;
@@ -95,7 +96,7 @@ namespace DeBroglie.Trackers
         public void Reset()
         {
             var wave = wavePropagator.Wave;
-            foreach(var index in tilePropagator.Topology.Indicies)
+            foreach(var index in tilePropagator.Topology.GetIndices())
             {
                 tileModelMapping.GetTileCoordToPatternCoord(index, out var patternIndex, out var offset);
                 var patterns = tileModelMapping.GetPatterns(tileSet, offset);

@@ -241,9 +241,10 @@ namespace DeBroglie.Models
 
         public void AddSample(ITopoArray<Tile> sample)
         {
-            SetDirections(sample.Topology.Directions);
+            var topology = sample.Topology.AsGridTopology();
 
-            var topology = sample.Topology;
+            SetDirections(topology.Directions);
+
             var width = topology.Width;
             var height = topology.Height;
             var depth = topology.Depth;

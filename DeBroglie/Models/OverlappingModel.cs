@@ -65,9 +65,11 @@ namespace DeBroglie.Models
             if (sample.Topology.Depth == 1)
                 nz = 1;
 
-            var periodicX = sample.Topology.PeriodicX;
-            var periodicY = sample.Topology.PeriodicY;
-            var periodicZ = sample.Topology.PeriodicZ;
+            var topology = sample.Topology.AsGridTopology();
+
+            var periodicX = topology.PeriodicX;
+            var periodicY = topology.PeriodicY;
+            var periodicZ = topology.PeriodicZ;
 
             foreach(var s in OverlappingAnalysis.GetRotatedSamples(sample, tileRotation))
             {
@@ -75,7 +77,7 @@ namespace DeBroglie.Models
             }
 
             // Update the model based on the collected data
-            var directions = sample.Topology.Directions;
+            var directions = topology.Directions;
 
             // TODO: Don't regenerate this from scratch every time
             propagator = new List<HashSet<int>[]>(patternArrays.Count);
@@ -201,9 +203,9 @@ namespace DeBroglie.Models
                     return (new Point(px, py, pz), patternIndex, CombineOffsets(ox, oy, oz));
                 }
 
-                tileCoordToPatternCoordIndexAndOffset = TopoArray.Create(Map, topology);
+                tileCoordToPatternCoordIndexAndOffset = TopoArray.CreateByPoint(Map, topology);
                 var patternCoordToTileCoordIndexAndOffsetValues = new List<(Point, int, int)>[patternTopology.Width, patternTopology.Height, patternTopology.Depth];
-                foreach(var index in topology.Indicies)
+                foreach(var index in topology.GetIndices())
                 {
                     topology.GetCoord(index, out var x, out var y, out var z);
                     var (p, patternIndex, offset) = tileCoordToPatternCoordIndexAndOffset.Get(index);
@@ -303,7 +305,7 @@ namespace DeBroglie.Models
                     return false;
                 }
 
-                var patternMask = TopoArray.Create(GetPatternTopologyMask, patternTopology);
+                var patternMask = TopoArray.CreateByPoint(GetPatternTopologyMask, patternTopology);
                 patternTopology = patternTopology.WithMask(patternMask);
             }
 
