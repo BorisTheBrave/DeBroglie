@@ -229,11 +229,10 @@ namespace DeBroglie.Constraints
                 var n = new List<int>();
                 foreach(var d in topology.Directions)
                 {
-                    if (topology.TryMove(i, d, out var dest))
+                    if (topology.TryMove(i, d, out var dest, out var inverseDir))
                     {
                         // The central node connects to the direction node
                         n.Add(GetDirNodeId(i, d));
-                        var inverseDir = topology.Directions.Inverse(d);
                         // The diction node connects to the central node
                         // and the opposing direction node
                         neighbours[GetDirNodeId(i, d)] =

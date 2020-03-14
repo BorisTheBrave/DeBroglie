@@ -313,16 +313,18 @@ namespace DeBroglie.Wfc
                 {
                     for (int d = 0; d < directionsCount; d++)
                     {
-                        var inverseDirection = topology.Directions.Inverse((Direction)d);
-                        var compatiblePatterns = propagator[pattern][(int)inverseDirection].Length;
-                        compatible[index, pattern, d] = compatiblePatterns;
-                        if(compatiblePatterns == 0 && topology.TryMove(index, inverseDirection, out var dest) && wave.Get(index, pattern))
+                        if (topology.TryMove(index, (Direction)d, out var dest, out var inverseDirection))
                         {
-                            if (InternalBan(index, pattern))
+                            var compatiblePatterns = propagator[pattern][d].Length;
+                            compatible[index, pattern, (int)inverseDirection] = compatiblePatterns;
+                            if (compatiblePatterns == 0 && wave.Get(index, pattern))
                             {
-                                return status = Resolution.Contradiction;
+                                if (InternalBan(index, pattern))
+                                {
+                                    return status = Resolution.Contradiction;
+                                }
+                                break;
                             }
-                            break;
                         }
                     }
                 }

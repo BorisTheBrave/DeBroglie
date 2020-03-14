@@ -198,6 +198,16 @@ namespace DeBroglie.Topo
         /// Given an index and a direction, gives the index that is one step in that direction,
         /// if it exists and is not masked out. Otherwise, it returns false.
         /// </summary>
+        public bool TryMove(int index, Direction direction, out int dest, out Direction inverseDirection)
+        {
+            inverseDirection = Directions.Inverse(direction);
+            return TryMove(index, direction, out dest);
+        }
+
+        /// <summary>
+        /// Given an index and a direction, gives the index that is one step in that direction,
+        /// if it exists and is not masked out. Otherwise, it returns false.
+        /// </summary>
         public bool TryMove(int index, Direction direction, out int dest)
         {
             int x, y, z;
