@@ -13,7 +13,7 @@ namespace DeBroglie.Console.Import
             var sample = VoxUtils.ToTopoArray(vox).ToTiles();
             return new SampleSet
             {
-                Directions = sample.Topology.Directions,
+                Directions = sample.Topology.AsGridTopology().Directions,
                 Samples = new[] { sample },
                 ExportOptions = new VoxExportOptions { Template = vox },
             };

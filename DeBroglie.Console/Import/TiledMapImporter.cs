@@ -58,7 +58,7 @@ namespace DeBroglie.Console.Import
                     var layerArray = TiledUtil.ReadLayer(map, layer);
                     if (z == 0)
                     {
-                        topology = layerArray.Topology;
+                        topology = layerArray.Topology.AsGridTopology();
                         results = new Tile[topology.Width, topology.Height, tileLayers.Count];
                     }
                     for (var y = 0; y < topology.Height; y++)
@@ -82,7 +82,7 @@ namespace DeBroglie.Console.Import
 
             return new SampleSet
             {
-                Directions = sample.Topology.Directions,
+                Directions = sample.Topology.AsGridTopology().Directions,
                 Samples = new[] { sample },
                 TilesByName = tilesByName,
                 ExportOptions = new TiledExportOptions

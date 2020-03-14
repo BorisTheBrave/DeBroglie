@@ -24,7 +24,7 @@ namespace DeBroglie.Console.Export
                 {
 
                     var topoArray = propagator.ToArraySets();
-                    var tileTopology = topoArray.Topology.WithSize(bseo.TileWidth, bseo.TileHeight, 1);
+                    var tileTopology = topoArray.Topology.AsGridTopology().WithSize(bseo.TileWidth, bseo.TileHeight, 1);
                     var subTiles = bseo.Bitmaps.ToDictionary(x => x.Key, x => TopoArray.Create(BitmapUtils.ToColorArray(x.Value), tileTopology));
                     var exploded = MoreTopoArrayUtils.ExplodeTileSets(topoArray, subTiles, bseo.TileWidth, bseo.TileHeight, 1).Map(BitmapUtils.ColorAverage);
                     var bitmap = BitmapUtils.ToBitmap(exploded.ToArray2d());
@@ -50,7 +50,7 @@ namespace DeBroglie.Console.Export
                     var contradiction = new Tile(new object());
                     var topoArray = propagator.ToArray(undecided, contradiction);
 
-                    var tileTopology = topoArray.Topology.WithSize(bseo.TileWidth, bseo.TileHeight, 1);
+                    var tileTopology = topoArray.Topology.AsGridTopology().WithSize(bseo.TileWidth, bseo.TileHeight, 1);
                     var subTiles = bseo.Bitmaps.ToDictionary(x => x.Key, x => TopoArray.Create(BitmapUtils.ToColorArray(x.Value), tileTopology));
                     subTiles[undecided] = TopoArray.FromConstant(Rgba32.Gray, tileTopology);
                     subTiles[contradiction] = TopoArray.FromConstant(Rgba32.Magenta, tileTopology);

@@ -31,7 +31,7 @@ namespace DeBroglie.Topo
             var mask = topology.Mask;
             for (var i = 0; i < indexCount; i++)
             {
-                if (mask == null || mask[indexCount])
+                if (mask == null || mask[i])
                     yield return i;
             }
         }

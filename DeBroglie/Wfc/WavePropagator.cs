@@ -97,7 +97,7 @@ namespace DeBroglie.Wfc
 
         public Wave Wave => wave;
         public int IndexCount => indexCount;
-        public Topology Topology => topology;
+        public ITopology Topology => topology;
         public Func<double> RandomDouble => randomDouble;
 
         public int[][][] Propagator => propagator;

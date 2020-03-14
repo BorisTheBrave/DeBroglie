@@ -12,7 +12,7 @@ namespace DeBroglie.Console
     {
         public static ITopoArray<T> Scale<T>(ITopoArray<T> topoArray, int scale)
         {
-            var topology = topoArray.Topology;
+            var topology = topoArray.Topology.AsGridTopology();
             if (topology.Mask != null)
                 throw new NotSupportedException();
             var result = new T[topology.Width * scale, topology.Height * scale, topology.Depth * scale];
@@ -71,10 +71,11 @@ namespace DeBroglie.Console
 
         public static ITopoArray<V> Explode<U, V>(ITopoArray<U> topoArray, Func<U, ITopoArray<V>> getSubTile, int tileWidth, int tileHeight, int tileDepth)
         {
-            if (topoArray.Topology.Directions.Type != DirectionSetType.Cartesian2d && topoArray.Topology.Directions.Type != DirectionSetType.Cartesian3d)
+            var inTopology = topoArray.Topology.AsGridTopology();
+
+            if (inTopology.Directions.Type != DirectionSetType.Cartesian2d && inTopology.Directions.Type != DirectionSetType.Cartesian3d)
                 throw new NotImplementedException();
 
-            var inTopology = topoArray.Topology;
             var inWidth = inTopology.Width;
             var inHeight = inTopology.Height;
             var inDepth = inTopology.Depth;
@@ -130,10 +131,11 @@ namespace DeBroglie.Console
 
         public static ITopoArray<IEnumerable<V>> ExplodeSets<U, V>(ITopoArray<ISet<U>> topoArray, Func<U, ITopoArray<V>> getSubTile, int tileWidth, int tileHeight, int tileDepth)
         {
-            if (topoArray.Topology.Directions.Type != DirectionSetType.Cartesian2d && topoArray.Topology.Directions.Type != DirectionSetType.Cartesian3d)
+            var inTopology = topoArray.Topology.AsGridTopology();
+
+            if (inTopology.Directions.Type != DirectionSetType.Cartesian2d && inTopology.Directions.Type != DirectionSetType.Cartesian3d)
                 throw new NotImplementedException();
 
-            var inTopology = topoArray.Topology;
             var inWidth = inTopology.Width;
             var inHeight = inTopology.Height;
             var inDepth = inTopology.Depth;

@@ -239,7 +239,7 @@ namespace DeBroglie.Test
                 {t3, new PriorityAndWeight{Priority=2, Weight = 1} },
             };
 
-            var weightsArray = TopoArray.Create(_ => weights, topology);
+            var weightsArray = TopoArray.CreateByIndex(_ => weights, topology);
 
             var propagator = new TilePropagator(model, topology, new TilePropagatorOptions
             {

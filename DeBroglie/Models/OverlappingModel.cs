@@ -205,7 +205,7 @@ namespace DeBroglie.Models
 
                 tileCoordToPatternCoordIndexAndOffset = TopoArray.CreateByPoint(Map, topology);
                 var patternCoordToTileCoordIndexAndOffsetValues = new List<(Point, int, int)>[patternTopology.Width, patternTopology.Height, patternTopology.Depth];
-                foreach(var index in topology.GetIndices())
+                foreach (var index in topology.GetIndices())
                 {
                     topology.GetCoord(index, out var x, out var y, out var z);
                     var (p, patternIndex, offset) = tileCoordToPatternCoordIndexAndOffset.Get(index);
