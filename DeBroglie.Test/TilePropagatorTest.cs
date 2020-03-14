@@ -19,7 +19,7 @@ namespace DeBroglie.Test
             };
             var model = OverlappingModel.Create(a, 2, false, 8);
 
-            var propagator = new TilePropagator(model, new Topology(4, 4, false));
+            var propagator = new TilePropagator(model, new GridTopology(4, 4, false));
 
             propagator.Select(0, 0, 0, new Tile(1));
             var status = propagator.Run();
@@ -60,7 +60,7 @@ namespace DeBroglie.Test
                     }
                 }
             }
-            var topology = new Topology(5, 5, true).WithMask(mask);
+            var topology = new GridTopology(5, 5, true).WithMask(mask);
 
             var propagator = new TilePropagator(model, topology);
 
@@ -94,7 +94,7 @@ namespace DeBroglie.Test
                     }
                 }
             }
-            var topology = new Topology(5, 4, false).WithMask(mask);
+            var topology = new GridTopology(5, 4, false).WithMask(mask);
 
             var propagator = new TilePropagator(model, topology);
 
@@ -143,7 +143,7 @@ namespace DeBroglie.Test
                     }
                 }
             }
-            var topology = new Topology(5, 4, false).WithMask(mask);
+            var topology = new GridTopology(5, 4, false).WithMask(mask);
 
             var propagator = new TilePropagator(model, topology);
 
@@ -164,7 +164,7 @@ namespace DeBroglie.Test
                 { 2, 3, 1 },
             };
             var model = AdjacentModel.Create(a, true);
-            var topology = new Topology(10, 10, false);
+            var topology = new GridTopology(10, 10, false);
             var propagator = new TilePropagator(model, topology);
 
             var tile1 = new Tile(1);
@@ -230,7 +230,7 @@ namespace DeBroglie.Test
 
             model.SetUniformFrequency();
 
-            var topology = new Topology(5, 1, false);
+            var topology = new GridTopology(5, 1, false);
 
             IDictionary<Tile, PriorityAndWeight> weights = new Dictionary<Tile, PriorityAndWeight>
             {

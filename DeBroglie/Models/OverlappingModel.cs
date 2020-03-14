@@ -144,7 +144,7 @@ namespace DeBroglie.Models
             return true;
         }
 
-        internal override TileModelMapping GetTileModelMapping(Topology topology)
+        internal override TileModelMapping GetTileModelMapping(GridTopology topology)
         {
             var patternModel = new PatternModel
             {
@@ -152,7 +152,7 @@ namespace DeBroglie.Models
                 Frequencies = frequencies.ToArray(),
             };
 
-            Topology patternTopology;
+            GridTopology patternTopology;
             Dictionary<int, IReadOnlyDictionary<Tile, ISet<int>>> tilesToPatternsByOffset;
             Dictionary<int, IReadOnlyDictionary<int, Tile>> patternsToTilesByOffset;
             ITopoArray<(Point, int, int)> tileCoordToPatternCoordIndexAndOffset;

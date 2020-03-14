@@ -41,7 +41,7 @@ namespace DeBroglie.Benchmark
         public void FreeSetup()
         {
             var tileCount = 10;
-            var topology = new Topology(10, 10, 10, false);
+            var topology = new GridTopology(10, 10, 10, false);
 
             var model = new AdjacentModel(DirectionSet.Cartesian3d);
 
@@ -66,7 +66,7 @@ namespace DeBroglie.Benchmark
 
         public void ChessSetup()
         {
-            var topology = new Topology(10, 10, 10, false);
+            var topology = new GridTopology(10, 10, 10, false);
 
             var model = new AdjacentModel(DirectionSet.Cartesian3d);
 
@@ -95,7 +95,7 @@ namespace DeBroglie.Benchmark
         // Inspired by Tessera's Castle scene
         public void CastleSetup()
         {
-            var topology = new Topology(10, 10, 10, false);
+            var topology = new GridTopology(10, 10, 10, false);
 
             var model = CastleModel.Get();
 
@@ -112,7 +112,7 @@ namespace DeBroglie.Benchmark
 
         public void EdgedPathSetup()
         {
-            var topology = new Topology(15, 15, false);
+            var topology = new GridTopology(15, 15, false);
 
             var model = new AdjacentModel(DirectionSet.Cartesian2d);
 
@@ -201,7 +201,7 @@ namespace DeBroglie.Benchmark
         {
 
             var tileCount = 10;
-            var topology = new Topology(20, 20, false);
+            var topology = new GridTopology(20, 20, false);
 
             var model = new AdjacentModel(DirectionSet.Cartesian2d);
 
@@ -253,7 +253,7 @@ namespace DeBroglie.Benchmark
             model.AddAdjacency(tiles, tiles, Direction.YPlus);
             model.SetUniformFrequency();
 
-            var topology = new Topology(100, 100, false);
+            var topology = new GridTopology(100, 100, false);
 
             var count = 30;
 
@@ -316,7 +316,7 @@ namespace DeBroglie.Benchmark
 
 
             // NB: It's important that width is an odd number
-            var topology = new Topology(31, 31, false);
+            var topology = new GridTopology(31, 31, false);
 
             var options = new TilePropagatorOptions
             {

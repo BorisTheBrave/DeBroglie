@@ -25,7 +25,7 @@ namespace DeBroglie.Test
             model.AddAdjacency(tile2, tile1, 1, 0, 0);
             model.AddAdjacency(tile2, tile1, 0, 1, 0);
 
-            var patternModel = model.GetTileModelMapping(new Topology(10, 10, false)).PatternModel;
+            var patternModel = model.GetTileModelMapping(new GridTopology(10, 10, false)).PatternModel;
             Assert.AreEqual(1, patternModel.Frequencies[0]);
             Assert.AreEqual(5, patternModel.Frequencies[1]);
 
@@ -51,7 +51,7 @@ namespace DeBroglie.Test
 
             model.AddAdjacency(new[] { tile1 }, new[] { tile2 }, 1, 0, 0, new TileRotation(4, false));
 
-            var patternModel = model.GetTileModelMapping(new Topology(10, 10, false)).PatternModel;
+            var patternModel = model.GetTileModelMapping(new GridTopology(10, 10, false)).PatternModel;
             Assert.AreEqual(1, patternModel.Frequencies[0]);
             Assert.AreEqual(5, patternModel.Frequencies[1]);
 
@@ -84,7 +84,7 @@ namespace DeBroglie.Test
 
             model.SetUniformFrequency();
 
-            var patternModel = model.GetTileModelMapping(new Topology(10, 10, false)).PatternModel;
+            var patternModel = model.GetTileModelMapping(new GridTopology(10, 10, false)).PatternModel;
 
             CollectionAssert.AreEquivalent(new int[] { 1 }, patternModel.Propagator[0][0]);
             CollectionAssert.AreEquivalent(new int[] {   }, patternModel.Propagator[0][1]);
@@ -111,7 +111,7 @@ namespace DeBroglie.Test
             model.SetFrequency(new Tile(1), 0.5);
             model.SetFrequency(new Tile(2), 2.0);
 
-            var patternModel = model.GetTileModelMapping(new Topology(10, 10, false)).PatternModel;
+            var patternModel = model.GetTileModelMapping(new GridTopology(10, 10, false)).PatternModel;
 
             Assert.AreEqual(0.5, patternModel.Frequencies[0]);
             Assert.AreEqual(2.0, patternModel.Frequencies[1]);
@@ -135,7 +135,7 @@ namespace DeBroglie.Test
             model.SetFrequency(tile1, 1.0, rotations);
             model.SetFrequency(tile2, 1.0, rotations);
 
-            var tileModelMapping = model.GetTileModelMapping(new Topology(10, 10, false));
+            var tileModelMapping = model.GetTileModelMapping(new GridTopology(10, 10, false));
             var patternModel = tileModelMapping.PatternModel;
 
             double GetFrequency(Tile tile)

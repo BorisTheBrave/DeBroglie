@@ -17,7 +17,7 @@ namespace DeBroglie.Models
         /// <summary>
         /// Extracts the actual model of patterns used.
         /// </summary>
-        internal abstract TileModelMapping GetTileModelMapping(Topology topology);
+        internal abstract TileModelMapping GetTileModelMapping(GridTopology topology);
 
         public abstract IEnumerable<Tile> Tiles { get; }
 

@@ -1,23 +1,15 @@
 ﻿namespace DeBroglie.Topo
 {
     /// <summary>
-    /// A Topology specifies the type of area or volume, what size it is, and whether it should wrap around at the edges (i.e. is it periodic). 
-    /// Topologies do not actually store data, they just specify the dimensions. Actual data is stored in an <see cref="ITopoArray{T}"/>.
+    /// A grid topology is a topology with a regular repeating pattern.
+    /// It supports more operations than a generic topology.
     /// </summary>
-    public class Topology : ITopology
+    public class GridTopology : ITopology
     {
-        /// <summary>
-        /// Constructs an <see cref="ITopoArray{T}"/> from an array. <c>result.Get(i) == values[i]</c>
-        /// </summary>
-        public static ITopoArray<T> Create<T>(T[] values, Topology topology)
-        {
-            return new TopoArray1D<T>(values, topology);
-        }
-
         /// <summary>
         /// Constructs a 2d square grid topology of given dimensions and periodicity.
         /// </summary>
-        public Topology(int width, int height, bool periodic)
+        public GridTopology(int width, int height, bool periodic)
             : this(DirectionSet.Cartesian2d, width, height, 1, periodic, periodic, periodic)
         {
         }
@@ -25,7 +17,7 @@
         /// <summary>
         /// Constructs a 3d cube grid topology of given dimensions and periodicity.
         /// </summary>
-        public Topology(int width, int height, int depth, bool periodic)
+        public GridTopology(int width, int height, int depth, bool periodic)
             : this(DirectionSet.Cartesian3d, width, height, depth, periodic, periodic, periodic)
         {
         }
@@ -33,7 +25,7 @@
         /// <summary>
         /// Constructs a 2d topology.
         /// </summary>
-        public Topology(DirectionSet directions, int width, int height, bool periodicX, bool periodicY, bool[] mask = null)
+        public GridTopology(DirectionSet directions, int width, int height, bool periodicX, bool periodicY, bool[] mask = null)
             : this(directions, width, height, 1, periodicX, periodicY, false, mask)
         {
         }
@@ -41,7 +33,7 @@
         /// <summary>
         /// Constructs a topology.
         /// </summary>
-        public Topology(DirectionSet directions, int width, int height, int depth, bool periodicX, bool periodicY, bool periodicZ, bool[] mask = null)
+        public GridTopology(DirectionSet directions, int width, int height, int depth, bool periodicX, bool periodicY, bool periodicZ, bool[] mask = null)
         {
             Directions = directions;
             Width = width;
@@ -54,20 +46,20 @@
         }
 
         /// <summary>
-        /// Returns a <see cref="Topology"/> with the same parameters, but with the specified mask
+        /// Returns a <see cref="GridTopology"/> with the same parameters, but with the specified mask
         /// </summary>
-        public Topology WithMask(bool[] mask)
+        public GridTopology WithMask(bool[] mask)
         {
             if (Width * Height * Depth != mask.Length)
                 throw new System.Exception("Mask size doesn't fit the topology");
 
-            return new Topology(Directions, Width, Height, Depth, PeriodicX, PeriodicY, PeriodicZ, mask);
+            return new GridTopology(Directions, Width, Height, Depth, PeriodicX, PeriodicY, PeriodicZ, mask);
         }
 
         /// <summary>
-        /// Returns a <see cref="Topology"/> with the same parameters, but with the specified mask
+        /// Returns a <see cref="GridTopology"/> with the same parameters, but with the specified mask
         /// </summary>
-        public Topology WithMask(ITopoArray<bool> mask)
+        public GridTopology WithMask(ITopoArray<bool> mask)
         {
             if (!IsSameSize(mask.Topology.AsGridTopology()))
                 throw new System.Exception("Mask size doesn't fit the topology");
@@ -86,19 +78,19 @@
         }
 
         /// <summary>
-        /// Returns a <see cref="Topology"/> with the same parameters, with the dimensions overridden. Any mask is reset.
+        /// Returns a <see cref="GridTopology"/> with the same parameters, with the dimensions overridden. Any mask is reset.
         /// </summary>
-        public Topology WithSize(int width, int height, int depth = 1)
+        public GridTopology WithSize(int width, int height, int depth = 1)
         {
-            return new Topology(Directions, width, height, depth, PeriodicX, PeriodicY, PeriodicZ);
+            return new GridTopology(Directions, width, height, depth, PeriodicX, PeriodicY, PeriodicZ);
         }
 
         /// <summary>
-        /// Returns a <see cref="Topology"/> with the same parameters, with the dimensions overridden.
+        /// Returns a <see cref="GridTopology"/> with the same parameters, with the dimensions overridden.
         /// </summary>
-        public Topology WithPeriodic(bool periodicX, bool periodicY, bool periodicZ = false)
+        public GridTopology WithPeriodic(bool periodicX, bool periodicY, bool periodicZ = false)
         {
-            return new Topology(Directions, Width, Height, Depth, periodicX, periodicY, periodicZ, Mask);
+            return new GridTopology(Directions, Width, Height, Depth, periodicX, periodicY, periodicZ, Mask);
         }
 
         /// <summary>
@@ -152,7 +144,7 @@
         /// </summary>
         public int IndexCount => Width * Height * Depth;
 
-        public bool IsSameSize(Topology other)
+        public bool IsSameSize(GridTopology other)
         {
             return Width == other.Width && Height == other.Height && Depth == other.Depth;
         }

@@ -280,7 +280,7 @@ namespace DeBroglie.Models
             }
         }
 
-        internal override TileModelMapping GetTileModelMapping(Topology topology)
+        internal override TileModelMapping GetTileModelMapping(GridTopology topology)
         {
             RequireDirections();
             SetDirections(topology.Directions);

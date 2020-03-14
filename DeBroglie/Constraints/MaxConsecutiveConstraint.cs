@@ -24,7 +24,7 @@ namespace DeBroglie.Constraints
 
         public void Init(TilePropagator propagator)
         {
-            var topology = propagator.Topology as Topology;
+            var topology = propagator.Topology as GridTopology;
             if(topology == null ||
                 topology.Directions.Type != Topo.DirectionSetType.Cartesian2d &&
                 topology.Directions.Type != Topo.DirectionSetType.Cartesian3d)

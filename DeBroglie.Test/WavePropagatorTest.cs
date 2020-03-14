@@ -23,7 +23,7 @@ namespace DeBroglie.Test
             };
             var width = 10;
             var height = 10;
-            var topology = new Topology(width, height, true);
+            var topology = new GridTopology(width, height, true);
             var propagator = new WavePropagator(model, topology);
             var status = propagator.Run();
             Assert.AreEqual(Resolution.Decided, status);
@@ -38,7 +38,7 @@ namespace DeBroglie.Test
             }
 
             // Should be impossible with an odd sized region
-            topology = new Topology(width + 1, height + 1, true);
+            topology = new GridTopology(width + 1, height + 1, true);
             propagator = new WavePropagator(model, topology);
             status = propagator.Run();
             Assert.AreEqual(Resolution.Contradiction, status);
@@ -52,7 +52,7 @@ namespace DeBroglie.Test
                     mask[x + y * (width + 1)] = true;
                 }
             }
-            topology = new Topology(width + 1, height + 1, true).WithMask(mask);
+            topology = new GridTopology(width + 1, height + 1, true).WithMask(mask);
             propagator = new WavePropagator(model, topology);
             status = propagator.Run();
             Assert.AreEqual(Resolution.Decided, status);
@@ -74,7 +74,7 @@ namespace DeBroglie.Test
             var width = 4;
             var height = 4;
             var depth = 4;
-            var topology = new Topology(width, height, depth, true);
+            var topology = new GridTopology(width, height, depth, true);
             var propagator = new WavePropagator(model, topology);
             var status = propagator.Run();
             Assert.AreEqual(Resolution.Decided, status);
@@ -92,7 +92,7 @@ namespace DeBroglie.Test
             }
 
             // Should be impossible with an odd sized region
-            topology = new Topology(width + 1, height + 1, depth + 1, true);
+            topology = new GridTopology(width + 1, height + 1, depth + 1, true);
             propagator = new WavePropagator(model, topology);
             status = propagator.Run();
             Assert.AreEqual(Resolution.Contradiction, status);
@@ -141,7 +141,7 @@ namespace DeBroglie.Test
                 Frequencies = tileBorders.Select(x=>1.0).ToArray(),
                 Propagator = propagator,
             };
-            var topology = new Topology(10, 10, false);
+            var topology = new GridTopology(10, 10, false);
 
             var seed = Environment.TickCount;
             var r = new Random(seed);

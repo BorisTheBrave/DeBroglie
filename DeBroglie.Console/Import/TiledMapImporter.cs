@@ -51,7 +51,7 @@ namespace DeBroglie.Console.Import
                     .Cast<TileLayer>()
                     .ToList();
                 Tile[,,] results = null;
-                Topology topology = null;
+                GridTopology topology = null;
                 for (var z = 0; z < tileLayers.Count; z++)
                 {
                     var layer = tileLayers[z];
@@ -71,11 +71,11 @@ namespace DeBroglie.Console.Import
                 }
                 if (tileLayers.Count > 1 && topology.Directions.Type == DirectionSetType.Cartesian2d)
                 {
-                    topology = new Topology(DirectionSet.Cartesian3d, map.Width, map.Height, tileLayers.Count, false, false, false);
+                    topology = new GridTopology(DirectionSet.Cartesian3d, map.Width, map.Height, tileLayers.Count, false, false, false);
                 }
                 else
                 {
-                    topology = new Topology(topology.Directions, topology.Width, topology.Height, tileLayers.Count, false, false, false);
+                    topology = new GridTopology(topology.Directions, topology.Width, topology.Height, tileLayers.Count, false, false, false);
                 }
                 sample = TopoArray.Create(results, topology);
             }

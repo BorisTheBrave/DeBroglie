@@ -21,7 +21,7 @@ namespace DeBroglie.Console.Import
                 throw new Exception($"Couldn't load filename: {filename}");
             }
             var colorArray = BitmapUtils.ToColorArray(bitmap);
-            var topology = new Topology(DirectionSet.Cartesian2d, colorArray.GetLength(0), colorArray.GetLength(1), false, false);
+            var topology = new GridTopology(DirectionSet.Cartesian2d, colorArray.GetLength(0), colorArray.GetLength(1), false, false);
             return new SampleSet
             {
                 Directions = DirectionSet.Cartesian2d,

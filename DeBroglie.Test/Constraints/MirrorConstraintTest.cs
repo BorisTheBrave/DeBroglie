@@ -45,7 +45,7 @@ namespace DeBroglie.Test.Constraints
 
             // tile1 reflects to tile 2
             {
-                var t2 = new Topology(2, 1, false);
+                var t2 = new GridTopology(2, 1, false);
                 var p2 = new TilePropagator(model, t2, constraints: constraints);
                 p2.Select(0, 0, 0, tile1);
                 var status = p2.Run();
@@ -55,7 +55,7 @@ namespace DeBroglie.Test.Constraints
 
             // tile3 reflects to tile3
             {
-                var t2 = new Topology(2, 1, false);
+                var t2 = new GridTopology(2, 1, false);
                 var p2 = new TilePropagator(model, t2, constraints: constraints);
                 p2.Select(0, 0, 0, tile3);
                 var status = p2.Run();
@@ -67,7 +67,7 @@ namespace DeBroglie.Test.Constraints
             // (tile5 can go, but has zero frequency)
             // So tile3 should be selected reliably
             {
-                var t2 = new Topology(3, 1, false);
+                var t2 = new GridTopology(3, 1, false);
                 var p2 = new TilePropagator(model, t2, constraints: constraints);
                 var status = p2.Run();
                 Assert.AreEqual(Resolution.Decided, status);
@@ -77,7 +77,7 @@ namespace DeBroglie.Test.Constraints
             // tile5 can be reflected, but cannot
             // be placed adjacent to it's own reflection
             {
-                var t2 = new Topology(2, 1, false);
+                var t2 = new GridTopology(2, 1, false);
                 var p2 = new TilePropagator(model, t2, constraints: constraints);
                 p2.Select(0, 0, 0, tile5);
                 var status = p2.Run();
@@ -85,7 +85,7 @@ namespace DeBroglie.Test.Constraints
             }
 
             {
-                var t2 = new Topology(4, 1, false);
+                var t2 = new GridTopology(4, 1, false);
                 var p2 = new TilePropagator(model, t2, constraints: constraints);
                 p2.Select(0, 0, 0, tile5);
                 var status = p2.Run();

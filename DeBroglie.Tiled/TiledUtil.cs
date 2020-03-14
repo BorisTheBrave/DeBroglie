@@ -81,7 +81,7 @@ namespace DeBroglie.Tiled
                 var height = layer.Height;
                 var layerArray = new Tile[width, height];
                 var mask = new bool[width * height];
-                var topology = new Topology(DirectionSet.Hexagonal2d, width, height, false, false, mask);
+                var topology = new GridTopology(DirectionSet.Hexagonal2d, width, height, false, false, mask);
 
                 int i = 0;
                 var isStaggered = map.StaggerIndex == StaggerIndex.even;

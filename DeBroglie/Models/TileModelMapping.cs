@@ -10,7 +10,7 @@ namespace DeBroglie.Models
     {
         private static readonly ISet<int> EmptyPatternSet = new HashSet<int>();
 
-        public Topology PatternTopology { get; set; }
+        public GridTopology PatternTopology { get; set; }
 
         public PatternModel PatternModel { get; set; }
 

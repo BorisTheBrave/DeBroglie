@@ -18,7 +18,7 @@ namespace DeBroglie.Test.Constraints
             };
 
             var model = AdjacentModel.Create(a, true);
-            var propagator = new TilePropagator(model, new Topology(10, 10, false), true, constraints: new[] {
+            var propagator = new TilePropagator(model, new GridTopology(10, 10, false), true, constraints: new[] {
                 new BorderConstraint{
                     Tiles = new [] { new Tile(0) },
                 }

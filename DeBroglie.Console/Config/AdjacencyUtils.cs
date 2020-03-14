@@ -14,9 +14,9 @@ namespace DeBroglie.Console.Config
     public static class AdjacencyUtils
     {
         #region Auto Adjacency
-        private static IDictionary<Tile, ITopoArray<Rgba32>> GetSubTiles(BitmapSetExportOptions bseo, out Topology subTileTopology)
+        private static IDictionary<Tile, ITopoArray<Rgba32>> GetSubTiles(BitmapSetExportOptions bseo, out GridTopology subTileTopology)
         {
-            var t = subTileTopology = new Topology(bseo.TileWidth, bseo.TileHeight, false);
+            var t = subTileTopology = new GridTopology(bseo.TileWidth, bseo.TileHeight, false);
             return bseo.Bitmaps.ToDictionary(x => x.Key, x => TopoArray.Create(BitmapUtils.ToColorArray(x.Value), t));
         }
 
@@ -25,9 +25,9 @@ namespace DeBroglie.Console.Config
             return (Math.Abs(a.R - b.R) + Math.Abs(a.G - b.G) + Math.Abs(a.B - b.B) + Math.Abs(a.A - b.A)) / 4.0 / 255.0;
         }
 
-        private static IDictionary<Tile, ITopoArray<byte>> GetSubTiles(VoxSetExportOptions vseo, out Topology subTileTopology)
+        private static IDictionary<Tile, ITopoArray<byte>> GetSubTiles(VoxSetExportOptions vseo, out GridTopology subTileTopology)
         {
-            subTileTopology = new Topology(vseo.TileWidth, vseo.TileHeight, vseo.TileDepth, false);
+            subTileTopology = new GridTopology(vseo.TileWidth, vseo.TileHeight, vseo.TileDepth, false);
             return vseo.SubTiles.ToDictionary(x => x.Key, x => VoxUtils.ToTopoArray(x.Value));
         }
 
@@ -108,7 +108,7 @@ namespace DeBroglie.Console.Config
 
         private static IList<AdjacentModel.Adjacency> GetAutoAdjacencies<T>(
             IDictionary<Tile, ITopoArray<T>> subTiles,
-            Topology subTileTopology,
+            GridTopology subTileTopology,
             TileRotation tileRotations,
             Func<T, T, double> diff,
             double tolerance)

@@ -10,20 +10,20 @@ namespace DeBroglie.Topo
         {
             var height = values.Length;
             var width = values.Max(a => a.Length);
-            Topology = new Topology(
+            Topology = new GridTopology(
                 width,
                 height,
                 periodic);
             this.values = values;
         }
 
-        public RaggedTopoArray2D(T[][] values, Topology topology)
+        public RaggedTopoArray2D(T[][] values, GridTopology topology)
         {
             Topology = topology;
             this.values = values;
         }
 
-        public Topology Topology { get; private set; }
+        public GridTopology Topology { get; private set; }
 
         ITopology ITopoArray<T>.Topology => Topology;
 

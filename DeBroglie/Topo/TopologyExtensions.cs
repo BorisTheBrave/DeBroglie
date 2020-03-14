@@ -4,9 +4,9 @@ namespace DeBroglie.Topo
 {
     public static class TopologyExtensions
     {
-        public static Topology AsGridTopology(this ITopology topology)
+        public static GridTopology AsGridTopology(this ITopology topology)
         {
-            if(topology is Topology t)
+            if(topology is GridTopology t)
             {
                 return t;
             }

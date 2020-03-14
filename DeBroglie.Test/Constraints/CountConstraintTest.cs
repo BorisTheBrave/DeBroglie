@@ -29,7 +29,7 @@ namespace DeBroglie.Test.Constraints
             model.AddAdjacency(tiles, tiles, Direction.YPlus);
             model.SetUniformFrequency();
 
-            var topology = new Topology(10, 10, false);
+            var topology = new GridTopology(10, 10, false);
 
             var count = 3;
 
@@ -83,7 +83,7 @@ namespace DeBroglie.Test.Constraints
             model.AddAdjacency(tiles, tiles, Direction.YPlus);
             model.SetUniformFrequency();
 
-            var topology = new Topology(10, 10, false);
+            var topology = new GridTopology(10, 10, false);
 
             var count = 10;
 

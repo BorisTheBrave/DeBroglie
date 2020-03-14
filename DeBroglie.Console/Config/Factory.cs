@@ -88,13 +88,13 @@ namespace DeBroglie.Console.Config
             }
         }
 
-        public Topology GetOutputTopology(DirectionSet directions)
+        public GridTopology GetOutputTopology(DirectionSet directions)
         {
             var is3d = directions.Type == DirectionSetType.Cartesian3d;
-            return new Topology(directions, Config.Width, Config.Height, is3d ? Config.Depth : 1, Config.PeriodicX, Config.PeriodicY, Config.PeriodicZ);
+            return new GridTopology(directions, Config.Width, Config.Height, is3d ? Config.Depth : 1, Config.PeriodicX, Config.PeriodicY, Config.PeriodicZ);
         }
 
-        public TileRotation GetTileRotation(TileRotationTreatment? rotationTreatment, Topology topology)
+        public TileRotation GetTileRotation(TileRotationTreatment? rotationTreatment, GridTopology topology)
         {
             var tileData = Config.Tiles;
 

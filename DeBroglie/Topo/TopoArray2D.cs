@@ -7,20 +7,20 @@
 
         public TopoArray2D(T[,] values, bool periodic)
         {
-            Topology = new Topology(
+            Topology = new GridTopology(
                 values.GetLength(0),
                 values.GetLength(1),
                 periodic);
             this.values = values;
         }
 
-        public TopoArray2D(T[,] values, Topology topology)
+        public TopoArray2D(T[,] values, GridTopology topology)
         {
             Topology = topology;
             this.values = values;
         }
 
-        public Topology Topology { get; private set; }
+        public GridTopology Topology { get; private set; }
 
         ITopology ITopoArray<T>.Topology => Topology;
 

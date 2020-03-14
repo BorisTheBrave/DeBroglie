@@ -29,7 +29,7 @@ namespace DeBroglie.Test.Constraints
             Console.WriteLine("Seed {0}", seed);
 
             var model = OverlappingModel.Create(a, 3, false, 8);
-            var propagator = new TilePropagator(model, new Topology(10, 10, false), new TilePropagatorOptions
+            var propagator = new TilePropagator(model, new GridTopology(10, 10, false), new TilePropagatorOptions
             {
                 BackTrackDepth = -1,
                 Constraints = new[] {

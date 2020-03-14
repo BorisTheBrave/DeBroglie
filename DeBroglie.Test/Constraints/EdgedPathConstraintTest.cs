@@ -39,7 +39,7 @@ namespace DeBroglie.Test.Constraints
             Console.WriteLine("Seed {0}", seed);
 
             var model = OverlappingModel.Create(a, 3, false, 8);
-            var propagator = new TilePropagator(model, new Topology(10, 10, false), new TilePropagatorOptions
+            var propagator = new TilePropagator(model, new GridTopology(10, 10, false), new TilePropagatorOptions
             {
                 BackTrackDepth = -1,
                 Constraints = new[] {
@@ -91,7 +91,7 @@ namespace DeBroglie.Test.Constraints
             model.AddAdjacency(new Tile(1), new Tile(2), 1, 0, 0);
             model.SetUniformFrequency();
 
-            var topology = new Topology(2, 1, false);
+            var topology = new GridTopology(2, 1, false);
 
             var up = Direction.YPlus;
             var down = Direction.YMinus;
@@ -118,7 +118,7 @@ namespace DeBroglie.Test.Constraints
             model.AddAdjacency(new Tile(1), new Tile(2), 1, 0, 0);
             model.SetUniformFrequency();
 
-            var topology = new Topology(2, 1, false);
+            var topology = new GridTopology(2, 1, false);
 
             var left = Direction.XMinus;
             var right = Direction.XPlus;
