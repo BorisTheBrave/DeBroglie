@@ -9,6 +9,14 @@ namespace DeBroglie.Topo
     public class Topology
     {
         /// <summary>
+        /// Constructs an <see cref="ITopoArray{T}"/> from an array. <c>result.Get(i) == values[i]</c>
+        /// </summary>
+        public static ITopoArray<T> Create<T>(T[] values, Topology topology)
+        {
+            return new TopoArray1D<T>(values, topology);
+        }
+
+        /// <summary>
         /// Constructs a 2d square grid topology of given dimensions and periodicity.
         /// </summary>
         public Topology(int width, int height, bool periodic)
