@@ -38,6 +38,11 @@ namespace DeBroglie.Topo
         Cartesian3d,
     }
 
+    public enum EdgeType
+    {
+
+    }
+
     /// <summary>
     /// Wrapper around DirectionsType supplying some convenience data.
     /// </summary>
