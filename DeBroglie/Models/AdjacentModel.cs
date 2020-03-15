@@ -8,6 +8,7 @@ using System.Linq;
 namespace DeBroglie.Models
 {
 
+
     /// <summary>
     /// AdjacentModel constrains which tiles can be placed adjacent to which other ones. 
     /// It does so by maintaining for each tile, a list of tiles that can be placed next to it in each direction. 
@@ -280,10 +281,11 @@ namespace DeBroglie.Models
             }
         }
 
-        internal override TileModelMapping GetTileModelMapping(GridTopology topology)
+        internal override TileModelMapping GetTileModelMapping(ITopology topology)
         {
+            var gridTopology = topology.AsGridTopology();
             RequireDirections();
-            SetDirections(topology.Directions);
+            SetDirections(gridTopology.Directions);
 
             if(frequencies.Sum() == 0.0)
             {
@@ -305,7 +307,7 @@ namespace DeBroglie.Models
                 };
             return new TileModelMapping
             {
-                PatternTopology = topology,
+                PatternTopology = gridTopology,
                 PatternModel = patternModel,
                 PatternsToTilesByOffset = patternsToTilesByOffset,
                 TilesToPatternsByOffset = tilesToPatternsByOffset,

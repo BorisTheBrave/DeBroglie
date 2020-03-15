@@ -82,7 +82,7 @@
         {
             // Set to -1 to indicate no neighbour
             public int Index { get; set; }
-            public EdgeType EdgeType { get; set; }
+            public EdgeLabel EdgeLabel { get; set; }
             public Direction InverseDirection { get; set; }
         }
     }

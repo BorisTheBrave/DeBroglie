@@ -38,7 +38,7 @@ namespace DeBroglie.Topo
         Cartesian3d,
     }
 
-    public enum EdgeType
+    public enum EdgeLabel
     {
 
     }

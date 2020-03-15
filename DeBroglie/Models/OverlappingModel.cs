@@ -144,8 +144,9 @@ namespace DeBroglie.Models
             return true;
         }
 
-        internal override TileModelMapping GetTileModelMapping(GridTopology topology)
+        internal override TileModelMapping GetTileModelMapping(ITopology topology)
         {
+            var gridTopology = topology.AsGridTopology();
             var patternModel = new PatternModel
             {
                 Propagator = propagator.Select(x => x.Select(y => y.ToArray()).ToArray()).ToArray(),
@@ -157,13 +158,13 @@ namespace DeBroglie.Models
             Dictionary<int, IReadOnlyDictionary<int, Tile>> patternsToTilesByOffset;
             ITopoArray<(Point, int, int)> tileCoordToPatternCoordIndexAndOffset;
             ITopoArray<List<(Point, int, int)>> patternCoordToTileCoordIndexAndOffset;
-            if (!(topology.PeriodicX && topology.PeriodicY && topology.PeriodicZ))
+            if (!(gridTopology.PeriodicX && gridTopology.PeriodicY && gridTopology.PeriodicZ))
             {
                 // Shrink the topology as patterns can cover multiple tiles.
-                patternTopology = topology.WithSize(
-                    topology.PeriodicX ? topology.Width : topology.Width - NX + 1,
-                    topology.PeriodicY ? topology.Height : topology.Height - NY + 1,
-                    topology.PeriodicZ ? topology.Depth : topology.Depth - NZ + 1);
+                patternTopology = gridTopology.WithSize(
+                    gridTopology.PeriodicX ? topology.Width : topology.Width - NX + 1,
+                    gridTopology.PeriodicY ? topology.Height : topology.Height - NY + 1,
+                    gridTopology.PeriodicZ ? topology.Depth : topology.Depth - NZ + 1);
 
 
                 void OverlapCoord(int x, int width, out int px, out int ox)
@@ -203,7 +204,7 @@ namespace DeBroglie.Models
                     return (new Point(px, py, pz), patternIndex, CombineOffsets(ox, oy, oz));
                 }
 
-                tileCoordToPatternCoordIndexAndOffset = TopoArray.CreateByPoint(Map, topology);
+                tileCoordToPatternCoordIndexAndOffset = TopoArray.CreateByPoint(Map, gridTopology);
                 var patternCoordToTileCoordIndexAndOffsetValues = new List<(Point, int, int)>[patternTopology.Width, patternTopology.Height, patternTopology.Depth];
                 foreach (var index in topology.GetIndices())
                 {
@@ -250,7 +251,7 @@ namespace DeBroglie.Models
             else
             {
 
-                patternTopology = topology;
+                patternTopology = gridTopology;
                 tileCoordToPatternCoordIndexAndOffset = null;
                 patternCoordToTileCoordIndexAndOffset = null;
                 tilesToPatternsByOffset = new Dictionary<int, IReadOnlyDictionary<Tile, ISet<int>>>()
@@ -278,11 +279,11 @@ namespace DeBroglie.Models
                 // TODO: This could probably do with some cleanup
                 bool GetTopologyMask(int x, int y, int z)
                 {
-                    if (!topology.PeriodicX && x >= topology.Width)
+                    if (!gridTopology.PeriodicX && x >= topology.Width)
                         return false;
-                    if (!topology.PeriodicY && y >= topology.Height)
+                    if (!gridTopology.PeriodicY && y >= topology.Height)
                         return false;
-                    if (!topology.PeriodicZ && z >= topology.Depth)
+                    if (!gridTopology.PeriodicZ && z >= topology.Depth)
                         return false;
                     x = x % topology.Width;
                     y = y % topology.Height;
