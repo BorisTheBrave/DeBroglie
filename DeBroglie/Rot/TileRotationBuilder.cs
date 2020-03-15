@@ -44,7 +44,7 @@ namespace DeBroglie.Rot
 
                 // Arrange destRG so that it is relatively rotated
                 // to srcRG as specified by r.
-                destSg.Permute(rot => rot * destR.Inverse() * srcR * rotation);
+                destSg.Permute(rot => destR.Inverse() * srcR * rotation * rot);
 
                 // Attempt to copy over tiles
                 srcSg.Entries.AddRange(destSg.Entries);
