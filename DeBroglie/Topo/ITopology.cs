@@ -14,13 +14,13 @@
         int Depth { get; }
 
         // TODO: We do not need all these overloads, surely
-        bool TryMove(int index, Direction direction, out int dest, out Direction inverseDirection);
+        bool TryMove(int index, Direction direction, out int dest, out Direction inverseDirection, out EdgeLabel edgeLabel);
 
         bool TryMove(int index, Direction direction, out int dest);
 
         bool TryMove(int x, int y, int z, Direction direction, out int dest);
 
-        bool TryMove(int x, int y, int z, Direction direction, out int dest, out Direction inverseDirection);
+        bool TryMove(int x, int y, int z, Direction direction, out int dest, out Direction inverseDirection, out EdgeLabel edgeLabel);
 
         bool TryMove(int x, int y, int z, Direction direction, out int destx, out int desty, out int destz);
 

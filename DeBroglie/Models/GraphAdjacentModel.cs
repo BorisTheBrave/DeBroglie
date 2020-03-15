@@ -110,10 +110,10 @@ namespace DeBroglie.Models
             {
                 pattern = tilesToPatterns[tile] = tilesToPatterns.Count;
                 frequencies.Add(0);
-                propagator.Add(new HashSet<int>[directionsCount]);
-                for (var d = 0; d < directionsCount; d++)
+                propagator.Add(new HashSet<int>[edgeLabelCount]);
+                for (var el = 0; el < edgeLabelCount; el++)
                 {
-                    propagator[pattern][d] = new HashSet<int>();
+                    propagator[pattern][el] = new HashSet<int>();
                 }
             }
             return pattern;

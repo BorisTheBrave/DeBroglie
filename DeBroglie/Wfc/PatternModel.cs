@@ -3,8 +3,9 @@
     internal class PatternModel
     {
         /**
-          * propagator[pattern1][direction] contains all the patterns that can be placed in
-          * next to pattern1 in the direction direction.
+          * propagator[pattern1][edgeLabel] contains all the patterns that can be placed in
+          * next to pattern1 according to the given edge label.
+          * NB: For grid topologies edge label correspodns to the direction.
           */
         public int[][][] Propagator { get; set; }
 

@@ -39,11 +39,12 @@
             return x;
         }
 
-        public bool TryMove(int index, Direction direction, out int dest, out Direction inverseDirection)
+        public bool TryMove(int index, Direction direction, out int dest, out Direction inverseDirection, out EdgeLabel edgeLabel)
         {
             var neighbour = neighbours[index, (int)direction];
             dest = neighbour.Index;
             inverseDirection = neighbour.InverseDirection;
+            edgeLabel = neighbour.EdgeLabel;
             return neighbour.Index >= 0;
         }
 
@@ -61,11 +62,12 @@
             return neighbour.Index >= 0;
         }
 
-        public bool TryMove(int x, int y, int z, Direction direction, out int dest, out Direction inverseDirection)
+        public bool TryMove(int x, int y, int z, Direction direction, out int dest, out Direction inverseDirection, out EdgeLabel edgeLabel)
         {
             var neighbour = neighbours[x, (int)direction];
             dest = neighbour.Index;
             inverseDirection = neighbour.InverseDirection;
+            edgeLabel = neighbour.EdgeLabel;
             return neighbour.Index >= 0;
         }
 

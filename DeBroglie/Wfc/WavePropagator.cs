@@ -186,11 +186,11 @@ namespace DeBroglie.Wfc
                 topology.GetCoord(item.Index, out x, out y, out z);
                 for (var d = 0; d < directionsCount; d++)
                 {
-                    if (!topology.TryMove(x, y, z, (Direction)d, out var i2, out var id))
+                    if (!topology.TryMove(x, y, z, (Direction)d, out var i2, out Direction id, out EdgeLabel el))
                     {
                         continue;
                     }
-                    var patterns = propagator[item.Pattern][d];
+                    var patterns = propagator[item.Pattern][(int)el];
                     PropagateCore(patterns, i2, (int)id);
                 }
                 // It's important we fully process the item before returning
@@ -312,9 +312,9 @@ namespace DeBroglie.Wfc
                 {
                     for (int d = 0; d < directionsCount; d++)
                     {
-                        if (topology.TryMove(index, (Direction)d, out var dest))
+                        if (topology.TryMove(index, (Direction)d, out var dest, out var _, out var el))
                         {
-                            var compatiblePatterns = propagator[pattern][d].Length;
+                            var compatiblePatterns = propagator[pattern][(int)el].Length;
                             compatible[index, pattern, d] = compatiblePatterns;
                             if (compatiblePatterns == 0 && wave.Get(index, pattern))
                             {
@@ -494,11 +494,11 @@ namespace DeBroglie.Wfc
                 {
                     for (var d = 0; d < directionsCount; d++)
                     {
-                        if (!topology.TryMove(index, (Direction)d, out var i2, out var id))
+                        if (!topology.TryMove(index, (Direction)d, out var i2, out var id, out var el))
                         {
                             continue;
                         }
-                        var patterns = propagator[item.Pattern][d];
+                        var patterns = propagator[item.Pattern][(int)el];
                         foreach (var p in patterns)
                         {
                             ++compatible[i2, p, (int)id];

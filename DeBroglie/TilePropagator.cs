@@ -67,7 +67,7 @@ namespace DeBroglie
         /// <param name="topology">The dimensions of the output to generate</param>
         /// <param name="backtrack">If true, store additional information to allow rolling back choices that lead to a contradiction.</param>
         /// <param name="constraints">Extra constraints to control the generation process.</param>
-        public TilePropagator(TileModel tileModel, GridTopology topology, bool backtrack = false,
+        public TilePropagator(TileModel tileModel, ITopology topology, bool backtrack = false,
             ITileConstraint[] constraints = null)
             : this(tileModel, topology, new TilePropagatorOptions
             {
@@ -87,7 +87,7 @@ namespace DeBroglie
         /// <param name="constraints">Extra constraints to control the generation process.</param>
         /// <param name="random">Source of randomness</param>
         [Obsolete("Use TilePropagatorOptions")]
-        public TilePropagator(TileModel tileModel, GridTopology topology, bool backtrack,
+        public TilePropagator(TileModel tileModel, ITopology topology, bool backtrack,
             ITileConstraint[] constraints,
             Random random)
             :this(tileModel, topology, new TilePropagatorOptions
@@ -100,7 +100,7 @@ namespace DeBroglie
 
         }
 
-        public TilePropagator(TileModel tileModel, GridTopology topology, TilePropagatorOptions options)
+        public TilePropagator(TileModel tileModel, ITopology topology, TilePropagatorOptions options)
         {
             this.tileModel = tileModel;
             this.topology = topology;

@@ -235,7 +235,7 @@ namespace DeBroglie.Constraints
                 for(var d=0;d<topology.DirectionsCount;d++)
                 {
                     var direction = (Direction)d;
-                    if (topology.TryMove(i, direction, out var dest, out var inverseDir))
+                    if (topology.TryMove(i, direction, out var dest, out var inverseDir, out var _))
                     {
                         // The central node connects to the direction node
                         n.Add(GetDirNodeId(i, direction));
