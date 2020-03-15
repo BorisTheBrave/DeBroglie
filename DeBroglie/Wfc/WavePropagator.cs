@@ -52,7 +52,7 @@ namespace DeBroglie.Wfc
 
         /**
           * compatible[index, pattern, direction] contains the number of patterns present in the wave
-          * that can be placed in the cell next to index in the opposite direction of direction without being
+          * that can be placed in the cell next to index in direction without being
           * in contradiction with pattern placed in index.
           * If possibilites[index][pattern] is set to false, then compatible[index, pattern, direction] has every direction negative or null
           */
@@ -186,13 +186,12 @@ namespace DeBroglie.Wfc
                 topology.GetCoord(item.Index, out x, out y, out z);
                 for (var d = 0; d < directionsCount; d++)
                 {
-                    int i2;
-                    if (!topology.TryMove(x, y, z, (Direction)d, out i2))
+                    if (!topology.TryMove(x, y, z, (Direction)d, out var i2, out var id))
                     {
                         continue;
                     }
                     var patterns = propagator[item.Pattern][d];
-                    PropagateCore(patterns, i2, d);
+                    PropagateCore(patterns, i2, (int)id);
                 }
                 // It's important we fully process the item before returning
                 // so that we're in a consistent state for backtracking
@@ -313,10 +312,10 @@ namespace DeBroglie.Wfc
                 {
                     for (int d = 0; d < directionsCount; d++)
                     {
-                        if (topology.TryMove(index, (Direction)d, out var dest, out var inverseDirection))
+                        if (topology.TryMove(index, (Direction)d, out var dest))
                         {
                             var compatiblePatterns = propagator[pattern][d].Length;
-                            compatible[index, pattern, (int)inverseDirection] = compatiblePatterns;
+                            compatible[index, pattern, d] = compatiblePatterns;
                             if (compatiblePatterns == 0 && wave.Get(index, pattern))
                             {
                                 if (InternalBan(index, pattern))
@@ -495,15 +494,14 @@ namespace DeBroglie.Wfc
                 {
                     for (var d = 0; d < directionsCount; d++)
                     {
-                        int i2;
-                        if (!topology.TryMove(index, (Direction)d, out i2))
+                        if (!topology.TryMove(index, (Direction)d, out var i2, out var id))
                         {
                             continue;
                         }
                         var patterns = propagator[item.Pattern][d];
                         foreach (var p in patterns)
                         {
-                            ++compatible[i2, p, d];
+                            ++compatible[i2, p, (int)id];
                         }
                     }
                 }

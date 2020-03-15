@@ -189,6 +189,12 @@
             return TryMove(x, y, z, direction, out dest);
         }
 
+        public bool TryMove(int x, int y, int z, Direction direction, out int dest, out Direction inverseDirection)
+        {
+            inverseDirection = Directions.Inverse(direction);
+            return TryMove(x, y, z, direction, out dest);
+        }
+
         /// <summary>
         /// Given a co-ordinate and a direction, gives the index that is one step in that direction,
         /// if it exists and is not masked out. Otherwise, it returns false.
