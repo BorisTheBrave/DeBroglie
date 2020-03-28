@@ -1,12 +1,25 @@
-﻿namespace DeBroglie.Topo
+﻿using DeBroglie.Rot;
+
+namespace DeBroglie.Topo
 {
+    public class GraphInfo
+    {
+        public int DirectionsCount { get; set; }
+
+        public int EdgeLabelCount { get; set; }
+
+        // Optional
+        public (Direction, Direction, Rotation)[] EdgeLabelInfo { get; set; }
+    }
+
+
     public class GraphTopology : ITopology
     {
-        readonly int indexCount;
-        readonly int directionsCount;
+        private readonly int indexCount;
+        private readonly int directionsCount;
 
         // By index, direction
-        readonly NeighbourDetails[,] neighbours;
+        private readonly NeighbourDetails[,] neighbours;
 
         public GraphTopology(NeighbourDetails[,] neighbours)
         {

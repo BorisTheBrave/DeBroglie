@@ -2,6 +2,7 @@
 using DeBroglie.Rot;
 using DeBroglie.Topo;
 using NUnit.Framework;
+using System.Linq;
 
 namespace DeBroglie.Test
 {
@@ -28,12 +29,28 @@ namespace DeBroglie.Test
             // 4: [2, 1, 0, 3]
             // 5: [0, 1, 2, 3]
 
-            // Edge label = dir + 4 * clockwise rotation in right angles
-            // (e.g. going from face 5 to face 1, is direction XPlus (0), and rotation of 1, so edge label is 4)
+            // Edge label = dir + 4 * inversdir
+            // (e.g. going from face 5 to face 1, is direction XPlus (0), and invrse dir of YPlus (2) so edge label is 8)
+
+            Rotation GetRotation(Direction direction, Direction inverseDirection)
+            {
+                int GetAngle(Direction d)
+                {
+                    switch (d)
+                    {
+                        case Direction.XPlus: return 0;
+                        case Direction.YPlus: return 90;
+                        case Direction.XMinus: return 180;
+                        case Direction.YMinus: return 270;
+                    }
+                    throw new System.Exception();
+                }
+                return new Rotation((360 + GetAngle(direction) - GetAngle(inverseDirection) + 180) % 360);
+            }
 
             GraphTopology.NeighbourDetails ND(Direction d, int index, Direction inverse, int rot)
             {
-                var el = (EdgeLabel)((int)d) + 4 * rot;
+                var el = (EdgeLabel)((int)d) + 4 * (int)inverse;
                 return new GraphTopology.NeighbourDetails
                 {
                     Index = index,
@@ -90,7 +107,16 @@ namespace DeBroglie.Test
                 },
             });
 
-            var model = new GraphAdjacentModel(4, 16);
+            var graphInfo = new GraphInfo
+            {
+                DirectionsCount = 4,
+                EdgeLabelCount = 16,
+                EdgeLabelInfo = (from el in Enumerable.Range(0, 16)
+                                 let d = (Direction)(el % 4)
+                                 let id = (Direction)(el / 4)
+                                 select (d, id, GetRotation(d, id))).ToArray(),
+            };
+            var model = new GraphAdjacentModel(graphInfo);
 
             var empty = new Tile(" ");
             var straight1 = new Tile("║");
@@ -118,34 +144,16 @@ namespace DeBroglie.Test
 
             void AddAdjacency(Tile[] src, Tile[] dest, Direction direction)
             {
-                AddAdjacency2(src, dest, direction);
-                AddAdjacency2(dest, src, DirectionSet.Cartesian2d.Inverse(direction));
-            }
 
-            void AddAdjacency2(Tile[] src, Tile[] dest, Direction direction)
-            {
-                foreach(var s in src)
+                foreach (var s in src)
                 {
                     foreach (var d in dest)
                     {
-                        for (var r = 0; r < 4; r++)
-                        {
-                            var rotation = new Rotation(r == 0 ? 0 : 360 - 90 * r);
-                            if (tileRotation.Rotate(d, rotation, out var rd))
-                            {
-                                var el = (EdgeLabel)(((int)direction) + 4 * r);
-                                model.AddAdjacency(s, rd, el);
-                            }
-                        }
+                        model.AddAdjacency(s, d, direction, tileRotation);
                     }
                 }
             }
 
-            /*
-            if A  -> B under XPlus and rotation 0
-            then can conclude A -> Rotate(B, 270) under rotation 90
-
-            */
             AddAdjacency(
                 new[] { empty, straight1, corner3, corner4 },
                 new[] { empty, straight1, corner1, corner2 },

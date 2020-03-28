@@ -15,6 +15,14 @@ namespace DeBroglie.Models
         private List<double> frequencies;
         // By Pattern, then edge-label
         private List<HashSet<int>[]> propagator;
+        private (Direction, Direction, Rotation)[] edgeLabelInfo;
+
+        public GraphAdjacentModel(GraphInfo graphInfo)
+            :this(graphInfo.DirectionsCount, graphInfo.EdgeLabelCount)
+        {
+            this.edgeLabelInfo = graphInfo.EdgeLabelInfo;
+        }
+
 
         public GraphAdjacentModel(int directionsCount, int edgeLabelCount)
         {
@@ -117,6 +125,36 @@ namespace DeBroglie.Models
                 }
             }
             return pattern;
+        }
+
+
+        public void AddAdjacency(Tile src, Tile dest, Direction direction, TileRotation tileRotation)
+        {
+            if(edgeLabelInfo == null)
+            {
+                throw new Exception("This method requires edgeLabelInfo configured");
+            }
+            var inverseDirection = edgeLabelInfo.Where(x => x.Item3.IsIdentity && x.Item1 == direction).Single().Item2;
+            for (var i = 0; i < edgeLabelInfo.Length; i++)
+            {
+                var (d, id, r) = edgeLabelInfo[i];
+                if (d == direction)
+                {
+                    var rotation = r.Inverse();
+                    if (tileRotation.Rotate(dest, rotation, out var rd))
+                    {
+                        AddAdjacency(src, rd, (EdgeLabel)i);
+                    }
+                }
+                if (d == inverseDirection)
+                {
+                    var rotation = r.Inverse();
+                    if (tileRotation.Rotate(src, rotation, out var rs))
+                    {
+                        AddAdjacency(dest, rs, (EdgeLabel)i);
+                    }
+                }
+            }
         }
 
         public void AddAdjacency(Tile src, Tile dest, EdgeLabel edgeLabel)
