@@ -29,32 +29,32 @@ namespace DeBroglie.Test
             // 4: [2, 1, 0, 3]
             // 5: [0, 1, 2, 3]
 
-            var meshBuilder = new MeshBuilder(DirectionSet.Cartesian2d);
+            var meshBuilder = new MeshTopologyBuilder(DirectionSet.Cartesian2d);
 
-            meshBuilder.Add(0, 1, Direction.XPlus, Direction.XMinus);
-            meshBuilder.Add(0, 3, Direction.XMinus, Direction.XPlus);
-            meshBuilder.Add(0, 5, Direction.YPlus,  Direction.YMinus);
-            meshBuilder.Add(0, 4, Direction.YMinus, Direction.YPlus);
-            meshBuilder.Add(1, 2, Direction.XPlus,  Direction.XMinus);
-            meshBuilder.Add(1, 0, Direction.XMinus, Direction.XPlus);
-            meshBuilder.Add(1, 5, Direction.YPlus,  Direction.XPlus);
-            meshBuilder.Add(1, 4, Direction.YMinus, Direction.XPlus);
-            meshBuilder.Add(2, 3, Direction.XPlus,  Direction.XMinus);
-            meshBuilder.Add(2, 1, Direction.XMinus, Direction.XPlus);
-            meshBuilder.Add(2, 5, Direction.YPlus,  Direction.YPlus);
-            meshBuilder.Add(2, 4, Direction.YMinus, Direction.YMinus);
-            meshBuilder.Add(3, 0, Direction.XPlus,  Direction.XMinus);
-            meshBuilder.Add(3, 2, Direction.XMinus, Direction.XPlus);
-            meshBuilder.Add(3, 5, Direction.YPlus,  Direction.XMinus);
-            meshBuilder.Add(3, 4, Direction.YMinus, Direction.XMinus);
-            meshBuilder.Add(4, 1, Direction.XPlus,  Direction.YMinus);
-            meshBuilder.Add(4, 3, Direction.XMinus, Direction.YMinus);
-            meshBuilder.Add(4, 0, Direction.YPlus,  Direction.YMinus);
-            meshBuilder.Add(4, 2, Direction.YMinus, Direction.YMinus);
-            meshBuilder.Add(5, 1, Direction.XPlus,  Direction.YPlus);
-            meshBuilder.Add(5, 3, Direction.XMinus, Direction.YPlus);
-            meshBuilder.Add(5, 2, Direction.YPlus,  Direction.YPlus);
-            meshBuilder.Add(5, 0, Direction.YMinus, Direction.YPlus);
+            meshBuilder.Add(0, 1, Direction.XPlus);
+            meshBuilder.Add(0, 3, Direction.XMinus);
+            meshBuilder.Add(0, 5, Direction.YPlus);
+            meshBuilder.Add(0, 4, Direction.YMinus);
+            meshBuilder.Add(1, 2, Direction.XPlus);
+            meshBuilder.Add(1, 0, Direction.XMinus);
+            meshBuilder.Add(1, 5, Direction.YPlus);
+            meshBuilder.Add(1, 4, Direction.YMinus);
+            meshBuilder.Add(2, 3, Direction.XPlus);
+            meshBuilder.Add(2, 1, Direction.XMinus);
+            meshBuilder.Add(2, 5, Direction.YPlus);
+            meshBuilder.Add(2, 4, Direction.YMinus);
+            meshBuilder.Add(3, 0, Direction.XPlus);
+            meshBuilder.Add(3, 2, Direction.XMinus);
+            meshBuilder.Add(3, 5, Direction.YPlus);
+            meshBuilder.Add(3, 4, Direction.YMinus);
+            meshBuilder.Add(4, 1, Direction.XPlus);
+            meshBuilder.Add(4, 3, Direction.XMinus);
+            meshBuilder.Add(4, 0, Direction.YPlus);
+            meshBuilder.Add(4, 2, Direction.YMinus);
+            meshBuilder.Add(5, 1, Direction.XPlus);
+            meshBuilder.Add(5, 3, Direction.XMinus);
+            meshBuilder.Add(5, 2, Direction.YPlus);
+            meshBuilder.Add(5, 0, Direction.YMinus);
 
             var topology = meshBuilder.GetTopology();
 

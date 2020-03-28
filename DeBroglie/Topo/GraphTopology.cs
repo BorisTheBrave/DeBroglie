@@ -2,17 +2,32 @@
 
 namespace DeBroglie.Topo
 {
+    /// <summary>
+    /// Summarises the type of graph 
+    /// </summary>
     public class GraphInfo
     {
+        /// <summary>
+        /// The degree of the graph (max number of neighbours)
+        /// </summary>
         public int DirectionsCount { get; set; }
 
+        /// <summary>
+        /// Lists the number of distinct edge labels this graph uses.
+        /// </summary>
         public int EdgeLabelCount { get; set; }
 
-        // Optional
+        /// <summary>
+        /// Optionally specifies how edge labels correspond to directions.
+        /// It's usually easiest to create this with <see cref="MeshTopologyBuilder"/>
+        /// </summary>
         public (Direction, Direction, Rotation)[] EdgeLabelInfo { get; set; }
     }
 
-
+    /// <summary>
+    /// An generic topology representing any graph data strcture with a given maximum degree.
+    /// The x-axis is the same as the index, indicating which vertex in the graph. y and z are unused and are always zero.
+    /// </summary>
     public class GraphTopology : ITopology
     {
         private readonly int indexCount;
@@ -21,6 +36,12 @@ namespace DeBroglie.Topo
         // By index, direction
         private readonly NeighbourDetails[,] neighbours;
 
+        /// <summary>
+        /// Constructs a new GraphTopology.
+        /// neighbours[i, d] should be an array indicating what the d'th neighbour of the i'th node is.
+        /// d should be a Direction, cast to an integer.
+        /// </summary>
+        /// <param name="neighbours"></param>
         public GraphTopology(NeighbourDetails[,] neighbours)
         {
             indexCount = neighbours.GetLength(0);
@@ -38,7 +59,8 @@ namespace DeBroglie.Topo
 
         public int Depth => 1;
 
-        public bool[] Mask => null;// Not supported for now?
+        // Not supported. There's little point having masks when you can just filter the neighbours directly.
+        public bool[] Mask => null;
 
         public void GetCoord(int index, out int x, out int y, out int z)
         {
@@ -95,9 +117,20 @@ namespace DeBroglie.Topo
 
         public struct NeighbourDetails
         {
-            // Set to -1 to indicate no neighbour
+            /// <summary>
+            /// Where this edge leads to.
+            /// Set to -1 to indicate no neighbour.
+            /// </summary>
             public int Index { get; set; }
+            
+            /// <summary>
+            /// The edge label of this edge
+            /// </summary>
             public EdgeLabel EdgeLabel { get; set; }
+
+            /// <summary>
+            /// The direction to move from Index which will return back along this edge.
+            /// </summary>
             public Direction InverseDirection { get; set; }
         }
     }

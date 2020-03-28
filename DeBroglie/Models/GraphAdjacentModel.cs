@@ -7,6 +7,9 @@ using System.Linq;
 
 namespace DeBroglie.Models
 {
+    /// <summary>
+    /// Functions as AdjacentModel, but is more generic and will function for any toplogy.
+    /// </summary>
     public class GraphAdjacentModel : TileModel
     {
         private readonly int directionsCount;

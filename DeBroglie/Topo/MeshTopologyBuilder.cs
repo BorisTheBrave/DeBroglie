@@ -1,5 +1,6 @@
 ﻿using DeBroglie.Rot;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DeBroglie.Topo
@@ -7,7 +8,7 @@ namespace DeBroglie.Topo
     /// <summary>
     /// Builds a GraphTopology that represents a mesh, i.e. a series of faces that connect to each other along their edges.
     /// </summary>
-    public class MeshBuilder
+    public class MeshTopologyBuilder
     {
         private DirectionSet directions;
 
@@ -16,7 +17,9 @@ namespace DeBroglie.Topo
         // By index, direction
         private GraphTopology.NeighbourDetails[,] neighbours;
 
-        public MeshBuilder(DirectionSet directions)
+        private readonly Dictionary<(int, int), Direction> pendingInverses = new Dictionary<(int, int), Direction>();
+
+        public MeshTopologyBuilder(DirectionSet directions)
         {
             if(directions.Type != DirectionSetType.Cartesian2d)
             {
@@ -49,6 +52,27 @@ namespace DeBroglie.Topo
             return (EdgeLabel)((int)direction + directions.Count * (int)inverseDirection);
         }
 
+        /// <summary>
+        /// Registers face1 and face2 as adjacent, moving in direction from face1 to face2.
+        /// If you call this, you will also need to call add with face1 and face2 swapped, to
+        /// establish the direction when travelling back.
+        /// </summary>
+        public void Add(int face1, int face2, Direction direction)
+        {
+            if (pendingInverses.TryGetValue((face2, face1), out var inverseDirection))
+            {
+                Add(face1, face2, direction, inverseDirection);
+                pendingInverses.Remove((face2, face1));
+            }
+            else
+            {
+                pendingInverses.Add((face1, face2), direction);
+            }
+        }
+
+        /// <summary>
+        /// Registers face1 and face2 as adjacent, moving in direction from face1 to face2 and inverseDirection from face2 to face1.
+        /// </summary>
         public void Add(int face1, int face2, Direction direction, Direction inverseDirection)
         {
             var maxFace = Math.Max(face1, face2);
@@ -81,6 +105,11 @@ namespace DeBroglie.Topo
 
         public GraphTopology GetTopology()
         {
+            if(pendingInverses.Count > 0)
+            {
+                var kv = pendingInverses.First();
+                throw new Exception($"Some face adjacencies have only been added in one direction, e.g. {kv.Key.Item1} -> {kv.Key.Item2}");
+            }
             return new GraphTopology(neighbours);
         }
 
