@@ -127,6 +127,16 @@ namespace DeBroglie.Models
             return pattern;
         }
 
+        public void AddAdjacency(IList<Tile> src, IList<Tile> dest, Direction direction, TileRotation tileRotation)
+        {
+            foreach (var s in src)
+            {
+                foreach (var d in dest)
+                {
+                    AddAdjacency(s, d, direction, tileRotation);
+                }
+            }
+        }
 
         public void AddAdjacency(Tile src, Tile dest, Direction direction, TileRotation tileRotation)
         {
@@ -153,6 +163,18 @@ namespace DeBroglie.Models
                     {
                         AddAdjacency(dest, rs, (EdgeLabel)i);
                     }
+                }
+            }
+        }
+
+
+        public void AddAdjacency(IList<Tile> src, IList<Tile> dest, EdgeLabel edgeLabel)
+        {
+            foreach(var s in src)
+            {
+                foreach(var d in dest)
+                {
+                    AddAdjacency(s, d, edgeLabel);
                 }
             }
         }

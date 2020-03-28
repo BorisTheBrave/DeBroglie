@@ -29,94 +29,36 @@ namespace DeBroglie.Test
             // 4: [2, 1, 0, 3]
             // 5: [0, 1, 2, 3]
 
-            // Edge label = dir + 4 * inversdir
-            // (e.g. going from face 5 to face 1, is direction XPlus (0), and invrse dir of YPlus (2) so edge label is 8)
+            var meshBuilder = new MeshBuilder(DirectionSet.Cartesian2d);
 
-            Rotation GetRotation(Direction direction, Direction inverseDirection)
-            {
-                int GetAngle(Direction d)
-                {
-                    switch (d)
-                    {
-                        case Direction.XPlus: return 0;
-                        case Direction.YPlus: return 90;
-                        case Direction.XMinus: return 180;
-                        case Direction.YMinus: return 270;
-                    }
-                    throw new System.Exception();
-                }
-                return new Rotation((360 + GetAngle(direction) - GetAngle(inverseDirection) + 180) % 360);
-            }
+            meshBuilder.Add(0, 1, Direction.XPlus, Direction.XMinus);
+            meshBuilder.Add(0, 3, Direction.XMinus, Direction.XPlus);
+            meshBuilder.Add(0, 5, Direction.YPlus,  Direction.YMinus);
+            meshBuilder.Add(0, 4, Direction.YMinus, Direction.YPlus);
+            meshBuilder.Add(1, 2, Direction.XPlus,  Direction.XMinus);
+            meshBuilder.Add(1, 0, Direction.XMinus, Direction.XPlus);
+            meshBuilder.Add(1, 5, Direction.YPlus,  Direction.XPlus);
+            meshBuilder.Add(1, 4, Direction.YMinus, Direction.XPlus);
+            meshBuilder.Add(2, 3, Direction.XPlus,  Direction.XMinus);
+            meshBuilder.Add(2, 1, Direction.XMinus, Direction.XPlus);
+            meshBuilder.Add(2, 5, Direction.YPlus,  Direction.YPlus);
+            meshBuilder.Add(2, 4, Direction.YMinus, Direction.YMinus);
+            meshBuilder.Add(3, 0, Direction.XPlus,  Direction.XMinus);
+            meshBuilder.Add(3, 2, Direction.XMinus, Direction.XPlus);
+            meshBuilder.Add(3, 5, Direction.YPlus,  Direction.XMinus);
+            meshBuilder.Add(3, 4, Direction.YMinus, Direction.XMinus);
+            meshBuilder.Add(4, 1, Direction.XPlus,  Direction.YMinus);
+            meshBuilder.Add(4, 3, Direction.XMinus, Direction.YMinus);
+            meshBuilder.Add(4, 0, Direction.YPlus,  Direction.YMinus);
+            meshBuilder.Add(4, 2, Direction.YMinus, Direction.YMinus);
+            meshBuilder.Add(5, 1, Direction.XPlus,  Direction.YPlus);
+            meshBuilder.Add(5, 3, Direction.XMinus, Direction.YPlus);
+            meshBuilder.Add(5, 2, Direction.YPlus,  Direction.YPlus);
+            meshBuilder.Add(5, 0, Direction.YMinus, Direction.YPlus);
 
-            GraphTopology.NeighbourDetails ND(Direction d, int index, Direction inverse, int rot)
-            {
-                var el = (EdgeLabel)((int)d) + 4 * (int)inverse;
-                return new GraphTopology.NeighbourDetails
-                {
-                    Index = index,
-                    InverseDirection = inverse,
-                    EdgeLabel = el,
-                };
-            }
+            var topology = meshBuilder.GetTopology();
 
-            //YMinus,XPlus,YPlus,XMinus
-
-            var topology = new GraphTopology(new GraphTopology.NeighbourDetails[6, 4]
-            {
-                // Face 0
-                {
-                    ND(Direction.XPlus,  1, Direction.XMinus, 0),
-                    ND(Direction.XMinus, 3, Direction.XPlus, 0),
-                    ND(Direction.YPlus,  5, Direction.YMinus, 0),
-                    ND(Direction.YMinus, 4, Direction.YPlus, 0),
-                },
-                // Face 1
-                {
-                    ND(Direction.XPlus,  2, Direction.XMinus, 0),
-                    ND(Direction.XMinus, 0, Direction.XPlus, 0),
-                    ND(Direction.YPlus,  5, Direction.XPlus, 3),
-                    ND(Direction.YMinus, 4, Direction.XPlus, 1),
-                },
-                // Face 2
-                {
-                    ND(Direction.XPlus,  3, Direction.XMinus, 0),
-                    ND(Direction.XMinus, 1, Direction.XPlus, 0),
-                    ND(Direction.YPlus,  5, Direction.YPlus, 2),
-                    ND(Direction.YMinus, 4, Direction.YMinus, 2),
-                },
-                // Face 3
-                {
-                    ND(Direction.XPlus,  0, Direction.XMinus, 0),
-                    ND(Direction.XMinus, 2, Direction.XPlus, 0),
-                    ND(Direction.YPlus,  5, Direction.XMinus, 1),
-                    ND(Direction.YMinus, 4, Direction.XMinus, 3),
-                },
-                // Face 4
-                {
-                    ND(Direction.XPlus,  1, Direction.YMinus, 3),
-                    ND(Direction.XMinus, 3, Direction.YMinus, 1),
-                    ND(Direction.YPlus,  0, Direction.YMinus, 0),
-                    ND(Direction.YMinus, 2, Direction.YMinus, 2),
-                },
-                // Face 5
-                {
-                    ND(Direction.XPlus,  1, Direction.YPlus, 1),
-                    ND(Direction.XMinus, 3, Direction.YPlus, 3),
-                    ND(Direction.YPlus,  2, Direction.YPlus, 2),
-                    ND(Direction.YMinus, 0, Direction.YPlus, 0),
-                },
-            });
-
-            var graphInfo = new GraphInfo
-            {
-                DirectionsCount = 4,
-                EdgeLabelCount = 16,
-                EdgeLabelInfo = (from el in Enumerable.Range(0, 16)
-                                 let d = (Direction)(el % 4)
-                                 let id = (Direction)(el / 4)
-                                 select (d, id, GetRotation(d, id))).ToArray(),
-            };
-            var model = new GraphAdjacentModel(graphInfo);
+            var model = new GraphAdjacentModel(meshBuilder.GetInfo());
 
             var empty = new Tile(" ");
             var straight1 = new Tile("║");
@@ -142,37 +84,25 @@ namespace DeBroglie.Test
 
             var tileRotation = tileRotationBuilder.Build();
 
-            void AddAdjacency(Tile[] src, Tile[] dest, Direction direction)
-            {
-
-                foreach (var s in src)
-                {
-                    foreach (var d in dest)
-                    {
-                        model.AddAdjacency(s, d, direction, tileRotation);
-                    }
-                }
-            }
-
-            AddAdjacency(
+            model.AddAdjacency(
                 new[] { empty, straight1, corner3, corner4 },
                 new[] { empty, straight1, corner1, corner2 },
-                Direction.XPlus);
+                Direction.XPlus, tileRotation);
 
-            AddAdjacency(
+            model.AddAdjacency(
                 new[] { straight2, corner1, corner2 },
                 new[] { straight2, corner3, corner4 },
-                Direction.XPlus);
+                Direction.XPlus, tileRotation);
 
-            AddAdjacency(
+            model.AddAdjacency(
                 new[] { empty, straight2, corner1, corner4 },
                 new[] { empty, straight2, corner2, corner3 },
-                Direction.YPlus);
+                Direction.YPlus, tileRotation);
 
-            AddAdjacency(
+            model.AddAdjacency(
                 new[] { straight1, corner2, corner3 },
                 new[] { straight1, corner1, corner4 },
-                Direction.YPlus);
+                Direction.YPlus, tileRotation);
 
             model.SetUniformFrequency();
 
