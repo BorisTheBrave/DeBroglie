@@ -32,6 +32,7 @@ namespace DeBroglie.Topo
     {
         private readonly int indexCount;
         private readonly int directionsCount;
+        private readonly bool[] mask;
 
         // By index, direction
         private readonly NeighbourDetails[,] neighbours;
@@ -42,7 +43,7 @@ namespace DeBroglie.Topo
         /// d should be a Direction, cast to an integer.
         /// </summary>
         /// <param name="neighbours"></param>
-        public GraphTopology(NeighbourDetails[,] neighbours)
+        public GraphTopology(NeighbourDetails[,] neighbours, bool[] mask = null)
         {
             indexCount = neighbours.GetLength(0);
             directionsCount = neighbours.GetLength(1);
@@ -59,8 +60,12 @@ namespace DeBroglie.Topo
 
         public int Depth => 1;
 
-        // Not supported. There's little point having masks when you can just filter the neighbours directly.
-        public bool[] Mask => null;
+        public bool[] Mask => mask;
+
+        public GraphTopology WithMask(bool[] mask)
+        {
+            return new GraphTopology(neighbours, mask);
+        }
 
         public void GetCoord(int index, out int x, out int y, out int z)
         {
@@ -115,6 +120,10 @@ namespace DeBroglie.Topo
             return neighbour.Index >= 0;
         }
 
+        /// <summary>
+        /// Describes a single neighbour of a node.
+        /// (also called a half-edge in some literature).
+        /// </summary>
         public struct NeighbourDetails
         {
             /// <summary>
