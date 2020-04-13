@@ -20,6 +20,12 @@ namespace DeBroglie.Rot
 
         private TileRotationTreatment defaultTreatment;
 
+        public TileRotationBuilder(RotationGroup rotationGroup, TileRotationTreatment defaultTreatment = TileRotationTreatment.Unchanged)
+        {
+            this.rotationGroup = rotationGroup;
+            this.defaultTreatment = defaultTreatment;
+        }
+
         public TileRotationBuilder(int rotationalSymmetry, bool reflectionalSymmetry, TileRotationTreatment defaultTreatment = TileRotationTreatment.Unchanged)
         {
             this.rotationGroup = new RotationGroup(rotationalSymmetry, reflectionalSymmetry);
@@ -99,6 +105,7 @@ namespace DeBroglie.Rot
             switch (ts)
             {
                 case TileSymmetry.F:
+                    GetGroup(tile, out var _);
                     break;
                 case TileSymmetry.N:
                     Add(tile, new Rotation(2 * 90, false), tile);

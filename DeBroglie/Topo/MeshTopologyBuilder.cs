@@ -27,7 +27,7 @@ namespace DeBroglie.Topo
             }
             this.directions = directions;
             edgeLabelCount = directions.Count * directions.Count;
-            neighbours = new GraphTopology.NeighbourDetails[0, edgeLabelCount];
+            neighbours = new GraphTopology.NeighbourDetails[0, directions.Count];
         }
 
         private int GetAngle(Direction d)
@@ -78,13 +78,13 @@ namespace DeBroglie.Topo
             var maxFace = Math.Max(face1, face2);
             if (neighbours.GetLength(0) <= maxFace)
             {
-                var newNeighbours = new GraphTopology.NeighbourDetails[maxFace + 1, edgeLabelCount];
+                var newNeighbours = new GraphTopology.NeighbourDetails[maxFace + 1, directions.Count];
                 Array.Copy(neighbours, newNeighbours, neighbours.Length);
                 for(var f = neighbours.GetLength(0);f<maxFace+1;f++)
                 {
-                    for(var el=0;el<edgeLabelCount;el++)
+                    for(var d=0;d<directions.Count;d++)
                     {
-                        newNeighbours[f, el].Index = -1;
+                        newNeighbours[f, d].Index = -1;
                     }
                 }
                 neighbours = newNeighbours;

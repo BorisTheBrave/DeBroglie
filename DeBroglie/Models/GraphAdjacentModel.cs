@@ -147,7 +147,12 @@ namespace DeBroglie.Models
             {
                 throw new Exception("This method requires edgeLabelInfo configured");
             }
-            var inverseDirection = edgeLabelInfo.Where(x => x.Item3.IsIdentity && x.Item1 == direction).Single().Item2;
+            var inverseDirectionItems = edgeLabelInfo.Where(x => x.Item3.IsIdentity && x.Item1 == direction).ToList();
+            if(inverseDirectionItems.Count == 0)
+            {
+                throw new Exception($"Couldn't find identity edge label for direction {direction}");
+            }
+            var inverseDirection = inverseDirectionItems[0].Item2;
             for (var i = 0; i < edgeLabelInfo.Length; i++)
             {
                 var (d, id, r) = edgeLabelInfo[i];
