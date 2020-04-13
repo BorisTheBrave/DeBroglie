@@ -126,42 +126,7 @@ Backtracking is very powerful and general, and can solve extremely difficult lay
 Topology
 --------
 
-The most common case of using DeBroglie is to generate 2d images and tile maps, however, that is not all that can be generated.
-
-<figure>
-<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/columns.json">
-<img src="../images/columns_in.png"/>
-<img src="../images/arrow.png"/>
-<img src="../images/columns_out.png"/>
-</a>
-<figcaption>Example of 3d generation. Rendered with <a href="http://magicavoxel.net">MagicaVoxel</a></figcaption>
-</figure>
-
-
-<figure>
-<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/hexmini.json">
-<img src="../images/hexmini_in.png"/>
-<img src="../images/arrow.png"/>
-<img src="../images/hexmini_out.png"/>
-</a>
-<figcaption>Example of hex generation. Rendered with <a href="https://www.mapeditor.org">Tiled</a></figcaption>
-</figure>
-
-DeBroglie uses a mechanism called <xref:DeBroglie.Topo.Topology> to specify the type of area or volume to generate, what size it is, and whether it should wrap around at the edges (i.e. is it *periodic*). Topologies do not actually store data, they just specify the dimensions. Actual data is stored in an <xref:DeBroglie.Topo.ITopoArray`1>.
-
-Currently, three types of topology are supported: 2d square grid, 2d hex grid, and 3d cube grid. 
-
-The topology of the generated result is inferred from the input samples. When using the command line tool the topology of the input is based on the file being read. But as a C# library, samples are passed as <xref:DeBroglie.Topo.ITopoArray`1> objects.
-
-So you must directly call the <xref:DeBroglie.Topo.Topology> constructor, and then create <xref:DeBroglie.Topo.ITopoArray`1> objects using the methods on <xref:DeBroglie.Topo.TopoArray>.  There's also many shortcut methods that don't require a topology if you just want to work with square grids.
-
-### Hexagonal Topology
-
-Hexagonal topologies use a convention of "pointy side up". The x-axis moves to the right, and the y-axis moves down and to the left. This means the library generates rhombus shaped output. Additionally, periodic input / output is not supported.
-
-Using the [Tiled format](https://www.mapeditor.org/) for import/export of hexagonal tilemaps is recommended, as most software doesn't have support for hexagons. DeBroglie comes with <xref:DeBroglie.TiledUtil> to facilitate converting between <xref:DeBroglie.Topo.ITopoArray`1> objects and Tiled maps.
-
-When using the [overlapping](#overlapping) model, the constraints are based on `n` by `n` rhombus shapes, rather than `n` by `n` rectangles.
+Topology is the abstraction DeBroglie to use to deal with 2d grids, 3d volumes and graphs under the same system. It is [detailed here](topologies.md).
 
 Rotation
 --------
