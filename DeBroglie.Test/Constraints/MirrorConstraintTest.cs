@@ -41,7 +41,7 @@ namespace DeBroglie.Test.Constraints
 
             var tr = trb.Build();
 
-            var constraints = new[] { new MirrorConstraint { TileRotation = tr } };
+            var constraints = new[] { new MirrorXConstraint { TileRotation = tr } };
 
             // tile1 reflects to tile 2
             {

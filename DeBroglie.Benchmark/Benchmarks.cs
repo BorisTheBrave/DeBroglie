@@ -312,7 +312,7 @@ namespace DeBroglie.Benchmark
 
             var tr = trb.Build();
 
-            var constraints = new[] { new MirrorConstraint { TileRotation = tr } };
+            var constraints = new[] { new MirrorXConstraint { TileRotation = tr } };
 
 
             // NB: It's important that width is an odd number

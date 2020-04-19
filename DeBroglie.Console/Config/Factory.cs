@@ -339,7 +339,7 @@ namespace DeBroglie.Console.Config
                     }
                     else if (constraint is MirrorConfig mirrorConfig)
                     {
-                        constraints.Add(new MirrorConstraint
+                        constraints.Add(new MirrorXConstraint
                         {
                             TileRotation = tileRotation,
                         });
