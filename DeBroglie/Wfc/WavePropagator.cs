@@ -6,10 +6,14 @@ using DeBroglie.Trackers;
 
 namespace DeBroglie.Wfc
 {
-    // This works similarly to IWaveConstraint, in that it listens to changes in the Wave, and 
-    // makes appropriate changes to the propagator for the constraint.
-    // The constraint being enforced is the model itself
-    internal class WaveConstraintPropagator
+    /// <summary>
+    /// This works similarly to IWaveConstraint, in that it listens to changes in the Wave, and  
+    /// makes appropriate changes to the propagator for the constraint.
+    /// The constraint being enforced that adjacent patterns must filt PatternModel.Propatagor.
+    /// 
+    /// It's not implemented as a IWaveConstraint for historical reasons
+    /// </summary>
+    internal class PatternModelConstraint
     {
         // From model
         private int[][][] propagatorArray;
@@ -20,10 +24,9 @@ namespace DeBroglie.Wfc
         private readonly int directionsCount;
         private readonly ITopology topology;
         private int indexCount;
-        private readonly bool backtrack;
 
         // List of locations that still need to be checked against for fulfilling the model's conditions
-        private Stack<PropagateItem> toPropagate;
+        private Stack<IndexPatternItem> toPropagate;
 
         /**
           * compatible[index, pattern, direction] contains the number of patterns present in the wave
@@ -33,9 +36,9 @@ namespace DeBroglie.Wfc
           */
         private int[,,] compatible;
 
-        public WaveConstraintPropagator(WavePropagator propagator, PatternModel model, bool backtrack)
+        public PatternModelConstraint(WavePropagator propagator, PatternModel model)
         {
-            this.toPropagate = new Stack<PropagateItem>();
+            this.toPropagate = new Stack<IndexPatternItem>();
             this.propagator = propagator;
 
             this.propagatorArray = model.Propagator;
@@ -43,7 +46,6 @@ namespace DeBroglie.Wfc
 
             this.topology = propagator.Topology;
             this.indexCount = topology.IndexCount;
-            this.backtrack = backtrack;
             this.directionsCount = topology.DirectionsCount;
         }
 
@@ -87,14 +89,14 @@ namespace DeBroglie.Wfc
                 compatible[index, pattern, d] -= patternCount;
             }
             // Queue any possible consequences of this changing.
-            toPropagate.Push(new PropagateItem
+            toPropagate.Push(new IndexPatternItem
             {
                 Index = index,
                 Pattern = pattern,
             });
         }
 
-        public void UndoBan(PropagateItem item)
+        public void UndoBan(IndexPatternItem item)
         {
             // Undo what was done in DoBan
 
@@ -180,20 +182,19 @@ namespace DeBroglie.Wfc
 
     }
 
-    // TODO: Rename
-    internal struct PropagateItem : IEquatable<PropagateItem>
+    internal struct IndexPatternItem : IEquatable<IndexPatternItem>
     {
         public int Index { get; set; }
         public int Pattern { get; set; }
 
-        public bool Equals(PropagateItem other)
+        public bool Equals(IndexPatternItem other)
         {
             return other.Index == Index && other.Pattern == Pattern;
         }
 
         public override bool Equals(object obj)
         {
-            if (obj is PropagateItem other)
+            if (obj is IndexPatternItem other)
             {
                 return Equals(other);
             }
@@ -218,16 +219,16 @@ namespace DeBroglie.Wfc
         // Main data tracking what we've decided so far
         private Wave wave;
 
-        private WaveConstraintPropagator waveConstraintPropagator;
+        private PatternModelConstraint patternModelConstraint;
 
         // From model
         private int patternCount;
         private double[] frequencies;
 
         // Used for backtracking
-        private Deque<PropagateItem> backtrackItems;
+        private Deque<IndexPatternItem> backtrackItems;
         private Deque<int> backtrackItemsLengths;
-        private Deque<PropagateItem> prevChoices;
+        private Deque<IndexPatternItem> prevChoices;
         private int droppedBacktrackItemsCount;
         private int backtrackCount; // Purely informational
 
@@ -274,7 +275,7 @@ namespace DeBroglie.Wfc
             this.frequencySets = frequencySets;
             directionsCount = topology.DirectionsCount;
 
-            waveConstraintPropagator = new WaveConstraintPropagator(this, model, backtrack);
+            patternModelConstraint = new PatternModelConstraint(this, model);
 
             if (clear)
                 Clear();
@@ -301,14 +302,14 @@ namespace DeBroglie.Wfc
             // Record information for backtracking
             if (backtrack)
             {
-                backtrackItems.Push(new PropagateItem
+                backtrackItems.Push(new IndexPatternItem
                 {
                     Index = index,
                     Pattern = pattern,
                 });
             }
 
-            waveConstraintPropagator.DoBan(index, pattern);
+            patternModelConstraint.DoBan(index, pattern);
             
             // Update the wave
             var isContradiction = wave.RemovePossibility(index, pattern);
@@ -384,7 +385,7 @@ namespace DeBroglie.Wfc
             {
                 constraint.Init(this);
                 if (status != Resolution.Undecided) return;
-                waveConstraintPropagator.Propagate();
+                patternModelConstraint.Propagate();
                 if (status != Resolution.Undecided) return;
             }
             return;
@@ -397,7 +398,7 @@ namespace DeBroglie.Wfc
             {
                 constraint.Check(this);
                 if (status != Resolution.Undecided) return;
-                waveConstraintPropagator.Propagate();
+                patternModelConstraint.Propagate();
                 if (status != Resolution.Undecided) return;
             }
             deferredConstraintsStep = false;
@@ -415,10 +416,10 @@ namespace DeBroglie.Wfc
 
             if (backtrack)
             {
-                backtrackItems = new Deque<PropagateItem>();
+                backtrackItems = new Deque<IndexPatternItem>();
                 backtrackItemsLengths = new Deque<int>();
                 backtrackItemsLengths.Push(0);
-                prevChoices = new Deque<PropagateItem>();
+                prevChoices = new Deque<IndexPatternItem>();
             }
 
             status = Resolution.Undecided;
@@ -438,7 +439,7 @@ namespace DeBroglie.Wfc
                 pickHeuristic = new EntropyHeuristic(entropyTracker, randomDouble);
             }
 
-            waveConstraintPropagator.Clear();
+            patternModelConstraint.Clear();
 
             if (status == Resolution.Contradiction) return status;
 
@@ -469,7 +470,7 @@ namespace DeBroglie.Wfc
                     return status = Resolution.Contradiction;
                 }
             }
-            waveConstraintPropagator.Propagate();
+            patternModelConstraint.Propagate();
             return status;
         }
 
@@ -514,13 +515,13 @@ namespace DeBroglie.Wfc
             // Record what was selected for backtracking purposes
             if(index != -1 && backtrack)
             {
-                prevChoices.Push(new PropagateItem { Index = index, Pattern = pattern });
+                prevChoices.Push(new IndexPatternItem { Index = index, Pattern = pattern });
             }
 
             // After a backtrack we resume here
             restart:
 
-            if (status == Resolution.Undecided) waveConstraintPropagator.Propagate();
+            if (status == Resolution.Undecided) patternModelConstraint.Propagate();
             if (status == Resolution.Undecided) StepConstraints();
 
             // Are all things are fully chosen?
@@ -553,7 +554,7 @@ namespace DeBroglie.Wfc
                     {
                         status = Resolution.Contradiction;
                     }
-                    if (status == Resolution.Undecided) waveConstraintPropagator.Propagate();
+                    if (status == Resolution.Undecided) patternModelConstraint.Propagate();
 
                     if (status == Resolution.Contradiction)
                     {
@@ -593,7 +594,7 @@ namespace DeBroglie.Wfc
                     tracker.UndoBan(index, pattern);
                 }
                 // Next, undo the decremenents done in Propagate
-                waveConstraintPropagator.UndoBan(item);
+                patternModelConstraint.UndoBan(item);
 
             }
         }
