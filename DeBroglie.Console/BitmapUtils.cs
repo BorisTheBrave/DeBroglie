@@ -62,8 +62,22 @@ namespace DeBroglie.Console
             }
             else
             {
-                return new Rgba32(red / n, green / n, blue / n, alpha / n);
+                return new Rgba32(
+                    (byte)(red / n),
+                    (byte)(green / n),
+                    (byte)(blue / n),
+                    (byte)(alpha / n));
             }
+        }
+
+        public static Rgba32 Overlay(Rgba32 bg, Rgba32 fg)
+        {
+            return new Rgba32(
+                (byte)(fg.R / 255f * fg.A + bg.R / 255f * (255 - fg.A)),
+                (byte)(fg.G / 255f * fg.A + bg.G / 255f * (255 - fg.A)),
+                (byte)(fg.B / 255f * fg.A + bg.B / 255f * (255 - fg.A)),
+                (byte)255
+                );
         }
 
         public static Image<Rgba32> Slice(Image<Rgba32> b, int x, int y, int width, int height)
