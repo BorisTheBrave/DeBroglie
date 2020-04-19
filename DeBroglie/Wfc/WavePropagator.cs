@@ -6,6 +6,202 @@ using DeBroglie.Trackers;
 
 namespace DeBroglie.Wfc
 {
+    // This works similarly to IWaveConstraint, in that it listens to changes in the Wave, and 
+    // makes appropriate changes to the propagator for the constraint.
+    // The constraint being enforced is the model itself
+    internal class WaveConstraintPropagator
+    {
+        // From model
+        private int[][][] propagatorArray;
+        private int patternCount;
+
+        // Useful values
+        private readonly WavePropagator propagator;
+        private readonly int directionsCount;
+        private readonly ITopology topology;
+        private int indexCount;
+        private readonly bool backtrack;
+
+        // List of locations that still need to be checked against for fulfilling the model's conditions
+        private Stack<PropagateItem> toPropagate;
+
+        /**
+          * compatible[index, pattern, direction] contains the number of patterns present in the wave
+          * that can be placed in the cell next to index in direction without being
+          * in contradiction with pattern placed in index.
+          * If possibilites[index][pattern] is set to false, then compatible[index, pattern, direction] has every direction negative or null
+          */
+        private int[,,] compatible;
+
+        public WaveConstraintPropagator(WavePropagator propagator, PatternModel model, bool backtrack)
+        {
+            this.toPropagate = new Stack<PropagateItem>();
+            this.propagator = propagator;
+
+            this.propagatorArray = model.Propagator;
+            this.patternCount = model.PatternCount;
+
+            this.topology = propagator.Topology;
+            this.indexCount = topology.IndexCount;
+            this.backtrack = backtrack;
+            this.directionsCount = topology.DirectionsCount;
+        }
+
+        public void Clear()
+        {
+            toPropagate.Clear();
+
+            compatible = new int[indexCount, patternCount, directionsCount];
+            for (int index = 0; index < indexCount; index++)
+            {
+                if (!topology.ContainsIndex(index))
+                    continue;
+
+                for (int pattern = 0; pattern < patternCount; pattern++)
+                {
+                    for (int d = 0; d < directionsCount; d++)
+                    {
+                        if (topology.TryMove(index, (Direction)d, out var dest, out var _, out var el))
+                        {
+                            var compatiblePatterns = propagatorArray[pattern][(int)el].Length;
+                            compatible[index, pattern, d] = compatiblePatterns;
+                            if (compatiblePatterns == 0 && propagator.Wave.Get(index, pattern))
+                            {
+                                if (propagator.InternalBan(index, pattern))
+                                {
+                                    propagator.SetContradiction();
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public void DoBan(int index, int pattern)
+        {
+            // Update compatible (so that we never ban twice)
+            for (var d = 0; d < directionsCount; d++)
+            {
+                compatible[index, pattern, d] -= patternCount;
+            }
+            // Queue any possible consequences of this changing.
+            toPropagate.Push(new PropagateItem
+            {
+                Index = index,
+                Pattern = pattern,
+            });
+        }
+
+        public HashSet<PropagateItem> StartUndo()
+        {
+            var hs = new HashSet<PropagateItem>(toPropagate);
+            toPropagate.Clear();
+            return hs;
+        }
+
+        public void UndoBan(HashSet<PropagateItem> prepared, PropagateItem item)
+        {
+            // We skip this if the item is still in toPropagate, as that means Propagate hasn't run
+            if (!prepared.Contains(item))
+            {
+                // First restore compatible for this cell
+                // As it is set to zero in InteralBan
+                for (var d = 0; d < directionsCount; d++)
+                {
+                    compatible[item.Index, item.Pattern, d] += patternCount;
+                }
+
+                for (var d = 0; d < directionsCount; d++)
+                {
+                    if (!topology.TryMove(item.Index, (Direction)d, out var i2, out var id, out var el))
+                    {
+                        continue;
+                    }
+                    var patterns = propagatorArray[item.Pattern][(int)el];
+                    foreach (var p in patterns)
+                    {
+                        ++compatible[i2, p, (int)id];
+                    }
+                }
+            }
+        }
+
+
+        private void PropagateCore(int[] patterns, int i2, int d)
+        {
+            // Hot loop
+            foreach (var p in patterns)
+            {
+                var c = --compatible[i2, p, d];
+                // We've just now ruled out this possible pattern
+                if (c == 0)
+                {
+                    if (propagator.InternalBan(i2, p))
+                    {
+                        propagator.SetContradiction();
+                    }
+                }
+            }
+        }
+
+        public void Propagate()
+        {
+            while (toPropagate.Count > 0)
+            {
+                var item = toPropagate.Pop();
+                int x, y, z;
+                topology.GetCoord(item.Index, out x, out y, out z);
+                for (var d = 0; d < directionsCount; d++)
+                {
+                    if (!topology.TryMove(x, y, z, (Direction)d, out var i2, out Direction id, out EdgeLabel el))
+                    {
+                        continue;
+                    }
+                    var patterns = propagatorArray[item.Pattern][(int)el];
+                    PropagateCore(patterns, i2, (int)id);
+                }
+                // It's important we fully process the item before returning
+                // so that we're in a consistent state for backtracking
+                if (propagator.Status == Resolution.Contradiction)
+                {
+                    return;
+                }
+            }
+            return;
+        }
+
+    }
+
+    // TODO: Rename
+    internal struct PropagateItem : IEquatable<PropagateItem>
+    {
+        public int Index { get; set; }
+        public int Pattern { get; set; }
+
+        public bool Equals(PropagateItem other)
+        {
+            return other.Index == Index && other.Pattern == Pattern;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is PropagateItem other)
+            {
+                return Equals(other);
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return Index.GetHashCode() * 17 + Pattern.GetHashCode();
+            }
+        }
+    }
 
     /// <summary>
     /// WavePropagator holds a wave, and supports updating it's possibilities 
@@ -16,17 +212,18 @@ namespace DeBroglie.Wfc
         // Main data tracking what we've decided so far
         private Wave wave;
 
+        private WaveConstraintPropagator waveConstraintPropagator;
+
+        // From model
+        private int patternCount;
+        private double[] frequencies;
+
         // Used for backtracking
         private Deque<PropagateItem> backtrackItems;
         private Deque<int> backtrackItemsLengths;
         private Deque<PropagateItem> prevChoices;
         private int droppedBacktrackItemsCount;
         private int backtrackCount; // Purely informational
-
-        // From model
-        private int[][][] propagator;
-        private int patternCount;
-        private double[] frequencies;
 
         // Basic parameters
         private int indexCount;
@@ -36,9 +233,6 @@ namespace DeBroglie.Wfc
         private Func<double> randomDouble;
         private readonly FrequencySet[] frequencySets;
 
-        // List of locations that still need to be checked against for fulfilling the model's conditions
-        private Stack<PropagateItem> toPropagate;
-
         // We evaluate constraints at the last possible minute, instead of eagerly like the model,
         // As they can potentially be expensive.
         private bool deferredConstraintsStep;
@@ -46,17 +240,8 @@ namespace DeBroglie.Wfc
         // The overall status of the propagator, always kept up to date
         private Resolution status;
 
-
         private ITopology topology;
         private int directionsCount;
-
-        /**
-          * compatible[index, pattern, direction] contains the number of patterns present in the wave
-          * that can be placed in the cell next to index in direction without being
-          * in contradiction with pattern placed in index.
-          * If possibilites[index][pattern] is set to false, then compatible[index, pattern, direction] has every direction negative or null
-          */
-        private int[,,] compatible;
 
         private List<ITracker> trackers;
 
@@ -71,7 +256,6 @@ namespace DeBroglie.Wfc
             FrequencySet[] frequencySets = null,
             bool clear = true)
         {
-            this.propagator = model.Propagator;
             this.patternCount = model.PatternCount;
             this.frequencies = model.Frequencies;
 
@@ -84,9 +268,9 @@ namespace DeBroglie.Wfc
             this.frequencySets = frequencySets;
             directionsCount = topology.DirectionsCount;
 
-            this.toPropagate = new Stack<PropagateItem>();
+            waveConstraintPropagator = new WaveConstraintPropagator(this, model, backtrack);
 
-            if(clear)
+            if (clear)
                 Clear();
         }
 
@@ -100,7 +284,6 @@ namespace DeBroglie.Wfc
         public ITopology Topology => topology;
         public Func<double> RandomDouble => randomDouble;
 
-        public int[][][] Propagator => propagator;
         public int PatternCount => patternCount;
         public double[] Frequencies => frequencies;
 
@@ -118,17 +301,8 @@ namespace DeBroglie.Wfc
                     Pattern = pattern,
                 });
             }
-            // Update compatible (so that we never ban twice)
-            for (var d = 0; d < directionsCount; d++)
-            {
-                compatible[index, pattern, d] -= patternCount;
-            }
-            // Queue any possible consequences of this changing.
-            toPropagate.Push(new PropagateItem
-            {
-                Index = index,
-                Pattern = pattern,
-            });
+
+            waveConstraintPropagator.DoBan(index, pattern);
             
             // Update the wave
             var isContradiction = wave.RemovePossibility(index, pattern);
@@ -159,49 +333,6 @@ namespace DeBroglie.Wfc
             return false;
         }
         #endregion
-
-        private void PropagateCore(int[] patterns, int i2, int d)
-        {
-            // Hot loop
-            foreach (var p in patterns)
-            {
-                var c = --compatible[i2, p, d];
-                // We've just now ruled out this possible pattern
-                if (c == 0)
-                {
-                    if (InternalBan(i2, p))
-                    {
-                        status = Resolution.Contradiction;
-                    }
-                }
-            }
-        }
-
-        private void Propagate()
-        {
-            while (toPropagate.Count > 0)
-            {
-                var item = toPropagate.Pop();
-                int x, y, z;
-                topology.GetCoord(item.Index, out x, out y, out z);
-                for (var d = 0; d < directionsCount; d++)
-                {
-                    if (!topology.TryMove(x, y, z, (Direction)d, out var i2, out Direction id, out EdgeLabel el))
-                    {
-                        continue;
-                    }
-                    var patterns = propagator[item.Pattern][(int)el];
-                    PropagateCore(patterns, i2, (int)id);
-                }
-                // It's important we fully process the item before returning
-                // so that we're in a consistent state for backtracking
-                if(status == Resolution.Contradiction)
-                {
-                    return;
-                }
-            }
-            return;
-        }
 
 
         private void Observe(out int index, out int pattern)
@@ -247,7 +378,7 @@ namespace DeBroglie.Wfc
             {
                 constraint.Init(this);
                 if (status != Resolution.Undecided) return;
-                Propagate();
+                waveConstraintPropagator.Propagate();
                 if (status != Resolution.Undecided) return;
             }
             return;
@@ -260,7 +391,7 @@ namespace DeBroglie.Wfc
             {
                 constraint.Check(this);
                 if (status != Resolution.Undecided) return;
-                Propagate();
+                waveConstraintPropagator.Propagate();
                 if (status != Resolution.Undecided) return;
             }
             deferredConstraintsStep = false;
@@ -275,7 +406,15 @@ namespace DeBroglie.Wfc
         public Resolution Clear()
         {
             wave = new Wave(frequencies.Length, indexCount);
-            toPropagate.Clear();
+
+            if (backtrack)
+            {
+                backtrackItems = new Deque<PropagateItem>();
+                backtrackItemsLengths = new Deque<int>();
+                backtrackItemsLengths.Push(0);
+                prevChoices = new Deque<PropagateItem>();
+            }
+
             status = Resolution.Undecided;
             this.trackers = new List<ITracker>();
             if (frequencySets != null)
@@ -293,41 +432,9 @@ namespace DeBroglie.Wfc
                 pickHeuristic = new EntropyHeuristic(entropyTracker, randomDouble);
             }
 
-            if (backtrack)
-            {
-                backtrackItems = new Deque<PropagateItem>();
-                backtrackItemsLengths = new Deque<int>();
-                backtrackItemsLengths.Push(0);
-                prevChoices = new Deque<PropagateItem>();
-            }
+            waveConstraintPropagator.Clear();
 
-
-            compatible = new int[indexCount, patternCount, directionsCount];
-            for (int index = 0; index < indexCount; index++)
-            {
-                if (!topology.ContainsIndex(index))
-                    continue;
-
-                for (int pattern = 0; pattern < patternCount; pattern++)
-                {
-                    for (int d = 0; d < directionsCount; d++)
-                    {
-                        if (topology.TryMove(index, (Direction)d, out var dest, out var _, out var el))
-                        {
-                            var compatiblePatterns = propagator[pattern][(int)el].Length;
-                            compatible[index, pattern, d] = compatiblePatterns;
-                            if (compatiblePatterns == 0 && wave.Get(index, pattern))
-                            {
-                                if (InternalBan(index, pattern))
-                                {
-                                    return status = Resolution.Contradiction;
-                                }
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
+            if (status == Resolution.Contradiction) return status;
 
             InitConstraints();
 
@@ -356,7 +463,7 @@ namespace DeBroglie.Wfc
                     return status = Resolution.Contradiction;
                 }
             }
-            Propagate();
+            waveConstraintPropagator.Propagate();
             return status;
         }
 
@@ -384,7 +491,6 @@ namespace DeBroglie.Wfc
             // Record state before making a choice
             if (backtrack)
             {
-                Debug.Assert(toPropagate.Count == 0);
                 backtrackItemsLengths.Push(droppedBacktrackItemsCount + backtrackItems.Count);
                 // Clean up backtracks if they are too long
                 while (backtrackDepth != -1 && backtrackItemsLengths.Count > backtrackDepth)
@@ -408,7 +514,7 @@ namespace DeBroglie.Wfc
             // After a backtrack we resume here
             restart:
 
-            if (status == Resolution.Undecided) Propagate();
+            if (status == Resolution.Undecided) waveConstraintPropagator.Propagate();
             if (status == Resolution.Undecided) StepConstraints();
 
             // Are all things are fully chosen?
@@ -435,14 +541,13 @@ namespace DeBroglie.Wfc
                     DoBacktrack();
                     var item = prevChoices.Pop();
                     backtrackCount++;
-                    toPropagate.Clear();
                     status = Resolution.Undecided;
                     // Mark the given choice as impossible
                     if (InternalBan(item.Index, item.Pattern))
                     {
                         status = Resolution.Contradiction;
                     }
-                    if (status == Resolution.Undecided) Propagate();
+                    if (status == Resolution.Undecided) waveConstraintPropagator.Propagate();
 
                     if (status == Resolution.Contradiction)
                     {
@@ -453,7 +558,6 @@ namespace DeBroglie.Wfc
                     else
                     {
                         // Include the last ban as part of the previous backtrack
-                        Debug.Assert(toPropagate.Count == 0);
                         backtrackItemsLengths.Pop();
                         backtrackItemsLengths.Push(droppedBacktrackItemsCount + backtrackItems.Count);
                     }
@@ -467,19 +571,14 @@ namespace DeBroglie.Wfc
         private void DoBacktrack()
         {
             var targetLength = backtrackItemsLengths.Pop() - droppedBacktrackItemsCount;
-            var toPropagateHashSet = new HashSet<PropagateItem>(toPropagate);
+            var toPropagateHashSet = waveConstraintPropagator.StartUndo();
             // Undo each item
-            while(backtrackItems.Count > targetLength)
+            while (backtrackItems.Count > targetLength)
             {
                 var item = backtrackItems.Pop();
                 var index = item.Index;
                 var pattern = item.Pattern;
-                // First restore compatible for this cell
-                // As it is set to zero in InteralBan
-                for (var d = 0; d < directionsCount; d++)
-                {
-                    compatible[index, pattern, d] += patternCount;
-                }
+
                 // Also add the possibility back
                 // as it is removed in InternalBan
                 wave.AddPossibility(index, pattern);
@@ -489,22 +588,7 @@ namespace DeBroglie.Wfc
                     tracker.UndoBan(index, pattern);
                 }
                 // Next, undo the decremenents done in Propagate
-                // We skip this if the item is still in toPropagate, as that means Propagate hasn't run
-                if (!toPropagateHashSet.Contains(item))
-                {
-                    for (var d = 0; d < directionsCount; d++)
-                    {
-                        if (!topology.TryMove(index, (Direction)d, out var i2, out var id, out var el))
-                        {
-                            continue;
-                        }
-                        var patterns = propagator[item.Pattern][(int)el];
-                        foreach (var p in patterns)
-                        {
-                            ++compatible[i2, p, (int)id];
-                        }
-                    }
-                }
+                waveConstraintPropagator.UndoBan(toPropagateHashSet, item);
 
             }
         }
@@ -558,34 +642,6 @@ namespace DeBroglie.Wfc
 
                 return (ISet<int>)(hs);
             }, topology);
-        }
-
-        private struct PropagateItem : IEquatable<PropagateItem>
-        {
-            public int Index { get; set; }
-            public int Pattern { get; set; }
-
-            public bool Equals(PropagateItem other)
-            {
-                return other.Index == Index && other.Pattern == Pattern;
-            }
-
-            public override bool Equals(object obj)
-            {
-                if (obj is PropagateItem other)
-                {
-                    return Equals(other);
-                }
-                return false;
-            }
-
-            public override int GetHashCode()
-            {
-                unchecked
-                {
-                    return Index.GetHashCode() * 17 + Pattern.GetHashCode();
-                }
-            }
         }
     }
 }
