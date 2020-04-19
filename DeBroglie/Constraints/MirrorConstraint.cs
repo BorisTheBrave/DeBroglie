@@ -9,6 +9,110 @@ using System.Text;
 
 namespace DeBroglie.Constraints
 {
+    public abstract class SymmetryConstraint : ITileConstraint
+    {
+        protected Func<int, int?> IndexMap { get; set; }
+        protected Func<int, Tile, Tile?> TileMap { get; set; }
+
+        private ChangeTracker changeTracker;
+
+        public void Init(TilePropagator propagator)
+        {
+            changeTracker = propagator.CreateChangeTracker();
+
+            var topology = propagator.Topology;
+
+            // Ban any tiles which don't have a symmetry
+            foreach (var i in topology.GetIndices())
+            {
+                if (IndexMap(i) is int i2)
+                {
+                    topology.GetCoord(i, out var x, out var y, out var z);
+
+                    propagator.Select(x, y, z, propagator.TileModel.Tiles
+                        .Where(tile => TileMap(i, tile) != null));
+                }
+            }
+
+            // Ban tiles that interact badly with their own symmetry
+            foreach (var i in topology.GetIndices())
+            {
+                if (IndexMap(i) is int i2)
+                {
+                    topology.GetCoord(i, out var x, out var y, out var z);
+
+                    if (i2 == i)
+                    {
+                        // index maps to itself, so only allow tiles that map to themselves
+                        var allowedTiles = propagator.TileModel.Tiles
+                           .Where(tile => TileMap(i, tile) != tile);
+                        propagator.Select(x, y, z, allowedTiles);
+                        continue;
+                    }
+
+                    // TODO: Support other models?
+                    if (propagator.TileModel is AdjacentModel adjacentModel)
+                    {
+                        var sentinel = new Tile(new object());
+                        for (var d = 0; d < topology.DirectionsCount; d++)
+                        {
+                            if (topology.TryMove(i, (Direction)d, out var dest) && dest == i2)
+                            {
+                                // index maps adjacent to itself, so only allow tiles that can be placed adjacent to themselves
+                                var allowedTiles = propagator.TileModel.Tiles
+                                    .Where(tile => adjacentModel.IsAdjacent(tile, TileMap(i, tile) ?? sentinel, (Direction)d));
+                                propagator.Select(x, y, z, allowedTiles);
+                                continue;
+                            }
+                        }
+                    }
+                    if (propagator.TileModel is GraphAdjacentModel graphAdjacentModel)
+                    {
+                        var sentinel = new Tile(new object());
+                        for (var d = 0; d < topology.DirectionsCount; d++)
+                        {
+                            if (topology.TryMove(i, (Direction)d, out var dest, out var _, out var edgeLabel) && dest == i2)
+                            {
+                                // index maps adjacent to itself, so only allow tiles that can be placed adjacent to themselves
+                                var allowedTiles = propagator.TileModel.Tiles
+                                    .Where(tile => graphAdjacentModel.IsAdjacent(tile, TileMap(i, tile) ?? sentinel, edgeLabel));
+                                propagator.Select(x, y, z, allowedTiles);
+                                continue;
+                            }
+                        }
+                    }
+
+                    topology.GetCoord(i2, out var x2, out var y2, out var z2);
+
+                }
+            }
+        }
+
+        public void Check(TilePropagator propagator)
+        {
+            var topology = propagator.Topology;
+            foreach (var i in changeTracker.GetChangedIndices())
+            {
+                if (IndexMap(i) is int i2)
+                {
+                    topology.GetCoord(i, out var x, out var y, out var z);
+                    topology.GetCoord(i2, out var x2, out var y2, out var z2);
+
+                    foreach (var tile in propagator.TileModel.Tiles)
+                    {
+                        if (TileMap(i, tile) is Tile tile2)
+                        {
+                            if (propagator.IsBanned(x, y, z, tile) && !propagator.IsBanned(x2, y, z, tile2))
+                            {
+                                propagator.Ban(x2, y, z, tile2);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public class MirrorConstraint : ITileConstraint
     {
         private readonly static Rotation reflectX = new Rotation(0, true);

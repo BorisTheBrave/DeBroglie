@@ -193,5 +193,12 @@ namespace DeBroglie.Models
             var d = GetPattern(dest);
             propagator[s][(int)edgeLabel].Add(d);
         }
+
+        public bool IsAdjacent(Tile src, Tile dest, EdgeLabel edgeLabel)
+        {
+            var srcPattern = GetPattern(src);
+            var destPattern = GetPattern(dest);
+            return propagator[srcPattern][(int)edgeLabel].Contains(destPattern);
+        }
     }
 }
