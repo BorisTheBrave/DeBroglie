@@ -94,25 +94,32 @@ namespace DeBroglie.Wfc
             });
         }
 
-        public HashSet<PropagateItem> StartUndo()
+        public void UndoBan(PropagateItem item)
         {
-            var hs = new HashSet<PropagateItem>(toPropagate);
-            toPropagate.Clear();
-            return hs;
-        }
+            // Undo what was done in DoBan
 
-        public void UndoBan(HashSet<PropagateItem> prepared, PropagateItem item)
-        {
-            // We skip this if the item is still in toPropagate, as that means Propagate hasn't run
-            if (!prepared.Contains(item))
+            // First restore compatible for this cell
+            // As it is set to zero in InteralBan
+            for (var d = 0; d < directionsCount; d++)
             {
-                // First restore compatible for this cell
-                // As it is set to zero in InteralBan
-                for (var d = 0; d < directionsCount; d++)
-                {
-                    compatible[item.Index, item.Pattern, d] += patternCount;
-                }
+                compatible[item.Index, item.Pattern, d] += patternCount;
+            }
 
+            // As we always Undo in reverse order, if item is in toPropagate, it'll
+            // be at the top of the stack.
+            // If item is in toPropagate, then we haven't got round to processing yet, so there's nothing to undo.
+            if (toPropagate.Count > 0)
+            {
+                var top = toPropagate.Peek();
+                if(top.Equals(item))
+                {
+                    toPropagate.Pop();
+                    return;
+                }
+            }
+            else
+            // Not in toPropagate, therefore undo what was done in Propagate
+            {
                 for (var d = 0; d < directionsCount; d++)
                 {
                     if (!topology.TryMove(item.Index, (Direction)d, out var i2, out var id, out var el))
@@ -127,7 +134,6 @@ namespace DeBroglie.Wfc
                 }
             }
         }
-
 
         private void PropagateCore(int[] patterns, int i2, int d)
         {
@@ -571,7 +577,6 @@ namespace DeBroglie.Wfc
         private void DoBacktrack()
         {
             var targetLength = backtrackItemsLengths.Pop() - droppedBacktrackItemsCount;
-            var toPropagateHashSet = waveConstraintPropagator.StartUndo();
             // Undo each item
             while (backtrackItems.Count > targetLength)
             {
@@ -588,7 +593,7 @@ namespace DeBroglie.Wfc
                     tracker.UndoBan(index, pattern);
                 }
                 // Next, undo the decremenents done in Propagate
-                waveConstraintPropagator.UndoBan(toPropagateHashSet, item);
+                waveConstraintPropagator.UndoBan(item);
 
             }
         }
