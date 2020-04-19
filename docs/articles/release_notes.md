@@ -4,6 +4,14 @@ title: Release Notes
 ---
 # Unreleased
  * Improved performance of path constraints
+ * Now can use mirror constraint on both X and Y axes
+ * Added [GraphTopology](xref:DeBroglie.Topo.GraphTopology) and [GraphAdjacentModel](xref:DeBroglie.Models.GraphAdjacentModel) to allow generation on irregular topologies
+ * Added [MeshTopologyBuilder](xref:MeshTopologyBuilder) to aid with generating on the surfaces of mesh.
+ * Added pick heuristics and prioritized weights (undocumented)
+ * Fixed color blending for image output
+ * Fixed ToTopoArraySets()
+ * Fixed tile rotation bug
+
 
 # v0.6.0
  * Added DeBroglie.Benchmark
