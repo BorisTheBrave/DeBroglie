@@ -48,6 +48,7 @@ namespace DeBroglie.Topo
             indexCount = neighbours.GetLength(0);
             directionsCount = neighbours.GetLength(1);
             this.neighbours = neighbours;
+            this.mask = mask;
         }
 
         public int IndexCount => indexCount;
