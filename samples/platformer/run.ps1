@@ -1,18 +1,9 @@
-$DeBroglie="..\..\DeBroglie.Console\bin\Debug\DeBroglie.Console.exe"
-$TiledDir="C:\Program Files (x86)\Tiled"
-$FfmpegDir="C:\Unbacked up documents\Small Programs\ffmpeg\bin"
+$DeBroglie="..\..\DeBroglie.Console\bin\Debug\netcoreapp2.0\DeBroglie.Console.dll"
+$FfmpegDir="C:\Portable\ffmpeg\bin"
 $env:Path += ";$TiledDir;$FfmpegDir"
 
 Remove-Item -Recurse output
-& $DeBroglie platformer.json
+& dotnet $DeBroglie platformer.json
 
-Write-Output "Rasterising.."
-Get-ChildItem "output" -Filter *.tmx |
-Foreach-Object {
-    $TmxName = $_.FullName
-    $PngName = [io.path]::ChangeExtension($TmxName, "png")
-    tmxrasterizer $TmxName $PngName
-}
-
-$LastFrame = (Get-ChildItem "output" -Filter *.tmx -Name|Select-String -Pattern "\d+" -AllMatches | % { $_.Matches.Value }|Measure-Object -Max).Maximum
+$LastFrame = (Get-ChildItem "output" -Filter *.png -Name|Select-String -Pattern "\d+" -AllMatches | % { $_.Matches.Value }|Measure-Object -Max).Maximum
 ffmpeg -y  -i "output/platformer.%d.png" -crf 0 -vf "loop=50:1:$LastFrame" platformer.webm

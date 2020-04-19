@@ -1,6 +1,6 @@
 {
     "src": "generic_platformer_tileset.tsx",
-    "dest": "output/platformer.tmx",
+    "dest": "output/platformer.png",
     "adjacencies": [
         {"left": [2, 5, 6], "right": [3, 5, 7], "comment": "grass and bottom"},
         {"left": [3, 4], "right": [4, 6], "comment": "grass"},
@@ -77,5 +77,5 @@
     "width": 20,
     "height": 10,
     "periodicX": true,
-    "animate": false
+    "animate": true
 }
