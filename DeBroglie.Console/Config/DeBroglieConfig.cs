@@ -411,9 +411,16 @@ namespace DeBroglie.Console.Config
         public string[] Axes { get; set; }
     }
 
-    public class MirrorConfig : ConstraintConfig
+    public class MirrorXConfig : ConstraintConfig
     {
-        public const string TypeString = "mirror";
+        public const string TypeString = "mirrorx";
+
+        public override string Type => TypeString;
+    }
+
+    public class MirrorYConfig : ConstraintConfig
+    {
+        public const string TypeString = "mirrory";
 
         public override string Type => TypeString;
     }
@@ -441,5 +448,24 @@ namespace DeBroglie.Console.Config
         /// This can give a better random distribution, but higher chance of contradictions.
         /// </summary>
         public bool Eager { get; set; }
+    }
+
+
+    public class SeparationConfig : ConstraintConfig
+    {
+        public const string TypeString = "separation";
+
+        public override string Type => TypeString;
+
+        /// <summary>
+        /// Set of tiles, all of which should be separated from each other.
+        /// </summary>
+        public string[] Tiles { get; set; }
+
+        /// <summary>
+        /// The minimum distance between two points.
+        /// Measured using manhattan distance.
+        /// </summary>
+        public int MinDistance { get; set; }
     }
 }

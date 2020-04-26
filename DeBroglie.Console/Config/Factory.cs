@@ -354,6 +354,14 @@ namespace DeBroglie.Console.Config
                             Eager = countConfig.Eager,
                         });
                     }
+                    else if (constraint is SeparationConfig separationConfig)
+                    {
+                        constraints.Add(new SeparationConstraint
+                        {
+                            Tiles = new HashSet<Tile>(separationConfig.Tiles.Select(Parse)),
+                            MinDistance = separationConfig.MinDistance,
+                        });
+                    }
                     else
                     {
                         throw new NotImplementedException($"Unknown constraint type {constraint.GetType()}");

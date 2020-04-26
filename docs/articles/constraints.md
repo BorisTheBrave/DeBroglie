@@ -137,7 +137,7 @@ MaxCount
 
 ## Mirror
 
-The <xref:DeBroglie.Constraints.MirrorConstraint> class forces the generated output to be symetric about the x-axis.
+The <xref:DeBroglie.Constraints.MirrorXConstraint> and <xref:DeBroglie.Constraints.MirrorYConstraint> class forces the generated output to be symetric about the x-axis / y-axis.
 
 **Example**
 
@@ -147,10 +147,19 @@ The <xref:DeBroglie.Constraints.MirrorConstraint> class forces the generated out
 </a>
 </figure>
 
+## Symmetry
+
+The <xref:DeBroglie.Constraints.SymmetryConstraint> constraint is a abstract generalized version of the mirror constraint. It can be used for more complciated symetries of the generated output.
+
 ## Count
 
 The <xref:DeBroglie.Constraints.CountConstraint> class forces the number of a given tile or set of tiles to be at most or at least a given number.
 
+## Separation
+
+The <xref:DeBroglie.Constraints.SeparationConstraint> class forces particular tiles to not be placed near each other.
+
+It's useful for giving a more even distribution of tiles, similar to a Poisson disk sampling.
 
 ## Custom Constraints
 

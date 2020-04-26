@@ -8,6 +8,7 @@ title: Release Notes
  * Added [GraphTopology](xref:DeBroglie.Topo.GraphTopology) and [GraphAdjacentModel](xref:DeBroglie.Models.GraphAdjacentModel) to allow generation on irregular topologies
  * Added [MeshTopologyBuilder](xref:DeBroglie.Topo.MeshTopologyBuilder) to aid with generating on the surfaces of mesh.
  * Added pick heuristics and prioritized weights (undocumented)
+ * Added [SeparationConstraint](xref:DeBroglie.Constraints.SeparationConstraint)
  * Fixed color blending for image output
  * Fixed ToTopoArraySets()
  * Fixed tile rotation bug

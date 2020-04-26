@@ -46,11 +46,18 @@ namespace DeBroglie.Console.Config
                     case MaxConsecutiveConfig.TypeString:
                         constraintConfig = new MaxConsecutiveConfig();
                         break;
-                    case MirrorConfig.TypeString:
-                        constraintConfig = new MirrorConfig();
+                    case "mirror": // For compatibility
+                    case MirrorXConfig.TypeString:
+                        constraintConfig = new MirrorXConfig();
+                        break;
+                    case MirrorYConfig.TypeString:
+                        constraintConfig = new MirrorYConfig();
                         break;
                     case CountConfig.TypeString:
                         constraintConfig = new CountConfig();
+                        break;
+                    case SeparationConfig.TypeString:
+                        constraintConfig = new SeparationConfig();
                         break;
                     default:
                         throw new ConfigurationException($"Unrecognized constraint type {type}");
