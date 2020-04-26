@@ -51,7 +51,7 @@ Hexagonal topologies use a convention of "pointy side up". The x-axis moves to t
 
 Using the [Tiled format](https://www.mapeditor.org/) for import/export of hexagonal tilemaps is recommended, as most software doesn't have support for hexagons. DeBroglie comes with <xref:DeBroglie.TiledUtil> to facilitate converting between <xref:DeBroglie.Topo.ITopoArray`1> objects and Tiled maps.
 
-When using the [overlapping](#overlapping) model, the constraints are based on `n` by `n` rhombus shapes, rather than `n` by `n` rectangles.
+When using the [overlapping](features.md#overlapping) model, the constraints are based on `n` by `n` rhombus shapes, rather than `n` by `n` rectangles.
 
 ### Graph Topology
 
@@ -59,4 +59,4 @@ Graph topologies have no special repeating structure, so require you to specify 
 
 Additionally, most models do not support the graph topology. You need to use the <xref:DeBroglie.Models.GraphAdjacentModel>, which functions similarly to the normal <xref:DeBroglie.Models.AdjacentModel>.
 
-A <xref:DeBroglie.Topo.MeshBuilder> utility is provided to build graph topologies in the common case that the cells of the graph correspond to faces of the mesh.
+A <xref:DeBroglie.Topo.MeshTopologyBuilder> utility is provided to build graph topologies in the common case that the cells of the graph correspond to faces of the mesh.
