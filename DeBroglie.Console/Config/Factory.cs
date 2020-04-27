@@ -175,7 +175,7 @@ namespace DeBroglie.Console.Config
             if (Config.PadTile != null)
                 adjacencies = AdjacencyUtils.ForcePadding(adjacencies, Parse(Config.PadTile));
 
-            if (adjacencies != null)
+            if (adjacencies.Count > 0)
             {
                 var adjacentModel = model as AdjacentModel;
                 if (adjacentModel == null)
@@ -337,9 +337,16 @@ namespace DeBroglie.Console.Config
                             Axes = axes == null ? null : new HashSet<Axis>(axes),
                         });
                     }
-                    else if (constraint is MirrorConfig mirrorConfig)
+                    else if (constraint is MirrorXConfig mirrorYConfig)
                     {
                         constraints.Add(new MirrorXConstraint
+                        {
+                            TileRotation = tileRotation,
+                        });
+                    }
+                    else if (constraint is MirrorYConfig mirrorXConfig)
+                    {
+                        constraints.Add(new MirrorYConstraint
                         {
                             TileRotation = tileRotation,
                         });

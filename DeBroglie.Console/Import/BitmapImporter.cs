@@ -63,10 +63,10 @@ namespace DeBroglie.Console.Import
 
             }
             return new Tile(new Rgba32(
-                int.Parse(r, System.Globalization.NumberStyles.HexNumber),
-                int.Parse(g, System.Globalization.NumberStyles.HexNumber),
-                int.Parse(b, System.Globalization.NumberStyles.HexNumber),
-                int.Parse(a, System.Globalization.NumberStyles.HexNumber)
+                (byte)int.Parse(r, System.Globalization.NumberStyles.HexNumber),
+                (byte)int.Parse(g, System.Globalization.NumberStyles.HexNumber),
+                (byte)int.Parse(b, System.Globalization.NumberStyles.HexNumber),
+                (byte)int.Parse(a, System.Globalization.NumberStyles.HexNumber)
                 ));
         }
 

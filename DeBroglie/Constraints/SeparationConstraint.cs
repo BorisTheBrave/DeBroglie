@@ -48,14 +48,16 @@ namespace DeBroglie.Constraints
 
         public void Check(TilePropagator propagator)
         {
-            foreach(var index in nearbyTracker.NewlyVisited)
+            if (nearbyTracker.NewlyVisited.Count == 0)
+                return;
+
+            var newlyVisited = nearbyTracker.NewlyVisited;
+            nearbyTracker.NewlyVisited = new HashSet<int>();
+
+            foreach (var index in newlyVisited)
             {
                 propagator.Topology.GetCoord(index, out var x, out var y, out var z);
                 propagator.Ban(x, y, z, tileset);
-            }
-            if(nearbyTracker.NewlyVisited.Count > 0)
-            {
-                nearbyTracker.NewlyVisited = new HashSet<int>();
             }
         }
 
@@ -84,7 +86,10 @@ namespace DeBroglie.Constraints
                         {
                             if (Topology.TryMove(i, (Direction)dir, out var i2))
                             {
-                                queue.Enqueue((i2, dist + 1));
+                                if (!Visited.Contains(i2))
+                                {
+                                    queue.Enqueue((i2, dist + 1));
+                                }
                             }
                         }
                     }

@@ -26,7 +26,7 @@ namespace DeBroglie.Test.Constraints
             var separationConstraint = new SeparationConstraint
             {
                 Tiles = new[] { tile1 }.ToHashSet(),
-                MinDistance = 2,
+                MinDistance = 3,
             };
 
             var countConstraint = new CountConstraint
@@ -36,7 +36,7 @@ namespace DeBroglie.Test.Constraints
                 Comparison = CountComparison.Exactly,
             };
 
-            var topology = new GridTopology(3, 1, false);
+            var topology = new GridTopology(4, 1, false);
 
             var options = new TilePropagatorOptions
             {
@@ -54,7 +54,8 @@ namespace DeBroglie.Test.Constraints
             // Only possible solution given the constraints
             Assert.AreEqual(tile1, r.Get(0));
             Assert.AreEqual(tile2, r.Get(1));
-            Assert.AreEqual(tile1, r.Get(2));
+            Assert.AreEqual(tile2, r.Get(2));
+            Assert.AreEqual(tile1, r.Get(3));
 
 
         }
