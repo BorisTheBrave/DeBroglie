@@ -173,15 +173,20 @@ MaxCount
 <figcaption>Platforms generated with the MaxConsecutive constraint with different values of MaxCount.</figcaption>
 </table></figure>
 <h2 id="mirror">Mirror</h2>
-<p>The <a class="xref" href="../api/DeBroglie.Constraints.MirrorConstraint.html">MirrorConstraint</a> class forces the generated output to be symetric about the x-axis.</p>
+<p>The <a class="xref" href="../api/DeBroglie.Constraints.MirrorXConstraint.html">MirrorXConstraint</a> and <a class="xref" href="../api/DeBroglie.Constraints.MirrorYConstraint.html">MirrorYConstraint</a> class forces the generated output to be symetric about the x-axis / y-axis.</p>
 <p><strong>Example</strong></p>
 <figure>
 <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/grass/mirror_constraint.json">
 <img src="../images/mirror_constraint.png">
 </a>
 </figure>
+<h2 id="symmetry">Symmetry</h2>
+<p>The <a class="xref" href="../api/DeBroglie.Constraints.SymmetryConstraint.html">SymmetryConstraint</a> constraint is a abstract generalized version of the mirror constraint. It can be used for more complciated symetries of the generated output.</p>
 <h2 id="count">Count</h2>
 <p>The <a class="xref" href="../api/DeBroglie.Constraints.CountConstraint.html">CountConstraint</a> class forces the number of a given tile or set of tiles to be at most or at least a given number.</p>
+<h2 id="separation">Separation</h2>
+<p>The <a class="xref" href="../api/DeBroglie.Constraints.SeparationConstraint.html">SeparationConstraint</a> class forces particular tiles to not be placed near each other.</p>
+<p>It's useful for giving a more even distribution of tiles, similar to a Poisson disk sampling.</p>
 <h2 id="custom-constraints">Custom Constraints</h2>
 <p>You can define your own constraints by extending <a class="xref" href="../api/DeBroglie.Constraints.ITileConstraint.html">ITileConstraint</a>. The Init method is called once per propagator run, and the Check method is called after each step, each time tiles are selected.</p>
 <p>Inside these methods, you can call <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Select_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Select</a> and <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Ban_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Ban</a> to control what tiles can be legally placed. You can also call <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_SetContradiction">SetContradiction()</a> to indicate that something is wrong and generation cannot continue. This will cause the propagator to give up, or backtrack, according to settings.</p>

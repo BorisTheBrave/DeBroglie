@@ -78,6 +78,20 @@
   <div class="markdown level0 remarks"></div>
     <h3 id="classes">Classes
   </h3>
+      <h4><a class="xref" href="DeBroglie.Topo.GraphInfo.html">GraphInfo</a></h4>
+      <section><p>Summarises the type of graph</p>
+</section>
+      <h4><a class="xref" href="DeBroglie.Topo.GraphTopology.html">GraphTopology</a></h4>
+      <section><p>An generic topology representing any graph data strcture with a given maximum degree.
+The x-axis is the same as the index, indicating which vertex in the graph. y and z are unused and are always zero.</p>
+</section>
+      <h4><a class="xref" href="DeBroglie.Topo.GridTopology.html">GridTopology</a></h4>
+      <section><p>A grid topology is a topology with a regular repeating pattern.
+It supports more operations than a generic topology.</p>
+</section>
+      <h4><a class="xref" href="DeBroglie.Topo.MeshTopologyBuilder.html">MeshTopologyBuilder</a></h4>
+      <section><p>Builds a GraphTopology that represents a mesh, i.e. a series of faces that connect to each other along their edges.</p>
+</section>
       <h4><a class="xref" href="DeBroglie.Topo.TopoArray.html">TopoArray</a></h4>
       <section><p>Utility class containing methods for construction <a class="xref" href="DeBroglie.Topo.ITopoArray-1.html">ITopoArray&lt;T&gt;</a> objects.</p>
 </section>
@@ -85,19 +99,27 @@
       <section></section>
       <h4><a class="xref" href="DeBroglie.Topo.TopoArrayUtils.html">TopoArrayUtils</a></h4>
       <section></section>
-      <h4><a class="xref" href="DeBroglie.Topo.Topology.html">Topology</a></h4>
-      <section><p>A Topology specifies the type of area or volume, what size it is, and whether it should wrap around at the edges (i.e. is it periodic).
-Topologies do not actually store data, they just specify the dimensions. Actual data is stored in an <a class="xref" href="DeBroglie.Topo.ITopoArray-1.html">ITopoArray&lt;T&gt;</a>.</p>
-</section>
+      <h4><a class="xref" href="DeBroglie.Topo.TopologyExtensions.html">TopologyExtensions</a></h4>
+      <section></section>
     <h3 id="structs">Structs
   </h3>
       <h4><a class="xref" href="DeBroglie.Topo.DirectionSet.html">DirectionSet</a></h4>
       <section><p>Wrapper around DirectionsType supplying some convenience data.</p>
 </section>
+      <h4><a class="xref" href="DeBroglie.Topo.GraphTopology.NeighbourDetails.html">GraphTopology.NeighbourDetails</a></h4>
+      <section><p>Describes a single neighbour of a node.
+(also called a half-edge in some literature).</p>
+</section>
     <h3 id="interfaces">Interfaces
   </h3>
       <h4><a class="xref" href="DeBroglie.Topo.ITopoArray-1.html">ITopoArray&lt;T&gt;</a></h4>
       <section><p>A read-only array coupled with a specific <a class="xref" href="DeBroglie.Topo.ITopoArray-1.html#DeBroglie_Topo_ITopoArray_1_Topology">Topology</a></p>
+</section>
+      <h4><a class="xref" href="DeBroglie.Topo.ITopology.html">ITopology</a></h4>
+      <section><p>A <a class="xref" href="DeBroglie.Topo.ITopology.html">ITopology</a> specifies a discrete area, volume or graph, and provides generic navigation methods.
+Topologies are used to support generation in a wide variety of shapes.
+Topologies do not actually store data, they just specify the dimensions. Actual data is stored in an <a class="xref" href="DeBroglie.Topo.ITopoArray-1.html">ITopoArray&lt;T&gt;</a>.
+Further information can be found in the documentation.</p>
 </section>
     <h3 id="enums">Enums
   </h3>
@@ -108,6 +130,8 @@ Topologies do not actually store data, they just specify the dimensions. Actual 
       <h4><a class="xref" href="DeBroglie.Topo.DirectionSetType.html">DirectionSetType</a></h4>
       <section><p>DirectionType indicates what neighbors are considered adjacent to each tile.</p>
 </section>
+      <h4><a class="xref" href="DeBroglie.Topo.EdgeLabel.html">EdgeLabel</a></h4>
+      <section></section>
     <h3 id="delegates">Delegates
   </h3>
       <h4><a class="xref" href="DeBroglie.Topo.TopoArrayUtils.TileRotate-1.html">TopoArrayUtils.TileRotate&lt;T&gt;</a></h4>

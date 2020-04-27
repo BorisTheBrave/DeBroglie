@@ -68,8 +68,26 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="release_notes">
-<h1 id="v050">v0.5.0</h1>
+<h1 id="v100">v1.0.0</h1>
 
+<ul>
+<li>Improved performance of path constraints</li>
+<li>Now can use mirror constraint on both X and Y axes</li>
+<li>Added <a class="xref" href="../api/DeBroglie.Topo.GraphTopology.html">GraphTopology</a> and <a class="xref" href="../api/DeBroglie.Models.GraphAdjacentModel.html">GraphAdjacentModel</a> to allow generation on irregular topologies</li>
+<li>Added <a class="xref" href="../api/DeBroglie.Topo.MeshTopologyBuilder.html">MeshTopologyBuilder</a> to aid with generating on the surfaces of mesh.</li>
+<li>Added pick heuristics and prioritized weights (undocumented)</li>
+<li>Added <a class="xref" href="../api/DeBroglie.Constraints.SeparationConstraint.html">SeparationConstraint</a></li>
+<li>Fixed color blending for image output</li>
+<li>Fixed ToTopoArraySets()</li>
+<li>Fixed tile rotation bug</li>
+</ul>
+<h1 id="v060">v0.6.0</h1>
+<ul>
+<li>Added DeBroglie.Benchmark</li>
+<li>Improved performance of most constraints significantly</li>
+<li>Improved performance of generation - changed seed output [breaking]</li>
+</ul>
+<h1 id="v050">v0.5.0</h1>
 <ul>
 <li>Improved memory and performance of backtracking significantly</li>
 <li>Command line program now runs Linux and Mac.</li>
@@ -82,7 +100,7 @@
 <li>Added <a class="xref" href="../api/DeBroglie.Constraints.EdgedPathConstraint.html">EdgedPathConstraint</a></li>
 <li>Use Direction enum instead of int [breaking]</li>
 <li>Path contraint can now specify end points in JSON</li>
-<li>Added <a class="xref" href="../api/DeBroglie.Constraints.MirrorConstraint.html">MirrorConstraint</a></li>
+<li>Added <a href="xref:DeBroglie.Constraints.MirrorConstraint">MirrorConstraint</a></li>
 <li>Several constraints now support using an array of tiles instead of a single tile [breaking]</li>
 <li>Fixed several subtle bugs in the core WFC+constraint system.</li>
 <li>Constraint methods now return void [breaking]</li>

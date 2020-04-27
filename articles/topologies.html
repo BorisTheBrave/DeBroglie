@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Topologies </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Topologies ">
+    <meta name="generator" content="docfx 2.47.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/custom.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="topologies">
+<h1 id="topologies">Topologies</h1>
+
+<p>The most common case of using DeBroglie is to generate 2d images and tile maps, however, that is not all that can be generated.</p>
+<figure>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/columns.json">
+<img src="../images/columns_in.png">
+<img src="../images/arrow.png">
+<img src="../images/columns_out.png">
+</a>
+<figcaption>Example of 3d generation. Rendered with <a href="http://magicavoxel.net">MagicaVoxel</a></figcaption>
+</figure>
+<figure>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/hexmini.json">
+<img src="../images/hexmini_in.png">
+<img src="../images/arrow.png">
+<img src="../images/hexmini_out.png">
+</a>
+<figcaption>Example of hex generation. Rendered with <a href="https://www.mapeditor.org">Tiled</a></figcaption>
+</figure>
+<p>DeBroglie uses a mechanism called <a class="xref" href="../api/DeBroglie.Topo.ITopology.html">ITopology</a> to specify the type of area or volume to generate, what size it is, and whether it should wrap around at the edges (i.e. is it <em>periodic</em>). Topologies do not actually store data, they just specify the dimensions. Actual data is stored in an <a class="xref" href="../api/DeBroglie.Topo.ITopoArray-1.html">ITopoArray&lt;T&gt;</a>, which associates a value with each cell of a given topology.</p>
+<p>There are several types of topology supported:</p>
+<ul>
+<li>2d square grid</li>
+<li>2d hex grid</li>
+<li>3d cube grid</li>
+<li>an arbitrary [graph data structure](<a href="https://en.wikipedia.org/wiki/Graph_(abstract_data_type)">https://en.wikipedia.org/wiki/Graph_(abstract_data_type)</a></li>
+</ul>
+<p>The grid ones are implemented with <a class="xref" href="../api/DeBroglie.Topo.GridTopology.html">GridTopology</a>, and graphs with <a class="xref" href="../api/DeBroglie.Topo.GraphTopology.html">GraphTopology</a>. They share a common interface.</p>
+<p>Each topology describes a set of cells (indexed consecutively from 0), how they correspond to 3d co-ordinates, and which cells are adjacent to each other, and in what direction. As WFC is a local algorithm, this is all the information needed for generation. However, some advanced features, such as mirroring, may not work with all topology types.</p>
+<p>When using the command line tool, the topology is usually inferred from the input sample and does not need to be specified. But using the library, you will need to call an appropriate constructor, and pass the topology as an argument to various functions.</p>
+<h3 id="square--cube-topology">Square / Cube Topology</h3>
+<p>This is the most straightforward topology. It corresponds to a grid of cells, and the x,y,z co-ordinates correspond to the cartesian position in the grid. Almost all features support both of these topologies.</p>
+<h3 id="hexagonal-topology">Hexagonal Topology</h3>
+<p>Hexagonal topologies use a convention of &quot;pointy side up&quot;. The x-axis moves to the right, and the y-axis moves down and to the left. This means the library generates rhombus shaped output. Additionally, periodic input / output is not supported.</p>
+<p>Using the <a href="https://www.mapeditor.org/">Tiled format</a> for import/export of hexagonal tilemaps is recommended, as most software doesn't have support for hexagons. DeBroglie comes with &lt;xref:DeBroglie.TiledUtil&gt; to facilitate converting between <a class="xref" href="../api/DeBroglie.Topo.ITopoArray-1.html">ITopoArray&lt;T&gt;</a> objects and Tiled maps.</p>
+<p>When using the <a href="features.html#overlapping">overlapping</a> model, the constraints are based on <code>n</code> by <code>n</code> rhombus shapes, rather than <code>n</code> by <code>n</code> rectangles.</p>
+<h3 id="graph-topology">Graph Topology</h3>
+<p>Graph topologies have no special repeating structure, so require you to specify a complete list of neighbours for every cell manually. When converting to a co-ordinate, the x-axis corresponds directly to the cell index, and the other axes are unused.</p>
+<p>Additionally, most models do not support the graph topology. You need to use the <a class="xref" href="../api/DeBroglie.Models.GraphAdjacentModel.html">GraphAdjacentModel</a>, which functions similarly to the normal <a class="xref" href="../api/DeBroglie.Models.AdjacentModel.html">AdjacentModel</a>.</p>
+<p>A <a class="xref" href="../api/DeBroglie.Topo.MeshTopologyBuilder.html">MeshTopologyBuilder</a> utility is provided to build graph topologies in the common case that the cells of the graph correspond to faces of the mesh.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/docs/articles/topologies.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

@@ -91,9 +91,13 @@ must be at most/least/equal to a given count</p>
       <h4><a class="xref" href="DeBroglie.Constraints.FixedTileConstraint.html">FixedTileConstraint</a></h4>
       <section></section>
       <h4><a class="xref" href="DeBroglie.Constraints.MaxConsecutiveConstraint.html">MaxConsecutiveConstraint</a></h4>
-      <section><p>The MaxConsecutiveConstraint checks that no more than the specified amount of</p>
+      <section><p>The MaxConsecutiveConstraint checks that no more than the specified amount of tiles can be placed
+in a row along the given axes.</p>
 </section>
-      <h4><a class="xref" href="DeBroglie.Constraints.MirrorConstraint.html">MirrorConstraint</a></h4>
+      <h4><a class="xref" href="DeBroglie.Constraints.MirrorXConstraint.html">MirrorXConstraint</a></h4>
+      <section><p>Maintain</p>
+</section>
+      <h4><a class="xref" href="DeBroglie.Constraints.MirrorYConstraint.html">MirrorYConstraint</a></h4>
       <section></section>
       <h4><a class="xref" href="DeBroglie.Constraints.PathConstraint.html">PathConstraint</a></h4>
       <section><p>The PathConstraint checks that it is possible to connect several locations together via a continuous path of adjacent tiles.
@@ -104,6 +108,14 @@ It does this by banning any tile placement that would make such a path impossibl
 </section>
       <h4><a class="xref" href="DeBroglie.Constraints.PathConstraintUtils.SimpleGraph.html">PathConstraintUtils.SimpleGraph</a></h4>
       <section></section>
+      <h4><a class="xref" href="DeBroglie.Constraints.SeparationConstraint.html">SeparationConstraint</a></h4>
+      <section><p>This constriant forces particular tiles to not be placed near each other.
+It's useful for giving a more even distribution of tiles, similar to a Poisson disk sampling.</p>
+</section>
+      <h4><a class="xref" href="DeBroglie.Constraints.SymmetryConstraint.html">SymmetryConstraint</a></h4>
+      <section><p>Abstract constraint for any sort of global symmetry where
+a choice of a tile in an index implies a selection for a specific index elsewhere.</p>
+</section>
     <h3 id="interfaces">Interfaces
   </h3>
       <h4><a class="xref" href="DeBroglie.Constraints.ITileConstraint.html">ITileConstraint</a></h4>

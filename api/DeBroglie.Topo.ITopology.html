@@ -1,0 +1,794 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Interface ITopology
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Interface ITopology
+   ">
+    <meta name="generator" content="docfx 2.47.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/custom.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="DeBroglie.Topo.ITopology">
+  
+  
+  <h1 id="DeBroglie_Topo_ITopology" data-uid="DeBroglie.Topo.ITopology" class="text-break">Interface ITopology
+  </h1>
+  <div class="markdown level0 summary"><p>A <a class="xref" href="DeBroglie.Topo.ITopology.html">ITopology</a> specifies a discrete area, volume or graph, and provides generic navigation methods.
+Topologies are used to support generation in a wide variety of shapes.
+Topologies do not actually store data, they just specify the dimensions. Actual data is stored in an <a class="xref" href="DeBroglie.Topo.ITopoArray-1.html">ITopoArray&lt;T&gt;</a>.
+Further information can be found in the documentation.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="DeBroglie.Topo.html">DeBroglie.Topo</a></h6>
+  <h6><strong>Assembly</strong>: DeBroglie.dll</h6>
+  <h5 id="DeBroglie_Topo_ITopology_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public interface ITopology</code></pre>
+  </div>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Topo_ITopology_Depth.md&amp;value=---%0Auid%3A%20DeBroglie.Topo.ITopology.Depth%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Topo/ITopology.cs/#L34">View Source</a>
+  </span>
+  <a id="DeBroglie_Topo_ITopology_Depth_" data-uid="DeBroglie.Topo.ITopology.Depth*"></a>
+  <h4 id="DeBroglie_Topo_ITopology_Depth" data-uid="DeBroglie.Topo.ITopology.Depth">Depth</h4>
+  <div class="markdown level1 summary"><p>The extent along the z-axis.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">int Depth { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Topo_ITopology_DirectionsCount.md&amp;value=---%0Auid%3A%20DeBroglie.Topo.ITopology.DirectionsCount%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Topo/ITopology.cs/#L19">View Source</a>
+  </span>
+  <a id="DeBroglie_Topo_ITopology_DirectionsCount_" data-uid="DeBroglie.Topo.ITopology.DirectionsCount*"></a>
+  <h4 id="DeBroglie_Topo_ITopology_DirectionsCount" data-uid="DeBroglie.Topo.ITopology.DirectionsCount">DirectionsCount</h4>
+  <div class="markdown level1 summary"><p>Number of unique directions</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">int DirectionsCount { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Topo_ITopology_Height.md&amp;value=---%0Auid%3A%20DeBroglie.Topo.ITopology.Height%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Topo/ITopology.cs/#L29">View Source</a>
+  </span>
+  <a id="DeBroglie_Topo_ITopology_Height_" data-uid="DeBroglie.Topo.ITopology.Height*"></a>
+  <h4 id="DeBroglie_Topo_ITopology_Height" data-uid="DeBroglie.Topo.ITopology.Height">Height</h4>
+  <div class="markdown level1 summary"><p>The extent along the y-axis.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">int Height { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Topo_ITopology_IndexCount.md&amp;value=---%0Auid%3A%20DeBroglie.Topo.ITopology.IndexCount%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Topo/ITopology.cs/#L14">View Source</a>
+  </span>
+  <a id="DeBroglie_Topo_ITopology_IndexCount_" data-uid="DeBroglie.Topo.ITopology.IndexCount*"></a>
+  <h4 id="DeBroglie_Topo_ITopology_IndexCount" data-uid="DeBroglie.Topo.ITopology.IndexCount">IndexCount</h4>
+  <div class="markdown level1 summary"><p>Number of unique indices (distinct locations) in the topology</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">int IndexCount { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Topo_ITopology_Mask.md&amp;value=---%0Auid%3A%20DeBroglie.Topo.ITopology.Mask%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Topo/ITopology.cs/#L74">View Source</a>
+  </span>
+  <a id="DeBroglie_Topo_ITopology_Mask_" data-uid="DeBroglie.Topo.ITopology.Mask*"></a>
+  <h4 id="DeBroglie_Topo_ITopology_Mask" data-uid="DeBroglie.Topo.ITopology.Mask">Mask</h4>
+  <div class="markdown level1 summary"><p>A array with one value per index indcating if the value is missing.
+Not all uses of Topology support masks.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">bool[] Mask { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a>[]</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Topo_ITopology_Width.md&amp;value=---%0Auid%3A%20DeBroglie.Topo.ITopology.Width%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Topo/ITopology.cs/#L24">View Source</a>
+  </span>
+  <a id="DeBroglie_Topo_ITopology_Width_" data-uid="DeBroglie.Topo.ITopology.Width*"></a>
+  <h4 id="DeBroglie_Topo_ITopology_Width" data-uid="DeBroglie.Topo.ITopology.Width">Width</h4>
+  <div class="markdown level1 summary"><p>The extent along the x-axis.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">int Width { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Topo_ITopology_GetCoord_System_Int32_System_Int32__System_Int32__System_Int32__.md&amp;value=---%0Auid%3A%20DeBroglie.Topo.ITopology.GetCoord(System.Int32%2CSystem.Int32%40%2CSystem.Int32%40%2CSystem.Int32%40)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Topo/ITopology.cs/#L84">View Source</a>
+  </span>
+  <a id="DeBroglie_Topo_ITopology_GetCoord_" data-uid="DeBroglie.Topo.ITopology.GetCoord*"></a>
+  <h4 id="DeBroglie_Topo_ITopology_GetCoord_System_Int32_System_Int32__System_Int32__System_Int32__" data-uid="DeBroglie.Topo.ITopology.GetCoord(System.Int32,System.Int32@,System.Int32@,System.Int32@)">GetCoord(Int32, out Int32, out Int32, out Int32)</h4>
+  <div class="markdown level1 summary"><p>Inverts <a class="xref" href="DeBroglie.Topo.ITopology.html#DeBroglie_Topo_ITopology_GetIndex_System_Int32_System_Int32_System_Int32_">GetIndex(Int32, Int32, Int32)</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void GetCoord(int index, out int x, out int y, out int z)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><span class="parametername">index</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><span class="parametername">x</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><span class="parametername">y</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><span class="parametername">z</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Topo_ITopology_GetIndex_System_Int32_System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20DeBroglie.Topo.ITopology.GetIndex(System.Int32%2CSystem.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Topo/ITopology.cs/#L79">View Source</a>
+  </span>
+  <a id="DeBroglie_Topo_ITopology_GetIndex_" data-uid="DeBroglie.Topo.ITopology.GetIndex*"></a>
+  <h4 id="DeBroglie_Topo_ITopology_GetIndex_System_Int32_System_Int32_System_Int32_" data-uid="DeBroglie.Topo.ITopology.GetIndex(System.Int32,System.Int32,System.Int32)">GetIndex(Int32, Int32, Int32)</h4>
+  <div class="markdown level1 summary"><p>Reduces a three dimensional co-ordinate to a single integer. This is mostly used internally.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">int GetIndex(int x, int y, int z)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><span class="parametername">x</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><span class="parametername">y</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><span class="parametername">z</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Topo_ITopology_TryMove_System_Int32_DeBroglie_Topo_Direction_System_Int32__.md&amp;value=---%0Auid%3A%20DeBroglie.Topo.ITopology.TryMove(System.Int32%2CDeBroglie.Topo.Direction%2CSystem.Int32%40)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Topo/ITopology.cs/#L49">View Source</a>
+  </span>
+  <a id="DeBroglie_Topo_ITopology_TryMove_" data-uid="DeBroglie.Topo.ITopology.TryMove*"></a>
+  <h4 id="DeBroglie_Topo_ITopology_TryMove_System_Int32_DeBroglie_Topo_Direction_System_Int32__" data-uid="DeBroglie.Topo.ITopology.TryMove(System.Int32,DeBroglie.Topo.Direction,System.Int32@)">TryMove(Int32, Direction, out Int32)</h4>
+  <div class="markdown level1 summary"><p>Given an index and a direction, gives the index that is one step in that direction,
+if it exists and is not masked out. Otherwise, it returns false.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">bool TryMove(int index, Direction direction, out int dest)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><span class="parametername">index</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="DeBroglie.Topo.Direction.html">Direction</a></td>
+        <td><span class="parametername">direction</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><span class="parametername">dest</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Topo_ITopology_TryMove_System_Int32_DeBroglie_Topo_Direction_System_Int32__DeBroglie_Topo_Direction__DeBroglie_Topo_EdgeLabel__.md&amp;value=---%0Auid%3A%20DeBroglie.Topo.ITopology.TryMove(System.Int32%2CDeBroglie.Topo.Direction%2CSystem.Int32%40%2CDeBroglie.Topo.Direction%40%2CDeBroglie.Topo.EdgeLabel%40)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Topo/ITopology.cs/#L43">View Source</a>
+  </span>
+  <a id="DeBroglie_Topo_ITopology_TryMove_" data-uid="DeBroglie.Topo.ITopology.TryMove*"></a>
+  <h4 id="DeBroglie_Topo_ITopology_TryMove_System_Int32_DeBroglie_Topo_Direction_System_Int32__DeBroglie_Topo_Direction__DeBroglie_Topo_EdgeLabel__" data-uid="DeBroglie.Topo.ITopology.TryMove(System.Int32,DeBroglie.Topo.Direction,System.Int32@,DeBroglie.Topo.Direction@,DeBroglie.Topo.EdgeLabel@)">TryMove(Int32, Direction, out Int32, out Direction, out EdgeLabel)</h4>
+  <div class="markdown level1 summary"><p>Given an index and a direction, gives the index that is one step in that direction,
+if it exists and is not masked out. Otherwise, it returns false.
+Additionally returns information about the edge traversed.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">bool TryMove(int index, Direction direction, out int dest, out Direction inverseDirection, out EdgeLabel edgeLabel)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><span class="parametername">index</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="DeBroglie.Topo.Direction.html">Direction</a></td>
+        <td><span class="parametername">direction</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><span class="parametername">dest</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="DeBroglie.Topo.Direction.html">Direction</a></td>
+        <td><span class="parametername">inverseDirection</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="DeBroglie.Topo.EdgeLabel.html">EdgeLabel</a></td>
+        <td><span class="parametername">edgeLabel</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Topo_ITopology_TryMove_System_Int32_System_Int32_System_Int32_DeBroglie_Topo_Direction_System_Int32__.md&amp;value=---%0Auid%3A%20DeBroglie.Topo.ITopology.TryMove(System.Int32%2CSystem.Int32%2CSystem.Int32%2CDeBroglie.Topo.Direction%2CSystem.Int32%40)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Topo/ITopology.cs/#L62">View Source</a>
+  </span>
+  <a id="DeBroglie_Topo_ITopology_TryMove_" data-uid="DeBroglie.Topo.ITopology.TryMove*"></a>
+  <h4 id="DeBroglie_Topo_ITopology_TryMove_System_Int32_System_Int32_System_Int32_DeBroglie_Topo_Direction_System_Int32__" data-uid="DeBroglie.Topo.ITopology.TryMove(System.Int32,System.Int32,System.Int32,DeBroglie.Topo.Direction,System.Int32@)">TryMove(Int32, Int32, Int32, Direction, out Int32)</h4>
+  <div class="markdown level1 summary"><p>Given a co-ordinate and a direction, gives the index that is one step in that direction,
+if it exists and is not masked out. Otherwise, it returns false.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">bool TryMove(int x, int y, int z, Direction direction, out int dest)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><span class="parametername">x</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><span class="parametername">y</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><span class="parametername">z</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="DeBroglie.Topo.Direction.html">Direction</a></td>
+        <td><span class="parametername">direction</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><span class="parametername">dest</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Topo_ITopology_TryMove_System_Int32_System_Int32_System_Int32_DeBroglie_Topo_Direction_System_Int32__DeBroglie_Topo_Direction__DeBroglie_Topo_EdgeLabel__.md&amp;value=---%0Auid%3A%20DeBroglie.Topo.ITopology.TryMove(System.Int32%2CSystem.Int32%2CSystem.Int32%2CDeBroglie.Topo.Direction%2CSystem.Int32%40%2CDeBroglie.Topo.Direction%40%2CDeBroglie.Topo.EdgeLabel%40)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Topo/ITopology.cs/#L56">View Source</a>
+  </span>
+  <a id="DeBroglie_Topo_ITopology_TryMove_" data-uid="DeBroglie.Topo.ITopology.TryMove*"></a>
+  <h4 id="DeBroglie_Topo_ITopology_TryMove_System_Int32_System_Int32_System_Int32_DeBroglie_Topo_Direction_System_Int32__DeBroglie_Topo_Direction__DeBroglie_Topo_EdgeLabel__" data-uid="DeBroglie.Topo.ITopology.TryMove(System.Int32,System.Int32,System.Int32,DeBroglie.Topo.Direction,System.Int32@,DeBroglie.Topo.Direction@,DeBroglie.Topo.EdgeLabel@)">TryMove(Int32, Int32, Int32, Direction, out Int32, out Direction, out EdgeLabel)</h4>
+  <div class="markdown level1 summary"><p>Given a co-ordinate and a direction, gives the index that is one step in that direction,
+if it exists and is not masked out. Otherwise, it returns false.
+Additionally returns information about the edge traversed.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">bool TryMove(int x, int y, int z, Direction direction, out int dest, out Direction inverseDirection, out EdgeLabel edgeLabel)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><span class="parametername">x</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><span class="parametername">y</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><span class="parametername">z</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="DeBroglie.Topo.Direction.html">Direction</a></td>
+        <td><span class="parametername">direction</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><span class="parametername">dest</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="DeBroglie.Topo.Direction.html">Direction</a></td>
+        <td><span class="parametername">inverseDirection</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="DeBroglie.Topo.EdgeLabel.html">EdgeLabel</a></td>
+        <td><span class="parametername">edgeLabel</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Topo_ITopology_TryMove_System_Int32_System_Int32_System_Int32_DeBroglie_Topo_Direction_System_Int32__System_Int32__System_Int32__.md&amp;value=---%0Auid%3A%20DeBroglie.Topo.ITopology.TryMove(System.Int32%2CSystem.Int32%2CSystem.Int32%2CDeBroglie.Topo.Direction%2CSystem.Int32%40%2CSystem.Int32%40%2CSystem.Int32%40)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Topo/ITopology.cs/#L68">View Source</a>
+  </span>
+  <a id="DeBroglie_Topo_ITopology_TryMove_" data-uid="DeBroglie.Topo.ITopology.TryMove*"></a>
+  <h4 id="DeBroglie_Topo_ITopology_TryMove_System_Int32_System_Int32_System_Int32_DeBroglie_Topo_Direction_System_Int32__System_Int32__System_Int32__" data-uid="DeBroglie.Topo.ITopology.TryMove(System.Int32,System.Int32,System.Int32,DeBroglie.Topo.Direction,System.Int32@,System.Int32@,System.Int32@)">TryMove(Int32, Int32, Int32, Direction, out Int32, out Int32, out Int32)</h4>
+  <div class="markdown level1 summary"><p>Given a co-ordinate and a direction, gives the co-ordinate that is one step in that direction,
+if it exists and is not masked out. Otherwise, it returns false.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">bool TryMove(int x, int y, int z, Direction direction, out int destx, out int desty, out int destz)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><span class="parametername">x</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><span class="parametername">y</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><span class="parametername">z</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="DeBroglie.Topo.Direction.html">Direction</a></td>
+        <td><span class="parametername">direction</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><span class="parametername">destx</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><span class="parametername">desty</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><span class="parametername">destz</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <a class="xref" href="DeBroglie.Topo.TopologyExtensions.html#DeBroglie_Topo_TopologyExtensions_AsGridTopology_DeBroglie_Topo_ITopology_">TopologyExtensions.AsGridTopology(ITopology)</a>
+  </div>
+  <div>
+      <a class="xref" href="DeBroglie.Topo.TopologyExtensions.html#DeBroglie_Topo_TopologyExtensions_ContainsIndex_DeBroglie_Topo_ITopology_System_Int32_">TopologyExtensions.ContainsIndex(ITopology, Int32)</a>
+  </div>
+  <div>
+      <a class="xref" href="DeBroglie.Topo.TopologyExtensions.html#DeBroglie_Topo_TopologyExtensions_GetIndices_DeBroglie_Topo_ITopology_">TopologyExtensions.GetIndices(ITopology)</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Topo_ITopology.md&amp;value=---%0Auid%3A%20DeBroglie.Topo.ITopology%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Topo/ITopology.cs/#L9" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

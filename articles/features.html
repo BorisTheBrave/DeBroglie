@@ -70,10 +70,10 @@
             <article class="content wrap" id="_content" data-uid="features">
 <h1 id="key-concepts">Key Concepts</h1>
 
-<p><strong>2d/3d</strong> - DeBroglie works for both 2d and 3d generation, by selecting an appropriate <a class="xref" href="../api/DeBroglie.Topo.Topology.html">Topology</a>. Generally, most APIs accept <code>(x,y,z)</code> co-ordinates - the <code>z</code> value should just be 0 if you are working in 2d.</p>
+<p><strong>2d/3d</strong> - DeBroglie works for both 2d and 3d generation, by selecting an appropriate &lt;xref:DeBroglie.Topo.Topology&gt;. Generally, most APIs accept <code>(x,y,z)</code> co-ordinates - the <code>z</code> value should just be 0 if you are working in 2d.</p>
 <p><strong><a class="xref" href="../api/DeBroglie.Tile.html">Tile</a></strong> - The individual units the generation algorithm works with. Tiles wrap a value of any type, but they are usually an integer index into a tileset, or a <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.drawing.color">Color</a> when working with bitmaps. The value isn't important, all relevant information about a tile is stored externally.</p>
-<p><strong><a class="xref" href="../api/DeBroglie.Topo.Topology.html">Topology</a></strong> - Specifies an area or volume of <a href="https://en.wikipedia.org/wiki/Discrete_space">space</a> and how to navigate it. There's more detail in the <a href="#topology">topology section</a>.</p>
-<p><strong><a class="xref" href="../api/DeBroglie.Topo.ITopoArray-1.html">ITopoArray&lt;T&gt;</a></strong> - A 2d or 3d read-only array with one entry per space in the corresponding <a class="xref" href="../api/DeBroglie.Topo.Topology.html">Topology</a>. They are used as both the input and output format for the library. You can construct these with methods on <a class="xref" href="../api/DeBroglie.Topo.TopoArray.html">TopoArray</a>. ITopoArray objects can optionally have a mask associated with them, indicating missing values.</p>
+<p><strong>&lt;xref:DeBroglie.Topo.Topology&gt;</strong> - Specifies an area or volume of <a href="https://en.wikipedia.org/wiki/Discrete_space">space</a> and how to navigate it. There's more detail in the <a href="#topology">topology section</a>.</p>
+<p><strong><a class="xref" href="../api/DeBroglie.Topo.ITopoArray-1.html">ITopoArray&lt;T&gt;</a></strong> - A 2d or 3d read-only array with one entry per space in the corresponding @DeBroglie.Topo.Topology. They are used as both the input and output format for the library. You can construct these with methods on <a class="xref" href="../api/DeBroglie.Topo.TopoArray.html">TopoArray</a>. ITopoArray objects can optionally have a mask associated with them, indicating missing values.</p>
 <p><strong><a class="xref" href="../api/DeBroglie.Models.TileModel.html">Model</a></strong> - A model specifies constraints between nearby tiles in the generated output. See <a href="#models">models</a> for more info.</p>
 <p><strong><a class="xref" href="../api/DeBroglie.TilePropagator.html">Propagator</a></strong> - A propogator is responsible for generating an output that satifies the constraints specified by the <a class="xref" href="../api/DeBroglie.Models.TileModel.html">model</a> and other <a class="xref" href="../api/DeBroglie.Constraints.ITileConstraint.html">constraints</a>.</p>
 <h1 id="features">Features</h1>
@@ -147,31 +147,7 @@ not just within a small rectangles.</p>
 <p>If you set the backtrack argument to <code>true</code> when constructing the <a class="xref" href="../api/DeBroglie.TilePropagator.html">TilePropagator</a>, then the propagator does not give up when a contradiction occurs. It will attempt to roll back the most recent tile placement, and try another placment instead. <a href="https://en.wikipedia.org/wiki/Backtracking">In this manner</a>, it can explore the entire space of possible tile placements, seeking one that satifies the constraints. <a class="xref" href="../api/DeBroglie.Resolution.html#DeBroglie_Resolution_Contradiction">Contradiction</a> is only returned if all possibilities have been exhausted.</p>
 <p>Backtracking is very powerful and general, and can solve extremely difficult layouts. However, it can be quite slow, and consumes a great deal of memory, so it is generally only appropriate for generating small arrays.</p>
 <h2 id="topology">Topology</h2>
-<p>The most common case of using DeBroglie is to generate 2d images and tile maps, however, that is not all that can be generated.</p>
-<figure>
-<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/columns.json">
-<img src="../images/columns_in.png">
-<img src="../images/arrow.png">
-<img src="../images/columns_out.png">
-</a>
-<figcaption>Example of 3d generation. Rendered with <a href="http://magicavoxel.net">MagicaVoxel</a></figcaption>
-</figure>
-<figure>
-<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/hexmini.json">
-<img src="../images/hexmini_in.png">
-<img src="../images/arrow.png">
-<img src="../images/hexmini_out.png">
-</a>
-<figcaption>Example of hex generation. Rendered with <a href="https://www.mapeditor.org">Tiled</a></figcaption>
-</figure>
-<p>DeBroglie uses a mechanism called <a class="xref" href="../api/DeBroglie.Topo.Topology.html">Topology</a> to specify the type of area or volume to generate, what size it is, and whether it should wrap around at the edges (i.e. is it <em>periodic</em>). Topologies do not actually store data, they just specify the dimensions. Actual data is stored in an <a class="xref" href="../api/DeBroglie.Topo.ITopoArray-1.html">ITopoArray&lt;T&gt;</a>.</p>
-<p>Currently, three types of topology are supported: 2d square grid, 2d hex grid, and 3d cube grid.</p>
-<p>The topology of the generated result is inferred from the input samples. When using the command line tool the topology of the input is based on the file being read. But as a C# library, samples are passed as <a class="xref" href="../api/DeBroglie.Topo.ITopoArray-1.html">ITopoArray&lt;T&gt;</a> objects.</p>
-<p>So you must directly call the <a class="xref" href="../api/DeBroglie.Topo.Topology.html">Topology</a> constructor, and then create <a class="xref" href="../api/DeBroglie.Topo.ITopoArray-1.html">ITopoArray&lt;T&gt;</a> objects using the methods on <a class="xref" href="../api/DeBroglie.Topo.TopoArray.html">TopoArray</a>.  There's also many shortcut methods that don't require a topology if you just want to work with square grids.</p>
-<h3 id="hexagonal-topology">Hexagonal Topology</h3>
-<p>Hexagonal topologies use a convention of &quot;pointy side up&quot;. The x-axis moves to the right, and the y-axis moves down and to the left. This means the library generates rhombus shaped output. Additionally, periodic input / output is not supported.</p>
-<p>Using the <a href="https://www.mapeditor.org/">Tiled format</a> for import/export of hexagonal tilemaps is recommended, as most software doesn't have support for hexagons. DeBroglie comes with &lt;xref:DeBroglie.TiledUtil&gt; to facilitate converting between <a class="xref" href="../api/DeBroglie.Topo.ITopoArray-1.html">ITopoArray&lt;T&gt;</a> objects and Tiled maps.</p>
-<p>When using the <a href="#overlapping">overlapping</a> model, the constraints are based on <code>n</code> by <code>n</code> rhombus shapes, rather than <code>n</code> by <code>n</code> rectangles.</p>
+<p>Topology is the abstraction DeBroglie to use to deal with 2d grids, 3d volumes and graphs under the same system. It is <a href="topologies.html">detailed here</a>.</p>
 <h2 id="rotation">Rotation</h2>
 <p>Handling rotation of the input sample is a complex topic, and is discussed <a class="xref" href="rotation.html">in a separate article</a>.</p>
 </article>
