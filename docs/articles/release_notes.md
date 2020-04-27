@@ -2,7 +2,7 @@
 uid: release_notes
 title: Release Notes
 ---
-# Unreleased
+# v1.0.0
  * Improved performance of path constraints
  * Now can use mirror constraint on both X and Y axes
  * Added [GraphTopology](xref:DeBroglie.Topo.GraphTopology) and [GraphAdjacentModel](xref:DeBroglie.Models.GraphAdjacentModel) to allow generation on irregular topologies
