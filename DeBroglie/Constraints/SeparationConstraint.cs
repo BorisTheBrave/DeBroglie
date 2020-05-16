@@ -31,7 +31,7 @@ namespace DeBroglie.Constraints
         public void Init(TilePropagator propagator)
         {
             tileset = propagator.CreateTileSet(Tiles);
-            nearbyTracker = new NearbyTracker { MinDistance = MinDistance, Topology = propagator.Topology };
+            nearbyTracker = new NearbyTracker(propagator.Topology.IndexCount) { MinDistance = MinDistance, Topology = propagator.Topology };
             changeTracker = propagator.CreateSelectedChangeTracker(tileset, nearbyTracker);
 
             // Review the initial state
@@ -66,13 +66,30 @@ namespace DeBroglie.Constraints
         {
             public ITopology Topology;
 
-            public ISet<int> Visited = new HashSet<int>();
+            public int VisitCount = 0;
+
+            // 0 => Not visted
+            // non zero => visited. We record when the index was visited, to make backtracking easier.
+            // TODO: Might be easier just to keep a backtrack log
+            public int[] VisitedBy;
             public ISet<int> NewlyVisited = new HashSet<int>();
 
             public int MinDistance;
 
+            public NearbyTracker(int indexCount)
+            {
+                VisitedBy = new int[indexCount];
+            }
+
             public void VisitNearby(int index, bool undo)
             {
+                if(!undo)
+                {
+                    VisitCount++;
+                }
+
+                var visitCount = VisitCount;
+
                 // Dijkstra's with fixed weights is just a queue
                 var queue = new Queue<(int, int)>();
                 queue.Enqueue((index, 0));
@@ -86,9 +103,19 @@ namespace DeBroglie.Constraints
                         {
                             if (Topology.TryMove(i, (Direction)dir, out var i2))
                             {
-                                if (!Visited.Contains(i2))
+                                if(undo)
                                 {
-                                    queue.Enqueue((i2, dist + 1));
+                                    if (VisitedBy[i2] == visitCount)
+                                    {
+                                        queue.Enqueue((i2, dist + 1));
+                                    }
+                                }
+                                else
+                                {
+                                    if (VisitedBy[i2] == 0)
+                                    {
+                                        queue.Enqueue((i2, dist + 1));
+                                    }
                                 }
                             }
                         }
@@ -96,18 +123,23 @@ namespace DeBroglie.Constraints
 
                     if (undo)
                     {
-                        Visited.Remove(i);
+                        VisitedBy[i] = 0;
                         NewlyVisited.Remove(i);
                     }
                     else
                     {
-                        Visited.Add(i);
+                        VisitedBy[i] = visitCount;
                         if (dist > 0)
                         {
                             NewlyVisited.Add(i);
                         }
 
                     }
+                }
+
+                if(undo)
+                {
+                    VisitCount--;
                 }
             }
 
