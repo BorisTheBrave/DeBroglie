@@ -70,7 +70,7 @@ namespace DeBroglie.Constraints
                     // We've reached the limit, ban any more
                     foreach (var index in topology.GetIndices())
                     {
-                        var selected = selectedChangeTracker.GetTristate(index);
+                        var selected = selectedChangeTracker.GetQuadstate(index);
                         if (selected.IsMaybe())
                         {
                             propagator.Topology.GetCoord(index, out var x, out var y, out var z);
@@ -92,7 +92,7 @@ namespace DeBroglie.Constraints
                     // We've reached the limit, select all the rest
                     foreach (var index in topology.GetIndices())
                     {
-                        var selected = selectedChangeTracker.GetTristate(index);
+                        var selected = selectedChangeTracker.GetQuadstate(index);
                         if (selected.IsMaybe())
                         {
                             propagator.Topology.GetCoord(index, out var x, out var y, out var z);
@@ -166,7 +166,7 @@ namespace DeBroglie.Constraints
                                 var index = topology.GetIndex(x, y, z);
                                 if (topology.ContainsIndex(index))
                                 {
-                                    var selected = propagator.GetSelectedTristate(x, y, z, tileSet);
+                                    var selected = propagator.GetSelectedQuadstate(x, y, z, tileSet);
                                     if (selected.IsNo()) noCount++;
                                     if (selected.IsMaybe()) maybeList.Add(index);
                                     if (selected.IsYes()) yesCount++;
@@ -217,7 +217,7 @@ namespace DeBroglie.Constraints
             }
         }
 
-        private class CountTracker : ITristateChanged
+        private class CountTracker : IQuadstateChanged
         {
             private readonly ITopology topology;
 
@@ -237,29 +237,29 @@ namespace DeBroglie.Constraints
                 MaybeCount = 0;
                 foreach (var index in topology.GetIndices())
                 {
-                    var selected = tracker.GetTristate(index);
+                    var selected = tracker.GetQuadstate(index);
                     switch (selected)
                     {
-                        case Tristate.No: NoCount++; break;
-                        case Tristate.Maybe: MaybeCount++; break;
-                        case Tristate.Yes: YesCount++; break;
+                        case Quadstate.No: NoCount++; break;
+                        case Quadstate.Maybe: MaybeCount++; break;
+                        case Quadstate.Yes: YesCount++; break;
                     }
                 }
             }
 
-            public void Notify(int index, Tristate before, Tristate after)
+            public void Notify(int index, Quadstate before, Quadstate after)
             {
                 switch(before)
                 {
-                    case Tristate.No: NoCount--; break;
-                    case Tristate.Maybe: MaybeCount--; break;
-                    case Tristate.Yes: YesCount--; break;
+                    case Quadstate.No: NoCount--; break;
+                    case Quadstate.Maybe: MaybeCount--; break;
+                    case Quadstate.Yes: YesCount--; break;
                 }
                 switch (after)
                 {
-                    case Tristate.No: NoCount++; break;
-                    case Tristate.Maybe: MaybeCount++; break;
-                    case Tristate.Yes: YesCount++; break;
+                    case Quadstate.No: NoCount++; break;
+                    case Quadstate.Maybe: MaybeCount++; break;
+                    case Quadstate.Yes: YesCount++; break;
                 }
             }
         }

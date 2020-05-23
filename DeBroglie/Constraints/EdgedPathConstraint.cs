@@ -116,7 +116,7 @@ namespace DeBroglie.Constraints
                 var tracker = kv.Value;
                 for (int i = 0; i < indices; i++)
                 {
-                    var ts = tracker.GetTristate(i);
+                    var ts = tracker.GetQuadstate(i);
                     couldBePath[i * nodesPerIndex + 1 + (int)exit] = ts.Possible();
                     // Cannot put this in mustBePath these points can be disconnected, depending on topology mask
                     exitMustBePath[i * nodesPerIndex + 1 + (int)exit] = ts.IsYes();
@@ -124,7 +124,7 @@ namespace DeBroglie.Constraints
             }
             for (int i = 0; i < indices; i++)
             {
-                var pathTs = pathSelectedTracker.GetTristate(i);
+                var pathTs = pathSelectedTracker.GetQuadstate(i);
                 couldBePath[i * nodesPerIndex] = pathTs.Possible();
                 mustBePath[i * nodesPerIndex] = pathTs.IsYes();
             }

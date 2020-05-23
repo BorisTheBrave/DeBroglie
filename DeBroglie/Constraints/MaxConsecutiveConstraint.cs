@@ -56,7 +56,7 @@ namespace DeBroglie.Constraints
                         for (var x = 0; x < width; x++)
                         {
                             var index = topology.GetIndex(x, y, z);
-                            if (sm.Next(x, selectedTracker.GetTristate(index)))
+                            if (sm.Next(x, selectedTracker.GetQuadstate(index)))
                             {
                                 propagator.SetContradiction();
                                 return;
@@ -67,7 +67,7 @@ namespace DeBroglie.Constraints
                             for (var x = 0; x < MaxCount && x < width; x++)
                             {
                                 var index = topology.GetIndex(x, y, z);
-                                if (sm.Next(x, selectedTracker.GetTristate(index)))
+                                if (sm.Next(x, selectedTracker.GetQuadstate(index)))
                                 {
                                     propagator.SetContradiction();
                                     return;
@@ -92,7 +92,7 @@ namespace DeBroglie.Constraints
                         for (var y = 0; y < height; y++)
                         {
                             var index = topology.GetIndex(x, y, z);
-                            if (sm.Next(y, selectedTracker.GetTristate(index)))
+                            if (sm.Next(y, selectedTracker.GetQuadstate(index)))
                             {
                                 propagator.SetContradiction();
                                 return;
@@ -103,7 +103,7 @@ namespace DeBroglie.Constraints
                             for (var y = 0; y < MaxCount && y < height; y++)
                             {
                                 var index = topology.GetIndex(x, y, z);
-                                if (sm.Next(y, selectedTracker.GetTristate(index)))
+                                if (sm.Next(y, selectedTracker.GetQuadstate(index)))
                                 {
                                     propagator.SetContradiction();
                                     return;
@@ -128,7 +128,7 @@ namespace DeBroglie.Constraints
                         for (var z = 0; z < depth; z++)
                         {
                             var index = topology.GetIndex(x, y, z);
-                            if (sm.Next(z, selectedTracker.GetTristate(index)))
+                            if (sm.Next(z, selectedTracker.GetQuadstate(index)))
                             {
                                 propagator.SetContradiction();
                                 return;
@@ -139,7 +139,7 @@ namespace DeBroglie.Constraints
                             for (var z = 0; z < MaxCount && z < depth; z++)
                             {
                                 var index = topology.GetIndex(x, y, z);
-                                if (sm.Next(z, selectedTracker.GetTristate(index)))
+                                if (sm.Next(z, selectedTracker.GetQuadstate(index)))
                                 {
                                     propagator.SetContradiction();
                                     return;
@@ -193,7 +193,7 @@ namespace DeBroglie.Constraints
                 prevRunCount = 0;
             }
 
-            public bool Next(int index, Tristate selected)
+            public bool Next(int index, Quadstate selected)
             {
                 switch (state)
                 {

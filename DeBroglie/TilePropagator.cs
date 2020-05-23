@@ -346,7 +346,7 @@ namespace DeBroglie
             return tracker;
         }
 
-        internal SelectedChangeTracker CreateSelectedChangeTracker(TilePropagatorTileSet tileSet, ITristateChanged onChange)
+        internal SelectedChangeTracker CreateSelectedChangeTracker(TilePropagatorTileSet tileSet, IQuadstateChanged onChange)
         {
             var tracker = new SelectedChangeTracker(this, wavePropagator, tileModelMapping, tileSet, onChange);
             tracker.Reset();
@@ -424,10 +424,31 @@ namespace DeBroglie
             GetBannedSelectedInternal(px, py, pz, patterns, out isBanned, out isSelected);
         }
 
-        internal Tristate GetSelectedTristate(int x, int y, int z, TilePropagatorTileSet tiles)
+        internal Quadstate GetSelectedQuadstate(int x, int y, int z, TilePropagatorTileSet tiles)
         {
             GetBannedSelected(x, y, z, tiles, out var isBanned, out var isSelected);
-            return isSelected ? Tristate.Yes : isBanned ? Tristate.No : Tristate.Maybe;
+            if(isSelected)
+            {
+                if(isBanned)
+                {
+                    return Quadstate.Contradiction;
+                }
+                else
+                {
+                    return Quadstate.Yes;
+                }
+            }
+            else
+            {
+                if(isBanned)
+                {
+                    return Quadstate.No;
+                }
+                else
+                {
+                    return Quadstate.Maybe;
+                }
+            }
         }
 
 

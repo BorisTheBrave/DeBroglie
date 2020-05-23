@@ -63,7 +63,7 @@ namespace DeBroglie.Constraints
             var mustBePath = new bool[indices];
             for (int i = 0; i < indices; i++)
             {
-                var ts = selectedTracker.GetTristate(i);
+                var ts = selectedTracker.GetQuadstate(i);
                 couldBePath[i] = ts.Possible();
                 mustBePath[i] = ts.IsYes();
             }

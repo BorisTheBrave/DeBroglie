@@ -7,11 +7,11 @@ using System.Text;
 
 namespace DeBroglie.Trackers
 {
-    internal interface ITristateChanged
+    internal interface IQuadstateChanged
     {
         void Reset(SelectedChangeTracker tracker);
 
-        void Notify(int index, Tristate before, Tristate after);
+        void Notify(int index, Quadstate before, Quadstate after);
     }
 
     internal class SelectedChangeTracker : ITracker
@@ -25,13 +25,13 @@ namespace DeBroglie.Trackers
         // Indexed by tile topology
         private readonly int[] patternCounts;
 
-        private readonly Tristate[] values;
+        private readonly Quadstate[] values;
 
         private readonly TilePropagatorTileSet tileSet;
 
-        private readonly ITristateChanged onChange;
+        private readonly IQuadstateChanged onChange;
 
-        public SelectedChangeTracker(TilePropagator tilePropagator, WavePropagator wavePropagator, TileModelMapping tileModelMapping, TilePropagatorTileSet tileSet, ITristateChanged onChange)
+        public SelectedChangeTracker(TilePropagator tilePropagator, WavePropagator wavePropagator, TileModelMapping tileModelMapping, TilePropagatorTileSet tileSet, IQuadstateChanged onChange)
         {
             this.tilePropagator = tilePropagator;
             this.wavePropagator = wavePropagator;
@@ -39,33 +39,43 @@ namespace DeBroglie.Trackers
             this.tileSet = tileSet;
             this.onChange = onChange;
             patternCounts = new int[tilePropagator.Topology.IndexCount];
-            values = new Tristate[tilePropagator.Topology.IndexCount];
+            values = new Quadstate[tilePropagator.Topology.IndexCount];
         }
 
-        private Tristate GetTristateInner(int index)
+        private Quadstate GetQuadstateInner(int index)
         {
             var selectedPatternCount = patternCounts[index];
-            if (selectedPatternCount == 0)
-                return Tristate.No;
 
             tileModelMapping.GetTileCoordToPatternCoord(index, out var patternIndex, out var offset);
 
             var totalPatternCount = wavePropagator.Wave.GetPatternCount(patternIndex);
-            if (totalPatternCount == selectedPatternCount)
+
+            if (totalPatternCount == 0)
             {
-                return Tristate.Yes;
+                return Quadstate.Contradiction;
             }
-            return Tristate.Maybe;
+            else if (selectedPatternCount == 0)
+            {
+                return Quadstate.No;
+            }
+            else if (totalPatternCount == selectedPatternCount)
+            {
+                return Quadstate.Yes;
+            }
+            else
+            {
+                return Quadstate.Maybe;
+            }
         }
 
-        public Tristate GetTristate(int index)
+        public Quadstate GetQuadstate(int index)
         {
             return values[index];
         }
 
         public bool IsSelected(int index)
         {
-            return GetTristate(index).IsYes();
+            return GetQuadstate(index).IsYes();
         }
 
         public void DoBan(int patternIndex, int pattern)
@@ -109,7 +119,7 @@ namespace DeBroglie.Trackers
                     }
                 }
                 patternCounts[index] = count;
-                values[index] = GetTristateInner(index);
+                values[index] = GetQuadstateInner(index);
             }
             onChange.Reset(this);
         }
@@ -142,7 +152,7 @@ namespace DeBroglie.Trackers
 
         private void DoNotify(int index)
         {
-            var newValue = GetTristateInner(index);
+            var newValue = GetQuadstateInner(index);
             var oldValue = values[index];
             if (newValue != oldValue)
             {

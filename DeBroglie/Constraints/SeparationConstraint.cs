@@ -37,7 +37,7 @@ namespace DeBroglie.Constraints
             // Review the initial state
             foreach(var index in propagator.Topology.GetIndices())
             {
-                if (changeTracker.GetTristate(index).IsYes())
+                if (changeTracker.GetQuadstate(index).IsYes())
                 {
                     nearbyTracker.VisitNearby(index, false);
                 }
@@ -62,7 +62,7 @@ namespace DeBroglie.Constraints
         }
 
 
-        private class NearbyTracker : ITristateChanged
+        private class NearbyTracker : IQuadstateChanged
         {
             public ITopology Topology;
 
@@ -83,7 +83,7 @@ namespace DeBroglie.Constraints
 
             public void VisitNearby(int index, bool undo)
             {
-                //System.Console.WriteLine($"VisitNearby {index} {undo}");
+                //System.Diagnostics.Debug.WriteLine($"VisitNearby {index} {undo}");
 
                 if (!undo)
                 {
@@ -147,13 +147,16 @@ namespace DeBroglie.Constraints
             {
             }
 
-            public void Notify(int index, Tristate before, Tristate after)
+            public void Notify(int index, Quadstate before, Quadstate after)
             {
-                if(after.IsYes())
+                var a = after == Quadstate.Yes || after == Quadstate.Contradiction;
+                var b = before == Quadstate.Yes || before == Quadstate.Contradiction;
+                System.Diagnostics.Debug.WriteLine($"Notify {index} {before} {after}");
+                if (a && !b)
                 {
                     VisitNearby(index, false);
                 }
-                if(before.IsYes())
+                if(b && !a)
                 {
                     // Must be backtracking. 
                     // The main backtrack mechanism will handle undoing bans, and 
