@@ -83,7 +83,9 @@ namespace DeBroglie.Constraints
 
             public void VisitNearby(int index, bool undo)
             {
-                if(!undo)
+                //System.Console.WriteLine($"VisitNearby {index} {undo}");
+
+                if (!undo)
                 {
                     VisitCount++;
                 }
@@ -92,7 +94,33 @@ namespace DeBroglie.Constraints
 
                 // Dijkstra's with fixed weights is just a queue
                 var queue = new Queue<(int, int)>();
-                queue.Enqueue((index, 0));
+
+                void Visit(int i2, int dist)
+                {
+                    if (undo)
+                    {
+                        if (VisitedBy[i2] == visitCount)
+                        {
+                            queue.Enqueue((i2, dist));
+                            VisitedBy[i2] = 0;
+                            NewlyVisited.Remove(i2);
+                        }
+                    }
+                    else
+                    {
+                        if (VisitedBy[i2] == 0)
+                        {
+                            queue.Enqueue((i2, dist));
+                            VisitedBy[i2] = visitCount;
+                            if (dist > 0)
+                            {
+                                NewlyVisited.Add(i2);
+                            }
+                        }
+                    }
+                }
+
+                Visit(index, 0);
 
                 while (queue.Count > 0)
                 {
@@ -103,37 +131,9 @@ namespace DeBroglie.Constraints
                         {
                             if (Topology.TryMove(i, (Direction)dir, out var i2))
                             {
-                                if(undo)
-                                {
-                                    if (VisitedBy[i2] == visitCount)
-                                    {
-                                        queue.Enqueue((i2, dist + 1));
-                                    }
-                                }
-                                else
-                                {
-                                    if (VisitedBy[i2] == 0)
-                                    {
-                                        queue.Enqueue((i2, dist + 1));
-                                    }
-                                }
+                                Visit(i2, dist + 1);
                             }
                         }
-                    }
-
-                    if (undo)
-                    {
-                        VisitedBy[i] = 0;
-                        NewlyVisited.Remove(i);
-                    }
-                    else
-                    {
-                        VisitedBy[i] = visitCount;
-                        if (dist > 0)
-                        {
-                            NewlyVisited.Add(i);
-                        }
-
                     }
                 }
 
