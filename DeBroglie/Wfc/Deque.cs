@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 namespace DeBroglie.Wfc
 {
-    internal class Deque<T>
+    internal class Deque<T> : IEnumerable<T>
     {
         private T[] _data;
         private int _dataLength;
@@ -257,6 +258,46 @@ namespace DeBroglie.Wfc
                 yield return data[e];
                 if (e == 0) e = dataLength - 1;
             } while (i != e);
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+
+            var lo = _lo;
+            var hi = _hi;
+            var data = _data;
+            var dataLength = _dataLength;
+            var i = lo;
+            var e = hi;
+
+            if (hi >= lo)
+            {
+                if (e > hi)
+                    throw new Exception();
+            }
+            else
+            {
+                if (e > hi + dataLength)
+                    throw new Exception();
+            }
+
+            if (lo == hi)
+                yield break;
+
+            if (i >= dataLength) i -= dataLength;
+            if (e >= dataLength) e -= dataLength;
+
+            do
+            {
+                yield return data[i];
+                i++;
+                if (i == dataLength) i = 0;
+            } while (i != e);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }
