@@ -33,7 +33,6 @@ namespace DeBroglie.Wfc
         private readonly int backtrackDepth;
         private readonly IWaveConstraint[] constraints;
         private Func<double> randomDouble;
-        private readonly FrequencySet[] frequencySets;
 
         // We evaluate constraints at the last possible minute, instead of eagerly like the model,
         // As they can potentially be expensive.
@@ -45,6 +44,8 @@ namespace DeBroglie.Wfc
         private ITopology topology;
         private int directionsCount;
 
+        public readonly Func<WavePropagator, IPickHeuristic> pickHeuristicFactory;
+
         private List<ITracker> trackers;
 
         private IPickHeuristic pickHeuristic;
@@ -55,7 +56,7 @@ namespace DeBroglie.Wfc
             int backtrackDepth = 0,
             IWaveConstraint[] constraints = null,
             Func<double> randomDouble = null,
-            FrequencySet[] frequencySets = null,
+            Func<WavePropagator, IPickHeuristic> pickHeuristicFactory = null,
             bool clear = true)
         {
             this.patternCount = model.PatternCount;
@@ -67,8 +68,19 @@ namespace DeBroglie.Wfc
             this.constraints = constraints ?? new IWaveConstraint[0];
             this.topology = topology;
             this.randomDouble = randomDouble ?? new Random().NextDouble;
-            this.frequencySets = frequencySets;
             directionsCount = topology.DirectionsCount;
+            this.pickHeuristicFactory = pickHeuristicFactory;
+
+            if(this.pickHeuristicFactory == null)
+            {
+                this.pickHeuristicFactory = (wavePropagator) =>
+                {
+                    var entropyTracker = new EntropyTracker(wavePropagator.Wave, wavePropagator.Frequencies, wavePropagator.Topology.Mask);
+                    entropyTracker.Reset();
+                    wavePropagator.AddTracker(entropyTracker);
+                    return new EntropyHeuristic(entropyTracker, this.randomDouble);
+                };
+            }
 
             patternModelConstraint = new PatternModelConstraint(this, model);
 
@@ -219,20 +231,7 @@ namespace DeBroglie.Wfc
 
             status = Resolution.Undecided;
             this.trackers = new List<ITracker>();
-            if (frequencySets != null)
-            {
-                var entropyTracker = new ArrayPriorityEntropyTracker(wave, frequencySets, topology.Mask);
-                entropyTracker.Reset();
-                AddTracker(entropyTracker);
-                pickHeuristic = new EntropyHeuristic(entropyTracker, randomDouble);
-            }
-            else
-            {
-                var entropyTracker = new EntropyTracker(wave, frequencies, topology.Mask);
-                entropyTracker.Reset();
-                AddTracker(entropyTracker);
-                pickHeuristic = new EntropyHeuristic(entropyTracker, randomDouble);
-            }
+            pickHeuristic = pickHeuristicFactory(this);
 
             patternModelConstraint.Clear();
 
