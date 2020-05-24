@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace DeBroglie.Trackers
 {
-    internal class ArrayPriorityEntropyTracker : ITracker
+    internal class ArrayPriorityEntropyTracker : IEntropyTracker
     {
         private readonly int patternCount;
 
@@ -102,7 +102,7 @@ namespace DeBroglie.Trackers
         // Finds the cells with minimal entropy (excluding 0, decided cells)
         // and picks one randomly.
         // Returns -1 if every cell is decided.
-        public int GetRandomMinEntropyIndex(Func<double> randomDouble)
+        public int GetRandomMinEntropyIndex(Func<double> randomDouble, Func<int, bool> indexFilter = null)
         {
             int selectedIndex = -1;
             // TODO: At the moment this is a linear scan, but potentially
@@ -113,6 +113,8 @@ namespace DeBroglie.Trackers
             for (int i = 0; i < indices; i++)
             {
                 if (mask != null && !mask[i])
+                    continue;
+                if (indexFilter != null && !indexFilter(i))
                     continue;
                 var c = wave.GetPatternCount(i);
                 var pi = entropyValues[i].PriorityIndex;
@@ -137,6 +139,8 @@ namespace DeBroglie.Trackers
             for (int i = 0; i < indices; i++)
             {
                 if (mask != null && !mask[i])
+                    continue;
+                if (indexFilter != null && !indexFilter(i))
                     continue;
                 var c = wave.GetPatternCount(i);
                 var pi = entropyValues[i].PriorityIndex;

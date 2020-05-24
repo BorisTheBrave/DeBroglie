@@ -12,11 +12,11 @@ namespace DeBroglie.Wfc
     /// </summary>
     internal class EntropyHeuristic : IPickHeuristic
     {
-        private EntropyTracker entropyTracker;
+        private IEntropyTracker entropyTracker;
 
         private Func<double> randomDouble;
 
-        public EntropyHeuristic(EntropyTracker entropyTracker, Func<double> randomDouble)
+        public EntropyHeuristic(IEntropyTracker entropyTracker, Func<double> randomDouble)
         {
             this.entropyTracker = entropyTracker;
             this.randomDouble = randomDouble;

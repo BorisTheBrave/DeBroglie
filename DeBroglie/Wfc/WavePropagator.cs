@@ -224,7 +224,7 @@ namespace DeBroglie.Wfc
                 var entropyTracker = new ArrayPriorityEntropyTracker(wave, frequencySets, topology.Mask);
                 entropyTracker.Reset();
                 AddTracker(entropyTracker);
-                pickHeuristic = new ArrayPriorityEntropyHeuristic(entropyTracker, randomDouble);
+                pickHeuristic = new EntropyHeuristic(entropyTracker, randomDouble);
             }
             else
             {
