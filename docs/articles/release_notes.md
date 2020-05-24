@@ -2,6 +2,10 @@
 uid: release_notes
 title: Release Notes
 ---
+# Unreleased
+ * Improved behaviour/performance of backtracking
+ * SeparationConstraint fixes
+
 # v1.0.0
  * Improved performance of path constraints
  * Now can use mirror constraint on both X and Y axes
