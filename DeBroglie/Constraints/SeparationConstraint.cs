@@ -66,53 +66,33 @@ namespace DeBroglie.Constraints
         {
             public ITopology Topology;
 
-            public int VisitCount = 0;
-
-            // 0 => Not visted
-            // non zero => visited. We record when the index was visited, to make backtracking easier.
-            // TODO: Might be easier just to keep a backtrack log
-            public int[] VisitedBy;
             public ISet<int> NewlyVisited = new HashSet<int>();
 
             public int MinDistance;
 
             public NearbyTracker(int indexCount)
             {
-                VisitedBy = new int[indexCount];
             }
 
             public void VisitNearby(int index, bool undo)
             {
-                //System.Diagnostics.Debug.WriteLine($"VisitNearby {index} {undo}");
-
-                if (!undo)
-                {
-                    VisitCount++;
-                }
-
-                var visitCount = VisitCount;
-
                 // Dijkstra's with fixed weights is just a queue
                 var queue = new Queue<(int, int)>();
+                var visited = new HashSet<int>();
 
                 void Visit(int i2, int dist)
                 {
-                    if (undo)
+                    if (visited.Add(i2))
                     {
-                        if (VisitedBy[i2] == visitCount)
+                        queue.Enqueue((i2, dist));
+
+                        if (undo)
                         {
-                            queue.Enqueue((i2, dist));
-                            VisitedBy[i2] = 0;
                             NewlyVisited.Remove(i2);
                         }
-                    }
-                    else
-                    {
-                        if (VisitedBy[i2] == 0)
+                        else
                         {
-                            queue.Enqueue((i2, dist));
-                            VisitedBy[i2] = visitCount;
-                            if (dist > 0)
+                            if (dist != 0)
                             {
                                 NewlyVisited.Add(i2);
                             }
@@ -136,11 +116,6 @@ namespace DeBroglie.Constraints
                         }
                     }
                 }
-
-                if(undo)
-                {
-                    VisitCount--;
-                }
             }
 
             public void Reset(SelectedChangeTracker tracker)
@@ -151,7 +126,6 @@ namespace DeBroglie.Constraints
             {
                 var a = after == Quadstate.Yes || after == Quadstate.Contradiction;
                 var b = before == Quadstate.Yes || before == Quadstate.Contradiction;
-                System.Diagnostics.Debug.WriteLine($"Notify {index} {before} {after}");
                 if (a && !b)
                 {
                     VisitNearby(index, false);
