@@ -1,10 +1,11 @@
-﻿using DeBroglie.Rot;
+﻿using DeBroglie.Models;
+using DeBroglie.Rot;
 using DeBroglie.Topo;
 using DeBroglie.Trackers;
+using DeBroglie.Wfc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace DeBroglie.Constraints
 {
@@ -48,6 +49,12 @@ namespace DeBroglie.Constraints
         /// If set, Exits is augmented with extra copies as dictated by the tile rotations
         /// </summary>
         public TileRotation TileRotation { get; set; }
+
+        /// <summary>
+        /// If set, configures the propagator to choose tiles that lie on the path first.
+        /// This can help avoid contradictions in many cases
+        /// </summary>
+        public bool UsePickHeuristic { get; set; }
 
         public EdgedPathConstraint(IDictionary<Tile, ISet<Direction>> exits, Point[] endPoints = null, TileRotation tileRotation = null)
         {
@@ -210,6 +217,17 @@ namespace DeBroglie.Constraints
             }
         }
 
+        internal IPickHeuristic GetHeuristic(
+                IEntropyTracker entropyTracker,
+                Func<double> randomDouble,
+                TilePropagator propagator,
+                TileModelMapping tileModelMapping,
+                IPickHeuristic fallbackHeuristic)
+        {
+            return new FollowPathHeuristic(
+                entropyTracker, randomDouble, propagator, tileModelMapping, fallbackHeuristic, this);
+        }
+
         private static readonly int[] Empty = { };
 
         /// <summary>
@@ -257,6 +275,78 @@ namespace DeBroglie.Constraints
                 NodeCount = nodeCount,
                 Neighbours = neighbours,
             };
+        }
+
+        private class FollowPathHeuristic : IPickHeuristic
+        {
+            private readonly IEntropyTracker entropyTracker;
+
+            private readonly Func<double> randomDouble;
+
+            private readonly TilePropagator propagator;
+
+            private readonly TileModelMapping tileModelMapping;
+
+            private readonly IPickHeuristic fallbackHeuristic;
+
+            private readonly EdgedPathConstraint pathConstraint;
+
+            public FollowPathHeuristic(
+                IEntropyTracker entropyTracker,
+                Func<double> randomDouble,
+                TilePropagator propagator,
+                TileModelMapping tileModelMapping,
+                IPickHeuristic fallbackHeuristic,
+                EdgedPathConstraint pathConstraint)
+            {
+                this.entropyTracker = entropyTracker;
+                this.randomDouble = randomDouble;
+                this.propagator = propagator;
+                this.tileModelMapping = tileModelMapping;
+                this.fallbackHeuristic = fallbackHeuristic;
+                this.pathConstraint = pathConstraint;
+            }
+
+            public void PickObservation(out int index, out int pattern)
+            {
+                var topology = propagator.Topology;
+                var t = pathConstraint.pathSelectedTracker;
+                // Find cells that could potentially be paths, and are next to 
+                // already selected path. In tileSpace
+                var isTilePriority = topology.GetIndices().Select(i =>
+                {
+                    var s = t.GetQuadstate(i);
+                    if (!s.IsMaybe())
+                    {
+                        return false;
+                    }
+                    for (var d = 0; d < topology.DirectionsCount; d++)
+                    {
+                        if (topology.TryMove(i, (Direction)d, out var i2))
+                        {
+                            var s2 = t.GetQuadstate(i2);
+                            if (s2.IsYes())
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                }).ToArray();
+
+                var isPatternPriority = tileModelMapping.PatternCoordToTileCoordIndexAndOffset == null ? isTilePriority : throw new NotImplementedException();
+
+                index = entropyTracker.GetRandomMinEntropyIndex(randomDouble, i => isPatternPriority[i]);
+
+                if(index == -1)
+                {
+                    fallbackHeuristic.PickObservation(out index, out pattern);
+                }
+                else
+                {
+                    pattern = entropyTracker.GetRandomPossiblePatternAt(index, randomDouble);
+                }
+            }
         }
     }
 }

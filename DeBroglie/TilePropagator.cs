@@ -118,15 +118,49 @@ namespace DeBroglie
             var waveFrequencySets = options.Weights == null ? null : GetFrequencySets(options.Weights, tileModelMapping);
 
 #pragma warning disable CS0618 // Type or member is obsolete
+            var randomDouble = options.RandomDouble ?? (options.Random ?? new Random()).NextDouble;
+#pragma warning restore CS0618 // Type or member is obsolete
+
+            IPickHeuristic MakePickHeuristic(WavePropagator wavePropagator)
+            {
+                IEntropyTracker entropyTracker;
+                IPickHeuristic heuristic;
+                if (waveFrequencySets != null)
+                {
+                    entropyTracker = new ArrayPriorityEntropyTracker(wavePropagator.Wave, waveFrequencySets, patternTopology.Mask);
+                    entropyTracker.Reset();
+                    wavePropagator.AddTracker(entropyTracker);
+                    heuristic =  new EntropyHeuristic(entropyTracker, randomDouble);
+                }
+                else
+                {
+                    entropyTracker = new EntropyTracker(wavePropagator.Wave, wavePropagator.Frequencies, patternTopology.Mask);
+                    entropyTracker.Reset();
+                    wavePropagator.AddTracker(entropyTracker);
+                    heuristic = new EntropyHeuristic(entropyTracker, randomDouble);
+                }
+                var pathConstraint = options.Constraints?.OfType<EdgedPathConstraint>().FirstOrDefault();
+                if(pathConstraint != null && pathConstraint.UsePickHeuristic)
+                {
+                    heuristic = pathConstraint.GetHeuristic(
+                        entropyTracker,
+                        randomDouble,
+                        this,
+                        tileModelMapping,
+                        heuristic);
+                }
+
+                return heuristic;
+            }
+
             this.wavePropagator = new WavePropagator(
                 patternModel, 
-                patternTopology, 
+                patternTopology,
                 options.BackTrackDepth, 
-                waveConstraints, 
-                options.RandomDouble ?? (options.Random == null ? (Func<double>)null : options.Random.NextDouble),
-                waveFrequencySets,
+                waveConstraints,
+                randomDouble,
+                MakePickHeuristic,
                 clear: false);
-#pragma warning restore CS0618 // Type or member is obsolete
             wavePropagator.Clear();
 
         }
