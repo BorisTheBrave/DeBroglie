@@ -308,9 +308,16 @@ namespace DeBroglie.Wfc
             Observe(out index, out var pattern);
 
             // Record what was selected for backtracking purposes
-            if(index != -1 && backtrack)
+            if(backtrack)
             {
-                prevChoices.Push(new IndexPatternItem { Index = index, Pattern = pattern });
+                if (index != -1)
+                {
+                    prevChoices.Push(new IndexPatternItem { Index = index, Pattern = pattern });
+                }
+                else
+                {
+                    backtrackItemsLengths.Pop();
+                }
             }
 
             // After a backtrack we resume here
@@ -356,12 +363,6 @@ namespace DeBroglie.Wfc
                         // If still in contradiction, repeat backtracking
 
                         continue;
-                    }
-                    else
-                    {
-                        // Include the last ban as part of the previous backtrack
-                        backtrackItemsLengths.Pop();
-                        backtrackItemsLengths.Push(droppedBacktrackItemsCount + backtrackItems.Count);
                     }
                     goto restart;
                 }
