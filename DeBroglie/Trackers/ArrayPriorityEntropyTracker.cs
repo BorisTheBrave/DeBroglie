@@ -102,8 +102,13 @@ namespace DeBroglie.Trackers
         // Finds the cells with minimal entropy (excluding 0, decided cells)
         // and picks one randomly.
         // Returns -1 if every cell is decided.
-        public int GetRandomMinEntropyIndex(Func<double> randomDouble, Func<int, bool> indexFilter = null)
+        public int GetRandomMinEntropyIndex(Func<double> randomDouble, int[] externalPriority = null)
         {
+            if(externalPriority != null)
+            {
+                throw new NotImplementedException();
+            }
+
             int selectedIndex = -1;
             // TODO: At the moment this is a linear scan, but potentially
             // could use some data structure
@@ -113,8 +118,6 @@ namespace DeBroglie.Trackers
             for (int i = 0; i < indices; i++)
             {
                 if (mask != null && !mask[i])
-                    continue;
-                if (indexFilter != null && !indexFilter(i))
                     continue;
                 var c = wave.GetPatternCount(i);
                 var pi = entropyValues[i].PriorityIndex;
@@ -139,8 +142,6 @@ namespace DeBroglie.Trackers
             for (int i = 0; i < indices; i++)
             {
                 if (mask != null && !mask[i])
-                    continue;
-                if (indexFilter != null && !indexFilter(i))
                     continue;
                 var c = wave.GetPatternCount(i);
                 var pi = entropyValues[i].PriorityIndex;

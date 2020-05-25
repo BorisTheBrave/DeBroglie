@@ -203,7 +203,8 @@ namespace DeBroglie.Constraints
                 }
             }
 
-            // Any EndPointTiles not in the connected component aren't safe to add
+            // Any EndPointTiles not in the connected component aren't safe to add.
+            // TODO: Doesn't the same logic apply to any path tiles?
             if (EndPointTiles != null)
             {
                 for (int i = 0; i < indices; i++)
@@ -313,37 +314,50 @@ namespace DeBroglie.Constraints
                 var t = pathConstraint.pathSelectedTracker;
                 // Find cells that could potentially be paths, and are next to 
                 // already selected path. In tileSpace
-                var isTilePriority = topology.GetIndices().Select(i =>
+                var bestPriority = 0;
+                var tilePriority = topology.GetIndices().Select(i =>
                 {
-                    var s = t.GetQuadstate(i);
-                    if (!s.IsMaybe())
+                    var qs = t.GetQuadstate(i);
+                    if(qs.IsYes())
                     {
-                        return false;
+                        bestPriority = 2;
+                        return 2;
                     }
+                    if(qs.IsNo())
+                    {
+                        return 0;
+                    }
+                    // Determine if any neighbours exit onto this tile
                     for (var d = 0; d < topology.DirectionsCount; d++)
                     {
-                        if (topology.TryMove(i, (Direction)d, out var i2))
+                        if (topology.TryMove(i, (Direction)d, out var i2, out var inverseDirection, out var _))
                         {
-                            var s2 = t.GetQuadstate(i2);
+                            var s2 = pathConstraint.trackerByExit[inverseDirection].GetQuadstate(i2);
                             if (s2.IsYes())
                             {
-                                return true;
+                                bestPriority = 1;
+                                return 1;
                             }
                         }
                     }
-                    return false;
+                    return 0;
                 }).ToArray();
 
-                var isPatternPriority = tileModelMapping.PatternCoordToTileCoordIndexAndOffset == null ? isTilePriority : throw new NotImplementedException();
+                var patternPriority = tileModelMapping.PatternCoordToTileCoordIndexAndOffset == null ? tilePriority : throw new NotImplementedException();
 
-                index = entropyTracker.GetRandomMinEntropyIndex(randomDouble, i => isPatternPriority[i]);
+                index = entropyTracker.GetRandomMinEntropyIndex(randomDouble, patternPriority);
 
                 if(index == -1)
                 {
                     fallbackHeuristic.PickObservation(out index, out pattern);
+                    propagator.Topology.GetCoord(index, out var x, out var y, out var z);
+                    System.Console.WriteLine($"Fallback {x} {y} {z}");
                 }
                 else
                 {
+                    propagator.Topology.GetCoord(index, out var x, out var y, out var z);
+                    System.Console.WriteLine($"Found near path {x} {y} {z} {tilePriority[index]}");
+                    //System.Console.WriteLine($"{string.Join(",", isTilePriority)}");
                     pattern = entropyTracker.GetRandomPossiblePatternAt(index, randomDouble);
                 }
             }

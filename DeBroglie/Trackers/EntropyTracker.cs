@@ -81,31 +81,32 @@ namespace DeBroglie.Trackers
         // Finds the cells with minimal entropy (excluding 0, decided cells)
         // and picks one randomly.
         // Returns -1 if every cell is decided.
-        public int GetRandomMinEntropyIndex(Func<double> randomDouble, Func<int, bool> indexFilter = null)
+        public int GetRandomMinEntropyIndex(Func<double> randomDouble, int[] externalPriority = null)
         {
             int selectedIndex = -1;
             // TODO: At the moment this is a linear scan, but potentially
             // could use some data structure
+            int minExternalPriority = int.MinValue;
             double minEntropy = double.PositiveInfinity;
             int countAtMinEntropy = 0;
             for (int i = 0; i < indices; i++)
             {
                 if (mask != null && !mask[i])
                     continue;
-                if (indexFilter != null && !indexFilter(i))
-                    continue;
                 var c = wave.GetPatternCount(i);
+                var ep = externalPriority == null ? 0 : externalPriority[i];
                 var e = entropyValues[i].Entropy;
                 if (c <= 1)
                 {
                     continue;
                 }
-                else if (e < minEntropy)
+                else if (ep > minExternalPriority || (ep == minExternalPriority && e < minEntropy))
                 {
                     countAtMinEntropy = 1;
+                    minExternalPriority = ep;
                     minEntropy = e;
                 }
-                else if (e == minEntropy)
+                else if (ep == minExternalPriority && e == minEntropy)
                 {
                     countAtMinEntropy++;
                 }
@@ -116,15 +117,14 @@ namespace DeBroglie.Trackers
             {
                 if (mask != null && !mask[i])
                     continue;
-                if (indexFilter != null && !indexFilter(i))
-                    continue;
                 var c = wave.GetPatternCount(i);
+                var ep = externalPriority == null ? 0 : externalPriority[i];
                 var e = entropyValues[i].Entropy;
                 if (c <= 1)
                 {
                     continue;
                 }
-                else if (e == minEntropy)
+                else if (ep == minExternalPriority && e == minEntropy)
                 {
                     if (n == 0)
                     {
