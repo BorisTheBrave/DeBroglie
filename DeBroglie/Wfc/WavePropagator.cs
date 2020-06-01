@@ -78,7 +78,7 @@ namespace DeBroglie.Wfc
                     var entropyTracker = new EntropyTracker(wavePropagator.Wave, wavePropagator.Frequencies, wavePropagator.Topology.Mask);
                     entropyTracker.Reset();
                     wavePropagator.AddTracker(entropyTracker);
-                    return new EntropyHeuristic(entropyTracker, this.randomDouble);
+                    return new RandomPickerHeuristic(entropyTracker, this.randomDouble);
                 };
             }
 

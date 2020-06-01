@@ -20,19 +20,19 @@ namespace DeBroglie.Test
 
             Assert.IsFalse(wave.RemovePossibility(0, 0));
             entropyTracker.DoBan(0, 0);
-            Assert.AreEqual(0, entropyTracker.GetRandomMinEntropyIndex(r.NextDouble));
+            Assert.AreEqual(0, entropyTracker.GetRandomIndex(r.NextDouble));
 
             Assert.IsFalse(wave.RemovePossibility(1, 2));
             entropyTracker.DoBan(1, 2);
-            Assert.AreEqual(1, entropyTracker.GetRandomMinEntropyIndex(r.NextDouble));
+            Assert.AreEqual(1, entropyTracker.GetRandomIndex(r.NextDouble));
 
             Assert.IsFalse(wave.RemovePossibility(1, 0));
             entropyTracker.DoBan(1, 0);
-            Assert.AreEqual(0, entropyTracker.GetRandomMinEntropyIndex(r.NextDouble));
+            Assert.AreEqual(0, entropyTracker.GetRandomIndex(r.NextDouble));
 
             Assert.IsFalse(wave.RemovePossibility(0, 1));
             entropyTracker.DoBan(0, 1);
-            Assert.AreEqual(-1, entropyTracker.GetRandomMinEntropyIndex(r.NextDouble));
+            Assert.AreEqual(-1, entropyTracker.GetRandomIndex(r.NextDouble));
 
             Assert.IsTrue(wave.RemovePossibility(0, 2));
             entropyTracker.DoBan(0, 2);

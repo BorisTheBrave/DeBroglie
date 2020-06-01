@@ -2,9 +2,9 @@
 
 namespace DeBroglie.Trackers
 {
-    internal interface IEntropyTracker : ITracker
+    internal interface IRandomPicker
     {
-        int GetRandomMinEntropyIndex(Func<double> randomDouble, int[] externalPriority = null);
+        int GetRandomIndex(Func<double> randomDouble, int[] externalPriority = null);
 
         int GetRandomPossiblePatternAt(int index, Func<double> randomDouble);
     }

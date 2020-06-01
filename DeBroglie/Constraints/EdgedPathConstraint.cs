@@ -219,14 +219,14 @@ namespace DeBroglie.Constraints
         }
 
         internal IPickHeuristic GetHeuristic(
-                IEntropyTracker entropyTracker,
+                IRandomPicker randomPicker,
                 Func<double> randomDouble,
                 TilePropagator propagator,
                 TileModelMapping tileModelMapping,
                 IPickHeuristic fallbackHeuristic)
         {
             return new FollowPathHeuristic(
-                entropyTracker, randomDouble, propagator, tileModelMapping, fallbackHeuristic, this);
+                randomPicker, randomDouble, propagator, tileModelMapping, fallbackHeuristic, this);
         }
 
         private static readonly int[] Empty = { };
@@ -280,7 +280,7 @@ namespace DeBroglie.Constraints
 
         private class FollowPathHeuristic : IPickHeuristic
         {
-            private readonly IEntropyTracker entropyTracker;
+            private readonly IRandomPicker randomPicker;
 
             private readonly Func<double> randomDouble;
 
@@ -293,14 +293,14 @@ namespace DeBroglie.Constraints
             private readonly EdgedPathConstraint pathConstraint;
 
             public FollowPathHeuristic(
-                IEntropyTracker entropyTracker,
+                IRandomPicker randomPicker,
                 Func<double> randomDouble,
                 TilePropagator propagator,
                 TileModelMapping tileModelMapping,
                 IPickHeuristic fallbackHeuristic,
                 EdgedPathConstraint pathConstraint)
             {
-                this.entropyTracker = entropyTracker;
+                this.randomPicker = randomPicker;
                 this.randomDouble = randomDouble;
                 this.propagator = propagator;
                 this.tileModelMapping = tileModelMapping;
@@ -345,7 +345,7 @@ namespace DeBroglie.Constraints
 
                 var patternPriority = tileModelMapping.PatternCoordToTileCoordIndexAndOffset == null ? tilePriority : throw new NotImplementedException();
 
-                index = entropyTracker.GetRandomMinEntropyIndex(randomDouble, patternPriority);
+                index = randomPicker.GetRandomIndex(randomDouble, patternPriority);
 
                 if(index == -1)
                 {
@@ -358,7 +358,7 @@ namespace DeBroglie.Constraints
                     propagator.Topology.GetCoord(index, out var x, out var y, out var z);
                     System.Console.WriteLine($"Found near path {x} {y} {z} {tilePriority[index]}");
                     //System.Console.WriteLine($"{string.Join(",", isTilePriority)}");
-                    pattern = entropyTracker.GetRandomPossiblePatternAt(index, randomDouble);
+                    pattern = randomPicker.GetRandomPossiblePatternAt(index, randomDouble);
                 }
             }
         }

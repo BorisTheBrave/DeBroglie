@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DeBroglie.Trackers
 {
-    internal class EntropyTracker : IEntropyTracker
+    internal class EntropyTracker : ITracker, IRandomPicker
     {
         private readonly int patternCount;
 
@@ -81,7 +81,7 @@ namespace DeBroglie.Trackers
         // Finds the cells with minimal entropy (excluding 0, decided cells)
         // and picks one randomly.
         // Returns -1 if every cell is decided.
-        public int GetRandomMinEntropyIndex(Func<double> randomDouble, int[] externalPriority = null)
+        public int GetRandomIndex(Func<double> randomDouble, int[] externalPriority = null)
         {
             int selectedIndex = -1;
             // TODO: At the moment this is a linear scan, but potentially

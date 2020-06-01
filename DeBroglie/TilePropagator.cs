@@ -15,6 +15,12 @@ namespace DeBroglie
         public double Weight { get; set; }
     }
 
+    public enum PickHeuristicType
+    {
+        MinEntropy,
+        Ordered
+    }
+
     public class TilePropagatorOptions
     {
         /// <summary>
@@ -40,6 +46,11 @@ namespace DeBroglie
 
         [Obsolete("Use RandomDouble")]
         public Random Random { get; set; }
+
+        /// <summary>
+        /// Controls which cells and tiles are selected during generation.
+        /// </summary>
+        public PickHeuristicType PickHeuristicType { get; set; }
     }
 
     // Implemenation wise, this wraps a WavePropagator to do the majority of the work.
@@ -123,27 +134,28 @@ namespace DeBroglie
 
             IPickHeuristic MakePickHeuristic(WavePropagator wavePropagator)
             {
-                IEntropyTracker entropyTracker;
-                IPickHeuristic heuristic;
+                IRandomPicker randomPicker;
                 if (waveFrequencySets != null)
                 {
-                    entropyTracker = new ArrayPriorityEntropyTracker(wavePropagator.Wave, waveFrequencySets, patternTopology.Mask);
+                    var entropyTracker = new ArrayPriorityEntropyTracker(wavePropagator.Wave, waveFrequencySets, patternTopology.Mask);
                     entropyTracker.Reset();
                     wavePropagator.AddTracker(entropyTracker);
-                    heuristic =  new EntropyHeuristic(entropyTracker, randomDouble);
+                    randomPicker = entropyTracker;
                 }
                 else
                 {
-                    entropyTracker = new EntropyTracker(wavePropagator.Wave, wavePropagator.Frequencies, patternTopology.Mask);
+                    var entropyTracker = new EntropyTracker(wavePropagator.Wave, wavePropagator.Frequencies, patternTopology.Mask);
                     entropyTracker.Reset();
                     wavePropagator.AddTracker(entropyTracker);
-                    heuristic = new EntropyHeuristic(entropyTracker, randomDouble);
+                    randomPicker = entropyTracker;
                 }
+                IPickHeuristic heuristic = new RandomPickerHeuristic(randomPicker, randomDouble);
+
                 var pathConstraint = options.Constraints?.OfType<EdgedPathConstraint>().FirstOrDefault();
                 if(pathConstraint != null && pathConstraint.UsePickHeuristic)
                 {
                     heuristic = pathConstraint.GetHeuristic(
-                        entropyTracker,
+                        randomPicker,
                         randomDouble,
                         this,
                         tileModelMapping,
