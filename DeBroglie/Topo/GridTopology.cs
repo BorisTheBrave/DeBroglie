@@ -56,6 +56,11 @@
             return new GridTopology(Directions, Width, Height, Depth, PeriodicX, PeriodicY, PeriodicZ, mask);
         }
 
+        ITopology ITopology.WithMask(bool[] mask)
+        {
+            return WithMask(mask);
+        }
+
         /// <summary>
         /// Returns a <see cref="GridTopology"/> with the same parameters, but with the specified mask
         /// </summary>

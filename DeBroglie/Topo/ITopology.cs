@@ -82,5 +82,11 @@
         /// Inverts <see cref="GetIndex(int, int, int)"/>
         /// </summary>
         void GetCoord(int index, out int x, out int y, out int z);
+
+        /// <summary>
+        /// Returns a topology with the same structure as this one,
+        /// but with a different mask.
+        /// </summary>
+        ITopology WithMask(bool[] mask);
     }
 }

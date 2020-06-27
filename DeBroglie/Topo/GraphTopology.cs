@@ -68,6 +68,11 @@ namespace DeBroglie.Topo
             return new GraphTopology(neighbours, mask);
         }
 
+        ITopology ITopology.WithMask(bool[] mask)
+        {
+            return WithMask(mask);
+        }
+
         public void GetCoord(int index, out int x, out int y, out int z)
         {
             x = index;
