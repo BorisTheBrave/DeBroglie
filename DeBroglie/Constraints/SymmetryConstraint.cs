@@ -109,9 +109,9 @@ namespace DeBroglie.Constraints
                     {
                         if (TryMapTile(tile, out var tile2))
                         {
-                            if (propagator.IsBanned(x, y, z, tile) && !propagator.IsBanned(x2, y, z, tile2))
+                            if (propagator.IsBanned(x, y, z, tile) && !propagator.IsBanned(x2, y2, z2, tile2))
                             {
-                                propagator.Ban(x2, y, z, tile2);
+                                propagator.Ban(x2, y2, z2, tile2);
                             }
                         }
                     }
