@@ -195,6 +195,7 @@ namespace DeBroglie.Models
                     return (new Point(px, py, pz), patternIndex, CombineOffsets(ox, oy, oz));
                 }
 
+                /*
                 (Point, int, int) RMap(Point t)
                 {
                     OverlapCoord(t.X, patternTopology.Width, out var px, out var ox);
@@ -203,6 +204,7 @@ namespace DeBroglie.Models
                     var patternIndex = patternTopology.GetIndex(px, py, pz);
                     return (new Point(px, py, pz), patternIndex, CombineOffsets(ox, oy, oz));
                 }
+                */
 
                 tileCoordToPatternCoordIndexAndOffset = TopoArray.CreateByPoint(Map, gridTopology);
                 var patternCoordToTileCoordIndexAndOffsetValues = new List<(Point, int, int)>[patternTopology.Width, patternTopology.Height, patternTopology.Depth];

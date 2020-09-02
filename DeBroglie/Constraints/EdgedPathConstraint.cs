@@ -314,13 +314,11 @@ namespace DeBroglie.Constraints
                 var t = pathConstraint.pathSelectedTracker;
                 // Find cells that could potentially be paths, and are next to 
                 // already selected path. In tileSpace
-                var bestPriority = 0;
                 var tilePriority = topology.GetIndices().Select(i =>
                 {
                     var qs = t.GetQuadstate(i);
                     if(qs.IsYes())
                     {
-                        bestPriority = 2;
                         return 2;
                     }
                     if(qs.IsNo())
@@ -335,7 +333,6 @@ namespace DeBroglie.Constraints
                             var s2 = pathConstraint.trackerByExit[inverseDirection].GetQuadstate(i2);
                             if (s2.IsYes())
                             {
-                                bestPriority = 1;
                                 return 1;
                             }
                         }
