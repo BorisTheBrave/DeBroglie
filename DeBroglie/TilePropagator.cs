@@ -545,7 +545,7 @@ namespace DeBroglie
             {
                 topology.GetCoord(index, out var x, out var y, out var z);
                 TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
-                var pattern = patternArray.Get(index);
+                var pattern = patternArray.Get(px, py, pz);
                 Tile tile;
                 if (pattern == (int)Resolution.Undecided)
                 {
