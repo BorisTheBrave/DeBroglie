@@ -1,4 +1,5 @@
-﻿using DeBroglie.Trackers;
+﻿using DeBroglie.Rot;
+using DeBroglie.Trackers;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -39,17 +40,37 @@ namespace DeBroglie.Constraints
         /// </summary>
         public ISet<Tile> EndPointTiles { get; set; }
 
-        public PathConstraint(ISet<Tile> tiles, Point[] endPoints = null)
+        /// <summary>
+        /// If set, Tiles is augmented with extra copies as dictated by the tile rotations
+        /// </summary>
+        public TileRotation TileRotation { get; set; }
+
+
+        public PathConstraint(ISet<Tile> tiles, Point[] endPoints = null, TileRotation tileRotation = null)
         {
             this.Tiles = tiles;
             this.EndPoints = endPoints;
+            this.TileRotation = tileRotation;
         }
 
         public void Init(TilePropagator propagator)
         {
-            tileSet = propagator.CreateTileSet(Tiles);
+            ISet<Tile> actualTiles;
+            ISet<Tile> actualEndPointTiles;
+            if (TileRotation != null)
+            {
+                actualTiles = new HashSet<Tile>(TileRotation.RotateAll(Tiles));
+                actualEndPointTiles = EndPointTiles == null ? null : new HashSet<Tile>(TileRotation.RotateAll(EndPointTiles));
+            }
+            else
+            {
+                actualTiles = Tiles;
+                actualEndPointTiles = EndPointTiles;
+            }
+
+            tileSet = propagator.CreateTileSet(actualTiles);
             selectedTracker = propagator.CreateSelectedTracker(tileSet);
-            endPointTileSet = EndPointTiles != null ? propagator.CreateTileSet(EndPointTiles) : null;
+            endPointTileSet = EndPointTiles != null ? propagator.CreateTileSet(actualEndPointTiles) : null;
             endPointSelectedTracker = EndPointTiles != null ? propagator.CreateSelectedTracker(endPointTileSet) : null;
             graph = PathConstraintUtils.CreateGraph(propagator.Topology);
         }

@@ -8,6 +8,7 @@ title: Release Notes
  * Configurable IPickHeurstic
  * Fix to Symmetry constraint
  * Fixed [#12](https://github.com/BorisTheBrave/DeBroglie/issues/12)
+ * PathConstraint/EdgedPathConstraint more consistent over use of TileRotation ([#14](https://github.com/BorisTheBrave/DeBroglie/issues/14))
 
 # v1.0.0
  * Improved performance of path constraints

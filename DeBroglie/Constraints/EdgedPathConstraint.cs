@@ -66,12 +66,8 @@ namespace DeBroglie.Constraints
 
         public void Init(TilePropagator propagator)
         {
-            pathTileSet = propagator.CreateTileSet(Exits.Keys);
-            pathSelectedTracker = propagator.CreateSelectedTracker(pathTileSet);
-            endPointTileSet = EndPointTiles != null ? propagator.CreateTileSet(EndPointTiles) : null;
-            endPointSelectedTracker = EndPointTiles != null ? propagator.CreateSelectedTracker(endPointTileSet) : null;
-            graph = CreateEdgedGraph(propagator.Topology);
-
+            
+            ISet<Tile> actualEndPointTiles;
             if (TileRotation != null)
             {
                 actualExits = new Dictionary<Tile, ISet<Direction>>();
@@ -90,11 +86,20 @@ namespace DeBroglie.Constraints
                         }
                     }
                 }
+                actualEndPointTiles = EndPointTiles == null ? null : new HashSet<Tile>(TileRotation.RotateAll(EndPointTiles));
             }
             else
             {
                 actualExits = Exits;
+                actualEndPointTiles = EndPointTiles;
             }
+
+            pathTileSet = propagator.CreateTileSet(Exits.Keys);
+            pathSelectedTracker = propagator.CreateSelectedTracker(pathTileSet);
+            endPointTileSet = EndPointTiles != null ? propagator.CreateTileSet(actualEndPointTiles) : null;
+            endPointSelectedTracker = EndPointTiles != null ? propagator.CreateSelectedTracker(endPointTileSet) : null;
+            graph = CreateEdgedGraph(propagator.Topology);
+
 
             tilesByExit = actualExits
                 .SelectMany(kv => kv.Value.Select(e => Tuple.Create(kv.Key, e)))
