@@ -453,7 +453,15 @@ namespace DeBroglie
         public void GetBannedSelected(int x, int y, int z, Tile tile, out bool isBanned, out bool isSelected)
         {
             TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
-            var patterns = tileModelMapping.TilesToPatternsByOffset[o][tile];
+            ISet<int> patterns;
+            try
+            {
+                patterns = tileModelMapping.TilesToPatternsByOffset[o][tile];
+            }
+            catch(KeyNotFoundException)
+            {
+                throw new KeyNotFoundException($"Couldn't find pattern for tile {tile} at offset {o}");
+            }
             GetBannedSelectedInternal(px, py, pz, patterns, out isBanned, out isSelected);
         }
 
