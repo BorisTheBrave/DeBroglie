@@ -5,6 +5,9 @@ title: Release Notes
 # Unreleased
  * Improved behaviour/performance of backtracking
  * SeparationConstraint fixes
+ * Configurable IPickHeurstic
+ * Fix to Symmetry constraint
+ * Fixed [#12](https://github.com/BorisTheBrave/DeBroglie/issues/12)
 
 # v1.0.0
  * Improved performance of path constraints
