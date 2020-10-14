@@ -6,6 +6,7 @@ using DeBroglie.Tiled;
 using DeBroglie.Topo;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -208,11 +209,11 @@ namespace DeBroglie.Console.Config
                         double cfd;
                         if (cf.EndsWith("%"))
                         {
-                            cfd = double.Parse(cf.TrimEnd('%')) / 100;
+                            cfd = double.Parse(cf.TrimEnd('%'), CultureInfo.InvariantCulture) / 100;
                         }
                         else
                         {
-                            cfd = double.Parse(cf);
+                            cfd = double.Parse(cf, CultureInfo.InvariantCulture);
                         }
                         model.MultiplyFrequency(value, cfd, tileRotation);
                     }
