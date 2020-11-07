@@ -70,7 +70,7 @@ ITopoArray<char> sample = TopoArray.Create(new[]
 // Specify the model used for generation
 var model = new AdjacentModel(sample.ToTiles());
 // Set the output dimensions
-var topology = new Topology(10, 10, periodic: false);
+var topology = new GridTopology(10, 10, periodic: false);
 // Acturally run the algorithm
 var propagator = new TilePropagator(model, topology);
 var status = propagator.Run();
