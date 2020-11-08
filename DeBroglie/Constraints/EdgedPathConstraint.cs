@@ -359,13 +359,10 @@ namespace DeBroglie.Constraints
                 {
                     fallbackHeuristic.PickObservation(out index, out pattern);
                     propagator.Topology.GetCoord(index, out var x, out var y, out var z);
-                    System.Console.WriteLine($"Fallback {x} {y} {z}");
                 }
                 else
                 {
                     propagator.Topology.GetCoord(index, out var x, out var y, out var z);
-                    System.Console.WriteLine($"Found near path {x} {y} {z} {tilePriority[index]}");
-                    //System.Console.WriteLine($"{string.Join(",", isTilePriority)}");
                     pattern = randomPicker.GetRandomPossiblePatternAt(index, randomDouble);
                 }
             }
