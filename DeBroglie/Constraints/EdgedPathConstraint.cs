@@ -203,7 +203,10 @@ namespace DeBroglie.Constraints
                 {
                     if(isArticulation[i * nodesPerIndex + 1 + d] && !exitMustBePath[i * nodesPerIndex + 1 + d])
                     {
-                        propagator.Select(x, y, z, tilesByExit[(Direction)d]);
+                        if (tilesByExit.TryGetValue((Direction)d, out var exitTiles))
+                        {
+                            propagator.Select(x, y, z, exitTiles);
+                        }
                     }
                 }
             }
@@ -335,10 +338,13 @@ namespace DeBroglie.Constraints
                     {
                         if (topology.TryMove(i, (Direction)d, out var i2, out var inverseDirection, out var _))
                         {
-                            var s2 = pathConstraint.trackerByExit[inverseDirection].GetQuadstate(i2);
-                            if (s2.IsYes())
+                            if (pathConstraint.trackerByExit.TryGetValue(inverseDirection, out var tracker))
                             {
-                                return 1;
+                                var s2 = tracker.GetQuadstate(i2);
+                                if (s2.IsYes())
+                                {
+                                    return 1;
+                                }
                             }
                         }
                     }
