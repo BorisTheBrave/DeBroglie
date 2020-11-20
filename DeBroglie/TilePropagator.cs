@@ -191,6 +191,8 @@ namespace DeBroglie
                 if (tileModelMapping.PatternCoordToTileCoordIndexAndOffset != null)
                     throw new NotImplementedException();
 
+                // TODO: Detect duplicate dictionaries by reference and share the frequency sets?
+
                 var tileIndex = patternIndex;
                 var offset = 0;
                 var weightDict = weights.Get(tileIndex);
