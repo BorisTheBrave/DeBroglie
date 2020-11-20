@@ -230,7 +230,7 @@ namespace DeBroglie.Test
 
             model.SetUniformFrequency();
 
-            var topology = new GridTopology(5, 1, false);
+            var topology = new GridTopology(6, 1, false).WithMask(new bool[] { true, true, true, true, true, false });
 
             IDictionary<Tile, PriorityAndWeight> weights = new Dictionary<Tile, PriorityAndWeight>
             {

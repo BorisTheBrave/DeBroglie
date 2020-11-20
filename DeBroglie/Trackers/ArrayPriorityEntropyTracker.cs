@@ -4,6 +4,12 @@ using System.Linq;
 
 namespace DeBroglie.Trackers
 {
+    /// <summary>
+    /// An <see cref="IRandomPicker"/> that picks cells based on min entropy heuristic.
+    /// It's slower than <see cref="EntropyTracker"/> but supports two extra features:
+    /// * The frequencies can be set on a per cell basis.
+    /// * In addition to frequency, priority can be set. Only tiles of the highest priority for a given cell are considered available.
+    /// </summary>
     internal class ArrayPriorityEntropyTracker : ITracker, IRandomPicker
     {
         private readonly int patternCount;
@@ -54,7 +60,10 @@ namespace DeBroglie.Trackers
             for (int index = 0; index < indices; index++)
             {
                 entropyValues[index] = initial;
-                PriorityReset(index);
+                if (frequencySets[index] != null)
+                {
+                    PriorityReset(index);
+                }
             }
         }
 
