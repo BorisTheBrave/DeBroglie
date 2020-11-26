@@ -8,7 +8,7 @@
     <title>Introduction </title>
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Introduction ">
-    <meta name="generator" content="docfx 2.47.0.0">
+    <meta name="generator" content="docfx 2.53.1.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -116,7 +116,7 @@ ITopoArray&lt;char&gt; sample = TopoArray.Create(new[]
 // Specify the model used for generation
 var model = new AdjacentModel(sample.ToTiles());
 // Set the output dimensions
-var topology = new Topology(10, 10, periodic: false);
+var topology = new GridTopology(10, 10, periodic: false);
 // Acturally run the algorithm
 var propagator = new TilePropagator(model, topology);
 var status = propagator.Run();

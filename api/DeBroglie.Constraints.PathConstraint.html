@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class PathConstraint
    ">
-    <meta name="generator" content="docfx 2.47.0.0">
+    <meta name="generator" content="docfx 2.53.1.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -97,18 +97,18 @@ It does this by banning any tile placement that would make such a path impossibl
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_PathConstraint__ctor_System_Collections_Generic_ISet_DeBroglie_Tile__DeBroglie_Point___.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.PathConstraint.%23ctor(System.Collections.Generic.ISet%7BDeBroglie.Tile%7D%2CDeBroglie.Point%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_PathConstraint__ctor_System_Collections_Generic_ISet_DeBroglie_Tile__DeBroglie_Point___DeBroglie_Rot_TileRotation_.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.PathConstraint.%23ctor(System.Collections.Generic.ISet%7BDeBroglie.Tile%7D%2CDeBroglie.Point%5B%5D%2CDeBroglie.Rot.TileRotation)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/PathConstraint.cs/#L42">View Source</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/PathConstraint.cs/#L49">View Source</a>
   </span>
   <a id="DeBroglie_Constraints_PathConstraint__ctor_" data-uid="DeBroglie.Constraints.PathConstraint.#ctor*"></a>
-  <h4 id="DeBroglie_Constraints_PathConstraint__ctor_System_Collections_Generic_ISet_DeBroglie_Tile__DeBroglie_Point___" data-uid="DeBroglie.Constraints.PathConstraint.#ctor(System.Collections.Generic.ISet{DeBroglie.Tile},DeBroglie.Point[])">PathConstraint(ISet&lt;Tile&gt;, Point[])</h4>
+  <h4 id="DeBroglie_Constraints_PathConstraint__ctor_System_Collections_Generic_ISet_DeBroglie_Tile__DeBroglie_Point___DeBroglie_Rot_TileRotation_" data-uid="DeBroglie.Constraints.PathConstraint.#ctor(System.Collections.Generic.ISet{DeBroglie.Tile},DeBroglie.Point[],DeBroglie.Rot.TileRotation)">PathConstraint(ISet&lt;Tile&gt;, Point[], TileRotation)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public PathConstraint(ISet&lt;Tile&gt; tiles, Point[] endPoints = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public PathConstraint(ISet&lt;Tile&gt; tiles, Point[] endPoints = null, TileRotation tileRotation = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -130,6 +130,11 @@ It does this by banning any tile placement that would make such a path impossibl
         <td><span class="parametername">endPoints</span></td>
         <td></td>
       </tr>
+      <tr>
+        <td><a class="xref" href="DeBroglie.Rot.TileRotation.html">TileRotation</a></td>
+        <td><span class="parametername">tileRotation</span></td>
+        <td></td>
+      </tr>
     </tbody>
   </table>
   <h3 id="properties">Properties
@@ -139,7 +144,7 @@ It does this by banning any tile placement that would make such a path impossibl
     <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_PathConstraint_EndPoints.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.PathConstraint.EndPoints%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/PathConstraint.cs/#L33">View Source</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/PathConstraint.cs/#L34">View Source</a>
   </span>
   <a id="DeBroglie_Constraints_PathConstraint_EndPoints_" data-uid="DeBroglie.Constraints.PathConstraint.EndPoints*"></a>
   <h4 id="DeBroglie_Constraints_PathConstraint_EndPoints" data-uid="DeBroglie.Constraints.PathConstraint.EndPoints">EndPoints</h4>
@@ -172,7 +177,7 @@ are connected.</p>
     <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_PathConstraint_EndPointTiles.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.PathConstraint.EndPointTiles%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/PathConstraint.cs/#L40">View Source</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/PathConstraint.cs/#L41">View Source</a>
   </span>
   <a id="DeBroglie_Constraints_PathConstraint_EndPointTiles_" data-uid="DeBroglie.Constraints.PathConstraint.EndPointTiles*"></a>
   <h4 id="DeBroglie_Constraints_PathConstraint_EndPointTiles" data-uid="DeBroglie.Constraints.PathConstraint.EndPointTiles">EndPointTiles</h4>
@@ -202,10 +207,41 @@ are connected.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_PathConstraint_TileRotation.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.PathConstraint.TileRotation%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/PathConstraint.cs/#L46">View Source</a>
+  </span>
+  <a id="DeBroglie_Constraints_PathConstraint_TileRotation_" data-uid="DeBroglie.Constraints.PathConstraint.TileRotation*"></a>
+  <h4 id="DeBroglie_Constraints_PathConstraint_TileRotation" data-uid="DeBroglie.Constraints.PathConstraint.TileRotation">TileRotation</h4>
+  <div class="markdown level1 summary"><p>If set, Tiles is augmented with extra copies as dictated by the tile rotations</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TileRotation TileRotation { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="DeBroglie.Rot.TileRotation.html">TileRotation</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_PathConstraint_Tiles.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.PathConstraint.Tiles%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/PathConstraint.cs/#L26">View Source</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/PathConstraint.cs/#L27">View Source</a>
   </span>
   <a id="DeBroglie_Constraints_PathConstraint_Tiles_" data-uid="DeBroglie.Constraints.PathConstraint.Tiles*"></a>
   <h4 id="DeBroglie_Constraints_PathConstraint_Tiles" data-uid="DeBroglie.Constraints.PathConstraint.Tiles">Tiles</h4>
@@ -238,7 +274,7 @@ are connected.</p>
     <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_PathConstraint_Check_DeBroglie_TilePropagator_.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.PathConstraint.Check(DeBroglie.TilePropagator)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/PathConstraint.cs/#L57">View Source</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/PathConstraint.cs/#L78">View Source</a>
   </span>
   <a id="DeBroglie_Constraints_PathConstraint_Check_" data-uid="DeBroglie.Constraints.PathConstraint.Check*"></a>
   <h4 id="DeBroglie_Constraints_PathConstraint_Check_DeBroglie_TilePropagator_" data-uid="DeBroglie.Constraints.PathConstraint.Check(DeBroglie.TilePropagator)">Check(TilePropagator)</h4>
@@ -270,7 +306,7 @@ are connected.</p>
     <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_PathConstraint_Init_DeBroglie_TilePropagator_.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.PathConstraint.Init(DeBroglie.TilePropagator)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/PathConstraint.cs/#L48">View Source</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/PathConstraint.cs/#L56">View Source</a>
   </span>
   <a id="DeBroglie_Constraints_PathConstraint_Init_" data-uid="DeBroglie.Constraints.PathConstraint.Init*"></a>
   <h4 id="DeBroglie_Constraints_PathConstraint_Init_DeBroglie_TilePropagator_" data-uid="DeBroglie.Constraints.PathConstraint.Init(DeBroglie.TilePropagator)">Init(TilePropagator)</h4>
@@ -312,7 +348,7 @@ are connected.</p>
                     <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_PathConstraint.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.PathConstraint%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/PathConstraint.cs/#L11" class="contribution-link">View Source</a>
+                    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/PathConstraint.cs/#L12" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

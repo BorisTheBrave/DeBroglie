@@ -8,7 +8,7 @@
     <title>Constraints </title>
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Constraints ">
-    <meta name="generator" content="docfx 2.47.0.0">
+    <meta name="generator" content="docfx 2.53.1.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -83,7 +83,7 @@ can be hard for the WFC to find a valid solution. Turning on backtracking can al
 <p><a class="xref" href="../api/DeBroglie.Constraints.BorderConstraint.html">BorderConstraint</a> only affects the initial set of tiles that can be legally placed. That means it is not doing anything except calling <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Ban_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Ban</a> and <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Select_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Select</a> on startup, which you can also do manually. <a class="xref" href="../api/DeBroglie.Constraints.BorderConstraint.html">BorderConstraint</a> is just a convenience.</p>
 </div>
 <p>BorderConstraing specifies a set of cells using a simple logic. First, an inclusion set of cells is defined by the <a class="xref" href="../api/DeBroglie.Constraints.BorderConstraint.html#DeBroglie_Constraints_BorderConstraint_Sides">Sides</a> field. This field is a bit field of flags, where there is one flag for each of the boundary sides of the output area (4 in 2d, 6 in 3d). An exclusion set is defined similarly from the  <a class="xref" href="../api/DeBroglie.Constraints.BorderConstraint.html#DeBroglie_Constraints_BorderConstraint_ExcludeSides">ExcludeSides</a> field. To get the set of locations affected, subtract the exclusion set from the inclusion set, then optionally invert if <a class="xref" href="../api/DeBroglie.Constraints.BorderConstraint.html#DeBroglie_Constraints_BorderConstraint_InvertArea">InvertArea</a> is set.</p>
-<p>For each affected location, BorderConstratin calls <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Select_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Select</a> with the Tile specified. If the <a class="xref" href="../api/DeBroglie.Constraints.BorderConstraint.html#DeBroglie_Constraints_BorderConstraint_Ban">Ban</a> field is set, then it calls <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Ban_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Ban</a> isntead of <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Select_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Select</a>.</p>
+<p>For each affected location, BorderConstratin calls <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Select_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Select</a> with the Tile specified. If the <a class="xref" href="../api/DeBroglie.Constraints.BorderConstraint.html#DeBroglie_Constraints_BorderConstraint_Ban">Ban</a> field is set, then it calls <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Ban_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Ban</a> instead of <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Select_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Select</a>.</p>
 <p><strong>Example</strong></p>
 <figure>
 <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/pathway_overlapping_border.json">
@@ -181,7 +181,7 @@ MaxCount
 </a>
 </figure>
 <h2 id="symmetry">Symmetry</h2>
-<p>The <a class="xref" href="../api/DeBroglie.Constraints.SymmetryConstraint.html">SymmetryConstraint</a> constraint is a abstract generalized version of the mirror constraint. It can be used for more complciated symetries of the generated output.</p>
+<p>The <a class="xref" href="../api/DeBroglie.Constraints.SymmetryConstraint.html">SymmetryConstraint</a> constraint is a abstract generalized version of the mirror constraint. It can be used for more complicated symmetries of the generated output.</p>
 <h2 id="count">Count</h2>
 <p>The <a class="xref" href="../api/DeBroglie.Constraints.CountConstraint.html">CountConstraint</a> class forces the number of a given tile or set of tiles to be at most or at least a given number.</p>
 <h2 id="separation">Separation</h2>
