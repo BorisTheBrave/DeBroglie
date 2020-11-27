@@ -51,18 +51,28 @@ namespace DeBroglie.Wfc
             toPropagate.Clear();
 
             compatible = new int[indexCount, patternCount, directionsCount];
+
+            var edgeLabels = new int[directionsCount];
+
             for (int index = 0; index < indexCount; index++)
             {
                 if (!topology.ContainsIndex(index))
                     continue;
 
+                // Cache edgeLabels
+                for (int d = 0; d < directionsCount; d++)
+                {
+                    edgeLabels[d] = topology.TryMove(index, (Direction)d, out var dest, out var _, out var el) ? (int)el : -1;
+                }
+
                 for (int pattern = 0; pattern < patternCount; pattern++)
                 {
                     for (int d = 0; d < directionsCount; d++)
                     {
-                        if (topology.TryMove(index, (Direction)d, out var dest, out var _, out var el))
+                        var el = edgeLabels[d];
+                        if (el >= 0)
                         {
-                            var compatiblePatterns = propagatorArray[pattern][(int)el].Length;
+                            var compatiblePatterns = propagatorArray[pattern][el].Length;
                             compatible[index, pattern, d] = compatiblePatterns;
                             if (compatiblePatterns == 0 && propagator.Wave.Get(index, pattern))
                             {
