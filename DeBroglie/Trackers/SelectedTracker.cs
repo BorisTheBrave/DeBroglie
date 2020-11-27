@@ -89,7 +89,7 @@ namespace DeBroglie.Trackers
                 var count = 0;
                 foreach (var p in patterns)
                 {
-                    if(patterns.Contains(p) && wave.Get(patternIndex, p))
+                    if(wave.Get(patternIndex, p))
                     {
                         count++;
                     }
