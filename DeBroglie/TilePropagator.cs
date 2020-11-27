@@ -549,13 +549,10 @@ namespace DeBroglie
             var height = topology.Height;
             var depth = topology.Depth;
 
-            var patternArray = wavePropagator.ToTopoArray();
-
             return TopoArray.CreateByIndex(index =>
             {
-                topology.GetCoord(index, out var x, out var y, out var z);
-                TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
-                var pattern = patternArray.Get(px, py, pz);
+                tileModelMapping.GetTileCoordToPatternCoord(index, out var patternIndex, out var o);
+                var pattern = wavePropagator.GetDecidedPattern(index);
                 Tile tile;
                 if (pattern == (int)Resolution.Undecided)
                 {
@@ -587,14 +584,10 @@ namespace DeBroglie
             var height = topology.Height;
             var depth = topology.Depth;
 
-            var patternArray = wavePropagator.ToTopoArray();
-
             return TopoArray.CreateByIndex(index =>
             {
-                topology.GetCoord(index, out var x, out var y, out var z);
-
-                TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
-                var pattern = patternArray.Get(px, py, pz);
+                tileModelMapping.GetTileCoordToPatternCoord(index, out var patternIndex, out var o);
+                var pattern = wavePropagator.GetDecidedPattern(index);
                 T value;
                 if (pattern == (int)Resolution.Undecided)
                 {
@@ -630,10 +623,8 @@ namespace DeBroglie
 
             return TopoArray.CreateByIndex(index =>
             {
-                topology.GetCoord(index, out var x, out var y, out var z);
-
-                TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
-                var patterns = patternArray.Get(px, py, pz);
+                tileModelMapping.GetTileCoordToPatternCoord(index, out var patternIndex, out var o);
+                var patterns = wavePropagator.GetPossiblePatterns(patternIndex);
                 var hs = new HashSet<Tile>();
                 var patternToTiles = tileModelMapping.PatternsToTilesByOffset[o];
                 foreach (var pattern in patterns)
@@ -658,14 +649,10 @@ namespace DeBroglie
             var height = topology.Height;
             var depth = topology.Depth;
 
-            var patternArray = wavePropagator.ToTopoArraySets();
-
             return TopoArray.CreateByIndex(index =>
             {
-                topology.GetCoord(index, out var x, out var y, out var z);
-
-                TileCoordToPatternCoord(x, y, z, out var px, out var py, out var pz, out var o);
-                var patterns = patternArray.Get(px, py, pz);
+                tileModelMapping.GetTileCoordToPatternCoord(index, out var patternIndex, out var o);
+                var patterns = wavePropagator.GetPossiblePatterns(patternIndex);
                 var hs = new HashSet<T>();
                 var patternToTiles = tileModelMapping.PatternsToTilesByOffset[o];
                 foreach (var pattern in patterns)

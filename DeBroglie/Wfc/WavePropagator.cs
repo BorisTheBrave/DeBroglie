@@ -164,9 +164,11 @@ namespace DeBroglie.Wfc
             }
         }
 
-        // Returns the only possible value of a cell if there is only one,
-        // otherwise returns -1 (multiple possible) or -2 (none possible)
-        private int GetDecidedCell(int index)
+        /// <summary>
+        /// Returns the only possible value of a cell if there is only one, 
+        /// otherwise returns -1 (multiple possible) or -2 (none possible)
+        /// </summary>
+        public int GetDecidedPattern(int index)
         {
             int decidedPattern = (int)Resolution.Contradiction;
             for (var pattern = 0; pattern < patternCount; pattern++)
@@ -422,7 +424,7 @@ namespace DeBroglie.Wfc
          */
         public ITopoArray<int> ToTopoArray()
         {
-            return TopoArray.CreateByIndex(GetDecidedCell, topology);
+            return TopoArray.CreateByIndex(GetDecidedPattern, topology);
         }
 
         /**
@@ -443,6 +445,17 @@ namespace DeBroglie.Wfc
 
                 return (ISet<int>)(hs);
             }, topology);
+        }
+
+        public IEnumerable<int> GetPossiblePatterns(int index)
+        {
+            for (var pattern = 0; pattern < patternCount; pattern++)
+            {
+                if (wave.Get(index, pattern))
+                {
+                    yield return pattern;
+                }
+            }
         }
     }
 }
