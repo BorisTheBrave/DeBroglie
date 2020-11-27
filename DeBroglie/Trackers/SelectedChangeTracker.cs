@@ -7,14 +7,17 @@ using System.Text;
 
 namespace DeBroglie.Trackers
 {
-    internal interface IQuadstateChanged
+    public interface IQuadstateChanged
     {
         void Reset(SelectedChangeTracker tracker);
 
         void Notify(int index, Quadstate before, Quadstate after);
     }
 
-    internal class SelectedChangeTracker : ITracker
+    /// <summary>
+    /// Runs a callback when the banned/selected status of tile changes with respect to a tileset.
+    /// </summary>
+    public class SelectedChangeTracker : ITracker
     {
         private readonly TilePropagator tilePropagator;
 
@@ -31,7 +34,7 @@ namespace DeBroglie.Trackers
 
         private readonly IQuadstateChanged onChange;
 
-        public SelectedChangeTracker(TilePropagator tilePropagator, WavePropagator wavePropagator, TileModelMapping tileModelMapping, TilePropagatorTileSet tileSet, IQuadstateChanged onChange)
+        internal SelectedChangeTracker(TilePropagator tilePropagator, WavePropagator wavePropagator, TileModelMapping tileModelMapping, TilePropagatorTileSet tileSet, IQuadstateChanged onChange)
         {
             this.tilePropagator = tilePropagator;
             this.wavePropagator = wavePropagator;

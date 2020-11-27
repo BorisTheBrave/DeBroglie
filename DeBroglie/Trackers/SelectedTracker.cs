@@ -8,7 +8,10 @@ using System.Text;
 
 namespace DeBroglie.Trackers
 {
-    internal class SelectedTracker : ITracker
+    /// <summary>
+    /// Tracks the banned/selected status of each tile with respect to a tileset.
+    /// </summary>
+    public class SelectedTracker : ITracker
     {
         private readonly TilePropagator tilePropagator;
 
@@ -21,7 +24,7 @@ namespace DeBroglie.Trackers
 
         private readonly TilePropagatorTileSet tileSet;
 
-        public SelectedTracker(TilePropagator tilePropagator, WavePropagator wavePropagator, TileModelMapping tileModelMapping, TilePropagatorTileSet tileSet)
+        internal SelectedTracker(TilePropagator tilePropagator, WavePropagator wavePropagator, TileModelMapping tileModelMapping, TilePropagatorTileSet tileSet)
         {
             this.tilePropagator = tilePropagator;
             this.wavePropagator = wavePropagator;
@@ -52,7 +55,7 @@ namespace DeBroglie.Trackers
             return GetQuadstate(index).IsYes();
         }
 
-        public void DoBan(int patternIndex, int pattern)
+        void ITracker.DoBan(int patternIndex, int pattern)
         {
             if(tileModelMapping.PatternCoordToTileCoordIndexAndOffset == null)
             {
@@ -76,7 +79,7 @@ namespace DeBroglie.Trackers
             }
         }
 
-        public void Reset()
+        void ITracker.Reset()
         {
             var wave = wavePropagator.Wave;
             foreach(var index in tilePropagator.Topology.GetIndices())
@@ -96,7 +99,7 @@ namespace DeBroglie.Trackers
         }
 
 
-        public void UndoBan(int patternIndex, int pattern)
+        void ITracker.UndoBan(int patternIndex, int pattern)
         {
             if (tileModelMapping.PatternCoordToTileCoordIndexAndOffset == null)
             {

@@ -4,7 +4,10 @@ using System.Text;
 
 namespace DeBroglie
 {
-    internal enum Quadstate
+    /// <summary>
+    /// Represents an uncertain boolean.
+    /// </summary>
+    public enum Quadstate
     {
         Contradiction = -2,
         No = -1,
@@ -12,7 +15,7 @@ namespace DeBroglie
         Yes = 1,
     }
 
-    internal static class QuadstateExtensions
+    public static class QuadstateExtensions
     {
         public static bool IsYes(this Quadstate v) => v == Quadstate.Yes;
         public static bool IsMaybe(this Quadstate v) => v == Quadstate.Maybe;

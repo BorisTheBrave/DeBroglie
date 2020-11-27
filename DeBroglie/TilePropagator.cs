@@ -389,21 +389,21 @@ namespace DeBroglie
         /// <summary>
         /// Returns a tracker that tracks the banned/selected status of each tile with respect to a tileset.
         /// </summary>
-        internal SelectedTracker CreateSelectedTracker(TilePropagatorTileSet tileSet)
+        public SelectedTracker CreateSelectedTracker(TilePropagatorTileSet tileSet)
         {
             var tracker = new SelectedTracker(this, wavePropagator, tileModelMapping, tileSet);
-            tracker.Reset();
+            ((ITracker)tracker).Reset();
             wavePropagator.AddTracker(tracker);
             return tracker;
         }
 
         /// <summary>
-        /// Returns a tracker that runs a callback when the banned/selected status of tile changes.
+        /// Returns a tracker that runs a callback when the banned/selected status of tile changes with respect to a tileset.
         /// </summary>
-        internal SelectedChangeTracker CreateSelectedChangeTracker(TilePropagatorTileSet tileSet, IQuadstateChanged onChange)
+        public SelectedChangeTracker CreateSelectedChangeTracker(TilePropagatorTileSet tileSet, IQuadstateChanged onChange)
         {
             var tracker = new SelectedChangeTracker(this, wavePropagator, tileModelMapping, tileSet, onChange);
-            tracker.Reset();
+            ((ITracker)tracker).Reset();
             wavePropagator.AddTracker(tracker);
             return tracker;
         }
