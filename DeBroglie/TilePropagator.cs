@@ -538,36 +538,85 @@ namespace DeBroglie
             }
         }
 
+
+        /// <summary>
+        /// Gets the tile that has been decided at a given index.
+        /// Otherwise returns undecided or contradiction as appropriate.
+        /// </summary>
+        public Tile GetTile(int index, Tile undecided = default, Tile contradiction = default)
+        {
+            tileModelMapping.GetTileCoordToPatternCoord(index, out var patternIndex, out var o);
+            var pattern = wavePropagator.GetDecidedPattern(patternIndex);
+            if (pattern == (int)Resolution.Undecided)
+            {
+                return undecided;
+            }
+            else if (pattern == (int)Resolution.Contradiction)
+            {
+                return contradiction;
+            }
+            else
+            {
+                return tileModelMapping.PatternsToTilesByOffset[o][pattern];
+            }
+        }
+
+        /// <summary>
+        /// Gets the value of a Tile that has been decided at a given index.
+        /// Otherwise returns undecided or contradiction as appropriate.
+        /// </summary>
+        public T GetValue<T>(int index, T undecided = default, T contradiction = default)
+        {
+            tileModelMapping.GetTileCoordToPatternCoord(index, out var patternIndex, out var o);
+            var pattern = wavePropagator.GetDecidedPattern(patternIndex);
+            if (pattern == (int)Resolution.Undecided)
+            {
+                return undecided;
+            }
+            else if (pattern == (int)Resolution.Contradiction)
+            {
+                return contradiction;
+            }
+            else
+            {
+                return (T)tileModelMapping.PatternsToTilesByOffset[o][pattern].Value;
+            }
+        }
+
+        public ISet<Tile> GetPossibleTiles(int index)
+        {
+            tileModelMapping.GetTileCoordToPatternCoord(index, out var patternIndex, out var o);
+            var patterns = wavePropagator.GetPossiblePatterns(patternIndex);
+            var hs = new HashSet<Tile>();
+            var patternToTiles = tileModelMapping.PatternsToTilesByOffset[o];
+            foreach (var pattern in patterns)
+            {
+                hs.Add(patternToTiles[pattern]);
+            }
+            return (ISet<Tile>)hs;
+        }
+
+        public ISet<T> GetPossibleValues<T>(int index)
+        {
+            tileModelMapping.GetTileCoordToPatternCoord(index, out var patternIndex, out var o);
+            var patterns = wavePropagator.GetPossiblePatterns(patternIndex);
+            var hs = new HashSet<T>();
+            var patternToTiles = tileModelMapping.PatternsToTilesByOffset[o];
+            foreach (var pattern in patterns)
+            {
+                hs.Add((T)patternToTiles[pattern].Value);
+            }
+            return (ISet<T>)hs;
+        }
+
         /// <summary>
         /// Converts the generated results to an <see cref="ITopoArray{Tile}"/>,
         /// using specific tiles for locations that have not been decided or are in contradiction.
         /// The arguments are not relevant if the <see cref="Status"/> is <see cref="Resolution.Decided"/>.
         /// </summary>
-        public ITopoArray<Tile> ToArray(Tile undecided = default(Tile), Tile contradiction = default(Tile))
+        public ITopoArray<Tile> ToArray(Tile undecided = default, Tile contradiction = default)
         {
-            var width = topology.Width;
-            var height = topology.Height;
-            var depth = topology.Depth;
-
-            return TopoArray.CreateByIndex(index =>
-            {
-                tileModelMapping.GetTileCoordToPatternCoord(index, out var patternIndex, out var o);
-                var pattern = wavePropagator.GetDecidedPattern(index);
-                Tile tile;
-                if (pattern == (int)Resolution.Undecided)
-                {
-                    tile = undecided;
-                }
-                else if (pattern == (int)Resolution.Contradiction)
-                {
-                    tile = contradiction;
-                }
-                else
-                {
-                    tile = tileModelMapping.PatternsToTilesByOffset[o][pattern];
-                }
-                return tile;
-            }, topology);
+            return TopoArray.CreateByIndex(index => GetTile(index, undecided, contradiction), topology);
         }
 
         /// <summary>
@@ -579,30 +628,7 @@ namespace DeBroglie
         /// </summary>
         public ITopoArray<T> ToValueArray<T>(T undecided = default(T), T contradiction = default(T))
         {
-            // TODO: Just call ToArray() ?
-            var width = topology.Width;
-            var height = topology.Height;
-            var depth = topology.Depth;
-
-            return TopoArray.CreateByIndex(index =>
-            {
-                tileModelMapping.GetTileCoordToPatternCoord(index, out var patternIndex, out var o);
-                var pattern = wavePropagator.GetDecidedPattern(index);
-                T value;
-                if (pattern == (int)Resolution.Undecided)
-                {
-                    value = undecided;
-                }
-                else if (pattern == (int)Resolution.Contradiction)
-                {
-                    value = contradiction;
-                }
-                else
-                {
-                    value = (T)tileModelMapping.PatternsToTilesByOffset[o][pattern].Value;
-                }
-                return value;
-            }, topology);
+            return TopoArray.CreateByIndex(index => GetValue(index, undecided, contradiction), topology);
         }
 
         /// <summary>
@@ -615,24 +641,7 @@ namespace DeBroglie
         /// </summary>
         public ITopoArray<ISet<Tile>> ToArraySets()
         {
-            var width = topology.Width;
-            var height = topology.Height;
-            var depth = topology.Depth;
-
-            var patternArray = wavePropagator.ToTopoArraySets();
-
-            return TopoArray.CreateByIndex(index =>
-            {
-                tileModelMapping.GetTileCoordToPatternCoord(index, out var patternIndex, out var o);
-                var patterns = wavePropagator.GetPossiblePatterns(patternIndex);
-                var hs = new HashSet<Tile>();
-                var patternToTiles = tileModelMapping.PatternsToTilesByOffset[o];
-                foreach (var pattern in patterns)
-                {
-                    hs.Add(patternToTiles[pattern]);
-                }
-                return(ISet<Tile>)hs;
-            }, topology);
+            return TopoArray.CreateByIndex(GetPossibleTiles, topology);
         }
 
         /// <summary>
@@ -645,22 +654,7 @@ namespace DeBroglie
         /// </summary>
         public ITopoArray<ISet<T>> ToValueSets<T>()
         {
-            var width = topology.Width;
-            var height = topology.Height;
-            var depth = topology.Depth;
-
-            return TopoArray.CreateByIndex(index =>
-            {
-                tileModelMapping.GetTileCoordToPatternCoord(index, out var patternIndex, out var o);
-                var patterns = wavePropagator.GetPossiblePatterns(patternIndex);
-                var hs = new HashSet<T>();
-                var patternToTiles = tileModelMapping.PatternsToTilesByOffset[o];
-                foreach (var pattern in patterns)
-                {
-                    hs.Add((T)patternToTiles[pattern].Value);
-                }
-                return (ISet<T>)hs;
-            }, topology);
+            return TopoArray.CreateByIndex(GetPossibleValues<T>, topology);
         }
     }
 }
