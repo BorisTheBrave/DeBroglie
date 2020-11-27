@@ -397,7 +397,6 @@ namespace DeBroglie
             return tracker;
         }
 
-
         /// <summary>
         /// Returns a tracker that runs a callback when the banned/selected status of tile changes.
         /// </summary>
@@ -414,10 +413,10 @@ namespace DeBroglie
         /// This is mostly useful as a performance optimization.
         /// Trackers are valid until <see cref="Clear"/> is called.
         /// </summary>
-        internal ChangeTracker CreateChangeTracker()
+        public ChangeTracker CreateChangeTracker()
         {
             var tracker = new ChangeTracker(tileModelMapping);
-            tracker.Reset();
+            ((ITracker)tracker).Reset();
             wavePropagator.AddTracker(tracker);
             return tracker;
         }

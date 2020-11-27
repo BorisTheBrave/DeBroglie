@@ -7,7 +7,13 @@ using System.Text;
 
 namespace DeBroglie.Trackers
 {
-    internal class ChangeTracker : ITracker
+    /// <summary>
+    /// Tracks recently changed indices.
+    /// This is useful for efficiently dealing with a small amount of changes to a large topology.
+    /// Note that the list of changed indices can contain duplicates.
+    /// The behaviour during the first call to GetChangedIndices() is undefined and subject to change.
+    /// </summary>
+    public class ChangeTracker : ITracker
     {
         private readonly TileModelMapping tileModelMapping;
 
@@ -49,7 +55,7 @@ namespace DeBroglie.Trackers
             }
         }
 
-        public void DoBan(int index, int pattern)
+        void ITracker.DoBan(int index, int pattern)
         {
             var g = lastChangedGeneration[index];
             if(g != generation)
@@ -59,7 +65,7 @@ namespace DeBroglie.Trackers
             }
         }
 
-        public void Reset()
+        void ITracker.Reset()
         {
             changedIndices = new List<int>();
             changedIndices2 = new List<int>();
@@ -67,9 +73,14 @@ namespace DeBroglie.Trackers
             generation = 1;
         }
 
-        public void UndoBan(int index, int pattern)
+        void ITracker.UndoBan(int index, int pattern)
         {
-            DoBan(index, pattern);
+            var g = lastChangedGeneration[index];
+            if (g != generation)
+            {
+                lastChangedGeneration[index] = generation;
+                changedIndices.Add(index);
+            }
         }
     }
 }

@@ -10,6 +10,8 @@
   href: rotation.md
 - name: Adjacency
   href: adjacency.md
+- name: Trackers
+  href: trackers.md
 - name: Using the Command Line
   href: config_files.md
 - name: Gallery
