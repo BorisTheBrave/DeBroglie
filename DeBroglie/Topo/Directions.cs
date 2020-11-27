@@ -36,6 +36,7 @@ namespace DeBroglie.Topo
         Cartesian2d,
         Hexagonal2d,
         Cartesian3d,
+        Hexagonal3d,
     }
 
     public enum EdgeLabel
@@ -81,6 +82,21 @@ namespace DeBroglie.Topo
             DZ = new[] { 0, 0, 0, 0, 0, 0 },
             Count = 6,
             Type = DirectionSetType.Hexagonal2d,
+        };
+
+        /// <summary>
+        /// The Directions associated with grids of hexagon prisms.
+        /// x is right, and z as moving down and left, y is up (prism axis), and w is the same as one unity of x and z.
+        /// Note due to some stupid design descisions, you cannot use Direction.WPlus right now.
+        /// </summary>
+        public static readonly DirectionSet Hexagonal3d = new DirectionSet
+        {
+            //           X+  X-  Y+  Y-  Z+  Z-  W+  W-
+            DX = new[] {  1, -1,  0,  0,  0,  0,  1, -1 },
+            DY = new[] {  0,  0,  1, -1,  0,  0,  0,  0 },
+            DZ = new[] {  0,  0,  0,  0,  1, -1,  1, -1 },
+            Count = 8,
+            Type = DirectionSetType.Hexagonal3d,
         };
 
         /// <summary>
