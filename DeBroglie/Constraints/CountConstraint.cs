@@ -166,7 +166,7 @@ namespace DeBroglie.Constraints
                                 var index = topology.GetIndex(x, y, z);
                                 if (topology.ContainsIndex(index))
                                 {
-                                    var selected = propagator.GetSelectedQuadstate(x, y, z, tileSet);
+                                    var selected = selectedChangeTracker.GetQuadstate(index);
                                     if (selected.IsNo()) noCount++;
                                     if (selected.IsMaybe()) maybeList.Add(index);
                                     if (selected.IsYes()) yesCount++;
