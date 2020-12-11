@@ -4,15 +4,13 @@
     {
         private readonly T value;
 
-        public TopoArrayConstant(T value, GridTopology topology)
+        public TopoArrayConstant(T value, ITopology topology)
         {
             Topology = topology;
             this.value = value;
         }
 
-        public GridTopology Topology { get; private set; }
-
-        ITopology ITopoArray<T>.Topology => Topology;
+        public ITopology Topology { get; private set; }
 
         public T Get(int x, int y, int z)
         {

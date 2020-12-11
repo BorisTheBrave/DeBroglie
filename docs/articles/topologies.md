@@ -33,7 +33,7 @@ There are several types of topology supported:
 * 2d square grid
 * 2d hex grid
 * 3d cube grid
-* an arbitrary [graph data structure](https://en.wikipedia.org/wiki/Graph_(abstract_data_type)
+* an arbitrary [graph data structure](https://en.wikipedia.org/wiki/Graph_(abstract_data_type))
 
 The grid ones are implemented with <xref:DeBroglie.Topo.GridTopology>, and graphs with <xref:DeBroglie.Topo.GraphTopology>. They share a common interface.
 

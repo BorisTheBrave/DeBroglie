@@ -17,15 +17,13 @@ namespace DeBroglie.Topo
             this.values = values;
         }
 
-        public RaggedTopoArray2D(T[][] values, GridTopology topology)
+        public RaggedTopoArray2D(T[][] values, ITopology topology)
         {
             Topology = topology;
             this.values = values;
         }
 
-        public GridTopology Topology { get; private set; }
-
-        ITopology ITopoArray<T>.Topology => Topology;
+        public ITopology Topology { get; private set; }
 
         public T Get(int x, int y, int z)
         {
