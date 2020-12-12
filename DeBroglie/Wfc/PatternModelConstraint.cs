@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using DeBroglie.Topo;
 
 namespace DeBroglie.Wfc
@@ -15,6 +17,9 @@ namespace DeBroglie.Wfc
         // From model
         private int[][][] propagatorArray;
         private int patternCount;
+
+        // Re-organized propagatorArray
+        private BitArray[][] propagatorArrayDense;
 
         // Useful values
         private readonly WavePropagator propagator;
@@ -40,6 +45,13 @@ namespace DeBroglie.Wfc
 
             this.propagatorArray = model.Propagator;
             this.patternCount = model.PatternCount;
+
+            this.propagatorArrayDense = model.Propagator.Select(a1 => a1.Select(x =>
+            {
+                var dense = new BitArray(patternCount);
+                foreach (var p in x) dense[p] = true;
+                return dense;
+            }).ToArray()).ToArray();
 
             this.topology = propagator.Topology;
             this.indexCount = topology.IndexCount;
@@ -88,6 +100,7 @@ namespace DeBroglie.Wfc
             }
         }
 
+        // Precondition that pattern at index is possible.
         public void DoBan(int index, int pattern)
         {
             // Update compatible (so that we never ban twice)
@@ -103,12 +116,40 @@ namespace DeBroglie.Wfc
             });
         }
 
+        // This is equivalent to calling DoBan on every possible pattern
+        // except the passed in one.
+        // But it is more efficient.
+        // Precondition that pattern at index is possible.
+        public void DoSelect(int index, int pattern)
+        {
+            // Update compatible (so that we never ban twice)
+            for (var p = 0; p < patternCount; p++)
+            {
+                if (p == pattern)
+                    continue;
+                for (var d = 0; d < directionsCount; d++)
+                {
+                    if (compatible[index, p, d] > 0)
+                    {
+                        compatible[index, p, d] -= patternCount;
+                    }
+                }
+            }
+
+            // Queue any possible consequences of this changing.
+            toPropagate.Push(new IndexPatternItem
+            {
+                Index = index,
+                Pattern = ~pattern,
+            });
+        }
+
         public void UndoBan(IndexPatternItem item)
         {
             // Undo what was done in DoBan
 
             // First restore compatible for this cell
-            // As it is set to zero in InteralBan
+            // As it is set a negative value in InteralBan
             for (var d = 0; d < directionsCount; d++)
             {
                 compatible[item.Index, item.Pattern, d] += patternCount;
@@ -148,7 +189,7 @@ namespace DeBroglie.Wfc
             foreach (var p in patterns)
             {
                 var c = --compatible[i2, p, d];
-                // We've just now ruled out this possible pattern
+                // Have we just now ruled out this possible pattern?
                 if (c == 0)
                 {
                     if (propagator.InternalBan(i2, p))
@@ -166,23 +207,65 @@ namespace DeBroglie.Wfc
                 var item = toPropagate.Pop();
                 int x, y, z;
                 topology.GetCoord(item.Index, out x, out y, out z);
-                for (var d = 0; d < directionsCount; d++)
+                if (item.Pattern >= 0)
                 {
-                    if (!topology.TryMove(x, y, z, (Direction)d, out var i2, out Direction id, out EdgeLabel el))
+                    // Process a ban
+                    for (var d = 0; d < directionsCount; d++)
                     {
-                        continue;
+                        if (!topology.TryMove(x, y, z, (Direction)d, out var i2, out Direction id, out EdgeLabel el))
+                        {
+                            continue;
+                        }
+                        var patterns = propagatorArray[item.Pattern][(int)el];
+                        PropagateCore(patterns, i2, (int)id);
                     }
-                    var patterns = propagatorArray[item.Pattern][(int)el];
-                    PropagateCore(patterns, i2, (int)id);
                 }
+                else
+                {
+                    // Process a select.
+                    // Selects work similarly to bans, only instead of decrementing the compatible array
+                    // we set it to a known value.
+                    var pattern = ~item.Pattern;
+                    for (var d = 0; d < directionsCount; d++)
+                    {
+                        if (!topology.TryMove(x, y, z, (Direction)d, out var i2, out Direction id, out EdgeLabel el))
+                        {
+                            continue;
+                        }
+                        var patternsDense = propagatorArrayDense[pattern][(int)el];
+
+                        // TODO: Special case for when patterns.Length == 1?
+
+                        for (var p = 0; p < patternCount; p++)
+                        {
+                            var patternsContainsP = patternsDense[p];
+
+                            // Sets the value of compatible, triggering internal bans
+                            var prevCompatible = compatible[i2, p, (int)id];
+                            var currentlyPossible = prevCompatible > 0;
+                            var newCompatible = (currentlyPossible ? 0 : -patternCount) + (patternsContainsP ? 1 : 0);
+                            compatible[i2, p, (int)id] = newCompatible;
+
+                            // Have we just now ruled out this possible pattern?
+                            if (newCompatible == 0)
+                            {
+                                if (propagator.InternalBan(i2, p))
+                                {
+                                    propagator.SetContradiction();
+                                }
+                            }
+                        }
+                    }
+                }
+
                 // It's important we fully process the item before returning
                 // so that we're in a consistent state for backtracking
+                // Hence we don't check this during the loops above
                 if (propagator.Status == Resolution.Contradiction)
                 {
                     return;
                 }
             }
-            return;
         }
 
     }

@@ -132,6 +132,28 @@ namespace DeBroglie.Wfc
 
         public bool InternalSelect(int index, int chosenPattern)
         {
+            // Simple, inefficient way
+            if (!Optimizations.QuickSelect)
+            {
+                for (var pattern = 0; pattern < patternCount; pattern++)
+                {
+                    if (pattern == chosenPattern)
+                    {
+                        continue;
+                    }
+                    if (wave.Get(index, pattern))
+                    {
+                        if (InternalBan(index, pattern))
+                            return true;
+                    }
+                }
+                return false;
+            }
+
+            bool isContradiction = false;
+
+            patternModelConstraint.DoSelect(index, chosenPattern);
+
             for (var pattern = 0; pattern < patternCount; pattern++)
             {
                 if (pattern == chosenPattern)
@@ -140,8 +162,31 @@ namespace DeBroglie.Wfc
                 }
                 if (wave.Get(index, pattern))
                 {
-                    if (InternalBan(index, pattern))
-                        return true;
+                    // This is mostly a repeat of InternalBan, as except for patternModelConstraint,
+                    // Selects are just seen as a set of bans
+
+
+                    // Record information for backtracking
+                    if (backtrack)
+                    {
+                        backtrackItems.Push(new IndexPatternItem
+                        {
+                            Index = index,
+                            Pattern = pattern,
+                        });
+                    }
+
+                    // Don't update patternModelConstraint here, it's been done above in DoSelect
+
+                    // Update the wave
+                    isContradiction = isContradiction || wave.RemovePossibility(index, pattern);
+
+                    // Update trackers
+                    foreach (var tracker in trackers)
+                    {
+                        tracker.DoBan(index, pattern);
+                    }
+
                 }
             }
             return false;
