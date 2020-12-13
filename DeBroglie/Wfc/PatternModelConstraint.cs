@@ -183,7 +183,7 @@ namespace DeBroglie.Wfc
             }
         }
 
-        private void PropagateCore(int[] patterns, int i2, int d)
+        private void PropagateBanCore(int[] patterns, int i2, int d)
         {
             // Hot loop
             foreach (var p in patterns)
@@ -191,6 +191,29 @@ namespace DeBroglie.Wfc
                 var c = --compatible[i2, p, d];
                 // Have we just now ruled out this possible pattern?
                 if (c == 0)
+                {
+                    if (propagator.InternalBan(i2, p))
+                    {
+                        propagator.SetContradiction();
+                    }
+                }
+            }
+        }
+
+        private void PropagateSelectCore(BitArray patternsDense, int i2, int id)
+        {
+            for (var p = 0; p < patternCount; p++)
+            {
+                var patternsContainsP = patternsDense[p];
+
+                // Sets the value of compatible, triggering internal bans
+                var prevCompatible = compatible[i2, p, (int)id];
+                var currentlyPossible = prevCompatible > 0;
+                var newCompatible = (currentlyPossible ? 0 : -patternCount) + (patternsContainsP ? 1 : 0);
+                compatible[i2, p, (int)id] = newCompatible;
+
+                // Have we just now ruled out this possible pattern?
+                if (newCompatible == 0)
                 {
                     if (propagator.InternalBan(i2, p))
                     {
@@ -217,7 +240,7 @@ namespace DeBroglie.Wfc
                             continue;
                         }
                         var patterns = propagatorArray[item.Pattern][(int)el];
-                        PropagateCore(patterns, i2, (int)id);
+                        PropagateBanCore(patterns, i2, (int)id);
                     }
                 }
                 else
@@ -236,25 +259,9 @@ namespace DeBroglie.Wfc
 
                         // TODO: Special case for when patterns.Length == 1?
 
-                        for (var p = 0; p < patternCount; p++)
-                        {
-                            var patternsContainsP = patternsDense[p];
+                        PropagateSelectCore(patternsDense, i2, (int)id);
 
-                            // Sets the value of compatible, triggering internal bans
-                            var prevCompatible = compatible[i2, p, (int)id];
-                            var currentlyPossible = prevCompatible > 0;
-                            var newCompatible = (currentlyPossible ? 0 : -patternCount) + (patternsContainsP ? 1 : 0);
-                            compatible[i2, p, (int)id] = newCompatible;
 
-                            // Have we just now ruled out this possible pattern?
-                            if (newCompatible == 0)
-                            {
-                                if (propagator.InternalBan(i2, p))
-                                {
-                                    propagator.SetContradiction();
-                                }
-                            }
-                        }
                     }
                 }
 
