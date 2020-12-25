@@ -73,5 +73,15 @@ namespace DeBroglie.Rot
         {
             return RotateCw == other.RotateCw && ReflectX == other.ReflectX;
         }
+
+        public static bool operator ==(Rotation a, Rotation b)
+        {
+            return a.Equals(b);
+        }
+
+        public static bool operator !=(Rotation a, Rotation b)
+        {
+            return !a.Equals(b);
+        }
     }
 }
