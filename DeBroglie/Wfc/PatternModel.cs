@@ -5,7 +5,7 @@
         /**
           * propagator[pattern1][edgeLabel] contains all the patterns that can be placed in
           * next to pattern1 according to the given edge label.
-          * NB: For grid topologies edge label correspodns to the direction.
+          * NB: For grid topologies edge label corresponds to the direction.
           */
         public int[][][] Propagator { get; set; }
 
