@@ -6,13 +6,13 @@ using DeBroglie.Topo;
 namespace DeBroglie.Wfc
 {
     /// <summary>
-    /// This works similarly to IWaveConstraint, in that it listens to changes in the Wave, and  
-    /// makes appropriate changes to the propagator for the constraint.
-    /// The constraint being enforced that adjacent patterns must filt PatternModel.Propatagor.
+    /// Implements pattern adjacency propagation using the arc consistency 4 algorithm.
     /// 
-    /// It's not implemented as a IWaveConstraint for historical reasons
+    /// Roughly speaking, this algorith keeps a count for each cell/pattern/direction of the "support",
+    /// i.e. how many possible cells could adjoin that particular pattern.
+    /// This count can be straightforwardly updated, and when it drops to zero, we know that that cell/pattern is not possible, and can be banned.
     /// </summary>
-    internal class PatternModelConstraint
+    internal class Ac4PatternModelConstraint : IPatternModelConstraint
     {
         // From model
         private int[][][] propagatorArray;
@@ -38,7 +38,7 @@ namespace DeBroglie.Wfc
           */
         private int[,,] compatible;
 
-        public PatternModelConstraint(WavePropagator propagator, PatternModel model)
+        public Ac4PatternModelConstraint(WavePropagator propagator, PatternModel model)
         {
             this.toPropagate = new Stack<IndexPatternItem>();
             this.propagator = propagator;
@@ -144,7 +144,7 @@ namespace DeBroglie.Wfc
             });
         }
 
-        public void UndoBan(IndexPatternItem item)
+        public void UndoBan(int index, int pattern)
         {
             // Undo what was done in DoBan
 
@@ -152,7 +152,7 @@ namespace DeBroglie.Wfc
             // As it is set a negative value in InteralBan
             for (var d = 0; d < directionsCount; d++)
             {
-                compatible[item.Index, item.Pattern, d] += patternCount;
+                compatible[index, pattern, d] += patternCount;
             }
 
             // As we always Undo in reverse order, if item is in toPropagate, it'll
@@ -161,7 +161,7 @@ namespace DeBroglie.Wfc
             if (toPropagate.Count > 0)
             {
                 var top = toPropagate.Peek();
-                if(top.Equals(item))
+                if(top.Index == index && top.Pattern == pattern)
                 {
                     toPropagate.Pop();
                     return;
@@ -171,11 +171,11 @@ namespace DeBroglie.Wfc
             // Not in toPropagate, therefore undo what was done in Propagate
             for (var d = 0; d < directionsCount; d++)
             {
-                if (!topology.TryMove(item.Index, (Direction)d, out var i2, out var id, out var el))
+                if (!topology.TryMove(index, (Direction)d, out var i2, out var id, out var el))
                 {
                     continue;
                 }
-                var patterns = propagatorArray[item.Pattern][(int)el];
+                var patterns = propagatorArray[pattern][(int)el];
                 foreach (var p in patterns)
                 {
                     ++compatible[i2, p, (int)id];

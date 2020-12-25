@@ -49,8 +49,14 @@ namespace DeBroglie
 
         /// <summary>
         /// Controls which cells and tiles are selected during generation.
+        /// TODO: Currently ignored.
         /// </summary>
         public PickHeuristicType PickHeuristicType { get; set; }
+
+        /// <summary>
+        /// Controls the algorithm used for enforcing the constraints of the model.
+        /// </summary>
+        public ModelConstraintAlgorithm ModelConstraintAlgorithm { get; set; }
     }
 
     // Implemenation wise, this wraps a WavePropagator to do the majority of the work.
@@ -172,7 +178,8 @@ namespace DeBroglie
                 waveConstraints,
                 randomDouble,
                 MakePickHeuristic,
-                clear: false);
+                clear: false,
+                modelConstraintAlgorithm: options.ModelConstraintAlgorithm);
             wavePropagator.Clear();
 
         }

@@ -9,8 +9,15 @@ namespace DeBroglie.Test
     [TestFixture]
     public class WavePropagatorTest
     {
+        public static readonly ModelConstraintAlgorithm[] Algorithms = new[]
+        {
+            ModelConstraintAlgorithm.Ac4,
+            ModelConstraintAlgorithm.OneStep,
+        };
+
         [Test]
-        public void TestChessboard()
+        [TestCaseSource(nameof(Algorithms))]
+        public void TestChessboard(ModelConstraintAlgorithm algorithm)
         {
             var model = new PatternModel
             {
@@ -24,7 +31,7 @@ namespace DeBroglie.Test
             var width = 10;
             var height = 10;
             var topology = new GridTopology(width, height, true);
-            var propagator = new WavePropagator(model, topology);
+            var propagator = new WavePropagator(model, topology, modelConstraintAlgorithm: algorithm);
             var status = propagator.Run();
             Assert.AreEqual(Resolution.Decided, status);
             var a = propagator.ToTopoArray().ToArray2d();
@@ -39,7 +46,7 @@ namespace DeBroglie.Test
 
             // Should be impossible with an odd sized region
             topology = new GridTopology(width + 1, height + 1, true);
-            propagator = new WavePropagator(model, topology);
+            propagator = new WavePropagator(model, topology, modelConstraintAlgorithm: algorithm);
             status = propagator.Run();
             Assert.AreEqual(Resolution.Contradiction, status);
 
@@ -53,14 +60,15 @@ namespace DeBroglie.Test
                 }
             }
             topology = new GridTopology(width + 1, height + 1, true).WithMask(mask);
-            propagator = new WavePropagator(model, topology);
+            propagator = new WavePropagator(model, topology, modelConstraintAlgorithm: algorithm);
             status = propagator.Run();
             Assert.AreEqual(Resolution.Decided, status);
 
         }
 
         [Test]
-        public void TestChessboard3d()
+        [TestCaseSource(nameof(Algorithms))]
+        public void TestChessboard3d(ModelConstraintAlgorithm algorithm)
         {
             var model = new PatternModel
             {
@@ -75,7 +83,7 @@ namespace DeBroglie.Test
             var height = 4;
             var depth = 4;
             var topology = new GridTopology(width, height, depth, true);
-            var propagator = new WavePropagator(model, topology);
+            var propagator = new WavePropagator(model, topology, modelConstraintAlgorithm: algorithm);
             var status = propagator.Run();
             Assert.AreEqual(Resolution.Decided, status);
             var a = propagator.ToTopoArray();
@@ -93,13 +101,14 @@ namespace DeBroglie.Test
 
             // Should be impossible with an odd sized region
             topology = new GridTopology(width + 1, height + 1, depth + 1, true);
-            propagator = new WavePropagator(model, topology);
+            propagator = new WavePropagator(model, topology, modelConstraintAlgorithm: algorithm);
             status = propagator.Run();
             Assert.AreEqual(Resolution.Contradiction, status);
         }
 
         [Test]
-        public void TestBacktracking()
+        [TestCaseSource(nameof(Algorithms))]
+        public void TestBacktracking(ModelConstraintAlgorithm algorithm)
         {
             // Reproduces the wang tiles found at
             // https://en.wikipedia.org/wiki/Wang_tile
@@ -147,7 +156,7 @@ namespace DeBroglie.Test
             var r = new Random(seed);
             Console.WriteLine("Seed {0}", seed);
 
-            var wavePropagator = new WavePropagator(model, topology, 10, randomDouble: r.NextDouble);
+            var wavePropagator = new WavePropagator(model, topology, backtrackDepth: -1, randomDouble: r.NextDouble, modelConstraintAlgorithm: algorithm);
 
             var status = wavePropagator.Run();
 

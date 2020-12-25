@@ -14,7 +14,7 @@ namespace DeBroglie.Wfc
         // Main data tracking what we've decided so far
         private Wave wave;
 
-        private PatternModelConstraint patternModelConstraint;
+        private IPatternModelConstraint patternModelConstraint;
 
         // From model
         private int patternCount;
@@ -57,7 +57,8 @@ namespace DeBroglie.Wfc
             IWaveConstraint[] constraints = null,
             Func<double> randomDouble = null,
             Func<WavePropagator, IPickHeuristic> pickHeuristicFactory = null,
-            bool clear = true)
+            bool clear = true,
+            ModelConstraintAlgorithm modelConstraintAlgorithm = ModelConstraintAlgorithm.Default)
         {
             this.patternCount = model.PatternCount;
             this.frequencies = model.Frequencies;
@@ -82,7 +83,16 @@ namespace DeBroglie.Wfc
                 };
             }
 
-            patternModelConstraint = new PatternModelConstraint(this, model);
+            switch (modelConstraintAlgorithm)
+            {
+                case ModelConstraintAlgorithm.OneStep:
+                    patternModelConstraint = new OneStepPatternModelConstraint(this, model);
+                    break;
+                default:
+                case ModelConstraintAlgorithm.Ac4:
+                    patternModelConstraint = new Ac4PatternModelConstraint(this, model);
+                    break;
+            }
 
             if (clear)
                 Clear();
@@ -436,7 +446,7 @@ namespace DeBroglie.Wfc
                     tracker.UndoBan(index, pattern);
                 }
                 // Next, undo the decremenents done in Propagate
-                patternModelConstraint.UndoBan(item);
+                patternModelConstraint.UndoBan(index, pattern);
 
             }
         }
