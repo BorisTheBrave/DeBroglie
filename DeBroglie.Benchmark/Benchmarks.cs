@@ -13,14 +13,14 @@ namespace DeBroglie.Benchmark
     //[EtwProfiler] // Or use -p ETW on command line
     public class Benchmarks
     {
-        private TilePropagator propagator1;
-        private TilePropagator propagator2;
-        private TilePropagator propagator3;
-        private TilePropagator propagator4;
-        private TilePropagator propagator5;
-        private TilePropagator propagator6;
-        private TilePropagator propagator7;
-        private TilePropagator propagator8;
+        private TilePropagator propagatorFree;
+        private TilePropagator propagatorChess;
+        private TilePropagator propagatorCastle;
+        private TilePropagator propagatorWang;
+        private TilePropagator propagatorEdgedPath;
+        private TilePropagator propagatorPath;
+        private TilePropagator propagatorCount;
+        private TilePropagator propagatorMirror;
 
         [GlobalSetup]
         public void Setup()
@@ -56,14 +56,14 @@ namespace DeBroglie.Benchmark
 
             model.SetUniformFrequency();
 
-            propagator1 = new TilePropagator(model, topology, new TilePropagatorOptions { });
+            propagatorFree = new TilePropagator(model, topology, new TilePropagatorOptions { });
         }
 
         [Benchmark]
         public void Free()
         {
-            propagator1.Clear();
-            propagator1.Run();
+            propagatorFree.Clear();
+            propagatorFree.Run();
         }
 
 
@@ -85,14 +85,14 @@ namespace DeBroglie.Benchmark
 
             model.SetUniformFrequency();
 
-            propagator2 = new TilePropagator(model, topology, new TilePropagatorOptions { });
+            propagatorChess = new TilePropagator(model, topology, new TilePropagatorOptions { });
         }
 
         [Benchmark]
         public void Chess()
         {
-            propagator2.Clear();
-            propagator2.Run();
+            propagatorChess.Clear();
+            propagatorChess.Run();
         }
 
         // Inspired by Tessera's Castle scene
@@ -102,15 +102,15 @@ namespace DeBroglie.Benchmark
 
             var model = CastleModel.Get();
 
-            propagator3 = new TilePropagator(model, topology, new TilePropagatorOptions { });
+            propagatorCastle = new TilePropagator(model, topology, new TilePropagatorOptions { });
         }
 
 
         [Benchmark]
         public void Castle()
         {
-            propagator3.Clear();
-            propagator3.Run();
+            propagatorCastle.Clear();
+            propagatorCastle.Run();
         }
 
         public void WangSetup()
@@ -160,14 +160,14 @@ namespace DeBroglie.Benchmark
                 BackTrackDepth = -1,
             };
 
-            propagator8 = new TilePropagator(model, topology, options);
+            propagatorWang = new TilePropagator(model, topology, options);
         }
 
         [Benchmark]
         public void Wang()
         {
-            propagator8.Clear();
-            propagator8.Run();
+            propagatorWang.Clear();
+            propagatorWang.Run();
         }
 
         public void EdgedPathSetup()
@@ -226,7 +226,7 @@ namespace DeBroglie.Benchmark
 
             var pathConstraint = new EdgedPathConstraint(exits);
 
-            propagator4 = new TilePropagator(model, topology, new TilePropagatorOptions
+            propagatorEdgedPath = new TilePropagator(model, topology, new TilePropagatorOptions
             {
                 BackTrackDepth = -1,
                 Constraints = new[] { pathConstraint },
@@ -236,12 +236,12 @@ namespace DeBroglie.Benchmark
         [Benchmark]
         public void EdgedPath()
         {
-            propagator4.Clear();
-            propagator4.Run();
+            propagatorEdgedPath.Clear();
+            propagatorEdgedPath.Run();
 
             if (false)
             {
-                var v = propagator4.ToValueArray<string>();
+                var v = propagatorEdgedPath.ToValueArray<string>();
                 for (var y = 0; y < v.Topology.Height; y++)
                 {
                     for (var x = 0; x < v.Topology.Width; x++)
@@ -252,7 +252,7 @@ namespace DeBroglie.Benchmark
                 }
             }
 
-            Check(propagator4);
+            Check(propagatorEdgedPath);
         }
 
 
@@ -273,7 +273,7 @@ namespace DeBroglie.Benchmark
             model.SetUniformFrequency();
             var pathConstraint = new PathConstraint(tiles.Skip(1).ToHashSet());
 
-            propagator5 = new TilePropagator(model, topology, new TilePropagatorOptions
+            propagatorPath = new TilePropagator(model, topology, new TilePropagatorOptions
             {
                 BackTrackDepth = -1,
                 Constraints = new[] { pathConstraint },
@@ -283,14 +283,14 @@ namespace DeBroglie.Benchmark
         [Benchmark]
         public void Path()
         {
-            propagator5.Clear();
-            propagator5.Run();
+            propagatorPath.Clear();
+            propagatorPath.Run();
 
-            Check(propagator5);
+            Check(propagatorPath);
 
             if (false)
             {
-                var v = propagator5.ToValueArray<string>();
+                var v = propagatorPath.ToValueArray<string>();
                 for (var y = 0; y < v.Topology.Height; y++)
                 {
                     for (var x = 0; x < v.Topology.Width; x++)
@@ -330,16 +330,16 @@ namespace DeBroglie.Benchmark
                     }
                 }
             };
-            propagator6 = new TilePropagator(model, topology, options);
+            propagatorCount = new TilePropagator(model, topology, options);
         }
 
         [Benchmark]
         public void Count()
         {
-            propagator6.Clear();
-            propagator6.Run();
+            propagatorCount.Clear();
+            propagatorCount.Run();
 
-            Check(propagator6);
+            Check(propagatorCount);
         }
 
         public void MirrorSetup()
@@ -382,16 +382,16 @@ namespace DeBroglie.Benchmark
             {
                 Constraints = constraints,
             };
-            propagator7 = new TilePropagator(model, topology, options);
+            propagatorMirror = new TilePropagator(model, topology, options);
         }
 
         [Benchmark]
         public void Mirror()
         {
-            propagator7.Clear();
-            propagator7.Run();
+            propagatorMirror.Clear();
+            propagatorMirror.Run();
 
-            Check(propagator7);
+            Check(propagatorMirror);
         }
     }
 }
