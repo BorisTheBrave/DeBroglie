@@ -171,15 +171,20 @@ namespace DeBroglie
                 return heuristic;
             }
 
+            var wavePropagatorOptions = new WavePropagatorOptions
+            {
+                BackTrackDepth = options.BackTrackDepth,
+                RandomDouble = randomDouble,
+                Constraints = waveConstraints,
+                PickHeuristicFactory = MakePickHeuristic,
+                Clear = false,
+                ModelConstraintAlgorithm = options.ModelConstraintAlgorithm,
+            };
+
             this.wavePropagator = new WavePropagator(
                 patternModel, 
                 patternTopology,
-                options.BackTrackDepth, 
-                waveConstraints,
-                randomDouble,
-                MakePickHeuristic,
-                clear: false,
-                modelConstraintAlgorithm: options.ModelConstraintAlgorithm);
+                wavePropagatorOptions);
             wavePropagator.Clear();
 
         }

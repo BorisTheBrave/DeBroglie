@@ -32,7 +32,8 @@ namespace DeBroglie.Test
             var width = 10;
             var height = 10;
             var topology = new GridTopology(width, height, true);
-            var propagator = new WavePropagator(model, topology, modelConstraintAlgorithm: algorithm);
+            var options = new WavePropagatorOptions { ModelConstraintAlgorithm = algorithm };
+            var propagator = new WavePropagator(model, topology, options);
             var status = propagator.Run();
             Assert.AreEqual(Resolution.Decided, status);
             var a = propagator.ToTopoArray().ToArray2d();
@@ -47,7 +48,7 @@ namespace DeBroglie.Test
 
             // Should be impossible with an odd sized region
             topology = new GridTopology(width + 1, height + 1, true);
-            propagator = new WavePropagator(model, topology, modelConstraintAlgorithm: algorithm);
+            propagator = new WavePropagator(model, topology, options);
             status = propagator.Run();
             Assert.AreEqual(Resolution.Contradiction, status);
 
@@ -61,7 +62,7 @@ namespace DeBroglie.Test
                 }
             }
             topology = new GridTopology(width + 1, height + 1, true).WithMask(mask);
-            propagator = new WavePropagator(model, topology, modelConstraintAlgorithm: algorithm);
+            propagator = new WavePropagator(model, topology, options);
             status = propagator.Run();
             Assert.AreEqual(Resolution.Decided, status);
 
@@ -84,7 +85,8 @@ namespace DeBroglie.Test
             var height = 4;
             var depth = 4;
             var topology = new GridTopology(width, height, depth, true);
-            var propagator = new WavePropagator(model, topology, modelConstraintAlgorithm: algorithm);
+            var options = new WavePropagatorOptions { ModelConstraintAlgorithm = algorithm };
+            var propagator = new WavePropagator(model, topology, options);
             var status = propagator.Run();
             Assert.AreEqual(Resolution.Decided, status);
             var a = propagator.ToTopoArray();
@@ -102,7 +104,7 @@ namespace DeBroglie.Test
 
             // Should be impossible with an odd sized region
             topology = new GridTopology(width + 1, height + 1, depth + 1, true);
-            propagator = new WavePropagator(model, topology, modelConstraintAlgorithm: algorithm);
+            propagator = new WavePropagator(model, topology, options);
             status = propagator.Run();
             Assert.AreEqual(Resolution.Contradiction, status);
         }
@@ -157,7 +159,13 @@ namespace DeBroglie.Test
             var r = new Random(seed);
             Console.WriteLine("Seed {0}", seed);
 
-            var wavePropagator = new WavePropagator(model, topology, backtrackDepth: -1, randomDouble: r.NextDouble, modelConstraintAlgorithm: algorithm);
+            var options = new WavePropagatorOptions
+            {
+                BackTrackDepth = -1,
+                RandomDouble = r.NextDouble,
+                ModelConstraintAlgorithm = algorithm,
+            };
+            var wavePropagator = new WavePropagator(model, topology, options);
 
             var status = wavePropagator.Run();
 

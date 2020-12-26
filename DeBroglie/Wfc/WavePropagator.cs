@@ -5,6 +5,16 @@ using DeBroglie.Trackers;
 
 namespace DeBroglie.Wfc
 {
+    internal class WavePropagatorOptions
+    {
+        public int BackTrackDepth { get; set; }
+        public IWaveConstraint[] Constraints { get; set; }
+        public Func<double> RandomDouble { get; set; }
+        public Func<WavePropagator, IPickHeuristic> PickHeuristicFactory { get; set; }
+        public bool Clear { get; set; } = true;
+        public ModelConstraintAlgorithm ModelConstraintAlgorithm { get; set; }
+    }
+
     /// <summary>
     /// WavePropagator holds a wave, and supports updating it's possibilities 
     /// according to the model constraints.
@@ -53,24 +63,19 @@ namespace DeBroglie.Wfc
         public WavePropagator(
             PatternModel model,
             ITopology topology,
-            int backtrackDepth = 0,
-            IWaveConstraint[] constraints = null,
-            Func<double> randomDouble = null,
-            Func<WavePropagator, IPickHeuristic> pickHeuristicFactory = null,
-            bool clear = true,
-            ModelConstraintAlgorithm modelConstraintAlgorithm = ModelConstraintAlgorithm.Default)
+            WavePropagatorOptions options)
         {
             this.patternCount = model.PatternCount;
             this.frequencies = model.Frequencies;
 
             this.indexCount = topology.IndexCount;
-            this.backtrack = backtrackDepth != 0;
-            this.backtrackDepth = backtrackDepth;
-            this.constraints = constraints ?? new IWaveConstraint[0];
+            this.backtrack = options.BackTrackDepth != 0;
+            this.backtrackDepth = options.BackTrackDepth;
+            this.constraints = options.Constraints ?? new IWaveConstraint[0];
             this.topology = topology;
-            this.randomDouble = randomDouble ?? new Random().NextDouble;
+            this.randomDouble = options.RandomDouble ?? new Random().NextDouble;
             directionsCount = topology.DirectionsCount;
-            this.pickHeuristicFactory = pickHeuristicFactory;
+            this.pickHeuristicFactory = options.PickHeuristicFactory;
 
             if(this.pickHeuristicFactory == null)
             {
@@ -83,7 +88,7 @@ namespace DeBroglie.Wfc
                 };
             }
 
-            switch (modelConstraintAlgorithm)
+            switch (options.ModelConstraintAlgorithm)
             {
                 case ModelConstraintAlgorithm.OneStep:
                     patternModelConstraint = new OneStepPatternModelConstraint(this, model);
@@ -99,7 +104,7 @@ namespace DeBroglie.Wfc
                     throw new Exception();
             }
 
-            if (clear)
+            if (options.Clear)
                 Clear();
         }
 
