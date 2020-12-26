@@ -49,7 +49,6 @@ namespace DeBroglie
 
         /// <summary>
         /// Controls which cells and tiles are selected during generation.
-        /// TODO: Currently ignored.
         /// </summary>
         public PickHeuristicType PickHeuristicType { get; set; }
 
@@ -140,8 +139,13 @@ namespace DeBroglie
 
             IPickHeuristic MakePickHeuristic(WavePropagator wavePropagator)
             {
+
                 IRandomPicker randomPicker;
-                if (waveFrequencySets != null)
+                if (options.PickHeuristicType == PickHeuristicType.Ordered)
+                {
+                    randomPicker = new OrderedRandomPicker(wavePropagator.Wave, wavePropagator.Frequencies, patternTopology.Mask); 
+                }
+                else if (waveFrequencySets != null)
                 {
                     var entropyTracker = new ArrayPriorityEntropyTracker(wavePropagator.Wave, waveFrequencySets, patternTopology.Mask);
                     entropyTracker.Reset();
