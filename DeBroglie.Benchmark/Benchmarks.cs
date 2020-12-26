@@ -4,6 +4,7 @@ using DeBroglie.Constraints;
 using DeBroglie.Models;
 using DeBroglie.Rot;
 using DeBroglie.Topo;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,6 +20,7 @@ namespace DeBroglie.Benchmark
         private TilePropagator propagator5;
         private TilePropagator propagator6;
         private TilePropagator propagator7;
+        private TilePropagator propagator8;
 
         [GlobalSetup]
         public void Setup()
@@ -30,6 +32,7 @@ namespace DeBroglie.Benchmark
             PathSetup();
             CountSetup();
             MirrorSetup();
+            WangSetup();
         }
 
         private void Check(TilePropagator p)
@@ -108,6 +111,63 @@ namespace DeBroglie.Benchmark
         {
             propagator3.Clear();
             propagator3.Run();
+        }
+
+        public void WangSetup()
+        {
+
+            // Reproduces the wang tiles found at
+            // https://en.wikipedia.org/wiki/Wang_tile
+            // They only have aperiodic tiling, so they are a hard set to put down.
+            // Clockwise from top
+            var tileBorders = new[]
+            {
+                "rrrg",
+                "brbg",
+                "rggg",
+                "wbrb",
+                "bbwb",
+                "wwrw",
+                "rgbw",
+                "bwbr",
+                "brwr",
+                "ggbr",
+                "rwrg",
+            };
+            var model = new AdjacentModel(DirectionSet.Cartesian2d);
+            for (var tile1 = 0; tile1 < tileBorders.Length; tile1++)
+            {
+                var tile1Border = tileBorders[tile1];
+                for (var i = 0; i < 4; i++)
+                {
+                    var d = new[] { 3, 0, 2, 1 }[i];
+                    var o = (i + 2) % 4;
+                    for (var tile2 = 0; tile2 < tileBorders.Length; tile2++)
+                    {
+                        var tile2Border = tileBorders[tile2];
+                        if (tile2Border[o] != tile1Border[i])
+                            continue;
+                        model.AddAdjacency(new Tile(tile1), new Tile(tile2), (Direction)d);
+                    }
+                }
+            }
+            model.SetUniformFrequency();
+
+            var topology = new GridTopology(15, 15, false);
+
+            var options = new TilePropagatorOptions
+            {
+                BackTrackDepth = -1,
+            };
+
+            propagator8 = new TilePropagator(model, topology, options);
+        }
+
+        [Benchmark]
+        public void Wang()
+        {
+            propagator8.Clear();
+            propagator8.Run();
         }
 
         public void EdgedPathSetup()
