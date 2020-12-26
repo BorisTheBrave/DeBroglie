@@ -88,10 +88,15 @@ namespace DeBroglie.Wfc
                 case ModelConstraintAlgorithm.OneStep:
                     patternModelConstraint = new OneStepPatternModelConstraint(this, model);
                     break;
-                default:
+                case ModelConstraintAlgorithm.Default:
                 case ModelConstraintAlgorithm.Ac4:
                     patternModelConstraint = new Ac4PatternModelConstraint(this, model);
                     break;
+                case ModelConstraintAlgorithm.Ac3:
+                    patternModelConstraint = new Ac3PatternModelConstraint(this, model);
+                    break;
+                default:
+                    throw new Exception();
             }
 
             if (clear)

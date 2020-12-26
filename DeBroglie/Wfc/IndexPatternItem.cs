@@ -28,5 +28,15 @@ namespace DeBroglie.Wfc
                 return Index.GetHashCode() * 17 + Pattern.GetHashCode();
             }
         }
+
+        public static bool operator ==(IndexPatternItem a, IndexPatternItem b)
+        {
+            return a.Equals(b);
+        }
+
+        public static bool operator !=(IndexPatternItem a, IndexPatternItem b)
+        {
+            return !a.Equals(b);
+        }
     }
 }

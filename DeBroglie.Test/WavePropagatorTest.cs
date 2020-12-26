@@ -12,6 +12,7 @@ namespace DeBroglie.Test
         public static readonly ModelConstraintAlgorithm[] Algorithms = new[]
         {
             ModelConstraintAlgorithm.Ac4,
+            ModelConstraintAlgorithm.Ac3,
             ModelConstraintAlgorithm.OneStep,
         };
 
