@@ -55,7 +55,7 @@ namespace DeBroglie.Constraints
         /// If it's already not possible to path, then return null.
         /// Note: relevant points themselves are always returned as true.
         /// 
-        /// Also optionally returns the extent of the connecteted component containing relevant.
+        /// Also optionally fills <paramref name="component"/> with the extent of the connecteted component containing relevant.
         /// 
         /// If relevant is null, instead returns the points, that if removed, increase the number of
         /// connected components.

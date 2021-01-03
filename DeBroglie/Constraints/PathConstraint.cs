@@ -90,8 +90,9 @@ namespace DeBroglie.Constraints
             }
 
             // Select relevant cells, i.e. those that must be connected.
+            var hasEndPoints = EndPoints != null || EndPointTiles != null;
             bool[] relevant;
-            if (EndPoints == null && EndPointTiles == null)
+            if (!hasEndPoints)
             {
                 relevant = mustBePath;
             }
@@ -127,7 +128,7 @@ namespace DeBroglie.Constraints
             }
             var walkable = couldBePath;
 
-            var component = EndPointTiles != null ? new bool[indices] : null;
+            var component = new bool[indices];
 
             var isArticulation = PathConstraintUtils.GetArticulationPoints(graph, walkable, relevant, component);
 
@@ -148,15 +149,16 @@ namespace DeBroglie.Constraints
                 }
             }
 
-            // Any EndPointTiles not in the connected component aren't safe to add
-            if (EndPointTiles != null)
+            // Any path tiles / EndPointTiles not in the connected component aren't safe to add.
+            var actualEndPointTileSet = hasEndPoints ? endPointTileSet : tileSet;
+            if (actualEndPointTileSet != null)
             {
                 for (int i = 0; i < indices; i++)
                 {
                     if (!component[i])
                     {
                         topology.GetCoord(i, out var x, out var y, out var z);
-                        propagator.Ban(x, y, z, endPointTileSet);
+                        propagator.Ban(x, y, z, actualEndPointTileSet);
                     }
                 }
             }
