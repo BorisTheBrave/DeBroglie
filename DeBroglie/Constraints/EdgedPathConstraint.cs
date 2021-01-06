@@ -9,6 +9,7 @@ using System.Linq;
 
 namespace DeBroglie.Constraints
 {
+    [Obsolete("Use ConnectedConstraint instead")]
     public class EdgedPathConstraint : ITileConstraint
     {
         private TilePropagatorTileSet pathTileSet;

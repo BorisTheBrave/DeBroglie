@@ -1,5 +1,6 @@
 ﻿using DeBroglie.Rot;
 using DeBroglie.Trackers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,6 +10,7 @@ namespace DeBroglie.Constraints
     /// The PathConstraint checks that it is possible to connect several locations together via a continuous path of adjacent tiles. 
     /// It does this by banning any tile placement that would make such a path impossible.
     /// </summary>
+    [Obsolete("Use ConnectedConstraint instead")]
     public class PathConstraint : ITileConstraint
     {
         private TilePropagatorTileSet tileSet;

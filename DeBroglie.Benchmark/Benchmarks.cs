@@ -18,7 +18,9 @@ namespace DeBroglie.Benchmark
         private TilePropagator propagatorCastle;
         private TilePropagator propagatorWang;
         private TilePropagator propagatorEdgedPath;
+        private TilePropagator propagatorEdgedPath2;
         private TilePropagator propagatorPath;
+        private TilePropagator propagatorPath2;
         private TilePropagator propagatorCount;
         private TilePropagator propagatorMirror;
 
@@ -29,7 +31,9 @@ namespace DeBroglie.Benchmark
             ChessSetup();
             CastleSetup();
             EdgedPathSetup();
+            EdgedPath2Setup();
             PathSetup();
+            Path2Setup();
             CountSetup();
             MirrorSetup();
             WangSetup();
@@ -257,6 +261,92 @@ namespace DeBroglie.Benchmark
 
 
 
+        public void EdgedPath2Setup()
+        {
+            var topology = new GridTopology(15, 15, false);
+
+            var model = new AdjacentModel(DirectionSet.Cartesian2d);
+
+            var empty = new Tile(" ");
+            var straight1 = new Tile("║");
+            var straight2 = new Tile("═");
+            var corner1 = new Tile("╚");
+            var corner2 = new Tile("╔");
+            var corner3 = new Tile("╗");
+            var corner4 = new Tile("╝");
+            var fork1 = new Tile("╠");
+            var fork2 = new Tile("╦");
+            var fork3 = new Tile("╣");
+            var fork4 = new Tile("╩");
+
+            model.AddAdjacency(
+                new[] { empty, straight1, corner3, corner4, fork3 },
+                new[] { empty, straight1, corner1, corner2, fork1 },
+                Direction.XPlus);
+
+            model.AddAdjacency(
+                new[] { straight2, corner1, corner2, fork1, fork2, fork4 },
+                new[] { straight2, corner3, corner4, fork2, fork3, fork4 },
+                Direction.XPlus);
+
+            model.AddAdjacency(
+                new[] { empty, straight2, corner1, corner4, fork4 },
+                new[] { empty, straight2, corner2, corner3, fork2 },
+                Direction.YPlus);
+
+            model.AddAdjacency(
+                new[] { straight1, corner2, corner3, fork1, fork2, fork3 },
+                new[] { straight1, corner1, corner4, fork1, fork3, fork4 },
+                Direction.YPlus);
+
+            model.SetUniformFrequency();
+
+            var exits = new Dictionary<Tile, ISet<Direction>>
+            {
+                {straight1, new []{Direction.YMinus, Direction.YPlus}.ToHashSet() },
+                {straight2, new []{Direction.XMinus, Direction.XPlus}.ToHashSet() },
+                {corner1, new []{Direction.YMinus, Direction.XPlus}.ToHashSet() },
+                {corner2, new []{Direction.YPlus, Direction.XPlus}.ToHashSet() },
+                {corner3, new []{Direction.YPlus, Direction.XMinus}.ToHashSet() },
+                {corner4, new []{Direction.YMinus, Direction.XMinus}.ToHashSet() },
+                {fork1, new []{ Direction.YMinus, Direction.XPlus, Direction.YPlus}.ToHashSet() },
+                {fork2, new []{ Direction.XPlus, Direction.YPlus, Direction.XMinus}.ToHashSet() },
+                {fork3, new []{ Direction.YPlus, Direction.XMinus, Direction.YMinus}.ToHashSet() },
+                {fork4, new []{ Direction.XMinus, Direction.YMinus, Direction.XPlus}.ToHashSet() },
+            };
+
+            var pathConstraint = new ConnectedConstraint { PathSpec = new EdgedPathSpec { Exits = exits } };
+
+            propagatorEdgedPath2 = new TilePropagator(model, topology, new TilePropagatorOptions
+            {
+                BackTrackDepth = -1,
+                Constraints = new[] { pathConstraint },
+            });
+        }
+
+        [Benchmark]
+        public void EdgedPath2()
+        {
+            propagatorEdgedPath2.Clear();
+            propagatorEdgedPath2.Run();
+
+            if (false)
+            {
+                var v = propagatorEdgedPath2.ToValueArray<string>();
+                for (var y = 0; y < v.Topology.Height; y++)
+                {
+                    for (var x = 0; x < v.Topology.Width; x++)
+                    {
+                        System.Console.Write(v.Get(x, y));
+                    }
+                    System.Console.WriteLine();
+                }
+            }
+
+            Check(propagatorEdgedPath2);
+        }
+
+
         public void PathSetup()
         {
 
@@ -291,6 +381,52 @@ namespace DeBroglie.Benchmark
             if (false)
             {
                 var v = propagatorPath.ToValueArray<string>();
+                for (var y = 0; y < v.Topology.Height; y++)
+                {
+                    for (var x = 0; x < v.Topology.Width; x++)
+                    {
+                        System.Console.Write(v.Get(x, y));
+                    }
+                    System.Console.WriteLine();
+                }
+            }
+        }
+
+
+        public void Path2Setup()
+        {
+
+            var tileCount = 10;
+            var topology = new GridTopology(20, 20, false);
+
+            var model = new AdjacentModel(DirectionSet.Cartesian2d);
+
+            var tiles = Enumerable.Range(0, tileCount).Select(x => new Tile(x)).ToList(); ;
+
+            model.AddAdjacency(tiles, tiles, Direction.XPlus);
+            model.AddAdjacency(tiles, tiles, Direction.YPlus);
+
+            model.SetUniformFrequency();
+            var pathConstraint = new ConnectedConstraint { PathSpec = new PathSpec { Tiles = tiles.Skip(1).ToHashSet() } };
+
+            propagatorPath2 = new TilePropagator(model, topology, new TilePropagatorOptions
+            {
+                BackTrackDepth = -1,
+                Constraints = new[] { pathConstraint },
+            });
+        }
+
+        [Benchmark]
+        public void Path2()
+        {
+            propagatorPath2.Clear();
+            propagatorPath2.Run();
+
+            Check(propagatorPath2);
+
+            if (false)
+            {
+                var v = propagatorPath2.ToValueArray<string>();
                 for (var y = 0; y < v.Topology.Height; y++)
                 {
                     for (var x = 0; x < v.Topology.Width; x++)
