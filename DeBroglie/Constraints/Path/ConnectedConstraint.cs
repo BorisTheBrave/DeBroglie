@@ -13,13 +13,22 @@ namespace DeBroglie.Constraints
         public void Init(TilePropagator propagator)
         {
             pathView = PathSpec.MakeView(propagator);
+
+            pathView.Update();
+            for (var i = 0; i < pathView.Graph.NodeCount; i++)
+            {
+                if (pathView.MustBeRelevant[i])
+                {
+                    pathView.SelectPath(i);
+                }
+            }
         }
 
         public void Check(TilePropagator propagator)
         {
             pathView.Update();
 
-            bool[] component = null;
+            bool[] component = new bool[pathView.Graph.NodeCount];
 
             var isArticulation = PathConstraintUtils.GetArticulationPoints(pathView.Graph, pathView.CouldBePath, pathView.MustBeRelevant, component);
 

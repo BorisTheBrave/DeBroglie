@@ -45,20 +45,18 @@ namespace DeBroglie.Constraints
             public int u;
             public int state;
             public int neighbourIndex;
-            public bool isRelevantSubtree;
+            public int relevantChildSubtreeCount;
         }
 
         /// <summary>
         /// First, find the subgraph of graph given by just the walkable vertices.
-        /// Then find any point, that if removed, mean there's no path between two
-        /// given relevant points.
-        /// If it's already not possible to path, then return null.
-        /// Note: relevant points themselves are always returned as true.
+        /// <paramref name="relevant"/> defaults to walkable if null.
         /// 
-        /// Also optionally fills <paramref name="component"/> with the extent of the connecteted component containing relevant.
+        /// A cut-vertex is defined as any point that, if removed, there exist two other relevant points
+        /// that no longer have a path.
         /// 
-        /// If relevant is null, instead returns the points, that if removed, increase the number of
-        /// connected components.
+        /// If <paramref name="component"/> is defined, then the method will return null if there's multiple components, and otherwise
+        /// fill component with the extent that the single component covers.
         /// 
         /// For an explanation, see:
         /// https://www.boristhebrave.com/2018/04/28/random-paths-via-chiseling/
@@ -87,8 +85,6 @@ namespace DeBroglie.Constraints
                 // This is the "returned" value from recursing
                 var childRelevantSubtree = false;
 
-                var childCount = 0;
-
                 while(true)
                 {
                     var frameIndex = stack.Count - 1;
@@ -99,16 +95,10 @@ namespace DeBroglie.Constraints
                         // Initialization
                         case 0:
                             {
-                                var isRelevant = relevant != null && relevant[u];
-                                if (isRelevant)
-                                {
-                                    isArticulation[u] = true;
-                                }
                                 if (component != null)
                                 {
                                     component[u] = true;
                                 }
-                                frame.isRelevantSubtree = isRelevant;
                                 low[u] = dfsNum[u] = num++;
                                 // Enter loop
                                 goto case 1;
@@ -160,19 +150,13 @@ namespace DeBroglie.Constraints
                                 var neighbourIndex = frame.neighbourIndex;
                                 var v = neighbours[neighbourIndex];
 
-                                if (frameIndex == 0)
-                                {
-                                    // Root frame
-                                    childCount++;
-                                }
-
                                 if (childRelevantSubtree)
                                 {
-                                    frame.isRelevantSubtree = true;
+                                    frame.relevantChildSubtreeCount++;
                                 }
                                 if (low[v] >= dfsNum[u])
                                 {
-                                    if (relevant == null || childRelevantSubtree)
+                                    if (childRelevantSubtree)
                                     {
                                         isArticulation[u] = true;
                                     }
@@ -188,12 +172,14 @@ namespace DeBroglie.Constraints
                             if(frameIndex == 0)
                             {
                                 // Root frame
-                                return childCount;
+                                return frame.relevantChildSubtreeCount;
                             }
                             else
                             {
                                 // Set childRelevantSubtree with the return value from this recursed call
-                                childRelevantSubtree = frame.isRelevantSubtree;
+                                var isRelevant = relevant == null || relevant[u];
+                                var descendantOrSelfIsRelevant = frame.relevantChildSubtreeCount > 0 || isRelevant;
+                                childRelevantSubtree = descendantOrSelfIsRelevant;
                                 // Pop the frame
                                 stack.RemoveAt(frameIndex);
                                 // Resume the caller (which will be in state 2)
@@ -203,21 +189,13 @@ namespace DeBroglie.Constraints
                 }
             }
 
-
-            /*
             Tuple<int, bool> cutvertex(int u)
             {
-                var childCount = 0;
-                var isRelevant = relevant != null && relevant[u];
-                if (isRelevant)
-                {
-                    isArticulation[u] = true;
-                }
+                var relevantChildSubtreeCount = 0;
                 if (component != null) 
                 {
                     component[u] = true;
                 }
-                var isRelevantSubtree = isRelevant;
                 low[u] = dfsNum[u] = num++;
 
                 foreach (var v in graph.Neighbours[u])
@@ -230,15 +208,15 @@ namespace DeBroglie.Constraints
                     var unvisited = dfsNum[v] == 0;
                     if (unvisited)
                     {
-                        var childRelevantSubtree = cutvertex(v).Item2;
-                        childCount++;
-                        if (childRelevantSubtree)
+                        // v is a child of u
+                        var relevantChildSubtree = cutvertex(v).Item2;
+                        if (relevantChildSubtree)
                         {
-                            isRelevantSubtree = true;
+                            relevantChildSubtreeCount++;
                         }
                         if (low[v] >= dfsNum[u])
                         {
-                            if (relevant == null || childRelevantSubtree)
+                            if (relevantChildSubtree)
                             {
                                 isArticulation[u] = true;
                             }
@@ -247,48 +225,38 @@ namespace DeBroglie.Constraints
                     }
                     else
                     {
+                        // v is an ancestor of u
                         low[u] = Math.Min(low[u], dfsNum[v]);
                     }
                 }
-                return Tuple.Create(childCount, isRelevantSubtree);
+                var isRelevant = relevant == null || relevant[u];
+                var descendantOrSelfIsRelevant = relevantChildSubtreeCount > 0 || isRelevant;
+                return Tuple.Create(relevantChildSubtreeCount, descendantOrSelfIsRelevant);
             }
-            */
 
             // Find starting point
+            var first = true;
             for (var i = 0; i < indices; i++)
             {
                 if (!walkable[i]) continue;
+                // Only consider relevant nodes for root.
+                // (this is a precondition of cutvertex)
                 if (relevant != null && !relevant[i]) continue;
                 // Already visited
                 if (dfsNum[i] != 0) continue;
-                var childCount = CutVertex(i);
-                if(relevant != null)
-                {
-                    // Relevant points are always articulation points
-                    isArticulation[i] = true;
-                    // There can only be a single relevant component, so can stop
-                    break;
-                }
-                else
-                {
-                    // The root of the tree is an exception to CutVertex's calculations
-                    // It's an articulation point if it has multiple children
-                    // as removing it would give multiple subtrees.
-                    isArticulation[i] = childCount > 1;
-                }
-            }
 
-            // Check we've visited every relevant point.
-            // If not, there's no way to satisfy the constraint.
-            if (relevant != null)
-            {
-                for (var i = 0; i < indices; i++)
+                if (!first && component != null)
                 {
-                    if (relevant[i] && dfsNum[i] == 0)
-                    {
-                        return null;
-                    }
+                    // Multiple components, signal error
+                    return null;
                 }
+
+                //var relevantChildSubtreeCount = CutVertex(i);
+                var relevantChildSubtreeCount = cutvertex(i).Item1;
+                isArticulation[i] = relevantChildSubtreeCount > 1;
+                first = false;
+
+                
             }
 
             return isArticulation;

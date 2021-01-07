@@ -109,9 +109,16 @@ namespace DeBroglie.Constraints
 
             trackerByExit = tilesByExit
                 .ToDictionary(kv => kv.Key, kv => propagator.CreateSelectedTracker(kv.Value));
+
+            Check(propagator, true);
         }
 
         public void Check(TilePropagator propagator)
+        {
+            Check(propagator, false);
+        }
+
+        private void Check(TilePropagator propagator, bool init)
         {
 
             var topology = propagator.Topology;
@@ -180,6 +187,19 @@ namespace DeBroglie.Constraints
                     return;
                 }
             }
+
+            if (init)
+            {
+                for (int i = 0; i < indices; i++)
+                {
+                    if (relevant[i * nodesPerIndex])
+                    {
+                        topology.GetCoord(i, out var x, out var y, out var z);
+                        propagator.Select(x, y, z, pathTileSet);
+                    }
+                }
+            }
+
             var walkable = couldBePath;
 
             var component = new bool[indices * nodesPerIndex];

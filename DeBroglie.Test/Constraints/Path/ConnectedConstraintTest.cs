@@ -175,6 +175,10 @@ namespace DeBroglie.Test.Constraints
             var up = Direction.YPlus;
             var down = Direction.YMinus;
 
+            var seed = Environment.TickCount;
+            var r = new Random(seed);
+            Console.WriteLine("Seed {0}", seed);
+
             var constraint = new ConnectedConstraint
             {
                 PathSpec = new EdgedPathSpec
@@ -187,7 +191,11 @@ namespace DeBroglie.Test.Constraints
                 }
             };
 
-            var propagator = new TilePropagator(model, topology, constraints: new[] { constraint });
+            var propagator = new TilePropagator(model, topology, new TilePropagatorOptions
+            {
+                RandomDouble = r.NextDouble,
+                Constraints = new[] { constraint }
+            });
 
             propagator.Run();
 

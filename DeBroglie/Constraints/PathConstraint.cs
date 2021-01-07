@@ -75,12 +75,19 @@ namespace DeBroglie.Constraints
             endPointTileSet = EndPointTiles != null ? propagator.CreateTileSet(actualEndPointTiles) : null;
             endPointSelectedTracker = EndPointTiles != null ? propagator.CreateSelectedTracker(endPointTileSet) : null;
             graph = PathConstraintUtils.CreateGraph(propagator.Topology);
+
+            Check(propagator, true);
         }
 
         public void Check(TilePropagator propagator)
         {
+            Check(propagator, false);
+        }
+
+        private void Check(TilePropagator propagator, bool init)
+        {
             var topology = propagator.Topology;
-            var indices = topology.Width * topology.Height * topology.Depth;
+            var indices = topology.IndexCount;
             // Initialize couldBePath and mustBePath based on wave possibilities
             var couldBePath = new bool[indices];
             var mustBePath = new bool[indices];
@@ -128,6 +135,19 @@ namespace DeBroglie.Constraints
                     return;
                 }
             }
+
+            if(init)
+            {
+                for (int i = 0; i < indices; i++)
+                {
+                    if(relevant[i])
+                    {
+                        topology.GetCoord(i, out var x, out var y, out var z);
+                        propagator.Select(x, y, z, tileSet);
+                    }
+                }
+            }
+
             var walkable = couldBePath;
 
             var component = new bool[indices];
