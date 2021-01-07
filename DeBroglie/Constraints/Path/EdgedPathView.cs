@@ -24,6 +24,9 @@ namespace DeBroglie.Constraints
 
         private List<int> endPointIndices;
 
+        private bool[] exitMustBePath { get; }
+
+
 
         public EdgedPathView(EdgedPathSpec spec, TilePropagator propagator)
         {
@@ -64,6 +67,7 @@ namespace DeBroglie.Constraints
 
             CouldBePath = new bool[propagator.Topology.IndexCount * nodesPerIndex];
             MustBePath = new bool[propagator.Topology.IndexCount * nodesPerIndex];
+            exitMustBePath = new bool[propagator.Topology.IndexCount * nodesPerIndex];
 
             tilesByExit = exits
                 .SelectMany(kv => kv.Value.Select(e => Tuple.Create(kv.Key, e)))
@@ -114,8 +118,9 @@ namespace DeBroglie.Constraints
                 {
                     var ts = tracker.GetQuadstate(i);
                     CouldBePath[i * nodesPerIndex + 1 + (int)exit] = ts.Possible();
-                    // TODO: This used to be tracked separately from MustBePath. why? "Cannot put this in mustBePath these points can be disconnected, depending on topology mask"
-                    MustBePath[i * nodesPerIndex + 1 + (int)exit] = ts.IsYes();
+                    // Why not store MustBePath? Somehow, this is significantly, faster. Also the following cryptic comment:
+                    // "Cannot put this in MustBePath these points can be disconnected, depending on topology mask"
+                    exitMustBePath[i * nodesPerIndex + 1 + (int)exit] = ts.IsYes();
                 }
             }
             for (int i = 0; i < indexCount; i++)
@@ -155,6 +160,8 @@ namespace DeBroglie.Constraints
             }
             else
             {
+                if (exitMustBePath[node])
+                    return;
                 if (tilesByExit.TryGetValue((Direction)dir, out var exitTiles))
                 {
                     propagator.Select(x, y, z, exitTiles);
