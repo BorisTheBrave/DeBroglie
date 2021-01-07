@@ -17,4 +17,19 @@
         void BanPath(int index);
         void BanRelevant(int index);
     }
+
+    public static class PathViewExtensions
+    {
+        public static void Init(this IPathView pathView)
+        {
+            pathView.Update();
+            for (var i = 0; i < pathView.Graph.NodeCount; i++)
+            {
+                if (pathView.MustBeRelevant[i])
+                {
+                    pathView.SelectPath(i);
+                }
+            }
+        }
+    }
 }
