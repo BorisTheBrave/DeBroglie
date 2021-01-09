@@ -11,18 +11,18 @@ namespace DeBroglie.Test.Constraints
 {
 
     [TestFixture]
-    public class LoopConstraintTest
+    public class AcyclicConstraintTest
     {
         [Test]
-        public void TestLoopConstraint()
+        public void TestAcyclicConstraint()
         {
             var a = new int[,]{
                  {0, 0, 0, 1, 0, 0},
                  {0, 0, 0, 1, 0, 0},
                  {0, 0, 0, 1, 0, 0},
                  {1, 1, 1, 1, 0, 0},
-                 {0, 0, 0, 0, 0, 0},
-                 {0, 0, 0, 0, 0, 0}
+                 {0, 1, 0, 0, 0, 0},
+                 {0, 1, 0, 0, 0, 0}
             };
 
             var seed = Environment.TickCount;
@@ -31,7 +31,7 @@ namespace DeBroglie.Test.Constraints
 
             var model = OverlappingModel.Create(a, 3, false, 8);
 
-            var constraint = new LoopConstraint
+            var constraint = new AcyclicConstraint
             {
                 PathSpec = new PathSpec
                 {
@@ -58,22 +58,29 @@ namespace DeBroglie.Test.Constraints
                 }
                 Console.WriteLine();
             }
-            // Every cell should have exactly 2 neighbours
+            var visited = new bool[topology.Width, topology.Height];
+
             for (var y = 0; y < topology.Height; y++)
             {
                 for (var x = 0; x < topology.Width; x++)
                 {
-                    if (result[x, y] == 1)
+                    if (result[x, y] != 1) continue;
+                    if (visited[x, y]) continue;
+                    void Visit(int x2, int y2, int dir)
                     {
-                        var n = 0;
-                        if (x > 0) n += result[x - 1, y];
-                        if (x < topology.Width - 1) n += result[x + 1, y];
-                        if (y > 0) n += result[x, y - 1];
-                        if (y < topology.Height - 1) n += result[x, y + 1];
-                        Assert.AreEqual(2, n, $"At {x},{y}");
+                        if (x2 < 0 || x2 >= topology.Width || y2 < 0 || y2 >= topology.Height) return;
+                        if (result[x2, y2] != 1) return;
+                        if (visited[x2, y2]) Assert.Fail();
+                        visited[x2, y2] = true;
+                        if(dir != 0) Visit(x2 - 1, y2, 2);
+                        if (dir != 2) Visit(x2 + 1, y2, 0);
+                        if (dir != 1) Visit(x2, y2 - 1, 3);
+                        if (dir != 3) Visit(x2, y2 + 1, 1);
                     }
+                    Visit(x, y, -1);
                 }
             }
+
         }
     }
 }

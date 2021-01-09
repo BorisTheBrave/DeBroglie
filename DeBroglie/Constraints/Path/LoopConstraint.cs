@@ -6,6 +6,10 @@ using System.Text;
 
 namespace DeBroglie.Constraints
 {
+    /// <summary>
+    /// Enforces that the entire path is made out of loops,
+    /// i.e. there are at least two routes between any two connected points.
+    /// </summary>
     public class LoopConstraint : ITileConstraint
     {
         private IPathView pathView;
@@ -18,6 +22,7 @@ namespace DeBroglie.Constraints
             {
                 // Convert PathSpec to EdgedPathSpec
                 // As we have a bug with PathSpec ignoring paths of length 2.
+                // (probably should use bridge edges instead of articulation points)
                 ISet<Direction>  allDirections = new HashSet<Direction>(Enumerable.Range(0, propagator.Topology.DirectionsCount).Cast<Direction>());
                 var edgedPathSpec = new EdgedPathSpec
                 {
