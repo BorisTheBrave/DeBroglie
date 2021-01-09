@@ -39,7 +39,8 @@ namespace DeBroglie.Constraints
         {
             pathView.Update();
 
-            var isArticulation = PathConstraintUtils.GetArticulationPoints(pathView.Graph, pathView.CouldBePath, pathView.MustBeRelevant);
+            var info = PathConstraintUtils.GetArticulationPoints(pathView.Graph, pathView.CouldBePath, pathView.MustBeRelevant);
+            var isArticulation = info.IsArticulation;
 
             for(var i=0;i<pathView.Graph.NodeCount;i++)
             {

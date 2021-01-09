@@ -20,11 +20,10 @@ namespace DeBroglie.Constraints
         {
             pathView.Update();
 
-            bool[] component = new bool[pathView.Graph.NodeCount];
+            var info = PathConstraintUtils.GetArticulationPoints(pathView.Graph, pathView.CouldBePath, pathView.MustBeRelevant);
+            var isArticulation = info.IsArticulation;
 
-            var isArticulation = PathConstraintUtils.GetArticulationPoints(pathView.Graph, pathView.CouldBePath, pathView.MustBeRelevant, component);
-
-            if (isArticulation == null)
+            if (info.ComponentCount > 1)
             {
                 propagator.SetContradiction();
                 return;
@@ -42,11 +41,12 @@ namespace DeBroglie.Constraints
 
             // Any path tiles / EndPointTiles not in the connected component aren't safe to add.
             // Disabled for now, unclear exactly when it is needed
-            if (false)
+            if (info.ComponentCount > 0)
             {
+                var component = info.Component;
                 for (int i = 0; i < pathView.Graph.NodeCount; i++)
                 {
-                    if (!component[i])
+                    if (component[i] == null && pathView.CouldBeRelevant[i])
                     {
                         pathView.BanRelevant(i);
                     }

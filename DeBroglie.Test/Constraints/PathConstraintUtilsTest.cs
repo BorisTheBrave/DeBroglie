@@ -31,7 +31,7 @@ namespace DeBroglie.Test.Constraints
             var walkable = new bool[6];
             for (var i = 0; i < 6; i++) walkable[i] = true;
 
-            var art = PathConstraintUtils.GetArticulationPoints(g, walkable);
+            var art = PathConstraintUtils.GetArticulationPoints(g, walkable).IsArticulation;
             Assert.AreEqual(false, art[0]);
             Assert.AreEqual(true, art[1]);
             Assert.AreEqual(false, art[2]);
@@ -62,7 +62,7 @@ namespace DeBroglie.Test.Constraints
             var relevant = new bool[4];
             relevant[2] = true;
 
-            var art = PathConstraintUtils.GetArticulationPoints(g, walkable, relevant);
+            var art = PathConstraintUtils.GetArticulationPoints(g, walkable, relevant).IsArticulation;
             Assert.AreEqual(false, art[0]);
             Assert.AreEqual(false, art[1]);
             Assert.AreEqual(false, art[2]);
@@ -91,7 +91,7 @@ namespace DeBroglie.Test.Constraints
             relevant[0] = true;
             relevant[3] = true;
 
-            var art = PathConstraintUtils.GetArticulationPoints(g, walkable, relevant);
+            var art = PathConstraintUtils.GetArticulationPoints(g, walkable, relevant).IsArticulation;
             Assert.AreEqual(false, art[0]);
             Assert.AreEqual(true, art[1]);
             Assert.AreEqual(true, art[2]);
@@ -120,7 +120,7 @@ namespace DeBroglie.Test.Constraints
             relevant[1] = true;
             relevant[3] = true;
 
-            var art = PathConstraintUtils.GetArticulationPoints(g, walkable, relevant);
+            var art = PathConstraintUtils.GetArticulationPoints(g, walkable, relevant).IsArticulation;
             Assert.AreEqual(false, art[0]);
             Assert.AreEqual(false, art[1]);
             Assert.AreEqual(true, art[2]);

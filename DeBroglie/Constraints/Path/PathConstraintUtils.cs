@@ -48,6 +48,13 @@ namespace DeBroglie.Constraints
             public int relevantChildSubtreeCount;
         }
 
+        public class AtrticulationPointsInfo
+        {
+            public bool[] IsArticulation { get; set; }
+            public int ComponentCount { get; set; }
+            public int?[] Component { get; set; }
+        }
+
         /// <summary>
         /// First, find the subgraph of graph given by just the walkable vertices.
         /// <paramref name="relevant"/> defaults to walkable if null.
@@ -55,23 +62,23 @@ namespace DeBroglie.Constraints
         /// A cut-vertex is defined as any point that, if removed, there exist two other relevant points
         /// that no longer have a path.
         /// 
-        /// If <paramref name="component"/> is defined, then the method will return null if there's multiple components, and otherwise
-        /// fill component with the extent that the single component covers.
-        /// 
         /// For an explanation, see:
         /// https://www.boristhebrave.com/2018/04/28/random-paths-via-chiseling/
         /// </summary>
-        public static bool[] GetArticulationPoints(SimpleGraph graph, bool[] walkable, bool[] relevant = null, bool[] component = null)
+        public static AtrticulationPointsInfo GetArticulationPoints(SimpleGraph graph, bool[] walkable, bool[] relevant = null)
         {
             var indices = walkable.Length;
 
             if (indices != graph.NodeCount)
                 throw new Exception($"Length of walkable doesn't match count of nodes");
 
+            // TODO: Restructe so we don't need construct these fresh every time.
             var low = new int[indices];
             var num = 1;
             var dfsNum = new int[indices];
             var isArticulation = new bool[indices];
+            var component = new int?[indices];
+            var currentComponent = 0;
 
             // This hideous function is a iterative version
             // of the much more elegant recursive version below.
@@ -95,10 +102,7 @@ namespace DeBroglie.Constraints
                         // Initialization
                         case 0:
                             {
-                                if (component != null)
-                                {
-                                    component[u] = true;
-                                }
+                                component[u] = currentComponent;
                                 low[u] = dfsNum[u] = num++;
                                 // Enter loop
                                 goto case 1;
@@ -192,10 +196,7 @@ namespace DeBroglie.Constraints
             Tuple<int, bool> cutvertex(int u)
             {
                 var relevantChildSubtreeCount = 0;
-                if (component != null) 
-                {
-                    component[u] = true;
-                }
+                component[u] = currentComponent;
                 low[u] = dfsNum[u] = num++;
 
                 foreach (var v in graph.Neighbours[u])
@@ -235,7 +236,6 @@ namespace DeBroglie.Constraints
             }
 
             // Find starting point
-            var first = true;
             for (var i = 0; i < indices; i++)
             {
                 if (!walkable[i]) continue;
@@ -245,21 +245,18 @@ namespace DeBroglie.Constraints
                 // Already visited
                 if (dfsNum[i] != 0) continue;
 
-                if (!first && component != null)
-                {
-                    // Multiple components, signal error
-                    return null;
-                }
-
                 //var relevantChildSubtreeCount = CutVertex(i);
                 var relevantChildSubtreeCount = cutvertex(i).Item1;
                 isArticulation[i] = relevantChildSubtreeCount > 1;
-                first = false;
-
-                
+                currentComponent++;
             }
 
-            return isArticulation;
+            return new AtrticulationPointsInfo
+            {
+                IsArticulation = isArticulation,
+                Component = component,
+                ComponentCount = currentComponent,
+            };
         }
 
 

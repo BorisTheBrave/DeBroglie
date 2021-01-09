@@ -202,11 +202,10 @@ namespace DeBroglie.Constraints
 
             var walkable = couldBePath;
 
-            var component = new bool[indices * nodesPerIndex];
+            var info = PathConstraintUtils.GetArticulationPoints(graph, walkable, relevant);
+            var isArticulation = info.IsArticulation;
 
-            var isArticulation = PathConstraintUtils.GetArticulationPoints(graph, walkable, relevant, component);
-
-            if (isArticulation == null)
+            if (info.ComponentCount > 1)
             {
                 propagator.SetContradiction();
                 return;
@@ -235,15 +234,19 @@ namespace DeBroglie.Constraints
             }
 
             // Any path tiles / EndPointTiles not in the connected component aren't safe to add.
-            var actualEndPointTileSet = hasEndPoints ? endPointTileSet : pathTileSet;
-            if (actualEndPointTileSet != null)
+            if (info.ComponentCount > 0)
             {
-                for (int i = 0; i < indices; i++)
+                var component = info.Component;
+                var actualEndPointTileSet = hasEndPoints ? endPointTileSet : pathTileSet;
+                if (actualEndPointTileSet != null)
                 {
-                    if (!component[i * nodesPerIndex])
+                    for (int i = 0; i < indices; i++)
                     {
-                        topology.GetCoord(i, out var x, out var y, out var z);
-                        propagator.Ban(x, y, z, actualEndPointTileSet);
+                        if (component[i * nodesPerIndex] == null)
+                        {
+                            topology.GetCoord(i, out var x, out var y, out var z);
+                            propagator.Ban(x, y, z, actualEndPointTileSet);
+                        }
                     }
                 }
             }
