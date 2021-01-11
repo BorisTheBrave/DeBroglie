@@ -6,6 +6,9 @@
   href: topologies.md
 - name: Constraints
   href: constraints.md
+  items:
+    - name: Path Constraints
+      href: path_constraints.md
 - name: Rotation
   href: rotation.md
 - name: Adjacency

@@ -36,48 +36,9 @@ For each affected location, BorderConstratin calls [Select](xref:DeBroglie.TileP
 <figcaption>Using a border constraint ensures that none of the blue leaves the edge, forcing loops.</figcaption>
 </figure>
 
+## Path Constraints
 
-## Path
-
-The <xref:DeBroglie.Constraints.PathConstraint> checks that it is possible to connect several locations together via a continuous path of adjacent tiles. It does this by banning any tile placement that would make such a path impossible.
-
-Set <xref:DeBroglie.Constraints.PathConstraint.Tiles> to the set of tiles that are considered on the path. Any two adjacent locations with tiles in this set are connected, and if x is connected to y and y is connected to z, then x and z are also connected.
-
-By default, <xref:DeBroglie.Constraints.PathConstraint> forces all path tiles to be connect to each others. However, if you set <xref:DeBroglie.Constraints.PathConstraint.EndPoints> then instead it forces that those specific points connect to each other, but doesn't stop extra path tiles being placed.
-
-> [!WARNING]
-> <xref:DeBroglie.Constraints.PathConstraint> does not have a great deal of lookahead, so adding it will significantly increase the amount of retries needed to get a successful generation. You may need to enable [backtracking](features.md#backtracking) to get a successful result.
-
-**Example**
-
-<figure>
-<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/pathway_overlapping_path.json">
-<img src="../images/pathway.png"/>
-<img src="../images/arrow.png"/>
-<img src="../images/pathway_overlapping_path.png"/>
-</a>
-<figcaption>Using a path constraint ensures you can trace a path from any blue pixel to any other one.</figcaption>
-</figure>
-
-## Edged Path
-
-The <xref:DeBroglie.Constraints.EdgedPathConstraint> is a more advanced variant of the <xref:DeBroglie.Constraints.PathConstraint>.
-The normal path constraint records which tiles can part of the path, and finds a path consisting of adjacent tiles.
-The edged path constraint is more restrictive. Not only do the tiles have to be placed adjacent, but their edges must match. This is configured by setting a set of "exits" for each tile. Other than this restriction, the constraint works identically.
-
-For example consider placing the tiles <img src="../images/grass_corner3.png"> and <img src="../images/grass_corner4.png"> together. Both tiles have a picture of a path on them, but the path exits the tiles only on certain edges. <span><img src="../images/grass_corner3.png"><img src="../images/grass_corner4.png"></span> means they are connected, but <span><img src="../images/grass_corner4.png"><img src="../images/grass_corner3.png"></span> is not. We can use Edged Path Constraint to specify this, the normal path constraint isn't specific enough.
-
-**Example**
-
-<figure>
-<img src="../images/edged_path_constraint_missing.png"/>
-<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/grass/edged_path_constraint.json">
-<img src="../images/edged_path_constraint.png"/>
-</a>
-<figcaption>Generating dirt paths before and adding EdgedPathConstraint.<br/>
-The normal PathConstraint cannot cope with path tiles so close together.</figcaption>
-</figure>
-
+Path constraints are a collection of related constraints described <a href="path_constraints.md">on a separate page</a>.
 
 ## Fixed Tile
 
