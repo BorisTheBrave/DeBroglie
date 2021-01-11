@@ -30,16 +30,23 @@ namespace DeBroglie.Test.Constraints
             Console.WriteLine("Seed {0}", seed);
 
             var model = OverlappingModel.Create(a, 3, false, 8);
+            var topology = new GridTopology(10, 10, false);
 
+            /*
+            var pathSpec = new PathSpec
+            {
+                Tiles = new HashSet<Tile> { new Tile(1) },
+            };
+            */
+            var pathSpec = new EdgedPathSpec
+            {
+                Exits = new Dictionary<Tile, ISet<Direction>> { { new Tile(1), topology.Directions.ToHashSet() } },
+            };
             var constraint = new AcyclicConstraint
             {
-                PathSpec = new PathSpec
-                {
-                    Tiles = new HashSet<Tile> { new Tile(1) },
-                }
+                PathSpec = pathSpec,
             };
 
-            var topology = new GridTopology(10, 10, false);
             var propagator = new TilePropagator(model, topology, new TilePropagatorOptions
             {
                 BackTrackDepth = -1,
@@ -80,7 +87,6 @@ namespace DeBroglie.Test.Constraints
                     Visit(x, y, -1);
                 }
             }
-
         }
     }
 }

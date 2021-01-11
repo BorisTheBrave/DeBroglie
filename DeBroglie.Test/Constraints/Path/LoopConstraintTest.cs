@@ -26,6 +26,8 @@ namespace DeBroglie.Test.Constraints
             };
 
             var seed = Environment.TickCount;
+            // TODO: This seed shows that this constraint can fail occasionally
+            //seed = -1847040250;
             var r = new Random(seed);
             Console.WriteLine("Seed {0}", seed);
 
