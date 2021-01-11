@@ -13,8 +13,6 @@ There are currently three constraints:
 > [!WARNING]
 > Note that path constraints are generally more performance heavy than other constraints, and usually require [backtracking](features.md#backtracking) to get good results.
 
-
-
 **Example**
 
 <figure>
@@ -56,6 +54,16 @@ The <xref:DeBroglie.Constraints.Connected> checks that for any given two relevan
 
 The loop constraint backtracks whenevever a chokepoint is found in the set of available paths, effectively forcing there to be at least two non-overlapping valid paths between any two relevant tiles.
 
+<figure>
+<img src="../images/loop_constraint.png"/>
+<figcaption>A loopy layout</figcaption>
+</figure>
+
 ## Acyclic Constraint
 
 The acyclic constraint backtracks whenever a cycle is found, forcing the remaining paths into a [tree](https://en.wikipedia.org/wiki/Tree_(graph_theory)) or [forest](https://en.wikipedia.org/wiki/Tree_(graph_theory)#Forest). The acyclic constraint ignores relevancy for now.
+
+<figure>
+<img src="../images/acyclic_constraint.png"/>
+<figcaption>A loopless layout</figcaption>
+</figure>
