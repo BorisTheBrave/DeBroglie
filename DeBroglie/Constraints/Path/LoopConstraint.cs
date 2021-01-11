@@ -27,8 +27,8 @@ namespace DeBroglie.Constraints
                 var edgedPathSpec = new EdgedPathSpec
                 {
                     Exits = pathSpec.Tiles.ToDictionary(x => x, _ => allDirections),
-                    EndPoints = pathSpec.EndPoints,
-                    EndPointTiles = pathSpec.EndPointTiles,
+                    RelevantCells = pathSpec.RelevantCells,
+                    RelevantTiles = pathSpec.RelevantTiles,
                     TileRotation = pathSpec.TileRotation,
                 };
                 pathView = edgedPathSpec.MakeView(propagator);

@@ -16,15 +16,15 @@ namespace DeBroglie.Constraints
 
         /// <summary>
         /// Set of points that must be connected by paths.
-        /// If EndPoints and EndPointTiles are null, then EndPointTiles defaults to Tiles
+        /// If RelevantCells and RelevantTiles are null, then RelevantTiles defaults to Tiles
         /// </summary>
-        public Point[] EndPoints { get; set; }
+        public Point[] RelevantCells { get; set; }
 
         /// <summary>
         /// Set of tiles that must be connected by paths.
-        /// If EndPoints and EndPointTiles are null, then EndPointTiles defaults to Tiles
+        /// If RelevantCells and RelevantTiles are null, then RelevantTiles defaults to Tiles
         /// </summary>
-        public ISet<Tile> EndPointTiles { get; set; }
+        public ISet<Tile> RelevantTiles { get; set; }
 
         /// <summary>
         /// If set, Tiles is augmented with extra copies as dictated by the tile rotations

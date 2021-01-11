@@ -33,6 +33,10 @@ PathSpec just has a list of tiles that form the path tiles. As long as these til
 
 EdgedPathSpec is useful for tiles that literally have a picture of a path on them. For example consider placing the tiles <img src="../images/grass_corner3.png"> and <img src="../images/grass_corner4.png"> together. Both tiles have a picture of a path on them, but the path exits the tiles only on certain edges. <span><img src="../images/grass_corner3.png"><img src="../images/grass_corner4.png"></span> means they are connected, but <span><img src="../images/grass_corner4.png"><img src="../images/grass_corner3.png"></span> is not. 
 
+Regardless of how valid paths are defined, some path conmponets consider a second set called "relevant" tiles. Typically, the relevant tiles are a subset of the path tiles, and are the only important ones for path finding. By default, all path tiles are considered relevant, so you can ignore these settings. Otherwise, you can set RelevantTiles to configure them, and RelevantCells to force the tile in a given cell to be considered relevant regardless of what is placed there.
+
+For example, suppose you have a player start tile and goal tile. You can make these the only relevant tiles, and use a ConnectedConstraint to force that there is always a route between these two tiles. But the rest of the generation would be unconstrained. Or you could use RelevantCells to mark a specific location for the start and goal without needing special tiles.
+
 ## Connected Constraint
 
 The <xref:DeBroglie.Constraints.Connected> checks that for any given two relevant cells, it is possible to connect them together via a path of adjacent path tiles. It does this by banning any tile placement that would make such a path impossible.

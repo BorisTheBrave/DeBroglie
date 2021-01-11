@@ -24,12 +24,12 @@ namespace DeBroglie.Constraints
             if (spec.TileRotation != null)
             {
                 tiles = new HashSet<Tile>(spec.TileRotation.RotateAll(spec.Tiles));
-                endPointTiles = spec.EndPointTiles == null ? null : new HashSet<Tile>(spec.TileRotation.RotateAll(spec.EndPointTiles));
+                endPointTiles = spec.RelevantTiles == null ? null : new HashSet<Tile>(spec.TileRotation.RotateAll(spec.RelevantTiles));
             }
             else
             {
                 tiles = spec.Tiles;
-                endPointTiles = spec.EndPointTiles;
+                endPointTiles = spec.RelevantTiles;
             }
 
             tileSet = propagator.CreateTileSet(tiles);
@@ -41,16 +41,16 @@ namespace DeBroglie.Constraints
             CouldBePath = new bool[propagator.Topology.IndexCount];
             MustBePath = new bool[propagator.Topology.IndexCount];
 
-            hasEndPoints = spec.EndPoints != null || spec.EndPointTiles != null;
+            hasEndPoints = spec.RelevantCells != null || spec.RelevantTiles != null;
 
             if (hasEndPoints)
             {
                 CouldBeRelevant = new bool[propagator.Topology.IndexCount];
                 MustBeRelevant = new bool[propagator.Topology.IndexCount];
-                endPointIndices = spec.EndPoints == null ? null :
-                    spec.EndPoints.Select(p => propagator.Topology.GetIndex(p.X, p.Y, p.Z)).ToList();
-                endPointTileSet = spec.EndPointTiles != null ? propagator.CreateTileSet(endPointTiles) : null;
-                endPointSelectedTracker = spec.EndPointTiles != null ? propagator.CreateSelectedTracker(endPointTileSet) : null;
+                endPointIndices = spec.RelevantCells == null ? null :
+                    spec.RelevantCells.Select(p => propagator.Topology.GetIndex(p.X, p.Y, p.Z)).ToList();
+                endPointTileSet = spec.RelevantTiles != null ? propagator.CreateTileSet(endPointTiles) : null;
+                endPointSelectedTracker = spec.RelevantTiles != null ? propagator.CreateSelectedTracker(endPointTileSet) : null;
             }
             else
             {

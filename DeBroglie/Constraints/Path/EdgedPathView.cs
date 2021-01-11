@@ -48,12 +48,12 @@ namespace DeBroglie.Constraints
                         }
                     }
                 }
-                endPointTiles = spec.EndPointTiles == null ? null : new HashSet<Tile>(spec.TileRotation.RotateAll(spec.EndPointTiles));
+                endPointTiles = spec.RelevantTiles == null ? null : new HashSet<Tile>(spec.TileRotation.RotateAll(spec.RelevantTiles));
             }
             else
             {
                 exits = spec.Exits;
-                endPointTiles = spec.EndPointTiles;
+                endPointTiles = spec.RelevantTiles;
             }
 
             pathTileSet = propagator.CreateTileSet(exits.Keys);
@@ -77,14 +77,14 @@ namespace DeBroglie.Constraints
             trackerByExit = tilesByExit
                 .ToDictionary(kv => kv.Key, kv => propagator.CreateSelectedTracker(kv.Value));
 
-            hasEndPoints = spec.EndPoints != null || spec.EndPointTiles != null;
+            hasEndPoints = spec.RelevantCells != null || spec.RelevantTiles != null;
 
             if(hasEndPoints)
             {
                 CouldBeRelevant = new bool[propagator.Topology.IndexCount * nodesPerIndex];
                 MustBeRelevant = new bool[propagator.Topology.IndexCount * nodesPerIndex];
-                endPointIndices = spec.EndPoints == null ? null :
-                    spec.EndPoints.Select(p => propagator.Topology.GetIndex(p.X, p.Y, p.Z)).ToList();
+                endPointIndices = spec.RelevantCells == null ? null :
+                    spec.RelevantCells.Select(p => propagator.Topology.GetIndex(p.X, p.Y, p.Z)).ToList();
                 endPointTileSet = endPointTiles != null ? propagator.CreateTileSet(endPointTiles) : null;
                 endPointSelectedTracker = endPointTiles != null ? propagator.CreateSelectedTracker(endPointTileSet) : null;
             }

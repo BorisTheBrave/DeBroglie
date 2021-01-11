@@ -36,7 +36,7 @@ namespace DeBroglie.Test.Constraints
                 PathSpec = new PathSpec
                 {
                     Tiles = new HashSet<Tile> { new Tile(1) },
-                    EndPoints = new[] { new Point(0, 0), new Point(9, 9) },
+                    RelevantCells = new[] { new Point(0, 0), new Point(9, 9) },
                 }
             };
 
@@ -114,7 +114,7 @@ namespace DeBroglie.Test.Constraints
                 PathSpec = new EdgedPathSpec
                 {
                     Exits = exits,
-                    EndPoints = new[] { new Point(0, 0), new Point(9, 9) },
+                    RelevantCells = new[] { new Point(0, 0), new Point(9, 9) },
                 }
             };
 
