@@ -468,4 +468,59 @@ namespace DeBroglie.Console.Config
         /// </summary>
         public int MinDistance { get; set; }
     }
+
+    public class ConnectedConfig : ConstraintConfig
+    {
+        public const string TypeString = "connected";
+
+        public override string Type => TypeString;
+
+        public AbstractPathSpecConfig PathSpec { get; set; }
+    }
+
+    public class LoopConfig : ConstraintConfig
+    {
+        public const string TypeString = "loop";
+
+        public override string Type => TypeString;
+
+        public AbstractPathSpecConfig PathSpec { get; set; }
+    }
+
+    public class AcyclicConfig : ConstraintConfig
+    {
+        public const string TypeString = "acyclic";
+
+        public override string Type => TypeString;
+
+        public AbstractPathSpecConfig PathSpec { get; set; }
+    }
+
+    public abstract class AbstractPathSpecConfig
+    {
+        public virtual string Type { get; }
+
+        public string[] RelevantTiles { get; set; }
+
+        public Point[] RelevantCells { get; set; }
+
+    }
+
+    public class PathSpecConfig : AbstractPathSpecConfig
+    {
+        public const string TypeString = "path";
+
+        public string[] Tiles { get; set; }
+
+        public override string Type => TypeString;
+    }
+
+    public class EdgedPathSpecConfig : AbstractPathSpecConfig
+    {
+        public const string TypeString = "edgedPath";
+
+        public override string Type => TypeString;
+
+        public Dictionary<string, string[]> Exits { get; set; }
+    }
 }

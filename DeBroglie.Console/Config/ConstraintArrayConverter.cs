@@ -59,6 +59,15 @@ namespace DeBroglie.Console.Config
                     case SeparationConfig.TypeString:
                         constraintConfig = new SeparationConfig();
                         break;
+                    case ConnectedConfig.TypeString:
+                        constraintConfig = new ConnectedConfig();
+                        break;
+                    case LoopConfig.TypeString:
+                        constraintConfig = new LoopConfig();
+                        break;
+                    case AcyclicConfig.TypeString:
+                        constraintConfig = new AcyclicConfig();
+                        break;
                     default:
                         throw new ConfigurationException($"Unrecognized constraint type {type}");
                 }

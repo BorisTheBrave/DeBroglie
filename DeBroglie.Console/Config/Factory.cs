@@ -260,6 +260,33 @@ namespace DeBroglie.Console.Config
             return tileModel;
         }
 
+        public IPathSpec GetPathSpec(AbstractPathSpecConfig abstractPathSpecConfig)
+        {
+            if(abstractPathSpecConfig is PathSpecConfig pathSpecConfig)
+            {
+                return new PathSpec
+                {
+                    Tiles = pathSpecConfig.Tiles.Select(Parse).ToHashSet(),
+                    RelevantTiles = pathSpecConfig.RelevantTiles == null ? null : pathSpecConfig.RelevantTiles.Select(Parse).ToHashSet(),
+                    RelevantCells = pathSpecConfig.RelevantCells,
+                };
+            }
+            else if(abstractPathSpecConfig is EdgedPathSpecConfig edgedPathSpecConfig)
+            {
+                return new EdgedPathSpec
+                {
+                    Exits = edgedPathSpecConfig.Exits.ToDictionary(
+                            kv => Parse(kv.Key), x => (ISet<Direction>)new HashSet<Direction>(x.Value.Select(ParseDirection))),
+                    RelevantTiles = edgedPathSpecConfig.RelevantTiles == null ? null : edgedPathSpecConfig.RelevantTiles.Select(Parse).ToHashSet(),
+                    RelevantCells = edgedPathSpecConfig.RelevantCells,
+                };
+            }
+            else
+            {
+                throw new Exception($"Unrecognized PathSpec type {abstractPathSpecConfig.GetType()}");
+            }
+        }
+
         public List<ITileConstraint> GetConstraints(DirectionSet directions, TileRotation tileRotation)
         {
             var is3d = directions.Type == DirectionSetType.Cartesian3d;
@@ -368,6 +395,27 @@ namespace DeBroglie.Console.Config
                         {
                             Tiles = new HashSet<Tile>(separationConfig.Tiles.Select(Parse)),
                             MinDistance = separationConfig.MinDistance,
+                        });
+                    }
+                    else if (constraint is ConnectedConfig connectedConfig)
+                    {
+                        constraints.Add(new ConnectedConstraint
+                        {
+                            PathSpec = GetPathSpec(connectedConfig.PathSpec),
+                        });
+                    }
+                    else if (constraint is LoopConfig loopConfig)
+                    {
+                        constraints.Add(new LoopConstraint
+                        {
+                            PathSpec = GetPathSpec(loopConfig.PathSpec),
+                        });
+                    }
+                    else if (constraint is AcyclicConfig acyclicConfig)
+                    {
+                        constraints.Add(new AcyclicConstraint
+                        {
+                            PathSpec = GetPathSpec(acyclicConfig.PathSpec),
                         });
                     }
                     else
