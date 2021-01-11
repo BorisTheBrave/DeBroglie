@@ -3,9 +3,11 @@ uid: release_notes
 title: Release Notes
 ---
 # Unreleased
+ * [Added more path based constraints](path_constraints.md).
+ * Support multiple [ModelConstraintAlgorithms](xref:DeBroglie.Wfc.ModelConstraintAlgorithm)
+ * Configurable IPickHeurstic
  * Improved behaviour/performance of backtracking
  * SeparationConstraint fixes
- * Configurable IPickHeurstic
  * Fix to Symmetry constraint
  * Fixed [#12](https://github.com/BorisTheBrave/DeBroglie/issues/12)
  * PathConstraint/EdgedPathConstraint more consistent over use of TileRotation ([#14](https://github.com/BorisTheBrave/DeBroglie/issues/14))
