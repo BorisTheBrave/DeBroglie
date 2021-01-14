@@ -228,7 +228,9 @@ namespace DeBroglie.Benchmark
                 {fork4, new []{ Direction.XMinus, Direction.YMinus, Direction.XPlus}.ToHashSet() },
             };
 
+#pragma warning disable CS0618 // Type or member is obsolete
             var pathConstraint = new EdgedPathConstraint(exits);
+#pragma warning restore CS0618 // Type or member is obsolete
 
             propagatorEdgedPath = new TilePropagator(model, topology, new TilePropagatorOptions
             {
@@ -361,7 +363,9 @@ namespace DeBroglie.Benchmark
             model.AddAdjacency(tiles, tiles, Direction.YPlus);
 
             model.SetUniformFrequency();
+#pragma warning disable CS0618 // Type or member is obsolete
             var pathConstraint = new PathConstraint(tiles.Skip(1).ToHashSet());
+#pragma warning restore CS0618 // Type or member is obsolete
 
             propagatorPath = new TilePropagator(model, topology, new TilePropagatorOptions
             {

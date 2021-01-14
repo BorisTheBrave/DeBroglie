@@ -43,7 +43,9 @@ namespace DeBroglie.Test.Constraints
             {
                 BackTrackDepth = -1,
                 Constraints = new[] {
+#pragma warning disable CS0618 // Type or member is obsolete
                     new EdgedPathConstraint(exits, new []{new Point(0,0), new Point(9, 9) })
+#pragma warning restore CS0618 // Type or member is obsolete
                 },
                 RandomDouble = r.NextDouble
             });
@@ -139,7 +141,9 @@ namespace DeBroglie.Test.Constraints
                 {fork4, new []{ Direction.XMinus, Direction.YMinus, Direction.XPlus}.ToHashSet() },
             };
 
+#pragma warning disable CS0618 // Type or member is obsolete
             var pathConstraint = new EdgedPathConstraint(exits)
+#pragma warning restore CS0618 // Type or member is obsolete
             {
                 UsePickHeuristic = true
             };
@@ -167,7 +171,9 @@ namespace DeBroglie.Test.Constraints
             var up = Direction.YPlus;
             var down = Direction.YMinus;
 
+#pragma warning disable CS0618 // Type or member is obsolete
             var edgedPathConstraint = new EdgedPathConstraint(
+#pragma warning restore CS0618 // Type or member is obsolete
                 new Dictionary<Tile, ISet<Direction>>()
                 {
                    { new Tile(1), new[]{ up, down }.ToHashSet() },
@@ -194,7 +200,9 @@ namespace DeBroglie.Test.Constraints
             var left = Direction.XMinus;
             var right = Direction.XPlus;
 
+#pragma warning disable CS0618 // Type or member is obsolete
             var edgedPathConstraint = new EdgedPathConstraint(
+#pragma warning restore CS0618 // Type or member is obsolete
                 new Dictionary<Tile, ISet<Direction>>()
                 {
                    { new Tile(1), new[]{ left, right }.ToHashSet() },

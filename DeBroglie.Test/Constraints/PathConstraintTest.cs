@@ -33,7 +33,9 @@ namespace DeBroglie.Test.Constraints
             {
                 BackTrackDepth = -1,
                 Constraints = new[] {
+#pragma warning disable CS0618 // Type or member is obsolete
                     new PathConstraint(new HashSet<Tile>{new Tile(1)}, new []{new Point(0,0), new Point(9, 9) })
+#pragma warning restore CS0618 // Type or member is obsolete
                 },
                 RandomDouble = r.NextDouble
             });
