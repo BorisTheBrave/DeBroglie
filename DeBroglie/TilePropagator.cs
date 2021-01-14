@@ -172,6 +172,17 @@ namespace DeBroglie
                         heuristic);
                 }
 
+                var connectedConstraint = options.Constraints?.OfType<ConnectedConstraint>().FirstOrDefault();
+                if (connectedConstraint != null && connectedConstraint.UsePickHeuristic)
+                {
+                    heuristic = connectedConstraint.GetHeuristic(
+                        randomPicker,
+                        randomDouble,
+                        this,
+                        tileModelMapping,
+                        heuristic);
+                }
+
                 return heuristic;
             }
 

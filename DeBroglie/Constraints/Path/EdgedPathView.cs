@@ -91,6 +91,10 @@ namespace DeBroglie.Constraints
             }
         }
 
+        public SelectedTracker PathSelectedTracker => pathSelectedTracker;
+
+        public Dictionary<Direction, SelectedTracker> TrackerByExit => trackerByExit;
+
 
         public PathConstraintUtils.SimpleGraph Graph { get; }
 
