@@ -24,10 +24,6 @@ namespace DeBroglie.Constraints
 
         private List<int> endPointIndices;
 
-        private bool[] exitMustBePath { get; }
-
-
-
         public EdgedPathView(EdgedPathSpec spec, TilePropagator propagator)
         {
             if (spec.TileRotation != null)
@@ -67,7 +63,6 @@ namespace DeBroglie.Constraints
 
             CouldBePath = new bool[propagator.Topology.IndexCount * nodesPerIndex];
             MustBePath = new bool[propagator.Topology.IndexCount * nodesPerIndex];
-            exitMustBePath = new bool[propagator.Topology.IndexCount * nodesPerIndex];
 
             tilesByExit = exits
                 .SelectMany(kv => kv.Value.Select(e => Tuple.Create(kv.Key, e)))
@@ -118,9 +113,7 @@ namespace DeBroglie.Constraints
                 {
                     var ts = tracker.GetQuadstate(i);
                     CouldBePath[i * nodesPerIndex + 1 + (int)exit] = ts.Possible();
-                    // Why not store MustBePath? Somehow, this is significantly, faster. Also the following cryptic comment:
-                    // "Cannot put this in MustBePath these points can be disconnected, depending on topology mask"
-                    exitMustBePath[i * nodesPerIndex + 1 + (int)exit] = ts.IsYes();
+                    MustBePath[i * nodesPerIndex + 1 + (int)exit] = ts.IsYes();
                 }
             }
             for (int i = 0; i < indexCount; i++)
@@ -160,7 +153,7 @@ namespace DeBroglie.Constraints
             }
             else
             {
-                if (exitMustBePath[node])
+                if (MustBePath[node])
                     return;
                 if (tilesByExit.TryGetValue((Direction)dir, out var exitTiles))
                 {
@@ -242,10 +235,10 @@ namespace DeBroglie.Constraints
                 for (var d = 0; d < topology.DirectionsCount; d++)
                 {
                     var direction = (Direction)d;
+                    // The central node connects to the direction node
+                    n.Add(GetDirNodeId(i, direction));
                     if (topology.TryMove(i, direction, out var dest, out var inverseDir, out var _))
                     {
-                        // The central node connects to the direction node
-                        n.Add(GetDirNodeId(i, direction));
                         // The diction node connects to the central node
                         // and the opposing direction node
                         neighbours[GetDirNodeId(i, direction)] =
@@ -253,7 +246,9 @@ namespace DeBroglie.Constraints
                     }
                     else
                     {
-                        neighbours[GetDirNodeId(i, direction)] = Empty;
+                        // Dead end
+                        neighbours[GetDirNodeId(i, direction)] =
+                            new[] { GetNodeId(i)};
                     }
                 }
                 neighbours[GetNodeId(i)] = n.ToArray();
