@@ -32,9 +32,9 @@ namespace DeBroglie.Constraints
 
         public void Init(TilePropagator propagator)
         {
-            var oddPathTiles = PathSpec.Exits.Where(x => x.Value.Count() % 2 == 1).Select(x=>x.Key);
+            var oddPathTiles = PathSpec.Exits.Where(x => x.Value.Count() % 2 == 1).Select(x=>x.Key).ToList();
             oddPathTilesSet = propagator.CreateTileSet(oddPathTiles);
-            oddPathTracker = propagator.CreateSelectedTracker(oddPathTilesSet);
+            oddPathTracker = oddPathTiles.Count > 0 ? propagator.CreateSelectedTracker(oddPathTilesSet) : null;
             pathView = (EdgedPathView)PathSpec.MakeView(propagator);
             this.propagator = propagator;
             this.topology = propagator.Topology;
@@ -67,10 +67,12 @@ namespace DeBroglie.Constraints
             {
                 var i = stack.Pop();
 
+                if (visited[i]) continue;
+
                 visited[i] = true;
                 visitedList.Add(i);
 
-                var isOdd = oddPathTracker.GetQuadstate(i);
+                var isOdd = oddPathTracker?.GetQuadstate(i) ?? Quadstate.No;
 
                 // Does this tile have undefined parity in number of exits
                 if (isOdd.IsMaybe())
@@ -90,11 +92,10 @@ namespace DeBroglie.Constraints
                     parityCount++;
                 }
 
-
                 for (var d = 0; d < topology.DirectionsCount; d++)
                 {
                     var direction = (Direction)d;
-                    var qs = pathView.TrackerByExit[direction].GetQuadstate(i);
+                    var qs = pathView.TrackerByExit.TryGetValue(direction, out var tracker) ? tracker.GetQuadstate(i) : Quadstate.No;
                     if (qs.IsYes()) parityCount++;
                     if (qs.IsMaybe())
                     {
