@@ -15,7 +15,7 @@ namespace DeBroglie.Constraints
         private TilePropagatorTileSet endPointTileSet;
         private SelectedTracker endPointSelectedTracker;
 
-        private Dictionary<Direction, TilePropagatorTileSet> tilesByExit;
+        private Dictionary<Direction, TilePropagatorTileSet> tileSetByExit;
         private Dictionary<Direction, SelectedTracker> trackerByExit;
         private bool hasEndPoints;
 
@@ -64,12 +64,12 @@ namespace DeBroglie.Constraints
             CouldBePath = new bool[propagator.Topology.IndexCount * nodesPerIndex];
             MustBePath = new bool[propagator.Topology.IndexCount * nodesPerIndex];
 
-            tilesByExit = exits
+            tileSetByExit = exits
                 .SelectMany(kv => kv.Value.Select(e => Tuple.Create(kv.Key, e)))
                 .GroupBy(x => x.Item2, x => x.Item1)
                 .ToDictionary(g => g.Key, propagator.CreateTileSet);
 
-            trackerByExit = tilesByExit
+            trackerByExit = tileSetByExit
                 .ToDictionary(kv => kv.Key, kv => propagator.CreateSelectedTracker(kv.Value));
 
             hasEndPoints = spec.RelevantCells != null || spec.RelevantTiles != null;
@@ -94,6 +94,8 @@ namespace DeBroglie.Constraints
         public SelectedTracker PathSelectedTracker => pathSelectedTracker;
 
         public Dictionary<Direction, SelectedTracker> TrackerByExit => trackerByExit;
+
+        public Dictionary<Direction, TilePropagatorTileSet> TileSetByExit => tileSetByExit;
 
 
         public PathConstraintUtils.SimpleGraph Graph { get; }
@@ -159,7 +161,7 @@ namespace DeBroglie.Constraints
             {
                 if (MustBePath[node])
                     return;
-                if (tilesByExit.TryGetValue((Direction)dir, out var exitTiles))
+                if (tileSetByExit.TryGetValue((Direction)dir, out var exitTiles))
                 {
                     propagator.Select(x, y, z, exitTiles);
                 }
@@ -176,7 +178,7 @@ namespace DeBroglie.Constraints
             }
             else
             {
-                if (tilesByExit.TryGetValue((Direction)dir, out var exitTiles))
+                if (tileSetByExit.TryGetValue((Direction)dir, out var exitTiles))
                 {
                     propagator.Ban(x, y, z, exitTiles);
                 }
