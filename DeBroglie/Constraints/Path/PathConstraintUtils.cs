@@ -195,6 +195,7 @@ namespace DeBroglie.Constraints
 
             Tuple<int, bool> cutvertex(int u)
             {
+                
                 var relevantChildSubtreeCount = 0;
                 component[u] = currentComponent;
                 low[u] = dfsNum[u] = num++;
@@ -245,8 +246,8 @@ namespace DeBroglie.Constraints
                 // Already visited
                 if (dfsNum[i] != 0) continue;
 
-                //var relevantChildSubtreeCount = CutVertex(i);
-                var relevantChildSubtreeCount = cutvertex(i).Item1;
+                var relevantChildSubtreeCount = CutVertex(i);
+                //var relevantChildSubtreeCount = cutvertex(i).Item1;
                 isArticulation[i] = relevantChildSubtreeCount > 1;
                 currentComponent++;
             }
