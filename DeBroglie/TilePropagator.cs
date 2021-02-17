@@ -404,6 +404,12 @@ namespace DeBroglie
             return wavePropagator.Step();
         }
 
+
+        public void StepConstraints()
+        {
+            wavePropagator.StepConstraints();
+        }
+
         /// <summary>
         /// Repeatedly Steps until the status is Decided or Contradiction.
         /// </summary>

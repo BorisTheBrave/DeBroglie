@@ -265,7 +265,7 @@ namespace DeBroglie.Wfc
             return;
         }
 
-        private void StepConstraints()
+        public void StepConstraints()
         {
             // TODO: Do we need to worry about evaluating constraints multiple times?
             foreach (var constraint in constraints)
@@ -374,7 +374,7 @@ namespace DeBroglie.Wfc
             Observe(out index, out var pattern);
 
             // Record what was selected for backtracking purposes
-            if(backtrack)
+            if (backtrack)
             {
                 if (index != -1)
                 {
