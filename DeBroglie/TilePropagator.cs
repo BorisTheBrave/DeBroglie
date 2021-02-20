@@ -131,67 +131,18 @@ namespace DeBroglie
                 (options.Constraints?.Select(x => new TileConstraintAdaptor(x, this)).ToArray() ?? Enumerable.Empty<IWaveConstraint>())
                 .ToArray();
 
-            var waveFrequencySets = options.Weights == null ? null : GetFrequencySets(options.Weights, tileModelMapping);
 
 #pragma warning disable CS0618 // Type or member is obsolete
             var randomDouble = options.RandomDouble ?? (options.Random ?? new Random()).NextDouble;
 #pragma warning restore CS0618 // Type or member is obsolete
 
-            IPickHeuristic MakePickHeuristic(WavePropagator wavePropagator)
-            {
-
-                IRandomPicker randomPicker;
-                if (options.PickHeuristicType == PickHeuristicType.Ordered)
-                {
-                    randomPicker = new OrderedRandomPicker(wavePropagator.Wave, wavePropagator.Frequencies, patternTopology.Mask); 
-                }
-                else if (waveFrequencySets != null)
-                {
-                    var entropyTracker = new ArrayPriorityEntropyTracker(wavePropagator.Wave, waveFrequencySets, patternTopology.Mask);
-                    entropyTracker.Reset();
-                    wavePropagator.AddTracker(entropyTracker);
-                    randomPicker = entropyTracker;
-                }
-                else
-                {
-                    var entropyTracker = new HeapEntropyTracker(wavePropagator.Wave, wavePropagator.Frequencies, patternTopology.Mask, randomDouble);
-                    entropyTracker.Reset();
-                    wavePropagator.AddTracker(entropyTracker);
-                    randomPicker = entropyTracker;
-                }
-                IPickHeuristic heuristic = new RandomPickerHeuristic(randomPicker, randomDouble);
-
-                var pathConstraint = options.Constraints?.OfType<EdgedPathConstraint>().FirstOrDefault();
-                if(pathConstraint != null && pathConstraint.UsePickHeuristic)
-                {
-                    heuristic = pathConstraint.GetHeuristic(
-                        randomPicker,
-                        randomDouble,
-                        this,
-                        tileModelMapping,
-                        heuristic);
-                }
-
-                var connectedConstraint = options.Constraints?.OfType<ConnectedConstraint>().FirstOrDefault();
-                if (connectedConstraint != null && connectedConstraint.UsePickHeuristic)
-                {
-                    heuristic = connectedConstraint.GetHeuristic(
-                        randomPicker,
-                        randomDouble,
-                        this,
-                        tileModelMapping,
-                        heuristic);
-                }
-
-                return heuristic;
-            }
 
             var wavePropagatorOptions = new WavePropagatorOptions
             {
                 BackTrackDepth = options.BackTrackDepth,
                 RandomDouble = randomDouble,
                 Constraints = waveConstraints,
-                PickHeuristicFactory = MakePickHeuristic,
+                PickHeuristicFactory = w => MakePickHeuristic(w, options),
                 Clear = false,
                 ModelConstraintAlgorithm = options.ModelConstraintAlgorithm,
             };
@@ -202,6 +153,69 @@ namespace DeBroglie
                 wavePropagatorOptions);
             wavePropagator.Clear();
 
+        }
+
+        private IPickHeuristic MakePickHeuristic(WavePropagator wavePropagator, TilePropagatorOptions options)
+        {
+            var waveFrequencySets = options.Weights == null ? null : GetFrequencySets(options.Weights, tileModelMapping);
+            var randomDouble = wavePropagator.RandomDouble;
+            var patternTopology = wavePropagator.Topology;
+            var pathConstraint = options.Constraints?.OfType<EdgedPathConstraint>().FirstOrDefault();
+            var pathPickHeuristic = pathConstraint != null && pathConstraint.UsePickHeuristic;
+            var connectedConstraint = options.Constraints?.OfType<ConnectedConstraint>().FirstOrDefault();
+            var connectedPickHeuristic = connectedConstraint != null && connectedConstraint.UsePickHeuristic;
+
+            // Use the appropriate random picker
+            // Generally this is HeapEntropyTracker, but it doesn't support some features
+            // so there's a few slower implementations for that
+            IRandomPicker randomPicker;
+            if (options.PickHeuristicType == PickHeuristicType.Ordered)
+            {
+                randomPicker = new OrderedRandomPicker(wavePropagator.Wave, wavePropagator.Frequencies, patternTopology.Mask);
+            }
+            else if (waveFrequencySets != null)
+            {
+                var entropyTracker = new ArrayPriorityEntropyTracker(wavePropagator.Wave, waveFrequencySets, patternTopology.Mask);
+                entropyTracker.Reset();
+                wavePropagator.AddTracker(entropyTracker);
+                randomPicker = entropyTracker;
+            }
+            else if(pathPickHeuristic || connectedPickHeuristic)
+            {
+                var entropyTracker = new EntropyTracker(wavePropagator.Wave, wavePropagator.Frequencies, patternTopology.Mask);
+                entropyTracker.Reset();
+                wavePropagator.AddTracker(entropyTracker);
+                randomPicker = entropyTracker;
+            } else {
+                var entropyTracker = new HeapEntropyTracker(wavePropagator.Wave, wavePropagator.Frequencies, patternTopology.Mask, randomDouble);
+                entropyTracker.Reset();
+                wavePropagator.AddTracker(entropyTracker);
+                randomPicker = entropyTracker;
+            }
+
+            IPickHeuristic heuristic = new RandomPickerHeuristic(randomPicker, randomDouble);
+
+            if (pathPickHeuristic)
+            {
+                heuristic = pathConstraint.GetHeuristic(
+                    randomPicker,
+                    randomDouble,
+                    this,
+                    tileModelMapping,
+                    heuristic);
+            }
+
+            if (connectedPickHeuristic)
+            {
+                heuristic = connectedConstraint.GetHeuristic(
+                    randomPicker,
+                    randomDouble,
+                    this,
+                    tileModelMapping,
+                    heuristic);
+            }
+
+            return heuristic;
         }
 
         private void TileCoordToPatternCoord(int x, int y, int z, out int px, out int py, out int pz, out int offset)
