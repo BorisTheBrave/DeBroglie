@@ -428,6 +428,7 @@ namespace DeBroglie.Trackers
         private readonly double[] plogp;
 
         private readonly bool[] mask;
+        private readonly Func<double> randomDouble;
         private readonly int indexCount;
 
         private readonly Wave wave;
@@ -438,11 +439,13 @@ namespace DeBroglie.Trackers
         public Fast2EntropyTracker(
             Wave wave,
             double[] frequencies,
-            bool[] mask)
+            bool[] mask,
+            Func<double> randomDouble)
         {
             this.frequencies = frequencies;
             this.patternCount = frequencies.Length;
             this.mask = mask;
+            this.randomDouble = randomDouble;
             this.wave = wave;
             this.indexCount = wave.Indicies;
 
@@ -495,6 +498,7 @@ namespace DeBroglie.Trackers
                 {
                     var ev = entropyValues[index] = new EntropyValues(initial);
                     ev.Index = index;
+                    ev.Tiebreaker = randomDouble() * 1e-10;
                     heap.Insert(ev);
                 }
             }
@@ -517,24 +521,29 @@ namespace DeBroglie.Trackers
             {
                 // A lot of indices have changed
                 // It's faster to rebuild the entire heap than sync it one at a time
+                foreach (var index in tracker.GetChangedIndices())
+                {
+                    var ev = entropyValues[index];
+                    ev.RecomputeEntropy();
+                }
+
                 var items = Enumerable.Range(0, indexCount)
-                    .Where(index => mask == null || mask[index])
-                    .Where(index => {
-                        var c = wave.GetPatternCount(index);
-                        if(c <= 1)
-                        {
-                            entropyValues[index].HeapIndex = -1;
-                            return false;
-                        }
-                        else
-                        {
-                            return true;
-                        }
-                        })
-                    .Select(index => entropyValues[index]);
+                .Where(index => mask == null || mask[index])
+                .Where(index => {
+                    var c = wave.GetPatternCount(index);
+                    if(c <= 1)
+                    {
+                        entropyValues[index].HeapIndex = -1;
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                    })
+                .Select(index => entropyValues[index]);
 
                 heap = new Heap<EntropyValues, double>(items);
-                tracker.GetChangedIndices();
             }
             else
             {
@@ -542,6 +551,7 @@ namespace DeBroglie.Trackers
                 foreach (var index in tracker.GetChangedIndices())
                 {
                     var ev = entropyValues[index];
+                    ev.RecomputeEntropy();
 
                     var c = wave.GetPatternCount(index);
                     if (ev.HeapIndex == -1)
@@ -614,7 +624,9 @@ namespace DeBroglie.Trackers
 
             public int HeapIndex { get; set; }
 
-            public double Priority => Entropy + Index * 1e-17;
+            public double Tiebreaker;
+
+            public double Priority => Entropy + Tiebreaker;
             //public double Priority => Entropy;
 
             public EntropyValues()
@@ -638,14 +650,12 @@ namespace DeBroglie.Trackers
             {
                 PlogpSum -= plogp;
                 Sum -= p;
-                RecomputeEntropy();
             }
 
             public void Increment(double p, double plogp)
             {
                 PlogpSum += plogp;
                 Sum += p;
-                RecomputeEntropy();
             }
         }
     }
