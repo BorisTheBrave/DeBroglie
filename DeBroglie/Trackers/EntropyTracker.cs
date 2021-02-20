@@ -1,5 +1,6 @@
 ﻿using DeBroglie.Wfc;
 using System;
+using System.Linq;
 using System.Text;
 
 namespace DeBroglie.Trackers
@@ -490,9 +491,12 @@ namespace DeBroglie.Trackers
             heap.Clear();
             for (int index = 0; index < indexCount; index++)
             {
-                var ev = entropyValues[index] = new EntropyValues(initial);
-                ev.Index = index;
-                heap.Insert(ev);
+                if (mask == null || mask[index])
+                {
+                    var ev = entropyValues[index] = new EntropyValues(initial);
+                    ev.Index = index;
+                    heap.Insert(ev);
+                }
             }
             ((ITracker)tracker).Reset();
         }
@@ -509,32 +513,53 @@ namespace DeBroglie.Trackers
         // Returns -1 if every cell is decided.
         public int GetRandomIndex(Func<double> randomDouble, int[] externalPriority = null)
         {
-            /*
-            if(tracker.ChangedCount > 20)
+            if (tracker.ChangedCount > wave.Indicies * 0.5 && tracker.ChangedCount > 1)
             {
-                randomDouble = randomDouble;
+                // A lot of indices have changed
+                // It's faster to rebuild the entire heap than sync it one at a time
+                var items = Enumerable.Range(0, indexCount)
+                    .Where(index => mask == null || mask[index])
+                    .Where(index => {
+                        var c = wave.GetPatternCount(index);
+                        if(c <= 1)
+                        {
+                            entropyValues[index].HeapIndex = -1;
+                            return false;
+                        }
+                        else
+                        {
+                            return true;
+                        }
+                        })
+                    .Select(index => entropyValues[index]);
+
+                heap = new Heap<EntropyValues, double>(items);
+                tracker.GetChangedIndices();
             }
-            */
-
-            // Sync heap with new values of entropy
-            foreach (var index in tracker.GetChangedIndices())
+            else
             {
-                var ev = entropyValues[index];
+                // Sync heap with new values of entropy
+                foreach (var index in tracker.GetChangedIndices())
+                {
+                    var ev = entropyValues[index];
 
-                if (ev.HeapIndex == -1)
-                {
-                    if (ev.Entropy >= Threshold)
+                    var c = wave.GetPatternCount(index);
+                    if (ev.HeapIndex == -1)
                     {
-                        heap.Insert(ev);
+                        if (c > 1)
+                        {
+                            heap.Insert(ev);
+                        }
                     }
-                }
-                else if (ev.Entropy < Threshold)
-                {
-                    heap.Delete(ev);
-                }
-                else
-                {
-                    heap.ChangedKey(ev);
+                    else if (c <= 1)
+                    {
+                        heap.Delete(ev);
+                        ev.HeapIndex = -1;
+                    }
+                    else
+                    {
+                        heap.ChangedKey(ev);
+                    }
                 }
             }
 

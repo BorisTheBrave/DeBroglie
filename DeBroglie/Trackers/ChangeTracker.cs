@@ -53,6 +53,11 @@ namespace DeBroglie.Trackers
             changedIndices.Clear();
             generation++;
 
+            if(generation == int.MaxValue)
+            {
+                throw new Exception($"Change Tracker doesn't support more than {int.MaxValue} executions");
+            }
+
             if (tileModelMapping.PatternCoordToTileCoordIndexAndOffset == null)
             {
                 return currentChangedIndices;

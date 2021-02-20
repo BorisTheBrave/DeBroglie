@@ -39,20 +39,22 @@ namespace DeBroglie
             data = new T[items.Length];
             size = data.Length;
             Array.Copy(items, data, data.Length);
-            for (var i = Parent(data.Length); i >= 0; i++)
+            for (var i = 0; i<size;i++)
             {
-                Heapify(i);
+                data[i].HeapIndex = i;
             }
+            Heapify();
         }
 
         public Heap(IEnumerable<T> items)
         {
             data = items.ToArray();
             size = data.Length;
-            for (var i = Parent(data.Length); i >= 0; i++)
+            for (var i = 0; i < size; i++)
             {
-                Heapify(i);
+                data[i].HeapIndex = i;
             }
+            Heapify();
         }
 
         public int Count => size;
@@ -85,6 +87,14 @@ namespace DeBroglie
                 var r = Right(i);
                 if (r < size)
                     stack.Push(r);
+            }
+        }
+
+        public void Heapify()
+        {
+            for (var i = Parent(size); i >= 0; i--)
+            {
+                Heapify(i);
             }
         }
 
