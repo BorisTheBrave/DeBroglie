@@ -16,6 +16,7 @@ namespace DeBroglie.Trackers
     public class ChangeTracker : ITracker
     {
         private readonly TileModelMapping tileModelMapping;
+        private readonly int indexCount;
 
         // Using pattern topology
         private List<int> changedIndices;
@@ -28,9 +29,17 @@ namespace DeBroglie.Trackers
         private int[] lastChangedGeneration;
 
         internal ChangeTracker(TileModelMapping tileModelMapping)
+            :this(tileModelMapping, tileModelMapping.PatternTopology.IndexCount)
+        {
+        }
+
+        internal ChangeTracker(TileModelMapping tileModelMapping, int indexCount)
         {
             this.tileModelMapping = tileModelMapping;
+            this.indexCount = indexCount;
         }
+
+        public int ChangedCount => changedIndices.Count;
 
         /// <summary>
         /// Returns the set of indices that have been changed since the last call.
@@ -69,7 +78,7 @@ namespace DeBroglie.Trackers
         {
             changedIndices = new List<int>();
             changedIndices2 = new List<int>();
-            lastChangedGeneration = new int[tileModelMapping.PatternTopology.IndexCount];
+            lastChangedGeneration = new int[indexCount];
             generation = 1;
         }
 

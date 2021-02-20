@@ -154,7 +154,7 @@ namespace DeBroglie
                 }
                 else
                 {
-                    var entropyTracker = new EntropyTracker(wavePropagator.Wave, wavePropagator.Frequencies, patternTopology.Mask);
+                    var entropyTracker = new Fast2EntropyTracker(wavePropagator.Wave, wavePropagator.Frequencies, patternTopology.Mask);
                     entropyTracker.Reset();
                     wavePropagator.AddTracker(entropyTracker);
                     randomPicker = entropyTracker;
