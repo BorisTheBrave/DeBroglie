@@ -5,14 +5,17 @@ using System.Text;
 
 namespace DeBroglie
 {
-    interface IHeapNode<TPriority> where TPriority : IComparable<TPriority>
+    internal interface IHeapNode<TKey> where TKey : IComparable<TKey>
     {
         int HeapIndex { get; set; }
 
-        TPriority Priority { get; }
+        TKey Key { get; }
     }
 
-    class Heap<T, TPriority> where T : IHeapNode<TPriority> where TPriority : IComparable<TPriority>
+    /// <summary>
+    /// Implements a basic min-key heap.
+    /// </summary>
+    internal class Heap<T, TKey> where T : IHeapNode<TKey> where TKey : IComparable<TKey>
     {
         T[] data;
         int size;
@@ -66,30 +69,6 @@ namespace DeBroglie
             return data[0];
         }
 
-        // Returns all items with lowest priority
-        public IEnumerable<T> PeekEqual()
-        {
-            var stack = new Stack<int>();
-            if (size == 0)
-                yield break;
-            var priority = data[0].Priority;
-            stack.Push(0);
-            while(stack.Count > 0)
-            {
-                var i = stack.Pop();
-                var item = data[i];
-                if (item.Priority.CompareTo(priority) > 0)
-                    continue;
-                yield return item;
-                var l = Left(i);
-                if (l < size)
-                    stack.Push(l);
-                var r = Right(i);
-                if (r < size)
-                    stack.Push(r);
-            }
-        }
-
         public void Heapify()
         {
             for (var i = Parent(size); i >= 0; i--)
@@ -100,13 +79,13 @@ namespace DeBroglie
 
         private void Heapify(int i)
         {
-            var ip = data[i].Priority;
+            var ip = data[i].Key;
             var smallest = i;
             var smallestP = ip;
             var l = Left(i);
             if (l < size)
             {
-                var lp = data[l].Priority;
+                var lp = data[l].Key;
                 if (lp.CompareTo(smallestP) < 0)
                 {
                     smallest = l;
@@ -116,7 +95,7 @@ namespace DeBroglie
             var r = Right(i);
             if (r < size)
             {
-                var rp = data[r].Priority;
+                var rp = data[r].Key;
                 if (rp.CompareTo(smallestP) < 0)
                 {
                     smallest = r;
@@ -138,7 +117,7 @@ namespace DeBroglie
         public void DecreasedKey(T item)
         {
             var i = item.HeapIndex;
-            var priority = item.Priority;
+            var priority = item.Key;
             while (true)
             {
                 if (i == 0)
@@ -149,7 +128,7 @@ namespace DeBroglie
 
                 var p = Parent(i);
                 var parent = data[p];
-                var parentP = parent.Priority;
+                var parentP = parent.Key;
 
                 if (parentP.CompareTo(priority) > 0)
                 {

@@ -215,7 +215,7 @@ namespace DeBroglie.Trackers
 
             public double Tiebreaker;
 
-            public double Priority => Entropy + Tiebreaker;
+            public double Key => Entropy + Tiebreaker;
             //public double Priority => Entropy;
 
             public EntropyValues()

@@ -85,8 +85,6 @@ namespace DeBroglie.Trackers
         public int GetRandomIndex(Func<double> randomDouble, int[] externalPriority = null)
         {
             int selectedIndex = -1;
-            // TODO: At the moment this is a linear scan, but potentially
-            // could use some data structure
             int minExternalPriority = int.MinValue;
             double minEntropy = double.PositiveInfinity;
             int countAtMinEntropy = 0;
