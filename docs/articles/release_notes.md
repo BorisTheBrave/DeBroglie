@@ -10,8 +10,9 @@ title: Release Notes
  * SeparationConstraint fixes
  * Fix to Symmetry constraint
  * Fixed [#12](https://github.com/BorisTheBrave/DeBroglie/issues/12)
- * PathConstraint/EdgedPathConstraint more consistent over use of TileRotation ([#14](https://github.com/BorisTheBrave/DeBroglie/issues/14))
+ * Path constraints more consistent over use of TileRotation ([#14](https://github.com/BorisTheBrave/DeBroglie/issues/14))
  * Other performance improvements, particularly for large topologies.
+ * Fix path constraints "priority" to work with masking
 
 # v1.0.0
  * Improved performance of path constraints

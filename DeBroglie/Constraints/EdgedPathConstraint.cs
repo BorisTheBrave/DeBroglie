@@ -348,8 +348,10 @@ namespace DeBroglie.Constraints
                 var t = pathConstraint.pathSelectedTracker;
                 // Find cells that could potentially be paths, and are next to 
                 // already selected path. In tileSpace
-                var tilePriority = topology.GetIndices().Select(i =>
+                var tilePriority = Enumerable.Range(0, topology.IndexCount).Select(i =>
                 {
+                    if (!topology.ContainsIndex(i))
+                        return -1;
                     var qs = t.GetQuadstate(i);
                     if(qs.IsYes())
                     {
