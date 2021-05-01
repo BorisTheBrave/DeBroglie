@@ -11,6 +11,11 @@ namespace DeBroglie.Constraints
 
         public override void Init(TilePropagator propagator)
         {
+            if (TileRotation == null)
+            {
+                throw new System.ArgumentNullException(nameof(TileRotation));
+            }
+
             var directionsType = propagator.Topology.AsGridTopology().Directions.Type;
             if (directionsType != DirectionSetType.Cartesian2d && directionsType != DirectionSetType.Cartesian3d)
             {

@@ -15,6 +15,11 @@ namespace DeBroglie.Constraints
 
         public override void Init(TilePropagator propagator)
         {
+            if (TileRotation == null)
+            {
+                throw new System.ArgumentNullException(nameof(TileRotation));
+            }
+
             propagator.Topology.AsGridTopology();
             base.Init(propagator);
         }
