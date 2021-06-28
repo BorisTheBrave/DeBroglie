@@ -92,7 +92,7 @@ namespace DeBroglie.Models
                         var dx = directions.DX[d];
                         var dy = directions.DY[d];
                         var dz = directions.DZ[d];
-                        if (Aggrees(patternArrays[p], patternArrays[p2], dx, dy, dz))
+                        if (Agrees(patternArrays[p], patternArrays[p2], dx, dy, dz))
                         {
                             l.Add(p2);
                         }
@@ -120,7 +120,7 @@ namespace DeBroglie.Models
           * Return true if the pattern1 is compatible with pattern2
           * when pattern2 is at a distance (dy,dx) from pattern1.
           */
-        private bool Aggrees(PatternArray a, PatternArray b, int dx, int dy, int dz)
+        private bool Agrees(PatternArray a, PatternArray b, int dx, int dy, int dz)
         {
             var xmin = dx < 0 ? 0 : dx;
             var xmax = dx < 0 ? dx + b.Width : a.Width;
