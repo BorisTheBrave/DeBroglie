@@ -299,7 +299,7 @@ namespace DeBroglie.Models
             };
             var tilesToPatternsByOffset = new Dictionary<int, IReadOnlyDictionary<Tile, ISet<int>>>()
                 {
-                    {0, tilesToPatterns.ToLookup(x=>x.Key, x=>x.Value).ToDictionary(g=>g.Key, g=>(ISet<int>)new HashSet<int>(g)) }
+                    {0, tilesToPatterns.ToDictionary(kv => kv.Key, kv => (ISet<int>)new HashSet<int>{ kv.Value }) }
                 };
             var patternsToTilesByOffset = new Dictionary<int, IReadOnlyDictionary<int, Tile>>
                 {
