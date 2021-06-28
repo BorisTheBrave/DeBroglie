@@ -136,29 +136,15 @@ namespace DeBroglie.Trackers
             return selectedIndex;
         }
 
+        public void GetDistributionAt(int index, out double[] frequencies, out int[] patterns)
+        {
+            frequencies = this.frequencies;
+            patterns = null;
+        }
+
         public int GetRandomPossiblePatternAt(int index, Func<double> randomDouble)
         {
-            var s = 0.0;
-            for (var pattern = 0; pattern < patternCount; pattern++)
-            {
-                if (wave.Get(index, pattern))
-                {
-                    s += frequencies[pattern];
-                }
-            }
-            var r = randomDouble() * s;
-            for (var pattern = 0; pattern < patternCount; pattern++)
-            {
-                if (wave.Get(index, pattern))
-                {
-                    r -= frequencies[pattern];
-                }
-                if (r <= 0)
-                {
-                    return pattern;
-                }
-            }
-            return patternCount - 1;
+            return RandomPickerUtils.GetRandomPossiblePattern(wave, randomDouble, index, frequencies);
         }
 
         /**

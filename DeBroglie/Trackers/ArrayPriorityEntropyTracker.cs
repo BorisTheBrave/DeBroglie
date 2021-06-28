@@ -1,5 +1,6 @@
 ﻿using DeBroglie.Wfc;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DeBroglie.Trackers
@@ -172,33 +173,18 @@ namespace DeBroglie.Trackers
             return selectedIndex;
         }
 
-        public int GetRandomPossiblePatternAt(int index, Func<double> randomDouble)
+        public void GetDistributionAt(int index, out double[] frequencies, out int[] patterns)
         {
-            var s = 0.0;
             var frequencySet = frequencySets[index];
             ref var g = ref frequencySet.groups[entropyValues[index].PriorityIndex];
-            for (var i = 0; i < g.patternCount; i++)
-            {
-                var pattern = g.patterns[i];
-                if (wave.Get(index, pattern))
-                {
-                    s += g.frequencies[i];
-                }
-            }
-            var r = randomDouble() * s;
-            for (var i = 0; i < g.patternCount; i++)
-            {
-                var pattern = g.patterns[i];
-                if (wave.Get(index, pattern))
-                {
-                    r -= g.frequencies[i];
-                }
-                if (r <= 0)
-                {
-                    return pattern;
-                }
-            }
-            return g.patterns[g.patterns.Count - 1];
+            frequencies = g.frequencies;
+            patterns = g.patterns;
+        }
+
+        public int GetRandomPossiblePatternAt(int index, Func<double> randomDouble)
+        {
+            GetDistributionAt(index, out var frequencies, out var patterns);
+            return RandomPickerUtils.GetRandomPossiblePattern(wave, randomDouble, index, frequencies, patterns);
         }
 
         /**

@@ -11,8 +11,8 @@ namespace DeBroglie.Trackers
             public int priority;
             public int patternCount;
             public double weightSum;
-            public List<int> patterns;
-            public List<double> frequencies;
+            public int[] patterns;
+            public double[] frequencies;
             public List<double> plogp;
         }
 
@@ -24,35 +24,56 @@ namespace DeBroglie.Trackers
             }
 
             var groupsByPriority = new Dictionary<int, Group>();
-            for(var i=0;i<weights.Length;i++)
+            var frequenciesByPriority = new Dictionary<int, List<double>>();
+            var patternsByPriority = new Dictionary<int, List<int>>();
+            // Group the patterns by prioirty
+            for (var i = 0; i < weights.Length; i++)
             {
                 var priority = priorities[i];
                 var weight = weights[i];
                 if (!groupsByPriority.TryGetValue(priority, out var group))
                 {
-                    group = new Group {
+                    group = new Group
+                    {
                         priority = priority,
-                        patterns = new List<int>(),
-                        frequencies = new List<double>(),
                         plogp = new List<double>(),
                     };
+                    frequenciesByPriority[priority] = new List<double>();
+                    patternsByPriority[priority] = new List<int>();
                 }
                 group.patternCount += 1;
                 group.weightSum += weight;
-                group.patterns.Add(i);
+                patternsByPriority[priority].Add(i);
                 groupsByPriority[priority] = group;
             }
             frequencies = new double[weights.Length];
             plogp = new double[weights.Length];
+            // Compute normalized frequencies
             for (var i = 0; i < weights.Length; i++)
             {
-                var group = groupsByPriority[priorities[i]];
+                var priority = priorities[i];
+                var group = groupsByPriority[priority];
                 var f = weights[i] / group.weightSum;
                 frequencies[i] = f;
                 plogp[i] = ToPLogP(f);
-                group.frequencies.Add(f);
+                frequenciesByPriority[priority].Add(f);
                 group.plogp.Add(ToPLogP(f));
             }
+            // Convert from list to array
+            foreach (var priority in groupsByPriority.Keys.ToList())
+            {
+                var g = groupsByPriority[priority];
+                groupsByPriority[priority] = new Group
+                {
+                    priority = g.priority,
+                    patternCount = g.patternCount,
+                    weightSum = g.weightSum,
+                    patterns = patternsByPriority[priority].ToArray(),
+                    frequencies = frequenciesByPriority[priority].ToArray(),
+                    plogp = g.plogp,
+                };
+            }
+            // Order groups by priority
             groups = groupsByPriority.OrderByDescending(x => x.Key).Select(x => x.Value).ToArray();
             var priorityToPriorityIndex = groups.Select((g, i) => new { g, i }).ToDictionary(t => t.g.priority, t => t.i);
             priorityIndices = priorities.Select(p => priorityToPriorityIndex[p]).ToArray();
