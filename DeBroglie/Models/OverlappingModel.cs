@@ -80,24 +80,39 @@ namespace DeBroglie.Models
             var directions = topology.Directions;
 
             // TODO: Don't regenerate this from scratch every time
+            // Collect all the pattern edges
+            var patternIndicesByEdge = new Dictionary<Direction, Dictionary<PatternArray, List<int>>>();
+            var edgesByPatternIndex = new Dictionary<(Direction, int), PatternArray>();
+            for (var d = 0; d < directions.Count; d++)
+            {
+                var dx = directions.DX[d];
+                var dy = directions.DY[d];
+                var dz = directions.DZ[d];
+                var edges = new Dictionary<PatternArray, List<int>>(new PatternArrayComparer());
+                for (var p = 0; p < patternArrays.Count; p++)
+                {
+                    var edge = OverlappingAnalysis.PatternEdge(patternArrays[p], dx, dy, dz);
+                    if(!edges.TryGetValue(edge, out var l))
+                    {
+                        l = edges[edge] = new List<int>();
+                    }
+                    l.Add(p);
+                    edgesByPatternIndex[((Direction)d, p)] = edge;
+                }
+                patternIndicesByEdge[(Direction)d] = edges;
+            }
+
+            // Setup propagator
             propagator = new List<HashSet<int>[]>(patternArrays.Count);
             for (var p = 0; p < patternArrays.Count; p++)
             {
                 propagator.Add(new HashSet<int>[directions.Count]);
                 for (var d = 0; d < directions.Count; d++)
                 {
-                    var l = new HashSet<int>();
-                    for (var p2 = 0; p2 < patternArrays.Count; p2++)
-                    {
-                        var dx = directions.DX[d];
-                        var dy = directions.DY[d];
-                        var dz = directions.DZ[d];
-                        if (Agrees(patternArrays[p], patternArrays[p2], dx, dy, dz))
-                        {
-                            l.Add(p2);
-                        }
-                    }
-                    propagator[p][d] = l;
+                    var dir = (Direction)d;
+                    var invDir = directions.Inverse(dir);
+                    var edge = edgesByPatternIndex[(dir, p)];
+                    propagator[p][d] = new HashSet<int>(patternIndicesByEdge[invDir][edge]);
                 }
             }
 
@@ -115,34 +130,6 @@ namespace DeBroglie.Models
         internal IReadOnlyList<PatternArray> PatternArrays => patternArrays;
 
         public override IEnumerable<Tile> Tiles => tilesToPatterns.Select(x=>x.Key);
-
-        /**
-          * Return true if the pattern1 is compatible with pattern2
-          * when pattern2 is at a distance (dy,dx) from pattern1.
-          */
-        private bool Agrees(PatternArray a, PatternArray b, int dx, int dy, int dz)
-        {
-            var xmin = dx < 0 ? 0 : dx;
-            var xmax = dx < 0 ? dx + b.Width : a.Width;
-            var ymin = dy < 0 ? 0 : dy;
-            var ymax = dy < 0 ? dy + b.Height : a.Height;
-            var zmin = dz < 0 ? 0 : dz;
-            var zmax = dz < 0 ? dz + b.Depth : a.Depth;
-            for (var x = xmin; x < xmax; x++)
-            {
-                for (var y = ymin; y < ymax; y++)
-                {
-                    for (var z = zmin; z < zmax; z++)
-                    {
-                        if (a.Values[x, y, z] != b.Values[x - dx, y - dy, z - dz])
-                        {
-                            return false;
-                        }
-                    }
-                }
-            }
-            return true;
-        }
 
         internal override TileModelMapping GetTileModelMapping(ITopology topology)
         {
@@ -165,6 +152,19 @@ namespace DeBroglie.Models
                     gridTopology.PeriodicX ? topology.Width : topology.Width - NX + 1,
                     gridTopology.PeriodicY ? topology.Height : topology.Height - NY + 1,
                     gridTopology.PeriodicZ ? topology.Depth : topology.Depth - NZ + 1);
+
+                if (patternTopology.Width <= 0)
+                {
+                    throw new System.Exception($"Sample width {topology.Width} not wide enough for overlap of {NX}");
+                }
+                if (patternTopology.Height <= 0)
+                {
+                    throw new System.Exception($"Sample width {topology.Height} not wide enough for overlap of {NY}");
+                }
+                if (patternTopology.Depth <= 0)
+                {
+                    throw new System.Exception($"Sample width {topology.Depth} not wide enough for overlap of {NZ}");
+                }
 
 
                 void OverlapCoord(int x, int width, out int px, out int ox)

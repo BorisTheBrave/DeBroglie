@@ -1,6 +1,7 @@
 ﻿using DeBroglie.Models;
 using DeBroglie.Rot;
 using DeBroglie.Topo;
+using System;
 using System.Collections.Generic;
 
 namespace DeBroglie.Models
@@ -67,6 +68,32 @@ namespace DeBroglie.Models
                     }
                 }
             }
+        }
+
+        public static PatternArray PatternEdge(PatternArray patternArray, int dx, int dy, int dz)
+        {
+            var a = patternArray;
+            var edgeWidth = a.Width - Math.Abs(dx);
+            var ix = Math.Max(0, dx);
+            var edgeHeight = a.Height - Math.Abs(dy);
+            var iy = Math.Max(0, dy);
+            var edgeDepth = a.Depth - Math.Abs(dz);
+            var iz = Math.Max(0, dz);
+            var edge = new PatternArray
+            {
+                Values = new Tile[edgeWidth, edgeHeight, edgeDepth]
+            };
+            for (var x = 0; x < edgeWidth; x++)
+            {
+                for (var y = 0; y < edgeHeight; y++)
+                {
+                    for (var z = 0; z < edgeDepth; z++)
+                    {
+                        edge.Values[x, y, z] = patternArray.Values[x + ix, y + iy, z + iz];
+                    }
+                }
+            }
+            return edge;
         }
 
         private static bool TryExtract(ITopoArray<Tile> sample, int nx, int ny, int nz, int x, int y, int z, out PatternArray pattern)
