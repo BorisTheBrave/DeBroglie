@@ -20,6 +20,7 @@ namespace DeBroglie.Models
         private Dictionary<PatternArray, int> patternIndices;
         private List<PatternArray> patternArrays;
         private List<double> frequencies;
+        private DirectionSet sampleTopologyDirections;
         private List<HashSet<int>[]> propagator;
 
         private IReadOnlyDictionary<int, Tile> patternsToTiles;
@@ -34,7 +35,7 @@ namespace DeBroglie.Models
 
 
         public OverlappingModel(ITopoArray<Tile> sample, int n, int rotationalSymmetry, bool reflectionalSymmetry)
-            :this(n)
+            : this(n)
         {
             AddSample(sample, new TileRotation(rotationalSymmetry, reflectionalSymmetry));
         }
@@ -44,7 +45,7 @@ namespace DeBroglie.Models
         /// </summary>
         /// <param name="n"></param>
         public OverlappingModel(int n)
-            :this(n, n, n)
+            : this(n, n, n)
         {
 
         }
@@ -76,25 +77,42 @@ namespace DeBroglie.Models
                 OverlappingAnalysis.GetPatterns(s, nx, ny, nz, periodicX, periodicY, periodicZ, patternIndices, patternArrays, frequencies);
             }
 
-            // Update the model based on the collected data
-            var directions = topology.Directions;
+            sampleTopologyDirections = topology.Directions;
+            propagator = null;// Mark as dirty
+        }
 
-            // TODO: Don't regenerate this from scratch every time
+        public int NX => nx;
+        public int NY => ny;
+        public int NZ => nz;
+
+        internal IReadOnlyList<PatternArray> PatternArrays => patternArrays;
+
+        public override IEnumerable<Tile> Tiles => tilesToPatterns.Select(x => x.Key);
+
+        private void Build()
+        {
+            if (propagator != null)
+                return;
+
+
+            // Update the model based on the collected data
+            var directions = sampleTopologyDirections;
+
             // Collect all the pattern edges
-            var patternIndicesByEdge = new Dictionary<Direction, Dictionary<PatternArray, List<int>>>();
+            var patternIndicesByEdge = new Dictionary<Direction, Dictionary<PatternArray, HashSet<int>>>();
             var edgesByPatternIndex = new Dictionary<(Direction, int), PatternArray>();
             for (var d = 0; d < directions.Count; d++)
             {
                 var dx = directions.DX[d];
                 var dy = directions.DY[d];
                 var dz = directions.DZ[d];
-                var edges = new Dictionary<PatternArray, List<int>>(new PatternArrayComparer());
+                var edges = new Dictionary<PatternArray, HashSet<int>>(new PatternArrayComparer());
                 for (var p = 0; p < patternArrays.Count; p++)
                 {
                     var edge = OverlappingAnalysis.PatternEdge(patternArrays[p], dx, dy, dz);
                     if (!edges.TryGetValue(edge, out var l))
                     {
-                        l = edges[edge] = new List<int>();
+                        l = edges[edge] = new HashSet<int>();
                     }
                     l.Add(p);
                     edgesByPatternIndex[((Direction)d, p)] = edge;
@@ -103,6 +121,7 @@ namespace DeBroglie.Models
             }
 
             // Setup propagator
+            var empty = new HashSet<int>();
             propagator = new List<HashSet<int>[]>(patternArrays.Count);
             for (var p = 0; p < patternArrays.Count; p++)
             {
@@ -114,11 +133,11 @@ namespace DeBroglie.Models
                     var edge = edgesByPatternIndex[(dir, p)];
                     if (patternIndicesByEdge[invDir].TryGetValue(edge, out var otherPatterns))
                     {
-                        propagator[p][d] = new HashSet<int>(otherPatterns);
+                        propagator[p][d] = otherPatterns;
                     }
                     else
                     {
-                        propagator[p][d] = new HashSet<int>();
+                        propagator[p][d] = empty;
                     }
                 }
             }
@@ -130,16 +149,11 @@ namespace DeBroglie.Models
             tilesToPatterns = patternsToTiles.ToLookup(x => x.Value, x => x.Key);
         }
 
-        public int NX => nx;
-        public int NY => ny;
-        public int NZ => nz;
-
-        internal IReadOnlyList<PatternArray> PatternArrays => patternArrays;
-
-        public override IEnumerable<Tile> Tiles => tilesToPatterns.Select(x=>x.Key);
-
         internal override TileModelMapping GetTileModelMapping(ITopology topology)
         {
+            Build();
+
+
             var gridTopology = topology.AsGridTopology();
             var patternModel = new PatternModel
             {
