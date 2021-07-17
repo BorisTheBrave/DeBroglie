@@ -71,7 +71,7 @@ namespace DeBroglie.Models
             var periodicY = topology.PeriodicY;
             var periodicZ = topology.PeriodicZ;
 
-            foreach(var s in OverlappingAnalysis.GetRotatedSamples(sample, tileRotation))
+            foreach (var s in OverlappingAnalysis.GetRotatedSamples(sample, tileRotation))
             {
                 OverlappingAnalysis.GetPatterns(s, nx, ny, nz, periodicX, periodicY, periodicZ, patternIndices, patternArrays, frequencies);
             }
@@ -92,7 +92,7 @@ namespace DeBroglie.Models
                 for (var p = 0; p < patternArrays.Count; p++)
                 {
                     var edge = OverlappingAnalysis.PatternEdge(patternArrays[p], dx, dy, dz);
-                    if(!edges.TryGetValue(edge, out var l))
+                    if (!edges.TryGetValue(edge, out var l))
                     {
                         l = edges[edge] = new List<int>();
                     }
@@ -112,7 +112,14 @@ namespace DeBroglie.Models
                     var dir = (Direction)d;
                     var invDir = directions.Inverse(dir);
                     var edge = edgesByPatternIndex[(dir, p)];
-                    propagator[p][d] = new HashSet<int>(patternIndicesByEdge[invDir][edge]);
+                    if (patternIndicesByEdge[invDir].TryGetValue(edge, out var otherPatterns))
+                    {
+                        propagator[p][d] = new HashSet<int>(otherPatterns);
+                    }
+                    else
+                    {
+                        propagator[p][d] = new HashSet<int>();
+                    }
                 }
             }
 
