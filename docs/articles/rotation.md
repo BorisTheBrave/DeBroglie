@@ -3,6 +3,11 @@ uid: rotation_article
 title: Rotation
 ---
 
+> [!Note]
+> Although feature of DeBroglie works, I consider it to be a failure.
+> It is very complicated to understand, for relatively little benefit. It is an entirely *optional* function of DeBroglie - you can achieve similar results
+> by creating your own rotated tiles, and many users have reported they've found that easier than the built in solution.
+
 While the core WFC algorithm DeBroglie uses is agnostic to rotation and reflections, many tiles sets and designs have some amount of symmetry. DeBroglie lets you specify what symmetry to use. This has several advantages:
 
 1) **You need smaller input** - DeBroglie can take your samples, and create rotated and reflected copies, greatly expanding the amount of data to work with.
