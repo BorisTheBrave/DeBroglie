@@ -2,6 +2,7 @@
 using DeBroglie.Rot;
 using DeBroglie.Topo;
 using DeBroglie.Wfc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,7 +22,7 @@ namespace DeBroglie.Models
         private List<PatternArray> patternArrays;
         private List<double> frequencies;
         private DirectionSet sampleTopologyDirections;
-        private List<HashSet<int>[]> propagator;
+        private List<int[][]> propagator;
 
         private IReadOnlyDictionary<int, Tile> patternsToTiles;
         private ILookup<Tile, int> tilesToPatterns;
@@ -58,7 +59,7 @@ namespace DeBroglie.Models
             patternIndices = new Dictionary<PatternArray, int>(new PatternArrayComparer());
             frequencies = new List<double>();
             patternArrays = new List<PatternArray>();
-            propagator = new List<HashSet<int>[]>();
+            propagator = new List<int[][]>();
         }
 
         public void AddSample(ITopoArray<Tile> sample, TileRotation tileRotation = null)
@@ -99,7 +100,7 @@ namespace DeBroglie.Models
             var directions = sampleTopologyDirections;
 
             // Collect all the pattern edges
-            var patternIndicesByEdge = new Dictionary<Direction, Dictionary<PatternArray, HashSet<int>>>();
+            var patternIndicesByEdge = new Dictionary<Direction, Dictionary<PatternArray, int[]>>();
             var edgesByPatternIndex = new Dictionary<(Direction, int), PatternArray>();
             for (var d = 0; d < directions.Count; d++)
             {
@@ -117,15 +118,19 @@ namespace DeBroglie.Models
                     l.Add(p);
                     edgesByPatternIndex[((Direction)d, p)] = edge;
                 }
-                patternIndicesByEdge[(Direction)d] = edges;
+                patternIndicesByEdge[(Direction)d] = edges
+                    .ToDictionary(
+                        x => x.Key, 
+                        x => x.Value.OrderBy(y => y).ToArray(),
+                        new PatternArrayComparer());
             }
 
             // Setup propagator
-            var empty = new HashSet<int>();
-            propagator = new List<HashSet<int>[]>(patternArrays.Count);
+            var empty = new int[0];
+            propagator = new List<int[][]>(patternArrays.Count);
             for (var p = 0; p < patternArrays.Count; p++)
             {
-                propagator.Add(new HashSet<int>[directions.Count]);
+                propagator.Add(new int[directions.Count][]);
                 for (var d = 0; d < directions.Count; d++)
                 {
                     var dir = (Direction)d;
@@ -153,11 +158,10 @@ namespace DeBroglie.Models
         {
             Build();
 
-
             var gridTopology = topology.AsGridTopology();
             var patternModel = new PatternModel
             {
-                Propagator = propagator.Select(x => x.Select(y => y.ToArray()).ToArray()).ToArray(),
+                Propagator = propagator.Select(x => x.Select(y => y).ToArray()).ToArray(),
                 Frequencies = frequencies.ToArray(),
             };
 
@@ -333,6 +337,7 @@ namespace DeBroglie.Models
                 patternTopology = patternTopology.WithMask(patternMask);
             }
 
+
             return new TileModelMapping
             {
                 PatternModel = patternModel,
@@ -342,6 +347,7 @@ namespace DeBroglie.Models
                 TileCoordToPatternCoordIndexAndOffset = tileCoordToPatternCoordIndexAndOffset,
                 PatternCoordToTileCoordIndexAndOffset = patternCoordToTileCoordIndexAndOffset,
             };
+
         }
 
         public override void MultiplyFrequency(Tile tile, double multiplier)
