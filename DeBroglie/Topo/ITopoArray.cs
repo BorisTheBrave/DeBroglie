@@ -3,7 +3,7 @@
     /// <summary>
     /// A read-only array coupled with a specific <see cref="Topology"/>
     /// </summary>
-    public interface ITopoArray<T>
+    public interface ITopoArray<out T>
     {
         /// <summary>
         /// Gets the Topology associated with an array

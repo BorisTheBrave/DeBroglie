@@ -642,6 +642,22 @@ namespace DeBroglie
             return (ISet<Tile>)hs;
         }
 
+        public IDictionary<Tile, double> GetWeightedTiles(int index)
+        {
+            tileModelMapping.GetTileCoordToPatternCoord(index, out var patternIndex, out var o);
+            var patterns = wavePropagator.GetPossiblePatterns(patternIndex);
+            var result = new Dictionary<Tile, double>();
+            var patternToTiles = tileModelMapping.PatternsToTilesByOffset[o];
+            foreach (var pattern in patterns)
+            {
+                var f = tileModelMapping.PatternModel.Frequencies[pattern];
+                var tile = patternToTiles[pattern];
+                if (!result.ContainsKey(tile)) result[tile] = 0;
+                result[tile] += f;
+            }
+            return result;
+        }
+
         public ISet<T> GetPossibleValues<T>(int index)
         {
             tileModelMapping.GetTileCoordToPatternCoord(index, out var patternIndex, out var o);
@@ -688,6 +704,11 @@ namespace DeBroglie
         public ITopoArray<ISet<Tile>> ToArraySets()
         {
             return TopoArray.CreateByIndex(GetPossibleTiles, topology);
+        }
+
+        public ITopoArray<IDictionary<Tile, double>> ToWeightedArraySets()
+        {
+            return TopoArray.CreateByIndex(GetWeightedTiles, topology);
         }
 
         /// <summary>

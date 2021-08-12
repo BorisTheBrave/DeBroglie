@@ -49,8 +49,13 @@ namespace DeBroglie.Console
         public static ITopoArray<IEnumerable<V>> ExplodeTileSets<V>(ITopoArray<ISet<Tile>> topoArray, IDictionary<Tile, ITopoArray<V>> subTiles, int tileWidth, int tileHeight, int tileDepth)
         {
             var subTilesCopy = subTiles.ToDictionary(x => x.Key, x => x.Value);
-            return ExplodeSets(topoArray, tile => GetSubTile(tile, subTilesCopy), tileWidth, tileHeight, tileDepth);
+            return ExplodeMany(topoArray, tile => GetSubTile(tile, subTilesCopy), tileWidth, tileHeight, tileDepth);
+        }
 
+        public static ITopoArray<IEnumerable<KeyValuePair<V, double>>> ExplodeWeightedTiles<V>(ITopoArray<IDictionary<Tile, double>> topoArray, IDictionary<Tile, ITopoArray<V>> subTiles, int tileWidth, int tileHeight, int tileDepth)
+        {
+            var subTilesCopy = subTiles.ToDictionary(x => x.Key, x => x.Value);
+            return ExplodeMany(topoArray, kv => GetSubTile(kv.Key, subTilesCopy)?.Map(v => KeyValuePair.Create(v, kv.Value)), tileWidth, tileHeight, tileDepth);
         }
 
         private static ITopoArray<V> GetSubTile<V>(Tile tile, IDictionary<Tile, ITopoArray<V>> subTiles)
@@ -129,7 +134,7 @@ namespace DeBroglie.Console
             return TopoArray.Create(result, resultTopology);
         }
 
-        public static ITopoArray<IEnumerable<V>> ExplodeSets<U, V>(ITopoArray<ISet<U>> topoArray, Func<U, ITopoArray<V>> getSubTile, int tileWidth, int tileHeight, int tileDepth)
+        public static ITopoArray<IEnumerable<V>> ExplodeMany<U, V>(ITopoArray<IEnumerable<U>> topoArray, Func<U, ITopoArray<V>> getSubTile, int tileWidth, int tileHeight, int tileDepth)
         {
             var inTopology = topoArray.Topology.AsGridTopology();
 
@@ -161,7 +166,7 @@ namespace DeBroglie.Console
                                 continue;
                         }
                         var inTileSet = topoArray.Get(x, y, z);
-                        if (inTileSet.Count == 0)
+                        if ((inTileSet as ICollection<U>)?.Count == 0)
                             continue;
                         for (var tz = 0; tz < tileDepth; tz++)
                         {

@@ -36,40 +36,6 @@ namespace DeBroglie.Console
             return bitmap;
         }
 
-        public static Rgba32 ColorAverage(IEnumerable<Rgba32> colors)
-        {
-            if (colors == null)
-            {
-                return Rgba32.Transparent;
-            }
-
-            int alpha = 0;
-            int red = 0;
-            int green = 0;
-            int blue = 0;
-            int n = 0;
-            foreach (var color in colors)
-            {
-                alpha += color.A;
-                red += color.R;
-                green += color.G;
-                blue += color.B;
-                n += 1;
-            }
-            if (n == 0)
-            {
-                return Rgba32.Transparent;
-            }
-            else
-            {
-                return new Rgba32(
-                    (byte)(red / n),
-                    (byte)(green / n),
-                    (byte)(blue / n),
-                    (byte)(alpha / n));
-            }
-        }
-
         public static Rgba32 Overlay(Rgba32 bg, Rgba32 fg)
         {
             return new Rgba32(

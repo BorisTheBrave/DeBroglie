@@ -3,30 +3,62 @@ using DeBroglie.Models;
 using DeBroglie.Topo;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DeBroglie.Console.Export
 {
 
     public class BitmapExporter : IExporter
-    { 
+    {
+        public static Rgba32 WeightedColorAverage(IEnumerable<KeyValuePair<Tile, double>> tiles)
+        {
+            double alpha = 0;
+            double red = 0;
+            double green = 0;
+            double blue = 0;
+            double n = 0;
+            foreach (var kv in tiles)
+            {
+                var color = (Rgba32)kv.Key.Value;
+                var frequency = kv.Value;
+                alpha += color.A * frequency;
+                red += color.R * frequency;
+                green += color.G * frequency;
+                blue += color.B * frequency;
+                n += frequency;
+            }
+            if (n == 0)
+            {
+                return Rgba32.Transparent;
+            }
+            else
+            {
+                return new Rgba32(
+                    (byte)(red / n),
+                    (byte)(green / n),
+                    (byte)(blue / n),
+                    (byte)(alpha / n));
+            }
+        }
+
         public void Export(TileModel model, TilePropagator propagator, string filename, DeBroglieConfig config, ExportOptions exportOptions)
         {
             if (config.Animate)
             {
                 if (exportOptions is BitmapExportOptions)
                 {
-                    var topoArray = propagator.ToValueSets<Rgba32>().Map(BitmapUtils.ColorAverage);
+                    var topoArray = propagator.ToWeightedArraySets().Map(WeightedColorAverage);
                     var bitmap = BitmapUtils.ToBitmap(topoArray.ToArray2d());
                     bitmap.Save(filename);
                 }
                 else if (exportOptions is BitmapSetExportOptions bseo)
                 {
 
-                    var topoArray = propagator.ToArraySets();
+                    var topoArray = propagator.ToWeightedArraySets();
                     var tileTopology = topoArray.Topology.AsGridTopology().WithSize(bseo.TileWidth, bseo.TileHeight, 1);
-                    var subTiles = bseo.Bitmaps.ToDictionary(x => x.Key, x => TopoArray.Create(BitmapUtils.ToColorArray(x.Value), tileTopology));
-                    var exploded = MoreTopoArrayUtils.ExplodeTileSets(topoArray, subTiles, bseo.TileWidth, bseo.TileHeight, 1).Map(BitmapUtils.ColorAverage);
+                    var subTiles = bseo.Bitmaps.ToDictionary(x => x.Key, x => TopoArray.Create(BitmapUtils.ToColorArray(x.Value), tileTopology).Map(c => new Tile(c)));
+                    var exploded = MoreTopoArrayUtils.ExplodeWeightedTiles(topoArray, subTiles, bseo.TileWidth, bseo.TileHeight, 1).Map(WeightedColorAverage);
                     var bitmap = BitmapUtils.ToBitmap(exploded.ToArray2d());
                     bitmap.Save(filename);
                 }
