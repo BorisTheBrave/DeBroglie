@@ -1,0 +1,30 @@
+{
+    "$schema": "../mxgmn/schema.json",
+    "src": "./parliament.csv",
+    //"dest": "output/parliament.csv",
+    "dest": "output/parliament.unity",
+    "model": {
+        "type": "adjacent",
+    },
+    "periodicInput": false,
+    "periodic": false,
+    "constraints": [
+        {
+            "type": "border",
+            "tile": "11",
+            "sides": "zmin"
+        },
+        {
+            "type": "border",
+            "tile": "0",
+            "sides": "all",
+            "excludeSides": "zmin"
+        }
+    ],
+    "width": 100,
+    "height": 100,
+    //"width": 20,
+    //"height": 20,
+    "depth": 10,
+    "backtrack": true
+}
