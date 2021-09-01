@@ -56,6 +56,10 @@ namespace DeBroglie.Console.Export
             {
                 return new CsvExporter();
             }
+            else if (filename.EndsWith(".unity"))
+            {
+                return new UnitySceneExporter();
+            }
             else
             {
                 throw new System.Exception($"Saving {Path.GetExtension(filename)} files not supported.");

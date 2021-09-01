@@ -31,6 +31,10 @@ namespace DeBroglie.Console.Import
             {
                 return new MagicaVoxelImporter();
             }
+            else if (filename.EndsWith(".csv"))
+            {
+                return new CsvImporter();
+            }
             else
             {
                 throw new System.Exception($"Loading {Path.GetExtension(filename)} files not supported.");
