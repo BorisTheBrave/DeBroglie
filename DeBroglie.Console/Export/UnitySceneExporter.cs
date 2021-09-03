@@ -20,8 +20,8 @@ namespace DeBroglie.Console.Export
             using (var s = File.Open(filename, FileMode.Create))
             using (var tw = new StreamWriter(s))
             {
-                tw.Write("%YAML 1.1");
-                tw.Write("%TAG !u! tag:unity3d.com,2011:");
+                tw.WriteLine("%YAML 1.1");
+                tw.WriteLine("%TAG !u! tag:unity3d.com,2011:");
                 int id = 1;
                 foreach(var index in topology.GetIndices())
                 {
