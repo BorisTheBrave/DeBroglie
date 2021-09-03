@@ -405,6 +405,15 @@ namespace DeBroglie.Console.Config
                             MinDistance = separationConfig.MinDistance,
                         });
                     }
+                    else if (constraint is PairSeparationConfig pairSeparationConfig)
+                    {
+                        constraints.Add(new PairSeparationConstraint
+                        {
+                            Tiles1 = new HashSet<Tile>(pairSeparationConfig.Tiles1.Select(Parse)),
+                            Tiles2 = new HashSet<Tile>(pairSeparationConfig.Tiles2.Select(Parse)),
+                            MinDistance = pairSeparationConfig.MinDistance,
+                        });
+                    }
                     else if (constraint is ConnectedConfig connectedConfig)
                     {
                         constraints.Add(new ConnectedConstraint

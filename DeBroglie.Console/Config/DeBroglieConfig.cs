@@ -450,7 +450,6 @@ namespace DeBroglie.Console.Config
         public bool Eager { get; set; }
     }
 
-
     public class SeparationConfig : ConstraintConfig
     {
         public const string TypeString = "separation";
@@ -461,6 +460,29 @@ namespace DeBroglie.Console.Config
         /// Set of tiles, all of which should be separated from each other.
         /// </summary>
         public string[] Tiles { get; set; }
+
+        /// <summary>
+        /// The minimum distance between two points.
+        /// Measured using manhattan distance.
+        /// </summary>
+        public int MinDistance { get; set; }
+    }
+
+    public class PairSeparationConfig : ConstraintConfig
+    {
+        public const string TypeString = "pairSparation";
+
+        public override string Type => TypeString;
+
+        /// <summary>
+        /// Set of tiles, all of which should be separated from <see cref="Tiles2"/>
+        /// </summary>
+        public string[] Tiles1 { get; set; }
+
+        /// <summary>
+        /// Set of tiles, all of which should be separated from <see cref="Tiles1"/>
+        /// </summary>
+        public string[] Tiles2 { get; set; }
 
         /// <summary>
         /// The minimum distance between two points.

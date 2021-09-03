@@ -59,6 +59,9 @@ namespace DeBroglie.Console.Config
                     case SeparationConfig.TypeString:
                         constraintConfig = new SeparationConfig();
                         break;
+                    case PairSeparationConfig.TypeString:
+                        constraintConfig = new PairSeparationConfig();
+                        break;
                     case ConnectedConfig.TypeString:
                         constraintConfig = new ConnectedConfig();
                         break;

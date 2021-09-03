@@ -31,7 +31,7 @@ namespace DeBroglie.Constraints
         public void Init(TilePropagator propagator)
         {
             tileset = propagator.CreateTileSet(Tiles);
-            nearbyTracker = new NearbyTracker(propagator.Topology.IndexCount) { MinDistance = MinDistance, Topology = propagator.Topology };
+            nearbyTracker = new NearbyTracker { MinDistance = MinDistance, Topology = propagator.Topology };
             changeTracker = propagator.CreateSelectedChangeTracker(tileset, nearbyTracker);
 
             // Review the initial state
@@ -62,17 +62,13 @@ namespace DeBroglie.Constraints
         }
 
 
-        private class NearbyTracker : IQuadstateChanged
+        internal class NearbyTracker : IQuadstateChanged
         {
             public ITopology Topology;
 
             public ISet<int> NewlyVisited = new HashSet<int>();
 
             public int MinDistance;
-
-            public NearbyTracker(int indexCount)
-            {
-            }
 
             public void VisitNearby(int index, bool undo)
             {
