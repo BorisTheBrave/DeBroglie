@@ -29,7 +29,7 @@ namespace DeBroglie.Test.Constraints
             // TODO: This seed shows that this constraint can fail occasionally
             //seed = -1847040250;
             var r = new Random(seed);
-            Console.WriteLine("Seed {0}", seed);
+            System.Console.WriteLine("Seed {0}", seed);
 
             var model = OverlappingModel.Create(a, 3, false, 8);
 
@@ -56,9 +56,9 @@ namespace DeBroglie.Test.Constraints
             {
                 for (var x = 0; x < topology.Width; x++)
                 {
-                    Console.Write(result[x, y]);
+                    System.Console.Write(result[x, y]);
                 }
-                Console.WriteLine();
+                System.Console.WriteLine();
             }
             // Every cell should have exactly 2 neighbours
             for (var y = 0; y < topology.Height; y++)

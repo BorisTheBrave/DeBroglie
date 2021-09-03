@@ -5,7 +5,6 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace DeBroglie.Test.Constraints
 {
@@ -36,7 +35,7 @@ namespace DeBroglie.Test.Constraints
 
             var seed = Environment.TickCount;
             var r = new Random(seed);
-            Console.WriteLine("Seed {0}", seed);
+            System.Console.WriteLine("Seed {0}", seed);
 
             var model = OverlappingModel.Create(a, 3, false, 8);
             var propagator = new TilePropagator(model, new GridTopology(10, 10, false), new TilePropagatorOptions
@@ -57,9 +56,9 @@ namespace DeBroglie.Test.Constraints
             {
                 for (var x = 0; x < 10; x++)
                 {
-                    Console.Write(result[x, y]);
+                    System.Console.Write(result[x, y]);
                 }
-                Console.WriteLine();
+                System.Console.WriteLine();
             }
             // Simple flood fill algorithm to determine we have in fact got a path
             var stack = new Stack<ValueTuple<int, int>>();

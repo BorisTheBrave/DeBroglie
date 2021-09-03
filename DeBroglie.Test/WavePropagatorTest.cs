@@ -157,7 +157,7 @@ namespace DeBroglie.Test
 
             var seed = Environment.TickCount;
             var r = new Random(seed);
-            Console.WriteLine("Seed {0}", seed);
+            System.Console.WriteLine("Seed {0}", seed);
 
             var options = new WavePropagatorOptions
             {
@@ -171,7 +171,7 @@ namespace DeBroglie.Test
 
             Assert.AreEqual(Resolution.Decided, status);
 
-            Console.WriteLine($"Backtrack Count {wavePropagator.BacktrackCount}");
+            System.Console.WriteLine($"Backtrack Count {wavePropagator.BacktrackCount}");
         }
     }
 }

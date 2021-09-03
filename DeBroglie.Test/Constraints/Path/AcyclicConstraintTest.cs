@@ -27,7 +27,7 @@ namespace DeBroglie.Test.Constraints
 
             var seed = Environment.TickCount;
             var r = new Random(seed);
-            Console.WriteLine("Seed {0}", seed);
+            System.Console.WriteLine("Seed {0}", seed);
 
             var model = OverlappingModel.Create(a, 3, false, 8);
             var topology = new GridTopology(10, 10, false);
@@ -61,9 +61,9 @@ namespace DeBroglie.Test.Constraints
             {
                 for (var x = 0; x < topology.Width; x++)
                 {
-                    Console.Write(result[x, y]);
+                    System.Console.Write(result[x, y]);
                 }
-                Console.WriteLine();
+                System.Console.WriteLine();
             }
             var visited = new bool[topology.Width, topology.Height];
 
