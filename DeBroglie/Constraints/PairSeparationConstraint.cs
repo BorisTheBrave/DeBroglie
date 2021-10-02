@@ -6,6 +6,9 @@ using System.Text;
 
 namespace DeBroglie.Constraints
 {
+    /// <summary>
+    /// This constraint forces one set of tiles to not be placed near another set.
+    /// </summary>
     public class PairSeparationConstraint : ITileConstraint
     {
         private TilePropagatorTileSet tileset1;

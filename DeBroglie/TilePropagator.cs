@@ -275,6 +275,16 @@ namespace DeBroglie
         public Resolution Status => wavePropagator.Status;
 
         /// <summary>
+        /// A string indicating the reason a contradiction occured. This is sometimes set when Status is <see cref="Resolution.Contradiction"/>.
+        /// </summary>
+        public string ContradictionReason => wavePropagator.ContradictionReason;
+
+        /// <summary>
+        /// An object indicating what caused the contradiction. This is somtimes set to a give constraint if the constraint caused the issue.
+        /// </summary>
+        public object ContradictionSource => wavePropagator.ContradictionSource;
+
+        /// <summary>
         /// This is incremented each time it is necessary to backtrack
         /// a tile while generating results.
         /// It is reset when <see cref="Clear"/> is called.
@@ -306,6 +316,14 @@ namespace DeBroglie
         public void SetContradiction()
         {
             wavePropagator.SetContradiction();
+        }
+
+        /// <summary>
+        /// Indicates that the generation cannot proceed, forcing the algorithm to backtrack or exit.
+        /// </summary>
+        public void SetContradiction(string reason, object source)
+        {
+            wavePropagator.SetContradiction(reason, source);
         }
 
         /// <summary>

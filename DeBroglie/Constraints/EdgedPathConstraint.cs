@@ -207,7 +207,7 @@ namespace DeBroglie.Constraints
 
             if (info.ComponentCount > 1)
             {
-                propagator.SetContradiction();
+                propagator.SetContradiction("Edged path constraint found multiple connected components.", this);
                 return;
             }
 

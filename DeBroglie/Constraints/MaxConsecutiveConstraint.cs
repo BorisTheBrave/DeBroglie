@@ -58,7 +58,7 @@ namespace DeBroglie.Constraints
                             var index = topology.GetIndex(x, y, z);
                             if (sm.Next(x, selectedTracker.GetQuadstate(index)))
                             {
-                                propagator.SetContradiction();
+                                propagator.SetContradiction("Max consecutive constraint failed on x-axis", this);
                                 return;
                             }
                         }
@@ -69,7 +69,7 @@ namespace DeBroglie.Constraints
                                 var index = topology.GetIndex(x, y, z);
                                 if (sm.Next(x, selectedTracker.GetQuadstate(index)))
                                 {
-                                    propagator.SetContradiction();
+                                    propagator.SetContradiction("Max consecutive constraint failed on x-axis", this);
                                     return;
                                 }
                             }
@@ -94,7 +94,7 @@ namespace DeBroglie.Constraints
                             var index = topology.GetIndex(x, y, z);
                             if (sm.Next(y, selectedTracker.GetQuadstate(index)))
                             {
-                                propagator.SetContradiction();
+                                propagator.SetContradiction("Max consecutive constraint failed on y-axis", this);
                                 return;
                             }
                         }
@@ -105,7 +105,7 @@ namespace DeBroglie.Constraints
                                 var index = topology.GetIndex(x, y, z);
                                 if (sm.Next(y, selectedTracker.GetQuadstate(index)))
                                 {
-                                    propagator.SetContradiction();
+                                    propagator.SetContradiction("Max consecutive constraint failed on y-axis", this);
                                     return;
                                 }
                             }
@@ -130,7 +130,7 @@ namespace DeBroglie.Constraints
                             var index = topology.GetIndex(x, y, z);
                             if (sm.Next(z, selectedTracker.GetQuadstate(index)))
                             {
-                                propagator.SetContradiction();
+                                propagator.SetContradiction("Max consecutive constraint failed on x-axis", this);
                                 return;
                             }
                         }
@@ -141,7 +141,7 @@ namespace DeBroglie.Constraints
                                 var index = topology.GetIndex(x, y, z);
                                 if (sm.Next(z, selectedTracker.GetQuadstate(index)))
                                 {
-                                    propagator.SetContradiction();
+                                    propagator.SetContradiction("Max consecutive constraint failed on x-axis", this);
                                     return;
                                 }
                             }
@@ -151,7 +151,6 @@ namespace DeBroglie.Constraints
             }
         }
 
-        // Internal for testing
         // This class is a bit fiddly, but esentially it looks at at every tile
         // along an axis on-line, and tracks enough information to emit bans stopping the constraint
         // from being violated. It also returns false if the constraint is already violated.

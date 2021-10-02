@@ -42,7 +42,7 @@ namespace DeBroglie.Constraints
                     var (prev, u) = stack.Pop();
                     if(visited[u])
                     {
-                        propagator.SetContradiction();
+                        propagator.SetContradiction("Acyclic constraint found cycle", this);
                         return;
                     }
                     visited[u] = true;

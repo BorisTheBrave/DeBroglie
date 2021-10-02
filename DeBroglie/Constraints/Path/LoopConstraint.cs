@@ -47,11 +47,11 @@ namespace DeBroglie.Constraints
             var info = PathConstraintUtils.GetArticulationPoints(pathView.Graph, pathView.CouldBePath, pathView.MustBeRelevant);
             var isArticulation = info.IsArticulation;
 
-            for(var i=0;i<pathView.Graph.NodeCount;i++)
+            for (var i = 0; i < pathView.Graph.NodeCount; i++)
             {
-                if(isArticulation[i])
+                if (isArticulation[i])
                 {
-                    propagator.SetContradiction();
+                    propagator.SetContradiction("Loop constraint found articulation point.", this);
                     return;
                 }
             }

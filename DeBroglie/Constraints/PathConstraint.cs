@@ -155,7 +155,7 @@ namespace DeBroglie.Constraints
 
             if (info.ComponentCount > 1)
             {
-                propagator.SetContradiction();
+                propagator.SetContradiction("Path constraint found multiple components", this);
                 return;
             }
 

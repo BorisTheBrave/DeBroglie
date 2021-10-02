@@ -170,7 +170,7 @@ namespace DeBroglie.Constraints
                 else
                 {
                     // This is not fine, and there's nothing ambiguous to patch things up
-                    propagator.SetContradiction();
+                    propagator.SetContradiction("Parity constraint detected unfixable region of odd parity", this);
                 }
             }
         }

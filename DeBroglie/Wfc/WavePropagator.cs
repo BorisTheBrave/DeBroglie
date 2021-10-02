@@ -51,6 +51,9 @@ namespace DeBroglie.Wfc
         // The overall status of the propagator, always kept up to date
         private Resolution status;
 
+        public string contradictionReason;
+        public object contradictionSource;
+
         private ITopology topology;
         private int directionsCount;
 
@@ -279,6 +282,8 @@ namespace DeBroglie.Wfc
         }
 
         public Resolution Status => status;
+        public string ContradictionReason => contradictionReason;
+        public object ContradictionSource => contradictionSource;
         public int BacktrackCount => backtrackCount;
 
         /**
@@ -297,6 +302,8 @@ namespace DeBroglie.Wfc
             }
 
             status = Resolution.Undecided;
+            contradictionReason = null;
+            contradictionSource = null;
             this.trackers = new List<ITracker>();
             pickHeuristic = pickHeuristicFactory(this);
 
@@ -315,6 +322,16 @@ namespace DeBroglie.Wfc
         public void SetContradiction()
         {
             status = Resolution.Contradiction;
+        }
+
+        /**
+         * Indicates that the generation cannot proceed, forcing the algorithm to backtrack or exit.
+         */
+        public void SetContradiction(string reason, object source)
+        {
+            status = Resolution.Contradiction;
+            contradictionReason = reason;
+            contradictionSource = source;
         }
 
         /**
@@ -417,6 +434,8 @@ namespace DeBroglie.Wfc
                     var item = prevChoices.Pop();
                     backtrackCount++;
                     status = Resolution.Undecided;
+                    contradictionReason = null;
+                    contradictionSource = null;
                     // Mark the given choice as impossible
                     if (InternalBan(item.Index, item.Pattern))
                     {
