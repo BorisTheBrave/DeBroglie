@@ -68,7 +68,9 @@ namespace DeBroglie.Test.Constraints
             }
         }
 
-        // In this model, the counted tiles always come in pairs, which trips up eagerness
+        // In this model, the counted tiles always come in pairs, which trips up eagerness.
+        [Test]
+        [Ignore("Hard to see how to fix this without making eagerness much slower")]
         public void TestDoubleCountConstraint()
         {
             var model = new AdjacentModel(DirectionSet.Cartesian2d);
@@ -109,6 +111,43 @@ namespace DeBroglie.Test.Constraints
             var actualCount = propagator.ToValueArray<int>().ToArray2d().OfType<int>().Count(x => x == 1 || x == 2);
 
             Assert.AreEqual(count, actualCount);
+        }
+
+        [Test]
+        public void TestUnassignableEager()
+        {
+            var model = new AdjacentModel(DirectionSet.Cartesian2d);
+            var tile1 = new Tile(1);
+            var tile2 = new Tile(2);
+            var tiles = new[] { tile1, tile2 };
+            model.AddAdjacency(tiles, tiles, Direction.XPlus);
+            model.AddAdjacency(tiles, tiles, Direction.YPlus);
+            model.SetUniformFrequency();
+
+            var topology = new GridTopology(3, 1, false);
+
+            var count = 3;
+
+            var options = new TilePropagatorOptions
+            {
+                Constraints = new[]
+                {
+                    new CountConstraint
+                    {
+                        Tiles = new[]{ tile1, }.ToHashSet(),
+                        Count = count,
+                        Comparison = CountComparison.Exactly,
+                        Eager = true,
+                    }
+                }
+            };
+            var propagator = new TilePropagator(model, topology, options);
+
+            propagator.Select(1, 0, 0, tile2);
+
+            propagator.Run();
+
+            Assert.AreEqual(Resolution.Contradiction, propagator.Status);
         }
     }
 }

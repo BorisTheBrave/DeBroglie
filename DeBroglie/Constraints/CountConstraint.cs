@@ -190,6 +190,12 @@ namespace DeBroglie.Constraints
                             Check(propagator);
                             return;
                         }
+                        if(maybeList.Count == 0)
+                        {
+                            // Not enough, but no valid spaces
+                            propagator.SetContradiction();
+                            return;
+                        }
                         var pickedIndex = maybeList[(int)(propagator.RandomDouble() * maybeList.Count)];
                         topology.GetCoord(pickedIndex, out var x, out var y, out var z);
                         propagator.Select(x, y, z, tileSet);
@@ -207,6 +213,12 @@ namespace DeBroglie.Constraints
 
                             // We've reached the limit, ban any more and exit
                             Check(propagator);
+                            return;
+                        }
+                        if (maybeList.Count == 0)
+                        {
+                            // Not enough, but no valid spaces
+                            propagator.SetContradiction();
                             return;
                         }
                         var pickedIndex = maybeList[(int)(propagator.RandomDouble() * maybeList.Count)];
