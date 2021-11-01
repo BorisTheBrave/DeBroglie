@@ -252,6 +252,7 @@ namespace DeBroglie.Constraints
             }
         }
 
+        /*
         internal IPickHeuristic GetHeuristic(
                 IRandomPicker randomPicker,
                 Func<double> randomDouble,
@@ -262,6 +263,7 @@ namespace DeBroglie.Constraints
             return new FollowPathHeuristic(
                 randomPicker, randomDouble, propagator, tileModelMapping, fallbackHeuristic, this);
         }
+        */
 
         private static readonly int[] Empty = { };
 
@@ -312,6 +314,7 @@ namespace DeBroglie.Constraints
             };
         }
 
+        /*
         private class FollowPathHeuristic : IPickHeuristic
         {
             private readonly IRandomPicker randomPicker;
@@ -395,5 +398,6 @@ namespace DeBroglie.Constraints
                 }
             }
         }
+        */
     }
 }

@@ -11,7 +11,7 @@ namespace DeBroglie.Trackers
     /// * The frequencies can be set on a per cell basis.
     /// * In addition to frequency, priority can be set. Only tiles of the highest priority for a given cell are considered available.
     /// </summary>
-    internal class ArrayPriorityEntropyTracker : ITracker, IRandomPicker
+    internal class ArrayPriorityEntropyTracker : ITracker, IIndexPicker, IPatternPicker
     {
         private readonly int patternCount;
 

@@ -5,7 +5,7 @@ using System.Text;
 namespace DeBroglie.Trackers
 {
 
-    internal class EntropyTracker : ITracker, IRandomPicker
+    internal class EntropyTracker : ITracker, IIndexPicker, IPatternPicker
     {
         private readonly int patternCount;
 

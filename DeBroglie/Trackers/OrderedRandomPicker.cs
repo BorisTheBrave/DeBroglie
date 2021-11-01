@@ -3,7 +3,7 @@ using System;
 
 namespace DeBroglie.Trackers
 {
-    internal class OrderedRandomPicker : IRandomPicker
+    internal class OrderedRandomPicker : IIndexPicker, IPatternPicker
     {
 
         private readonly int patternCount;

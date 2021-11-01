@@ -73,6 +73,7 @@ namespace DeBroglie.Constraints
             }
         }
 
+        /*
         internal IPickHeuristic GetHeuristic(
             IRandomPicker randomPicker,
             Func<double> randomDouble,
@@ -176,6 +177,7 @@ namespace DeBroglie.Constraints
                 }
             }
         }
+        */
 
     }
 }

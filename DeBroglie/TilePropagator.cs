@@ -155,7 +155,7 @@ namespace DeBroglie
 
         }
 
-        private IPickHeuristic MakePickHeuristic(WavePropagator wavePropagator, TilePropagatorOptions options)
+        private Tuple<IIndexPicker, IPatternPicker> MakePickHeuristic(WavePropagator wavePropagator, TilePropagatorOptions options)
         {
             var waveFrequencySets = options.Weights == null ? null : GetFrequencySets(options.Weights, tileModelMapping);
             var randomDouble = wavePropagator.RandomDouble;
@@ -168,35 +168,43 @@ namespace DeBroglie
             // Use the appropriate random picker
             // Generally this is HeapEntropyTracker, but it doesn't support some features
             // so there's a few slower implementations for that
-            IRandomPicker randomPicker;
+            IIndexPicker indexPicker;
+            IPatternPicker patternPicker;
             if (options.PickHeuristicType == PickHeuristicType.Ordered)
             {
-                randomPicker = new OrderedRandomPicker(wavePropagator.Wave, wavePropagator.Frequencies, patternTopology.Mask);
+                var picker = new OrderedRandomPicker(wavePropagator.Wave, wavePropagator.Frequencies, patternTopology.Mask);
+                indexPicker = picker;
+                patternPicker = picker;
             }
             else if (waveFrequencySets != null)
             {
                 var entropyTracker = new ArrayPriorityEntropyTracker(wavePropagator.Wave, waveFrequencySets, patternTopology.Mask);
                 entropyTracker.Reset();
                 wavePropagator.AddTracker(entropyTracker);
-                randomPicker = entropyTracker;
+                indexPicker = entropyTracker;
+                patternPicker = entropyTracker;
             }
             else if(pathPickHeuristic || connectedPickHeuristic)
             {
                 var entropyTracker = new EntropyTracker(wavePropagator.Wave, wavePropagator.Frequencies, patternTopology.Mask);
                 entropyTracker.Reset();
                 wavePropagator.AddTracker(entropyTracker);
-                randomPicker = entropyTracker;
+                indexPicker = entropyTracker;
+                patternPicker = entropyTracker;
             } else {
                 var entropyTracker = new HeapEntropyTracker(wavePropagator.Wave, wavePropagator.Frequencies, patternTopology.Mask, randomDouble);
                 entropyTracker.Reset();
                 wavePropagator.AddTracker(entropyTracker);
-                randomPicker = entropyTracker;
+                indexPicker = entropyTracker;
+                patternPicker = entropyTracker;
             }
 
-            IPickHeuristic heuristic = new RandomPickerHeuristic(randomPicker, randomDouble);
+            return Tuple.Create(indexPicker, patternPicker);
 
+            /*
             if (pathPickHeuristic)
             {
+                throw new NotImplementedException();
                 heuristic = pathConstraint.GetHeuristic(
                     randomPicker,
                     randomDouble,
@@ -207,6 +215,8 @@ namespace DeBroglie
 
             if (connectedPickHeuristic)
             {
+                throw new NotImplementedException();
+                /*
                 heuristic = connectedConstraint.GetHeuristic(
                     randomPicker,
                     randomDouble,
@@ -216,9 +226,11 @@ namespace DeBroglie
             }
 
             return heuristic;
-        }
+                */
 
-        private void TileCoordToPatternCoord(int x, int y, int z, out int px, out int py, out int pz, out int offset)
+            }
+
+            private void TileCoordToPatternCoord(int x, int y, int z, out int px, out int py, out int pz, out int offset)
         {
             tileModelMapping.GetTileCoordToPatternCoord(x, y, z, out px, out py, out pz, out offset);
         }

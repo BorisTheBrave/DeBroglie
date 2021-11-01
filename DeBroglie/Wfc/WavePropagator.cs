@@ -10,7 +10,7 @@ namespace DeBroglie.Wfc
         public int BackTrackDepth { get; set; }
         public IWaveConstraint[] Constraints { get; set; }
         public Func<double> RandomDouble { get; set; }
-        public Func<WavePropagator, IPickHeuristic> PickHeuristicFactory { get; set; }
+        public Func<WavePropagator, Tuple<IIndexPicker, IPatternPicker>> PickHeuristicFactory { get; set; }
         public bool Clear { get; set; } = true;
         public ModelConstraintAlgorithm ModelConstraintAlgorithm { get; set; }
     }
@@ -57,11 +57,12 @@ namespace DeBroglie.Wfc
         private ITopology topology;
         private int directionsCount;
 
-        public readonly Func<WavePropagator, IPickHeuristic> pickHeuristicFactory;
+        public readonly Func<WavePropagator, Tuple<IIndexPicker, IPatternPicker>> pickHeuristicFactory;
 
         private List<ITracker> trackers;
 
-        private IPickHeuristic pickHeuristic;
+        private IIndexPicker indexPicker;
+        private IPatternPicker patternPicker;
 
         public WavePropagator(
             PatternModel model,
@@ -87,7 +88,7 @@ namespace DeBroglie.Wfc
                     var entropyTracker = new EntropyTracker(wavePropagator.Wave, wavePropagator.Frequencies, wavePropagator.Topology.Mask);
                     entropyTracker.Reset();
                     wavePropagator.AddTracker(entropyTracker);
-                    return new RandomPickerHeuristic(entropyTracker, this.randomDouble);
+                    return Tuple.Create<IIndexPicker, IPatternPicker>(entropyTracker, entropyTracker);
                 };
             }
 
@@ -219,11 +220,14 @@ namespace DeBroglie.Wfc
 
         private void Observe(out int index, out int pattern)
         {
-            pickHeuristic.PickObservation(out index, out pattern);
+            index = indexPicker.GetRandomIndex(randomDouble);
             if (index == -1)
             {
+                pattern = -1;
                 return;
             }
+
+            pattern = patternPicker.GetRandomPossiblePatternAt(index, randomDouble);
 
             // Decide on the given cell
             if (InternalSelect(index, pattern))
@@ -305,7 +309,7 @@ namespace DeBroglie.Wfc
             contradictionReason = null;
             contradictionSource = null;
             this.trackers = new List<ITracker>();
-            pickHeuristic = pickHeuristicFactory(this);
+            (indexPicker, patternPicker) = pickHeuristicFactory(this);
 
             patternModelConstraint.Clear();
 

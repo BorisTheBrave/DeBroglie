@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace DeBroglie.Trackers
 {
-    internal class HeapEntropyTracker : ITracker, IRandomPicker
+    internal class HeapEntropyTracker : ITracker, IIndexPicker, IPatternPicker
     {
         private readonly int patternCount;
 
