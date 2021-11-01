@@ -243,6 +243,7 @@ namespace DeBroglie.Test
 
             var propagator = new TilePropagator(model, topology, new TilePropagatorOptions
             {
+                IndexPickerType = IndexPickerType.ArrayPriorityMinEntropy,
                 Weights = weightsArray,
             });
 

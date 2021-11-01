@@ -12,10 +12,20 @@ namespace DeBroglie
         public double Weight { get; set; }
     }
 
-    public enum PickHeuristicType
+    public enum IndexPickerType
     {
+        Default,
+        Ordered,
         MinEntropy,
-        Ordered
+        HeapMinEntropy,
+        ArrayPriorityMinEntropy,
+    }
+
+    public enum TilePickerType
+    {
+        Default,
+        Ordered,
+        Weighted,
     }
 
     public class TilePropagatorOptions
@@ -32,11 +42,6 @@ namespace DeBroglie
         public ITileConstraint[] Constraints { get; set; }
 
         /// <summary>
-        /// Overrides the weights set from the model, on a per-position basis.
-        /// </summary>
-        public ITopoArray<IDictionary<Tile, PriorityAndWeight>> Weights { get; set; }
-
-        /// <summary>
         /// Source of randomness used by generation
         /// </summary>
         public Func<double> RandomDouble { get; set; }
@@ -45,13 +50,24 @@ namespace DeBroglie
         public Random Random { get; set; }
 
         /// <summary>
-        /// Controls which cells and tiles are selected during generation.
+        /// Controls which cells are selected during generation.
         /// </summary>
-        public PickHeuristicType PickHeuristicType { get; set; }
+        public IndexPickerType IndexPickerType { get; set; }
+
+        /// <summary>
+        /// Controls which tiles are selected during generation.
+        /// </summary>
+        public TilePickerType TilePickerType { get; set; }
 
         /// <summary>
         /// Controls the algorithm used for enforcing the constraints of the model.
         /// </summary>
         public ModelConstraintAlgorithm ModelConstraintAlgorithm { get; set; }
+
+        /// <summary>
+        /// Overrides the weights set from the model, on a per-position basis.
+        /// Only used by <see cref="IndexPickerType.ArrayPriorityMinEntropy"/>
+        /// </summary>
+        public ITopoArray<IDictionary<Tile, PriorityAndWeight>> Weights { get; set; }
     }
 }

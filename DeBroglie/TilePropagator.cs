@@ -108,7 +108,6 @@ namespace DeBroglie
 
         private Tuple<IIndexPicker, IPatternPicker> MakePickHeuristic(WavePropagator wavePropagator, TilePropagatorOptions options)
         {
-            var waveFrequencySets = options.Weights == null ? null : GetFrequencySets(options.Weights, tileModelMapping);
             var randomDouble = wavePropagator.RandomDouble;
             var patternTopology = wavePropagator.Topology;
             var pathConstraint = options.Constraints?.OfType<EdgedPathConstraint>().FirstOrDefault();
@@ -121,38 +120,62 @@ namespace DeBroglie
             // Use the appropriate random picker
             // Generally this is HeapEntropyTracker, but it doesn't support some features
             // so there's a few slower implementations for that
-            IIndexPicker indexPicker;
-            IPatternPicker patternPicker = null;
-            if (options.PickHeuristicType == PickHeuristicType.Ordered)
+            IIndexPicker indexPicker = null;
+
+            switch(options.IndexPickerType)
             {
-                var picker = new SimpleOrderedIndexPicker(wave, frequencies, patternTopology.Mask);
-                indexPicker = picker;
-                
-            }
-            else if (waveFrequencySets != null)
-            {
-                var entropyTracker = new ArrayPriorityEntropyTracker(wavePropagator.Wave, waveFrequencySets, patternTopology.Mask);
-                entropyTracker.Reset();
-                wavePropagator.AddTracker(entropyTracker);
-                indexPicker = entropyTracker;
-                patternPicker = entropyTracker;
-            }
-            else if(pathPickHeuristic || connectedPickHeuristic)
-            {
-                var entropyTracker = new EntropyTracker(wavePropagator.Wave, wavePropagator.Frequencies, patternTopology.Mask);
-                entropyTracker.Reset();
-                wavePropagator.AddTracker(entropyTracker);
-                indexPicker = entropyTracker;
-            }
-            else
-            {
-                var entropyTracker = new HeapEntropyTracker(wavePropagator.Wave, wavePropagator.Frequencies, patternTopology.Mask, randomDouble);
-                entropyTracker.Reset();
-                wavePropagator.AddTracker(entropyTracker);
-                indexPicker = entropyTracker;
+                case IndexPickerType.Ordered:
+                    {
+                        var picker = new SimpleOrderedIndexPicker(wave, frequencies, patternTopology.Mask);
+                        indexPicker = picker;
+                        break;
+                    }
+                case IndexPickerType.ArrayPriorityMinEntropy:
+                    {
+                        if (options.Weights == null)
+                            throw new ArgumentNullException($"Expected TilePropagatorOptions.Weights to be set");
+                        var waveFrequencySets = GetFrequencySets(options.Weights, tileModelMapping);
+                        var entropyTracker = new ArrayPriorityEntropyTracker(wavePropagator.Wave, waveFrequencySets, patternTopology.Mask);
+                        entropyTracker.Reset();
+                        wavePropagator.AddTracker(entropyTracker);
+                        if (options.TilePickerType != TilePickerType.Weighted && options.TilePickerType != TilePickerType.Default)
+                            throw new Exception($"ArrayPriorityMinEntropy only works with Weighted tile picker");
+                        return Tuple.Create((IIndexPicker)entropyTracker, (IPatternPicker)entropyTracker);
+                    }
+                case IndexPickerType.MinEntropy:
+                    {
+                        var entropyTracker = new EntropyTracker(wavePropagator.Wave, wavePropagator.Frequencies, patternTopology.Mask);
+                        entropyTracker.Reset();
+                        wavePropagator.AddTracker(entropyTracker);
+                        indexPicker = entropyTracker;
+                        break;
+                    }
+                case IndexPickerType.Default:
+                case IndexPickerType.HeapMinEntropy:
+                    {
+                        var entropyTracker = new HeapEntropyTracker(wavePropagator.Wave, wavePropagator.Frequencies, patternTopology.Mask, randomDouble);
+                        entropyTracker.Reset();
+                        wavePropagator.AddTracker(entropyTracker);
+                        indexPicker = entropyTracker;
+                        break;
+                    }
+                default:
+                    throw new Exception($"Unknown IndexPickerType {options.IndexPickerType}");
             }
 
-            patternPicker = patternPicker ?? new WeightedRandomPatternPicker(wave, frequencies);
+            IPatternPicker patternPicker;
+            switch(options.TilePickerType)
+            {
+                case TilePickerType.Default:
+                case TilePickerType.Weighted:
+                    patternPicker = new WeightedRandomPatternPicker(wave, frequencies);
+                    break;
+                case TilePickerType.Ordered:
+                    patternPicker = new SimpleOrderedPatternPicker(wave, frequencies.Length);
+                    break;
+                default:
+                    throw new Exception($"Unknown TilePickerType {options.TilePickerType}");
+            }
 
             return Tuple.Create(indexPicker, patternPicker);
 
