@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace DeBroglie.Trackers
 {
-    internal class HeapEntropyTracker : ITracker, IIndexPicker, IPatternPicker
+    internal class HeapEntropyTracker : ITracker, IIndexPicker
     {
         private readonly int patternCount;
 
@@ -171,17 +171,6 @@ namespace DeBroglie.Trackers
 
             var item = heap.Peek();
             return item.Index;
-        }
-
-        public void GetDistributionAt(int index, out double[] frequencies, out int[] patterns)
-        {
-            frequencies = this.frequencies;
-            patterns = null;
-        }
-
-        public int GetRandomPossiblePatternAt(int index, Func<double> randomDouble)
-        {
-            return RandomPickerUtils.GetRandomPossiblePattern(wave, randomDouble, index, frequencies);
         }
 
         /**

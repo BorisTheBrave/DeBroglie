@@ -5,7 +5,7 @@ using System.Text;
 namespace DeBroglie.Trackers
 {
 
-    internal class EntropyTracker : ITracker, IIndexPicker, IPatternPicker
+    internal class EntropyTracker : ITracker, IIndexPicker
     {
         private readonly int patternCount;
 
@@ -134,17 +134,6 @@ namespace DeBroglie.Trackers
                 }
             }
             return selectedIndex;
-        }
-
-        public void GetDistributionAt(int index, out double[] frequencies, out int[] patterns)
-        {
-            frequencies = this.frequencies;
-            patterns = null;
-        }
-
-        public int GetRandomPossiblePatternAt(int index, Func<double> randomDouble)
-        {
-            return RandomPickerUtils.GetRandomPossiblePattern(wave, randomDouble, index, frequencies);
         }
 
         /**

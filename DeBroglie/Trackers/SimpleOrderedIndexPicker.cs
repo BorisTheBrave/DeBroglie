@@ -3,9 +3,8 @@ using System;
 
 namespace DeBroglie.Trackers
 {
-    internal class OrderedRandomPicker : IIndexPicker, IPatternPicker
+    internal class SimpleOrderedIndexPicker : IIndexPicker
     {
-
         private readonly int patternCount;
 
         private readonly double[] frequencies;
@@ -16,7 +15,7 @@ namespace DeBroglie.Trackers
 
         private readonly Wave wave;
 
-        public OrderedRandomPicker(
+        public SimpleOrderedIndexPicker(
             Wave wave,
             double[] frequencies,
             bool[] mask)
@@ -47,17 +46,6 @@ namespace DeBroglie.Trackers
                 return i;
             }
             return -1;
-        }
-
-        public void GetDistributionAt(int index, out double[] frequencies, out int[] patterns)
-        {
-            frequencies = this.frequencies;
-            patterns = null;
-        }
-
-        public int GetRandomPossiblePatternAt(int index, Func<double> randomDouble)
-        {
-            return RandomPickerUtils.GetRandomPossiblePattern(wave, randomDouble, index, frequencies);
         }
     }
 }

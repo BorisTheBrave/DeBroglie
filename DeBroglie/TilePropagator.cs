@@ -164,17 +164,19 @@ namespace DeBroglie
             var pathPickHeuristic = pathConstraint != null && pathConstraint.UsePickHeuristic;
             var connectedConstraint = options.Constraints?.OfType<ConnectedConstraint>().FirstOrDefault();
             var connectedPickHeuristic = connectedConstraint != null && connectedConstraint.UsePickHeuristic;
+            var wave = wavePropagator.Wave;
+            var frequencies = wavePropagator.Frequencies;
 
             // Use the appropriate random picker
             // Generally this is HeapEntropyTracker, but it doesn't support some features
             // so there's a few slower implementations for that
             IIndexPicker indexPicker;
-            IPatternPicker patternPicker;
+            IPatternPicker patternPicker = null;
             if (options.PickHeuristicType == PickHeuristicType.Ordered)
             {
-                var picker = new OrderedRandomPicker(wavePropagator.Wave, wavePropagator.Frequencies, patternTopology.Mask);
+                var picker = new SimpleOrderedIndexPicker(wave, frequencies, patternTopology.Mask);
                 indexPicker = picker;
-                patternPicker = picker;
+                
             }
             else if (waveFrequencySets != null)
             {
@@ -190,14 +192,16 @@ namespace DeBroglie
                 entropyTracker.Reset();
                 wavePropagator.AddTracker(entropyTracker);
                 indexPicker = entropyTracker;
-                patternPicker = entropyTracker;
-            } else {
+            }
+            else
+            {
                 var entropyTracker = new HeapEntropyTracker(wavePropagator.Wave, wavePropagator.Frequencies, patternTopology.Mask, randomDouble);
                 entropyTracker.Reset();
                 wavePropagator.AddTracker(entropyTracker);
                 indexPicker = entropyTracker;
-                patternPicker = entropyTracker;
             }
+
+            patternPicker = patternPicker ?? new WeightedRandomPatternPicker(wave, frequencies);
 
             return Tuple.Create(indexPicker, patternPicker);
 
