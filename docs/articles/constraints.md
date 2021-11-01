@@ -122,6 +122,10 @@ The <xref:DeBroglie.Constraints.SeparationConstraint> class forces particular ti
 
 It's useful for giving a more even distribution of tiles, similar to a Poisson disk sampling.
 
+## Pair Separation
+
+The <xref:DeBroglie.Constraints.PairSeparationConstraint> class forces one set of tiles to not be placed near another set.
+
 ## Custom Constraints
 
 You can define your own constraints by extending <xref:DeBroglie.Constraints.ITileConstraint>. The Init method is called once per propagator run, and the Check method is called after each step, each time tiles are selected. 
