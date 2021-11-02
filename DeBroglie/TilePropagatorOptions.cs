@@ -14,17 +14,32 @@ namespace DeBroglie
 
     public enum IndexPickerType
     {
+        /// <summary>
+        /// Use the most appropriate picker, usually MinEntropy 
+        /// </summary>
         Default,
+        /// <summary>
+        /// Pick the first available index
+        /// </summary>
         Ordered,
+        /// <summary>
+        /// Pick the index with the least entropy in the remaining tiles
+        /// </summary>
         MinEntropy,
+        /// <summary>
+        /// As MinEntropy, but better optimized for large outputs
+        /// </summary>
         HeapMinEntropy,
+        /// <summary>
+        /// Override frequencies on a per-index
+        /// </summary>
         ArrayPriorityMinEntropy,
     }
 
     public enum TilePickerType
     {
         /// <summary>
-        /// Pick the most appropriate picker, usuaully Weighted
+        /// Use the most appropriate picker, usuaully Weighted
         /// </summary>
         Default,
         /// <summary>
