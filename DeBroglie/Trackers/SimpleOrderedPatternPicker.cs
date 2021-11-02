@@ -14,11 +14,6 @@ namespace DeBroglie.Trackers
             this.patternCount = patternCount;
         }
 
-        public void GetDistributionAt(int index, out double[] frequencies, out int[] patterns)
-        {
-            throw new Exception();
-        }
-
         public int GetRandomPossiblePatternAt(int index, Func<double> randomDouble)
         {
             for (var pattern = 0; pattern < patternCount; pattern++)

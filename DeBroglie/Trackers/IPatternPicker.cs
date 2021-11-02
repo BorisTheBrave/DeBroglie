@@ -10,7 +10,5 @@ namespace DeBroglie.Trackers
     internal interface IPatternPicker
     {
         int GetRandomPossiblePatternAt(int index, Func<double> randomDouble);
-
-        void GetDistributionAt(int index, out double[] frequencies, out int[] patterns);
     }
 }

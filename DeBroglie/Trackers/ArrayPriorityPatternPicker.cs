@@ -17,11 +17,6 @@ namespace DeBroglie.Trackers
             this.frequencySets = frequencySets;
         }
 
-        public void GetDistributionAt(int index, out double[] frequencies, out int[] patterns)
-        {
-            throw new Exception();
-        }
-
         public int GetRandomPossiblePatternAt(int index, Func<double> randomDouble)
         {
             var fs = frequencySets[index];
