@@ -104,7 +104,7 @@ namespace DeBroglie.Trackers
         // Finds the cells with minimal entropy (excluding 0, decided cells)
         // and picks one randomly.
         // Returns -1 if every cell is decided.
-        public int GetRandomIndex(Func<double> randomDouble, int[] externalPriority = null)
+        public int GetRandomIndex(Func<double> randomDouble)
         {
             if (tracker.ChangedCount > wave.Indicies * 0.5 && tracker.ChangedCount > 1)
             {
@@ -161,10 +161,6 @@ namespace DeBroglie.Trackers
                     }
                 }
             }
-
-
-            if (externalPriority != null)
-                throw new Exception();
 
             if (heap.Count == 0)
                 return -1;

@@ -5,7 +5,7 @@ using System.Text;
 namespace DeBroglie.Trackers
 {
 
-    internal class EntropyTracker : ITracker, IIndexPicker
+    internal class EntropyTracker : ITracker, IIndexPicker, IFilteredIndexPicker
     {
         private readonly int patternCount;
 
@@ -82,10 +82,9 @@ namespace DeBroglie.Trackers
         // Finds the cells with minimal entropy (excluding 0, decided cells)
         // and picks one randomly.
         // Returns -1 if every cell is decided.
-        public int GetRandomIndex(Func<double> randomDouble, int[] externalPriority = null)
+        public int GetRandomIndex(Func<double> randomDouble)
         {
             int selectedIndex = -1;
-            int minExternalPriority = int.MinValue;
             double minEntropy = double.PositiveInfinity;
             int countAtMinEntropy = 0;
             for (int i = 0; i < indices; i++)
@@ -93,19 +92,17 @@ namespace DeBroglie.Trackers
                 if (mask != null && !mask[i])
                     continue;
                 var c = wave.GetPatternCount(i);
-                var ep = externalPriority == null ? 0 : externalPriority[i];
                 var e = entropyValues[i].Entropy;
                 if (c <= 1)
                 {
                     continue;
                 }
-                else if (ep > minExternalPriority || (ep == minExternalPriority && e < minEntropy))
+                else if (e < minEntropy)
                 {
                     countAtMinEntropy = 1;
-                    minExternalPriority = ep;
                     minEntropy = e;
                 }
-                else if (ep == minExternalPriority && e == minEntropy)
+                else
                 {
                     countAtMinEntropy++;
                 }
@@ -117,13 +114,59 @@ namespace DeBroglie.Trackers
                 if (mask != null && !mask[i])
                     continue;
                 var c = wave.GetPatternCount(i);
-                var ep = externalPriority == null ? 0 : externalPriority[i];
                 var e = entropyValues[i].Entropy;
                 if (c <= 1)
                 {
                     continue;
                 }
-                else if (ep == minExternalPriority && e == minEntropy)
+                else if (e == minEntropy)
+                {
+                    if (n == 0)
+                    {
+                        selectedIndex = i;
+                        break;
+                    }
+                    n--;
+                }
+            }
+            return selectedIndex;
+        }
+
+        public int GetRandomIndex(Func<double> randomDouble, int[] indices)
+        {
+
+            int selectedIndex = -1;
+            double minEntropy = double.PositiveInfinity;
+            int countAtMinEntropy = 0;
+            foreach(var i in indices)
+            {
+                var c = wave.GetPatternCount(i);
+                var e = entropyValues[i].Entropy;
+                if (c <= 1)
+                {
+                    continue;
+                }
+                else if (e < minEntropy)
+                {
+                    countAtMinEntropy = 1;
+                    minEntropy = e;
+                }
+                else
+                {
+                    countAtMinEntropy++;
+                }
+            }
+            var n = (int)(countAtMinEntropy * randomDouble());
+
+            foreach (var i in indices)
+            {
+                var c = wave.GetPatternCount(i);
+                var e = entropyValues[i].Entropy;
+                if (c <= 1)
+                {
+                    continue;
+                }
+                else if (e == minEntropy)
                 {
                     if (n == 0)
                     {

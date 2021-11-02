@@ -3,7 +3,7 @@ using System;
 
 namespace DeBroglie.Trackers
 {
-    internal class SimpleOrderedIndexPicker : IIndexPicker
+    internal class SimpleOrderedIndexPicker : IIndexPicker, IFilteredIndexPicker
     {
         private readonly int patternCount;
 
@@ -28,16 +28,26 @@ namespace DeBroglie.Trackers
             this.indices = wave.Indicies;
         }
 
-        public int GetRandomIndex(Func<double> randomDouble, int[] externalPriority = null)
+        public int GetRandomIndex(Func<double> randomDouble)
         {
-            if(externalPriority != null)
-            {
-                throw new NotSupportedException();
-            }
             for (int i = 0; i < indices; i++)
             {
                 if (mask != null && !mask[i])
                     continue;
+                var c = wave.GetPatternCount(i);
+                if (c <= 1)
+                {
+                    continue;
+                }
+                return i;
+            }
+            return -1;
+        }
+
+        public int GetRandomIndex(Func<double> randomDouble, int[] indices)
+        {
+            foreach(var i in indices)
+            {
                 var c = wave.GetPatternCount(i);
                 if (c <= 1)
                 {

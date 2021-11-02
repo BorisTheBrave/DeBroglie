@@ -112,13 +112,8 @@ namespace DeBroglie.Trackers
         // Finds the cells with minimal entropy (excluding 0, decided cells)
         // and picks one randomly.
         // Returns -1 if every cell is decided.
-        public int GetRandomIndex(Func<double> randomDouble, int[] externalPriority = null)
+        public int GetRandomIndex(Func<double> randomDouble)
         {
-            if(externalPriority != null)
-            {
-                throw new NotImplementedException();
-            }
-
             int selectedIndex = -1;
             // TODO: At the moment this is a linear scan, but potentially
             // could use some data structure

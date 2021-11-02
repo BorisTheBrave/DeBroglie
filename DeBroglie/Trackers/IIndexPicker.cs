@@ -7,6 +7,11 @@ namespace DeBroglie.Trackers
     /// </summary>
     internal interface IIndexPicker
     {
-        int GetRandomIndex(Func<double> randomDouble, int[] externalPriority = null);
+        int GetRandomIndex(Func<double> randomDouble);
+    }
+
+    internal interface IFilteredIndexPicker
+    {
+        int GetRandomIndex(Func<double> randomDouble, int[] indices);
     }
 }
