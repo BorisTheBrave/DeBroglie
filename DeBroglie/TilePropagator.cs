@@ -138,8 +138,8 @@ namespace DeBroglie
                         var entropyTracker = new ArrayPriorityEntropyTracker(wavePropagator.Wave, waveFrequencySets, patternTopology.Mask);
                         entropyTracker.Reset();
                         wavePropagator.AddTracker(entropyTracker);
-                        if (options.TilePickerType != TilePickerType.Weighted && options.TilePickerType != TilePickerType.Default)
-                            throw new Exception($"ArrayPriorityMinEntropy only works with Weighted tile picker");
+                        if (options.TilePickerType != TilePickerType.ArrayPriority && options.TilePickerType != TilePickerType.Default)
+                            throw new Exception($"ArrayPriorityMinEntropy only works with Default tile picker");
                         return Tuple.Create((IIndexPicker)entropyTracker, (IPatternPicker)entropyTracker);
                     }
                 case IndexPickerType.MinEntropy:
@@ -172,6 +172,12 @@ namespace DeBroglie
                     break;
                 case TilePickerType.Ordered:
                     patternPicker = new SimpleOrderedPatternPicker(wave, frequencies.Length);
+                    break;
+                case TilePickerType.ArrayPriority:
+                    if (options.Weights == null)
+                        throw new ArgumentNullException($"Expected TilePropagatorOptions.Weights to be set");
+                    var waveFrequencySets = GetFrequencySets(options.Weights, tileModelMapping);
+                    patternPicker = new ArrayPriorityPatternPicker(wave, waveFrequencySets);
                     break;
                 default:
                     throw new Exception($"Unknown TilePickerType {options.TilePickerType}");

@@ -23,9 +23,22 @@ namespace DeBroglie
 
     public enum TilePickerType
     {
+        /// <summary>
+        /// Pick the most appropriate picker, usuaully Weighted
+        /// </summary>
         Default,
+        /// <summary>
+        /// Pick the first available tile.
+        /// </summary>
         Ordered,
+        /// <summary>
+        /// Pick at random, based on frequencies supplied by the model
+        /// </summary>
         Weighted,
+        /// <summary>
+        /// Use the provided weights.
+        /// </summary>
+        ArrayPriority,
     }
 
     public class TilePropagatorOptions
