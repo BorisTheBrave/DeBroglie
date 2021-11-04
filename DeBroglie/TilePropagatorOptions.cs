@@ -19,7 +19,8 @@ namespace DeBroglie
         /// </summary>
         Default,
         /// <summary>
-        /// Pick the first available index
+        /// Pick the first available index.
+        /// Uses IndexOrder if available, otherwise an arbitrary order.
         /// </summary>
         Ordered,
         /// <summary>
@@ -109,5 +110,10 @@ namespace DeBroglie
         /// Only used by <see cref="IndexPickerType.Dirty"/>
         /// </summary>
         public ITopoArray<Tile> CleanTiles { get; set; }
+
+        /// <summary>
+        /// Only used by <see cref="IndexPickerType.Ordered"/>
+        /// </summary>
+        public int[] IndexOrder { get; set; }
     }
 }

@@ -120,6 +120,7 @@ namespace DeBroglie
 
             if(connectedPickHeuristic || pathPickHeuristic)
             {
+                // Lists pickers that implement IFilteredIndexPicker
                 if (options.IndexPickerType != IndexPickerType.Default &&
                     options.IndexPickerType != IndexPickerType.MinEntropy &&
                     options.IndexPickerType != IndexPickerType.Ordered)
@@ -139,8 +140,14 @@ namespace DeBroglie
             {
                 case IndexPickerType.Ordered:
                     {
-                        var picker = new SimpleOrderedIndexPicker(wave, mask);
-                        indexPicker = picker;
+                        if (options.IndexOrder != null)
+                        {
+                            indexPicker = new OrderedIndexPicker(wave, options.IndexOrder);
+                        }
+                        else
+                        {
+                            indexPicker = new SimpleOrderedIndexPicker(wave, mask);
+                        }
                         break;
                     }
                 case IndexPickerType.ArrayPriorityMinEntropy:
