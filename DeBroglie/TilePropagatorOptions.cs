@@ -34,6 +34,13 @@ namespace DeBroglie
         /// Override frequencies on a per-index
         /// </summary>
         ArrayPriorityMinEntropy,
+        /// <summary>
+        /// Only pick indices that must deviate from a known clean value.
+        /// This lets you regenerate a unknown subset of a much larger map,
+        /// providing tiles are sufficiently stable.
+        /// Experimental.
+        /// </summary>
+        Dirty,
     }
 
     public enum TilePickerType
@@ -97,5 +104,10 @@ namespace DeBroglie
         /// Only used by <see cref="IndexPickerType.ArrayPriorityMinEntropy"/>
         /// </summary>
         public ITopoArray<IDictionary<Tile, PriorityAndWeight>> Weights { get; set; }
+
+        /// <summary>
+        /// Only used by <see cref="IndexPickerType.Dirty"/>
+        /// </summary>
+        public ITopoArray<Tile> CleanTiles { get; set; }
     }
 }

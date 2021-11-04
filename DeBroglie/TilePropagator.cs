@@ -110,6 +110,7 @@ namespace DeBroglie
         {
             var randomDouble = wavePropagator.RandomDouble;
             var patternTopology = wavePropagator.Topology;
+            var mask = patternTopology.Mask;
             var pathConstraint = options.Constraints?.OfType<EdgedPathConstraint>().FirstOrDefault();
             var pathPickHeuristic = pathConstraint != null && pathConstraint.UsePickHeuristic;
             var connectedConstraint = options.Constraints?.OfType<ConnectedConstraint>().FirstOrDefault();
@@ -138,7 +139,7 @@ namespace DeBroglie
             {
                 case IndexPickerType.Ordered:
                     {
-                        var picker = new SimpleOrderedIndexPicker(wave, frequencies, patternTopology.Mask);
+                        var picker = new SimpleOrderedIndexPicker(wave, mask);
                         indexPicker = picker;
                         break;
                     }
@@ -169,6 +170,19 @@ namespace DeBroglie
                         entropyTracker.Reset();
                         wavePropagator.AddTracker(entropyTracker);
                         indexPicker = entropyTracker;
+                        break;
+                    }
+                case IndexPickerType.Dirty:
+                    {
+                        // Create clean patterns
+                        if (tileModelMapping.TileCoordToPatternCoordIndexAndOffset != null)
+                            throw new NotSupportedException();
+                        var cleanPatterns = options.CleanTiles.Map(t => tileModelMapping.TilesToPatternsByOffset[0][t].First());
+
+                        var orderedIndexPicker = new SimpleOrderedIndexPicker(wave, mask);
+                        var dirtyIndexPicker = new DirtyIndexPicker(orderedIndexPicker, cleanPatterns);
+                        wavePropagator.AddTracker(dirtyIndexPicker);
+                        indexPicker = dirtyIndexPicker;
                         break;
                     }
                 default:
