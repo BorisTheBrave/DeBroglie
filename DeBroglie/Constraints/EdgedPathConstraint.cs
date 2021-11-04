@@ -252,18 +252,6 @@ namespace DeBroglie.Constraints
             }
         }
 
-        /*
-        internal IPickHeuristic GetHeuristic(
-                IRandomPicker randomPicker,
-                Func<double> randomDouble,
-                TilePropagator propagator,
-                TileModelMapping tileModelMapping,
-                IPickHeuristic fallbackHeuristic)
-        {
-            return new FollowPathHeuristic(
-                randomPicker, randomDouble, propagator, tileModelMapping, fallbackHeuristic, this);
-        }
-        */
 
         private static readonly int[] Empty = { };
 
@@ -314,10 +302,19 @@ namespace DeBroglie.Constraints
             };
         }
 
-        /*
-        private class FollowPathHeuristic : IPickHeuristic
+        internal IIndexPicker GetHeuristic(
+                IFilteredIndexPicker filteredIndexPicker,
+                Func<double> randomDouble,
+                TilePropagator propagator,
+                TileModelMapping tileModelMapping)
         {
-            private readonly IRandomPicker randomPicker;
+            return new FollowPathHeuristic(
+                filteredIndexPicker, randomDouble, propagator, tileModelMapping, this);
+        }
+
+        private class FollowPathHeuristic : IIndexPicker
+        {
+            private readonly IFilteredIndexPicker filteredIndexPicker;
 
             private readonly Func<double> randomDouble;
 
@@ -325,46 +322,46 @@ namespace DeBroglie.Constraints
 
             private readonly TileModelMapping tileModelMapping;
 
-            private readonly IPickHeuristic fallbackHeuristic;
-
             private readonly EdgedPathConstraint pathConstraint;
 
             public FollowPathHeuristic(
-                IRandomPicker randomPicker,
+                IFilteredIndexPicker filteredIndexPicker,
                 Func<double> randomDouble,
                 TilePropagator propagator,
                 TileModelMapping tileModelMapping,
-                IPickHeuristic fallbackHeuristic,
                 EdgedPathConstraint pathConstraint)
             {
-                this.randomPicker = randomPicker;
+                this.filteredIndexPicker = filteredIndexPicker;
                 this.randomDouble = randomDouble;
                 this.propagator = propagator;
                 this.tileModelMapping = tileModelMapping;
-                this.fallbackHeuristic = fallbackHeuristic;
                 this.pathConstraint = pathConstraint;
             }
 
-            public void PickObservation(out int index, out int pattern)
+            public int GetRandomIndex(Func<double> randomDouble)
             {
                 var topology = propagator.Topology;
                 var t = pathConstraint.pathSelectedTracker;
                 // Find cells that could potentially be paths, and are next to 
                 // already selected path. In tileSpace
-                var tilePriority = Enumerable.Range(0, topology.IndexCount).Select(i =>
+                var highPriority = new List<int>();
+                var mediumPrioiry = new List<int>();
+                var lowPriority = new List<int>();
+                foreach (var i in topology.GetIndices())
                 {
-                    if (!topology.ContainsIndex(i))
-                        return -1;
                     var qs = t.GetQuadstate(i);
-                    if(qs.IsYes())
+                    if (qs.IsYes())
                     {
-                        return 2;
+                        highPriority.Add(i);
+                        continue;
                     }
-                    if(qs.IsNo())
+                    if (qs.IsNo())
                     {
-                        return 0;
+                        lowPriority.Add(i);
+                        continue;
                     }
                     // Determine if any neighbours exit onto this tile
+                    var found = false;
                     for (var d = 0; d < topology.DirectionsCount; d++)
                     {
                         if (topology.TryMove(i, (Direction)d, out var i2, out var inverseDirection, out var _))
@@ -374,30 +371,28 @@ namespace DeBroglie.Constraints
                                 var s2 = tracker.GetQuadstate(i2);
                                 if (s2.IsYes())
                                 {
-                                    return 1;
+                                    mediumPrioiry.Add(i);
+                                    found = true;
+                                    break;
                                 }
                             }
                         }
                     }
-                    return 0;
-                }).ToArray();
-
-                var patternPriority = tileModelMapping.PatternCoordToTileCoordIndexAndOffset == null ? tilePriority : throw new NotImplementedException();
-
-                index = randomPicker.GetRandomIndex(randomDouble, patternPriority);
-
-                if(index == -1)
-                {
-                    fallbackHeuristic.PickObservation(out index, out pattern);
-                    propagator.Topology.GetCoord(index, out var x, out var y, out var z);
+                    if (!found)
+                    {
+                        lowPriority.Add(i);
+                    }
                 }
-                else
-                {
-                    propagator.Topology.GetCoord(index, out var x, out var y, out var z);
-                    pattern = randomPicker.GetRandomPossiblePatternAt(index, randomDouble);
-                }
+
+                var index = filteredIndexPicker.GetRandomIndex(randomDouble, highPriority);
+                if (index != -1)
+                    return index;
+                index = filteredIndexPicker.GetRandomIndex(randomDouble, mediumPrioiry);
+                if (index != -1)
+                    return index;
+                index = filteredIndexPicker.GetRandomIndex(randomDouble, lowPriority);
+                return index;
             }
         }
-        */
     }
 }

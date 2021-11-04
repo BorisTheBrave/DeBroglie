@@ -1,5 +1,6 @@
 ﻿using DeBroglie.Wfc;
 using System;
+using System.Collections.Generic;
 
 namespace DeBroglie.Trackers
 {
@@ -44,7 +45,7 @@ namespace DeBroglie.Trackers
             return -1;
         }
 
-        public int GetRandomIndex(Func<double> randomDouble, int[] indices)
+        public int GetRandomIndex(Func<double> randomDouble, IEnumerable<int> indices)
         {
             foreach(var i in indices)
             {

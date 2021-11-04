@@ -73,20 +73,17 @@ namespace DeBroglie.Constraints
             }
         }
 
-        /*
-        internal IPickHeuristic GetHeuristic(
-            IRandomPicker randomPicker,
-            Func<double> randomDouble,
+        internal IIndexPicker GetHeuristic(
+            IFilteredIndexPicker filteredIndexPicker,
             TilePropagator propagator,
-            TileModelMapping tileModelMapping,
-            IPickHeuristic fallbackHeuristic)
+            TileModelMapping tileModelMapping)
         {
             pathView = PathSpec.MakeView(propagator);
             pathViewIsFresh = true;
             if (pathView is EdgedPathView epv)
             {
                 return new FollowPathHeuristic(
-                    randomPicker, randomDouble, propagator, tileModelMapping, fallbackHeuristic, epv);
+                    filteredIndexPicker, propagator, tileModelMapping, epv);
             }
             else
             {
@@ -94,56 +91,52 @@ namespace DeBroglie.Constraints
             }
         }
 
-        private class FollowPathHeuristic : IPickHeuristic
+        private class FollowPathHeuristic : IIndexPicker
         {
-            private readonly IRandomPicker randomPicker;
-
-            private readonly Func<double> randomDouble;
+            private readonly IFilteredIndexPicker filteredIndexPicker;
 
             private readonly TilePropagator propagator;
 
             private readonly TileModelMapping tileModelMapping;
 
-            private readonly IPickHeuristic fallbackHeuristic;
-
             private readonly EdgedPathView edgedPathView;
 
             public FollowPathHeuristic(
-                IRandomPicker randomPicker,
-                Func<double> randomDouble,
+                IFilteredIndexPicker filteredIndexPicker,
                 TilePropagator propagator,
                 TileModelMapping tileModelMapping,
-                IPickHeuristic fallbackHeuristic,
                 EdgedPathView edgedPathView)
             {
-                this.randomPicker = randomPicker;
-                this.randomDouble = randomDouble;
+                this.filteredIndexPicker = filteredIndexPicker;
                 this.propagator = propagator;
                 this.tileModelMapping = tileModelMapping;
-                this.fallbackHeuristic = fallbackHeuristic;
                 this.edgedPathView = edgedPathView;
             }
 
-            public void PickObservation(out int index, out int pattern)
+            public int GetRandomIndex(Func<double> randomDouble)
             {
                 var topology = propagator.Topology;
                 var t = edgedPathView.PathSelectedTracker;
                 // Find cells that could potentially be paths, and are next to 
                 // already selected path. In tileSpace
-                var tilePriority = Enumerable.Range(0, topology.IndexCount).Select(i =>
+                var highPriority = new List<int>();
+                var mediumPrioiry = new List<int>();
+                var lowPriority = new List<int>();
+                foreach(var i in topology.GetIndices())
                 {
-                    if (!topology.ContainsIndex(i))
-                        return -1;
                     var qs = t.GetQuadstate(i);
                     if (qs.IsYes())
                     {
-                        return 2;
+                        highPriority.Add(i);
+                        continue;
                     }
                     if (qs.IsNo())
                     {
-                        return 0;
+                        lowPriority.Add(i);
+                        continue;
                     }
                     // Determine if any neighbours exit onto this tile
+                    var found = false;
                     for (var d = 0; d < topology.DirectionsCount; d++)
                     {
                         if (topology.TryMove(i, (Direction)d, out var i2, out var inverseDirection, out var _))
@@ -153,31 +146,28 @@ namespace DeBroglie.Constraints
                                 var s2 = tracker.GetQuadstate(i2);
                                 if (s2.IsYes())
                                 {
-                                    return 1;
+                                    mediumPrioiry.Add(i);
+                                    found = true;
+                                    break;
                                 }
                             }
                         }
                     }
-                    return 0;
-                }).ToArray();
-
-                var patternPriority = tileModelMapping.PatternCoordToTileCoordIndexAndOffset == null ? tilePriority : throw new NotImplementedException();
-
-                index = randomPicker.GetRandomIndex(randomDouble, patternPriority);
-
-                if (index == -1)
-                {
-                    fallbackHeuristic.PickObservation(out index, out pattern);
-                    propagator.Topology.GetCoord(index, out var x, out var y, out var z);
+                    if (!found)
+                    {
+                        lowPriority.Add(i);
+                    }
                 }
-                else
-                {
-                    propagator.Topology.GetCoord(index, out var x, out var y, out var z);
-                    pattern = randomPicker.GetRandomPossiblePatternAt(index, randomDouble);
-                }
+
+                var index = filteredIndexPicker.GetRandomIndex(randomDouble, highPriority);
+                if (index != -1)
+                    return index;
+                index = filteredIndexPicker.GetRandomIndex(randomDouble, mediumPrioiry);
+                if (index != -1)
+                    return index;
+                index = filteredIndexPicker.GetRandomIndex(randomDouble, lowPriority);
+                return index;
             }
         }
-        */
-
     }
 }

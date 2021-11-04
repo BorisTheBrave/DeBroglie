@@ -117,6 +117,18 @@ namespace DeBroglie
             var wave = wavePropagator.Wave;
             var frequencies = wavePropagator.Frequencies;
 
+            if(connectedPickHeuristic || pathPickHeuristic)
+            {
+                if (options.IndexPickerType != IndexPickerType.Default &&
+                    options.IndexPickerType != IndexPickerType.MinEntropy &&
+                    options.IndexPickerType != IndexPickerType.Ordered)
+                {
+                    throw new Exception($"Connected Pick Heuristic is incompatible with the selected IndexPikcerType {options.IndexPickerType}");
+                }
+                if (options.IndexPickerType == IndexPickerType.Default)
+                    options.IndexPickerType = IndexPickerType.MinEntropy;
+            }
+
             // Use the appropriate random picker
             // Generally this is HeapEntropyTracker, but it doesn't support some features
             // so there's a few slower implementations for that
@@ -183,38 +195,28 @@ namespace DeBroglie
                     throw new Exception($"Unknown TilePickerType {options.TilePickerType}");
             }
 
-            return Tuple.Create(indexPicker, patternPicker);
 
-            /*
             if (pathPickHeuristic)
             {
-                throw new NotImplementedException();
-                heuristic = pathConstraint.GetHeuristic(
-                    randomPicker,
+                indexPicker = pathConstraint.GetHeuristic(
+                    (IFilteredIndexPicker)indexPicker,
                     randomDouble,
                     this,
-                    tileModelMapping,
-                    heuristic);
+                    tileModelMapping);
             }
-
             if (connectedPickHeuristic)
             {
-                throw new NotImplementedException();
-                /*
-                heuristic = connectedConstraint.GetHeuristic(
-                    randomPicker,
-                    randomDouble,
+                indexPicker = connectedConstraint.GetHeuristic(
+                    (IFilteredIndexPicker)indexPicker,
                     this,
-                    tileModelMapping,
-                    heuristic);
+                    tileModelMapping);
             }
 
-            return heuristic;
-                */
+            return Tuple.Create(indexPicker, patternPicker);
 
-            }
+        }
 
-            private void TileCoordToPatternCoord(int x, int y, int z, out int px, out int py, out int pz, out int offset)
+        private void TileCoordToPatternCoord(int x, int y, int z, out int px, out int py, out int pz, out int offset)
         {
             tileModelMapping.GetTileCoordToPatternCoord(x, y, z, out px, out py, out pz, out offset);
         }

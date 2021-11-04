@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace DeBroglie.Trackers
 {
@@ -12,6 +13,6 @@ namespace DeBroglie.Trackers
 
     internal interface IFilteredIndexPicker
     {
-        int GetRandomIndex(Func<double> randomDouble, int[] indices);
+        int GetRandomIndex(Func<double> randomDouble, IEnumerable<int> indices);
     }
 }
