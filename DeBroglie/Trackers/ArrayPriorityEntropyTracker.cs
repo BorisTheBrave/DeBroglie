@@ -15,7 +15,7 @@ namespace DeBroglie.Trackers
     {
         private readonly int patternCount;
 
-        private readonly FrequencySet[] frequencySets;
+        private readonly WeightSetCollection weightSetCollection;
 
         // Track some useful per-cell values
         private readonly EntropyValues[] entropyValues;
@@ -28,10 +28,10 @@ namespace DeBroglie.Trackers
 
         public ArrayPriorityEntropyTracker(
             Wave wave,
-            FrequencySet[] frequencySets,
+            WeightSetCollection weightSetCollection,
             bool[] mask)
         {
-            this.frequencySets = frequencySets;
+            this.weightSetCollection = weightSetCollection;
             this.mask = mask;
 
             this.wave = wave;
@@ -42,7 +42,7 @@ namespace DeBroglie.Trackers
 
         public void DoBan(int index, int pattern)
         {
-            var frequencySet = frequencySets[index];
+            var frequencySet = weightSetCollection.Get(index);
             if (entropyValues[index].Decrement(frequencySet.priorityIndices[pattern], frequencySet.frequencies[pattern], frequencySet.plogp[pattern]))
             {
                 PriorityReset(index);
@@ -61,7 +61,7 @@ namespace DeBroglie.Trackers
             for (int index = 0; index < indices; index++)
             {
                 entropyValues[index] = initial;
-                if (frequencySets[index] != null)
+                if (weightSetCollection.Get(index) != null)
                 {
                     PriorityReset(index);
                 }
@@ -71,7 +71,7 @@ namespace DeBroglie.Trackers
         // The priority has just changed, recompute
         private void PriorityReset(int index)
         {
-            var frequencySet = frequencySets[index];
+            var frequencySet = weightSetCollection.Get(index);
             ref var v = ref entropyValues[index];
             v.PlogpSum = 0;
             v.Sum = 0;
@@ -102,7 +102,7 @@ namespace DeBroglie.Trackers
 
         public void UndoBan(int index, int pattern)
         {
-            var frequencySet = frequencySets[index];
+            var frequencySet = weightSetCollection.Get(index);
             if (entropyValues[index].Increment(frequencySet.priorityIndices[pattern], frequencySet.frequencies[pattern], frequencySet.plogp[pattern]))
             {
                 PriorityReset(index);
@@ -170,7 +170,7 @@ namespace DeBroglie.Trackers
 
         public int GetRandomPossiblePatternAt(int index, Func<double> randomDouble)
         {
-            var frequencySet = frequencySets[index];
+            var frequencySet = weightSetCollection.Get(index);
             ref var g = ref frequencySet.groups[entropyValues[index].PriorityIndex];
             return RandomPickerUtils.GetRandomPossiblePattern(wave, randomDouble, index, g.frequencies, g.patterns);
         }

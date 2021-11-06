@@ -152,10 +152,10 @@ namespace DeBroglie
                     }
                 case IndexPickerType.ArrayPriorityMinEntropy:
                     {
-                        if (options.Weights == null)
-                            throw new ArgumentNullException($"Expected TilePropagatorOptions.Weights to be set");
-                        var waveFrequencySets = GetFrequencySets(options.Weights, tileModelMapping);
-                        var entropyTracker = new ArrayPriorityEntropyTracker(wavePropagator.Wave, waveFrequencySets, patternTopology.Mask);
+                        if (options.WeightSetByIndex == null || options.WeightSets == null)
+                            throw new ArgumentNullException($"Expected WeightSetByIndex and WeightSets to be set");
+                        var weightSetCollection = new WeightSetCollection(options.WeightSetByIndex, options.WeightSets, tileModelMapping);
+                        var entropyTracker = new ArrayPriorityEntropyTracker(wavePropagator.Wave, weightSetCollection, patternTopology.Mask);
                         entropyTracker.Reset();
                         wavePropagator.AddTracker(entropyTracker);
                         if (options.TilePickerType != TilePickerType.ArrayPriority && options.TilePickerType != TilePickerType.Default)
@@ -209,10 +209,10 @@ namespace DeBroglie
                     patternPicker = new SimpleOrderedPatternPicker(wave, frequencies.Length);
                     break;
                 case TilePickerType.ArrayPriority:
-                    if (options.Weights == null)
-                        throw new ArgumentNullException($"Expected TilePropagatorOptions.Weights to be set");
-                    var waveFrequencySets = GetFrequencySets(options.Weights, tileModelMapping);
-                    patternPicker = new ArrayPriorityPatternPicker(wave, waveFrequencySets);
+                    if (options.WeightSetByIndex == null || options.WeightSets == null)
+                        throw new ArgumentNullException($"Expected WeightSetByIndex and WeightSets to be set");
+                    var weightSetCollection = new WeightSetCollection(options.WeightSetByIndex, options.WeightSets, tileModelMapping);
+                    patternPicker = new ArrayPriorityPatternPicker(wave, weightSetCollection);
                     break;
                 default:
                     throw new Exception($"Unknown TilePickerType {options.TilePickerType}");
@@ -242,33 +242,6 @@ namespace DeBroglie
         private void TileCoordToPatternCoord(int x, int y, int z, out int px, out int py, out int pz, out int offset)
         {
             tileModelMapping.GetTileCoordToPatternCoord(x, y, z, out px, out py, out pz, out offset);
-        }
-
-        private static FrequencySet[] GetFrequencySets(ITopoArray<IDictionary<Tile, PriorityAndWeight>> weights, TileModelMapping tileModelMapping)
-        {
-            var frequencies = new FrequencySet[tileModelMapping.PatternTopology.IndexCount];
-            foreach(var patternIndex in tileModelMapping.PatternTopology.GetIndices())
-            {
-                // TODO
-                if (tileModelMapping.PatternCoordToTileCoordIndexAndOffset != null)
-                    throw new NotImplementedException();
-
-                // TODO: Detect duplicate dictionaries by reference and share the frequency sets?
-
-                var tileIndex = patternIndex;
-                var offset = 0;
-                var weightDict = weights.Get(tileIndex);
-                var newWeights = new double[tileModelMapping.PatternModel.PatternCount];
-                var newPriorities = new int[tileModelMapping.PatternModel.PatternCount];
-                foreach(var kv in weightDict)
-                {
-                    var pattern = tileModelMapping.TilesToPatternsByOffset[offset][kv.Key].Single();
-                    newWeights[pattern] = kv.Value.Weight;
-                    newPriorities[pattern] = kv.Value.Priority;
-                }
-                frequencies[patternIndex] = new FrequencySet(newWeights, newPriorities);
-            }
-            return frequencies;
         }
 
         /// <summary>

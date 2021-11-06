@@ -244,7 +244,8 @@ namespace DeBroglie.Test
             var propagator = new TilePropagator(model, topology, new TilePropagatorOptions
             {
                 IndexPickerType = IndexPickerType.ArrayPriorityMinEntropy,
-                Weights = weightsArray,
+                WeightSetByIndex = TopoArray.CreateByIndex(_ => 0, topology),
+                WeightSets = new Dictionary<int, IDictionary<Tile, PriorityAndWeight>> { { 0, weights } },
             });
 
             propagator.Select(0, 0, 0, t1);

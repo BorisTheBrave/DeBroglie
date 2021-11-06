@@ -1,34 +1,33 @@
 ﻿using DeBroglie.Wfc;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DeBroglie.Trackers
 {
-    class ArrayPriorityPatternPicker : IPatternPicker
+
+    internal class ArrayPriorityPatternPicker : IPatternPicker
     {
         private readonly Wave wave;
 
-        private readonly FrequencySet[] frequencySets;
+        private readonly WeightSetCollection weightSetCollection;
 
-        public ArrayPriorityPatternPicker(Wave wave, FrequencySet[] frequencySets)
+        public ArrayPriorityPatternPicker(Wave wave, WeightSetCollection weightSetCollection)
         {
             this.wave = wave;
-            this.frequencySets = frequencySets;
+            this.weightSetCollection = weightSetCollection;
         }
 
         public int GetRandomPossiblePatternAt(int index, Func<double> randomDouble)
         {
-            var fs = frequencySets[index];
+            var fs = weightSetCollection.Get(index);
 
             // Run through the groups with descending prioirty
-            for(var g=0;g<fs.groups.Length;g++)
+            for (var g = 0; g < fs.groups.Length; g++)
             {
                 var patterns = fs.groups[g].patterns;
                 var frequencies = fs.groups[g].patterns;
                 // Scan the group
                 var s = 0.0;
-                for(var i=0;i<patterns.Length;i++)
+                for (var i = 0; i < patterns.Length; i++)
                 {
                     if (wave.Get(index, patterns[i]))
                         s += frequencies[i];
