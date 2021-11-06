@@ -184,6 +184,8 @@ namespace DeBroglie
                         // Create clean patterns
                         if (tileModelMapping.TileCoordToPatternCoordIndexAndOffset != null)
                             throw new NotSupportedException();
+                        if (options.CleanTiles == null)
+                            throw new ArgumentNullException($"{nameof(options.CleanTiles)} is null");
                         var cleanPatterns = options.CleanTiles.Map(t => tileModelMapping.TilesToPatternsByOffset[0][t].First());
 
                         var orderedIndexPicker = new SimpleOrderedIndexPicker(wave, mask);
