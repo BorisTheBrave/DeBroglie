@@ -24,7 +24,7 @@ namespace DeBroglie.Trackers
             for (var g = 0; g < fs.groups.Length; g++)
             {
                 var patterns = fs.groups[g].patterns;
-                var frequencies = fs.groups[g].patterns;
+                var frequencies = fs.groups[g].frequencies;
                 // Scan the group
                 var s = 0.0;
                 for (var i = 0; i < patterns.Length; i++)
