@@ -361,105 +361,107 @@ namespace DeBroglie.Wfc
          */
         public Resolution Step()
         {
-            int index;
-
-            // This will true if the user has called Ban, etc, since the last step.
+            // This will be true if the user has called Ban, etc, since the last step.
             if (deferredConstraintsStep)
             {
                 StepConstraints();
             }
 
-            // If we're already in a final state. skip making an observiation, 
-            // and jump to backtrack handling / return.
-            if (status != Resolution.Undecided)
+            // If we're already in a final state. skip making an observiation.
+            if (status == Resolution.Undecided)
             {
-                index = 0;
-                goto restart;
-            }
+                RecordBacktrackPreChoice();
 
-            // Record state before making a choice
-            if (backtrack)
-            {
-                backtrackItemsLengths.Push(droppedBacktrackItemsCount + backtrackItems.Count);
-                // Clean up backtracks if they are too long
-                while (backtrackDepth != -1 && backtrackItemsLengths.Count > backtrackDepth)
+                // Pick a tile and Select a pattern from it.
+                Observe(out var index, out var pattern);
+
+                // Record what was selected for backtracking purposes
+                RecordBacktrackChoice(index, pattern);
+
+                if (status == Resolution.Undecided) patternModelConstraint.Propagate();
+                if (status == Resolution.Undecided) StepConstraints();
+
+                // If we've made all possible choices, and found no contradictions,
+                // then we've succeeded.
+                if (index == -1 && status == Resolution.Undecided)
                 {
-                    var newDroppedCount = backtrackItemsLengths.Unshift();
-                    prevChoices.Unshift();
-                    backtrackItems.DropFirst(newDroppedCount - droppedBacktrackItemsCount);
-                    droppedBacktrackItemsCount = newDroppedCount;
+                    status = Resolution.Decided;
+                    return status;
                 }
             }
 
-            // Pick a tile and Select a pattern from it.
-            Observe(out index, out var pattern);
-
-            // Record what was selected for backtracking purposes
-            if (backtrack)
-            {
-                if (index != -1)
-                {
-                    prevChoices.Push(new IndexPatternItem { Index = index, Pattern = pattern });
-                }
-                else
-                {
-                    backtrackItemsLengths.Pop();
-                }
-            }
-
-            // After a backtrack we resume here
-            restart:
-
-            if (status == Resolution.Undecided) patternModelConstraint.Propagate();
-            if (status == Resolution.Undecided) StepConstraints();
-
-            // Are all things are fully chosen?
-            if (index == -1 && status == Resolution.Undecided)
-            {
-                status = Resolution.Decided;
-                return status;
-            }
-
-            if (backtrack && status == Resolution.Contradiction)
-            {
-                // After back tracking, it's no logner the case things are fully chosen
-                index = 0;
-
-                // Actually backtrack
-                while (true)
-                {
-                    if(backtrackItemsLengths.Count == 1)
-                    {
-                        // We've backtracked as much as we can, but 
-                        // it's still not possible. That means it is imposible
-                        return Resolution.Contradiction;
-                    }
-                    DoBacktrack();
-                    var item = prevChoices.Pop();
-                    backtrackCount++;
-                    status = Resolution.Undecided;
-                    contradictionReason = null;
-                    contradictionSource = null;
-                    // Mark the given choice as impossible
-                    if (InternalBan(item.Index, item.Pattern))
-                    {
-                        status = Resolution.Contradiction;
-                    }
-                    if (status == Resolution.Undecided) patternModelConstraint.Propagate();
-
-                    if (status == Resolution.Contradiction)
-                    {
-                        // If still in contradiction, repeat backtracking
-
-                        continue;
-                    }
-                    goto restart;
-                }
-            }
+            TryBacktrackUntilNoContradiction();
 
             return status;
         }
 
+        // TODO: Refactor the two RecordBacktrack methods together
+        private void RecordBacktrackPreChoice()
+        {
+            if (!backtrack)
+                return;
+
+            backtrackItemsLengths.Push(droppedBacktrackItemsCount + backtrackItems.Count);
+            // Clean up backtracks if they are too long
+            while (backtrackDepth != -1 && backtrackItemsLengths.Count > backtrackDepth)
+            {
+                var newDroppedCount = backtrackItemsLengths.Unshift();
+                prevChoices.Unshift();
+                backtrackItems.DropFirst(newDroppedCount - droppedBacktrackItemsCount);
+                droppedBacktrackItemsCount = newDroppedCount;
+            }
+        }
+
+        private void RecordBacktrackChoice(int index, int pattern)
+        {
+            if (!backtrack)
+                return;
+
+            if (index != -1)
+            {
+                prevChoices.Push(new IndexPatternItem { Index = index, Pattern = pattern });
+            }
+            else
+            {
+                backtrackItemsLengths.Pop();
+            }
+        }
+
+        private void TryBacktrackUntilNoContradiction()
+        {
+            if (!backtrack)
+                return;
+
+            while (status == Resolution.Contradiction)
+            {
+                if (backtrackItemsLengths.Count == 1)
+                {
+                    // We've backtracked as much as we can, but 
+                    // it's still not possible. That means it is imposible
+                    return;
+                }
+                DoBacktrack();
+                var item = prevChoices.Pop();
+                backtrackCount++;
+                status = Resolution.Undecided;
+                contradictionReason = null;
+                contradictionSource = null;
+                // Mark the given choice as impossible
+                if (InternalBan(item.Index, item.Pattern))
+                {
+                    status = Resolution.Contradiction;
+                }
+                if (status == Resolution.Undecided) patternModelConstraint.Propagate();
+                if (status == Resolution.Undecided) StepConstraints();
+
+                if (status != Resolution.Contradiction)
+                {
+                    return;
+                }
+            }
+        }
+
+        // Actually does the work of undoing what was previously recorded
         private void DoBacktrack()
         {
             var targetLength = backtrackItemsLengths.Pop() - droppedBacktrackItemsCount;
