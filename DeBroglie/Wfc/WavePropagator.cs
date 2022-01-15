@@ -217,25 +217,6 @@ namespace DeBroglie.Wfc
         }
         #endregion
 
-
-        private void Observe(out int index, out int pattern)
-        {
-            index = indexPicker.GetRandomIndex(randomDouble);
-            if (index == -1)
-            {
-                pattern = -1;
-                return;
-            }
-
-            pattern = patternPicker.GetRandomPossiblePatternAt(index, randomDouble);
-
-            // Decide on the given cell
-            if (InternalSelect(index, pattern))
-            {
-                status = Resolution.Contradiction;
-            }
-        }
-
         /// <summary>
         /// Returns the only possible value of a cell if there is only one, 
         /// otherwise returns -1 (multiple possible) or -2 (none possible)
@@ -370,14 +351,24 @@ namespace DeBroglie.Wfc
             // If we're already in a final state. skip making an observiation.
             if (status == Resolution.Undecided)
             {
-                RecordBacktrackPreChoice();
+                // Pick a index to use
+                var index = indexPicker.GetRandomIndex(randomDouble);
 
-                // Pick a tile and Select a pattern from it.
-                Observe(out var index, out var pattern);
+                if (index != -1)
+                {
+                    // Pick a tile to select at that index
+                    var pattern = patternPicker.GetRandomPossiblePatternAt(index, randomDouble);
 
-                // Record what was selected for backtracking purposes
-                RecordBacktrackChoice(index, pattern);
+                    RecordBacktrack(index, pattern);
 
+                    // Use the pick
+                    if (InternalSelect(index, pattern))
+                    {
+                        status = Resolution.Contradiction;
+                    }
+                }
+
+                // Re-evaluate status
                 if (status == Resolution.Undecided) patternModelConstraint.Propagate();
                 if (status == Resolution.Undecided) StepConstraints();
 
@@ -395,8 +386,7 @@ namespace DeBroglie.Wfc
             return status;
         }
 
-        // TODO: Refactor the two RecordBacktrack methods together
-        private void RecordBacktrackPreChoice()
+        private void RecordBacktrack(int index, int pattern)
         {
             if (!backtrack)
                 return;
@@ -410,21 +400,8 @@ namespace DeBroglie.Wfc
                 backtrackItems.DropFirst(newDroppedCount - droppedBacktrackItemsCount);
                 droppedBacktrackItemsCount = newDroppedCount;
             }
-        }
 
-        private void RecordBacktrackChoice(int index, int pattern)
-        {
-            if (!backtrack)
-                return;
-
-            if (index != -1)
-            {
-                prevChoices.Push(new IndexPatternItem { Index = index, Pattern = pattern });
-            }
-            else
-            {
-                backtrackItemsLengths.Pop();
-            }
+            prevChoices.Push(new IndexPatternItem { Index = index, Pattern = pattern });
         }
 
         private void TryBacktrackUntilNoContradiction()
@@ -440,24 +417,24 @@ namespace DeBroglie.Wfc
                     // it's still not possible. That means it is imposible
                     return;
                 }
+
+                // Actually undo various bits of state
                 DoBacktrack();
                 var item = prevChoices.Pop();
                 backtrackCount++;
                 status = Resolution.Undecided;
                 contradictionReason = null;
                 contradictionSource = null;
+
                 // Mark the given choice as impossible
                 if (InternalBan(item.Index, item.Pattern))
                 {
                     status = Resolution.Contradiction;
                 }
+
+                // Revalidate status.
                 if (status == Resolution.Undecided) patternModelConstraint.Propagate();
                 if (status == Resolution.Undecided) StepConstraints();
-
-                if (status != Resolution.Contradiction)
-                {
-                    return;
-                }
             }
         }
 
