@@ -1,11 +1,9 @@
 ﻿using DeBroglie.Wfc;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DeBroglie.Trackers
 {
-
     internal class EntropyTracker : ITracker, IIndexPicker, IFilteredIndexPicker
     {
         private readonly int patternCount;
@@ -152,7 +150,7 @@ namespace DeBroglie.Trackers
                     countAtMinEntropy = 1;
                     minEntropy = e;
                 }
-                else
+                else if (e == minEntropy)
                 {
                     countAtMinEntropy++;
                 }
