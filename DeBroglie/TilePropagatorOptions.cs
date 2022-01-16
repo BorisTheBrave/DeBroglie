@@ -121,5 +121,11 @@ namespace DeBroglie
         /// Only used by <see cref="IndexPickerType.Ordered"/>
         /// </summary>
         public int[] IndexOrder { get; set; }
+
+        /// <summary>
+        /// If true, the same indices will be retried after backtracking,
+        /// otherwise a new choice of index will be made.
+        /// </summary>
+        public bool MemoizeIndices { get; set; }
     }
 }

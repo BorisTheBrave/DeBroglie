@@ -96,6 +96,7 @@ namespace DeBroglie
                 PickHeuristicFactory = w => MakePickHeuristic(w, options),
                 Clear = false,
                 ModelConstraintAlgorithm = options.ModelConstraintAlgorithm,
+                MemoizeIndices = options.MemoizeIndices,
             };
 
             this.wavePropagator = new WavePropagator(

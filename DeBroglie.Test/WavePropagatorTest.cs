@@ -1,4 +1,5 @@
 ﻿using DeBroglie.Topo;
+using DeBroglie.Trackers;
 using DeBroglie.Wfc;
 using NUnit.Framework;
 using System;
@@ -109,6 +110,39 @@ namespace DeBroglie.Test
             Assert.AreEqual(Resolution.Contradiction, status);
         }
 
+
+        // Mark a contradiciton if pattern 1 is ever banned.
+        // This forces backtracking, as the constraint doesn't 
+        // give out any useful information.
+        class DontBanOneConstraint : IWaveConstraint
+        {
+            public void Check(WavePropagator wavePropagator)
+            {
+                foreach(var i in Enumerable.Range(0, wavePropagator.Wave.Indicies))
+                {
+                    if(wavePropagator.Wave.Get(i, 1) == false)
+                    {
+                        wavePropagator.SetContradiction();
+                    }
+                }
+            }
+
+            public void Init(WavePropagator wavePropagator)
+            {
+                Check(wavePropagator);
+            }
+        }
+
+        public class CustomIndexPicker : IIndexPicker
+        {
+            public int Count { get; set; }
+            public int GetRandomIndex(Func<double> randomDouble)
+            {
+                return Count++;
+            }
+        }
+
+
         [Test]
         [TestCaseSource(nameof(Algorithms))]
         public void TestBacktracking(ModelConstraintAlgorithm algorithm)
@@ -172,6 +206,59 @@ namespace DeBroglie.Test
             Assert.AreEqual(Resolution.Decided, status);
 
             System.Console.WriteLine($"Backtrack Count {wavePropagator.BacktrackCount}");
+        }
+
+        [Test]
+        public void TestMemoizeIndices()
+        {
+            var model = new PatternModel
+            {
+                Frequencies = new double[] { 1, 1 },
+                // Free model
+                Propagator = new int[][][]
+                {
+                    new int[][]{ new int[] { 0, 1 }, new int[] { 0, 1 }, new int[] { 0, 1 }, new int[] { 0, 1 }, },
+                    new int[][]{ new int[] { 0, 1 }, new int[] { 0, 1 }, new int[] { 0, 1 }, new int[] { 0, 1 }, },
+                }
+            };
+            var width = 10;
+            var height = 10;
+            var topology = new GridTopology(width, height, true);
+            var indexPicker = new CustomIndexPicker();
+            var options = new WavePropagatorOptions { 
+                MemoizeIndices = true,
+                BackTrackDepth = -1,
+                PickHeuristicFactory = (w) =>
+                {
+                    return new Tuple<IIndexPicker, IPatternPicker>(
+                        indexPicker,
+                        new SimpleOrderedPatternPicker(w.Wave, w.PatternCount)
+                        );
+                },
+                Constraints = new[] {new  DontBanOneConstraint()},
+            };
+            var propagator = new WavePropagator(model, topology, options);
+
+            // Attempts to pick pattern 0 at index 0, should contradict and backtrack
+            var status = propagator.Step();
+            Assert.AreEqual(Resolution.Undecided, status);
+            Assert.AreEqual(1, propagator.BacktrackCount);
+            CollectionAssert.AreEqual(propagator.GetPossiblePatterns(0), new[] { 1 });
+            Assert.AreEqual(1, indexPicker.Count);
+            // Should re-attempt index zero, with no effect.
+            propagator.Step();
+            Assert.AreEqual(Resolution.Undecided, status);
+            Assert.AreEqual(1, propagator.BacktrackCount);
+            CollectionAssert.AreEqual(propagator.GetPossiblePatterns(0), new[] { 1 });
+            Assert.AreEqual(1, indexPicker.Count);
+            // Attempts to pick pattern 0 at index 1, should contradict and backtrack
+            propagator.Step();
+            Assert.AreEqual(Resolution.Undecided, status);
+            Assert.AreEqual(2, propagator.BacktrackCount);
+            CollectionAssert.AreEqual(propagator.GetPossiblePatterns(1), new[] { 1 });
+            Assert.AreEqual(2, indexPicker.Count);
+            // etc
+
         }
     }
 }

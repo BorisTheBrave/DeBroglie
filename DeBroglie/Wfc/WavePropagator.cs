@@ -13,6 +13,7 @@ namespace DeBroglie.Wfc
         public Func<WavePropagator, Tuple<IIndexPicker, IPatternPicker>> PickHeuristicFactory { get; set; }
         public bool Clear { get; set; } = true;
         public ModelConstraintAlgorithm ModelConstraintAlgorithm { get; set; }
+        public bool MemoizeIndices { get; set; }
     }
 
     /// <summary>
@@ -36,6 +37,7 @@ namespace DeBroglie.Wfc
         private Deque<IndexPatternItem> prevChoices;
         private int droppedBacktrackItemsCount;
         private int backtrackCount; // Purely informational
+        private Deque<int> futureChoices;
 
         // Basic parameters
         private int indexCount;
@@ -43,6 +45,7 @@ namespace DeBroglie.Wfc
         private readonly int backtrackDepth;
         private readonly IWaveConstraint[] constraints;
         private Func<double> randomDouble;
+        private readonly bool memoizeIndices;
 
         // We evaluate constraints at the last possible minute, instead of eagerly like the model,
         // As they can potentially be expensive.
@@ -80,6 +83,7 @@ namespace DeBroglie.Wfc
             this.randomDouble = options.RandomDouble ?? new Random().NextDouble;
             directionsCount = topology.DirectionsCount;
             this.pickHeuristicFactory = options.PickHeuristicFactory;
+            this.memoizeIndices = backtrack && options.MemoizeIndices;// No point memoizing if we never return to anything
 
             if(this.pickHeuristicFactory == null)
             {
@@ -284,6 +288,10 @@ namespace DeBroglie.Wfc
                 backtrackItemsLengths = new Deque<int>();
                 backtrackItemsLengths.Push(0);
                 prevChoices = new Deque<IndexPatternItem>();
+                if(memoizeIndices)
+                {
+                    futureChoices = new Deque<int>();
+                }
             }
 
             status = Resolution.Undecided;
@@ -352,7 +360,15 @@ namespace DeBroglie.Wfc
             if (status == Resolution.Undecided)
             {
                 // Pick a index to use
-                var index = indexPicker.GetRandomIndex(randomDouble);
+                int index;
+                if (memoizeIndices && futureChoices.Count > 0)
+                {
+                    index = futureChoices.Unshift();
+                }
+                else 
+                {
+                    index = indexPicker.GetRandomIndex(randomDouble);
+                }
 
                 if (index != -1)
                 {
@@ -425,6 +441,10 @@ namespace DeBroglie.Wfc
                 status = Resolution.Undecided;
                 contradictionReason = null;
                 contradictionSource = null;
+                if (memoizeIndices)
+                {
+                    futureChoices.Shift(item.Index);
+                }
 
                 // Mark the given choice as impossible
                 if (InternalBan(item.Index, item.Pattern))
