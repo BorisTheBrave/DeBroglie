@@ -42,7 +42,7 @@ namespace DeBroglie.Test.Constraints
 
             var propagator = new TilePropagator(model, new GridTopology(10, 10, false), new TilePropagatorOptions
             {
-                BackTrackDepth = -1,
+                BacktrackType = BacktrackType.Backtrack,
                 Constraints = new[] { constraint },
                 RandomDouble = r.NextDouble
             });
@@ -120,7 +120,7 @@ namespace DeBroglie.Test.Constraints
 
             var propagator = new TilePropagator(model, new GridTopology(10, 10, false), new TilePropagatorOptions
             {
-                BackTrackDepth = -1,
+                BacktrackType = BacktrackType.Backtrack,
                 Constraints = new[] { constraint },
                 RandomDouble = r.NextDouble
             });
@@ -227,7 +227,7 @@ namespace DeBroglie.Test.Constraints
 
             var propagator = new TilePropagator(model, topology, new TilePropagatorOptions
             {
-                BackTrackDepth = -1,
+                BacktrackType = BacktrackType.Backtrack,
                 Constraints = new[] { pathConstraint },
             });
 

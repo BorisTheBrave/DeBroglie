@@ -29,7 +29,7 @@ namespace DeBroglie.Test.Constraints
 
             var options = new TilePropagatorOptions
             {
-                BackTrackDepth = -1,
+                BacktrackType = BacktrackType.Backtrack,
                 Constraints = new[] { constraint },
             };
 

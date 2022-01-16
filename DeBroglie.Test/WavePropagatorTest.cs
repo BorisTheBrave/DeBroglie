@@ -147,12 +147,23 @@ namespace DeBroglie.Test
         [TestCaseSource(nameof(Algorithms))]
         public void TestBacktracking(ModelConstraintAlgorithm algorithm)
         {
+            TestBacktracking(algorithm == ModelConstraintAlgorithm.OneStep ? 10 : 20, algorithm, new ConstantBacktrackPolicy(1));
+        }
+
+        [Test]
+        public void TestBackjumping()
+        {
+            TestBacktracking(20, ModelConstraintAlgorithm.Ac4, new ConstantBacktrackPolicy(2));
+        }
+
+        public void TestBacktracking(int size, ModelConstraintAlgorithm algorithm, IBacktrackPolicy backtrackPolicy)
+        {
             // Reproduces the wang tiles found at
             // https://en.wikipedia.org/wiki/Wang_tile
             // They only have aperiodic tiling, so they are a hard set to put down.
             // Clockwise from top
             var tileBorders = new[] 
-            {
+                {
                 "rrrg",
                 "brbg",
                 "rggg",
@@ -187,7 +198,7 @@ namespace DeBroglie.Test
                 Frequencies = tileBorders.Select(x=>1.0).ToArray(),
                 Propagator = propagator,
             };
-            var topology = new GridTopology(10, 10, false);
+            var topology = new GridTopology(size, size, false);
 
             var seed = Environment.TickCount;
             var r = new Random(seed);
@@ -195,7 +206,7 @@ namespace DeBroglie.Test
 
             var options = new WavePropagatorOptions
             {
-                BackTrackDepth = -1,
+                BacktrackPolicy = backtrackPolicy,
                 RandomDouble = r.NextDouble,
                 ModelConstraintAlgorithm = algorithm,
             };
@@ -206,6 +217,7 @@ namespace DeBroglie.Test
             Assert.AreEqual(Resolution.Decided, status);
 
             System.Console.WriteLine($"Backtrack Count {wavePropagator.BacktrackCount}");
+            System.Console.WriteLine($"Backjump Count {wavePropagator.BackjumpCount}");
         }
 
         [Test]
@@ -227,7 +239,7 @@ namespace DeBroglie.Test
             var indexPicker = new CustomIndexPicker();
             var options = new WavePropagatorOptions { 
                 MemoizeIndices = true,
-                BackTrackDepth = -1,
+                BacktrackPolicy = new ConstantBacktrackPolicy(1),
                 PickHeuristicFactory = (w) =>
                 {
                     return new Tuple<IIndexPicker, IPatternPicker>(

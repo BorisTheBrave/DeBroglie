@@ -161,7 +161,7 @@ namespace DeBroglie.Benchmark
 
             var options = new TilePropagatorOptions
             {
-                BackTrackDepth = -1,
+                BacktrackType = BacktrackType.Backtrack,
             };
 
             propagatorWang = new TilePropagator(model, topology, options);
@@ -234,7 +234,7 @@ namespace DeBroglie.Benchmark
 
             propagatorEdgedPath = new TilePropagator(model, topology, new TilePropagatorOptions
             {
-                BackTrackDepth = -1,
+                BacktrackType = BacktrackType.Backtrack,
                 Constraints = new[] { pathConstraint },
             });
         }
@@ -321,7 +321,7 @@ namespace DeBroglie.Benchmark
 
             propagatorEdgedPath2 = new TilePropagator(model, topology, new TilePropagatorOptions
             {
-                BackTrackDepth = -1,
+                BacktrackType = BacktrackType.Backtrack,
                 Constraints = new[] { pathConstraint },
             });
         }
@@ -369,7 +369,7 @@ namespace DeBroglie.Benchmark
 
             propagatorPath = new TilePropagator(model, topology, new TilePropagatorOptions
             {
-                BackTrackDepth = -1,
+                BacktrackType = BacktrackType.Backtrack,
                 Constraints = new[] { pathConstraint },
             });
         }
@@ -415,7 +415,7 @@ namespace DeBroglie.Benchmark
 
             propagatorPath2 = new TilePropagator(model, topology, new TilePropagatorOptions
             {
-                BackTrackDepth = -1,
+                BacktrackType = BacktrackType.Backtrack,
                 Constraints = new[] { pathConstraint },
             });
         }

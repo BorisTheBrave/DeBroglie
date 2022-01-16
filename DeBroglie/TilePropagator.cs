@@ -38,7 +38,7 @@ namespace DeBroglie
             ITileConstraint[] constraints = null)
             : this(tileModel, topology, new TilePropagatorOptions
             {
-                BackTrackDepth = backtrack ? -1 : 0,
+                BacktrackType = backtrack ? BacktrackType.Backtrack : BacktrackType.Backjump,
                 Constraints = constraints,
             })
         {
@@ -59,7 +59,7 @@ namespace DeBroglie
             Random random)
             :this(tileModel, topology, new TilePropagatorOptions
             {
-                BackTrackDepth = backtrack ? -1 : 0,
+                BacktrackType = backtrack ? BacktrackType.Backtrack : BacktrackType.None,
                 Constraints = constraints,
                 Random = random,
             })
@@ -88,9 +88,11 @@ namespace DeBroglie
 #pragma warning restore CS0618 // Type or member is obsolete
 
 
+
             var wavePropagatorOptions = new WavePropagatorOptions
             {
-                BackTrackDepth = options.BackTrackDepth,
+                BacktrackPolicy = MakeBacktrackPolicy(options),
+                MaxBacktrackDepth = options.MaxBacktrackDepth,
                 RandomDouble = randomDouble,
                 Constraints = waveConstraints,
                 PickHeuristicFactory = w => MakePickHeuristic(w, options),
@@ -105,6 +107,21 @@ namespace DeBroglie
                 wavePropagatorOptions);
             wavePropagator.Clear();
 
+        }
+
+        private static IBacktrackPolicy MakeBacktrackPolicy(TilePropagatorOptions options)
+        {
+            switch(options.BacktrackType)
+            {
+                case BacktrackType.None:
+                    return null;
+                case BacktrackType.Backtrack:
+                    return new ConstantBacktrackPolicy(1);
+                case BacktrackType.Backjump:
+                    return new ConstantBacktrackPolicy(2);
+                default:
+                    throw new Exception($"Unknown BacktrackType {options.BacktrackType}");
+            }
         }
 
         private Tuple<IIndexPicker, IPatternPicker> MakePickHeuristic(WavePropagator wavePropagator, TilePropagatorOptions options)

@@ -40,7 +40,7 @@ namespace DeBroglie.Test.Constraints
             var model = OverlappingModel.Create(a, 3, false, 8);
             var propagator = new TilePropagator(model, new GridTopology(10, 10, false), new TilePropagatorOptions
             {
-                BackTrackDepth = -1,
+                BacktrackType = BacktrackType.Backtrack,
                 Constraints = new[] {
 #pragma warning disable CS0618 // Type or member is obsolete
                     new EdgedPathConstraint(exits, new []{new Point(0,0), new Point(9, 9) })
@@ -149,7 +149,7 @@ namespace DeBroglie.Test.Constraints
 
             var propagator = new TilePropagator(model, topology, new TilePropagatorOptions
             {
-                BackTrackDepth = -1,
+                BacktrackType = BacktrackType.Backtrack,
                 Constraints = new[] { pathConstraint },
             });
 

@@ -5,9 +5,35 @@ using DeBroglie.Trackers;
 
 namespace DeBroglie.Wfc
 {
+    public interface IBacktrackPolicy
+    {
+        /// <summary>
+        /// 0  = Give up
+        /// 1  = Backtrack
+        /// >1 = Backjump
+        /// </summary>
+        int GetBackjump();
+    }
+
+    public class ConstantBacktrackPolicy : IBacktrackPolicy
+    {
+        private readonly int amount;
+
+        public ConstantBacktrackPolicy(int amount)
+        {
+            this.amount = amount;
+        }
+
+        public int GetBackjump()
+        {
+            return amount;
+        }
+    }
+
     internal class WavePropagatorOptions
     {
-        public int BackTrackDepth { get; set; }
+        public IBacktrackPolicy BacktrackPolicy { get; set; }
+        public int MaxBacktrackDepth { get; set; }
         public IWaveConstraint[] Constraints { get; set; }
         public Func<double> RandomDouble { get; set; }
         public Func<WavePropagator, Tuple<IIndexPicker, IPatternPicker>> PickHeuristicFactory { get; set; }
@@ -35,14 +61,17 @@ namespace DeBroglie.Wfc
         private Deque<IndexPatternItem> backtrackItems;
         private Deque<int> backtrackItemsLengths;
         private Deque<IndexPatternItem> prevChoices;
+        // Used for MaxBacktrackDepth
         private int droppedBacktrackItemsCount;
+        // In
         private int backtrackCount; // Purely informational
+        private int backjumpCount; // Purely informational
         private Deque<int> futureChoices;
 
         // Basic parameters
         private int indexCount;
         private readonly bool backtrack;
-        private readonly int backtrackDepth;
+        private readonly int maxBacktrackDepth;
         private readonly IWaveConstraint[] constraints;
         private Func<double> randomDouble;
         private readonly bool memoizeIndices;
@@ -66,6 +95,7 @@ namespace DeBroglie.Wfc
 
         private IIndexPicker indexPicker;
         private IPatternPicker patternPicker;
+        private IBacktrackPolicy backtrackPolicy;
 
         public WavePropagator(
             PatternModel model,
@@ -76,8 +106,9 @@ namespace DeBroglie.Wfc
             this.frequencies = model.Frequencies;
 
             this.indexCount = topology.IndexCount;
-            this.backtrack = options.BackTrackDepth != 0;
-            this.backtrackDepth = options.BackTrackDepth;
+            this.backtrack = options.BacktrackPolicy != null;
+            this.backtrackPolicy = options.BacktrackPolicy;
+            this.maxBacktrackDepth = options.MaxBacktrackDepth;
             this.constraints = options.Constraints ?? new IWaveConstraint[0];
             this.topology = topology;
             this.randomDouble = options.RandomDouble ?? new Random().NextDouble;
@@ -274,6 +305,7 @@ namespace DeBroglie.Wfc
         public string ContradictionReason => contradictionReason;
         public object ContradictionSource => contradictionSource;
         public int BacktrackCount => backtrackCount;
+        public int BackjumpCount => backjumpCount;
 
         /**
          * Resets the wave to it's original state
@@ -409,7 +441,7 @@ namespace DeBroglie.Wfc
 
             backtrackItemsLengths.Push(droppedBacktrackItemsCount + backtrackItems.Count);
             // Clean up backtracks if they are too long
-            while (backtrackDepth != -1 && backtrackItemsLengths.Count > backtrackDepth)
+            while (maxBacktrackDepth > 0 && backtrackItemsLengths.Count > maxBacktrackDepth)
             {
                 var newDroppedCount = backtrackItemsLengths.Unshift();
                 prevChoices.Unshift();
@@ -427,29 +459,43 @@ namespace DeBroglie.Wfc
 
             while (status == Resolution.Contradiction)
             {
-                if (backtrackItemsLengths.Count == 1)
+                var backjumpAmount = backtrackPolicy.GetBackjump();
+
+                for (var i = 0; i < backjumpAmount; i++)
                 {
-                    // We've backtracked as much as we can, but 
-                    // it's still not possible. That means it is imposible
-                    return;
+                    if (backtrackItemsLengths.Count == 1)
+                    {
+                        // We've backtracked as much as we can, but 
+                        // it's still not possible. That means it is imposible
+                        return;
+                    }
+
+                    // Actually undo various bits of state
+                    DoBacktrack();
+                    var item = prevChoices.Pop();
+                    status = Resolution.Undecided;
+                    contradictionReason = null;
+                    contradictionSource = null;
+                    if (memoizeIndices)
+                    {
+                        futureChoices.Shift(item.Index);
+                    }
+
+                    if (backjumpAmount == 1)
+                    {
+                        backtrackCount++;
+
+                        // Mark the given choice as impossible
+                        if (InternalBan(item.Index, item.Pattern))
+                        {
+                            status = Resolution.Contradiction;
+                        }
+                    }
                 }
 
-                // Actually undo various bits of state
-                DoBacktrack();
-                var item = prevChoices.Pop();
-                backtrackCount++;
-                status = Resolution.Undecided;
-                contradictionReason = null;
-                contradictionSource = null;
-                if (memoizeIndices)
+                if(backjumpAmount > 1)
                 {
-                    futureChoices.Shift(item.Index);
-                }
-
-                // Mark the given choice as impossible
-                if (InternalBan(item.Index, item.Pattern))
-                {
-                    status = Resolution.Contradiction;
+                    backjumpCount++;
                 }
 
                 // Revalidate status.

@@ -49,7 +49,7 @@ namespace DeBroglie.Test.Constraints
 
             var propagator = new TilePropagator(model, topology, new TilePropagatorOptions
             {
-                BackTrackDepth = -1,
+                BacktrackType = BacktrackType.Backtrack,
                 Constraints = new[] { constraint },
                 RandomDouble = r.NextDouble
             });

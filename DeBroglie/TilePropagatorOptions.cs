@@ -64,13 +64,22 @@ namespace DeBroglie
         ArrayPriority,
     }
 
+    public enum BacktrackType
+    {
+        None,
+        Backtrack,
+        Backjump,
+    }
+
     public class TilePropagatorOptions
     {
+        public BacktrackType BacktrackType { get; set; }
+
         /// <summary>
         /// Maximum number of steps to backtrack.
-        /// Set to 0 to disable backtracking, and -1 for indefinite amounts of backtracking.
+        /// 0 means disabled.
         /// </summary>
-        public int BackTrackDepth { get; set; }
+        public int MaxBacktrackDepth { get; set; }
 
         /// <summary>
         /// Extra constraints to control the generation process.

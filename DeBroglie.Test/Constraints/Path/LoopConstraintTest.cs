@@ -44,7 +44,7 @@ namespace DeBroglie.Test.Constraints
             var topology = new GridTopology(10, 10, false);
             var propagator = new TilePropagator(model, topology, new TilePropagatorOptions
             {
-                BackTrackDepth = -1,
+                BacktrackType = BacktrackType.Backtrack,
                 Constraints = new[] { constraint },
                 RandomDouble = r.NextDouble
             });

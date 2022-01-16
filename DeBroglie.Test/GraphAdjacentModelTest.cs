@@ -108,7 +108,7 @@ namespace DeBroglie.Test
 
             var propagator = new TilePropagator(model, topology, new TilePropagatorOptions
             {
-                BackTrackDepth = -1,
+                BacktrackType = BacktrackType.Backtrack,
             });
 
             void PrintPropagator()

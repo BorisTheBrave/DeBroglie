@@ -31,7 +31,7 @@ namespace DeBroglie.Test.Constraints
             var model = OverlappingModel.Create(a, 3, false, 8);
             var propagator = new TilePropagator(model, new GridTopology(10, 10, false), new TilePropagatorOptions
             {
-                BackTrackDepth = -1,
+                BacktrackType = BacktrackType.Backtrack,
                 Constraints = new[] {
 #pragma warning disable CS0618 // Type or member is obsolete
                     new PathConstraint(new HashSet<Tile>{new Tile(1)}, new []{new Point(0,0), new Point(9, 9) })
