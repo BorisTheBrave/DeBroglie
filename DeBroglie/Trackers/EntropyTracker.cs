@@ -103,7 +103,7 @@ namespace DeBroglie.Trackers
                     countAtMinEntropy = 1;
                     minEntropy = e;
                 }
-                else
+                else if (e == minEntropy)
                 {
                     countAtMinEntropy++;
                 }
