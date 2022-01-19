@@ -118,7 +118,7 @@ namespace DeBroglie
                 case BacktrackType.Backtrack:
                     return new ConstantBacktrackPolicy(1);
                 case BacktrackType.Backjump:
-                    return new ConstantBacktrackPolicy(2);
+                    return new PatienceBackjumpPolicy();
                 default:
                     throw new Exception($"Unknown BacktrackType {options.BacktrackType}");
             }

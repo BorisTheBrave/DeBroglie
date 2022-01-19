@@ -5,30 +5,6 @@ using DeBroglie.Trackers;
 
 namespace DeBroglie.Wfc
 {
-    public interface IBacktrackPolicy
-    {
-        /// <summary>
-        /// 0  = Give up
-        /// 1  = Backtrack
-        /// >1 = Backjump
-        /// </summary>
-        int GetBackjump();
-    }
-
-    public class ConstantBacktrackPolicy : IBacktrackPolicy
-    {
-        private readonly int amount;
-
-        public ConstantBacktrackPolicy(int amount)
-        {
-            this.amount = amount;
-        }
-
-        public int GetBackjump()
-        {
-            return amount;
-        }
-    }
 
     internal class WavePropagatorOptions
     {
@@ -440,6 +416,10 @@ namespace DeBroglie.Wfc
                 return;
 
             backtrackItemsLengths.Push(droppedBacktrackItemsCount + backtrackItems.Count);
+            prevChoices.Push(new IndexPatternItem { Index = index, Pattern = pattern });
+
+            backtrackPolicy.MakeChoice();
+
             // Clean up backtracks if they are too long
             while (maxBacktrackDepth > 0 && backtrackItemsLengths.Count > maxBacktrackDepth)
             {
@@ -449,7 +429,6 @@ namespace DeBroglie.Wfc
                 droppedBacktrackItemsCount = newDroppedCount;
             }
 
-            prevChoices.Push(new IndexPatternItem { Index = index, Pattern = pattern });
         }
 
         private void TryBacktrackUntilNoContradiction()
@@ -480,6 +459,7 @@ namespace DeBroglie.Wfc
                     {
                         futureChoices.Shift(item.Index);
                     }
+                    backtrackPolicy.Backtrack();
 
                     if (backjumpAmount == 1)
                     {
