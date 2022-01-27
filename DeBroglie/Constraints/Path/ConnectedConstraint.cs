@@ -77,12 +77,10 @@ namespace DeBroglie.Constraints
             IFilteredIndexPicker filteredIndexPicker,
             TilePropagator propagator)
         {
-            pathView = PathSpec.MakeView(propagator);
-            pathViewIsFresh = true;
-            if (pathView is EdgedPathView epv)
+            if (PathSpec is EdgedPathSpec eps)
             {
                 return new FollowPathHeuristic(
-                    filteredIndexPicker, propagator, epv);
+                    filteredIndexPicker, propagator, eps);
             }
             else
             {
@@ -96,21 +94,24 @@ namespace DeBroglie.Constraints
 
             private readonly TilePropagator propagator;
 
-            private readonly EdgedPathView edgedPathView;
+            private readonly EdgedPathSpec edgedPathSpec;
+            private EdgedPathView edgedPathView;
 
             public FollowPathHeuristic(
                 IFilteredIndexPicker filteredIndexPicker,
                 TilePropagator propagator,
-                EdgedPathView edgedPathView)
+                EdgedPathSpec edgedPathSpec)
             {
                 this.filteredIndexPicker = filteredIndexPicker;
                 this.propagator = propagator;
-                this.edgedPathView = edgedPathView;
+                this.edgedPathSpec = edgedPathSpec;
             }
 
             public void Init(WavePropagator wavePropagator)
             {
                 filteredIndexPicker.Init(wavePropagator);
+                // TODO: It's a pity this isn't shared with the path constraint
+                edgedPathView = (EdgedPathView)edgedPathSpec.MakeView(propagator);
             }
 
             public int GetRandomIndex(Func<double> randomDouble)

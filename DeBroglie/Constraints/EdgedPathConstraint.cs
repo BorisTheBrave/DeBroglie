@@ -51,12 +51,6 @@ namespace DeBroglie.Constraints
         /// </summary>
         public TileRotation TileRotation { get; set; }
 
-        /// <summary>
-        /// If set, configures the propagator to choose tiles that lie on the path first.
-        /// This can help avoid contradictions in many cases
-        /// </summary>
-        public bool UsePickHeuristic { get; set; }
-
         public EdgedPathConstraint(IDictionary<Tile, ISet<Direction>> exits, Point[] endPoints = null, TileRotation tileRotation = null)
         {
             this.Exits = exits;
@@ -300,94 +294,6 @@ namespace DeBroglie.Constraints
                 NodeCount = nodeCount,
                 Neighbours = neighbours,
             };
-        }
-
-        internal IIndexPicker GetHeuristic(
-                IFilteredIndexPicker filteredIndexPicker,
-                TilePropagator propagator)
-        {
-            return new FollowPathHeuristic(
-                filteredIndexPicker, propagator, this);
-        }
-
-        private class FollowPathHeuristic : IIndexPicker
-        {
-            private readonly IFilteredIndexPicker filteredIndexPicker;
-
-            private readonly TilePropagator propagator;
-
-            private readonly EdgedPathConstraint pathConstraint;
-
-            public FollowPathHeuristic(
-                IFilteredIndexPicker filteredIndexPicker,
-                TilePropagator propagator,
-                EdgedPathConstraint pathConstraint)
-            {
-                this.filteredIndexPicker = filteredIndexPicker;
-                this.propagator = propagator;
-                this.pathConstraint = pathConstraint;
-            }
-
-            public void Init(WavePropagator wavePropagator)
-            {
-                filteredIndexPicker.Init(wavePropagator);
-            }
-
-            public int GetRandomIndex(Func<double> randomDouble)
-            {
-                var topology = propagator.Topology;
-                var t = pathConstraint.pathSelectedTracker;
-                // Find cells that could potentially be paths, and are next to 
-                // already selected path. In tileSpace
-                var highPriority = new List<int>();
-                var mediumPrioiry = new List<int>();
-                var lowPriority = new List<int>();
-                foreach (var i in topology.GetIndices())
-                {
-                    var qs = t.GetQuadstate(i);
-                    if (qs.IsYes())
-                    {
-                        highPriority.Add(i);
-                        continue;
-                    }
-                    if (qs.IsNo())
-                    {
-                        lowPriority.Add(i);
-                        continue;
-                    }
-                    // Determine if any neighbours exit onto this tile
-                    var found = false;
-                    for (var d = 0; d < topology.DirectionsCount; d++)
-                    {
-                        if (topology.TryMove(i, (Direction)d, out var i2, out var inverseDirection, out var _))
-                        {
-                            if (pathConstraint.trackerByExit.TryGetValue(inverseDirection, out var tracker))
-                            {
-                                var s2 = tracker.GetQuadstate(i2);
-                                if (s2.IsYes())
-                                {
-                                    mediumPrioiry.Add(i);
-                                    found = true;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    if (!found)
-                    {
-                        lowPriority.Add(i);
-                    }
-                }
-
-                var index = filteredIndexPicker.GetRandomIndex(randomDouble, highPriority);
-                if (index != -1)
-                    return index;
-                index = filteredIndexPicker.GetRandomIndex(randomDouble, mediumPrioiry);
-                if (index != -1)
-                    return index;
-                index = filteredIndexPicker.GetRandomIndex(randomDouble, lowPriority);
-                return index;
-            }
         }
     }
 }

@@ -128,11 +128,10 @@ namespace DeBroglie
         private Tuple<IIndexPicker, IPatternPicker> MakePickers(TilePropagatorOptions options)
         {
             var pathConstraint = options.Constraints?.OfType<EdgedPathConstraint>().FirstOrDefault();
-            var pathPickHeuristic = pathConstraint != null && pathConstraint.UsePickHeuristic;
             var connectedConstraint = options.Constraints?.OfType<ConnectedConstraint>().FirstOrDefault();
             var connectedPickHeuristic = connectedConstraint != null && connectedConstraint.UsePickHeuristic;
 
-            if(connectedPickHeuristic || pathPickHeuristic)
+            if(connectedPickHeuristic)
             {
                 // Lists pickers that implement IFilteredIndexPicker
                 if (options.IndexPickerType != IndexPickerType.Default &&
@@ -223,13 +222,6 @@ namespace DeBroglie
                     throw new Exception($"Unknown TilePickerType {options.TilePickerType}");
             }
 
-
-            if (pathPickHeuristic)
-            {
-                indexPicker = pathConstraint.GetHeuristic(
-                    (IFilteredIndexPicker)indexPicker,
-                    this);
-            }
             if (connectedPickHeuristic)
             {
                 indexPicker = connectedConstraint.GetHeuristic(
