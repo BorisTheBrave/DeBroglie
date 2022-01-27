@@ -12,7 +12,8 @@ namespace DeBroglie.Wfc
         public int MaxBacktrackDepth { get; set; }
         public IWaveConstraint[] Constraints { get; set; }
         public Func<double> RandomDouble { get; set; }
-        public Func<WavePropagator, Tuple<IIndexPicker, IPatternPicker>> PickHeuristicFactory { get; set; }
+        public IIndexPicker IndexPicker { get; set; }
+        public IPatternPicker PatternPicker { get; set; }
         public bool Clear { get; set; } = true;
         public ModelConstraintAlgorithm ModelConstraintAlgorithm { get; set; }
         public bool MemoizeIndices { get; set; }
@@ -65,12 +66,10 @@ namespace DeBroglie.Wfc
         private ITopology topology;
         private int directionsCount;
 
-        public readonly Func<WavePropagator, Tuple<IIndexPicker, IPatternPicker>> pickHeuristicFactory;
-
         private List<ITracker> trackers;
 
-        private IIndexPicker indexPicker;
-        private IPatternPicker patternPicker;
+        private readonly IIndexPicker indexPicker;
+        private readonly IPatternPicker patternPicker;
         private IBacktrackPolicy backtrackPolicy;
 
         public WavePropagator(
@@ -89,16 +88,9 @@ namespace DeBroglie.Wfc
             this.topology = topology;
             this.randomDouble = options.RandomDouble ?? new Random().NextDouble;
             directionsCount = topology.DirectionsCount;
-            this.pickHeuristicFactory = options.PickHeuristicFactory;
+            this.indexPicker = options.IndexPicker ?? new EntropyTracker();
+            this.patternPicker = options.PatternPicker ?? new WeightedRandomPatternPicker();
             this.memoizeIndices = backtrack && options.MemoizeIndices;// No point memoizing if we never return to anything
-
-            if(this.pickHeuristicFactory == null)
-            {
-                this.pickHeuristicFactory = (wavePropagator) =>
-                {
-                    return Tuple.Create<IIndexPicker, IPatternPicker>(new EntropyTracker(), new WeightedRandomPatternPicker());
-                };
-            }
 
             switch (options.ModelConstraintAlgorithm)
             {
@@ -303,7 +295,6 @@ namespace DeBroglie.Wfc
             contradictionReason = null;
             contradictionSource = null;
             this.trackers = new List<ITracker>();
-            (indexPicker, patternPicker) = pickHeuristicFactory(this);
             indexPicker.Init(this);
             patternPicker.Init(this);
 

@@ -251,13 +251,8 @@ namespace DeBroglie.Test
             var options = new WavePropagatorOptions { 
                 MemoizeIndices = true,
                 BacktrackPolicy = new ConstantBacktrackPolicy(1),
-                PickHeuristicFactory = (w) =>
-                {
-                    return new Tuple<IIndexPicker, IPatternPicker>(
-                        indexPicker,
-                        new SimpleOrderedPatternPicker()
-                        );
-                },
+                IndexPicker = indexPicker,
+                PatternPicker = new SimpleOrderedPatternPicker(),
                 Constraints = new[] {new  DontBanOneConstraint()},
             };
             var propagator = new WavePropagator(model, topology, options);

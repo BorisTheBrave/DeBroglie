@@ -87,6 +87,7 @@ namespace DeBroglie
             var randomDouble = options.RandomDouble ?? (options.Random ?? new Random()).NextDouble;
 #pragma warning restore CS0618 // Type or member is obsolete
 
+            var (indexPicker, patternPicker) = MakePickers(options);
 
             var wavePropagatorOptions = new WavePropagatorOptions
             {
@@ -94,7 +95,8 @@ namespace DeBroglie
                 MaxBacktrackDepth = options.MaxBacktrackDepth,
                 RandomDouble = randomDouble,
                 Constraints = waveConstraints,
-                PickHeuristicFactory = w => MakePickHeuristic(options),
+                IndexPicker = indexPicker,
+                PatternPicker = patternPicker,
                 Clear = false,
                 ModelConstraintAlgorithm = options.ModelConstraintAlgorithm,
                 MemoizeIndices = options.MemoizeIndices,
@@ -123,7 +125,7 @@ namespace DeBroglie
             }
         }
 
-        private Tuple<IIndexPicker, IPatternPicker> MakePickHeuristic(TilePropagatorOptions options)
+        private Tuple<IIndexPicker, IPatternPicker> MakePickers(TilePropagatorOptions options)
         {
             var pathConstraint = options.Constraints?.OfType<EdgedPathConstraint>().FirstOrDefault();
             var pathPickHeuristic = pathConstraint != null && pathConstraint.UsePickHeuristic;
