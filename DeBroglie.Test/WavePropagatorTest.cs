@@ -136,10 +136,15 @@ namespace DeBroglie.Test
         public class CustomIndexPicker : IIndexPicker
         {
             public int Count { get; set; }
+            void IIndexPicker.Init(WavePropagator wavePropagator)
+            {
+            }
+
             public int GetRandomIndex(Func<double> randomDouble)
             {
                 return Count++;
             }
+
         }
 
 
@@ -250,7 +255,7 @@ namespace DeBroglie.Test
                 {
                     return new Tuple<IIndexPicker, IPatternPicker>(
                         indexPicker,
-                        new SimpleOrderedPatternPicker(w.Wave, w.PatternCount)
+                        new SimpleOrderedPatternPicker()
                         );
                 },
                 Constraints = new[] {new  DontBanOneConstraint()},

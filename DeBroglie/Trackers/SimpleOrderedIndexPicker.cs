@@ -6,18 +6,21 @@ namespace DeBroglie.Trackers
 {
     internal class SimpleOrderedIndexPicker : IIndexPicker, IFilteredIndexPicker
     {
-        private readonly bool[] mask;
+        private bool[] mask;
 
-        private readonly int indices;
+        private int indices;
 
-        private readonly Wave wave;
+        private Wave wave;
 
-        public SimpleOrderedIndexPicker(
-            Wave wave,
-            bool[] mask)
+        public SimpleOrderedIndexPicker()
         {
-            this.wave = wave;
-            this.mask = mask;
+        }
+
+        public void Init(WavePropagator wavePropagator)
+        {
+            wave = wavePropagator.Wave;
+
+            this.mask = wavePropagator.Topology.Mask;
 
             this.indices = wave.Indicies;
         }

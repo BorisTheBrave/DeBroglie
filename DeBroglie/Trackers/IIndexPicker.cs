@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeBroglie.Wfc;
+using System;
 using System.Collections.Generic;
 
 namespace DeBroglie.Trackers
@@ -8,11 +9,13 @@ namespace DeBroglie.Trackers
     /// </summary>
     internal interface IIndexPicker
     {
+        void Init(WavePropagator wavePropagator);
         int GetRandomIndex(Func<double> randomDouble);
     }
 
     internal interface IFilteredIndexPicker
     {
+        void Init(WavePropagator wavePropagator);
         int GetRandomIndex(Func<double> randomDouble, IEnumerable<int> indices);
     }
 }

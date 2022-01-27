@@ -5,13 +5,14 @@ namespace DeBroglie.Trackers
 {
     internal class SimpleOrderedPatternPicker : IPatternPicker
     {
-        private readonly Wave wave;
-        private readonly int patternCount;
+        private Wave wave;
+        private int patternCount;
 
-        public SimpleOrderedPatternPicker(Wave wave, int patternCount)
+        public void Init(WavePropagator wavePropagator)
         {
-            this.wave = wave;
-            this.patternCount = patternCount;
+
+            this.wave = wavePropagator.Wave;
+            this.patternCount = wavePropagator.PatternCount;
         }
 
         public int GetRandomPossiblePatternAt(int index, Func<double> randomDouble)

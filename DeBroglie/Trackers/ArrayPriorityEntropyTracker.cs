@@ -13,32 +13,40 @@ namespace DeBroglie.Trackers
     /// </summary>
     internal class ArrayPriorityEntropyTracker : ITracker, IIndexPicker, IPatternPicker
     {
-        private readonly int patternCount;
-
         private readonly WeightSetCollection weightSetCollection;
 
         // Track some useful per-cell values
-        private readonly EntropyValues[] entropyValues;
+        private EntropyValues[] entropyValues;
 
-        private readonly bool[] mask;
+        private bool[] mask;
 
-        private readonly int indices;
+        private int indices;
 
-        private readonly Wave wave;
+        private Wave wave;
 
-        public ArrayPriorityEntropyTracker(
-            Wave wave,
-            WeightSetCollection weightSetCollection,
-            bool[] mask)
+        public ArrayPriorityEntropyTracker(WeightSetCollection weightSetCollection)
         {
             this.weightSetCollection = weightSetCollection;
-            this.mask = mask;
 
-            this.wave = wave;
-            this.indices = wave.Indicies;
-
-            entropyValues = new EntropyValues[indices];
         }
+
+        public void Init(WavePropagator wavePropagator)
+        {
+            mask = wavePropagator.Topology.Mask;
+            wave = wavePropagator.Wave;
+            indices = wave.Indicies;
+            entropyValues = new EntropyValues[indices];
+
+            Reset();
+            wavePropagator.AddTracker(this);
+        }
+
+        // Don't run init twice
+        void IPatternPicker.Init(WavePropagator wavePropagator)
+        {
+
+        }
+
 
         public void DoBan(int index, int pattern)
         {

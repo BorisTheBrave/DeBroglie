@@ -15,8 +15,8 @@ namespace DeBroglie.Test
             var r = new Random();
             var frequencies = new double[] { 2, 1, 1 };
             var wave = new Wave(frequencies.Length, 2);
-            var entropyTracker = new EntropyTracker(wave, frequencies, null);
-            entropyTracker.Reset();
+            var entropyTracker = new EntropyTracker();
+            entropyTracker.Init(wave, frequencies, null);
 
             Assert.IsFalse(wave.RemovePossibility(0, 0));
             entropyTracker.DoBan(0, 0);
@@ -44,8 +44,8 @@ namespace DeBroglie.Test
             var r = new Random();
             var frequencies = new double[] { 2, 1, 1 };
             var wave = new Wave(frequencies.Length, 2);
-            var entropyTracker = new HeapEntropyTracker(wave, frequencies, null, r.NextDouble);
-            entropyTracker.Reset();
+            var entropyTracker = new HeapEntropyTracker();
+            entropyTracker.Init(wave, frequencies, null, r.NextDouble);
 
             Assert.IsFalse(wave.RemovePossibility(0, 0));
             entropyTracker.DoBan(0, 0);

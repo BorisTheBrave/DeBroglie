@@ -96,10 +96,7 @@ namespace DeBroglie.Wfc
             {
                 this.pickHeuristicFactory = (wavePropagator) =>
                 {
-                    var entropyTracker = new EntropyTracker(wavePropagator.Wave, wavePropagator.Frequencies, wavePropagator.Topology.Mask);
-                    entropyTracker.Reset();
-                    wavePropagator.AddTracker(entropyTracker);
-                    return Tuple.Create<IIndexPicker, IPatternPicker>(entropyTracker, new WeightedRandomPatternPicker(wave, frequencies));
+                    return Tuple.Create<IIndexPicker, IPatternPicker>(new EntropyTracker(), new WeightedRandomPatternPicker());
                 };
             }
 
@@ -307,6 +304,8 @@ namespace DeBroglie.Wfc
             contradictionSource = null;
             this.trackers = new List<ITracker>();
             (indexPicker, patternPicker) = pickHeuristicFactory(this);
+            indexPicker.Init(this);
+            patternPicker.Init(this);
 
             patternModelConstraint.Clear();
 

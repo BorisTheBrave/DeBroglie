@@ -1,4 +1,5 @@
 ﻿using DeBroglie.Topo;
+using DeBroglie.Wfc;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,6 +17,12 @@ namespace DeBroglie.Trackers
             dirtyIndices = new HashSet<int>();
             this.filteredIndexPicker = filteredIndexPicker;
             this.cleanPatterns = cleanPatterns;
+        }
+
+        public void Init(WavePropagator wavePropagator)
+        {
+            filteredIndexPicker.Init(wavePropagator);
+            wavePropagator.AddTracker(this);
         }
 
         public void DoBan(int index, int pattern)

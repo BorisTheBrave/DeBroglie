@@ -8,15 +8,18 @@ namespace DeBroglie.Trackers
     {
         private readonly int[] indexOrder;
 
-        private readonly Wave wave;
+        private Wave wave;
 
-        public OrderedIndexPicker(
-            Wave wave,
-            int[] indexOrder)
+        public OrderedIndexPicker(int[] indexOrder)
         {
-            this.wave = wave;
             this.indexOrder = indexOrder;
         }
+
+        public void Init(WavePropagator wavePropagator)
+        {
+            this.wave = wavePropagator.Wave;
+        }
+
 
         public int GetRandomIndex(Func<double> randomDouble)
         {

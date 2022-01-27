@@ -6,30 +6,33 @@ namespace DeBroglie.Trackers
 {
     internal class HeapEntropyTracker : ITracker, IIndexPicker
     {
-        private readonly int patternCount;
+        private int patternCount;
 
-        private readonly double[] frequencies;
+        private double[] frequencies;
 
         // Track some useful per-cell values
-        private readonly EntropyValues[] entropyValues;
+        private EntropyValues[] entropyValues;
 
         // See the definition in EntropyValues
-        private readonly double[] plogp;
+        private double[] plogp;
 
-        private readonly bool[] mask;
-        private readonly Func<double> randomDouble;
-        private readonly int indexCount;
+        private bool[] mask;
+        private Func<double> randomDouble;
+        private int indexCount;
 
-        private readonly Wave wave;
+        private Wave wave;
 
         private Heap<EntropyValues, double> heap;
         private ChangeTracker tracker;
 
-        public HeapEntropyTracker(
-            Wave wave,
-            double[] frequencies,
-            bool[] mask,
-            Func<double> randomDouble)
+        public void Init(WavePropagator wavePropagator)
+        {
+            Init(wavePropagator.Wave, wavePropagator.Frequencies, wavePropagator.Topology.Mask, wavePropagator.RandomDouble);
+            wavePropagator.AddTracker(this);
+        }
+
+        // For debugging
+        public void Init(Wave wave, double[] frequencies, bool[] mask, Func<double> randomDouble)
         {
             this.frequencies = frequencies;
             this.patternCount = frequencies.Length;
@@ -53,6 +56,7 @@ namespace DeBroglie.Trackers
 
             tracker = new ChangeTracker(new Models.TileModelMapping(), wave.Indicies);
 
+            Reset();
         }
 
         private const double Threshold = 1e-17;

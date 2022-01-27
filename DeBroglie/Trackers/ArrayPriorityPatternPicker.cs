@@ -6,14 +6,18 @@ namespace DeBroglie.Trackers
 
     internal class ArrayPriorityPatternPicker : IPatternPicker
     {
-        private readonly Wave wave;
+        private Wave wave;
 
         private readonly WeightSetCollection weightSetCollection;
 
-        public ArrayPriorityPatternPicker(Wave wave, WeightSetCollection weightSetCollection)
+        public ArrayPriorityPatternPicker(WeightSetCollection weightSetCollection)
         {
-            this.wave = wave;
             this.weightSetCollection = weightSetCollection;
+        }
+
+        public void Init(WavePropagator wavePropagator)
+        {
+            wave = wavePropagator.Wave;
         }
 
         public int GetRandomPossiblePatternAt(int index, Func<double> randomDouble)

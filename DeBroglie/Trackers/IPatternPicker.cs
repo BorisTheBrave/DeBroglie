@@ -9,6 +9,7 @@ namespace DeBroglie.Trackers
     /// </summary>
     internal interface IPatternPicker
     {
+        void Init(WavePropagator wavePropagator);
         int GetRandomPossiblePatternAt(int index, Func<double> randomDouble);
     }
 }

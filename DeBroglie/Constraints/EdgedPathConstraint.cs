@@ -304,38 +304,33 @@ namespace DeBroglie.Constraints
 
         internal IIndexPicker GetHeuristic(
                 IFilteredIndexPicker filteredIndexPicker,
-                Func<double> randomDouble,
-                TilePropagator propagator,
-                TileModelMapping tileModelMapping)
+                TilePropagator propagator)
         {
             return new FollowPathHeuristic(
-                filteredIndexPicker, randomDouble, propagator, tileModelMapping, this);
+                filteredIndexPicker, propagator, this);
         }
 
         private class FollowPathHeuristic : IIndexPicker
         {
             private readonly IFilteredIndexPicker filteredIndexPicker;
 
-            private readonly Func<double> randomDouble;
-
             private readonly TilePropagator propagator;
-
-            private readonly TileModelMapping tileModelMapping;
 
             private readonly EdgedPathConstraint pathConstraint;
 
             public FollowPathHeuristic(
                 IFilteredIndexPicker filteredIndexPicker,
-                Func<double> randomDouble,
                 TilePropagator propagator,
-                TileModelMapping tileModelMapping,
                 EdgedPathConstraint pathConstraint)
             {
                 this.filteredIndexPicker = filteredIndexPicker;
-                this.randomDouble = randomDouble;
                 this.propagator = propagator;
-                this.tileModelMapping = tileModelMapping;
                 this.pathConstraint = pathConstraint;
+            }
+
+            public void Init(WavePropagator wavePropagator)
+            {
+                filteredIndexPicker.Init(wavePropagator);
             }
 
             public int GetRandomIndex(Func<double> randomDouble)

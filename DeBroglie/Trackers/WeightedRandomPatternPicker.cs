@@ -7,14 +7,18 @@ namespace DeBroglie.Trackers
 {
     class WeightedRandomPatternPicker : IPatternPicker
     {
-        private readonly Wave wave;
+        private Wave wave;
 
-        private readonly double[] frequencies;
+        private double[] frequencies;
 
-        public WeightedRandomPatternPicker(Wave wave, double[] frequencies)
+        public WeightedRandomPatternPicker()
         {
-            this.wave = wave;
-            this.frequencies = frequencies;
+        }
+
+        public void Init(WavePropagator wavePropagator)
+        {
+            wave = wavePropagator.Wave;
+            frequencies = wavePropagator.Frequencies;
         }
 
         public int GetRandomPossiblePatternAt(int index, Func<double> randomDouble)

@@ -88,14 +88,13 @@ namespace DeBroglie
 #pragma warning restore CS0618 // Type or member is obsolete
 
 
-
             var wavePropagatorOptions = new WavePropagatorOptions
             {
                 BacktrackPolicy = MakeBacktrackPolicy(options),
                 MaxBacktrackDepth = options.MaxBacktrackDepth,
                 RandomDouble = randomDouble,
                 Constraints = waveConstraints,
-                PickHeuristicFactory = w => MakePickHeuristic(w, options),
+                PickHeuristicFactory = w => MakePickHeuristic(options),
                 Clear = false,
                 ModelConstraintAlgorithm = options.ModelConstraintAlgorithm,
                 MemoizeIndices = options.MemoizeIndices,
@@ -124,17 +123,12 @@ namespace DeBroglie
             }
         }
 
-        private Tuple<IIndexPicker, IPatternPicker> MakePickHeuristic(WavePropagator wavePropagator, TilePropagatorOptions options)
+        private Tuple<IIndexPicker, IPatternPicker> MakePickHeuristic(TilePropagatorOptions options)
         {
-            var randomDouble = wavePropagator.RandomDouble;
-            var patternTopology = wavePropagator.Topology;
-            var mask = patternTopology.Mask;
             var pathConstraint = options.Constraints?.OfType<EdgedPathConstraint>().FirstOrDefault();
             var pathPickHeuristic = pathConstraint != null && pathConstraint.UsePickHeuristic;
             var connectedConstraint = options.Constraints?.OfType<ConnectedConstraint>().FirstOrDefault();
             var connectedPickHeuristic = connectedConstraint != null && connectedConstraint.UsePickHeuristic;
-            var wave = wavePropagator.Wave;
-            var frequencies = wavePropagator.Frequencies;
 
             if(connectedPickHeuristic || pathPickHeuristic)
             {
@@ -160,11 +154,11 @@ namespace DeBroglie
                     {
                         if (options.IndexOrder != null)
                         {
-                            indexPicker = new OrderedIndexPicker(wave, options.IndexOrder);
+                            indexPicker = new OrderedIndexPicker(options.IndexOrder);
                         }
                         else
                         {
-                            indexPicker = new SimpleOrderedIndexPicker(wave, mask);
+                            indexPicker = new SimpleOrderedIndexPicker();
                         }
                         break;
                     }
@@ -172,29 +166,23 @@ namespace DeBroglie
                     {
                         if (options.WeightSetByIndex == null || options.WeightSets == null)
                             throw new ArgumentNullException($"Expected WeightSetByIndex and WeightSets to be set");
-                        var weightSetCollection = new WeightSetCollection(options.WeightSetByIndex, options.WeightSets, tileModelMapping);
-                        var entropyTracker = new ArrayPriorityEntropyTracker(wavePropagator.Wave, weightSetCollection, patternTopology.Mask);
-                        entropyTracker.Reset();
-                        wavePropagator.AddTracker(entropyTracker);
                         if (options.TilePickerType != TilePickerType.ArrayPriority && options.TilePickerType != TilePickerType.Default)
                             throw new Exception($"ArrayPriorityMinEntropy only works with Default tile picker");
+
+                        var weightSetCollection = new WeightSetCollection(options.WeightSetByIndex, options.WeightSets, tileModelMapping);
+                        var entropyTracker = new ArrayPriorityEntropyTracker(weightSetCollection);
+
                         return Tuple.Create((IIndexPicker)entropyTracker, (IPatternPicker)entropyTracker);
                     }
                 case IndexPickerType.MinEntropy:
                     {
-                        var entropyTracker = new EntropyTracker(wavePropagator.Wave, wavePropagator.Frequencies, patternTopology.Mask);
-                        entropyTracker.Reset();
-                        wavePropagator.AddTracker(entropyTracker);
-                        indexPicker = entropyTracker;
+                        indexPicker = new EntropyTracker();
                         break;
                     }
                 case IndexPickerType.Default:
                 case IndexPickerType.HeapMinEntropy:
                     {
-                        var entropyTracker = new HeapEntropyTracker(wavePropagator.Wave, wavePropagator.Frequencies, patternTopology.Mask, randomDouble);
-                        entropyTracker.Reset();
-                        wavePropagator.AddTracker(entropyTracker);
-                        indexPicker = entropyTracker;
+                        indexPicker = new HeapEntropyTracker();
                         break;
                     }
                 case IndexPickerType.Dirty:
@@ -206,10 +194,7 @@ namespace DeBroglie
                             throw new ArgumentNullException($"{nameof(options.CleanTiles)} is null");
                         var cleanPatterns = options.CleanTiles.Map(t => tileModelMapping.TilesToPatternsByOffset[0][t].First());
 
-                        var orderedIndexPicker = new SimpleOrderedIndexPicker(wave, mask);
-                        var dirtyIndexPicker = new DirtyIndexPicker(orderedIndexPicker, cleanPatterns);
-                        wavePropagator.AddTracker(dirtyIndexPicker);
-                        indexPicker = dirtyIndexPicker;
+                        indexPicker = new DirtyIndexPicker(new SimpleOrderedIndexPicker(), cleanPatterns);
                         break;
                     }
                 default:
@@ -221,16 +206,16 @@ namespace DeBroglie
             {
                 case TilePickerType.Default:
                 case TilePickerType.Weighted:
-                    patternPicker = new WeightedRandomPatternPicker(wave, frequencies);
+                    patternPicker = new WeightedRandomPatternPicker();
                     break;
                 case TilePickerType.Ordered:
-                    patternPicker = new SimpleOrderedPatternPicker(wave, frequencies.Length);
+                    patternPicker = new SimpleOrderedPatternPicker();
                     break;
                 case TilePickerType.ArrayPriority:
                     if (options.WeightSetByIndex == null || options.WeightSets == null)
                         throw new ArgumentNullException($"Expected WeightSetByIndex and WeightSets to be set");
                     var weightSetCollection = new WeightSetCollection(options.WeightSetByIndex, options.WeightSets, tileModelMapping);
-                    patternPicker = new ArrayPriorityPatternPicker(wave, weightSetCollection);
+                    patternPicker = new ArrayPriorityPatternPicker(weightSetCollection);
                     break;
                 default:
                     throw new Exception($"Unknown TilePickerType {options.TilePickerType}");
@@ -241,16 +226,13 @@ namespace DeBroglie
             {
                 indexPicker = pathConstraint.GetHeuristic(
                     (IFilteredIndexPicker)indexPicker,
-                    randomDouble,
-                    this,
-                    tileModelMapping);
+                    this);
             }
             if (connectedPickHeuristic)
             {
                 indexPicker = connectedConstraint.GetHeuristic(
                     (IFilteredIndexPicker)indexPicker,
-                    this,
-                    tileModelMapping);
+                    this);
             }
 
             return Tuple.Create(indexPicker, patternPicker);
@@ -302,6 +284,13 @@ namespace DeBroglie
         /// It is reset when <see cref="Clear"/> is called.
         /// </summary>
         public int BacktrackCount => wavePropagator.BacktrackCount;
+
+        /// <summary>
+        /// This is incremented each time it is necessary to backjump 
+        /// while generating results (i.e. when multiple steps are undone simultaneously).
+        /// It is reset when <see cref="Clear"/> is called.
+        /// </summary>
+        public int BackjumpCount => wavePropagator.BackjumpCount;
 
         /// <summary>
         /// Returns a number between 0 and 1 indicating how much of the generation is complete.

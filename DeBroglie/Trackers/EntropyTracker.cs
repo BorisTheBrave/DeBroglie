@@ -6,26 +6,30 @@ namespace DeBroglie.Trackers
 {
     internal class EntropyTracker : ITracker, IIndexPicker, IFilteredIndexPicker
     {
-        private readonly int patternCount;
+        private int patternCount;
 
-        private readonly double[] frequencies;
+        private double[] frequencies;
 
         // Track some useful per-cell values
-        private readonly EntropyValues[] entropyValues;
+        private EntropyValues[] entropyValues;
 
         // See the definition in EntropyValues
-        private readonly double[] plogp;
+        private double[] plogp;
 
-        private readonly bool[] mask;
+        private bool[] mask;
 
-        private readonly int indices;
+        private int indices;
 
-        private readonly Wave wave;
+        private Wave wave;
 
-        public EntropyTracker(
-            Wave wave,
-            double[] frequencies,
-            bool[] mask)
+        public void Init(WavePropagator wavePropagator)
+        {
+            Init(wavePropagator.Wave, wavePropagator.Frequencies, wavePropagator.Topology.Mask);
+            wavePropagator.AddTracker(this);
+        }
+
+        // For debugging
+        public void Init(Wave wave, double[] frequencies, bool[] mask)
         {
             this.frequencies = frequencies;
             this.patternCount = frequencies.Length;
@@ -44,6 +48,8 @@ namespace DeBroglie.Trackers
             }
 
             entropyValues = new EntropyValues[indices];
+
+            Reset();
         }
 
         public void DoBan(int index, int pattern)
