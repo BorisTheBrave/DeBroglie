@@ -58,7 +58,7 @@ namespace DeBroglie.Wfc
             start = 0;
         }
 
-        public void MakeChoice()
+        public void MakeChoice(int index, int pattern)
         {
             depth++;
             if(depth > maxDepth)

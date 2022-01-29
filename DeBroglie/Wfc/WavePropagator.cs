@@ -16,7 +16,6 @@ namespace DeBroglie.Wfc
         public IPatternPicker PatternPicker { get; set; }
         public bool Clear { get; set; } = true;
         public ModelConstraintAlgorithm ModelConstraintAlgorithm { get; set; }
-        public bool MemoizeIndices { get; set; }
     }
 
     /// <summary>
@@ -43,7 +42,6 @@ namespace DeBroglie.Wfc
         // In
         private int backtrackCount; // Purely informational
         private int backjumpCount; // Purely informational
-        private Deque<int> futureChoices;
 
         // Basic parameters
         private int indexCount;
@@ -51,7 +49,6 @@ namespace DeBroglie.Wfc
         private readonly int maxBacktrackDepth;
         private readonly IWaveConstraint[] constraints;
         private Func<double> randomDouble;
-        private readonly bool memoizeIndices;
 
         // We evaluate constraints at the last possible minute, instead of eagerly like the model,
         // As they can potentially be expensive.
@@ -91,7 +88,6 @@ namespace DeBroglie.Wfc
             directionsCount = topology.DirectionsCount;
             this.indexPicker = options.IndexPicker ?? new EntropyTracker();
             this.patternPicker = options.PatternPicker ?? new WeightedRandomPatternPicker();
-            this.memoizeIndices = backtrack && options.MemoizeIndices;// No point memoizing if we never return to anything
 
             switch (options.ModelConstraintAlgorithm)
             {
@@ -286,10 +282,6 @@ namespace DeBroglie.Wfc
                 backtrackItemsLengths = new Deque<int>();
                 backtrackItemsLengths.Push(0);
                 prevChoices = new Deque<IndexPatternItem>();
-                if(memoizeIndices)
-                {
-                    futureChoices = new Deque<int>();
-                }
             }
 
             status = Resolution.Undecided;
@@ -361,15 +353,7 @@ namespace DeBroglie.Wfc
             if (status == Resolution.Undecided)
             {
                 // Pick a index to use
-                int index;
-                if (memoizeIndices && futureChoices.Count > 0)
-                {
-                    index = futureChoices.Unshift();
-                }
-                else 
-                {
-                    index = indexPicker.GetRandomIndex(randomDouble);
-                }
+                var index = indexPicker.GetRandomIndex(randomDouble);
 
                 if (index != -1)
                 {
@@ -413,7 +397,7 @@ namespace DeBroglie.Wfc
 
             foreach (var co in choiceObservers)
             {
-                co.MakeChoice();
+                co.MakeChoice(index, pattern);
             }
 
             // Clean up backtracks if they are too long
@@ -451,10 +435,6 @@ namespace DeBroglie.Wfc
                     status = Resolution.Undecided;
                     contradictionReason = null;
                     contradictionSource = null;
-                    if (memoizeIndices)
-                    {
-                        futureChoices.Shift(item.Index);
-                    }
                     foreach (var co in choiceObservers)
                     {
                         co.Backtrack();

@@ -25,7 +25,7 @@ namespace DeBroglie.Trackers
     internal interface IChoiceObserver
     {
         // Called before the wave propagator is updated for the choice
-        void MakeChoice();
+        void MakeChoice(int index, int pattern);
 
         // Called after the wave propagator is backtracked
         void Backtrack();

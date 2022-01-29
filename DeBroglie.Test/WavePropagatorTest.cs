@@ -248,10 +248,10 @@ namespace DeBroglie.Test
             var height = 10;
             var topology = new GridTopology(width, height, true);
             var indexPicker = new CustomIndexPicker();
+            var memoIndexPicker = new MemoizeIndexPicker(indexPicker);
             var options = new WavePropagatorOptions { 
-                MemoizeIndices = true,
                 BacktrackPolicy = new ConstantBacktrackPolicy(1),
-                IndexPicker = indexPicker,
+                IndexPicker = memoIndexPicker,
                 PatternPicker = new SimpleOrderedPatternPicker(),
                 Constraints = new[] {new  DontBanOneConstraint()},
             };

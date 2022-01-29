@@ -99,7 +99,6 @@ namespace DeBroglie
                 PatternPicker = patternPicker,
                 Clear = false,
                 ModelConstraintAlgorithm = options.ModelConstraintAlgorithm,
-                MemoizeIndices = options.MemoizeIndices,
             };
 
             this.wavePropagator = new WavePropagator(
@@ -148,8 +147,9 @@ namespace DeBroglie
             // Generally this is HeapEntropyTracker, but it doesn't support some features
             // so there's a few slower implementations for that
             IIndexPicker indexPicker = null;
+            IPatternPicker patternPicker = null;
 
-            switch(options.IndexPickerType)
+            switch (options.IndexPickerType)
             {
                 case IndexPickerType.Ordered:
                     {
@@ -173,7 +173,9 @@ namespace DeBroglie
                         var weightSetCollection = new WeightSetCollection(options.WeightSetByIndex, options.WeightSets, tileModelMapping);
                         var entropyTracker = new ArrayPriorityEntropyTracker(weightSetCollection);
 
-                        return Tuple.Create((IIndexPicker)entropyTracker, (IPatternPicker)entropyTracker);
+                        indexPicker = entropyTracker;
+                        patternPicker = entropyTracker;
+                        break;
                     }
                 case IndexPickerType.MinEntropy:
                     {
@@ -202,24 +204,26 @@ namespace DeBroglie
                     throw new Exception($"Unknown IndexPickerType {options.IndexPickerType}");
             }
 
-            IPatternPicker patternPicker;
-            switch(options.TilePickerType)
+            if (patternPicker == null)
             {
-                case TilePickerType.Default:
-                case TilePickerType.Weighted:
-                    patternPicker = new WeightedRandomPatternPicker();
-                    break;
-                case TilePickerType.Ordered:
-                    patternPicker = new SimpleOrderedPatternPicker();
-                    break;
-                case TilePickerType.ArrayPriority:
-                    if (options.WeightSetByIndex == null || options.WeightSets == null)
-                        throw new ArgumentNullException($"Expected WeightSetByIndex and WeightSets to be set");
-                    var weightSetCollection = new WeightSetCollection(options.WeightSetByIndex, options.WeightSets, tileModelMapping);
-                    patternPicker = new ArrayPriorityPatternPicker(weightSetCollection);
-                    break;
-                default:
-                    throw new Exception($"Unknown TilePickerType {options.TilePickerType}");
+                switch (options.TilePickerType)
+                {
+                    case TilePickerType.Default:
+                    case TilePickerType.Weighted:
+                        patternPicker = new WeightedRandomPatternPicker();
+                        break;
+                    case TilePickerType.Ordered:
+                        patternPicker = new SimpleOrderedPatternPicker();
+                        break;
+                    case TilePickerType.ArrayPriority:
+                        if (options.WeightSetByIndex == null || options.WeightSets == null)
+                            throw new ArgumentNullException($"Expected WeightSetByIndex and WeightSets to be set");
+                        var weightSetCollection = new WeightSetCollection(options.WeightSetByIndex, options.WeightSets, tileModelMapping);
+                        patternPicker = new ArrayPriorityPatternPicker(weightSetCollection);
+                        break;
+                    default:
+                        throw new Exception($"Unknown TilePickerType {options.TilePickerType}");
+                }
             }
 
             if (connectedPickHeuristic)
@@ -227,6 +231,11 @@ namespace DeBroglie
                 indexPicker = connectedConstraint.GetHeuristic(
                     (IFilteredIndexPicker)indexPicker,
                     this);
+            }
+
+            if(options.MemoizeIndices)
+            {
+                indexPicker = new MemoizeIndexPicker(indexPicker);
             }
 
             return Tuple.Create(indexPicker, patternPicker);
