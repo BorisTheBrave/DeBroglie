@@ -17,4 +17,17 @@ namespace DeBroglie.Trackers
 
         void UndoBan(int index, int pattern);
     }
+
+    /// <summary>
+    /// Callback for when choices/backtracks occur on WavePropagator
+    /// </summary>
+    // TODO: Move this class eleswhere?
+    internal interface IChoiceObserver
+    {
+        // Called before the wave propagator is updated for the choice
+        void MakeChoice();
+
+        // Called after the wave propagator is backtracked
+        void Backtrack();
+    }
 }

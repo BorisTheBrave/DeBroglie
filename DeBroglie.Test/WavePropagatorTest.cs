@@ -167,7 +167,7 @@ namespace DeBroglie.Test
             TestBacktracking(20, ModelConstraintAlgorithm.Ac4, new PatienceBackjumpPolicy());
         }
 
-        public void TestBacktracking(int size, ModelConstraintAlgorithm algorithm, IBacktrackPolicy backtrackPolicy)
+        internal void TestBacktracking(int size, ModelConstraintAlgorithm algorithm, IBacktrackPolicy backtrackPolicy)
         {
             // Reproduces the wang tiles found at
             // https://en.wikipedia.org/wiki/Wang_tile

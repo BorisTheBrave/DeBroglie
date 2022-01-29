@@ -1,13 +1,12 @@
-﻿using System;
+﻿using DeBroglie.Trackers;
+using System;
 using System.Collections.Generic;
 
 namespace DeBroglie.Wfc
 {
-    public interface IBacktrackPolicy
+    internal interface IBacktrackPolicy
     {
-        void MakeChoice();
-
-        void Backtrack();
+        void Init(WavePropagator wavePropagator);
 
         /// <summary>
         /// 0  = Give up
@@ -19,7 +18,7 @@ namespace DeBroglie.Wfc
 
 
 
-    public class ConstantBacktrackPolicy : IBacktrackPolicy
+    internal class ConstantBacktrackPolicy : IBacktrackPolicy
     {
         private readonly int amount;
 
@@ -28,21 +27,18 @@ namespace DeBroglie.Wfc
             this.amount = amount;
         }
 
-        public void Backtrack()
+        public void Init(WavePropagator wavePropagator)
         {
+
         }
 
         public int GetBackjump()
         {
             return amount;
         }
-
-        public void MakeChoice()
-        {
-        }
     }
 
-    public class PatienceBackjumpPolicy : IBacktrackPolicy
+    internal class PatienceBackjumpPolicy : IBacktrackPolicy, IChoiceObserver
     {
         private long counter;
         private int depth;
@@ -50,10 +46,12 @@ namespace DeBroglie.Wfc
         private long start;
 
         private List<Level> levels;
-        
 
-        public void Reset()
+
+
+        public void Init(WavePropagator wavePropagator)
         {
+            wavePropagator.AddChoiceObserver(this);
             counter = 0;
             depth = 0;
             maxDepth = 0;

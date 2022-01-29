@@ -67,6 +67,7 @@ namespace DeBroglie.Wfc
         private int directionsCount;
 
         private List<ITracker> trackers;
+        private List<IChoiceObserver> choiceObservers;
 
         private readonly IIndexPicker indexPicker;
         private readonly IPatternPicker patternPicker;
@@ -295,8 +296,10 @@ namespace DeBroglie.Wfc
             contradictionReason = null;
             contradictionSource = null;
             this.trackers = new List<ITracker>();
+            this.choiceObservers = new List<IChoiceObserver>();
             indexPicker.Init(this);
             patternPicker.Init(this);
+            backtrackPolicy?.Init(this);
 
             patternModelConstraint.Clear();
 
@@ -408,7 +411,10 @@ namespace DeBroglie.Wfc
             backtrackItemsLengths.Push(droppedBacktrackItemsCount + backtrackItems.Count);
             prevChoices.Push(new IndexPatternItem { Index = index, Pattern = pattern });
 
-            backtrackPolicy.MakeChoice();
+            foreach (var co in choiceObservers)
+            {
+                co.MakeChoice();
+            }
 
             // Clean up backtracks if they are too long
             while (maxBacktrackDepth > 0 && backtrackItemsLengths.Count > maxBacktrackDepth)
@@ -449,7 +455,10 @@ namespace DeBroglie.Wfc
                     {
                         futureChoices.Shift(item.Index);
                     }
-                    backtrackPolicy.Backtrack();
+                    foreach (var co in choiceObservers)
+                    {
+                        co.Backtrack();
+                    }
 
                     if (backjumpAmount == 1)
                     {
@@ -507,6 +516,16 @@ namespace DeBroglie.Wfc
         public void RemoveTracker(ITracker tracker)
         {
             trackers.Remove(tracker);
+        }
+
+        public void AddChoiceObserver(IChoiceObserver co)
+        {
+            choiceObservers.Add(co);
+        }
+
+        public void RemoveChoiceObserver(IChoiceObserver co)
+        {
+            choiceObservers.Remove(co);
         }
 
         /**
