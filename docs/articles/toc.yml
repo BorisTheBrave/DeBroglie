@@ -21,6 +21,8 @@
   href: gallery.md
 - name: FAQ
   href: faq.md
+- name: Developing
+  href: developing.md
 - name: Release Notes
   href: release_notes.md
 
