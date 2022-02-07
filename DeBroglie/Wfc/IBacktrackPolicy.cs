@@ -38,6 +38,11 @@ namespace DeBroglie.Wfc
         }
     }
 
+    // After 10 failed backtracks, backjumps by 4 (level 0) and repeats.
+    // Each subsequent level backtrackts twice as far, but waits twice as long to trigger.
+    // This means that after a backjump, we try exactly as hard the 2nd time as we did the first, including
+    // trying smaller backjumps.
+    // Whenever forward progress is made, all levels are reset.
     internal class PatienceBackjumpPolicy : IBacktrackPolicy, IChoiceObserver
     {
         private long counter;
@@ -46,8 +51,6 @@ namespace DeBroglie.Wfc
         private long start;
 
         private List<Level> levels;
-
-
 
         public void Init(WavePropagator wavePropagator)
         {
