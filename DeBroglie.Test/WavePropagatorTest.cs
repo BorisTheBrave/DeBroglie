@@ -155,7 +155,8 @@ namespace DeBroglie.Test
             TestBacktracking(algorithm == ModelConstraintAlgorithm.OneStep ? 10 : 20, algorithm, new ConstantBacktrackPolicy(1));
         }
 
-        [Test]
+        // Though this test is interesting, it's not guaranteed to complete
+        //[Test]
         public void TestBackjumping()
         {
             TestBacktracking(20, ModelConstraintAlgorithm.Ac4, new ConstantBacktrackPolicy(2));
