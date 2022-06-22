@@ -4,6 +4,8 @@ namespace DeBroglie.Wfc
 {
     internal struct IndexPatternItem : IEquatable<IndexPatternItem>
     {
+        // Can also take value -1 in some circumstances to indicate that we've saved the state,
+        // but no particular choice was made.
         public int Index { get; set; }
         public int Pattern { get; set; }
 

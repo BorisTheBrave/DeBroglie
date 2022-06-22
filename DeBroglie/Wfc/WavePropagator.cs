@@ -387,6 +387,11 @@ namespace DeBroglie.Wfc
             return status;
         }
 
+        public void AddBacktrackPoint()
+        {
+            RecordBacktrack(-1, -1);
+        }
+
         private void RecordBacktrack(int index, int pattern)
         {
             if (!backtrack)
@@ -445,7 +450,7 @@ namespace DeBroglie.Wfc
                         backtrackCount++;
 
                         // Mark the given choice as impossible
-                        if (InternalBan(item.Index, item.Pattern))
+                        if (item.Index >= 0 && InternalBan(item.Index, item.Pattern))
                         {
                             status = Resolution.Contradiction;
                         }
@@ -463,11 +468,11 @@ namespace DeBroglie.Wfc
             }
         }
 
-        // Actually does the work of undoing what was previously recorded
+        // Undoes any work that was done since the last backtrack point.
         private void DoBacktrack()
         {
             var targetLength = backtrackItemsLengths.Pop() - droppedBacktrackItemsCount;
-            // Undo each item
+            // Undo each item that was added since the backtrack
             while (backtrackItems.Count > targetLength)
             {
                 var item = backtrackItems.Pop();

@@ -18,6 +18,11 @@
         {
             get { return Values.GetLength(2); }
         }
+
+        public bool Contains(int x, int y, int z)
+        {
+            return 0 <= x && x < Width && 0 <= y && y < Height && 0 <= z && z < Depth;
+        }
     }
 
 }

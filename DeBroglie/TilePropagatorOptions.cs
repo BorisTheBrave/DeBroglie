@@ -112,12 +112,12 @@ namespace DeBroglie
         /// <summary>
         /// Overrides the weights set from the model, on a per-position basis.
         /// The integers correspond to entries in WeightSets
-        /// Only used by <see cref="IndexPickerType.ArrayPriorityMinEntropy"/>
+        /// Only used by <see cref="IndexPickerType.ArrayPriorityMinEntropy"/> and <see cref="TilePickerType.ArrayPriority"/>
         /// </summary>
         public ITopoArray<int> WeightSetByIndex { get; set; }
 
         /// <summary>
-        /// The weights sets refernce by WeightSetByIndex
+        /// The weights sets reference by WeightSetByIndex
         /// </summary>
         public IDictionary<int, IDictionary<Tile, PriorityAndWeight>> WeightSets { get; set; }
 
