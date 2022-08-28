@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Namespace DeBroglie.Constraints
    ">
-    <meta name="generator" content="docfx 2.53.1.0">
+    <meta name="generator" content="docfx 2.59.0.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -78,18 +78,28 @@
   <div class="markdown level0 remarks"></div>
     <h3 id="classes">Classes
   </h3>
+      <h4><a class="xref" href="DeBroglie.Constraints.AcyclicConstraint.html">AcyclicConstraint</a></h4>
+      <section><p>Enforces that there are no loops at all</p>
+</section>
       <h4><a class="xref" href="DeBroglie.Constraints.BorderConstraint.html">BorderConstraint</a></h4>
       <section><p>BorderConstraint class restricts what tiles can be selected in various regions of the output.</p>
 <p>For each affected location, BorderConstratin calls Select with the Tile specified.If the Ban field is set, then it calls Ban instead of Select.</p>
 </section>
+      <h4><a class="xref" href="DeBroglie.Constraints.ConnectedConstraint.html">ConnectedConstraint</a></h4>
+      <section></section>
       <h4><a class="xref" href="DeBroglie.Constraints.CountConstraint.html">CountConstraint</a></h4>
       <section><p>Enforces that the global count of tiles within a given set
 must be at most/least/equal to a given count</p>
 </section>
-      <h4><a class="xref" href="DeBroglie.Constraints.EdgedPathConstraint.html">EdgedPathConstraint</a></h4>
-      <section></section>
+      <h4><a class="xref" href="DeBroglie.Constraints.EdgedPathSpec.html">EdgedPathSpec</a></h4>
+      <section><p>Configures pathing where a given set of tiles form the path, and connect adjacently if both have appropriate &quot;exits&quot;.</p>
+</section>
       <h4><a class="xref" href="DeBroglie.Constraints.FixedTileConstraint.html">FixedTileConstraint</a></h4>
       <section></section>
+      <h4><a class="xref" href="DeBroglie.Constraints.LoopConstraint.html">LoopConstraint</a></h4>
+      <section><p>Enforces that the entire path is made out of loops,
+i.e. there are at least two routes between any two connected points.</p>
+</section>
       <h4><a class="xref" href="DeBroglie.Constraints.MaxConsecutiveConstraint.html">MaxConsecutiveConstraint</a></h4>
       <section><p>The MaxConsecutiveConstraint checks that no more than the specified amount of tiles can be placed
 in a row along the given axes.</p>
@@ -99,14 +109,30 @@ in a row along the given axes.</p>
 </section>
       <h4><a class="xref" href="DeBroglie.Constraints.MirrorYConstraint.html">MirrorYConstraint</a></h4>
       <section></section>
-      <h4><a class="xref" href="DeBroglie.Constraints.PathConstraint.html">PathConstraint</a></h4>
-      <section><p>The PathConstraint checks that it is possible to connect several locations together via a continuous path of adjacent tiles.
-It does this by banning any tile placement that would make such a path impossible.</p>
+      <h4><a class="xref" href="DeBroglie.Constraints.PairSeparationConstraint.html">PairSeparationConstraint</a></h4>
+      <section><p>This constraint forces one set of tiles to not be placed near another set.</p>
+</section>
+      <h4><a class="xref" href="DeBroglie.Constraints.ParityConstraint.html">ParityConstraint</a></h4>
+      <section><p>This constraint doesn't actually constrain anything, it improves the quality for the search.
+It only works for tilesets that entirely, or predominantly, have even numbers of exits (i.e. straights, corners, crossroads, but not forks or deadends).
+These sorts of tilesets can be challenging for WFC without the additional guidance this constraint supplies.</p>
+<p>The parity of any set of tiles is defined as the even/oddness of the sum over those tiles of path exits.
+Let's assume that path exits are symmetric - x has an exit to adjacent tile y if y has an exit to x.
+Then the parity of a connected region of cells is often computable even before all the tiles are selected.
+The parity constraint uses this to lookahead and determine what tiles must be placed.</p>
+<p>This constraint is experimental.</p>
 </section>
       <h4><a class="xref" href="DeBroglie.Constraints.PathConstraintUtils.html">PathConstraintUtils</a></h4>
-      <section><p>Contains utilities relating to <a class="xref" href="DeBroglie.Constraints.PathConstraint.html">PathConstraint</a></p>
+      <section><p>Contains utilities relating to <a class="xref" href="DeBroglie.Constraints.ConnectedConstraint.html">ConnectedConstraint</a></p>
 </section>
+      <h4><a class="xref" href="DeBroglie.Constraints.PathConstraintUtils.AtrticulationPointsInfo.html">PathConstraintUtils.AtrticulationPointsInfo</a></h4>
+      <section></section>
       <h4><a class="xref" href="DeBroglie.Constraints.PathConstraintUtils.SimpleGraph.html">PathConstraintUtils.SimpleGraph</a></h4>
+      <section></section>
+      <h4><a class="xref" href="DeBroglie.Constraints.PathSpec.html">PathSpec</a></h4>
+      <section><p>Configures pathing where a given set of tiles form the path, and always connect if adjacent to each other.</p>
+</section>
+      <h4><a class="xref" href="DeBroglie.Constraints.PathViewExtensions.html">PathViewExtensions</a></h4>
       <section></section>
       <h4><a class="xref" href="DeBroglie.Constraints.SeparationConstraint.html">SeparationConstraint</a></h4>
       <section><p>This constriant forces particular tiles to not be placed near each other.
@@ -118,6 +144,10 @@ a choice of a tile in an index implies a selection for a specific index elsewher
 </section>
     <h3 id="interfaces">Interfaces
   </h3>
+      <h4><a class="xref" href="DeBroglie.Constraints.IPathSpec.html">IPathSpec</a></h4>
+      <section></section>
+      <h4><a class="xref" href="DeBroglie.Constraints.IPathView.html">IPathView</a></h4>
+      <section></section>
       <h4><a class="xref" href="DeBroglie.Constraints.ITileConstraint.html">ITileConstraint</a></h4>
       <section><p>Interface for specifying non-local constraints to be respected during generation.</p>
 </section>
@@ -138,7 +168,8 @@ a choice of a tile in an index implies a selection for a specific index elsewher
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In This Article</h5>
+                <div></div>
               </nav>
             </div>
           </div>

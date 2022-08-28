@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class TilePropagatorOptions
    ">
-    <meta name="generator" content="docfx 2.53.1.0">
+    <meta name="generator" content="docfx 2.59.0.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -91,20 +91,18 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_TilePropagatorOptions_BackTrackDepth.md&amp;value=---%0Auid%3A%20DeBroglie.TilePropagatorOptions.BackTrackDepth%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_TilePropagatorOptions_BacktrackType.md&amp;value=---%0Auid%3A%20DeBroglie.TilePropagatorOptions.BacktrackType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/TilePropagator.cs/#L30">View Source</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/TilePropagatorOptions.cs/#L76">View Source</a>
   </span>
-  <a id="DeBroglie_TilePropagatorOptions_BackTrackDepth_" data-uid="DeBroglie.TilePropagatorOptions.BackTrackDepth*"></a>
-  <h4 id="DeBroglie_TilePropagatorOptions_BackTrackDepth" data-uid="DeBroglie.TilePropagatorOptions.BackTrackDepth">BackTrackDepth</h4>
-  <div class="markdown level1 summary"><p>Maximum number of steps to backtrack.
-Set to 0 to disable backtracking, and -1 for indefinite amounts of backtracking.</p>
-</div>
+  <a id="DeBroglie_TilePropagatorOptions_BacktrackType_" data-uid="DeBroglie.TilePropagatorOptions.BacktrackType*"></a>
+  <h4 id="DeBroglie_TilePropagatorOptions_BacktrackType" data-uid="DeBroglie.TilePropagatorOptions.BacktrackType">BacktrackType</h4>
+  <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public int BackTrackDepth { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public BacktrackType BacktrackType { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -116,7 +114,38 @@ Set to 0 to disable backtracking, and -1 for indefinite amounts of backtracking.
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td><a class="xref" href="DeBroglie.BacktrackType.html">BacktrackType</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_TilePropagatorOptions_CleanTiles.md&amp;value=---%0Auid%3A%20DeBroglie.TilePropagatorOptions.CleanTiles%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/TilePropagatorOptions.cs/#L124">View Source</a>
+  </span>
+  <a id="DeBroglie_TilePropagatorOptions_CleanTiles_" data-uid="DeBroglie.TilePropagatorOptions.CleanTiles*"></a>
+  <h4 id="DeBroglie_TilePropagatorOptions_CleanTiles" data-uid="DeBroglie.TilePropagatorOptions.CleanTiles">CleanTiles</h4>
+  <div class="markdown level1 summary"><p>Only used by <a class="xref" href="DeBroglie.IndexPickerType.html#DeBroglie_IndexPickerType_Dirty">Dirty</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ITopoArray&lt;Tile&gt; CleanTiles { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="DeBroglie.Topo.ITopoArray-1.html">ITopoArray</a>&lt;<a class="xref" href="DeBroglie.Tile.html">Tile</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -126,7 +155,7 @@ Set to 0 to disable backtracking, and -1 for indefinite amounts of backtracking.
     <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_TilePropagatorOptions_Constraints.md&amp;value=---%0Auid%3A%20DeBroglie.TilePropagatorOptions.Constraints%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/TilePropagator.cs/#L35">View Source</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/TilePropagatorOptions.cs/#L87">View Source</a>
   </span>
   <a id="DeBroglie_TilePropagatorOptions_Constraints_" data-uid="DeBroglie.TilePropagatorOptions.Constraints*"></a>
   <h4 id="DeBroglie_TilePropagatorOptions_Constraints" data-uid="DeBroglie.TilePropagatorOptions.Constraints">Constraints</h4>
@@ -154,19 +183,19 @@ Set to 0 to disable backtracking, and -1 for indefinite amounts of backtracking.
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_TilePropagatorOptions_PickHeuristicType.md&amp;value=---%0Auid%3A%20DeBroglie.TilePropagatorOptions.PickHeuristicType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_TilePropagatorOptions_IndexOrder.md&amp;value=---%0Auid%3A%20DeBroglie.TilePropagatorOptions.IndexOrder%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/TilePropagator.cs/#L53">View Source</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/TilePropagatorOptions.cs/#L129">View Source</a>
   </span>
-  <a id="DeBroglie_TilePropagatorOptions_PickHeuristicType_" data-uid="DeBroglie.TilePropagatorOptions.PickHeuristicType*"></a>
-  <h4 id="DeBroglie_TilePropagatorOptions_PickHeuristicType" data-uid="DeBroglie.TilePropagatorOptions.PickHeuristicType">PickHeuristicType</h4>
-  <div class="markdown level1 summary"><p>Controls which cells and tiles are selected during generation.</p>
+  <a id="DeBroglie_TilePropagatorOptions_IndexOrder_" data-uid="DeBroglie.TilePropagatorOptions.IndexOrder*"></a>
+  <h4 id="DeBroglie_TilePropagatorOptions_IndexOrder" data-uid="DeBroglie.TilePropagatorOptions.IndexOrder">IndexOrder</h4>
+  <div class="markdown level1 summary"><p>Only used by <a class="xref" href="DeBroglie.IndexPickerType.html#DeBroglie_IndexPickerType_Ordered">Ordered</a></p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public PickHeuristicType PickHeuristicType { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public int[] IndexOrder { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -178,26 +207,26 @@ Set to 0 to disable backtracking, and -1 for indefinite amounts of backtracking.
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="DeBroglie.PickHeuristicType.html">PickHeuristicType</a></td>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a>[]</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_TilePropagatorOptions_Random.md&amp;value=---%0Auid%3A%20DeBroglie.TilePropagatorOptions.Random%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_TilePropagatorOptions_IndexPickerType.md&amp;value=---%0Auid%3A%20DeBroglie.TilePropagatorOptions.IndexPickerType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/TilePropagator.cs/#L47">View Source</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/TilePropagatorOptions.cs/#L97">View Source</a>
   </span>
-  <a id="DeBroglie_TilePropagatorOptions_Random_" data-uid="DeBroglie.TilePropagatorOptions.Random*"></a>
-  <h4 id="DeBroglie_TilePropagatorOptions_Random" data-uid="DeBroglie.TilePropagatorOptions.Random">Random</h4>
-  <div class="markdown level1 summary"></div>
+  <a id="DeBroglie_TilePropagatorOptions_IndexPickerType_" data-uid="DeBroglie.TilePropagatorOptions.IndexPickerType*"></a>
+  <h4 id="DeBroglie_TilePropagatorOptions_IndexPickerType" data-uid="DeBroglie.TilePropagatorOptions.IndexPickerType">IndexPickerType</h4>
+  <div class="markdown level1 summary"><p>Controls which cells are selected during generation.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Use RandomDouble&quot;)]
-public Random Random { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public IndexPickerType IndexPickerType { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -209,7 +238,102 @@ public Random Random { get; set; }</code></pre>
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.random">Random</a></td>
+        <td><a class="xref" href="DeBroglie.IndexPickerType.html">IndexPickerType</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_TilePropagatorOptions_MaxBacktrackDepth.md&amp;value=---%0Auid%3A%20DeBroglie.TilePropagatorOptions.MaxBacktrackDepth%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/TilePropagatorOptions.cs/#L82">View Source</a>
+  </span>
+  <a id="DeBroglie_TilePropagatorOptions_MaxBacktrackDepth_" data-uid="DeBroglie.TilePropagatorOptions.MaxBacktrackDepth*"></a>
+  <h4 id="DeBroglie_TilePropagatorOptions_MaxBacktrackDepth" data-uid="DeBroglie.TilePropagatorOptions.MaxBacktrackDepth">MaxBacktrackDepth</h4>
+  <div class="markdown level1 summary"><p>Maximum number of steps to backtrack.
+0 means disabled.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int MaxBacktrackDepth { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_TilePropagatorOptions_MemoizeIndices.md&amp;value=---%0Auid%3A%20DeBroglie.TilePropagatorOptions.MemoizeIndices%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/TilePropagatorOptions.cs/#L135">View Source</a>
+  </span>
+  <a id="DeBroglie_TilePropagatorOptions_MemoizeIndices_" data-uid="DeBroglie.TilePropagatorOptions.MemoizeIndices*"></a>
+  <h4 id="DeBroglie_TilePropagatorOptions_MemoizeIndices" data-uid="DeBroglie.TilePropagatorOptions.MemoizeIndices">MemoizeIndices</h4>
+  <div class="markdown level1 summary"><p>If true, the same indices will be retried after backtracking,
+otherwise a new choice of index will be made.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool MemoizeIndices { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_TilePropagatorOptions_ModelConstraintAlgorithm.md&amp;value=---%0Auid%3A%20DeBroglie.TilePropagatorOptions.ModelConstraintAlgorithm%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/TilePropagatorOptions.cs/#L107">View Source</a>
+  </span>
+  <a id="DeBroglie_TilePropagatorOptions_ModelConstraintAlgorithm_" data-uid="DeBroglie.TilePropagatorOptions.ModelConstraintAlgorithm*"></a>
+  <h4 id="DeBroglie_TilePropagatorOptions_ModelConstraintAlgorithm" data-uid="DeBroglie.TilePropagatorOptions.ModelConstraintAlgorithm">ModelConstraintAlgorithm</h4>
+  <div class="markdown level1 summary"><p>Controls the algorithm used for enforcing the constraints of the model.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ModelConstraintAlgorithm ModelConstraintAlgorithm { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="DeBroglie.Wfc.ModelConstraintAlgorithm.html">ModelConstraintAlgorithm</a></td>
         <td></td>
       </tr>
     </tbody>
@@ -219,7 +343,7 @@ public Random Random { get; set; }</code></pre>
     <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_TilePropagatorOptions_RandomDouble.md&amp;value=---%0Auid%3A%20DeBroglie.TilePropagatorOptions.RandomDouble%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/TilePropagator.cs/#L45">View Source</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/TilePropagatorOptions.cs/#L92">View Source</a>
   </span>
   <a id="DeBroglie_TilePropagatorOptions_RandomDouble_" data-uid="DeBroglie.TilePropagatorOptions.RandomDouble*"></a>
   <h4 id="DeBroglie_TilePropagatorOptions_RandomDouble" data-uid="DeBroglie.TilePropagatorOptions.RandomDouble">RandomDouble</h4>
@@ -247,19 +371,19 @@ public Random Random { get; set; }</code></pre>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_TilePropagatorOptions_Weights.md&amp;value=---%0Auid%3A%20DeBroglie.TilePropagatorOptions.Weights%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_TilePropagatorOptions_TilePickerType.md&amp;value=---%0Auid%3A%20DeBroglie.TilePropagatorOptions.TilePickerType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/TilePropagator.cs/#L40">View Source</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/TilePropagatorOptions.cs/#L102">View Source</a>
   </span>
-  <a id="DeBroglie_TilePropagatorOptions_Weights_" data-uid="DeBroglie.TilePropagatorOptions.Weights*"></a>
-  <h4 id="DeBroglie_TilePropagatorOptions_Weights" data-uid="DeBroglie.TilePropagatorOptions.Weights">Weights</h4>
-  <div class="markdown level1 summary"><p>Overrides the weights set from the model, on a per-position basis.</p>
+  <a id="DeBroglie_TilePropagatorOptions_TilePickerType_" data-uid="DeBroglie.TilePropagatorOptions.TilePickerType*"></a>
+  <h4 id="DeBroglie_TilePropagatorOptions_TilePickerType" data-uid="DeBroglie.TilePropagatorOptions.TilePickerType">TilePickerType</h4>
+  <div class="markdown level1 summary"><p>Controls which tiles are selected during generation.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ITopoArray&lt;IDictionary&lt;Tile, PriorityAndWeight&gt;&gt; Weights { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public TilePickerType TilePickerType { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -271,7 +395,71 @@ public Random Random { get; set; }</code></pre>
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="DeBroglie.Topo.ITopoArray-1.html">ITopoArray</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.collections.generic.idictionary-2">IDictionary</a>&lt;<a class="xref" href="DeBroglie.Tile.html">Tile</a>, <a class="xref" href="DeBroglie.PriorityAndWeight.html">PriorityAndWeight</a>&gt;&gt;</td>
+        <td><a class="xref" href="DeBroglie.TilePickerType.html">TilePickerType</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_TilePropagatorOptions_WeightSetByIndex.md&amp;value=---%0Auid%3A%20DeBroglie.TilePropagatorOptions.WeightSetByIndex%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/TilePropagatorOptions.cs/#L114">View Source</a>
+  </span>
+  <a id="DeBroglie_TilePropagatorOptions_WeightSetByIndex_" data-uid="DeBroglie.TilePropagatorOptions.WeightSetByIndex*"></a>
+  <h4 id="DeBroglie_TilePropagatorOptions_WeightSetByIndex" data-uid="DeBroglie.TilePropagatorOptions.WeightSetByIndex">WeightSetByIndex</h4>
+  <div class="markdown level1 summary"><p>Overrides the weights set from the model, on a per-position basis.
+The integers correspond to entries in WeightSets
+Only used by <a class="xref" href="DeBroglie.IndexPickerType.html#DeBroglie_IndexPickerType_ArrayPriorityMinEntropy">ArrayPriorityMinEntropy</a> and <a class="xref" href="DeBroglie.TilePickerType.html#DeBroglie_TilePickerType_ArrayPriority">ArrayPriority</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ITopoArray&lt;int&gt; WeightSetByIndex { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="DeBroglie.Topo.ITopoArray-1.html">ITopoArray</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_TilePropagatorOptions_WeightSets.md&amp;value=---%0Auid%3A%20DeBroglie.TilePropagatorOptions.WeightSets%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/TilePropagatorOptions.cs/#L119">View Source</a>
+  </span>
+  <a id="DeBroglie_TilePropagatorOptions_WeightSets_" data-uid="DeBroglie.TilePropagatorOptions.WeightSets*"></a>
+  <h4 id="DeBroglie_TilePropagatorOptions_WeightSets" data-uid="DeBroglie.TilePropagatorOptions.WeightSets">WeightSets</h4>
+  <div class="markdown level1 summary"><p>The weights sets reference by WeightSetByIndex</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IDictionary&lt;int, IDictionary&lt;Tile, PriorityAndWeight&gt;&gt; WeightSets { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.collections.generic.idictionary-2">IDictionary</a>&lt;<a class="xref" href="https://docs.microsoft.com/dotnet/api/system.int32">Int32</a>, <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.collections.generic.idictionary-2">IDictionary</a>&lt;<a class="xref" href="DeBroglie.Tile.html">Tile</a>, <a class="xref" href="DeBroglie.PriorityAndWeight.html">PriorityAndWeight</a>&gt;&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -287,12 +475,13 @@ public Random Random { get; set; }</code></pre>
                     <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_TilePropagatorOptions.md&amp;value=---%0Auid%3A%20DeBroglie.TilePropagatorOptions%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/TilePropagator.cs/#L24" class="contribution-link">View Source</a>
+                    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/TilePropagatorOptions.cs/#L74" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In This Article</h5>
+                <div></div>
               </nav>
             </div>
           </div>

@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class PathConstraintUtils
    ">
-    <meta name="generator" content="docfx 2.53.1.0">
+    <meta name="generator" content="docfx 2.59.0.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -74,7 +74,7 @@
   
   <h1 id="DeBroglie_Constraints_PathConstraintUtils" data-uid="DeBroglie.Constraints.PathConstraintUtils" class="text-break">Class PathConstraintUtils
   </h1>
-  <div class="markdown level0 summary"><p>Contains utilities relating to <a class="xref" href="DeBroglie.Constraints.PathConstraint.html">PathConstraint</a></p>
+  <div class="markdown level0 summary"><p>Contains utilities relating to <a class="xref" href="DeBroglie.Constraints.ConnectedConstraint.html">ConnectedConstraint</a></p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
@@ -95,7 +95,7 @@
     <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_PathConstraintUtils_CreateGraph_DeBroglie_Topo_ITopology_.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.PathConstraintUtils.CreateGraph(DeBroglie.Topo.ITopology)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/PathConstraintUtils.cs/#L14">View Source</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/Path/PathConstraintUtils.cs/#L14">View Source</a>
   </span>
   <a id="DeBroglie_Constraints_PathConstraintUtils_CreateGraph_" data-uid="DeBroglie.Constraints.PathConstraintUtils.CreateGraph*"></a>
   <h4 id="DeBroglie_Constraints_PathConstraintUtils_CreateGraph_DeBroglie_Topo_ITopology_" data-uid="DeBroglie.Constraints.PathConstraintUtils.CreateGraph(DeBroglie.Topo.ITopology)">CreateGraph(ITopology)</h4>
@@ -139,28 +139,24 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_PathConstraintUtils_GetArticulationPoints_DeBroglie_Constraints_PathConstraintUtils_SimpleGraph_System_Boolean___System_Boolean___System_Boolean___.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints(DeBroglie.Constraints.PathConstraintUtils.SimpleGraph%2CSystem.Boolean%5B%5D%2CSystem.Boolean%5B%5D%2CSystem.Boolean%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_PathConstraintUtils_GetArticulationPoints_DeBroglie_Constraints_PathConstraintUtils_SimpleGraph_System_Boolean___System_Boolean___.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints(DeBroglie.Constraints.PathConstraintUtils.SimpleGraph%2CSystem.Boolean%5B%5D%2CSystem.Boolean%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/PathConstraintUtils.cs/#L66">View Source</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/Path/PathConstraintUtils.cs/#L68">View Source</a>
   </span>
   <a id="DeBroglie_Constraints_PathConstraintUtils_GetArticulationPoints_" data-uid="DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints*"></a>
-  <h4 id="DeBroglie_Constraints_PathConstraintUtils_GetArticulationPoints_DeBroglie_Constraints_PathConstraintUtils_SimpleGraph_System_Boolean___System_Boolean___System_Boolean___" data-uid="DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints(DeBroglie.Constraints.PathConstraintUtils.SimpleGraph,System.Boolean[],System.Boolean[],System.Boolean[])">GetArticulationPoints(PathConstraintUtils.SimpleGraph, Boolean[], Boolean[], Boolean[])</h4>
+  <h4 id="DeBroglie_Constraints_PathConstraintUtils_GetArticulationPoints_DeBroglie_Constraints_PathConstraintUtils_SimpleGraph_System_Boolean___System_Boolean___" data-uid="DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints(DeBroglie.Constraints.PathConstraintUtils.SimpleGraph,System.Boolean[],System.Boolean[])">GetArticulationPoints(PathConstraintUtils.SimpleGraph, Boolean[], Boolean[])</h4>
   <div class="markdown level1 summary"><p>First, find the subgraph of graph given by just the walkable vertices.
-Then find any point, that if removed, mean there's no path between two
-given relevant points.
-If it's already not possible to path, then return null.
-Note: relevant points themselves are always returned as true.</p>
-<p>Also optionally returns the extent of the connecteted component containing relevant.</p>
-<p>If relevant is null, instead returns the points, that if removed, increase the number of
-connected components.</p>
+<code data-dev-comment-type="paramref" class="paramref">relevant</code> defaults to walkable if null.</p>
+<p>A cut-vertex is defined as any point that, if removed, there exist two other relevant points
+that no longer have a path.</p>
 <p>For an explanation, see:
 <a href="https://www.boristhebrave.com/2018/04/28/random-paths-via-chiseling/">https://www.boristhebrave.com/2018/04/28/random-paths-via-chiseling/</a></p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static bool[] GetArticulationPoints(PathConstraintUtils.SimpleGraph graph, bool[] walkable, bool[] relevant = null, bool[] component = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public static PathConstraintUtils.AtrticulationPointsInfo GetArticulationPoints(PathConstraintUtils.SimpleGraph graph, bool[] walkable, bool[] relevant = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -187,11 +183,6 @@ connected components.</p>
         <td><span class="parametername">relevant</span></td>
         <td></td>
       </tr>
-      <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a>[]</td>
-        <td><span class="parametername">component</span></td>
-        <td></td>
-      </tr>
     </tbody>
   </table>
   <h5 class="returns">Returns</h5>
@@ -204,7 +195,7 @@ connected components.</p>
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a>[]</td>
+        <td><a class="xref" href="DeBroglie.Constraints.PathConstraintUtils.AtrticulationPointsInfo.html">PathConstraintUtils.AtrticulationPointsInfo</a></td>
         <td></td>
       </tr>
     </tbody>
@@ -220,12 +211,13 @@ connected components.</p>
                     <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_PathConstraintUtils.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.PathConstraintUtils%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/PathConstraintUtils.cs/#L10" class="contribution-link">View Source</a>
+                    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/Path/PathConstraintUtils.cs/#L10" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In This Article</h5>
+                <div></div>
               </nav>
             </div>
           </div>

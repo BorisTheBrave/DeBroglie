@@ -16,12 +16,81 @@ references:
   commentId: N:DeBroglie
   fullName: DeBroglie
   nameWithType: DeBroglie
+- uid: DeBroglie.BacktrackType
+  name: BacktrackType
+  href: api/DeBroglie.BacktrackType.html
+  commentId: T:DeBroglie.BacktrackType
+  fullName: DeBroglie.BacktrackType
+  nameWithType: BacktrackType
+- uid: DeBroglie.BacktrackType.Backjump
+  name: Backjump
+  href: api/DeBroglie.BacktrackType.html#DeBroglie_BacktrackType_Backjump
+  commentId: F:DeBroglie.BacktrackType.Backjump
+  fullName: DeBroglie.BacktrackType.Backjump
+  nameWithType: BacktrackType.Backjump
+- uid: DeBroglie.BacktrackType.Backtrack
+  name: Backtrack
+  href: api/DeBroglie.BacktrackType.html#DeBroglie_BacktrackType_Backtrack
+  commentId: F:DeBroglie.BacktrackType.Backtrack
+  fullName: DeBroglie.BacktrackType.Backtrack
+  nameWithType: BacktrackType.Backtrack
+- uid: DeBroglie.BacktrackType.None
+  name: None
+  href: api/DeBroglie.BacktrackType.html#DeBroglie_BacktrackType_None
+  commentId: F:DeBroglie.BacktrackType.None
+  fullName: DeBroglie.BacktrackType.None
+  nameWithType: BacktrackType.None
 - uid: DeBroglie.Constraints
   name: DeBroglie.Constraints
   href: api/DeBroglie.Constraints.html
   commentId: N:DeBroglie.Constraints
   fullName: DeBroglie.Constraints
   nameWithType: DeBroglie.Constraints
+- uid: DeBroglie.Constraints.AcyclicConstraint
+  name: AcyclicConstraint
+  href: api/DeBroglie.Constraints.AcyclicConstraint.html
+  commentId: T:DeBroglie.Constraints.AcyclicConstraint
+  fullName: DeBroglie.Constraints.AcyclicConstraint
+  nameWithType: AcyclicConstraint
+- uid: DeBroglie.Constraints.AcyclicConstraint.Check(DeBroglie.TilePropagator)
+  name: Check(TilePropagator)
+  href: api/DeBroglie.Constraints.AcyclicConstraint.html#DeBroglie_Constraints_AcyclicConstraint_Check_DeBroglie_TilePropagator_
+  commentId: M:DeBroglie.Constraints.AcyclicConstraint.Check(DeBroglie.TilePropagator)
+  fullName: DeBroglie.Constraints.AcyclicConstraint.Check(DeBroglie.TilePropagator)
+  nameWithType: AcyclicConstraint.Check(TilePropagator)
+- uid: DeBroglie.Constraints.AcyclicConstraint.Check*
+  name: Check
+  href: api/DeBroglie.Constraints.AcyclicConstraint.html#DeBroglie_Constraints_AcyclicConstraint_Check_
+  commentId: Overload:DeBroglie.Constraints.AcyclicConstraint.Check
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.AcyclicConstraint.Check
+  nameWithType: AcyclicConstraint.Check
+- uid: DeBroglie.Constraints.AcyclicConstraint.Init(DeBroglie.TilePropagator)
+  name: Init(TilePropagator)
+  href: api/DeBroglie.Constraints.AcyclicConstraint.html#DeBroglie_Constraints_AcyclicConstraint_Init_DeBroglie_TilePropagator_
+  commentId: M:DeBroglie.Constraints.AcyclicConstraint.Init(DeBroglie.TilePropagator)
+  fullName: DeBroglie.Constraints.AcyclicConstraint.Init(DeBroglie.TilePropagator)
+  nameWithType: AcyclicConstraint.Init(TilePropagator)
+- uid: DeBroglie.Constraints.AcyclicConstraint.Init*
+  name: Init
+  href: api/DeBroglie.Constraints.AcyclicConstraint.html#DeBroglie_Constraints_AcyclicConstraint_Init_
+  commentId: Overload:DeBroglie.Constraints.AcyclicConstraint.Init
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.AcyclicConstraint.Init
+  nameWithType: AcyclicConstraint.Init
+- uid: DeBroglie.Constraints.AcyclicConstraint.PathSpec
+  name: PathSpec
+  href: api/DeBroglie.Constraints.AcyclicConstraint.html#DeBroglie_Constraints_AcyclicConstraint_PathSpec
+  commentId: P:DeBroglie.Constraints.AcyclicConstraint.PathSpec
+  fullName: DeBroglie.Constraints.AcyclicConstraint.PathSpec
+  nameWithType: AcyclicConstraint.PathSpec
+- uid: DeBroglie.Constraints.AcyclicConstraint.PathSpec*
+  name: PathSpec
+  href: api/DeBroglie.Constraints.AcyclicConstraint.html#DeBroglie_Constraints_AcyclicConstraint_PathSpec_
+  commentId: Overload:DeBroglie.Constraints.AcyclicConstraint.PathSpec
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.AcyclicConstraint.PathSpec
+  nameWithType: AcyclicConstraint.PathSpec
 - uid: DeBroglie.Constraints.BorderConstraint
   name: BorderConstraint
   href: api/DeBroglie.Constraints.BorderConstraint.html
@@ -173,6 +242,64 @@ references:
   commentId: F:DeBroglie.Constraints.BorderSides.ZMin
   fullName: DeBroglie.Constraints.BorderSides.ZMin
   nameWithType: BorderSides.ZMin
+- uid: DeBroglie.Constraints.ConnectedConstraint
+  name: ConnectedConstraint
+  href: api/DeBroglie.Constraints.ConnectedConstraint.html
+  commentId: T:DeBroglie.Constraints.ConnectedConstraint
+  fullName: DeBroglie.Constraints.ConnectedConstraint
+  nameWithType: ConnectedConstraint
+- uid: DeBroglie.Constraints.ConnectedConstraint.Check(DeBroglie.TilePropagator)
+  name: Check(TilePropagator)
+  href: api/DeBroglie.Constraints.ConnectedConstraint.html#DeBroglie_Constraints_ConnectedConstraint_Check_DeBroglie_TilePropagator_
+  commentId: M:DeBroglie.Constraints.ConnectedConstraint.Check(DeBroglie.TilePropagator)
+  fullName: DeBroglie.Constraints.ConnectedConstraint.Check(DeBroglie.TilePropagator)
+  nameWithType: ConnectedConstraint.Check(TilePropagator)
+- uid: DeBroglie.Constraints.ConnectedConstraint.Check*
+  name: Check
+  href: api/DeBroglie.Constraints.ConnectedConstraint.html#DeBroglie_Constraints_ConnectedConstraint_Check_
+  commentId: Overload:DeBroglie.Constraints.ConnectedConstraint.Check
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.ConnectedConstraint.Check
+  nameWithType: ConnectedConstraint.Check
+- uid: DeBroglie.Constraints.ConnectedConstraint.Init(DeBroglie.TilePropagator)
+  name: Init(TilePropagator)
+  href: api/DeBroglie.Constraints.ConnectedConstraint.html#DeBroglie_Constraints_ConnectedConstraint_Init_DeBroglie_TilePropagator_
+  commentId: M:DeBroglie.Constraints.ConnectedConstraint.Init(DeBroglie.TilePropagator)
+  fullName: DeBroglie.Constraints.ConnectedConstraint.Init(DeBroglie.TilePropagator)
+  nameWithType: ConnectedConstraint.Init(TilePropagator)
+- uid: DeBroglie.Constraints.ConnectedConstraint.Init*
+  name: Init
+  href: api/DeBroglie.Constraints.ConnectedConstraint.html#DeBroglie_Constraints_ConnectedConstraint_Init_
+  commentId: Overload:DeBroglie.Constraints.ConnectedConstraint.Init
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.ConnectedConstraint.Init
+  nameWithType: ConnectedConstraint.Init
+- uid: DeBroglie.Constraints.ConnectedConstraint.PathSpec
+  name: PathSpec
+  href: api/DeBroglie.Constraints.ConnectedConstraint.html#DeBroglie_Constraints_ConnectedConstraint_PathSpec
+  commentId: P:DeBroglie.Constraints.ConnectedConstraint.PathSpec
+  fullName: DeBroglie.Constraints.ConnectedConstraint.PathSpec
+  nameWithType: ConnectedConstraint.PathSpec
+- uid: DeBroglie.Constraints.ConnectedConstraint.PathSpec*
+  name: PathSpec
+  href: api/DeBroglie.Constraints.ConnectedConstraint.html#DeBroglie_Constraints_ConnectedConstraint_PathSpec_
+  commentId: Overload:DeBroglie.Constraints.ConnectedConstraint.PathSpec
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.ConnectedConstraint.PathSpec
+  nameWithType: ConnectedConstraint.PathSpec
+- uid: DeBroglie.Constraints.ConnectedConstraint.UsePickHeuristic
+  name: UsePickHeuristic
+  href: api/DeBroglie.Constraints.ConnectedConstraint.html#DeBroglie_Constraints_ConnectedConstraint_UsePickHeuristic
+  commentId: P:DeBroglie.Constraints.ConnectedConstraint.UsePickHeuristic
+  fullName: DeBroglie.Constraints.ConnectedConstraint.UsePickHeuristic
+  nameWithType: ConnectedConstraint.UsePickHeuristic
+- uid: DeBroglie.Constraints.ConnectedConstraint.UsePickHeuristic*
+  name: UsePickHeuristic
+  href: api/DeBroglie.Constraints.ConnectedConstraint.html#DeBroglie_Constraints_ConnectedConstraint_UsePickHeuristic_
+  commentId: Overload:DeBroglie.Constraints.ConnectedConstraint.UsePickHeuristic
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.ConnectedConstraint.UsePickHeuristic
+  nameWithType: ConnectedConstraint.UsePickHeuristic
 - uid: DeBroglie.Constraints.CountComparison
   name: CountComparison
   href: api/DeBroglie.Constraints.CountComparison.html
@@ -281,119 +408,77 @@ references:
   isSpec: "True"
   fullName: DeBroglie.Constraints.CountConstraint.Tiles
   nameWithType: CountConstraint.Tiles
-- uid: DeBroglie.Constraints.EdgedPathConstraint
-  name: EdgedPathConstraint
-  href: api/DeBroglie.Constraints.EdgedPathConstraint.html
-  commentId: T:DeBroglie.Constraints.EdgedPathConstraint
-  fullName: DeBroglie.Constraints.EdgedPathConstraint
-  nameWithType: EdgedPathConstraint
-- uid: DeBroglie.Constraints.EdgedPathConstraint.#ctor(System.Collections.Generic.IDictionary{DeBroglie.Tile,System.Collections.Generic.ISet{DeBroglie.Topo.Direction}},DeBroglie.Point[],DeBroglie.Rot.TileRotation)
-  name: EdgedPathConstraint(IDictionary<Tile, ISet<Direction>>, Point[], TileRotation)
-  href: api/DeBroglie.Constraints.EdgedPathConstraint.html#DeBroglie_Constraints_EdgedPathConstraint__ctor_System_Collections_Generic_IDictionary_DeBroglie_Tile_System_Collections_Generic_ISet_DeBroglie_Topo_Direction___DeBroglie_Point___DeBroglie_Rot_TileRotation_
-  commentId: M:DeBroglie.Constraints.EdgedPathConstraint.#ctor(System.Collections.Generic.IDictionary{DeBroglie.Tile,System.Collections.Generic.ISet{DeBroglie.Topo.Direction}},DeBroglie.Point[],DeBroglie.Rot.TileRotation)
-  name.vb: EdgedPathConstraint(IDictionary(Of Tile, ISet(Of Direction)), Point(), TileRotation)
-  fullName: DeBroglie.Constraints.EdgedPathConstraint.EdgedPathConstraint(System.Collections.Generic.IDictionary<DeBroglie.Tile, System.Collections.Generic.ISet<DeBroglie.Topo.Direction>>, DeBroglie.Point[], DeBroglie.Rot.TileRotation)
-  fullName.vb: DeBroglie.Constraints.EdgedPathConstraint.EdgedPathConstraint(System.Collections.Generic.IDictionary(Of DeBroglie.Tile, System.Collections.Generic.ISet(Of DeBroglie.Topo.Direction)), DeBroglie.Point(), DeBroglie.Rot.TileRotation)
-  nameWithType: EdgedPathConstraint.EdgedPathConstraint(IDictionary<Tile, ISet<Direction>>, Point[], TileRotation)
-  nameWithType.vb: EdgedPathConstraint.EdgedPathConstraint(IDictionary(Of Tile, ISet(Of Direction)), Point(), TileRotation)
-- uid: DeBroglie.Constraints.EdgedPathConstraint.#ctor*
-  name: EdgedPathConstraint
-  href: api/DeBroglie.Constraints.EdgedPathConstraint.html#DeBroglie_Constraints_EdgedPathConstraint__ctor_
-  commentId: Overload:DeBroglie.Constraints.EdgedPathConstraint.#ctor
-  isSpec: "True"
-  fullName: DeBroglie.Constraints.EdgedPathConstraint.EdgedPathConstraint
-  nameWithType: EdgedPathConstraint.EdgedPathConstraint
-- uid: DeBroglie.Constraints.EdgedPathConstraint.Check(DeBroglie.TilePropagator)
-  name: Check(TilePropagator)
-  href: api/DeBroglie.Constraints.EdgedPathConstraint.html#DeBroglie_Constraints_EdgedPathConstraint_Check_DeBroglie_TilePropagator_
-  commentId: M:DeBroglie.Constraints.EdgedPathConstraint.Check(DeBroglie.TilePropagator)
-  fullName: DeBroglie.Constraints.EdgedPathConstraint.Check(DeBroglie.TilePropagator)
-  nameWithType: EdgedPathConstraint.Check(TilePropagator)
-- uid: DeBroglie.Constraints.EdgedPathConstraint.Check*
-  name: Check
-  href: api/DeBroglie.Constraints.EdgedPathConstraint.html#DeBroglie_Constraints_EdgedPathConstraint_Check_
-  commentId: Overload:DeBroglie.Constraints.EdgedPathConstraint.Check
-  isSpec: "True"
-  fullName: DeBroglie.Constraints.EdgedPathConstraint.Check
-  nameWithType: EdgedPathConstraint.Check
-- uid: DeBroglie.Constraints.EdgedPathConstraint.EndPoints
-  name: EndPoints
-  href: api/DeBroglie.Constraints.EdgedPathConstraint.html#DeBroglie_Constraints_EdgedPathConstraint_EndPoints
-  commentId: P:DeBroglie.Constraints.EdgedPathConstraint.EndPoints
-  fullName: DeBroglie.Constraints.EdgedPathConstraint.EndPoints
-  nameWithType: EdgedPathConstraint.EndPoints
-- uid: DeBroglie.Constraints.EdgedPathConstraint.EndPoints*
-  name: EndPoints
-  href: api/DeBroglie.Constraints.EdgedPathConstraint.html#DeBroglie_Constraints_EdgedPathConstraint_EndPoints_
-  commentId: Overload:DeBroglie.Constraints.EdgedPathConstraint.EndPoints
-  isSpec: "True"
-  fullName: DeBroglie.Constraints.EdgedPathConstraint.EndPoints
-  nameWithType: EdgedPathConstraint.EndPoints
-- uid: DeBroglie.Constraints.EdgedPathConstraint.EndPointTiles
-  name: EndPointTiles
-  href: api/DeBroglie.Constraints.EdgedPathConstraint.html#DeBroglie_Constraints_EdgedPathConstraint_EndPointTiles
-  commentId: P:DeBroglie.Constraints.EdgedPathConstraint.EndPointTiles
-  fullName: DeBroglie.Constraints.EdgedPathConstraint.EndPointTiles
-  nameWithType: EdgedPathConstraint.EndPointTiles
-- uid: DeBroglie.Constraints.EdgedPathConstraint.EndPointTiles*
-  name: EndPointTiles
-  href: api/DeBroglie.Constraints.EdgedPathConstraint.html#DeBroglie_Constraints_EdgedPathConstraint_EndPointTiles_
-  commentId: Overload:DeBroglie.Constraints.EdgedPathConstraint.EndPointTiles
-  isSpec: "True"
-  fullName: DeBroglie.Constraints.EdgedPathConstraint.EndPointTiles
-  nameWithType: EdgedPathConstraint.EndPointTiles
-- uid: DeBroglie.Constraints.EdgedPathConstraint.Exits
+- uid: DeBroglie.Constraints.EdgedPathSpec
+  name: EdgedPathSpec
+  href: api/DeBroglie.Constraints.EdgedPathSpec.html
+  commentId: T:DeBroglie.Constraints.EdgedPathSpec
+  fullName: DeBroglie.Constraints.EdgedPathSpec
+  nameWithType: EdgedPathSpec
+- uid: DeBroglie.Constraints.EdgedPathSpec.Exits
   name: Exits
-  href: api/DeBroglie.Constraints.EdgedPathConstraint.html#DeBroglie_Constraints_EdgedPathConstraint_Exits
-  commentId: P:DeBroglie.Constraints.EdgedPathConstraint.Exits
-  fullName: DeBroglie.Constraints.EdgedPathConstraint.Exits
-  nameWithType: EdgedPathConstraint.Exits
-- uid: DeBroglie.Constraints.EdgedPathConstraint.Exits*
+  href: api/DeBroglie.Constraints.EdgedPathSpec.html#DeBroglie_Constraints_EdgedPathSpec_Exits
+  commentId: P:DeBroglie.Constraints.EdgedPathSpec.Exits
+  fullName: DeBroglie.Constraints.EdgedPathSpec.Exits
+  nameWithType: EdgedPathSpec.Exits
+- uid: DeBroglie.Constraints.EdgedPathSpec.Exits*
   name: Exits
-  href: api/DeBroglie.Constraints.EdgedPathConstraint.html#DeBroglie_Constraints_EdgedPathConstraint_Exits_
-  commentId: Overload:DeBroglie.Constraints.EdgedPathConstraint.Exits
+  href: api/DeBroglie.Constraints.EdgedPathSpec.html#DeBroglie_Constraints_EdgedPathSpec_Exits_
+  commentId: Overload:DeBroglie.Constraints.EdgedPathSpec.Exits
   isSpec: "True"
-  fullName: DeBroglie.Constraints.EdgedPathConstraint.Exits
-  nameWithType: EdgedPathConstraint.Exits
-- uid: DeBroglie.Constraints.EdgedPathConstraint.Init(DeBroglie.TilePropagator)
-  name: Init(TilePropagator)
-  href: api/DeBroglie.Constraints.EdgedPathConstraint.html#DeBroglie_Constraints_EdgedPathConstraint_Init_DeBroglie_TilePropagator_
-  commentId: M:DeBroglie.Constraints.EdgedPathConstraint.Init(DeBroglie.TilePropagator)
-  fullName: DeBroglie.Constraints.EdgedPathConstraint.Init(DeBroglie.TilePropagator)
-  nameWithType: EdgedPathConstraint.Init(TilePropagator)
-- uid: DeBroglie.Constraints.EdgedPathConstraint.Init*
-  name: Init
-  href: api/DeBroglie.Constraints.EdgedPathConstraint.html#DeBroglie_Constraints_EdgedPathConstraint_Init_
-  commentId: Overload:DeBroglie.Constraints.EdgedPathConstraint.Init
+  fullName: DeBroglie.Constraints.EdgedPathSpec.Exits
+  nameWithType: EdgedPathSpec.Exits
+- uid: DeBroglie.Constraints.EdgedPathSpec.MakeView(DeBroglie.TilePropagator)
+  name: MakeView(TilePropagator)
+  href: api/DeBroglie.Constraints.EdgedPathSpec.html#DeBroglie_Constraints_EdgedPathSpec_MakeView_DeBroglie_TilePropagator_
+  commentId: M:DeBroglie.Constraints.EdgedPathSpec.MakeView(DeBroglie.TilePropagator)
+  fullName: DeBroglie.Constraints.EdgedPathSpec.MakeView(DeBroglie.TilePropagator)
+  nameWithType: EdgedPathSpec.MakeView(TilePropagator)
+- uid: DeBroglie.Constraints.EdgedPathSpec.MakeView*
+  name: MakeView
+  href: api/DeBroglie.Constraints.EdgedPathSpec.html#DeBroglie_Constraints_EdgedPathSpec_MakeView_
+  commentId: Overload:DeBroglie.Constraints.EdgedPathSpec.MakeView
   isSpec: "True"
-  fullName: DeBroglie.Constraints.EdgedPathConstraint.Init
-  nameWithType: EdgedPathConstraint.Init
-- uid: DeBroglie.Constraints.EdgedPathConstraint.TileRotation
+  fullName: DeBroglie.Constraints.EdgedPathSpec.MakeView
+  nameWithType: EdgedPathSpec.MakeView
+- uid: DeBroglie.Constraints.EdgedPathSpec.RelevantCells
+  name: RelevantCells
+  href: api/DeBroglie.Constraints.EdgedPathSpec.html#DeBroglie_Constraints_EdgedPathSpec_RelevantCells
+  commentId: P:DeBroglie.Constraints.EdgedPathSpec.RelevantCells
+  fullName: DeBroglie.Constraints.EdgedPathSpec.RelevantCells
+  nameWithType: EdgedPathSpec.RelevantCells
+- uid: DeBroglie.Constraints.EdgedPathSpec.RelevantCells*
+  name: RelevantCells
+  href: api/DeBroglie.Constraints.EdgedPathSpec.html#DeBroglie_Constraints_EdgedPathSpec_RelevantCells_
+  commentId: Overload:DeBroglie.Constraints.EdgedPathSpec.RelevantCells
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.EdgedPathSpec.RelevantCells
+  nameWithType: EdgedPathSpec.RelevantCells
+- uid: DeBroglie.Constraints.EdgedPathSpec.RelevantTiles
+  name: RelevantTiles
+  href: api/DeBroglie.Constraints.EdgedPathSpec.html#DeBroglie_Constraints_EdgedPathSpec_RelevantTiles
+  commentId: P:DeBroglie.Constraints.EdgedPathSpec.RelevantTiles
+  fullName: DeBroglie.Constraints.EdgedPathSpec.RelevantTiles
+  nameWithType: EdgedPathSpec.RelevantTiles
+- uid: DeBroglie.Constraints.EdgedPathSpec.RelevantTiles*
+  name: RelevantTiles
+  href: api/DeBroglie.Constraints.EdgedPathSpec.html#DeBroglie_Constraints_EdgedPathSpec_RelevantTiles_
+  commentId: Overload:DeBroglie.Constraints.EdgedPathSpec.RelevantTiles
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.EdgedPathSpec.RelevantTiles
+  nameWithType: EdgedPathSpec.RelevantTiles
+- uid: DeBroglie.Constraints.EdgedPathSpec.TileRotation
   name: TileRotation
-  href: api/DeBroglie.Constraints.EdgedPathConstraint.html#DeBroglie_Constraints_EdgedPathConstraint_TileRotation
-  commentId: P:DeBroglie.Constraints.EdgedPathConstraint.TileRotation
-  fullName: DeBroglie.Constraints.EdgedPathConstraint.TileRotation
-  nameWithType: EdgedPathConstraint.TileRotation
-- uid: DeBroglie.Constraints.EdgedPathConstraint.TileRotation*
+  href: api/DeBroglie.Constraints.EdgedPathSpec.html#DeBroglie_Constraints_EdgedPathSpec_TileRotation
+  commentId: P:DeBroglie.Constraints.EdgedPathSpec.TileRotation
+  fullName: DeBroglie.Constraints.EdgedPathSpec.TileRotation
+  nameWithType: EdgedPathSpec.TileRotation
+- uid: DeBroglie.Constraints.EdgedPathSpec.TileRotation*
   name: TileRotation
-  href: api/DeBroglie.Constraints.EdgedPathConstraint.html#DeBroglie_Constraints_EdgedPathConstraint_TileRotation_
-  commentId: Overload:DeBroglie.Constraints.EdgedPathConstraint.TileRotation
+  href: api/DeBroglie.Constraints.EdgedPathSpec.html#DeBroglie_Constraints_EdgedPathSpec_TileRotation_
+  commentId: Overload:DeBroglie.Constraints.EdgedPathSpec.TileRotation
   isSpec: "True"
-  fullName: DeBroglie.Constraints.EdgedPathConstraint.TileRotation
-  nameWithType: EdgedPathConstraint.TileRotation
-- uid: DeBroglie.Constraints.EdgedPathConstraint.UsePickHeuristic
-  name: UsePickHeuristic
-  href: api/DeBroglie.Constraints.EdgedPathConstraint.html#DeBroglie_Constraints_EdgedPathConstraint_UsePickHeuristic
-  commentId: P:DeBroglie.Constraints.EdgedPathConstraint.UsePickHeuristic
-  fullName: DeBroglie.Constraints.EdgedPathConstraint.UsePickHeuristic
-  nameWithType: EdgedPathConstraint.UsePickHeuristic
-- uid: DeBroglie.Constraints.EdgedPathConstraint.UsePickHeuristic*
-  name: UsePickHeuristic
-  href: api/DeBroglie.Constraints.EdgedPathConstraint.html#DeBroglie_Constraints_EdgedPathConstraint_UsePickHeuristic_
-  commentId: Overload:DeBroglie.Constraints.EdgedPathConstraint.UsePickHeuristic
-  isSpec: "True"
-  fullName: DeBroglie.Constraints.EdgedPathConstraint.UsePickHeuristic
-  nameWithType: EdgedPathConstraint.UsePickHeuristic
+  fullName: DeBroglie.Constraints.EdgedPathSpec.TileRotation
+  nameWithType: EdgedPathSpec.TileRotation
 - uid: DeBroglie.Constraints.FixedTileConstraint
   name: FixedTileConstraint
   href: api/DeBroglie.Constraints.FixedTileConstraint.html
@@ -465,6 +550,148 @@ references:
   isSpec: "True"
   fullName: DeBroglie.Constraints.FixedTileConstraint.Tiles
   nameWithType: FixedTileConstraint.Tiles
+- uid: DeBroglie.Constraints.IPathSpec
+  name: IPathSpec
+  href: api/DeBroglie.Constraints.IPathSpec.html
+  commentId: T:DeBroglie.Constraints.IPathSpec
+  fullName: DeBroglie.Constraints.IPathSpec
+  nameWithType: IPathSpec
+- uid: DeBroglie.Constraints.IPathSpec.MakeView(DeBroglie.TilePropagator)
+  name: MakeView(TilePropagator)
+  href: api/DeBroglie.Constraints.IPathSpec.html#DeBroglie_Constraints_IPathSpec_MakeView_DeBroglie_TilePropagator_
+  commentId: M:DeBroglie.Constraints.IPathSpec.MakeView(DeBroglie.TilePropagator)
+  fullName: DeBroglie.Constraints.IPathSpec.MakeView(DeBroglie.TilePropagator)
+  nameWithType: IPathSpec.MakeView(TilePropagator)
+- uid: DeBroglie.Constraints.IPathSpec.MakeView*
+  name: MakeView
+  href: api/DeBroglie.Constraints.IPathSpec.html#DeBroglie_Constraints_IPathSpec_MakeView_
+  commentId: Overload:DeBroglie.Constraints.IPathSpec.MakeView
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.IPathSpec.MakeView
+  nameWithType: IPathSpec.MakeView
+- uid: DeBroglie.Constraints.IPathView
+  name: IPathView
+  href: api/DeBroglie.Constraints.IPathView.html
+  commentId: T:DeBroglie.Constraints.IPathView
+  fullName: DeBroglie.Constraints.IPathView
+  nameWithType: IPathView
+- uid: DeBroglie.Constraints.IPathView.BanPath(System.Int32)
+  name: BanPath(Int32)
+  href: api/DeBroglie.Constraints.IPathView.html#DeBroglie_Constraints_IPathView_BanPath_System_Int32_
+  commentId: M:DeBroglie.Constraints.IPathView.BanPath(System.Int32)
+  fullName: DeBroglie.Constraints.IPathView.BanPath(System.Int32)
+  nameWithType: IPathView.BanPath(Int32)
+- uid: DeBroglie.Constraints.IPathView.BanPath*
+  name: BanPath
+  href: api/DeBroglie.Constraints.IPathView.html#DeBroglie_Constraints_IPathView_BanPath_
+  commentId: Overload:DeBroglie.Constraints.IPathView.BanPath
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.IPathView.BanPath
+  nameWithType: IPathView.BanPath
+- uid: DeBroglie.Constraints.IPathView.BanRelevant(System.Int32)
+  name: BanRelevant(Int32)
+  href: api/DeBroglie.Constraints.IPathView.html#DeBroglie_Constraints_IPathView_BanRelevant_System_Int32_
+  commentId: M:DeBroglie.Constraints.IPathView.BanRelevant(System.Int32)
+  fullName: DeBroglie.Constraints.IPathView.BanRelevant(System.Int32)
+  nameWithType: IPathView.BanRelevant(Int32)
+- uid: DeBroglie.Constraints.IPathView.BanRelevant*
+  name: BanRelevant
+  href: api/DeBroglie.Constraints.IPathView.html#DeBroglie_Constraints_IPathView_BanRelevant_
+  commentId: Overload:DeBroglie.Constraints.IPathView.BanRelevant
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.IPathView.BanRelevant
+  nameWithType: IPathView.BanRelevant
+- uid: DeBroglie.Constraints.IPathView.CouldBePath
+  name: CouldBePath
+  href: api/DeBroglie.Constraints.IPathView.html#DeBroglie_Constraints_IPathView_CouldBePath
+  commentId: P:DeBroglie.Constraints.IPathView.CouldBePath
+  fullName: DeBroglie.Constraints.IPathView.CouldBePath
+  nameWithType: IPathView.CouldBePath
+- uid: DeBroglie.Constraints.IPathView.CouldBePath*
+  name: CouldBePath
+  href: api/DeBroglie.Constraints.IPathView.html#DeBroglie_Constraints_IPathView_CouldBePath_
+  commentId: Overload:DeBroglie.Constraints.IPathView.CouldBePath
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.IPathView.CouldBePath
+  nameWithType: IPathView.CouldBePath
+- uid: DeBroglie.Constraints.IPathView.CouldBeRelevant
+  name: CouldBeRelevant
+  href: api/DeBroglie.Constraints.IPathView.html#DeBroglie_Constraints_IPathView_CouldBeRelevant
+  commentId: P:DeBroglie.Constraints.IPathView.CouldBeRelevant
+  fullName: DeBroglie.Constraints.IPathView.CouldBeRelevant
+  nameWithType: IPathView.CouldBeRelevant
+- uid: DeBroglie.Constraints.IPathView.CouldBeRelevant*
+  name: CouldBeRelevant
+  href: api/DeBroglie.Constraints.IPathView.html#DeBroglie_Constraints_IPathView_CouldBeRelevant_
+  commentId: Overload:DeBroglie.Constraints.IPathView.CouldBeRelevant
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.IPathView.CouldBeRelevant
+  nameWithType: IPathView.CouldBeRelevant
+- uid: DeBroglie.Constraints.IPathView.Graph
+  name: Graph
+  href: api/DeBroglie.Constraints.IPathView.html#DeBroglie_Constraints_IPathView_Graph
+  commentId: P:DeBroglie.Constraints.IPathView.Graph
+  fullName: DeBroglie.Constraints.IPathView.Graph
+  nameWithType: IPathView.Graph
+- uid: DeBroglie.Constraints.IPathView.Graph*
+  name: Graph
+  href: api/DeBroglie.Constraints.IPathView.html#DeBroglie_Constraints_IPathView_Graph_
+  commentId: Overload:DeBroglie.Constraints.IPathView.Graph
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.IPathView.Graph
+  nameWithType: IPathView.Graph
+- uid: DeBroglie.Constraints.IPathView.MustBePath
+  name: MustBePath
+  href: api/DeBroglie.Constraints.IPathView.html#DeBroglie_Constraints_IPathView_MustBePath
+  commentId: P:DeBroglie.Constraints.IPathView.MustBePath
+  fullName: DeBroglie.Constraints.IPathView.MustBePath
+  nameWithType: IPathView.MustBePath
+- uid: DeBroglie.Constraints.IPathView.MustBePath*
+  name: MustBePath
+  href: api/DeBroglie.Constraints.IPathView.html#DeBroglie_Constraints_IPathView_MustBePath_
+  commentId: Overload:DeBroglie.Constraints.IPathView.MustBePath
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.IPathView.MustBePath
+  nameWithType: IPathView.MustBePath
+- uid: DeBroglie.Constraints.IPathView.MustBeRelevant
+  name: MustBeRelevant
+  href: api/DeBroglie.Constraints.IPathView.html#DeBroglie_Constraints_IPathView_MustBeRelevant
+  commentId: P:DeBroglie.Constraints.IPathView.MustBeRelevant
+  fullName: DeBroglie.Constraints.IPathView.MustBeRelevant
+  nameWithType: IPathView.MustBeRelevant
+- uid: DeBroglie.Constraints.IPathView.MustBeRelevant*
+  name: MustBeRelevant
+  href: api/DeBroglie.Constraints.IPathView.html#DeBroglie_Constraints_IPathView_MustBeRelevant_
+  commentId: Overload:DeBroglie.Constraints.IPathView.MustBeRelevant
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.IPathView.MustBeRelevant
+  nameWithType: IPathView.MustBeRelevant
+- uid: DeBroglie.Constraints.IPathView.SelectPath(System.Int32)
+  name: SelectPath(Int32)
+  href: api/DeBroglie.Constraints.IPathView.html#DeBroglie_Constraints_IPathView_SelectPath_System_Int32_
+  commentId: M:DeBroglie.Constraints.IPathView.SelectPath(System.Int32)
+  fullName: DeBroglie.Constraints.IPathView.SelectPath(System.Int32)
+  nameWithType: IPathView.SelectPath(Int32)
+- uid: DeBroglie.Constraints.IPathView.SelectPath*
+  name: SelectPath
+  href: api/DeBroglie.Constraints.IPathView.html#DeBroglie_Constraints_IPathView_SelectPath_
+  commentId: Overload:DeBroglie.Constraints.IPathView.SelectPath
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.IPathView.SelectPath
+  nameWithType: IPathView.SelectPath
+- uid: DeBroglie.Constraints.IPathView.Update
+  name: Update()
+  href: api/DeBroglie.Constraints.IPathView.html#DeBroglie_Constraints_IPathView_Update
+  commentId: M:DeBroglie.Constraints.IPathView.Update
+  fullName: DeBroglie.Constraints.IPathView.Update()
+  nameWithType: IPathView.Update()
+- uid: DeBroglie.Constraints.IPathView.Update*
+  name: Update
+  href: api/DeBroglie.Constraints.IPathView.html#DeBroglie_Constraints_IPathView_Update_
+  commentId: Overload:DeBroglie.Constraints.IPathView.Update
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.IPathView.Update
+  nameWithType: IPathView.Update
 - uid: DeBroglie.Constraints.ITileConstraint
   name: ITileConstraint
   href: api/DeBroglie.Constraints.ITileConstraint.html
@@ -497,6 +724,51 @@ references:
   isSpec: "True"
   fullName: DeBroglie.Constraints.ITileConstraint.Init
   nameWithType: ITileConstraint.Init
+- uid: DeBroglie.Constraints.LoopConstraint
+  name: LoopConstraint
+  href: api/DeBroglie.Constraints.LoopConstraint.html
+  commentId: T:DeBroglie.Constraints.LoopConstraint
+  fullName: DeBroglie.Constraints.LoopConstraint
+  nameWithType: LoopConstraint
+- uid: DeBroglie.Constraints.LoopConstraint.Check(DeBroglie.TilePropagator)
+  name: Check(TilePropagator)
+  href: api/DeBroglie.Constraints.LoopConstraint.html#DeBroglie_Constraints_LoopConstraint_Check_DeBroglie_TilePropagator_
+  commentId: M:DeBroglie.Constraints.LoopConstraint.Check(DeBroglie.TilePropagator)
+  fullName: DeBroglie.Constraints.LoopConstraint.Check(DeBroglie.TilePropagator)
+  nameWithType: LoopConstraint.Check(TilePropagator)
+- uid: DeBroglie.Constraints.LoopConstraint.Check*
+  name: Check
+  href: api/DeBroglie.Constraints.LoopConstraint.html#DeBroglie_Constraints_LoopConstraint_Check_
+  commentId: Overload:DeBroglie.Constraints.LoopConstraint.Check
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.LoopConstraint.Check
+  nameWithType: LoopConstraint.Check
+- uid: DeBroglie.Constraints.LoopConstraint.Init(DeBroglie.TilePropagator)
+  name: Init(TilePropagator)
+  href: api/DeBroglie.Constraints.LoopConstraint.html#DeBroglie_Constraints_LoopConstraint_Init_DeBroglie_TilePropagator_
+  commentId: M:DeBroglie.Constraints.LoopConstraint.Init(DeBroglie.TilePropagator)
+  fullName: DeBroglie.Constraints.LoopConstraint.Init(DeBroglie.TilePropagator)
+  nameWithType: LoopConstraint.Init(TilePropagator)
+- uid: DeBroglie.Constraints.LoopConstraint.Init*
+  name: Init
+  href: api/DeBroglie.Constraints.LoopConstraint.html#DeBroglie_Constraints_LoopConstraint_Init_
+  commentId: Overload:DeBroglie.Constraints.LoopConstraint.Init
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.LoopConstraint.Init
+  nameWithType: LoopConstraint.Init
+- uid: DeBroglie.Constraints.LoopConstraint.PathSpec
+  name: PathSpec
+  href: api/DeBroglie.Constraints.LoopConstraint.html#DeBroglie_Constraints_LoopConstraint_PathSpec
+  commentId: P:DeBroglie.Constraints.LoopConstraint.PathSpec
+  fullName: DeBroglie.Constraints.LoopConstraint.PathSpec
+  nameWithType: LoopConstraint.PathSpec
+- uid: DeBroglie.Constraints.LoopConstraint.PathSpec*
+  name: PathSpec
+  href: api/DeBroglie.Constraints.LoopConstraint.html#DeBroglie_Constraints_LoopConstraint_PathSpec_
+  commentId: Overload:DeBroglie.Constraints.LoopConstraint.PathSpec
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.LoopConstraint.PathSpec
+  nameWithType: LoopConstraint.PathSpec
 - uid: DeBroglie.Constraints.MaxConsecutiveConstraint
   name: MaxConsecutiveConstraint
   href: api/DeBroglie.Constraints.MaxConsecutiveConstraint.html
@@ -696,112 +968,189 @@ references:
   isSpec: "True"
   fullName: DeBroglie.Constraints.MirrorYConstraint.TryMapTile
   nameWithType: MirrorYConstraint.TryMapTile
-- uid: DeBroglie.Constraints.PathConstraint
-  name: PathConstraint
-  href: api/DeBroglie.Constraints.PathConstraint.html
-  commentId: T:DeBroglie.Constraints.PathConstraint
-  fullName: DeBroglie.Constraints.PathConstraint
-  nameWithType: PathConstraint
-- uid: DeBroglie.Constraints.PathConstraint.#ctor(System.Collections.Generic.ISet{DeBroglie.Tile},DeBroglie.Point[],DeBroglie.Rot.TileRotation)
-  name: PathConstraint(ISet<Tile>, Point[], TileRotation)
-  href: api/DeBroglie.Constraints.PathConstraint.html#DeBroglie_Constraints_PathConstraint__ctor_System_Collections_Generic_ISet_DeBroglie_Tile__DeBroglie_Point___DeBroglie_Rot_TileRotation_
-  commentId: M:DeBroglie.Constraints.PathConstraint.#ctor(System.Collections.Generic.ISet{DeBroglie.Tile},DeBroglie.Point[],DeBroglie.Rot.TileRotation)
-  name.vb: PathConstraint(ISet(Of Tile), Point(), TileRotation)
-  fullName: DeBroglie.Constraints.PathConstraint.PathConstraint(System.Collections.Generic.ISet<DeBroglie.Tile>, DeBroglie.Point[], DeBroglie.Rot.TileRotation)
-  fullName.vb: DeBroglie.Constraints.PathConstraint.PathConstraint(System.Collections.Generic.ISet(Of DeBroglie.Tile), DeBroglie.Point(), DeBroglie.Rot.TileRotation)
-  nameWithType: PathConstraint.PathConstraint(ISet<Tile>, Point[], TileRotation)
-  nameWithType.vb: PathConstraint.PathConstraint(ISet(Of Tile), Point(), TileRotation)
-- uid: DeBroglie.Constraints.PathConstraint.#ctor*
-  name: PathConstraint
-  href: api/DeBroglie.Constraints.PathConstraint.html#DeBroglie_Constraints_PathConstraint__ctor_
-  commentId: Overload:DeBroglie.Constraints.PathConstraint.#ctor
-  isSpec: "True"
-  fullName: DeBroglie.Constraints.PathConstraint.PathConstraint
-  nameWithType: PathConstraint.PathConstraint
-- uid: DeBroglie.Constraints.PathConstraint.Check(DeBroglie.TilePropagator)
+- uid: DeBroglie.Constraints.PairSeparationConstraint
+  name: PairSeparationConstraint
+  href: api/DeBroglie.Constraints.PairSeparationConstraint.html
+  commentId: T:DeBroglie.Constraints.PairSeparationConstraint
+  fullName: DeBroglie.Constraints.PairSeparationConstraint
+  nameWithType: PairSeparationConstraint
+- uid: DeBroglie.Constraints.PairSeparationConstraint.Check(DeBroglie.TilePropagator)
   name: Check(TilePropagator)
-  href: api/DeBroglie.Constraints.PathConstraint.html#DeBroglie_Constraints_PathConstraint_Check_DeBroglie_TilePropagator_
-  commentId: M:DeBroglie.Constraints.PathConstraint.Check(DeBroglie.TilePropagator)
-  fullName: DeBroglie.Constraints.PathConstraint.Check(DeBroglie.TilePropagator)
-  nameWithType: PathConstraint.Check(TilePropagator)
-- uid: DeBroglie.Constraints.PathConstraint.Check*
+  href: api/DeBroglie.Constraints.PairSeparationConstraint.html#DeBroglie_Constraints_PairSeparationConstraint_Check_DeBroglie_TilePropagator_
+  commentId: M:DeBroglie.Constraints.PairSeparationConstraint.Check(DeBroglie.TilePropagator)
+  fullName: DeBroglie.Constraints.PairSeparationConstraint.Check(DeBroglie.TilePropagator)
+  nameWithType: PairSeparationConstraint.Check(TilePropagator)
+- uid: DeBroglie.Constraints.PairSeparationConstraint.Check*
   name: Check
-  href: api/DeBroglie.Constraints.PathConstraint.html#DeBroglie_Constraints_PathConstraint_Check_
-  commentId: Overload:DeBroglie.Constraints.PathConstraint.Check
+  href: api/DeBroglie.Constraints.PairSeparationConstraint.html#DeBroglie_Constraints_PairSeparationConstraint_Check_
+  commentId: Overload:DeBroglie.Constraints.PairSeparationConstraint.Check
   isSpec: "True"
-  fullName: DeBroglie.Constraints.PathConstraint.Check
-  nameWithType: PathConstraint.Check
-- uid: DeBroglie.Constraints.PathConstraint.EndPoints
-  name: EndPoints
-  href: api/DeBroglie.Constraints.PathConstraint.html#DeBroglie_Constraints_PathConstraint_EndPoints
-  commentId: P:DeBroglie.Constraints.PathConstraint.EndPoints
-  fullName: DeBroglie.Constraints.PathConstraint.EndPoints
-  nameWithType: PathConstraint.EndPoints
-- uid: DeBroglie.Constraints.PathConstraint.EndPoints*
-  name: EndPoints
-  href: api/DeBroglie.Constraints.PathConstraint.html#DeBroglie_Constraints_PathConstraint_EndPoints_
-  commentId: Overload:DeBroglie.Constraints.PathConstraint.EndPoints
-  isSpec: "True"
-  fullName: DeBroglie.Constraints.PathConstraint.EndPoints
-  nameWithType: PathConstraint.EndPoints
-- uid: DeBroglie.Constraints.PathConstraint.EndPointTiles
-  name: EndPointTiles
-  href: api/DeBroglie.Constraints.PathConstraint.html#DeBroglie_Constraints_PathConstraint_EndPointTiles
-  commentId: P:DeBroglie.Constraints.PathConstraint.EndPointTiles
-  fullName: DeBroglie.Constraints.PathConstraint.EndPointTiles
-  nameWithType: PathConstraint.EndPointTiles
-- uid: DeBroglie.Constraints.PathConstraint.EndPointTiles*
-  name: EndPointTiles
-  href: api/DeBroglie.Constraints.PathConstraint.html#DeBroglie_Constraints_PathConstraint_EndPointTiles_
-  commentId: Overload:DeBroglie.Constraints.PathConstraint.EndPointTiles
-  isSpec: "True"
-  fullName: DeBroglie.Constraints.PathConstraint.EndPointTiles
-  nameWithType: PathConstraint.EndPointTiles
-- uid: DeBroglie.Constraints.PathConstraint.Init(DeBroglie.TilePropagator)
+  fullName: DeBroglie.Constraints.PairSeparationConstraint.Check
+  nameWithType: PairSeparationConstraint.Check
+- uid: DeBroglie.Constraints.PairSeparationConstraint.Init(DeBroglie.TilePropagator)
   name: Init(TilePropagator)
-  href: api/DeBroglie.Constraints.PathConstraint.html#DeBroglie_Constraints_PathConstraint_Init_DeBroglie_TilePropagator_
-  commentId: M:DeBroglie.Constraints.PathConstraint.Init(DeBroglie.TilePropagator)
-  fullName: DeBroglie.Constraints.PathConstraint.Init(DeBroglie.TilePropagator)
-  nameWithType: PathConstraint.Init(TilePropagator)
-- uid: DeBroglie.Constraints.PathConstraint.Init*
+  href: api/DeBroglie.Constraints.PairSeparationConstraint.html#DeBroglie_Constraints_PairSeparationConstraint_Init_DeBroglie_TilePropagator_
+  commentId: M:DeBroglie.Constraints.PairSeparationConstraint.Init(DeBroglie.TilePropagator)
+  fullName: DeBroglie.Constraints.PairSeparationConstraint.Init(DeBroglie.TilePropagator)
+  nameWithType: PairSeparationConstraint.Init(TilePropagator)
+- uid: DeBroglie.Constraints.PairSeparationConstraint.Init*
   name: Init
-  href: api/DeBroglie.Constraints.PathConstraint.html#DeBroglie_Constraints_PathConstraint_Init_
-  commentId: Overload:DeBroglie.Constraints.PathConstraint.Init
+  href: api/DeBroglie.Constraints.PairSeparationConstraint.html#DeBroglie_Constraints_PairSeparationConstraint_Init_
+  commentId: Overload:DeBroglie.Constraints.PairSeparationConstraint.Init
   isSpec: "True"
-  fullName: DeBroglie.Constraints.PathConstraint.Init
-  nameWithType: PathConstraint.Init
-- uid: DeBroglie.Constraints.PathConstraint.TileRotation
-  name: TileRotation
-  href: api/DeBroglie.Constraints.PathConstraint.html#DeBroglie_Constraints_PathConstraint_TileRotation
-  commentId: P:DeBroglie.Constraints.PathConstraint.TileRotation
-  fullName: DeBroglie.Constraints.PathConstraint.TileRotation
-  nameWithType: PathConstraint.TileRotation
-- uid: DeBroglie.Constraints.PathConstraint.TileRotation*
-  name: TileRotation
-  href: api/DeBroglie.Constraints.PathConstraint.html#DeBroglie_Constraints_PathConstraint_TileRotation_
-  commentId: Overload:DeBroglie.Constraints.PathConstraint.TileRotation
+  fullName: DeBroglie.Constraints.PairSeparationConstraint.Init
+  nameWithType: PairSeparationConstraint.Init
+- uid: DeBroglie.Constraints.PairSeparationConstraint.MinDistance
+  name: MinDistance
+  href: api/DeBroglie.Constraints.PairSeparationConstraint.html#DeBroglie_Constraints_PairSeparationConstraint_MinDistance
+  commentId: P:DeBroglie.Constraints.PairSeparationConstraint.MinDistance
+  fullName: DeBroglie.Constraints.PairSeparationConstraint.MinDistance
+  nameWithType: PairSeparationConstraint.MinDistance
+- uid: DeBroglie.Constraints.PairSeparationConstraint.MinDistance*
+  name: MinDistance
+  href: api/DeBroglie.Constraints.PairSeparationConstraint.html#DeBroglie_Constraints_PairSeparationConstraint_MinDistance_
+  commentId: Overload:DeBroglie.Constraints.PairSeparationConstraint.MinDistance
   isSpec: "True"
-  fullName: DeBroglie.Constraints.PathConstraint.TileRotation
-  nameWithType: PathConstraint.TileRotation
-- uid: DeBroglie.Constraints.PathConstraint.Tiles
-  name: Tiles
-  href: api/DeBroglie.Constraints.PathConstraint.html#DeBroglie_Constraints_PathConstraint_Tiles
-  commentId: P:DeBroglie.Constraints.PathConstraint.Tiles
-  fullName: DeBroglie.Constraints.PathConstraint.Tiles
-  nameWithType: PathConstraint.Tiles
-- uid: DeBroglie.Constraints.PathConstraint.Tiles*
-  name: Tiles
-  href: api/DeBroglie.Constraints.PathConstraint.html#DeBroglie_Constraints_PathConstraint_Tiles_
-  commentId: Overload:DeBroglie.Constraints.PathConstraint.Tiles
+  fullName: DeBroglie.Constraints.PairSeparationConstraint.MinDistance
+  nameWithType: PairSeparationConstraint.MinDistance
+- uid: DeBroglie.Constraints.PairSeparationConstraint.Tiles1
+  name: Tiles1
+  href: api/DeBroglie.Constraints.PairSeparationConstraint.html#DeBroglie_Constraints_PairSeparationConstraint_Tiles1
+  commentId: P:DeBroglie.Constraints.PairSeparationConstraint.Tiles1
+  fullName: DeBroglie.Constraints.PairSeparationConstraint.Tiles1
+  nameWithType: PairSeparationConstraint.Tiles1
+- uid: DeBroglie.Constraints.PairSeparationConstraint.Tiles1*
+  name: Tiles1
+  href: api/DeBroglie.Constraints.PairSeparationConstraint.html#DeBroglie_Constraints_PairSeparationConstraint_Tiles1_
+  commentId: Overload:DeBroglie.Constraints.PairSeparationConstraint.Tiles1
   isSpec: "True"
-  fullName: DeBroglie.Constraints.PathConstraint.Tiles
-  nameWithType: PathConstraint.Tiles
+  fullName: DeBroglie.Constraints.PairSeparationConstraint.Tiles1
+  nameWithType: PairSeparationConstraint.Tiles1
+- uid: DeBroglie.Constraints.PairSeparationConstraint.Tiles2
+  name: Tiles2
+  href: api/DeBroglie.Constraints.PairSeparationConstraint.html#DeBroglie_Constraints_PairSeparationConstraint_Tiles2
+  commentId: P:DeBroglie.Constraints.PairSeparationConstraint.Tiles2
+  fullName: DeBroglie.Constraints.PairSeparationConstraint.Tiles2
+  nameWithType: PairSeparationConstraint.Tiles2
+- uid: DeBroglie.Constraints.PairSeparationConstraint.Tiles2*
+  name: Tiles2
+  href: api/DeBroglie.Constraints.PairSeparationConstraint.html#DeBroglie_Constraints_PairSeparationConstraint_Tiles2_
+  commentId: Overload:DeBroglie.Constraints.PairSeparationConstraint.Tiles2
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.PairSeparationConstraint.Tiles2
+  nameWithType: PairSeparationConstraint.Tiles2
+- uid: DeBroglie.Constraints.ParityConstraint
+  name: ParityConstraint
+  href: api/DeBroglie.Constraints.ParityConstraint.html
+  commentId: T:DeBroglie.Constraints.ParityConstraint
+  fullName: DeBroglie.Constraints.ParityConstraint
+  nameWithType: ParityConstraint
+- uid: DeBroglie.Constraints.ParityConstraint.Check(DeBroglie.TilePropagator)
+  name: Check(TilePropagator)
+  href: api/DeBroglie.Constraints.ParityConstraint.html#DeBroglie_Constraints_ParityConstraint_Check_DeBroglie_TilePropagator_
+  commentId: M:DeBroglie.Constraints.ParityConstraint.Check(DeBroglie.TilePropagator)
+  fullName: DeBroglie.Constraints.ParityConstraint.Check(DeBroglie.TilePropagator)
+  nameWithType: ParityConstraint.Check(TilePropagator)
+- uid: DeBroglie.Constraints.ParityConstraint.Check*
+  name: Check
+  href: api/DeBroglie.Constraints.ParityConstraint.html#DeBroglie_Constraints_ParityConstraint_Check_
+  commentId: Overload:DeBroglie.Constraints.ParityConstraint.Check
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.ParityConstraint.Check
+  nameWithType: ParityConstraint.Check
+- uid: DeBroglie.Constraints.ParityConstraint.Init(DeBroglie.TilePropagator)
+  name: Init(TilePropagator)
+  href: api/DeBroglie.Constraints.ParityConstraint.html#DeBroglie_Constraints_ParityConstraint_Init_DeBroglie_TilePropagator_
+  commentId: M:DeBroglie.Constraints.ParityConstraint.Init(DeBroglie.TilePropagator)
+  fullName: DeBroglie.Constraints.ParityConstraint.Init(DeBroglie.TilePropagator)
+  nameWithType: ParityConstraint.Init(TilePropagator)
+- uid: DeBroglie.Constraints.ParityConstraint.Init*
+  name: Init
+  href: api/DeBroglie.Constraints.ParityConstraint.html#DeBroglie_Constraints_ParityConstraint_Init_
+  commentId: Overload:DeBroglie.Constraints.ParityConstraint.Init
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.ParityConstraint.Init
+  nameWithType: ParityConstraint.Init
+- uid: DeBroglie.Constraints.ParityConstraint.PathSpec
+  name: PathSpec
+  href: api/DeBroglie.Constraints.ParityConstraint.html#DeBroglie_Constraints_ParityConstraint_PathSpec
+  commentId: P:DeBroglie.Constraints.ParityConstraint.PathSpec
+  fullName: DeBroglie.Constraints.ParityConstraint.PathSpec
+  nameWithType: ParityConstraint.PathSpec
+- uid: DeBroglie.Constraints.ParityConstraint.PathSpec*
+  name: PathSpec
+  href: api/DeBroglie.Constraints.ParityConstraint.html#DeBroglie_Constraints_ParityConstraint_PathSpec_
+  commentId: Overload:DeBroglie.Constraints.ParityConstraint.PathSpec
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.ParityConstraint.PathSpec
+  nameWithType: ParityConstraint.PathSpec
+- uid: DeBroglie.Constraints.ParityConstraint.VisitIndex(System.Int32,System.Boolean[])
+  name: VisitIndex(Int32, Boolean[])
+  href: api/DeBroglie.Constraints.ParityConstraint.html#DeBroglie_Constraints_ParityConstraint_VisitIndex_System_Int32_System_Boolean___
+  commentId: M:DeBroglie.Constraints.ParityConstraint.VisitIndex(System.Int32,System.Boolean[])
+  name.vb: VisitIndex(Int32, Boolean())
+  fullName: DeBroglie.Constraints.ParityConstraint.VisitIndex(System.Int32, System.Boolean[])
+  fullName.vb: DeBroglie.Constraints.ParityConstraint.VisitIndex(System.Int32, System.Boolean())
+  nameWithType: ParityConstraint.VisitIndex(Int32, Boolean[])
+  nameWithType.vb: ParityConstraint.VisitIndex(Int32, Boolean())
+- uid: DeBroglie.Constraints.ParityConstraint.VisitIndex*
+  name: VisitIndex
+  href: api/DeBroglie.Constraints.ParityConstraint.html#DeBroglie_Constraints_ParityConstraint_VisitIndex_
+  commentId: Overload:DeBroglie.Constraints.ParityConstraint.VisitIndex
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.ParityConstraint.VisitIndex
+  nameWithType: ParityConstraint.VisitIndex
 - uid: DeBroglie.Constraints.PathConstraintUtils
   name: PathConstraintUtils
   href: api/DeBroglie.Constraints.PathConstraintUtils.html
   commentId: T:DeBroglie.Constraints.PathConstraintUtils
   fullName: DeBroglie.Constraints.PathConstraintUtils
   nameWithType: PathConstraintUtils
+- uid: DeBroglie.Constraints.PathConstraintUtils.AtrticulationPointsInfo
+  name: PathConstraintUtils.AtrticulationPointsInfo
+  href: api/DeBroglie.Constraints.PathConstraintUtils.AtrticulationPointsInfo.html
+  commentId: T:DeBroglie.Constraints.PathConstraintUtils.AtrticulationPointsInfo
+  fullName: DeBroglie.Constraints.PathConstraintUtils.AtrticulationPointsInfo
+  nameWithType: PathConstraintUtils.AtrticulationPointsInfo
+- uid: DeBroglie.Constraints.PathConstraintUtils.AtrticulationPointsInfo.Component
+  name: Component
+  href: api/DeBroglie.Constraints.PathConstraintUtils.AtrticulationPointsInfo.html#DeBroglie_Constraints_PathConstraintUtils_AtrticulationPointsInfo_Component
+  commentId: P:DeBroglie.Constraints.PathConstraintUtils.AtrticulationPointsInfo.Component
+  fullName: DeBroglie.Constraints.PathConstraintUtils.AtrticulationPointsInfo.Component
+  nameWithType: PathConstraintUtils.AtrticulationPointsInfo.Component
+- uid: DeBroglie.Constraints.PathConstraintUtils.AtrticulationPointsInfo.Component*
+  name: Component
+  href: api/DeBroglie.Constraints.PathConstraintUtils.AtrticulationPointsInfo.html#DeBroglie_Constraints_PathConstraintUtils_AtrticulationPointsInfo_Component_
+  commentId: Overload:DeBroglie.Constraints.PathConstraintUtils.AtrticulationPointsInfo.Component
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.PathConstraintUtils.AtrticulationPointsInfo.Component
+  nameWithType: PathConstraintUtils.AtrticulationPointsInfo.Component
+- uid: DeBroglie.Constraints.PathConstraintUtils.AtrticulationPointsInfo.ComponentCount
+  name: ComponentCount
+  href: api/DeBroglie.Constraints.PathConstraintUtils.AtrticulationPointsInfo.html#DeBroglie_Constraints_PathConstraintUtils_AtrticulationPointsInfo_ComponentCount
+  commentId: P:DeBroglie.Constraints.PathConstraintUtils.AtrticulationPointsInfo.ComponentCount
+  fullName: DeBroglie.Constraints.PathConstraintUtils.AtrticulationPointsInfo.ComponentCount
+  nameWithType: PathConstraintUtils.AtrticulationPointsInfo.ComponentCount
+- uid: DeBroglie.Constraints.PathConstraintUtils.AtrticulationPointsInfo.ComponentCount*
+  name: ComponentCount
+  href: api/DeBroglie.Constraints.PathConstraintUtils.AtrticulationPointsInfo.html#DeBroglie_Constraints_PathConstraintUtils_AtrticulationPointsInfo_ComponentCount_
+  commentId: Overload:DeBroglie.Constraints.PathConstraintUtils.AtrticulationPointsInfo.ComponentCount
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.PathConstraintUtils.AtrticulationPointsInfo.ComponentCount
+  nameWithType: PathConstraintUtils.AtrticulationPointsInfo.ComponentCount
+- uid: DeBroglie.Constraints.PathConstraintUtils.AtrticulationPointsInfo.IsArticulation
+  name: IsArticulation
+  href: api/DeBroglie.Constraints.PathConstraintUtils.AtrticulationPointsInfo.html#DeBroglie_Constraints_PathConstraintUtils_AtrticulationPointsInfo_IsArticulation
+  commentId: P:DeBroglie.Constraints.PathConstraintUtils.AtrticulationPointsInfo.IsArticulation
+  fullName: DeBroglie.Constraints.PathConstraintUtils.AtrticulationPointsInfo.IsArticulation
+  nameWithType: PathConstraintUtils.AtrticulationPointsInfo.IsArticulation
+- uid: DeBroglie.Constraints.PathConstraintUtils.AtrticulationPointsInfo.IsArticulation*
+  name: IsArticulation
+  href: api/DeBroglie.Constraints.PathConstraintUtils.AtrticulationPointsInfo.html#DeBroglie_Constraints_PathConstraintUtils_AtrticulationPointsInfo_IsArticulation_
+  commentId: Overload:DeBroglie.Constraints.PathConstraintUtils.AtrticulationPointsInfo.IsArticulation
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.PathConstraintUtils.AtrticulationPointsInfo.IsArticulation
+  nameWithType: PathConstraintUtils.AtrticulationPointsInfo.IsArticulation
 - uid: DeBroglie.Constraints.PathConstraintUtils.CreateGraph(DeBroglie.Topo.ITopology)
   name: CreateGraph(ITopology)
   href: api/DeBroglie.Constraints.PathConstraintUtils.html#DeBroglie_Constraints_PathConstraintUtils_CreateGraph_DeBroglie_Topo_ITopology_
@@ -815,15 +1164,15 @@ references:
   isSpec: "True"
   fullName: DeBroglie.Constraints.PathConstraintUtils.CreateGraph
   nameWithType: PathConstraintUtils.CreateGraph
-- uid: DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints(DeBroglie.Constraints.PathConstraintUtils.SimpleGraph,System.Boolean[],System.Boolean[],System.Boolean[])
-  name: GetArticulationPoints(PathConstraintUtils.SimpleGraph, Boolean[], Boolean[], Boolean[])
-  href: api/DeBroglie.Constraints.PathConstraintUtils.html#DeBroglie_Constraints_PathConstraintUtils_GetArticulationPoints_DeBroglie_Constraints_PathConstraintUtils_SimpleGraph_System_Boolean___System_Boolean___System_Boolean___
-  commentId: M:DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints(DeBroglie.Constraints.PathConstraintUtils.SimpleGraph,System.Boolean[],System.Boolean[],System.Boolean[])
-  name.vb: GetArticulationPoints(PathConstraintUtils.SimpleGraph, Boolean(), Boolean(), Boolean())
-  fullName: DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints(DeBroglie.Constraints.PathConstraintUtils.SimpleGraph, System.Boolean[], System.Boolean[], System.Boolean[])
-  fullName.vb: DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints(DeBroglie.Constraints.PathConstraintUtils.SimpleGraph, System.Boolean(), System.Boolean(), System.Boolean())
-  nameWithType: PathConstraintUtils.GetArticulationPoints(PathConstraintUtils.SimpleGraph, Boolean[], Boolean[], Boolean[])
-  nameWithType.vb: PathConstraintUtils.GetArticulationPoints(PathConstraintUtils.SimpleGraph, Boolean(), Boolean(), Boolean())
+- uid: DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints(DeBroglie.Constraints.PathConstraintUtils.SimpleGraph,System.Boolean[],System.Boolean[])
+  name: GetArticulationPoints(PathConstraintUtils.SimpleGraph, Boolean[], Boolean[])
+  href: api/DeBroglie.Constraints.PathConstraintUtils.html#DeBroglie_Constraints_PathConstraintUtils_GetArticulationPoints_DeBroglie_Constraints_PathConstraintUtils_SimpleGraph_System_Boolean___System_Boolean___
+  commentId: M:DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints(DeBroglie.Constraints.PathConstraintUtils.SimpleGraph,System.Boolean[],System.Boolean[])
+  name.vb: GetArticulationPoints(PathConstraintUtils.SimpleGraph, Boolean(), Boolean())
+  fullName: DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints(DeBroglie.Constraints.PathConstraintUtils.SimpleGraph, System.Boolean[], System.Boolean[])
+  fullName.vb: DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints(DeBroglie.Constraints.PathConstraintUtils.SimpleGraph, System.Boolean(), System.Boolean())
+  nameWithType: PathConstraintUtils.GetArticulationPoints(PathConstraintUtils.SimpleGraph, Boolean[], Boolean[])
+  nameWithType.vb: PathConstraintUtils.GetArticulationPoints(PathConstraintUtils.SimpleGraph, Boolean(), Boolean())
 - uid: DeBroglie.Constraints.PathConstraintUtils.GetArticulationPoints*
   name: GetArticulationPoints
   href: api/DeBroglie.Constraints.PathConstraintUtils.html#DeBroglie_Constraints_PathConstraintUtils_GetArticulationPoints_
@@ -863,6 +1212,96 @@ references:
   isSpec: "True"
   fullName: DeBroglie.Constraints.PathConstraintUtils.SimpleGraph.NodeCount
   nameWithType: PathConstraintUtils.SimpleGraph.NodeCount
+- uid: DeBroglie.Constraints.PathSpec
+  name: PathSpec
+  href: api/DeBroglie.Constraints.PathSpec.html
+  commentId: T:DeBroglie.Constraints.PathSpec
+  fullName: DeBroglie.Constraints.PathSpec
+  nameWithType: PathSpec
+- uid: DeBroglie.Constraints.PathSpec.MakeView(DeBroglie.TilePropagator)
+  name: MakeView(TilePropagator)
+  href: api/DeBroglie.Constraints.PathSpec.html#DeBroglie_Constraints_PathSpec_MakeView_DeBroglie_TilePropagator_
+  commentId: M:DeBroglie.Constraints.PathSpec.MakeView(DeBroglie.TilePropagator)
+  fullName: DeBroglie.Constraints.PathSpec.MakeView(DeBroglie.TilePropagator)
+  nameWithType: PathSpec.MakeView(TilePropagator)
+- uid: DeBroglie.Constraints.PathSpec.MakeView*
+  name: MakeView
+  href: api/DeBroglie.Constraints.PathSpec.html#DeBroglie_Constraints_PathSpec_MakeView_
+  commentId: Overload:DeBroglie.Constraints.PathSpec.MakeView
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.PathSpec.MakeView
+  nameWithType: PathSpec.MakeView
+- uid: DeBroglie.Constraints.PathSpec.RelevantCells
+  name: RelevantCells
+  href: api/DeBroglie.Constraints.PathSpec.html#DeBroglie_Constraints_PathSpec_RelevantCells
+  commentId: P:DeBroglie.Constraints.PathSpec.RelevantCells
+  fullName: DeBroglie.Constraints.PathSpec.RelevantCells
+  nameWithType: PathSpec.RelevantCells
+- uid: DeBroglie.Constraints.PathSpec.RelevantCells*
+  name: RelevantCells
+  href: api/DeBroglie.Constraints.PathSpec.html#DeBroglie_Constraints_PathSpec_RelevantCells_
+  commentId: Overload:DeBroglie.Constraints.PathSpec.RelevantCells
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.PathSpec.RelevantCells
+  nameWithType: PathSpec.RelevantCells
+- uid: DeBroglie.Constraints.PathSpec.RelevantTiles
+  name: RelevantTiles
+  href: api/DeBroglie.Constraints.PathSpec.html#DeBroglie_Constraints_PathSpec_RelevantTiles
+  commentId: P:DeBroglie.Constraints.PathSpec.RelevantTiles
+  fullName: DeBroglie.Constraints.PathSpec.RelevantTiles
+  nameWithType: PathSpec.RelevantTiles
+- uid: DeBroglie.Constraints.PathSpec.RelevantTiles*
+  name: RelevantTiles
+  href: api/DeBroglie.Constraints.PathSpec.html#DeBroglie_Constraints_PathSpec_RelevantTiles_
+  commentId: Overload:DeBroglie.Constraints.PathSpec.RelevantTiles
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.PathSpec.RelevantTiles
+  nameWithType: PathSpec.RelevantTiles
+- uid: DeBroglie.Constraints.PathSpec.TileRotation
+  name: TileRotation
+  href: api/DeBroglie.Constraints.PathSpec.html#DeBroglie_Constraints_PathSpec_TileRotation
+  commentId: P:DeBroglie.Constraints.PathSpec.TileRotation
+  fullName: DeBroglie.Constraints.PathSpec.TileRotation
+  nameWithType: PathSpec.TileRotation
+- uid: DeBroglie.Constraints.PathSpec.TileRotation*
+  name: TileRotation
+  href: api/DeBroglie.Constraints.PathSpec.html#DeBroglie_Constraints_PathSpec_TileRotation_
+  commentId: Overload:DeBroglie.Constraints.PathSpec.TileRotation
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.PathSpec.TileRotation
+  nameWithType: PathSpec.TileRotation
+- uid: DeBroglie.Constraints.PathSpec.Tiles
+  name: Tiles
+  href: api/DeBroglie.Constraints.PathSpec.html#DeBroglie_Constraints_PathSpec_Tiles
+  commentId: P:DeBroglie.Constraints.PathSpec.Tiles
+  fullName: DeBroglie.Constraints.PathSpec.Tiles
+  nameWithType: PathSpec.Tiles
+- uid: DeBroglie.Constraints.PathSpec.Tiles*
+  name: Tiles
+  href: api/DeBroglie.Constraints.PathSpec.html#DeBroglie_Constraints_PathSpec_Tiles_
+  commentId: Overload:DeBroglie.Constraints.PathSpec.Tiles
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.PathSpec.Tiles
+  nameWithType: PathSpec.Tiles
+- uid: DeBroglie.Constraints.PathViewExtensions
+  name: PathViewExtensions
+  href: api/DeBroglie.Constraints.PathViewExtensions.html
+  commentId: T:DeBroglie.Constraints.PathViewExtensions
+  fullName: DeBroglie.Constraints.PathViewExtensions
+  nameWithType: PathViewExtensions
+- uid: DeBroglie.Constraints.PathViewExtensions.Init(DeBroglie.Constraints.IPathView)
+  name: Init(IPathView)
+  href: api/DeBroglie.Constraints.PathViewExtensions.html#DeBroglie_Constraints_PathViewExtensions_Init_DeBroglie_Constraints_IPathView_
+  commentId: M:DeBroglie.Constraints.PathViewExtensions.Init(DeBroglie.Constraints.IPathView)
+  fullName: DeBroglie.Constraints.PathViewExtensions.Init(DeBroglie.Constraints.IPathView)
+  nameWithType: PathViewExtensions.Init(IPathView)
+- uid: DeBroglie.Constraints.PathViewExtensions.Init*
+  name: Init
+  href: api/DeBroglie.Constraints.PathViewExtensions.html#DeBroglie_Constraints_PathViewExtensions_Init_
+  commentId: Overload:DeBroglie.Constraints.PathViewExtensions.Init
+  isSpec: "True"
+  fullName: DeBroglie.Constraints.PathViewExtensions.Init
+  nameWithType: PathViewExtensions.Init
 - uid: DeBroglie.Constraints.SeparationConstraint
   name: SeparationConstraint
   href: api/DeBroglie.Constraints.SeparationConstraint.html
@@ -985,6 +1424,48 @@ references:
   isSpec: "True"
   fullName: DeBroglie.Constraints.SymmetryConstraint.TryMapTile
   nameWithType: SymmetryConstraint.TryMapTile
+- uid: DeBroglie.IndexPickerType
+  name: IndexPickerType
+  href: api/DeBroglie.IndexPickerType.html
+  commentId: T:DeBroglie.IndexPickerType
+  fullName: DeBroglie.IndexPickerType
+  nameWithType: IndexPickerType
+- uid: DeBroglie.IndexPickerType.ArrayPriorityMinEntropy
+  name: ArrayPriorityMinEntropy
+  href: api/DeBroglie.IndexPickerType.html#DeBroglie_IndexPickerType_ArrayPriorityMinEntropy
+  commentId: F:DeBroglie.IndexPickerType.ArrayPriorityMinEntropy
+  fullName: DeBroglie.IndexPickerType.ArrayPriorityMinEntropy
+  nameWithType: IndexPickerType.ArrayPriorityMinEntropy
+- uid: DeBroglie.IndexPickerType.Default
+  name: Default
+  href: api/DeBroglie.IndexPickerType.html#DeBroglie_IndexPickerType_Default
+  commentId: F:DeBroglie.IndexPickerType.Default
+  fullName: DeBroglie.IndexPickerType.Default
+  nameWithType: IndexPickerType.Default
+- uid: DeBroglie.IndexPickerType.Dirty
+  name: Dirty
+  href: api/DeBroglie.IndexPickerType.html#DeBroglie_IndexPickerType_Dirty
+  commentId: F:DeBroglie.IndexPickerType.Dirty
+  fullName: DeBroglie.IndexPickerType.Dirty
+  nameWithType: IndexPickerType.Dirty
+- uid: DeBroglie.IndexPickerType.HeapMinEntropy
+  name: HeapMinEntropy
+  href: api/DeBroglie.IndexPickerType.html#DeBroglie_IndexPickerType_HeapMinEntropy
+  commentId: F:DeBroglie.IndexPickerType.HeapMinEntropy
+  fullName: DeBroglie.IndexPickerType.HeapMinEntropy
+  nameWithType: IndexPickerType.HeapMinEntropy
+- uid: DeBroglie.IndexPickerType.MinEntropy
+  name: MinEntropy
+  href: api/DeBroglie.IndexPickerType.html#DeBroglie_IndexPickerType_MinEntropy
+  commentId: F:DeBroglie.IndexPickerType.MinEntropy
+  fullName: DeBroglie.IndexPickerType.MinEntropy
+  nameWithType: IndexPickerType.MinEntropy
+- uid: DeBroglie.IndexPickerType.Ordered
+  name: Ordered
+  href: api/DeBroglie.IndexPickerType.html#DeBroglie_IndexPickerType_Ordered
+  commentId: F:DeBroglie.IndexPickerType.Ordered
+  fullName: DeBroglie.IndexPickerType.Ordered
+  nameWithType: IndexPickerType.Ordered
 - uid: DeBroglie.Models
   name: DeBroglie.Models
   href: api/DeBroglie.Models.html
@@ -1567,24 +2048,6 @@ references:
   isSpec: "True"
   fullName: DeBroglie.Models.TileModel.Tiles
   nameWithType: TileModel.Tiles
-- uid: DeBroglie.PickHeuristicType
-  name: PickHeuristicType
-  href: api/DeBroglie.PickHeuristicType.html
-  commentId: T:DeBroglie.PickHeuristicType
-  fullName: DeBroglie.PickHeuristicType
-  nameWithType: PickHeuristicType
-- uid: DeBroglie.PickHeuristicType.MinEntropy
-  name: MinEntropy
-  href: api/DeBroglie.PickHeuristicType.html#DeBroglie_PickHeuristicType_MinEntropy
-  commentId: F:DeBroglie.PickHeuristicType.MinEntropy
-  fullName: DeBroglie.PickHeuristicType.MinEntropy
-  nameWithType: PickHeuristicType.MinEntropy
-- uid: DeBroglie.PickHeuristicType.Ordered
-  name: Ordered
-  href: api/DeBroglie.PickHeuristicType.html#DeBroglie_PickHeuristicType_Ordered
-  commentId: F:DeBroglie.PickHeuristicType.Ordered
-  fullName: DeBroglie.PickHeuristicType.Ordered
-  nameWithType: PickHeuristicType.Ordered
 - uid: DeBroglie.Point
   name: Point
   href: api/DeBroglie.Point.html
@@ -1654,6 +2117,107 @@ references:
   isSpec: "True"
   fullName: DeBroglie.PriorityAndWeight.Weight
   nameWithType: PriorityAndWeight.Weight
+- uid: DeBroglie.Quadstate
+  name: Quadstate
+  href: api/DeBroglie.Quadstate.html
+  commentId: T:DeBroglie.Quadstate
+  fullName: DeBroglie.Quadstate
+  nameWithType: Quadstate
+- uid: DeBroglie.Quadstate.Contradiction
+  name: Contradiction
+  href: api/DeBroglie.Quadstate.html#DeBroglie_Quadstate_Contradiction
+  commentId: F:DeBroglie.Quadstate.Contradiction
+  fullName: DeBroglie.Quadstate.Contradiction
+  nameWithType: Quadstate.Contradiction
+- uid: DeBroglie.Quadstate.Maybe
+  name: Maybe
+  href: api/DeBroglie.Quadstate.html#DeBroglie_Quadstate_Maybe
+  commentId: F:DeBroglie.Quadstate.Maybe
+  fullName: DeBroglie.Quadstate.Maybe
+  nameWithType: Quadstate.Maybe
+- uid: DeBroglie.Quadstate.No
+  name: No
+  href: api/DeBroglie.Quadstate.html#DeBroglie_Quadstate_No
+  commentId: F:DeBroglie.Quadstate.No
+  fullName: DeBroglie.Quadstate.No
+  nameWithType: Quadstate.No
+- uid: DeBroglie.Quadstate.Yes
+  name: Yes
+  href: api/DeBroglie.Quadstate.html#DeBroglie_Quadstate_Yes
+  commentId: F:DeBroglie.Quadstate.Yes
+  fullName: DeBroglie.Quadstate.Yes
+  nameWithType: Quadstate.Yes
+- uid: DeBroglie.QuadstateExtensions
+  name: QuadstateExtensions
+  href: api/DeBroglie.QuadstateExtensions.html
+  commentId: T:DeBroglie.QuadstateExtensions
+  fullName: DeBroglie.QuadstateExtensions
+  nameWithType: QuadstateExtensions
+- uid: DeBroglie.QuadstateExtensions.IsContradiction(DeBroglie.Quadstate)
+  name: IsContradiction(Quadstate)
+  href: api/DeBroglie.QuadstateExtensions.html#DeBroglie_QuadstateExtensions_IsContradiction_DeBroglie_Quadstate_
+  commentId: M:DeBroglie.QuadstateExtensions.IsContradiction(DeBroglie.Quadstate)
+  fullName: DeBroglie.QuadstateExtensions.IsContradiction(DeBroglie.Quadstate)
+  nameWithType: QuadstateExtensions.IsContradiction(Quadstate)
+- uid: DeBroglie.QuadstateExtensions.IsContradiction*
+  name: IsContradiction
+  href: api/DeBroglie.QuadstateExtensions.html#DeBroglie_QuadstateExtensions_IsContradiction_
+  commentId: Overload:DeBroglie.QuadstateExtensions.IsContradiction
+  isSpec: "True"
+  fullName: DeBroglie.QuadstateExtensions.IsContradiction
+  nameWithType: QuadstateExtensions.IsContradiction
+- uid: DeBroglie.QuadstateExtensions.IsMaybe(DeBroglie.Quadstate)
+  name: IsMaybe(Quadstate)
+  href: api/DeBroglie.QuadstateExtensions.html#DeBroglie_QuadstateExtensions_IsMaybe_DeBroglie_Quadstate_
+  commentId: M:DeBroglie.QuadstateExtensions.IsMaybe(DeBroglie.Quadstate)
+  fullName: DeBroglie.QuadstateExtensions.IsMaybe(DeBroglie.Quadstate)
+  nameWithType: QuadstateExtensions.IsMaybe(Quadstate)
+- uid: DeBroglie.QuadstateExtensions.IsMaybe*
+  name: IsMaybe
+  href: api/DeBroglie.QuadstateExtensions.html#DeBroglie_QuadstateExtensions_IsMaybe_
+  commentId: Overload:DeBroglie.QuadstateExtensions.IsMaybe
+  isSpec: "True"
+  fullName: DeBroglie.QuadstateExtensions.IsMaybe
+  nameWithType: QuadstateExtensions.IsMaybe
+- uid: DeBroglie.QuadstateExtensions.IsNo(DeBroglie.Quadstate)
+  name: IsNo(Quadstate)
+  href: api/DeBroglie.QuadstateExtensions.html#DeBroglie_QuadstateExtensions_IsNo_DeBroglie_Quadstate_
+  commentId: M:DeBroglie.QuadstateExtensions.IsNo(DeBroglie.Quadstate)
+  fullName: DeBroglie.QuadstateExtensions.IsNo(DeBroglie.Quadstate)
+  nameWithType: QuadstateExtensions.IsNo(Quadstate)
+- uid: DeBroglie.QuadstateExtensions.IsNo*
+  name: IsNo
+  href: api/DeBroglie.QuadstateExtensions.html#DeBroglie_QuadstateExtensions_IsNo_
+  commentId: Overload:DeBroglie.QuadstateExtensions.IsNo
+  isSpec: "True"
+  fullName: DeBroglie.QuadstateExtensions.IsNo
+  nameWithType: QuadstateExtensions.IsNo
+- uid: DeBroglie.QuadstateExtensions.IsYes(DeBroglie.Quadstate)
+  name: IsYes(Quadstate)
+  href: api/DeBroglie.QuadstateExtensions.html#DeBroglie_QuadstateExtensions_IsYes_DeBroglie_Quadstate_
+  commentId: M:DeBroglie.QuadstateExtensions.IsYes(DeBroglie.Quadstate)
+  fullName: DeBroglie.QuadstateExtensions.IsYes(DeBroglie.Quadstate)
+  nameWithType: QuadstateExtensions.IsYes(Quadstate)
+- uid: DeBroglie.QuadstateExtensions.IsYes*
+  name: IsYes
+  href: api/DeBroglie.QuadstateExtensions.html#DeBroglie_QuadstateExtensions_IsYes_
+  commentId: Overload:DeBroglie.QuadstateExtensions.IsYes
+  isSpec: "True"
+  fullName: DeBroglie.QuadstateExtensions.IsYes
+  nameWithType: QuadstateExtensions.IsYes
+- uid: DeBroglie.QuadstateExtensions.Possible(DeBroglie.Quadstate)
+  name: Possible(Quadstate)
+  href: api/DeBroglie.QuadstateExtensions.html#DeBroglie_QuadstateExtensions_Possible_DeBroglie_Quadstate_
+  commentId: M:DeBroglie.QuadstateExtensions.Possible(DeBroglie.Quadstate)
+  fullName: DeBroglie.QuadstateExtensions.Possible(DeBroglie.Quadstate)
+  nameWithType: QuadstateExtensions.Possible(Quadstate)
+- uid: DeBroglie.QuadstateExtensions.Possible*
+  name: Possible
+  href: api/DeBroglie.QuadstateExtensions.html#DeBroglie_QuadstateExtensions_Possible_
+  commentId: Overload:DeBroglie.QuadstateExtensions.Possible
+  isSpec: "True"
+  fullName: DeBroglie.QuadstateExtensions.Possible
+  nameWithType: QuadstateExtensions.Possible
 - uid: DeBroglie.Resolution
   name: Resolution
   href: api/DeBroglie.Resolution.html
@@ -1845,6 +2409,32 @@ references:
   isSpec: "True"
   fullName: DeBroglie.Rot.Rotation.IsIdentity
   nameWithType: Rotation.IsIdentity
+- uid: DeBroglie.Rot.Rotation.op_Equality(DeBroglie.Rot.Rotation,DeBroglie.Rot.Rotation)
+  name: Equality(Rotation, Rotation)
+  href: api/DeBroglie.Rot.Rotation.html#DeBroglie_Rot_Rotation_op_Equality_DeBroglie_Rot_Rotation_DeBroglie_Rot_Rotation_
+  commentId: M:DeBroglie.Rot.Rotation.op_Equality(DeBroglie.Rot.Rotation,DeBroglie.Rot.Rotation)
+  fullName: DeBroglie.Rot.Rotation.Equality(DeBroglie.Rot.Rotation, DeBroglie.Rot.Rotation)
+  nameWithType: Rotation.Equality(Rotation, Rotation)
+- uid: DeBroglie.Rot.Rotation.op_Equality*
+  name: Equality
+  href: api/DeBroglie.Rot.Rotation.html#DeBroglie_Rot_Rotation_op_Equality_
+  commentId: Overload:DeBroglie.Rot.Rotation.op_Equality
+  isSpec: "True"
+  fullName: DeBroglie.Rot.Rotation.Equality
+  nameWithType: Rotation.Equality
+- uid: DeBroglie.Rot.Rotation.op_Inequality(DeBroglie.Rot.Rotation,DeBroglie.Rot.Rotation)
+  name: Inequality(Rotation, Rotation)
+  href: api/DeBroglie.Rot.Rotation.html#DeBroglie_Rot_Rotation_op_Inequality_DeBroglie_Rot_Rotation_DeBroglie_Rot_Rotation_
+  commentId: M:DeBroglie.Rot.Rotation.op_Inequality(DeBroglie.Rot.Rotation,DeBroglie.Rot.Rotation)
+  fullName: DeBroglie.Rot.Rotation.Inequality(DeBroglie.Rot.Rotation, DeBroglie.Rot.Rotation)
+  nameWithType: Rotation.Inequality(Rotation, Rotation)
+- uid: DeBroglie.Rot.Rotation.op_Inequality*
+  name: Inequality
+  href: api/DeBroglie.Rot.Rotation.html#DeBroglie_Rot_Rotation_op_Inequality_
+  commentId: Overload:DeBroglie.Rot.Rotation.op_Inequality
+  isSpec: "True"
+  fullName: DeBroglie.Rot.Rotation.Inequality
+  nameWithType: Rotation.Inequality
 - uid: DeBroglie.Rot.Rotation.op_Multiply(DeBroglie.Rot.Rotation,DeBroglie.Rot.Rotation)
   name: Multiply(Rotation, Rotation)
   href: api/DeBroglie.Rot.Rotation.html#DeBroglie_Rot_Rotation_op_Multiply_DeBroglie_Rot_Rotation_DeBroglie_Rot_Rotation_
@@ -2404,6 +2994,36 @@ references:
   isSpec: "True"
   fullName: DeBroglie.Tile.Value
   nameWithType: Tile.Value
+- uid: DeBroglie.TilePickerType
+  name: TilePickerType
+  href: api/DeBroglie.TilePickerType.html
+  commentId: T:DeBroglie.TilePickerType
+  fullName: DeBroglie.TilePickerType
+  nameWithType: TilePickerType
+- uid: DeBroglie.TilePickerType.ArrayPriority
+  name: ArrayPriority
+  href: api/DeBroglie.TilePickerType.html#DeBroglie_TilePickerType_ArrayPriority
+  commentId: F:DeBroglie.TilePickerType.ArrayPriority
+  fullName: DeBroglie.TilePickerType.ArrayPriority
+  nameWithType: TilePickerType.ArrayPriority
+- uid: DeBroglie.TilePickerType.Default
+  name: Default
+  href: api/DeBroglie.TilePickerType.html#DeBroglie_TilePickerType_Default
+  commentId: F:DeBroglie.TilePickerType.Default
+  fullName: DeBroglie.TilePickerType.Default
+  nameWithType: TilePickerType.Default
+- uid: DeBroglie.TilePickerType.Ordered
+  name: Ordered
+  href: api/DeBroglie.TilePickerType.html#DeBroglie_TilePickerType_Ordered
+  commentId: F:DeBroglie.TilePickerType.Ordered
+  fullName: DeBroglie.TilePickerType.Ordered
+  nameWithType: TilePickerType.Ordered
+- uid: DeBroglie.TilePickerType.Weighted
+  name: Weighted
+  href: api/DeBroglie.TilePickerType.html#DeBroglie_TilePickerType_Weighted
+  commentId: F:DeBroglie.TilePickerType.Weighted
+  fullName: DeBroglie.TilePickerType.Weighted
+  nameWithType: TilePickerType.Weighted
 - uid: DeBroglie.TilePropagator
   name: TilePropagator
   href: api/DeBroglie.TilePropagator.html
@@ -2425,15 +3045,6 @@ references:
   fullName.vb: DeBroglie.TilePropagator.TilePropagator(DeBroglie.Models.TileModel, DeBroglie.Topo.ITopology, System.Boolean, DeBroglie.Constraints.ITileConstraint())
   nameWithType: TilePropagator.TilePropagator(TileModel, ITopology, Boolean, ITileConstraint[])
   nameWithType.vb: TilePropagator.TilePropagator(TileModel, ITopology, Boolean, ITileConstraint())
-- uid: DeBroglie.TilePropagator.#ctor(DeBroglie.Models.TileModel,DeBroglie.Topo.ITopology,System.Boolean,DeBroglie.Constraints.ITileConstraint[],System.Random)
-  name: TilePropagator(TileModel, ITopology, Boolean, ITileConstraint[], Random)
-  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator__ctor_DeBroglie_Models_TileModel_DeBroglie_Topo_ITopology_System_Boolean_DeBroglie_Constraints_ITileConstraint___System_Random_
-  commentId: M:DeBroglie.TilePropagator.#ctor(DeBroglie.Models.TileModel,DeBroglie.Topo.ITopology,System.Boolean,DeBroglie.Constraints.ITileConstraint[],System.Random)
-  name.vb: TilePropagator(TileModel, ITopology, Boolean, ITileConstraint(), Random)
-  fullName: DeBroglie.TilePropagator.TilePropagator(DeBroglie.Models.TileModel, DeBroglie.Topo.ITopology, System.Boolean, DeBroglie.Constraints.ITileConstraint[], System.Random)
-  fullName.vb: DeBroglie.TilePropagator.TilePropagator(DeBroglie.Models.TileModel, DeBroglie.Topo.ITopology, System.Boolean, DeBroglie.Constraints.ITileConstraint(), System.Random)
-  nameWithType: TilePropagator.TilePropagator(TileModel, ITopology, Boolean, ITileConstraint[], Random)
-  nameWithType.vb: TilePropagator.TilePropagator(TileModel, ITopology, Boolean, ITileConstraint(), Random)
 - uid: DeBroglie.TilePropagator.#ctor*
   name: TilePropagator
   href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator__ctor_
@@ -2441,6 +3052,19 @@ references:
   isSpec: "True"
   fullName: DeBroglie.TilePropagator.TilePropagator
   nameWithType: TilePropagator.TilePropagator
+- uid: DeBroglie.TilePropagator.BackjumpCount
+  name: BackjumpCount
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_BackjumpCount
+  commentId: P:DeBroglie.TilePropagator.BackjumpCount
+  fullName: DeBroglie.TilePropagator.BackjumpCount
+  nameWithType: TilePropagator.BackjumpCount
+- uid: DeBroglie.TilePropagator.BackjumpCount*
+  name: BackjumpCount
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_BackjumpCount_
+  commentId: Overload:DeBroglie.TilePropagator.BackjumpCount
+  isSpec: "True"
+  fullName: DeBroglie.TilePropagator.BackjumpCount
+  nameWithType: TilePropagator.BackjumpCount
 - uid: DeBroglie.TilePropagator.BacktrackCount
   name: BacktrackCount
   href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_BacktrackCount
@@ -2495,6 +3119,71 @@ references:
   isSpec: "True"
   fullName: DeBroglie.TilePropagator.Clear
   nameWithType: TilePropagator.Clear
+- uid: DeBroglie.TilePropagator.ContradictionReason
+  name: ContradictionReason
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_ContradictionReason
+  commentId: P:DeBroglie.TilePropagator.ContradictionReason
+  fullName: DeBroglie.TilePropagator.ContradictionReason
+  nameWithType: TilePropagator.ContradictionReason
+- uid: DeBroglie.TilePropagator.ContradictionReason*
+  name: ContradictionReason
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_ContradictionReason_
+  commentId: Overload:DeBroglie.TilePropagator.ContradictionReason
+  isSpec: "True"
+  fullName: DeBroglie.TilePropagator.ContradictionReason
+  nameWithType: TilePropagator.ContradictionReason
+- uid: DeBroglie.TilePropagator.ContradictionSource
+  name: ContradictionSource
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_ContradictionSource
+  commentId: P:DeBroglie.TilePropagator.ContradictionSource
+  fullName: DeBroglie.TilePropagator.ContradictionSource
+  nameWithType: TilePropagator.ContradictionSource
+- uid: DeBroglie.TilePropagator.ContradictionSource*
+  name: ContradictionSource
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_ContradictionSource_
+  commentId: Overload:DeBroglie.TilePropagator.ContradictionSource
+  isSpec: "True"
+  fullName: DeBroglie.TilePropagator.ContradictionSource
+  nameWithType: TilePropagator.ContradictionSource
+- uid: DeBroglie.TilePropagator.CreateChangeTracker
+  name: CreateChangeTracker()
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_CreateChangeTracker
+  commentId: M:DeBroglie.TilePropagator.CreateChangeTracker
+  fullName: DeBroglie.TilePropagator.CreateChangeTracker()
+  nameWithType: TilePropagator.CreateChangeTracker()
+- uid: DeBroglie.TilePropagator.CreateChangeTracker*
+  name: CreateChangeTracker
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_CreateChangeTracker_
+  commentId: Overload:DeBroglie.TilePropagator.CreateChangeTracker
+  isSpec: "True"
+  fullName: DeBroglie.TilePropagator.CreateChangeTracker
+  nameWithType: TilePropagator.CreateChangeTracker
+- uid: DeBroglie.TilePropagator.CreateSelectedChangeTracker(DeBroglie.TilePropagatorTileSet,DeBroglie.Trackers.IQuadstateChanged)
+  name: CreateSelectedChangeTracker(TilePropagatorTileSet, IQuadstateChanged)
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_CreateSelectedChangeTracker_DeBroglie_TilePropagatorTileSet_DeBroglie_Trackers_IQuadstateChanged_
+  commentId: M:DeBroglie.TilePropagator.CreateSelectedChangeTracker(DeBroglie.TilePropagatorTileSet,DeBroglie.Trackers.IQuadstateChanged)
+  fullName: DeBroglie.TilePropagator.CreateSelectedChangeTracker(DeBroglie.TilePropagatorTileSet, DeBroglie.Trackers.IQuadstateChanged)
+  nameWithType: TilePropagator.CreateSelectedChangeTracker(TilePropagatorTileSet, IQuadstateChanged)
+- uid: DeBroglie.TilePropagator.CreateSelectedChangeTracker*
+  name: CreateSelectedChangeTracker
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_CreateSelectedChangeTracker_
+  commentId: Overload:DeBroglie.TilePropagator.CreateSelectedChangeTracker
+  isSpec: "True"
+  fullName: DeBroglie.TilePropagator.CreateSelectedChangeTracker
+  nameWithType: TilePropagator.CreateSelectedChangeTracker
+- uid: DeBroglie.TilePropagator.CreateSelectedTracker(DeBroglie.TilePropagatorTileSet)
+  name: CreateSelectedTracker(TilePropagatorTileSet)
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_CreateSelectedTracker_DeBroglie_TilePropagatorTileSet_
+  commentId: M:DeBroglie.TilePropagator.CreateSelectedTracker(DeBroglie.TilePropagatorTileSet)
+  fullName: DeBroglie.TilePropagator.CreateSelectedTracker(DeBroglie.TilePropagatorTileSet)
+  nameWithType: TilePropagator.CreateSelectedTracker(TilePropagatorTileSet)
+- uid: DeBroglie.TilePropagator.CreateSelectedTracker*
+  name: CreateSelectedTracker
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_CreateSelectedTracker_
+  commentId: Overload:DeBroglie.TilePropagator.CreateSelectedTracker
+  isSpec: "True"
+  fullName: DeBroglie.TilePropagator.CreateSelectedTracker
+  nameWithType: TilePropagator.CreateSelectedTracker
 - uid: DeBroglie.TilePropagator.CreateTileSet(System.Collections.Generic.IEnumerable{DeBroglie.Tile})
   name: CreateTileSet(IEnumerable<Tile>)
   href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_CreateTileSet_System_Collections_Generic_IEnumerable_DeBroglie_Tile__
@@ -2545,6 +3234,35 @@ references:
   isSpec: "True"
   fullName: DeBroglie.TilePropagator.GetBannedSelected
   nameWithType: TilePropagator.GetBannedSelected
+- uid: DeBroglie.TilePropagator.GetPossibleTiles(System.Int32)
+  name: GetPossibleTiles(Int32)
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_GetPossibleTiles_System_Int32_
+  commentId: M:DeBroglie.TilePropagator.GetPossibleTiles(System.Int32)
+  fullName: DeBroglie.TilePropagator.GetPossibleTiles(System.Int32)
+  nameWithType: TilePropagator.GetPossibleTiles(Int32)
+- uid: DeBroglie.TilePropagator.GetPossibleTiles*
+  name: GetPossibleTiles
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_GetPossibleTiles_
+  commentId: Overload:DeBroglie.TilePropagator.GetPossibleTiles
+  isSpec: "True"
+  fullName: DeBroglie.TilePropagator.GetPossibleTiles
+  nameWithType: TilePropagator.GetPossibleTiles
+- uid: DeBroglie.TilePropagator.GetPossibleValues*
+  name: GetPossibleValues
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_GetPossibleValues_
+  commentId: Overload:DeBroglie.TilePropagator.GetPossibleValues
+  isSpec: "True"
+  fullName: DeBroglie.TilePropagator.GetPossibleValues
+  nameWithType: TilePropagator.GetPossibleValues
+- uid: DeBroglie.TilePropagator.GetPossibleValues``1(System.Int32)
+  name: GetPossibleValues<T>(Int32)
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_GetPossibleValues__1_System_Int32_
+  commentId: M:DeBroglie.TilePropagator.GetPossibleValues``1(System.Int32)
+  name.vb: GetPossibleValues(Of T)(Int32)
+  fullName: DeBroglie.TilePropagator.GetPossibleValues<T>(System.Int32)
+  fullName.vb: DeBroglie.TilePropagator.GetPossibleValues(Of T)(System.Int32)
+  nameWithType: TilePropagator.GetPossibleValues<T>(Int32)
+  nameWithType.vb: TilePropagator.GetPossibleValues(Of T)(Int32)
 - uid: DeBroglie.TilePropagator.GetProgress
   name: GetProgress()
   href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_GetProgress
@@ -2558,6 +3276,48 @@ references:
   isSpec: "True"
   fullName: DeBroglie.TilePropagator.GetProgress
   nameWithType: TilePropagator.GetProgress
+- uid: DeBroglie.TilePropagator.GetTile(System.Int32,DeBroglie.Tile,DeBroglie.Tile)
+  name: GetTile(Int32, Tile, Tile)
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_GetTile_System_Int32_DeBroglie_Tile_DeBroglie_Tile_
+  commentId: M:DeBroglie.TilePropagator.GetTile(System.Int32,DeBroglie.Tile,DeBroglie.Tile)
+  fullName: DeBroglie.TilePropagator.GetTile(System.Int32, DeBroglie.Tile, DeBroglie.Tile)
+  nameWithType: TilePropagator.GetTile(Int32, Tile, Tile)
+- uid: DeBroglie.TilePropagator.GetTile*
+  name: GetTile
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_GetTile_
+  commentId: Overload:DeBroglie.TilePropagator.GetTile
+  isSpec: "True"
+  fullName: DeBroglie.TilePropagator.GetTile
+  nameWithType: TilePropagator.GetTile
+- uid: DeBroglie.TilePropagator.GetValue*
+  name: GetValue
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_GetValue_
+  commentId: Overload:DeBroglie.TilePropagator.GetValue
+  isSpec: "True"
+  fullName: DeBroglie.TilePropagator.GetValue
+  nameWithType: TilePropagator.GetValue
+- uid: DeBroglie.TilePropagator.GetValue``1(System.Int32,``0,``0)
+  name: GetValue<T>(Int32, T, T)
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_GetValue__1_System_Int32___0___0_
+  commentId: M:DeBroglie.TilePropagator.GetValue``1(System.Int32,``0,``0)
+  name.vb: GetValue(Of T)(Int32, T, T)
+  fullName: DeBroglie.TilePropagator.GetValue<T>(System.Int32, T, T)
+  fullName.vb: DeBroglie.TilePropagator.GetValue(Of T)(System.Int32, T, T)
+  nameWithType: TilePropagator.GetValue<T>(Int32, T, T)
+  nameWithType.vb: TilePropagator.GetValue(Of T)(Int32, T, T)
+- uid: DeBroglie.TilePropagator.GetWeightedTiles(System.Int32)
+  name: GetWeightedTiles(Int32)
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_GetWeightedTiles_System_Int32_
+  commentId: M:DeBroglie.TilePropagator.GetWeightedTiles(System.Int32)
+  fullName: DeBroglie.TilePropagator.GetWeightedTiles(System.Int32)
+  nameWithType: TilePropagator.GetWeightedTiles(Int32)
+- uid: DeBroglie.TilePropagator.GetWeightedTiles*
+  name: GetWeightedTiles
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_GetWeightedTiles_
+  commentId: Overload:DeBroglie.TilePropagator.GetWeightedTiles
+  isSpec: "True"
+  fullName: DeBroglie.TilePropagator.GetWeightedTiles
+  nameWithType: TilePropagator.GetWeightedTiles
 - uid: DeBroglie.TilePropagator.IsBanned(System.Int32,System.Int32,System.Int32,DeBroglie.Tile)
   name: IsBanned(Int32, Int32, Int32, Tile)
   href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_IsBanned_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_
@@ -2644,6 +3404,12 @@ references:
   commentId: M:DeBroglie.TilePropagator.SetContradiction
   fullName: DeBroglie.TilePropagator.SetContradiction()
   nameWithType: TilePropagator.SetContradiction()
+- uid: DeBroglie.TilePropagator.SetContradiction(System.String,System.Object)
+  name: SetContradiction(String, Object)
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_SetContradiction_System_String_System_Object_
+  commentId: M:DeBroglie.TilePropagator.SetContradiction(System.String,System.Object)
+  fullName: DeBroglie.TilePropagator.SetContradiction(System.String, System.Object)
+  nameWithType: TilePropagator.SetContradiction(String, Object)
 - uid: DeBroglie.TilePropagator.SetContradiction*
   name: SetContradiction
   href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_SetContradiction_
@@ -2677,6 +3443,19 @@ references:
   isSpec: "True"
   fullName: DeBroglie.TilePropagator.Step
   nameWithType: TilePropagator.Step
+- uid: DeBroglie.TilePropagator.StepConstraints
+  name: StepConstraints()
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_StepConstraints
+  commentId: M:DeBroglie.TilePropagator.StepConstraints
+  fullName: DeBroglie.TilePropagator.StepConstraints()
+  nameWithType: TilePropagator.StepConstraints()
+- uid: DeBroglie.TilePropagator.StepConstraints*
+  name: StepConstraints
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_StepConstraints_
+  commentId: Overload:DeBroglie.TilePropagator.StepConstraints
+  isSpec: "True"
+  fullName: DeBroglie.TilePropagator.StepConstraints
+  nameWithType: TilePropagator.StepConstraints
 - uid: DeBroglie.TilePropagator.TileModel
   name: TileModel
   href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_TileModel
@@ -2761,25 +3540,51 @@ references:
   fullName.vb: DeBroglie.TilePropagator.ToValueSets(Of T)()
   nameWithType: TilePropagator.ToValueSets<T>()
   nameWithType.vb: TilePropagator.ToValueSets(Of T)()
+- uid: DeBroglie.TilePropagator.ToWeightedArraySets
+  name: ToWeightedArraySets()
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_ToWeightedArraySets
+  commentId: M:DeBroglie.TilePropagator.ToWeightedArraySets
+  fullName: DeBroglie.TilePropagator.ToWeightedArraySets()
+  nameWithType: TilePropagator.ToWeightedArraySets()
+- uid: DeBroglie.TilePropagator.ToWeightedArraySets*
+  name: ToWeightedArraySets
+  href: api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_ToWeightedArraySets_
+  commentId: Overload:DeBroglie.TilePropagator.ToWeightedArraySets
+  isSpec: "True"
+  fullName: DeBroglie.TilePropagator.ToWeightedArraySets
+  nameWithType: TilePropagator.ToWeightedArraySets
 - uid: DeBroglie.TilePropagatorOptions
   name: TilePropagatorOptions
   href: api/DeBroglie.TilePropagatorOptions.html
   commentId: T:DeBroglie.TilePropagatorOptions
   fullName: DeBroglie.TilePropagatorOptions
   nameWithType: TilePropagatorOptions
-- uid: DeBroglie.TilePropagatorOptions.BackTrackDepth
-  name: BackTrackDepth
-  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_BackTrackDepth
-  commentId: P:DeBroglie.TilePropagatorOptions.BackTrackDepth
-  fullName: DeBroglie.TilePropagatorOptions.BackTrackDepth
-  nameWithType: TilePropagatorOptions.BackTrackDepth
-- uid: DeBroglie.TilePropagatorOptions.BackTrackDepth*
-  name: BackTrackDepth
-  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_BackTrackDepth_
-  commentId: Overload:DeBroglie.TilePropagatorOptions.BackTrackDepth
+- uid: DeBroglie.TilePropagatorOptions.BacktrackType
+  name: BacktrackType
+  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_BacktrackType
+  commentId: P:DeBroglie.TilePropagatorOptions.BacktrackType
+  fullName: DeBroglie.TilePropagatorOptions.BacktrackType
+  nameWithType: TilePropagatorOptions.BacktrackType
+- uid: DeBroglie.TilePropagatorOptions.BacktrackType*
+  name: BacktrackType
+  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_BacktrackType_
+  commentId: Overload:DeBroglie.TilePropagatorOptions.BacktrackType
   isSpec: "True"
-  fullName: DeBroglie.TilePropagatorOptions.BackTrackDepth
-  nameWithType: TilePropagatorOptions.BackTrackDepth
+  fullName: DeBroglie.TilePropagatorOptions.BacktrackType
+  nameWithType: TilePropagatorOptions.BacktrackType
+- uid: DeBroglie.TilePropagatorOptions.CleanTiles
+  name: CleanTiles
+  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_CleanTiles
+  commentId: P:DeBroglie.TilePropagatorOptions.CleanTiles
+  fullName: DeBroglie.TilePropagatorOptions.CleanTiles
+  nameWithType: TilePropagatorOptions.CleanTiles
+- uid: DeBroglie.TilePropagatorOptions.CleanTiles*
+  name: CleanTiles
+  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_CleanTiles_
+  commentId: Overload:DeBroglie.TilePropagatorOptions.CleanTiles
+  isSpec: "True"
+  fullName: DeBroglie.TilePropagatorOptions.CleanTiles
+  nameWithType: TilePropagatorOptions.CleanTiles
 - uid: DeBroglie.TilePropagatorOptions.Constraints
   name: Constraints
   href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_Constraints
@@ -2793,32 +3598,71 @@ references:
   isSpec: "True"
   fullName: DeBroglie.TilePropagatorOptions.Constraints
   nameWithType: TilePropagatorOptions.Constraints
-- uid: DeBroglie.TilePropagatorOptions.PickHeuristicType
-  name: PickHeuristicType
-  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_PickHeuristicType
-  commentId: P:DeBroglie.TilePropagatorOptions.PickHeuristicType
-  fullName: DeBroglie.TilePropagatorOptions.PickHeuristicType
-  nameWithType: TilePropagatorOptions.PickHeuristicType
-- uid: DeBroglie.TilePropagatorOptions.PickHeuristicType*
-  name: PickHeuristicType
-  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_PickHeuristicType_
-  commentId: Overload:DeBroglie.TilePropagatorOptions.PickHeuristicType
+- uid: DeBroglie.TilePropagatorOptions.IndexOrder
+  name: IndexOrder
+  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_IndexOrder
+  commentId: P:DeBroglie.TilePropagatorOptions.IndexOrder
+  fullName: DeBroglie.TilePropagatorOptions.IndexOrder
+  nameWithType: TilePropagatorOptions.IndexOrder
+- uid: DeBroglie.TilePropagatorOptions.IndexOrder*
+  name: IndexOrder
+  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_IndexOrder_
+  commentId: Overload:DeBroglie.TilePropagatorOptions.IndexOrder
   isSpec: "True"
-  fullName: DeBroglie.TilePropagatorOptions.PickHeuristicType
-  nameWithType: TilePropagatorOptions.PickHeuristicType
-- uid: DeBroglie.TilePropagatorOptions.Random
-  name: Random
-  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_Random
-  commentId: P:DeBroglie.TilePropagatorOptions.Random
-  fullName: DeBroglie.TilePropagatorOptions.Random
-  nameWithType: TilePropagatorOptions.Random
-- uid: DeBroglie.TilePropagatorOptions.Random*
-  name: Random
-  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_Random_
-  commentId: Overload:DeBroglie.TilePropagatorOptions.Random
+  fullName: DeBroglie.TilePropagatorOptions.IndexOrder
+  nameWithType: TilePropagatorOptions.IndexOrder
+- uid: DeBroglie.TilePropagatorOptions.IndexPickerType
+  name: IndexPickerType
+  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_IndexPickerType
+  commentId: P:DeBroglie.TilePropagatorOptions.IndexPickerType
+  fullName: DeBroglie.TilePropagatorOptions.IndexPickerType
+  nameWithType: TilePropagatorOptions.IndexPickerType
+- uid: DeBroglie.TilePropagatorOptions.IndexPickerType*
+  name: IndexPickerType
+  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_IndexPickerType_
+  commentId: Overload:DeBroglie.TilePropagatorOptions.IndexPickerType
   isSpec: "True"
-  fullName: DeBroglie.TilePropagatorOptions.Random
-  nameWithType: TilePropagatorOptions.Random
+  fullName: DeBroglie.TilePropagatorOptions.IndexPickerType
+  nameWithType: TilePropagatorOptions.IndexPickerType
+- uid: DeBroglie.TilePropagatorOptions.MaxBacktrackDepth
+  name: MaxBacktrackDepth
+  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_MaxBacktrackDepth
+  commentId: P:DeBroglie.TilePropagatorOptions.MaxBacktrackDepth
+  fullName: DeBroglie.TilePropagatorOptions.MaxBacktrackDepth
+  nameWithType: TilePropagatorOptions.MaxBacktrackDepth
+- uid: DeBroglie.TilePropagatorOptions.MaxBacktrackDepth*
+  name: MaxBacktrackDepth
+  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_MaxBacktrackDepth_
+  commentId: Overload:DeBroglie.TilePropagatorOptions.MaxBacktrackDepth
+  isSpec: "True"
+  fullName: DeBroglie.TilePropagatorOptions.MaxBacktrackDepth
+  nameWithType: TilePropagatorOptions.MaxBacktrackDepth
+- uid: DeBroglie.TilePropagatorOptions.MemoizeIndices
+  name: MemoizeIndices
+  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_MemoizeIndices
+  commentId: P:DeBroglie.TilePropagatorOptions.MemoizeIndices
+  fullName: DeBroglie.TilePropagatorOptions.MemoizeIndices
+  nameWithType: TilePropagatorOptions.MemoizeIndices
+- uid: DeBroglie.TilePropagatorOptions.MemoizeIndices*
+  name: MemoizeIndices
+  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_MemoizeIndices_
+  commentId: Overload:DeBroglie.TilePropagatorOptions.MemoizeIndices
+  isSpec: "True"
+  fullName: DeBroglie.TilePropagatorOptions.MemoizeIndices
+  nameWithType: TilePropagatorOptions.MemoizeIndices
+- uid: DeBroglie.TilePropagatorOptions.ModelConstraintAlgorithm
+  name: ModelConstraintAlgorithm
+  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_ModelConstraintAlgorithm
+  commentId: P:DeBroglie.TilePropagatorOptions.ModelConstraintAlgorithm
+  fullName: DeBroglie.TilePropagatorOptions.ModelConstraintAlgorithm
+  nameWithType: TilePropagatorOptions.ModelConstraintAlgorithm
+- uid: DeBroglie.TilePropagatorOptions.ModelConstraintAlgorithm*
+  name: ModelConstraintAlgorithm
+  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_ModelConstraintAlgorithm_
+  commentId: Overload:DeBroglie.TilePropagatorOptions.ModelConstraintAlgorithm
+  isSpec: "True"
+  fullName: DeBroglie.TilePropagatorOptions.ModelConstraintAlgorithm
+  nameWithType: TilePropagatorOptions.ModelConstraintAlgorithm
 - uid: DeBroglie.TilePropagatorOptions.RandomDouble
   name: RandomDouble
   href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_RandomDouble
@@ -2832,19 +3676,45 @@ references:
   isSpec: "True"
   fullName: DeBroglie.TilePropagatorOptions.RandomDouble
   nameWithType: TilePropagatorOptions.RandomDouble
-- uid: DeBroglie.TilePropagatorOptions.Weights
-  name: Weights
-  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_Weights
-  commentId: P:DeBroglie.TilePropagatorOptions.Weights
-  fullName: DeBroglie.TilePropagatorOptions.Weights
-  nameWithType: TilePropagatorOptions.Weights
-- uid: DeBroglie.TilePropagatorOptions.Weights*
-  name: Weights
-  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_Weights_
-  commentId: Overload:DeBroglie.TilePropagatorOptions.Weights
+- uid: DeBroglie.TilePropagatorOptions.TilePickerType
+  name: TilePickerType
+  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_TilePickerType
+  commentId: P:DeBroglie.TilePropagatorOptions.TilePickerType
+  fullName: DeBroglie.TilePropagatorOptions.TilePickerType
+  nameWithType: TilePropagatorOptions.TilePickerType
+- uid: DeBroglie.TilePropagatorOptions.TilePickerType*
+  name: TilePickerType
+  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_TilePickerType_
+  commentId: Overload:DeBroglie.TilePropagatorOptions.TilePickerType
   isSpec: "True"
-  fullName: DeBroglie.TilePropagatorOptions.Weights
-  nameWithType: TilePropagatorOptions.Weights
+  fullName: DeBroglie.TilePropagatorOptions.TilePickerType
+  nameWithType: TilePropagatorOptions.TilePickerType
+- uid: DeBroglie.TilePropagatorOptions.WeightSetByIndex
+  name: WeightSetByIndex
+  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_WeightSetByIndex
+  commentId: P:DeBroglie.TilePropagatorOptions.WeightSetByIndex
+  fullName: DeBroglie.TilePropagatorOptions.WeightSetByIndex
+  nameWithType: TilePropagatorOptions.WeightSetByIndex
+- uid: DeBroglie.TilePropagatorOptions.WeightSetByIndex*
+  name: WeightSetByIndex
+  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_WeightSetByIndex_
+  commentId: Overload:DeBroglie.TilePropagatorOptions.WeightSetByIndex
+  isSpec: "True"
+  fullName: DeBroglie.TilePropagatorOptions.WeightSetByIndex
+  nameWithType: TilePropagatorOptions.WeightSetByIndex
+- uid: DeBroglie.TilePropagatorOptions.WeightSets
+  name: WeightSets
+  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_WeightSets
+  commentId: P:DeBroglie.TilePropagatorOptions.WeightSets
+  fullName: DeBroglie.TilePropagatorOptions.WeightSets
+  nameWithType: TilePropagatorOptions.WeightSets
+- uid: DeBroglie.TilePropagatorOptions.WeightSets*
+  name: WeightSets
+  href: api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_WeightSets_
+  commentId: Overload:DeBroglie.TilePropagatorOptions.WeightSets
+  isSpec: "True"
+  fullName: DeBroglie.TilePropagatorOptions.WeightSets
+  nameWithType: TilePropagatorOptions.WeightSets
 - uid: DeBroglie.TilePropagatorTileSet
   name: TilePropagatorTileSet
   href: api/DeBroglie.TilePropagatorTileSet.html
@@ -4119,15 +4989,15 @@ references:
   fullName.vb: DeBroglie.Topo.TopoArray.Create(Of T)(T(), DeBroglie.Topo.ITopology)
   nameWithType: TopoArray.Create<T>(T[], ITopology)
   nameWithType.vb: TopoArray.Create(Of T)(T(), ITopology)
-- uid: DeBroglie.Topo.TopoArray.Create``1(``0[][],DeBroglie.Topo.GridTopology)
-  name: Create<T>(T[][], GridTopology)
-  href: api/DeBroglie.Topo.TopoArray.html#DeBroglie_Topo_TopoArray_Create__1___0_____DeBroglie_Topo_GridTopology_
-  commentId: M:DeBroglie.Topo.TopoArray.Create``1(``0[][],DeBroglie.Topo.GridTopology)
-  name.vb: Create(Of T)(T()(), GridTopology)
-  fullName: DeBroglie.Topo.TopoArray.Create<T>(T[][], DeBroglie.Topo.GridTopology)
-  fullName.vb: DeBroglie.Topo.TopoArray.Create(Of T)(T()(), DeBroglie.Topo.GridTopology)
-  nameWithType: TopoArray.Create<T>(T[][], GridTopology)
-  nameWithType.vb: TopoArray.Create(Of T)(T()(), GridTopology)
+- uid: DeBroglie.Topo.TopoArray.Create``1(``0[][],DeBroglie.Topo.ITopology)
+  name: Create<T>(T[][], ITopology)
+  href: api/DeBroglie.Topo.TopoArray.html#DeBroglie_Topo_TopoArray_Create__1___0_____DeBroglie_Topo_ITopology_
+  commentId: M:DeBroglie.Topo.TopoArray.Create``1(``0[][],DeBroglie.Topo.ITopology)
+  name.vb: Create(Of T)(T()(), ITopology)
+  fullName: DeBroglie.Topo.TopoArray.Create<T>(T[][], DeBroglie.Topo.ITopology)
+  fullName.vb: DeBroglie.Topo.TopoArray.Create(Of T)(T()(), DeBroglie.Topo.ITopology)
+  nameWithType: TopoArray.Create<T>(T[][], ITopology)
+  nameWithType.vb: TopoArray.Create(Of T)(T()(), ITopology)
 - uid: DeBroglie.Topo.TopoArray.Create``1(``0[][],System.Boolean)
   name: Create<T>(T[][], Boolean)
   href: api/DeBroglie.Topo.TopoArray.html#DeBroglie_Topo_TopoArray_Create__1___0_____System_Boolean_
@@ -4137,15 +5007,15 @@ references:
   fullName.vb: DeBroglie.Topo.TopoArray.Create(Of T)(T()(), System.Boolean)
   nameWithType: TopoArray.Create<T>(T[][], Boolean)
   nameWithType.vb: TopoArray.Create(Of T)(T()(), Boolean)
-- uid: DeBroglie.Topo.TopoArray.Create``1(``0[0:,0:,0:],DeBroglie.Topo.GridTopology)
-  name: Create<T>(T[,,], GridTopology)
-  href: api/DeBroglie.Topo.TopoArray.html#DeBroglie_Topo_TopoArray_Create__1___0_0__0__0___DeBroglie_Topo_GridTopology_
-  commentId: M:DeBroglie.Topo.TopoArray.Create``1(``0[0:,0:,0:],DeBroglie.Topo.GridTopology)
-  name.vb: Create(Of T)(T(,,), GridTopology)
-  fullName: DeBroglie.Topo.TopoArray.Create<T>(T[,,], DeBroglie.Topo.GridTopology)
-  fullName.vb: DeBroglie.Topo.TopoArray.Create(Of T)(T(,,), DeBroglie.Topo.GridTopology)
-  nameWithType: TopoArray.Create<T>(T[,,], GridTopology)
-  nameWithType.vb: TopoArray.Create(Of T)(T(,,), GridTopology)
+- uid: DeBroglie.Topo.TopoArray.Create``1(``0[0:,0:,0:],DeBroglie.Topo.ITopology)
+  name: Create<T>(T[,,], ITopology)
+  href: api/DeBroglie.Topo.TopoArray.html#DeBroglie_Topo_TopoArray_Create__1___0_0__0__0___DeBroglie_Topo_ITopology_
+  commentId: M:DeBroglie.Topo.TopoArray.Create``1(``0[0:,0:,0:],DeBroglie.Topo.ITopology)
+  name.vb: Create(Of T)(T(,,), ITopology)
+  fullName: DeBroglie.Topo.TopoArray.Create<T>(T[,,], DeBroglie.Topo.ITopology)
+  fullName.vb: DeBroglie.Topo.TopoArray.Create(Of T)(T(,,), DeBroglie.Topo.ITopology)
+  nameWithType: TopoArray.Create<T>(T[,,], ITopology)
+  nameWithType.vb: TopoArray.Create(Of T)(T(,,), ITopology)
 - uid: DeBroglie.Topo.TopoArray.Create``1(``0[0:,0:,0:],System.Boolean)
   name: Create<T>(T[,,], Boolean)
   href: api/DeBroglie.Topo.TopoArray.html#DeBroglie_Topo_TopoArray_Create__1___0_0__0__0___System_Boolean_
@@ -4155,15 +5025,15 @@ references:
   fullName.vb: DeBroglie.Topo.TopoArray.Create(Of T)(T(,,), System.Boolean)
   nameWithType: TopoArray.Create<T>(T[,,], Boolean)
   nameWithType.vb: TopoArray.Create(Of T)(T(,,), Boolean)
-- uid: DeBroglie.Topo.TopoArray.Create``1(``0[0:,0:],DeBroglie.Topo.GridTopology)
-  name: Create<T>(T[,], GridTopology)
-  href: api/DeBroglie.Topo.TopoArray.html#DeBroglie_Topo_TopoArray_Create__1___0_0__0___DeBroglie_Topo_GridTopology_
-  commentId: M:DeBroglie.Topo.TopoArray.Create``1(``0[0:,0:],DeBroglie.Topo.GridTopology)
-  name.vb: Create(Of T)(T(,), GridTopology)
-  fullName: DeBroglie.Topo.TopoArray.Create<T>(T[,], DeBroglie.Topo.GridTopology)
-  fullName.vb: DeBroglie.Topo.TopoArray.Create(Of T)(T(,), DeBroglie.Topo.GridTopology)
-  nameWithType: TopoArray.Create<T>(T[,], GridTopology)
-  nameWithType.vb: TopoArray.Create(Of T)(T(,), GridTopology)
+- uid: DeBroglie.Topo.TopoArray.Create``1(``0[0:,0:],DeBroglie.Topo.ITopology)
+  name: Create<T>(T[,], ITopology)
+  href: api/DeBroglie.Topo.TopoArray.html#DeBroglie_Topo_TopoArray_Create__1___0_0__0___DeBroglie_Topo_ITopology_
+  commentId: M:DeBroglie.Topo.TopoArray.Create``1(``0[0:,0:],DeBroglie.Topo.ITopology)
+  name.vb: Create(Of T)(T(,), ITopology)
+  fullName: DeBroglie.Topo.TopoArray.Create<T>(T[,], DeBroglie.Topo.ITopology)
+  fullName.vb: DeBroglie.Topo.TopoArray.Create(Of T)(T(,), DeBroglie.Topo.ITopology)
+  nameWithType: TopoArray.Create<T>(T[,], ITopology)
+  nameWithType.vb: TopoArray.Create(Of T)(T(,), ITopology)
 - uid: DeBroglie.Topo.TopoArray.Create``1(``0[0:,0:],System.Boolean)
   name: Create<T>(T[,], Boolean)
   href: api/DeBroglie.Topo.TopoArray.html#DeBroglie_Topo_TopoArray_Create__1___0_0__0___System_Boolean_
@@ -4196,15 +5066,15 @@ references:
   isSpec: "True"
   fullName: DeBroglie.Topo.TopoArray.CreateByPoint
   nameWithType: TopoArray.CreateByPoint
-- uid: DeBroglie.Topo.TopoArray.CreateByPoint``1(System.Func{DeBroglie.Point,``0},DeBroglie.Topo.GridTopology)
-  name: CreateByPoint<T>(Func<Point, T>, GridTopology)
-  href: api/DeBroglie.Topo.TopoArray.html#DeBroglie_Topo_TopoArray_CreateByPoint__1_System_Func_DeBroglie_Point___0__DeBroglie_Topo_GridTopology_
-  commentId: M:DeBroglie.Topo.TopoArray.CreateByPoint``1(System.Func{DeBroglie.Point,``0},DeBroglie.Topo.GridTopology)
-  name.vb: CreateByPoint(Of T)(Func(Of Point, T), GridTopology)
-  fullName: DeBroglie.Topo.TopoArray.CreateByPoint<T>(System.Func<DeBroglie.Point, T>, DeBroglie.Topo.GridTopology)
-  fullName.vb: DeBroglie.Topo.TopoArray.CreateByPoint(Of T)(System.Func(Of DeBroglie.Point, T), DeBroglie.Topo.GridTopology)
-  nameWithType: TopoArray.CreateByPoint<T>(Func<Point, T>, GridTopology)
-  nameWithType.vb: TopoArray.CreateByPoint(Of T)(Func(Of Point, T), GridTopology)
+- uid: DeBroglie.Topo.TopoArray.CreateByPoint``1(System.Func{DeBroglie.Point,``0},DeBroglie.Topo.ITopology)
+  name: CreateByPoint<T>(Func<Point, T>, ITopology)
+  href: api/DeBroglie.Topo.TopoArray.html#DeBroglie_Topo_TopoArray_CreateByPoint__1_System_Func_DeBroglie_Point___0__DeBroglie_Topo_ITopology_
+  commentId: M:DeBroglie.Topo.TopoArray.CreateByPoint``1(System.Func{DeBroglie.Point,``0},DeBroglie.Topo.ITopology)
+  name.vb: CreateByPoint(Of T)(Func(Of Point, T), ITopology)
+  fullName: DeBroglie.Topo.TopoArray.CreateByPoint<T>(System.Func<DeBroglie.Point, T>, DeBroglie.Topo.ITopology)
+  fullName.vb: DeBroglie.Topo.TopoArray.CreateByPoint(Of T)(System.Func(Of DeBroglie.Point, T), DeBroglie.Topo.ITopology)
+  nameWithType: TopoArray.CreateByPoint<T>(Func<Point, T>, ITopology)
+  nameWithType.vb: TopoArray.CreateByPoint(Of T)(Func(Of Point, T), ITopology)
 - uid: DeBroglie.Topo.TopoArray.FromConstant*
   name: FromConstant
   href: api/DeBroglie.Topo.TopoArray.html#DeBroglie_Topo_TopoArray_FromConstant_
@@ -4212,15 +5082,15 @@ references:
   isSpec: "True"
   fullName: DeBroglie.Topo.TopoArray.FromConstant
   nameWithType: TopoArray.FromConstant
-- uid: DeBroglie.Topo.TopoArray.FromConstant``1(``0,DeBroglie.Topo.GridTopology)
-  name: FromConstant<T>(T, GridTopology)
-  href: api/DeBroglie.Topo.TopoArray.html#DeBroglie_Topo_TopoArray_FromConstant__1___0_DeBroglie_Topo_GridTopology_
-  commentId: M:DeBroglie.Topo.TopoArray.FromConstant``1(``0,DeBroglie.Topo.GridTopology)
-  name.vb: FromConstant(Of T)(T, GridTopology)
-  fullName: DeBroglie.Topo.TopoArray.FromConstant<T>(T, DeBroglie.Topo.GridTopology)
-  fullName.vb: DeBroglie.Topo.TopoArray.FromConstant(Of T)(T, DeBroglie.Topo.GridTopology)
-  nameWithType: TopoArray.FromConstant<T>(T, GridTopology)
-  nameWithType.vb: TopoArray.FromConstant(Of T)(T, GridTopology)
+- uid: DeBroglie.Topo.TopoArray.FromConstant``1(``0,DeBroglie.Topo.ITopology)
+  name: FromConstant<T>(T, ITopology)
+  href: api/DeBroglie.Topo.TopoArray.html#DeBroglie_Topo_TopoArray_FromConstant__1___0_DeBroglie_Topo_ITopology_
+  commentId: M:DeBroglie.Topo.TopoArray.FromConstant``1(``0,DeBroglie.Topo.ITopology)
+  name.vb: FromConstant(Of T)(T, ITopology)
+  fullName: DeBroglie.Topo.TopoArray.FromConstant<T>(T, DeBroglie.Topo.ITopology)
+  fullName.vb: DeBroglie.Topo.TopoArray.FromConstant(Of T)(T, DeBroglie.Topo.ITopology)
+  nameWithType: TopoArray.FromConstant<T>(T, ITopology)
+  nameWithType.vb: TopoArray.FromConstant(Of T)(T, ITopology)
 - uid: DeBroglie.Topo.TopoArrayExtensions
   name: TopoArrayExtensions
   href: api/DeBroglie.Topo.TopoArrayExtensions.html
@@ -4478,6 +5348,215 @@ references:
   isSpec: "True"
   fullName: DeBroglie.Topo.TopologyExtensions.GetIndices
   nameWithType: TopologyExtensions.GetIndices
+- uid: DeBroglie.Trackers
+  name: DeBroglie.Trackers
+  href: api/DeBroglie.Trackers.html
+  commentId: N:DeBroglie.Trackers
+  fullName: DeBroglie.Trackers
+  nameWithType: DeBroglie.Trackers
+- uid: DeBroglie.Trackers.ChangeTracker
+  name: ChangeTracker
+  href: api/DeBroglie.Trackers.ChangeTracker.html
+  commentId: T:DeBroglie.Trackers.ChangeTracker
+  fullName: DeBroglie.Trackers.ChangeTracker
+  nameWithType: ChangeTracker
+- uid: DeBroglie.Trackers.ChangeTracker.ChangedCount
+  name: ChangedCount
+  href: api/DeBroglie.Trackers.ChangeTracker.html#DeBroglie_Trackers_ChangeTracker_ChangedCount
+  commentId: P:DeBroglie.Trackers.ChangeTracker.ChangedCount
+  fullName: DeBroglie.Trackers.ChangeTracker.ChangedCount
+  nameWithType: ChangeTracker.ChangedCount
+- uid: DeBroglie.Trackers.ChangeTracker.ChangedCount*
+  name: ChangedCount
+  href: api/DeBroglie.Trackers.ChangeTracker.html#DeBroglie_Trackers_ChangeTracker_ChangedCount_
+  commentId: Overload:DeBroglie.Trackers.ChangeTracker.ChangedCount
+  isSpec: "True"
+  fullName: DeBroglie.Trackers.ChangeTracker.ChangedCount
+  nameWithType: ChangeTracker.ChangedCount
+- uid: DeBroglie.Trackers.ChangeTracker.GetChangedIndices
+  name: GetChangedIndices()
+  href: api/DeBroglie.Trackers.ChangeTracker.html#DeBroglie_Trackers_ChangeTracker_GetChangedIndices
+  commentId: M:DeBroglie.Trackers.ChangeTracker.GetChangedIndices
+  fullName: DeBroglie.Trackers.ChangeTracker.GetChangedIndices()
+  nameWithType: ChangeTracker.GetChangedIndices()
+- uid: DeBroglie.Trackers.ChangeTracker.GetChangedIndices*
+  name: GetChangedIndices
+  href: api/DeBroglie.Trackers.ChangeTracker.html#DeBroglie_Trackers_ChangeTracker_GetChangedIndices_
+  commentId: Overload:DeBroglie.Trackers.ChangeTracker.GetChangedIndices
+  isSpec: "True"
+  fullName: DeBroglie.Trackers.ChangeTracker.GetChangedIndices
+  nameWithType: ChangeTracker.GetChangedIndices
+- uid: DeBroglie.Trackers.IQuadstateChanged
+  name: IQuadstateChanged
+  href: api/DeBroglie.Trackers.IQuadstateChanged.html
+  commentId: T:DeBroglie.Trackers.IQuadstateChanged
+  fullName: DeBroglie.Trackers.IQuadstateChanged
+  nameWithType: IQuadstateChanged
+- uid: DeBroglie.Trackers.IQuadstateChanged.Notify(System.Int32,DeBroglie.Quadstate,DeBroglie.Quadstate)
+  name: Notify(Int32, Quadstate, Quadstate)
+  href: api/DeBroglie.Trackers.IQuadstateChanged.html#DeBroglie_Trackers_IQuadstateChanged_Notify_System_Int32_DeBroglie_Quadstate_DeBroglie_Quadstate_
+  commentId: M:DeBroglie.Trackers.IQuadstateChanged.Notify(System.Int32,DeBroglie.Quadstate,DeBroglie.Quadstate)
+  fullName: DeBroglie.Trackers.IQuadstateChanged.Notify(System.Int32, DeBroglie.Quadstate, DeBroglie.Quadstate)
+  nameWithType: IQuadstateChanged.Notify(Int32, Quadstate, Quadstate)
+- uid: DeBroglie.Trackers.IQuadstateChanged.Notify*
+  name: Notify
+  href: api/DeBroglie.Trackers.IQuadstateChanged.html#DeBroglie_Trackers_IQuadstateChanged_Notify_
+  commentId: Overload:DeBroglie.Trackers.IQuadstateChanged.Notify
+  isSpec: "True"
+  fullName: DeBroglie.Trackers.IQuadstateChanged.Notify
+  nameWithType: IQuadstateChanged.Notify
+- uid: DeBroglie.Trackers.IQuadstateChanged.Reset(DeBroglie.Trackers.SelectedChangeTracker)
+  name: Reset(SelectedChangeTracker)
+  href: api/DeBroglie.Trackers.IQuadstateChanged.html#DeBroglie_Trackers_IQuadstateChanged_Reset_DeBroglie_Trackers_SelectedChangeTracker_
+  commentId: M:DeBroglie.Trackers.IQuadstateChanged.Reset(DeBroglie.Trackers.SelectedChangeTracker)
+  fullName: DeBroglie.Trackers.IQuadstateChanged.Reset(DeBroglie.Trackers.SelectedChangeTracker)
+  nameWithType: IQuadstateChanged.Reset(SelectedChangeTracker)
+- uid: DeBroglie.Trackers.IQuadstateChanged.Reset*
+  name: Reset
+  href: api/DeBroglie.Trackers.IQuadstateChanged.html#DeBroglie_Trackers_IQuadstateChanged_Reset_
+  commentId: Overload:DeBroglie.Trackers.IQuadstateChanged.Reset
+  isSpec: "True"
+  fullName: DeBroglie.Trackers.IQuadstateChanged.Reset
+  nameWithType: IQuadstateChanged.Reset
+- uid: DeBroglie.Trackers.SelectedChangeTracker
+  name: SelectedChangeTracker
+  href: api/DeBroglie.Trackers.SelectedChangeTracker.html
+  commentId: T:DeBroglie.Trackers.SelectedChangeTracker
+  fullName: DeBroglie.Trackers.SelectedChangeTracker
+  nameWithType: SelectedChangeTracker
+- uid: DeBroglie.Trackers.SelectedChangeTracker.DoBan(System.Int32,System.Int32)
+  name: DoBan(Int32, Int32)
+  href: api/DeBroglie.Trackers.SelectedChangeTracker.html#DeBroglie_Trackers_SelectedChangeTracker_DoBan_System_Int32_System_Int32_
+  commentId: M:DeBroglie.Trackers.SelectedChangeTracker.DoBan(System.Int32,System.Int32)
+  fullName: DeBroglie.Trackers.SelectedChangeTracker.DoBan(System.Int32, System.Int32)
+  nameWithType: SelectedChangeTracker.DoBan(Int32, Int32)
+- uid: DeBroglie.Trackers.SelectedChangeTracker.DoBan*
+  name: DoBan
+  href: api/DeBroglie.Trackers.SelectedChangeTracker.html#DeBroglie_Trackers_SelectedChangeTracker_DoBan_
+  commentId: Overload:DeBroglie.Trackers.SelectedChangeTracker.DoBan
+  isSpec: "True"
+  fullName: DeBroglie.Trackers.SelectedChangeTracker.DoBan
+  nameWithType: SelectedChangeTracker.DoBan
+- uid: DeBroglie.Trackers.SelectedChangeTracker.GetQuadstate(System.Int32)
+  name: GetQuadstate(Int32)
+  href: api/DeBroglie.Trackers.SelectedChangeTracker.html#DeBroglie_Trackers_SelectedChangeTracker_GetQuadstate_System_Int32_
+  commentId: M:DeBroglie.Trackers.SelectedChangeTracker.GetQuadstate(System.Int32)
+  fullName: DeBroglie.Trackers.SelectedChangeTracker.GetQuadstate(System.Int32)
+  nameWithType: SelectedChangeTracker.GetQuadstate(Int32)
+- uid: DeBroglie.Trackers.SelectedChangeTracker.GetQuadstate*
+  name: GetQuadstate
+  href: api/DeBroglie.Trackers.SelectedChangeTracker.html#DeBroglie_Trackers_SelectedChangeTracker_GetQuadstate_
+  commentId: Overload:DeBroglie.Trackers.SelectedChangeTracker.GetQuadstate
+  isSpec: "True"
+  fullName: DeBroglie.Trackers.SelectedChangeTracker.GetQuadstate
+  nameWithType: SelectedChangeTracker.GetQuadstate
+- uid: DeBroglie.Trackers.SelectedChangeTracker.IsSelected(System.Int32)
+  name: IsSelected(Int32)
+  href: api/DeBroglie.Trackers.SelectedChangeTracker.html#DeBroglie_Trackers_SelectedChangeTracker_IsSelected_System_Int32_
+  commentId: M:DeBroglie.Trackers.SelectedChangeTracker.IsSelected(System.Int32)
+  fullName: DeBroglie.Trackers.SelectedChangeTracker.IsSelected(System.Int32)
+  nameWithType: SelectedChangeTracker.IsSelected(Int32)
+- uid: DeBroglie.Trackers.SelectedChangeTracker.IsSelected*
+  name: IsSelected
+  href: api/DeBroglie.Trackers.SelectedChangeTracker.html#DeBroglie_Trackers_SelectedChangeTracker_IsSelected_
+  commentId: Overload:DeBroglie.Trackers.SelectedChangeTracker.IsSelected
+  isSpec: "True"
+  fullName: DeBroglie.Trackers.SelectedChangeTracker.IsSelected
+  nameWithType: SelectedChangeTracker.IsSelected
+- uid: DeBroglie.Trackers.SelectedChangeTracker.Reset
+  name: Reset()
+  href: api/DeBroglie.Trackers.SelectedChangeTracker.html#DeBroglie_Trackers_SelectedChangeTracker_Reset
+  commentId: M:DeBroglie.Trackers.SelectedChangeTracker.Reset
+  fullName: DeBroglie.Trackers.SelectedChangeTracker.Reset()
+  nameWithType: SelectedChangeTracker.Reset()
+- uid: DeBroglie.Trackers.SelectedChangeTracker.Reset*
+  name: Reset
+  href: api/DeBroglie.Trackers.SelectedChangeTracker.html#DeBroglie_Trackers_SelectedChangeTracker_Reset_
+  commentId: Overload:DeBroglie.Trackers.SelectedChangeTracker.Reset
+  isSpec: "True"
+  fullName: DeBroglie.Trackers.SelectedChangeTracker.Reset
+  nameWithType: SelectedChangeTracker.Reset
+- uid: DeBroglie.Trackers.SelectedChangeTracker.UndoBan(System.Int32,System.Int32)
+  name: UndoBan(Int32, Int32)
+  href: api/DeBroglie.Trackers.SelectedChangeTracker.html#DeBroglie_Trackers_SelectedChangeTracker_UndoBan_System_Int32_System_Int32_
+  commentId: M:DeBroglie.Trackers.SelectedChangeTracker.UndoBan(System.Int32,System.Int32)
+  fullName: DeBroglie.Trackers.SelectedChangeTracker.UndoBan(System.Int32, System.Int32)
+  nameWithType: SelectedChangeTracker.UndoBan(Int32, Int32)
+- uid: DeBroglie.Trackers.SelectedChangeTracker.UndoBan*
+  name: UndoBan
+  href: api/DeBroglie.Trackers.SelectedChangeTracker.html#DeBroglie_Trackers_SelectedChangeTracker_UndoBan_
+  commentId: Overload:DeBroglie.Trackers.SelectedChangeTracker.UndoBan
+  isSpec: "True"
+  fullName: DeBroglie.Trackers.SelectedChangeTracker.UndoBan
+  nameWithType: SelectedChangeTracker.UndoBan
+- uid: DeBroglie.Trackers.SelectedTracker
+  name: SelectedTracker
+  href: api/DeBroglie.Trackers.SelectedTracker.html
+  commentId: T:DeBroglie.Trackers.SelectedTracker
+  fullName: DeBroglie.Trackers.SelectedTracker
+  nameWithType: SelectedTracker
+- uid: DeBroglie.Trackers.SelectedTracker.GetQuadstate(System.Int32)
+  name: GetQuadstate(Int32)
+  href: api/DeBroglie.Trackers.SelectedTracker.html#DeBroglie_Trackers_SelectedTracker_GetQuadstate_System_Int32_
+  commentId: M:DeBroglie.Trackers.SelectedTracker.GetQuadstate(System.Int32)
+  fullName: DeBroglie.Trackers.SelectedTracker.GetQuadstate(System.Int32)
+  nameWithType: SelectedTracker.GetQuadstate(Int32)
+- uid: DeBroglie.Trackers.SelectedTracker.GetQuadstate*
+  name: GetQuadstate
+  href: api/DeBroglie.Trackers.SelectedTracker.html#DeBroglie_Trackers_SelectedTracker_GetQuadstate_
+  commentId: Overload:DeBroglie.Trackers.SelectedTracker.GetQuadstate
+  isSpec: "True"
+  fullName: DeBroglie.Trackers.SelectedTracker.GetQuadstate
+  nameWithType: SelectedTracker.GetQuadstate
+- uid: DeBroglie.Trackers.SelectedTracker.IsSelected(System.Int32)
+  name: IsSelected(Int32)
+  href: api/DeBroglie.Trackers.SelectedTracker.html#DeBroglie_Trackers_SelectedTracker_IsSelected_System_Int32_
+  commentId: M:DeBroglie.Trackers.SelectedTracker.IsSelected(System.Int32)
+  fullName: DeBroglie.Trackers.SelectedTracker.IsSelected(System.Int32)
+  nameWithType: SelectedTracker.IsSelected(Int32)
+- uid: DeBroglie.Trackers.SelectedTracker.IsSelected*
+  name: IsSelected
+  href: api/DeBroglie.Trackers.SelectedTracker.html#DeBroglie_Trackers_SelectedTracker_IsSelected_
+  commentId: Overload:DeBroglie.Trackers.SelectedTracker.IsSelected
+  isSpec: "True"
+  fullName: DeBroglie.Trackers.SelectedTracker.IsSelected
+  nameWithType: SelectedTracker.IsSelected
+- uid: DeBroglie.Wfc
+  name: DeBroglie.Wfc
+  href: api/DeBroglie.Wfc.html
+  commentId: N:DeBroglie.Wfc
+  fullName: DeBroglie.Wfc
+  nameWithType: DeBroglie.Wfc
+- uid: DeBroglie.Wfc.ModelConstraintAlgorithm
+  name: ModelConstraintAlgorithm
+  href: api/DeBroglie.Wfc.ModelConstraintAlgorithm.html
+  commentId: T:DeBroglie.Wfc.ModelConstraintAlgorithm
+  fullName: DeBroglie.Wfc.ModelConstraintAlgorithm
+  nameWithType: ModelConstraintAlgorithm
+- uid: DeBroglie.Wfc.ModelConstraintAlgorithm.Ac3
+  name: Ac3
+  href: api/DeBroglie.Wfc.ModelConstraintAlgorithm.html#DeBroglie_Wfc_ModelConstraintAlgorithm_Ac3
+  commentId: F:DeBroglie.Wfc.ModelConstraintAlgorithm.Ac3
+  fullName: DeBroglie.Wfc.ModelConstraintAlgorithm.Ac3
+  nameWithType: ModelConstraintAlgorithm.Ac3
+- uid: DeBroglie.Wfc.ModelConstraintAlgorithm.Ac4
+  name: Ac4
+  href: api/DeBroglie.Wfc.ModelConstraintAlgorithm.html#DeBroglie_Wfc_ModelConstraintAlgorithm_Ac4
+  commentId: F:DeBroglie.Wfc.ModelConstraintAlgorithm.Ac4
+  fullName: DeBroglie.Wfc.ModelConstraintAlgorithm.Ac4
+  nameWithType: ModelConstraintAlgorithm.Ac4
+- uid: DeBroglie.Wfc.ModelConstraintAlgorithm.Default
+  name: Default
+  href: api/DeBroglie.Wfc.ModelConstraintAlgorithm.html#DeBroglie_Wfc_ModelConstraintAlgorithm_Default
+  commentId: F:DeBroglie.Wfc.ModelConstraintAlgorithm.Default
+  fullName: DeBroglie.Wfc.ModelConstraintAlgorithm.Default
+  nameWithType: ModelConstraintAlgorithm.Default
+- uid: DeBroglie.Wfc.ModelConstraintAlgorithm.OneStep
+  name: OneStep
+  href: api/DeBroglie.Wfc.ModelConstraintAlgorithm.html#DeBroglie_Wfc_ModelConstraintAlgorithm_OneStep
+  commentId: F:DeBroglie.Wfc.ModelConstraintAlgorithm.OneStep
+  fullName: DeBroglie.Wfc.ModelConstraintAlgorithm.OneStep
+  nameWithType: ModelConstraintAlgorithm.OneStep
 - uid: faq
   name: FAQ
   href: articles/faq.html
@@ -4496,3 +5575,6 @@ references:
 - uid: topologies
   name: Topologies
   href: articles/topologies.html
+- uid: trackers
+  name: Trackers
+  href: articles/trackers.html

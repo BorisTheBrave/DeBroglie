@@ -8,7 +8,7 @@
     <title>Release Notes </title>
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Release Notes ">
-    <meta name="generator" content="docfx 2.53.1.0">
+    <meta name="generator" content="docfx 2.59.0.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -68,15 +68,22 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="release_notes">
-<h1 id="unreleased">Unreleased</h1>
+<h1 id="v200">v2.0.0</h1>
 
 <ul>
+<li><a href="path_constraints.html">Added more path based constraints</a>. Note, these replace the old PathConstraint class.</li>
+<li>Support multiple <a class="xref" href="../api/DeBroglie.Wfc.ModelConstraintAlgorithm.html">ModelConstraintAlgorithms</a></li>
+<li>Configurable pickers (see <a class="xref" href="../api/DeBroglie.TilePickerType.html">TilePickerType</a>, <a class="xref" href="../api/DeBroglie.IndexPickerType.html">IndexPickerType</a>) (for <a href="https://www.boristhebrave.com/2022/04/25/editable-wfc/">Editable WFC</a>)</li>
+<li>Add <a class="xref" href="../api/DeBroglie.BacktrackType.html#DeBroglie_BacktrackType_Backjump">Backjumping</a> (<a href="https://twitter.com/boris_brave/status/1485006264119799811">e.g.</a>)</li>
 <li>Improved behaviour/performance of backtracking</li>
+<li>Other performance improvements, particularly for large topologies.</li>
 <li>SeparationConstraint fixes</li>
-<li>Configurable IPickHeurstic</li>
 <li>Fix to Symmetry constraint</li>
+<li>Fix to Count constraint</li>
+<li>Path constraints more consistent over use of TileRotation (<a href="https://github.com/BorisTheBrave/DeBroglie/issues/14">#14</a>)</li>
+<li>Fix path constraints &quot;priority&quot; to work with masking</li>
 <li>Fixed <a href="https://github.com/BorisTheBrave/DeBroglie/issues/12">#12</a></li>
-<li>PathConstraint/EdgedPathConstraint more consistent over use of TileRotation (<a href="https://github.com/BorisTheBrave/DeBroglie/issues/14">#14</a>)</li>
+<li>Fix parsing bug on systems where &quot;,&quot; is the decimal separator (<a href="https://github.com/BorisTheBrave/DeBroglie/issues/15">#15</a>)(thanks grapefrukt)</li>
 </ul>
 <h1 id="v100">v1.0.0</h1>
 <ul>
@@ -106,7 +113,7 @@
 </ul>
 <h1 id="v040">v0.4.0</h1>
 <ul>
-<li>Added <a class="xref" href="../api/DeBroglie.Constraints.EdgedPathConstraint.html">EdgedPathConstraint</a></li>
+<li>Added <a href="xref:DeBroglie.Constraints.EdgedPathConstraint">EdgedPathConstraint</a></li>
 <li>Use Direction enum instead of int [breaking]</li>
 <li>Path contraint can now specify end points in JSON</li>
 <li>Added <a href="xref:DeBroglie.Constraints.MirrorConstraint">MirrorConstraint</a></li>
@@ -158,7 +165,8 @@
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In This Article</h5>
+                <div></div>
               </nav>
             </div>
           </div>

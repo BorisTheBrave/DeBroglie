@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Developing DeBroglie </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Developing DeBroglie ">
+    <meta name="generator" content="docfx 2.59.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/custom.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="developing-debroglie">Developing DeBroglie</h1>
+
+<p>DeBroglie has grown quite large over the years, and hasn't really been written to optimize legibility. This page serves as an introduction to how it works internally. If you are just interested in the WaveFunctionCollapse algorithm, there are probably easier examples to learn from.</p>
+<h2 id="abstractions">Abstractions</h2>
+<p>In order to support so many features overlapping features, DeBroglie introduces some key abstractions. You must understand these, or else the core code is quite hard to follow.</p>
+<h3 id="topology">Topology</h3>
+<p>DeBroglie supports square grids, hex grids and other more obscure grids. Collectively, these are handled by an <a class="xref" href="../api/DeBroglie.Topo.ITopology.html">ITopology</a> interface.
+ITopology treats each grid as a graph, with each cell corresponding to an integer index. The edges between nodes in the graph have labels which controls how the nodes relate to each other: The direction label uniquely identifies which edge is which leading out of a cell, and the <code>edgeLabel</code> label is used to control how tiles can connect accross the edge.</p>
+<p>All grid logic is handled by calling the topology interface, allowing different grids to be swapped out easily. There's two actual implementations, one used for regular grids, and one for irregular ones.</p>
+<h3 id="tiles-and-patterns">Tiles and patterns</h3>
+<p>The external API works in terms of <code>Tile</code> objects, which can contain arbitrary data. But internally, unique integers called <code>patterns</code> are used in place of tiles.</p>
+<p>For the AdjacentModel, each tile is one-to-one with a pattern.</p>
+<p>For OverlappingModel, the relationship is more complicated, and is stored in TileModelMapping. The patterns are constructed so that solving an <em>adjacent</em> constraint on patterns is equivalent to solving an overlapping constraint on tiles. The pattern array is differently sized to the tile array to, so the mapping also shows how to convert between them.</p>
+<p>This setup  means that core code only needs focus on solving adjacency problems. This transformation is called &quot;constraint binarization&quot;.</p>
+<p>All code that details with tiles essentially goes through a translation layer to look up the corresponding patterns. Usually this can be done before generation begins, so it has little overhead.</p>
+<h3 id="rotation">Rotation</h3>
+<p>Rotation is handled almost entirely as a pre-processing step, and none of the core code deals with it. More details on the <a href="rotation.html">rotation page</a>.</p>
+<p>Note I think this approach has worked rather poorly in practise, and I wouldn't recommend it.</p>
+<h3 id="other-interfaces">Other interfaces</h3>
+<p>I've experimented with multiple implementations of different parts of the algorithm. This has lead to a number of interfaces allowing the implementations to be easily swapped.</p>
+<p>Generally, most interfaces contain an <code>Init()</code> method which gives them an opporunity to subscribe for relevant information.</p>
+<h2 id="wavefunctioncollapse">WaveFunctionCollapse</h2>
+<p>At it's heart, DeBroglie is derived the WaveFunctionCollapse algorithm and the similar Model Synthesis algorithm.</p>
+<p>This is just a fancy way of saying it's a constraint solver, but it is optimised finding <em>random</em> solutions. More explanation <a href="https://www.boristhebrave.com/2020/04/13/wave-function-collapse-explained/">here</a>.</p>
+<p>The core algorithm is in the <code>DeBroglie.Wfc</code> namespace. Due to the abstractions mentioned above, it's relatively simple code as many of the details have been simplified away via pre-processing.</p>
+<p>The default propagator is ArcConsistency4, and is implemented in Ac4PatternModelConstraint. AC4 stores, for every index/pattern/direction, a count of valid patterns that it can connect to. Every change to the domain updates these counts, and when one drops to 0 it indicates that the pattern has become impossible.</p>
+<p>The domains of each variable are stored in the <code>Wave</code> class.</p>
+<h2 id="backtracking">Backtracking</h2>
+<p>A key feature of DeBroglie is backtracking - the ability to undo choices if they lead to a contradiction.</p>
+<p>This is handled by keeping a precise log of every change to the <code>Wave</code> (the domains). This is essentially a list of which patterns have been banned from which cells.</p>
+<p>When we need to backtrack, this log can be read in reverse, and opposite actions taken to undo state. Objects can use other backtracking techniques (such as trailing), but generally they rely on the logs.</p>
+<h2 id="constraints">Constraints</h2>
+<p>While the key constraint in WFC is the &quot;model&quot;, which controls how tiles relate to each other locally, DeBroglie has support for adding more constraints, by implementing <code>ITileConstraint</code>.</p>
+<p>Note, all constraints are &quot;global&quot;, DeBroglie has no visibility which constraints depend on which cells.</p>
+<p>Constraints can be stateful, though most are not. Writing stateful constraints requires care to work with backtracking as described above.</p>
+<p>During every step of evaluation, constraints will be called to <code>Check</code> the state of the generation. In this method:</p>
+<ul>
+<li>Constraints inspect the <code>TilePropagator</code> to see what progress has been made.
+<ul>
+<li>They can also inspect any trackers they've subscribed to. This also monitors the state of the TilePropagator, but is usually more efficient.</li>
+</ul>
+</li>
+<li>If the constraint determines that some tiles cannot be placed at a given location, it calls <code>Ban</code> on TilePropagator.
+<ul>
+<li>Similarly, if it determines a tile <em>must</em> be placed, it calls <code>Select</code>.</li>
+</ul>
+</li>
+<li>If the constraint determines that no progress is possible, it can call <code>SetContradiction</code> on TilePropagator.</li>
+</ul>
+<p>Select/Ban/SetContradiction will guide the generator to only output results consistent with the generator. It's generally best to avoid SetContradiction, as the generator has no choice but to give up or backtrack.</p>
+<h3 id="example">Example</h3>
+<p>As a worked example, consider the CountConstraint. It wants to ensure that there are <em>at most</em> 10 instances of a given tile X in the final generation.</p>
+<p>The simplest possible implementation would iterate over every cell, and ask the TilePropagator if it has been selected as X. If there are more than 10, it calls SetContradiction.</p>
+<p>We can improve this. Suppose the current count of X tiles is exactly 10, and we are midway through generation. Then placing any more would be a problem. That means we should Ban X everywhere it's not already been placed, to tell the generator not to pick it any more. So the constraint should count the tiles, and do this if the count is 10, and SetContradction if the count is greater than 10.</p>
+<p>Another improvement would be to avoid recounting every cell every time Check is called. It's likely that most of them haven't changed. There are several trackers that can supply a list of changed cells. The actual implementation in DeBroglie, uses the SelectedChangeTracker which can fire a callback every an X tile is selected. We can then keep a running count of X tiles, without having to recount.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/docs/articles/developing.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

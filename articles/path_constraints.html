@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Path Constraints </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Path Constraints ">
+    <meta name="generator" content="docfx 2.59.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/custom.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="path-constraints">Path Constraints</h1>
+
+<p>DeBroglie comes with a set of <a href="constraints.html">constraints</a> called <strong>path constraints</strong>. These constraints all work similarly, and all concern the connectivy across a range of tiles.</p>
+<p>A &quot;path&quot; is a route from one cell to another, stepping one adjacency at a time. Each path constraint takes ana <a class="xref" href="../api/DeBroglie.Constraints.IPathSpec.html">IPathSpec</a> as input, which specifies what paths are considered valid. The IPathSpec also lets you control which tiles are &quot;relevant&quot;, which is discussed later.</p>
+<p>There are currently three constraints:</p>
+<ul>
+<li><a class="xref" href="../api/DeBroglie.Constraints.ConnectedConstraint.html">ConnectedConstraint</a> - ensures that there is a valid path between relevant tiles.</li>
+<li><a class="xref" href="../api/DeBroglie.Constraints.LoopConstraint.html">LoopConstraint</a> - ensures there are at least two independent paths between relevant tiles.</li>
+<li><a class="xref" href="../api/DeBroglie.Constraints.AcyclicConstraint.html">AcyclicConstraint</a> - ensures there are are no loops at all in the generated result.</li>
+</ul>
+<div class="WARNING">
+<h5>Warning</h5>
+<p>Note that path constraints are generally more performance heavy than other constraints, and usually require <a href="features.html#backtracking">backtracking</a> to get good results.</p>
+</div>
+<p><strong>Example</strong></p>
+<figure>
+<img src="../images/edged_path_constraint_missing.png">
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/grass/edged_path_constraint.json">
+<img src="../images/edged_path_constraint.png">
+</a>
+<figcaption>Before and adding a ConnectedConstraint with an EdgedPathSpec</figcaption>
+</figure>
+<h2 id="path-specs">Path Specs</h2>
+<p>Path specs describe what paths are considered valid, and what is considered relevant. There are two implementations, <a class="xref" href="../api/DeBroglie.Constraints.PathSpec.html">PathSpec</a> and <a class="xref" href="../api/DeBroglie.Constraints.EdgedPathSpec.html">EdgedPathSpec</a>. The latter is slower, but more flexible, however they both work similarly.</p>
+<p>PathSpec just has a list of tiles that form the path tiles. As long as these tiles are placed adjacency, a valid path can route through them. EdgedPathSpec, on the other hand, lists a set of tiles and what &quot;exits&quot; it has. A path can only route through a pair of adjacent tiles if they both have exits pointing to each other.</p>
+<p>EdgedPathSpec is useful for tiles that literally have a picture of a path on them. For example consider placing the tiles <img src="../images/grass_corner3.png"> and <img src="../images/grass_corner4.png"> together. Both tiles have a picture of a path on them, but the path exits the tiles only on certain edges. <span><img src="../images/grass_corner3.png"><img src="../images/grass_corner4.png"></span> means they are connected, but <span><img src="../images/grass_corner4.png"><img src="../images/grass_corner3.png"></span> is not.</p>
+<p>Regardless of how valid paths are defined, some path conmponets consider a second set called &quot;relevant&quot; tiles. Typically, the relevant tiles are a subset of the path tiles, and are the only important ones for path finding. By default, all path tiles are considered relevant, so you can ignore these settings. Otherwise, you can set RelevantTiles to configure them, and RelevantCells to force the tile in a given cell to be considered relevant regardless of what is placed there.</p>
+<p>For example, suppose you have a player start tile and goal tile. You can make these the only relevant tiles, and use a ConnectedConstraint to force that there is always a route between these two tiles. But the rest of the generation would be unconstrained. Or you could use RelevantCells to mark a specific location for the start and goal without needing special tiles.</p>
+<h2 id="connected-constraint">Connected Constraint</h2>
+<p>The <a class="xref" href="../api/DeBroglie.Constraints.ConnectedConstraint.html">ConnectedConstraint</a> checks that for any given two relevant cells, it is possible to connect them together via a path of adjacent path tiles. It does this by banning any tile placement that would make such a path impossible.</p>
+<p><strong>Example</strong></p>
+<figure>
+<a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/samples/docs/pathway_overlapping_path.json">
+<img src="../images/pathway.png">
+<img src="../images/arrow.png">
+<img src="../images/pathway_overlapping_path.png">
+</a>
+<figcaption>Using a path constraint ensures you can trace a path from any blue pixel to any other one.</figcaption>
+</figure>
+<h2 id="loop-constraint">Loop Constraint</h2>
+<p>The loop constraint backtracks whenevever a chokepoint is found in the set of available paths, effectively forcing there to be at least two non-overlapping valid paths between any two relevant tiles.</p>
+<figure>
+<img src="../images/loop_constraint.png">
+<figcaption>A loopy layout</figcaption>
+</figure>
+<h2 id="acyclic-constraint">Acyclic Constraint</h2>
+<p>The acyclic constraint backtracks whenever a cycle is found, forcing the remaining paths into a <a href="https://en.wikipedia.org/wiki/Tree_(graph_theory)">tree</a> or <a href="https://en.wikipedia.org/wiki/Tree_(graph_theory)#Forest">forest</a>. The acyclic constraint ignores relevancy for now.</p>
+<figure>
+<img src="../images/acyclic_constraint.png">
+<figcaption>A loopless layout</figcaption>
+</figure>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/docs/articles/path_constraints.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

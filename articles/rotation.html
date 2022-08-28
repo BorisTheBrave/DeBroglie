@@ -8,7 +8,7 @@
     <title>Rotation </title>
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Rotation ">
-    <meta name="generator" content="docfx 2.53.1.0">
+    <meta name="generator" content="docfx 2.59.0.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -70,6 +70,12 @@
             <article class="content wrap" id="_content" data-uid="rotation_article">
 
 
+<div class="NOTE">
+<h5>Note</h5>
+<p>Although feature of DeBroglie works, I consider it to be a failure.
+It is very complicated to understand, for relatively little benefit. It is an entirely <em>optional</em> function of DeBroglie - you can achieve similar results
+by creating your own rotated tiles, and many users have reported they've found that easier than the built in solution.</p>
+</div>
 <p>While the core WFC algorithm DeBroglie uses is agnostic to rotation and reflections, many tiles sets and designs have some amount of symmetry. DeBroglie lets you specify what symmetry to use. This has several advantages:</p>
 <ol>
 <li><strong>You need smaller input</strong> - DeBroglie can take your samples, and create rotated and reflected copies, greatly expanding the amount of data to work with.</li>
@@ -99,16 +105,16 @@
 <p>There are three common use cases in DeBroglie.</p>
 <h3 id="single-pixels--voxels">Single pixels / voxels</h3>
 <p>If your &quot;tiles&quot; are single pixels, or single voxels, then you just need to set the desired symmetry by passing in <code>rotationalSymmetry</code> and <code>reflectionalSymmetry</code> (as described <a href="#specifying-symmetry">below</a>). No further configuration is needed.</p>
-<div class="tabGroup" id="tabgroup_CeZOj-G++Q">
+<div class="tabGroup" id="tabgroup_bHGHmlrG6S">
 <ul role="tablist">
 <li role="presentation">
-<a href="#tabpanel_CeZOj-G++Q_lib" role="tab" aria-controls="tabpanel_CeZOj-G++Q_lib" data-tab="lib" tabindex="0" aria-selected="true">Library Example</a>
+<a href="#tabpanel_bHGHmlrG6S_lib" role="tab" aria-controls="tabpanel_bHGHmlrG6S_lib" data-tab="lib" tabindex="0" aria-selected="true">Library Example</a>
 </li>
 <li role="presentation">
-<a href="#tabpanel_CeZOj-G++Q_config" role="tab" aria-controls="tabpanel_CeZOj-G++Q_config" data-tab="config" tabindex="-1">Config Example</a>
+<a href="#tabpanel_bHGHmlrG6S_config" role="tab" aria-controls="tabpanel_bHGHmlrG6S_config" data-tab="config" tabindex="-1">Config Example</a>
 </li>
 </ul>
-<section id="tabpanel_CeZOj-G++Q_lib" role="tabpanel" data-tab="lib">
+<section id="tabpanel_bHGHmlrG6S_lib" role="tabpanel" data-tab="lib">
 
 <pre><code class="lang-csharp">// Specifies we're using all 8 rotations and reflections
 var rotations = new TileRotation(4, true);
@@ -116,7 +122,7 @@ var rotations = new TileRotation(4, true);
 model.AddSample(sample, rotations)
 </code></pre>
 </section>
-<section id="tabpanel_CeZOj-G++Q_config" role="tabpanel" data-tab="config" aria-hidden="true" hidden="hidden">
+<section id="tabpanel_bHGHmlrG6S_config" role="tabpanel" data-tab="config" aria-hidden="true" hidden="hidden">
 
 <pre><code class="lang-javascript">{
     &quot;src&quot;: &quot;sample...&quot;,
@@ -131,16 +137,16 @@ model.AddSample(sample, rotations)
 <img src="../images/overworld_tileset_cropped.png">
 <p>Then you need to specify how the tiles relate to each other. If you specify one reflection
 and one rotation for each tile, then DeBroglie can infer all other rotations and reflections.</p>
-<div class="tabGroup" id="tabgroup_CeZOj-G++Q-1">
+<div class="tabGroup" id="tabgroup_bHGHmlrG6S-1">
 <ul role="tablist">
 <li role="presentation">
-<a href="#tabpanel_CeZOj-G++Q-1_lib" role="tab" aria-controls="tabpanel_CeZOj-G++Q-1_lib" data-tab="lib" tabindex="0" aria-selected="true">Library Example</a>
+<a href="#tabpanel_bHGHmlrG6S-1_lib" role="tab" aria-controls="tabpanel_bHGHmlrG6S-1_lib" data-tab="lib" tabindex="0" aria-selected="true">Library Example</a>
 </li>
 <li role="presentation">
-<a href="#tabpanel_CeZOj-G++Q-1_config" role="tab" aria-controls="tabpanel_CeZOj-G++Q-1_config" data-tab="config" tabindex="-1">Config Example</a>
+<a href="#tabpanel_bHGHmlrG6S-1_config" role="tab" aria-controls="tabpanel_bHGHmlrG6S-1_config" data-tab="config" tabindex="-1">Config Example</a>
 </li>
 </ul>
-<section id="tabpanel_CeZOj-G++Q-1_lib" role="tabpanel" data-tab="lib">
+<section id="tabpanel_bHGHmlrG6S-1_lib" role="tabpanel" data-tab="lib">
 
 <pre><code class="lang-csharp">var builder = new TileRotationBuilder(4, true);
 // tile 1 rotates clockwise to give tile 2
@@ -155,7 +161,7 @@ var rotations = builder.Build();
 model.AddSample(sample, rotations)
 </code></pre>
 </section>
-<section id="tabpanel_CeZOj-G++Q-1_config" role="tabpanel" data-tab="config" aria-hidden="true" hidden="hidden">
+<section id="tabpanel_bHGHmlrG6S-1_config" role="tabpanel" data-tab="config" aria-hidden="true" hidden="hidden">
 
 <pre><code class="lang-javascript">{
     ...
@@ -175,16 +181,16 @@ model.AddSample(sample, rotations)
 <img src="../images/overworld_tileset_incomplete.png">
 <p>In this case, you can use DeBroglie to generate the extra tiles for you. You specify relations between tiles as in the complete tileset case,
 but new tiles are created for anything left unspecified.</p>
-<div class="tabGroup" id="tabgroup_CeZOj-G++Q-2">
+<div class="tabGroup" id="tabgroup_bHGHmlrG6S-2">
 <ul role="tablist">
 <li role="presentation">
-<a href="#tabpanel_CeZOj-G++Q-2_lib" role="tab" aria-controls="tabpanel_CeZOj-G++Q-2_lib" data-tab="lib" tabindex="0" aria-selected="true">Library Example</a>
+<a href="#tabpanel_bHGHmlrG6S-2_lib" role="tab" aria-controls="tabpanel_bHGHmlrG6S-2_lib" data-tab="lib" tabindex="0" aria-selected="true">Library Example</a>
 </li>
 <li role="presentation">
-<a href="#tabpanel_CeZOj-G++Q-2_config" role="tab" aria-controls="tabpanel_CeZOj-G++Q-2_config" data-tab="config" tabindex="-1">Config Example</a>
+<a href="#tabpanel_bHGHmlrG6S-2_config" role="tab" aria-controls="tabpanel_bHGHmlrG6S-2_config" data-tab="config" tabindex="-1">Config Example</a>
 </li>
 </ul>
-<section id="tabpanel_CeZOj-G++Q-2_lib" role="tabpanel" data-tab="lib">
+<section id="tabpanel_bHGHmlrG6S-2_lib" role="tabpanel" data-tab="lib">
 
 <pre><code class="lang-csharp">var builder = new TileRotationBuilder(4, true, TileRotationTreatment.Generated);
 // tile 1 reflects in x-axis to give itself.
@@ -202,7 +208,7 @@ var rotations = builder.Build();
 model.AddSample(sample,  rotations)
 </code></pre>
 </section>
-<section id="tabpanel_CeZOj-G++Q-2_config" role="tabpanel" data-tab="config" aria-hidden="true" hidden="hidden">
+<section id="tabpanel_bHGHmlrG6S-2_config" role="tabpanel" data-tab="config" aria-hidden="true" hidden="hidden">
 
 <pre><code class="lang-javascript">{
     ...
@@ -269,21 +275,21 @@ model.AddSample(sample,  rotations)
 </table>
 <p>It works similarly for hexagonal grids, except <code>rotationalSymmetry</code> can take values 1, 2, 3 or 6.</p>
 <p>Rotation can be used in 3d, but it only effects the x-y plane.</p>
-<div class="tabGroup" id="tabgroup_CeZOj-G++Q-3">
+<div class="tabGroup" id="tabgroup_bHGHmlrG6S-3">
 <ul role="tablist">
 <li role="presentation">
-<a href="#tabpanel_CeZOj-G++Q-3_lib" role="tab" aria-controls="tabpanel_CeZOj-G++Q-3_lib" data-tab="lib" tabindex="0" aria-selected="true">Library Example</a>
+<a href="#tabpanel_bHGHmlrG6S-3_lib" role="tab" aria-controls="tabpanel_bHGHmlrG6S-3_lib" data-tab="lib" tabindex="0" aria-selected="true">Library Example</a>
 </li>
 <li role="presentation">
-<a href="#tabpanel_CeZOj-G++Q-3_config" role="tab" aria-controls="tabpanel_CeZOj-G++Q-3_config" data-tab="config" tabindex="-1">Config Example</a>
+<a href="#tabpanel_bHGHmlrG6S-3_config" role="tab" aria-controls="tabpanel_bHGHmlrG6S-3_config" data-tab="config" tabindex="-1">Config Example</a>
 </li>
 </ul>
-<section id="tabpanel_CeZOj-G++Q-3_lib" role="tabpanel" data-tab="lib">
+<section id="tabpanel_bHGHmlrG6S-3_lib" role="tabpanel" data-tab="lib">
 
 <pre><code class="lang-csharp">var rotations = new TileRotation(4, true);
 </code></pre>
 </section>
-<section id="tabpanel_CeZOj-G++Q-3_config" role="tabpanel" data-tab="config" aria-hidden="true" hidden="hidden">
+<section id="tabpanel_bHGHmlrG6S-3_config" role="tabpanel" data-tab="config" aria-hidden="true" hidden="hidden">
 
 <pre><code class="lang-javascript">{
     &quot;rotationalSymmetry&quot;: 4,
@@ -378,16 +384,16 @@ model.AddSample(sample,  rotations)
 <p>The most flexible way to configure rotations in DeBroglie is to literally specify what tile to use when rotating any tile in a given way. You can do this by calling <a class="xref" href="../api/DeBroglie.Rot.TileRotationBuilder.html#DeBroglie_Rot_TileRotationBuilder_Add_DeBroglie_Tile_DeBroglie_Rot_Rotation_DeBroglie_Tile_">Add(Tile, Rotation, Tile)</a>.</p>
 <p>DeBroglie is able to make <strong>infererences</strong>, so you don't need specify every possible combination. For example, if the reflecting tile A along the x-axis gives tile B, and rotating tile B 180 degrees gives tile C, then DeBroglie also knows that that reflecting tile A along the y-axis gives tile C, and that rotating tile C 180 degrees gives tile B, and so on.</p>
 <p>Thanks to inferences, it's usually only necessary to specify what happens to each tile under a single rotation and a single reflection, and it can infer the rest. If you have tile symmetries set, you may not even need that.</p>
-<div class="tabGroup" id="tabgroup_CeZOj-G++Q-4">
+<div class="tabGroup" id="tabgroup_bHGHmlrG6S-4">
 <ul role="tablist">
 <li role="presentation">
-<a href="#tabpanel_CeZOj-G++Q-4_lib" role="tab" aria-controls="tabpanel_CeZOj-G++Q-4_lib" data-tab="lib" tabindex="0" aria-selected="true">Library Example</a>
+<a href="#tabpanel_bHGHmlrG6S-4_lib" role="tab" aria-controls="tabpanel_bHGHmlrG6S-4_lib" data-tab="lib" tabindex="0" aria-selected="true">Library Example</a>
 </li>
 <li role="presentation">
-<a href="#tabpanel_CeZOj-G++Q-4_config" role="tab" aria-controls="tabpanel_CeZOj-G++Q-4_config" data-tab="config" tabindex="-1">Config Example</a>
+<a href="#tabpanel_bHGHmlrG6S-4_config" role="tab" aria-controls="tabpanel_bHGHmlrG6S-4_config" data-tab="config" tabindex="-1">Config Example</a>
 </li>
 </ul>
-<section id="tabpanel_CeZOj-G++Q-4_lib" role="tabpanel" data-tab="lib">
+<section id="tabpanel_bHGHmlrG6S-4_lib" role="tabpanel" data-tab="lib">
 
 <pre><code class="lang-csharp">var builder = new TileRotationBuilder(4, true);
 // tile 1 rotates clockwise to give tile 2
@@ -396,7 +402,7 @@ builder.Add(tile1, new Rotation(90), tile2);
 builder.Add(tile1, new Rotation(0, true), tile1);
 </code></pre>
 </section>
-<section id="tabpanel_CeZOj-G++Q-4_config" role="tabpanel" data-tab="config" aria-hidden="true" hidden="hidden">
+<section id="tabpanel_bHGHmlrG6S-4_config" role="tabpanel" data-tab="config" aria-hidden="true" hidden="hidden">
 
 <pre><code class="lang-javascript">{
     ...
@@ -434,7 +440,8 @@ builder.Add(tile1, new Rotation(0, true), tile1);
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In This Article</h5>
+                <div></div>
               </nav>
             </div>
           </div>

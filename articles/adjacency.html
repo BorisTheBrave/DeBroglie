@@ -8,7 +8,7 @@
     <title>Adjacency </title>
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Adjacency ">
-    <meta name="generator" content="docfx 2.53.1.0">
+    <meta name="generator" content="docfx 2.59.0.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -71,23 +71,23 @@
 <h1 id="specifing-the-adjacency-model-directly">Specifing the Adjacency Model Directly</h1>
 
 <p>The simplest way to configure the adjacency model is to provide it with a sample as input.</p>
-<div class="tabGroup" id="tabgroup_CeZOj-G++Q">
+<div class="tabGroup" id="tabgroup_bHGHmlrG6S">
 <ul role="tablist">
 <li role="presentation">
-<a href="#tabpanel_CeZOj-G++Q_lib" role="tab" aria-controls="tabpanel_CeZOj-G++Q_lib" data-tab="lib" tabindex="0" aria-selected="true">Library Example</a>
+<a href="#tabpanel_bHGHmlrG6S_lib" role="tab" aria-controls="tabpanel_bHGHmlrG6S_lib" data-tab="lib" tabindex="0" aria-selected="true">Library Example</a>
 </li>
 <li role="presentation">
-<a href="#tabpanel_CeZOj-G++Q_config" role="tab" aria-controls="tabpanel_CeZOj-G++Q_config" data-tab="config" tabindex="-1">Config Example</a>
+<a href="#tabpanel_bHGHmlrG6S_config" role="tab" aria-controls="tabpanel_bHGHmlrG6S_config" data-tab="config" tabindex="-1">Config Example</a>
 </li>
 </ul>
-<section id="tabpanel_CeZOj-G++Q_lib" role="tabpanel" data-tab="lib">
+<section id="tabpanel_bHGHmlrG6S_lib" role="tabpanel" data-tab="lib">
 
 <pre><code class="lang-csharp">var model = new AdjacentModel();
 ITopoArray&lt;Tile&gt; sample = ...;
 model.AddSample(sample);
 </code></pre>
 </section>
-<section id="tabpanel_CeZOj-G++Q_config" role="tabpanel" data-tab="config" aria-hidden="true" hidden="hidden">
+<section id="tabpanel_bHGHmlrG6S_config" role="tabpanel" data-tab="config" aria-hidden="true" hidden="hidden">
 
 <pre><code class="lang-javascript">{
     &quot;model&quot;: {&quot;type&quot;: &quot;adjacent&quot;},
@@ -117,16 +117,16 @@ model.AddSample(sample);
 <p>In these cases, you can specify all the adjacency pairs directly. It requires some care though - you need to define a lot of pairs before there are enough legal placements that WFC can find a result.</p>
 <h2 id="adding-a-single-pair">Adding a single pair</h2>
 <p>To add a pair, you need to specify the two tiles, and the axis on which they can be placed next to each other. This example allows the model to place tile 2 to the right of tile 1, and similarly to place tile 1 to the left of tile 2.</p>
-<div class="tabGroup" id="tabgroup_CeZOj-G++Q-1">
+<div class="tabGroup" id="tabgroup_bHGHmlrG6S-1">
 <ul role="tablist">
 <li role="presentation">
-<a href="#tabpanel_CeZOj-G++Q-1_lib" role="tab" aria-controls="tabpanel_CeZOj-G++Q-1_lib" data-tab="lib" tabindex="0" aria-selected="true">Library Example</a>
+<a href="#tabpanel_bHGHmlrG6S-1_lib" role="tab" aria-controls="tabpanel_bHGHmlrG6S-1_lib" data-tab="lib" tabindex="0" aria-selected="true">Library Example</a>
 </li>
 <li role="presentation">
-<a href="#tabpanel_CeZOj-G++Q-1_config" role="tab" aria-controls="tabpanel_CeZOj-G++Q-1_config" data-tab="config" tabindex="-1">Config Example</a>
+<a href="#tabpanel_bHGHmlrG6S-1_config" role="tab" aria-controls="tabpanel_bHGHmlrG6S-1_config" data-tab="config" tabindex="-1">Config Example</a>
 </li>
 </ul>
-<section id="tabpanel_CeZOj-G++Q-1_lib" role="tabpanel" data-tab="lib">
+<section id="tabpanel_bHGHmlrG6S-1_lib" role="tabpanel" data-tab="lib">
 
 <pre><code class="lang-csharp">var model = new AdjacentModel();
 var tile1 = new Tile(1);
@@ -134,7 +134,7 @@ var tile2 = new Tile(2);
 model.AddAdjacency(tile1, tile2, 1, 0, 0);
 </code></pre>
 </section>
-<section id="tabpanel_CeZOj-G++Q-1_config" role="tabpanel" data-tab="config" aria-hidden="true" hidden="hidden">
+<section id="tabpanel_bHGHmlrG6S-1_config" role="tabpanel" data-tab="config" aria-hidden="true" hidden="hidden">
 
 <pre><code class="lang-javascript">{
     ...
@@ -149,16 +149,16 @@ model.AddAdjacency(tile1, tile2, 1, 0, 0);
 <h2 id="adding-pairs-combinatorially">Adding pairs combinatorially</h2>
 <p>It's often the case that tiles can be grouped together, and any tile in one group can be placed next to any tile in another group. This is particularly common with <a href="https://en.wikipedia.org/wiki/Wang_tile">Wang tiles</a>, where the adjacent tiles are <em>entirely</em> determined by the border of the tile.</p>
 <p>The following example shows how to connect two groups. Tiles 1 and 2 can be placed above tiles 3 and 4. It is equivalent to adding 4 adjacent pairs between single tiles, 1 and 3, 1 and 4, 2 and 3, 2 and 4.</p>
-<div class="tabGroup" id="tabgroup_CeZOj-G++Q-2">
+<div class="tabGroup" id="tabgroup_bHGHmlrG6S-2">
 <ul role="tablist">
 <li role="presentation">
-<a href="#tabpanel_CeZOj-G++Q-2_lib" role="tab" aria-controls="tabpanel_CeZOj-G++Q-2_lib" data-tab="lib" tabindex="0" aria-selected="true">Library Example</a>
+<a href="#tabpanel_bHGHmlrG6S-2_lib" role="tab" aria-controls="tabpanel_bHGHmlrG6S-2_lib" data-tab="lib" tabindex="0" aria-selected="true">Library Example</a>
 </li>
 <li role="presentation">
-<a href="#tabpanel_CeZOj-G++Q-2_config" role="tab" aria-controls="tabpanel_CeZOj-G++Q-2_config" data-tab="config" tabindex="-1">Config Example</a>
+<a href="#tabpanel_bHGHmlrG6S-2_config" role="tab" aria-controls="tabpanel_bHGHmlrG6S-2_config" data-tab="config" tabindex="-1">Config Example</a>
 </li>
 </ul>
-<section id="tabpanel_CeZOj-G++Q-2_lib" role="tabpanel" data-tab="lib">
+<section id="tabpanel_bHGHmlrG6S-2_lib" role="tabpanel" data-tab="lib">
 
 <pre><code class="lang-csharp">var model = new AdjacentModel();
 var tile1 = new Tile(1);
@@ -168,7 +168,7 @@ var tile4 = new Tile(4);
 model.AddAdjacency(new []{tile1, tile2}, new []{tile3, tile4}, 0, 1, 0);
 </code></pre>
 </section>
-<section id="tabpanel_CeZOj-G++Q-2_config" role="tabpanel" data-tab="config" aria-hidden="true" hidden="hidden">
+<section id="tabpanel_bHGHmlrG6S-2_config" role="tabpanel" data-tab="config" aria-hidden="true" hidden="hidden">
 
 <pre><code class="lang-javascript">{
     ...
@@ -186,16 +186,16 @@ model.AddAdjacency(new []{tile1, tile2}, new []{tile3, tile4}, 0, 1, 0);
 <img src="../images/adjacent_tiles3.png">
 </figure>
 <p>DeBroglie can automatically generate these rotations for you. It uses the same configuration as used elsewhere for rotations.</p>
-<div class="tabGroup" id="tabgroup_CeZOj-G++Q-3">
+<div class="tabGroup" id="tabgroup_bHGHmlrG6S-3">
 <ul role="tablist">
 <li role="presentation">
-<a href="#tabpanel_CeZOj-G++Q-3_lib" role="tab" aria-controls="tabpanel_CeZOj-G++Q-3_lib" data-tab="lib" tabindex="0" aria-selected="true">Library Example</a>
+<a href="#tabpanel_bHGHmlrG6S-3_lib" role="tab" aria-controls="tabpanel_bHGHmlrG6S-3_lib" data-tab="lib" tabindex="0" aria-selected="true">Library Example</a>
 </li>
 <li role="presentation">
-<a href="#tabpanel_CeZOj-G++Q-3_config" role="tab" aria-controls="tabpanel_CeZOj-G++Q-3_config" data-tab="config" tabindex="-1">Config Example</a>
+<a href="#tabpanel_bHGHmlrG6S-3_config" role="tab" aria-controls="tabpanel_bHGHmlrG6S-3_config" data-tab="config" tabindex="-1">Config Example</a>
 </li>
 </ul>
-<section id="tabpanel_CeZOj-G++Q-3_lib" role="tabpanel" data-tab="lib">
+<section id="tabpanel_bHGHmlrG6S-3_lib" role="tabpanel" data-tab="lib">
 
 <pre><code class="lang-csharp">var model = new AdjacentModel();
 var rotations = tileRotationBuilder.Build();
@@ -204,7 +204,7 @@ var tile2 = new Tile(2);
 model.AddAdjacency(new []{tile1}, new []{tile2}, 0, 1, 0, rotations);
 </code></pre>
 </section>
-<section id="tabpanel_CeZOj-G++Q-3_config" role="tabpanel" data-tab="config" aria-hidden="true" hidden="hidden">
+<section id="tabpanel_bHGHmlrG6S-3_config" role="tabpanel" data-tab="config" aria-hidden="true" hidden="hidden">
 
 <pre><code class="lang-javascript">{
     ...
@@ -236,7 +236,8 @@ exact match, to 1, meaning any two tiles are accepted.</p>
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In This Article</h5>
+                <div></div>
               </nav>
             </div>
           </div>
