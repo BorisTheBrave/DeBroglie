@@ -45,28 +45,6 @@ namespace DeBroglie
 
         }
 
-        /// <summary>
-        /// Constructs a TilePropagator.
-        /// </summary>
-        /// <param name="tileModel">The model to guide the generation.</param>
-        /// <param name="topology">The dimensions of the output to generate</param>
-        /// <param name="backtrack">If true, store additional information to allow rolling back choices that lead to a contradiction.</param>
-        /// <param name="constraints">Extra constraints to control the generation process.</param>
-        /// <param name="random">Source of randomness</param>
-        [Obsolete("Use TilePropagatorOptions")]
-        public TilePropagator(TileModel tileModel, ITopology topology, bool backtrack,
-            ITileConstraint[] constraints,
-            Random random)
-            :this(tileModel, topology, new TilePropagatorOptions
-            {
-                BacktrackType = backtrack ? BacktrackType.Backtrack : BacktrackType.None,
-                Constraints = constraints,
-                Random = random,
-            })
-        {
-
-        }
-
         public TilePropagator(TileModel tileModel, ITopology topology, TilePropagatorOptions options)
         {
             this.tileModel = tileModel;
@@ -83,9 +61,7 @@ namespace DeBroglie
                 .ToArray();
 
 
-#pragma warning disable CS0618 // Type or member is obsolete
-            var randomDouble = options.RandomDouble ?? (options.Random ?? new Random()).NextDouble;
-#pragma warning restore CS0618 // Type or member is obsolete
+            var randomDouble = options.RandomDouble ?? new Random().NextDouble;
 
             var (indexPicker, patternPicker) = MakePickers(options);
 

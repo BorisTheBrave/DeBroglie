@@ -217,9 +217,7 @@ namespace DeBroglie.Test.Constraints
                 {fork4, new []{ Direction.XMinus, Direction.YMinus, Direction.XPlus}.ToHashSet() },
             };
 
-#pragma warning disable CS0618 // Type or member is obsolete
             var pathConstraint = new ConnectedConstraint
-#pragma warning restore CS0618 // Type or member is obsolete
             {
                 PathSpec = new EdgedPathSpec { Exits = exits },
                 UsePickHeuristic = true

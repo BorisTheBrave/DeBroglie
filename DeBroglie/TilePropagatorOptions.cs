@@ -91,9 +91,6 @@ namespace DeBroglie
         /// </summary>
         public Func<double> RandomDouble { get; set; }
 
-        [Obsolete("Use RandomDouble")]
-        public Random Random { get; set; }
-
         /// <summary>
         /// Controls which cells are selected during generation.
         /// </summary>
