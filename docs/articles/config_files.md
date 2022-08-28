@@ -23,6 +23,7 @@ The file format very closely resembles the library API described in the main doc
 | Field                | Type           | Description  |
 | -------------------- |---------------|-------|
 | `src`                | string | The file to load as the initial sample. Only used for sample based formats. See [Supported Formats](#supported-formats). |
+| `srcType`            | [SourceType](#source-config) | Specifies the type of the source to choose from. Defaults to sample. |
 | `dest`               | string | The file to write the result to. The file has the same format as `src`. Required. |
 | `baseDirectory`      | string | The directory that `src` and `dest` are relative to. <br/>`baseDirectory` itself is relative to the directory of the config file, and defaults to that directory.|
 | `model`              | [Model](#model-config) | Specifies the [model](features.md#models) to use. Defaults to adjacent. |
@@ -49,6 +50,14 @@ The file format very closely resembles the library API described in the main doc
 |`adjacencies`         |array of [Adjacency](#adjacency-config)|Indicates which tiles can be adjacent to which other ones ([adjacent model only](features.md#adjacent)).|
 |`constraints`         |array of [Constraint](#constraint-config)|Specifies constraints to add.|
 
+### Source Config
+
+The type of the source. This can be one of the following:
+
+- `Sample`: When using a sample and `src` is the sample file
+- `BitmapSet`: When using a 2D-tile set (`src` should be ommitted)
+- `VoxSet`: When using a 3D-tile set (`src` should be ommitted)
+        
 ### Model Config
 
 Models are a JSON object taking one of the following formats. The `type` field is set to a constant to indicate what sort of model is used.
