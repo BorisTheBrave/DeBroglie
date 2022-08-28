@@ -152,6 +152,7 @@ namespace DeBroglie.Models
                 .ToDictionary(x => x.Key, x => x.Value);
 
             tilesToPatterns = patternsToTiles.ToLookup(x => x.Value, x => x.Key);
+
         }
 
         internal override TileModelMapping GetTileModelMapping(ITopology topology)
@@ -164,6 +165,11 @@ namespace DeBroglie.Models
                 Propagator = propagator.Select(x => x.Select(y => y).ToArray()).ToArray(),
                 Frequencies = frequencies.ToArray(),
             };
+
+            if(frequencies.Count == 0)
+            {
+                throw new Exception("Attempting to create an overlapping model with zero patterns.");
+            }
 
             GridTopology patternTopology;
             Dictionary<int, IReadOnlyDictionary<Tile, ISet<int>>> tilesToPatternsByOffset;
@@ -184,11 +190,11 @@ namespace DeBroglie.Models
                 }
                 if (patternTopology.Height <= 0)
                 {
-                    throw new System.Exception($"Sample width {topology.Height} not wide enough for overlap of {NY}");
+                    throw new System.Exception($"Sample height {topology.Height} not wide enough for overlap of {NY}");
                 }
                 if (patternTopology.Depth <= 0)
                 {
-                    throw new System.Exception($"Sample width {topology.Depth} not wide enough for overlap of {NZ}");
+                    throw new System.Exception($"Sample depth {topology.Depth} not wide enough for overlap of {NZ}");
                 }
 
 
