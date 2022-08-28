@@ -2,17 +2,20 @@
 uid: release_notes
 title: Release Notes
 ---
-# Unreleased
- * [Added more path based constraints](path_constraints.md).
- * Support multiple [ModelConstraintAlgorithms](xref:DeBroglie.Wfc.ModelConstraintAlgorithm)
- * Configurable IPickHeurstic
- * Improved behaviour/performance of backtracking
- * SeparationConstraint fixes
- * Fix to Symmetry constraint
- * Fixed [#12](https://github.com/BorisTheBrave/DeBroglie/issues/12)
- * Path constraints more consistent over use of TileRotation ([#14](https://github.com/BorisTheBrave/DeBroglie/issues/14))
- * Other performance improvements, particularly for large topologies.
- * Fix path constraints "priority" to work with masking
+# v2.0.0
+   * [Added more path based constraints](path_constraints.md).
+   * Support multiple [ModelConstraintAlgorithms](xref:DeBroglie.Wfc.ModelConstraintAlgorithm)
+   * Configurable pickers (see [TilePickerType](xref:DeBroglie.TilePickerType), [IndexPickerType](xref:DeBroglie.IndexPickerType)) (for [Editable WFC](https://www.boristhebrave.com/2022/04/25/editable-wfc/))
+   * Add [Backjumping](xref:DeBroglie.BacktrackType.Backjump) ([e.g.](https://twitter.com/boris_brave/status/1485006264119799811))
+   * Improved behaviour/performance of backtracking
+   * Other performance improvements, particularly for large topologies.
+   * SeparationConstraint fixes
+   * Fix to Symmetry constraint
+   * Fix to Count constraint
+   * Path constraints more consistent over use of TileRotation ([#14](https://github.com/BorisTheBrave/DeBroglie/issues/14))
+   * Fix path constraints "priority" to work with masking
+   * Fixed [#12](https://github.com/BorisTheBrave/DeBroglie/issues/12)
+   * Fix parsing bug on systems where "," is the decimal separator ([#15](https://github.com/BorisTheBrave/DeBroglie/issues/15))(thanks grapefrukt)
 
 # v1.0.0
  * Improved performance of path constraints
