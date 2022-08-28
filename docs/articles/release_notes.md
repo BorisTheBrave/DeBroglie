@@ -3,7 +3,7 @@ uid: release_notes
 title: Release Notes
 ---
 # v2.0.0
-   * [Added more path based constraints](path_constraints.md).
+   * [Added more path based constraints](path_constraints.md). Note, these replace the old PathConstraint class.
    * Support multiple [ModelConstraintAlgorithms](xref:DeBroglie.Wfc.ModelConstraintAlgorithm)
    * Configurable pickers (see [TilePickerType](xref:DeBroglie.TilePickerType), [IndexPickerType](xref:DeBroglie.IndexPickerType)) (for [Editable WFC](https://www.boristhebrave.com/2022/04/25/editable-wfc/))
    * Add [Backjumping](xref:DeBroglie.BacktrackType.Backjump) ([e.g.](https://twitter.com/boris_brave/status/1485006264119799811))

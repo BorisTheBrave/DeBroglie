@@ -126,7 +126,6 @@ namespace DeBroglie
 
         private Tuple<IIndexPicker, IPatternPicker> MakePickers(TilePropagatorOptions options)
         {
-            var pathConstraint = options.Constraints?.OfType<EdgedPathConstraint>().FirstOrDefault();
             var connectedConstraint = options.Constraints?.OfType<ConnectedConstraint>().FirstOrDefault();
             var connectedPickHeuristic = connectedConstraint != null && connectedConstraint.UsePickHeuristic;
 

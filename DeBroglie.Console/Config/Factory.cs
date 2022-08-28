@@ -316,11 +316,15 @@ namespace DeBroglie.Console.Config
                     if (constraint is PathConfig pathData)
                     {
                         var tiles = new HashSet<Tile>(pathData.Tiles.Select(Parse));
-#pragma warning disable CS0618 // Type or member is obsolete
-                        var p = new PathConstraint(tiles, pathData.EndPoints, tileRotation)
-#pragma warning restore CS0618 // Type or member is obsolete
+                        var p = new ConnectedConstraint
                         {
-                            EndPointTiles = pathData.EndPointTiles == null ? null : new HashSet<Tile>(pathData.EndPointTiles.Select(Parse))
+                            PathSpec = new PathSpec
+                            {
+                                Tiles = tiles,
+                                RelevantCells = pathData.EndPoints,
+                                RelevantTiles = pathData.EndPointTiles == null ? null : new HashSet<Tile>(pathData.EndPointTiles.Select(Parse)),
+                                TileRotation = tileRotation,
+                            }
                         };
                         constraints.Add(p);
                     }
@@ -328,11 +332,15 @@ namespace DeBroglie.Console.Config
                     {
                         var exits = edgedPathData.Exits.ToDictionary(
                             kv => Parse(kv.Key), x => (ISet<Direction>)new HashSet<Direction>(x.Value.Select(ParseDirection)));
-#pragma warning disable CS0618 // Type or member is obsolete
-                        var p = new EdgedPathConstraint(exits, edgedPathData.EndPoints, tileRotation)
-#pragma warning restore CS0618 // Type or member is obsolete
+                        var p = new ConnectedConstraint
                         {
-                            EndPointTiles = edgedPathData.EndPointTiles == null ? null : new HashSet<Tile>(edgedPathData.EndPointTiles.Select(Parse))
+                            PathSpec = new EdgedPathSpec
+                            {
+                                Exits = exits,
+                                RelevantCells = edgedPathData.EndPoints,
+                                RelevantTiles = edgedPathData.EndPointTiles == null ? null : new HashSet<Tile>(edgedPathData.EndPointTiles.Select(Parse)),
+                                TileRotation = tileRotation,
+                            }
                         };
                         constraints.Add(p);
                     }
