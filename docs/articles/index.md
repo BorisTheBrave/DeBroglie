@@ -37,8 +37,15 @@ The original author of WFC has an excellent [explanation of the core algorithm](
 
 DeBroglie uses the core idea mostly unchanged, though enhanced in various ways explained in [Features](features.md).
 
+Installation
+------------
+
+DeBroglie is available on [NuGet](https://www.nuget.org/packages/DeBroglie/). You can also get binaries in [Releases](https://github.com/BorisTheBrave/DeBroglie/releases).
+
+For Unity, copy a release binary, or the entire source code, into your `Assets/` folder - there are no Unity packages provided.
+
 Usage
----------------
+-----
 
 To use DeBroglie, select one of the [models](features.md#models) that controls the generation process. 
 
