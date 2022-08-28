@@ -192,8 +192,8 @@ namespace DeBroglie.Constraints
                         }
                         if(maybeList.Count == 0)
                         {
-                            // Not enough, but no valid spaces
-                            propagator.SetContradiction("Eager count constraint found not enough possible cells", this);
+                            // Nothing more can be done
+                            Check(propagator);
                             return;
                         }
                         var pickedIndex = maybeList[(int)(propagator.RandomDouble() * maybeList.Count)];
@@ -217,8 +217,8 @@ namespace DeBroglie.Constraints
                         }
                         if (maybeList.Count == 0)
                         {
-                            // Not enough, but no valid spaces
-                            propagator.SetContradiction("Eager count constraint found not enough not certain cells.", this);
+                            // Nothing more can be done
+                            Check(propagator);
                             return;
                         }
                         var pickedIndex = maybeList[(int)(propagator.RandomDouble() * maybeList.Count)];
