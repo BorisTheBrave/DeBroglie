@@ -73,7 +73,7 @@ For constructing an [overlapping model](features.md#overlapping)
 
 Constraints are a JSON object taking one of the following formats. The `type` field is set to a constant to indicate what sort of model is used.
 
-For constructing a [path constraint](constraints.md#path)
+For constructing a [path constraint](path_constraints.md)
 
 | Field                | Type           | Description  |
 | -------------------- |---------------|-------|
@@ -82,7 +82,7 @@ For constructing a [path constraint](constraints.md#path)
 |`tiles`|array of [Tile](#tile-references)| The set of tiles that are considered "on the path".|
 |`endPoints`|array of [Point](#point-config)| Set of points that must be connected by paths. If unset, then all path cells must be are connected.|
 
-For constructing an [edged path constraint](constraints.md#edged-path)
+For constructing an [edged path constraint](path_constraints.md#path-specs)
 
 | Field                | Type           | Description  |
 | -------------------- |---------------|-------|

@@ -2,13 +2,13 @@
 
 DeBroglie comes with a set of <a href="constraints.md">constraints</a> called **path constraints**. These constraints all work similarly, and all concern the connectivy across a range of tiles.
 
-A "path" is a route from one cell to another, stepping one adjacency at a time. Each path constraint takes ana [IPathSpec](xref:Constraints.IPathSpec) as input, which specifies what paths are considered valid. The IPathSpec also lets you control which tiles are "relevant", which is discussed later.
+A "path" is a route from one cell to another, stepping one adjacency at a time. Each path constraint takes ana [IPathSpec](xref:DeBroglie.Constraints.IPathSpec) as input, which specifies what paths are considered valid. The IPathSpec also lets you control which tiles are "relevant", which is discussed later.
 
 There are currently three constraints:
 
 * [ConnectedConstraint](xref:DeBroglie.Constraints.ConnectedConstraint) - ensures that there is a valid path between relevant tiles.
 * [LoopConstraint](xref:DeBroglie.Constraints.LoopConstraint) - ensures there are at least two independent paths between relevant tiles.
-* [AcyclicConstraint](xref:DeBroglie.Constrains.AcyclicConstraint) - ensures there are are no loops at all in the generated result.
+* [AcyclicConstraint](xref:DeBroglie.Constraints.AcyclicConstraint) - ensures there are are no loops at all in the generated result.
 
 > [!WARNING]
 > Note that path constraints are generally more performance heavy than other constraints, and usually require [backtracking](features.md#backtracking) to get good results.
@@ -37,7 +37,7 @@ For example, suppose you have a player start tile and goal tile. You can make th
 
 ## Connected Constraint
 
-The <xref:DeBroglie.Constraints.Connected> checks that for any given two relevant cells, it is possible to connect them together via a path of adjacent path tiles. It does this by banning any tile placement that would make such a path impossible.
+The <xref:DeBroglie.Constraints.ConnectedConstraint> checks that for any given two relevant cells, it is possible to connect them together via a path of adjacent path tiles. It does this by banning any tile placement that would make such a path impossible.
 
 **Example**
 
