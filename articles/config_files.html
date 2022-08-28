@@ -92,6 +92,11 @@
 <td>The file to load as the initial sample. Only used for sample based formats. See <a href="#supported-formats">Supported Formats</a>.</td>
 </tr>
 <tr>
+<td><code>srcType</code></td>
+<td><a href="#source-config">SourceType</a></td>
+<td>Specifies the type of the source to choose from. Defaults to sample.</td>
+</tr>
+<tr>
 <td><code>dest</code></td>
 <td>string</td>
 <td>The file to write the result to. The file has the same format as <code>src</code>. Required.</td>
@@ -218,6 +223,13 @@
 </tr>
 </tbody>
 </table>
+<h3 id="source-config">Source Config</h3>
+<p>The type of the source. This can be one of the following:</p>
+<ul>
+<li><code>Sample</code>: When using a sample and <code>src</code> is the sample file</li>
+<li><code>BitmapSet</code>: When using a 2D-tile set (<code>src</code> should be ommitted)</li>
+<li><code>VoxSet</code>: When using a 3D-tile set (<code>src</code> should be ommitted)</li>
+</ul>
 <h3 id="model-config">Model Config</h3>
 <p>Models are a JSON object taking one of the following formats. The <code>type</code> field is set to a constant to indicate what sort of model is used.</p>
 <p>For constructing an <a href="features.html#adjacent">adjacent model</a></p>
