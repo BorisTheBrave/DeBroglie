@@ -5,7 +5,7 @@ using DeBroglie.Topo;
 namespace DeBroglie.Constraints
 {
     /// <summary>
-    /// Contains utilities relating to <see cref="PathConstraint"/>
+    /// Contains utilities relating to <see cref="ConnectedConstraint"/>
     /// </summary>
     public static class PathConstraintUtils
     {
