@@ -75,7 +75,7 @@
 <p>In order to support so many features overlapping features, DeBroglie introduces some key abstractions. You must understand these, or else the core code is quite hard to follow.</p>
 <h3 id="topology">Topology</h3>
 <p>DeBroglie supports square grids, hex grids and other more obscure grids. Collectively, these are handled by an <a class="xref" href="../api/DeBroglie.Topo.ITopology.html">ITopology</a> interface.
-ITopology treats each grid as a graph, with each cell corresponding to an integer index. The edges between nodes in the graph have labels which controls how the nodes relate to each other: The direction label uniquely identifies which edge is which leading out of a cell, and the <code>edgeLabel</code> label is used to control how tiles can connect accross the edge.</p>
+ITopology treats each grid as a graph, with each cell corresponding to an integer index. The edges between nodes in the graph have labels which controls how the nodes relate to each other: The direction label uniquely identifies which edge is which leading out of a cell, and the <code>edgeLabel</code> label is used to control how tiles can connect accross the edge. This is sometimes described as a <a href="https://www.boristhebrave.com/2022/07/31/rotation-graphs/">rotation graph</a>.</p>
 <p>All grid logic is handled by calling the topology interface, allowing different grids to be swapped out easily. There's two actual implementations, one used for regular grids, and one for irregular ones.</p>
 <h3 id="tiles-and-patterns">Tiles and patterns</h3>
 <p>The external API works in terms of <code>Tile</code> objects, which can contain arbitrary data. But internally, unique integers called <code>patterns</code> are used in place of tiles.</p>

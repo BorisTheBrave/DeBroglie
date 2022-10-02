@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Pickers </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Pickers ">
+    <meta name="generator" content="docfx 2.59.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/custom.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="pickers">Pickers</h1>
+
+<p>WaveFunctionCollapse is an iterative process. In each loop, a tile is assigned to a cell and then the constraint propagator runs.
+<em>Pickers</em> are what DeBroglie uses to decide what cells and tiles to use in this loop. Configuring these can turn DeBroglie from doing WaveFunctionCollapse to doing a variety of other effects.</p>
+<p>There are two sorts of pickers. Index pickers select which cell to fill next. Tile pickers choose which tile to assign to that cell. In some cases, you need to set both at once.</p>
+<p>Pickers can only be set via the the C# API. They are configured by setting fields on <a class="xref" href="../api/DeBroglie.TilePropagatorOptions.html">TilePropagatorOptions</a>. We'll go through all available pickers now.</p>
+<h2 id="index-pickers">Index Pickers</h2>
+<p>Index pickers are set setting the <a class="xref" href="../api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_IndexPickerType">TilePropagatorOptions.IndexPickerType</a> option to a value from <a class="xref" href="../api/DeBroglie.IndexPickerType.html">IndexPickerType</a></p>
+<h3 id="default">Default</h3>
+<p>The default index picker is currently the same as the HeapMinEntropy picker, though it may change in later versions.</p>
+<h3 id="ordered">Ordered</h3>
+<p>This picker walks through the cells in a predetermined order. You can optionally specify the order using <a class="xref" href="../api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_IndexOrder">TilePropagatorOptions.IndexOrder</a>.</p>
+<p>The Ordered picker can be used to recreate <a href="https://paulmerrell.org/model-synthesis/">Model Synthesis</a> - a constraint based generator older than WaveFunctionCollapse.</p>
+<h3 id="minentropy">MinEntropy</h3>
+<p>This picker picks the cell with the least &quot;entropy&quot;, which roughly means the cell with the fewest possible tiles remaining.</p>
+<h3 id="heapminentropy">HeapMinEntropy</h3>
+<p>This picker works exactly like MinEntropy, but it has better performance at large generations.</p>
+<h3 id="arraypriorityminentropy">ArrayPriorityMinEntropy</h3>
+<p>This picker is intended to be used with TilePicker.ArrayPriority, and automatically selects that option. It is a minentropy picker that understands about the
+per-cell probabilities.</p>
+<h3 id="dirty">Dirty</h3>
+<p>This picker works the same as the Ordered picker, but it only picks &quot;dirty&quot; cells. To use it, you must set <a class="xref" href="../api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_CleanTiles">TilePropagatorOptions.CleanTiles</a> which is an input tilemap. A cell is considered dirty if the clean tile for that cell is not possible in the current generation. As all tiles start clean, you typically must <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Select_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Select</a> or <a class="xref" href="../api/DeBroglie.TilePropagator.html#DeBroglie_TilePropagator_Ban_System_Int32_System_Int32_System_Int32_DeBroglie_Tile_">Ban</a> some tiles first.</p>
+<p>If it cannot find a dirty tile, it finishes the generation early. The dirty picker is described in in more detail on <a href="https://www.boristhebrave.com/2022/04/25/editable-wfc/">my blog</a>.</p>
+<h2 id="tile-pickers">Tile Pickers</h2>
+<p>Tile pickers are set setting the <a class="xref" href="../api/DeBroglie.TilePropagatorOptions.html#DeBroglie_TilePropagatorOptions_TilePickerType">TilePropagatorOptions.TilePickerType</a> option to a value from <a class="xref" href="../api/DeBroglie.TilePickerType.html">TilePickerType</a></p>
+<h3 id="default-1">Default</h3>
+<p>The default tile picker is currently the same as the Weighted picker, though it may change in later versions.</p>
+<h3 id="weighted">Weighted</h3>
+<p>Randomly picks between the possible tiles for the cell. The model supplies the weights used for the random choice. The weights are typically chosen to match the frequency of the tile in the input samples, or set uniformly to 1.</p>
+<h3 id="ordered-1">Ordered</h3>
+<p>Picks the first possible tile. This corresponds, e.g. to how <a href="https://store.steampowered.com/app/1291340/Townscaper/">Townscaper</a> works.</p>
+<p>The order of tiles is the order they were added to the tile model.</p>
+<h3 id="arraypriority">ArrayPriority</h3>
+<p>This picker works a bit like Weighted, but it has two extra features:</p>
+<ul>
+<li>The weights can be set on a per-cell basis, allowing you to vary the generation over the space of the output.</li>
+<li>In addition to weights, you can also set priorities. A tile with a higher priority value will always be chosen over a lower priority.
+So it's a bit like <code>actual_weight = HUGE_NUMBER * priority + weight</code>.</li>
+</ul>
+<p>Setting array priority is a bit complex. You must set both WeightSets and WeightSetByIndex.
+Each weight set associates a weight and priority to every tile. The weightsets themselves are numbered, then WeightSetByIndex selects which weight set is used for which cell.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/docs/articles/pickers.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
