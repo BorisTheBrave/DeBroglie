@@ -10,7 +10,7 @@ In order to support so many features overlapping features, DeBroglie introduces 
 ### Topology
 
 DeBroglie supports square grids, hex grids and other more obscure grids. Collectively, these are handled by an [ITopology](xref:DeBroglie.Topo.ITopology) interface. 
-ITopology treats each grid as a graph, with each cell corresponding to an integer index. The edges between nodes in the graph have labels which controls how the nodes relate to each other: The direction label uniquely identifies which edge is which leading out of a cell, and the `edgeLabel` label is used to control how tiles can connect accross the edge.
+ITopology treats each grid as a graph, with each cell corresponding to an integer index. The edges between nodes in the graph have labels which controls how the nodes relate to each other: The direction label uniquely identifies which edge is which leading out of a cell, and the `edgeLabel` label is used to control how tiles can connect accross the edge. This is sometimes described as a [rotation graph](https://www.boristhebrave.com/2022/07/31/rotation-graphs/).
 
 All grid logic is handled by calling the topology interface, allowing different grids to be swapped out easily. There's two actual implementations, one used for regular grids, and one for irregular ones.
 

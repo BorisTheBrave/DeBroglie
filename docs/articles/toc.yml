@@ -15,6 +15,8 @@
   href: adjacency.md
 - name: Trackers
   href: trackers.md
+- name: Pickers
+  href: pickers.md
 - name: Using the Command Line
   href: config_files.md
 - name: Gallery
