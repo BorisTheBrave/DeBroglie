@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+title: DeBroglie
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file. Also contact me, I love to see DeBroglie
+  is being used for.
+type: software
+authors:
+  - given-names: Adam
+    family-names: Newgas
+repository-code: 'https://github.com/BorisTheBrave/DeBroglie'
+url: 'https://boristhebrave.github.io/DeBroglie/'
+abstract: >-
+  DeBroglie is a C# library implementing the Wave Function
+  Collapse algorithm with support for additional non-local
+  constraints, and other useful features.
+license: MIT
