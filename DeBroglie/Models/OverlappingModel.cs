@@ -186,15 +186,15 @@ namespace DeBroglie.Models
 
                 if (patternTopology.Width <= 0)
                 {
-                    throw new System.Exception($"Sample width {topology.Width} not wide enough for overlap of {NX}");
+                    throw new System.Exception($"Output width {topology.Width} not wide enough for overlap of {NX}");
                 }
                 if (patternTopology.Height <= 0)
                 {
-                    throw new System.Exception($"Sample height {topology.Height} not wide enough for overlap of {NY}");
+                    throw new System.Exception($"Output height {topology.Height} not wide enough for overlap of {NY}");
                 }
                 if (patternTopology.Depth <= 0)
                 {
-                    throw new System.Exception($"Sample depth {topology.Depth} not wide enough for overlap of {NZ}");
+                    throw new System.Exception($"Output depth {topology.Depth} not wide enough for overlap of {NZ}");
                 }
 
 
