@@ -49,9 +49,6 @@ namespace DeBroglie.Constraints
         public void Check(TilePropagator propagator)
         {
             var topology = propagator.Topology;
-            var width = topology.Width;
-            var height = topology.Height;
-            var depth = topology.Depth;
 
             var yesCount = countTracker.YesCount;
             var noCount = countTracker.NoCount;
@@ -146,9 +143,6 @@ namespace DeBroglie.Constraints
                 */
 
                 var topology = propagator.Topology;
-                var width = topology.Width;
-                var height = topology.Height;
-                var depth = topology.Depth;
                 var pickedIndices = new List<int>();
                 var remainingIndices = new List<int>(topology.GetIndices());
 
@@ -157,21 +151,14 @@ namespace DeBroglie.Constraints
                     var noCount = 0;
                     var yesCount = 0;
                     var maybeList = new List<int>();
-                    for (var z = 0; z < depth; z++)
+                    foreach (var index in topology.GetIndices())
                     {
-                        for (var y = 0; y < height; y++)
+                        if (topology.ContainsIndex(index))
                         {
-                            for (var x = 0; x < width; x++)
-                            {
-                                var index = topology.GetIndex(x, y, z);
-                                if (topology.ContainsIndex(index))
-                                {
-                                    var selected = selectedChangeTracker.GetQuadstate(index);
-                                    if (selected.IsNo()) noCount++;
-                                    if (selected.IsMaybe()) maybeList.Add(index);
-                                    if (selected.IsYes()) yesCount++;
-                                }
-                            }
+                            var selected = selectedChangeTracker.GetQuadstate(index);
+                            if (selected.IsNo()) noCount++;
+                            if (selected.IsMaybe()) maybeList.Add(index);
+                            if (selected.IsYes()) yesCount++;
                         }
                     }
                     var maybeCount = maybeList.Count;
