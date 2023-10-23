@@ -22,6 +22,10 @@ namespace DeBroglie
         public static bool IsNo(this Quadstate v) => v == Quadstate.No;
         public static bool IsContradiction(this Quadstate v) => v == Quadstate.Contradiction;
 
+        // Maybe or Yes
         public static bool Possible(this Quadstate v) => (int)v >= 0;
+
+        // Maybe or No
+        public static bool PossiblyNot(this Quadstate v) => v == Quadstate.No || v == Quadstate.Maybe;
     }
 }

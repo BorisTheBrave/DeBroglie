@@ -9,6 +9,10 @@ using System.Text;
 
 namespace DeBroglie.Constraints
 {
+    /// <summary>
+    /// A constraint that ensures that all the relevant cells can traces a path between them.
+    /// Commonly the relevancy definition matches the path one, so this effectively forces a single connected component.
+    /// </summary>
     public class ConnectedConstraint : ITileConstraint
     {
         private IPathView pathView;

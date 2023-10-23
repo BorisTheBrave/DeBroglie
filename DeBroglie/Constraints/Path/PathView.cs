@@ -4,6 +4,10 @@ using System.Linq;
 
 namespace DeBroglie.Constraints
 {
+
+    /// <summary>
+    /// <see cref="PathSpec"/>
+    /// </summary>
     internal class PathView : IPathView
     {
         private readonly ISet<Tile> tiles;

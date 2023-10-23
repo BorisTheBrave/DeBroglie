@@ -6,6 +6,16 @@ using System.Linq;
 
 namespace DeBroglie.Constraints
 {
+    /// <summary>
+    /// <see cref="EdgedPathSpec"/>
+    /// 
+    /// This view works by making a one-to-many mapping between each cell in TilePropagator, and entries in the path variable.
+    /// For each cell, it creates one entry for the cell itself, and on entry for each dir of the cell ("by exit").
+    /// The exit entries are set/cleared according to the Exits information in the spec.
+    /// 
+    /// The graph is set up so that cell entries only connect to their own exit entries, while exit entries are also connected to other exit entries.
+    /// So to move from one cell to another, you must pass through a exit entry for each cell, effectively checking that both cells have corresponding exits.
+    /// </summary>
     internal class EdgedPathView : IPathView
     {
         ISet<Tile> endPointTiles;
@@ -26,6 +36,7 @@ namespace DeBroglie.Constraints
 
         public EdgedPathView(EdgedPathSpec spec, TilePropagator propagator)
         {
+            // Expand Exits and RelevantTiles by doing the other rotations
             if (spec.TileRotation != null)
             {
                 exits = new Dictionary<Tile, ISet<Direction>>();
