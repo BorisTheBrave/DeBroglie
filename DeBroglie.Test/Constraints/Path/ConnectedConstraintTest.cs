@@ -302,5 +302,87 @@ namespace DeBroglie.Test.Constraints
 
             propagator.Run();
         }
+
+        [Test]
+        public void TestConnectedConstraintWithPairwiseConstraint()
+        {
+            var allDirections = DirectionSet.Cartesian2d.ToHashSet();
+
+            var seed = Environment.TickCount;
+            var r = new Random(seed);
+            System.Console.WriteLine("Seed {0}", seed);
+
+            var allTiles = new[] { new Tile(1), new Tile(2), new Tile(3), new Tile(4) };
+
+            // Model is completely unconstrainted
+            var model = new AdjacentModel(DirectionSet.Cartesian2d);
+            model.AddAdjacency(allTiles, allTiles, Direction.XPlus);
+            model.AddAdjacency(allTiles, allTiles, Direction.YPlus);
+            model.SetUniformFrequency();
+            model.SetFrequency(allTiles[0], 1000);
+            model.SetFrequency(allTiles.Last(), 1000);
+
+
+            var constraint = new ConnectedConstraint
+            {
+                PathSpec = new PairwisePathSpec
+                {
+                    Pairs = Enumerable.Range(1, 4)
+                    .SelectMany(x => new[] { (x, x - 1), (x, x), (x, x + 1) })
+                    .Where(t => 1 <= t.Item2 && t.Item2 <= 4)
+                    .Select(t => (new Tile(t.Item1), new Tile(t.Item2)))
+                    .ToArray(),
+                }
+            };
+
+            var width = 5;
+            var height = 5;
+
+            var propagator = new TilePropagator(model, new GridTopology(width, height, false), new TilePropagatorOptions
+            {
+                BacktrackType = BacktrackType.Backtrack,
+                Constraints = new[] { constraint },
+                RandomDouble = r.NextDouble
+            });
+            propagator.Select(0, 0, 0, allTiles.First());
+            propagator.Select(width - 1, height - 1, 0, allTiles.Last());
+            var status = propagator.Run();
+            Assert.AreEqual(Resolution.Decided, status);
+            var result = propagator.ToValueArray<int>().ToArray2d();
+            // Write out result for debugging
+            for (var y = 0; y < height; y++)
+            {
+                for (var x = 0; x < width; x++)
+                {
+                    System.Console.Write(result[x, y]);
+                }
+                System.Console.WriteLine();
+            }
+
+            // Simple flood fill algorithm to determine we have in fact got a path
+            var stack = new Stack<(int, int, int, int)>();
+            var visited = new bool[width, height];
+            stack.Push((0, 0, 0, 0));
+            while (stack.TryPop(out var current))
+            {
+                var (from_x, from_y, x, y) = current;
+                if (x < 0 || x >= width || y < 0 || y >= height)
+                    continue;
+                if (visited[x, y])
+                    continue;
+                if (Math.Abs(result[from_x, from_y] - result[x, y]) > 1)
+                    continue;
+                visited[x, y] = true;
+                {
+                    if (x == width - 1 && y == height - 1)
+                        return;
+                    stack.Push((x, y, x + 1, y));
+                    stack.Push((x, y, x - 1, y));
+                    stack.Push((x, y, x, y + 1));
+                    stack.Push((x, y, x, y - 1));
+                }
+            }
+            Assert.Fail();
+        }
     }
 }
