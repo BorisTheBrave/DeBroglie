@@ -1,4 +1,5 @@
 ﻿using DeBroglie.Constraints;
+using DeBroglie.Constraints.Path;
 using DeBroglie.Models;
 using DeBroglie.Topo;
 using NUnit.Framework;
@@ -312,7 +313,11 @@ namespace DeBroglie.Test.Constraints
             var r = new Random(seed);
             System.Console.WriteLine("Seed {0}", seed);
 
-            var allTiles = new[] { new Tile(1), new Tile(2), new Tile(3), new Tile(4) };
+            var width = 5;
+            var height = 5;
+            var n = 4;
+
+            var allTiles = Enumerable.Range(0, n).Select(x => new Tile(x)).ToArray();
 
             // Model is completely unconstrainted
             var model = new AdjacentModel(DirectionSet.Cartesian2d);
@@ -327,20 +332,96 @@ namespace DeBroglie.Test.Constraints
             {
                 PathSpec = new PairwisePathSpec
                 {
-                    Pairs = Enumerable.Range(1, 4)
+                    Pairs = Enumerable.Range(0, n)
                     .SelectMany(x => new[] { (x, x - 1), (x, x), (x, x + 1) })
-                    .Where(t => 1 <= t.Item2 && t.Item2 <= 4)
+                    .Where(t => 0 < t.Item2 && t.Item2 < n)
                     .Select(t => (new Tile(t.Item1), new Tile(t.Item2)))
                     .ToArray(),
                 }
             };
 
+            var propagator = new TilePropagator(model, new GridTopology(width, height, false), new TilePropagatorOptions
+            {
+                BacktrackType = BacktrackType.Backjump,
+                Constraints = new[] { constraint },
+                RandomDouble = r.NextDouble
+            });
+            propagator.Select(0, 0, 0, allTiles.First());
+            propagator.Select(width - 1, height - 1, 0, allTiles.Last());
+            var status = propagator.Run();
+            Assert.AreEqual(Resolution.Decided, status);
+            var result = propagator.ToValueArray<int>().ToArray2d();
+            // Write out result for debugging
+            for (var y = 0; y < height; y++)
+            {
+                for (var x = 0; x < width; x++)
+                {
+                    System.Console.Write(result[x, y]);
+                }
+                System.Console.WriteLine();
+            }
+
+            // Simple flood fill algorithm to determine we have in fact got a path
+            var stack = new Stack<(int, int, int, int)>();
+            var visited = new bool[width, height];
+            stack.Push((0, 0, 0, 0));
+            while (stack.TryPop(out var current))
+            {
+                var (from_x, from_y, x, y) = current;
+                if (x < 0 || x >= width || y < 0 || y >= height)
+                    continue;
+                if (visited[x, y])
+                    continue;
+                if (Math.Abs(result[from_x, from_y] - result[x, y]) > 1)
+                    continue;
+                visited[x, y] = true;
+                {
+                    if (x == width - 1 && y == height - 1)
+                        return;
+                    stack.Push((x, y, x + 1, y));
+                    stack.Push((x, y, x - 1, y));
+                    stack.Push((x, y, x, y + 1));
+                    stack.Push((x, y, x, y - 1));
+                }
+            }
+            Assert.Fail();
+        }
+
+        [Test]
+        public void TestConnectedConstraintWithHeightmap()
+        {
+            var allDirections = DirectionSet.Cartesian2d.ToHashSet();
+
+            var seed = Environment.TickCount;
+            var r = new Random(seed);
+            System.Console.WriteLine("Seed {0}", seed);
+
             var width = 5;
             var height = 5;
+            var n = 4;
+
+            var allTiles = Enumerable.Range(0, n).Select(x => new Tile(x)).ToArray();
+
+            // Model is completely unconstrainted
+            var model = new AdjacentModel(DirectionSet.Cartesian2d);
+            model.AddAdjacency(allTiles, allTiles, Direction.XPlus);
+            model.AddAdjacency(allTiles, allTiles, Direction.YPlus);
+            model.SetUniformFrequency();
+            model.SetFrequency(allTiles[0], 1000);
+            model.SetFrequency(allTiles.Last(), 1000);
+
+
+            var constraint = new ConnectedConstraint
+            {
+                PathSpec = new HeightmapPathSpec
+                {
+                    Heights = Enumerable.Range(0, n).ToDictionary(x=>new Tile(x), x=>x),
+                }
+            };
 
             var propagator = new TilePropagator(model, new GridTopology(width, height, false), new TilePropagatorOptions
             {
-                BacktrackType = BacktrackType.Backtrack,
+                BacktrackType = BacktrackType.Backjump,
                 Constraints = new[] { constraint },
                 RandomDouble = r.NextDouble
             });
