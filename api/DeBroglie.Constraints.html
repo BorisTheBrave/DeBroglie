@@ -1,17 +1,17 @@
 ﻿<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
-  
+
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>Namespace DeBroglie.Constraints
-   </title>
+ </title>
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Namespace DeBroglie.Constraints
-   ">
-    <meta name="generator" content="docfx 2.59.0.0">
-    
+ ">
+    <meta name="generator" content="docfx ">
+  
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
     <link rel="stylesheet" href="../styles/docfx.css">
@@ -19,14 +19,14 @@
     <link rel="stylesheet" href="../styles/custom.css">
     <meta property="docfx:navrel" content="../toc.html">
     <meta property="docfx:tocrel" content="toc.html">
-    
-    
-    
+  
+  
+  
   </head>
   <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
       <header>
-        
+
         <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
           <div class="container">
             <div class="navbar-header">
@@ -36,7 +36,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              
+
               <a class="navbar-brand" href="../index.html">
                 <img id="logo" class="svg" src="../logo.svg" alt="">
               </a>
@@ -50,7 +50,7 @@
             </div>
           </div>
         </nav>
-        
+
         <div class="subnav navbar navbar-default">
           <div class="container hide-when-search" id="breadcrumb">
             <ul class="breadcrumb">
@@ -60,7 +60,7 @@
         </div>
       </header>
       <div role="main" class="container body-content hide-when-search">
-        
+
         <div class="sidenav hide-when-search">
           <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
           <div class="sidetoggle collapse" id="sidetoggle">
@@ -70,14 +70,15 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="DeBroglie.Constraints">
-  
+
   <h1 id="DeBroglie_Constraints" data-uid="DeBroglie.Constraints" class="text-break">Namespace DeBroglie.Constraints
-  </h1>
+</h1>
   <div class="markdown level0 summary"></div>
   <div class="markdown level0 conceptual"></div>
   <div class="markdown level0 remarks"></div>
-    <h3 id="classes">Classes
-  </h3>
+    <h3 id="classes">
+Classes
+</h3>
       <h4><a class="xref" href="DeBroglie.Constraints.AcyclicConstraint.html">AcyclicConstraint</a></h4>
       <section><p>Enforces that there are no loops at all</p>
 </section>
@@ -86,7 +87,9 @@
 <p>For each affected location, BorderConstratin calls Select with the Tile specified.If the Ban field is set, then it calls Ban instead of Select.</p>
 </section>
       <h4><a class="xref" href="DeBroglie.Constraints.ConnectedConstraint.html">ConnectedConstraint</a></h4>
-      <section></section>
+      <section><p>A constraint that ensures that all the relevant cells can traces a path between them.
+Commonly the relevancy definition matches the path one, so this effectively forces a single connected component.</p>
+</section>
       <h4><a class="xref" href="DeBroglie.Constraints.CountConstraint.html">CountConstraint</a></h4>
       <section><p>Enforces that the global count of tiles within a given set
 must be at most/least/equal to a given count</p>
@@ -142,25 +145,44 @@ It's useful for giving a more even distribution of tiles, similar to a Poisson d
       <section><p>Abstract constraint for any sort of global symmetry where
 a choice of a tile in an index implies a selection for a specific index elsewhere.</p>
 </section>
-    <h3 id="interfaces">Interfaces
-  </h3>
+    <h3 id="interfaces">
+Interfaces
+</h3>
       <h4><a class="xref" href="DeBroglie.Constraints.IPathSpec.html">IPathSpec</a></h4>
-      <section></section>
+      <section><p>Factory for an IPathView</p>
+</section>
       <h4><a class="xref" href="DeBroglie.Constraints.IPathView.html">IPathView</a></h4>
-      <section></section>
+      <section><p>A view of the underlying TilePropagator used for various path constraints, such as ConnectedConstraint.</p>
+<p>This is best understood as exposing two array of bool variables, called &quot;path&quot; and &quot;relevant&quot;.
+These are variables in the constraint solver sense - that is, we track if they could be true/false,
+and those evolve over time.
+The path variable at a given index is possibly true if CouldBePath is true, and it's possibly false if MustBePath is false.
+IPathView is responsible for propagating those variables back to the source of truth, the TilePropagator.:</p>
+<ul>
+<li>Calling update propagates from TilePropagator to {Could/Must}Be{Path/Relevant}.</li>
+<li>Calling {Select/Ban}{Path/Relevant} propagates back.</li>
+</ul>
+<p>The path constraint is thus free to work entirely on the path and relevant variables, and doesn't use TilePropagator at all.
+The mapping between these two variables and the TilePropagator can cause a variety of effects.</p>
+<p>The arrays of path and relevant don't need to match the topology of the TilePropagator at all, they use the Graph variable for their topology.</p>
+<p>The interpretation of path and relevant varies between the different path constraints, but generally the path=t</p>
+</section>
       <h4><a class="xref" href="DeBroglie.Constraints.ITileConstraint.html">ITileConstraint</a></h4>
       <section><p>Interface for specifying non-local constraints to be respected during generation.</p>
 </section>
-    <h3 id="enums">Enums
-  </h3>
+    <h3 id="enums">
+Enums
+</h3>
       <h4><a class="xref" href="DeBroglie.Constraints.BorderSides.html">BorderSides</a></h4>
       <section><p>Used by <a class="xref" href="DeBroglie.Constraints.BorderConstraint.html">BorderConstraint</a> to indicate what area affected.</p>
 </section>
       <h4><a class="xref" href="DeBroglie.Constraints.CountComparison.html">CountComparison</a></h4>
       <section></section>
+
+
 </article>
           </div>
-          
+
           <div class="hidden-sm col-md-2" role="complementary">
             <div class="sideaffix">
               <div class="contribution">
@@ -168,14 +190,14 @@ a choice of a tile in an index implies a selection for a specific index elsewher
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-                <h5>In This Article</h5>
+                <h5>In this article</h5>
                 <div></div>
               </nav>
             </div>
           </div>
         </div>
       </div>
-      
+
       <footer>
         <div class="grad-bottom"></div>
         <div class="footer">
@@ -183,14 +205,14 @@ a choice of a tile in an index implies a selection for a specific index elsewher
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            
-            <span>Generated by <strong>DocFX</strong></span>
+      
+      <span>Generated by <strong>DocFX</strong></span>
           </div>
         </div>
       </footer>
     </div>
-    
-    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+
+    <script type="text/javascript" src="../styles/docfx.vendor.min.js"></script>
     <script type="text/javascript" src="../styles/docfx.js"></script>
     <script type="text/javascript" src="../styles/main.js"></script>
   </body>

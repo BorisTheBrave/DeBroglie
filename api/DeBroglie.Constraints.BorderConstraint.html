@@ -1,17 +1,17 @@
 ﻿<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
-  
+
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>Class BorderConstraint
-   </title>
+ </title>
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class BorderConstraint
-   ">
-    <meta name="generator" content="docfx 2.59.0.0">
-    
+ ">
+    <meta name="generator" content="docfx ">
+  
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
     <link rel="stylesheet" href="../styles/docfx.css">
@@ -19,14 +19,14 @@
     <link rel="stylesheet" href="../styles/custom.css">
     <meta property="docfx:navrel" content="../toc.html">
     <meta property="docfx:tocrel" content="toc.html">
-    
-    
-    
+  
+  
+  
   </head>
   <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
       <header>
-        
+
         <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
           <div class="container">
             <div class="navbar-header">
@@ -36,7 +36,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              
+
               <a class="navbar-brand" href="../index.html">
                 <img id="logo" class="svg" src="../logo.svg" alt="">
               </a>
@@ -50,7 +50,7 @@
             </div>
           </div>
         </nav>
-        
+
         <div class="subnav navbar navbar-default">
           <div class="container hide-when-search" id="breadcrumb">
             <ul class="breadcrumb">
@@ -60,7 +60,7 @@
         </div>
       </header>
       <div role="main" class="container body-content hide-when-search">
-        
+
         <div class="sidenav hide-when-search">
           <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
           <div class="sidetoggle collapse" id="sidetoggle">
@@ -70,34 +70,35 @@
         <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="DeBroglie.Constraints.BorderConstraint">
-  
-  
+
+
+
   <h1 id="DeBroglie_Constraints_BorderConstraint" data-uid="DeBroglie.Constraints.BorderConstraint" class="text-break">Class BorderConstraint
-  </h1>
+</h1>
   <div class="markdown level0 summary"><p>BorderConstraint class restricts what tiles can be selected in various regions of the output.</p>
 <p>For each affected location, BorderConstratin calls Select with the Tile specified.If the Ban field is set, then it calls Ban instead of Select.</p>
 </div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
-    <div class="level0"><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.object">Object</a></div>
+    <div class="level0"><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
     <div class="level1"><span class="xref">BorderConstraint</span></div>
   </div>
-  <div classs="implements">
+  <div class="implements">
     <h5>Implements</h5>
     <div><a class="xref" href="DeBroglie.Constraints.ITileConstraint.html">ITileConstraint</a></div>
   </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="DeBroglie.Constraints.html">DeBroglie.Constraints</a></h6>
+  <h6><strong>Namespace</strong>: <a class="xref" href="DeBroglie.html">DeBroglie</a>.<a class="xref" href="DeBroglie.Constraints.html">Constraints</a></h6>
   <h6><strong>Assembly</strong>: DeBroglie.dll</h6>
   <h5 id="DeBroglie_Constraints_BorderConstraint_syntax">Syntax</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public class BorderConstraint : ITileConstraint</code></pre>
   </div>
   <h3 id="properties">Properties
-  </h3>
+</h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_BorderConstraint_Ban.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.BorderConstraint.Ban%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_BorderConstraint_Ban.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.BorderConstraint.Ban%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/BorderConstraint.cs/#L51">View Source</a>
@@ -107,12 +108,12 @@
   <div class="markdown level1 summary"><p>If true, ban <a class="xref" href="DeBroglie.Tile.html">Tile</a> from the area. Otherwise, select it (i.e. ban every other tile).</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public bool Ban { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -121,14 +122,14 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_BorderConstraint_ExcludeSides.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.BorderConstraint.ExcludeSides%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_BorderConstraint_ExcludeSides.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.BorderConstraint.ExcludeSides%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/BorderConstraint.cs/#L43">View Source</a>
@@ -138,12 +139,12 @@
   <div class="markdown level1 summary"><p>These locations are subtracted from the ones specified in <a class="xref" href="DeBroglie.Constraints.BorderConstraint.html#DeBroglie_Constraints_BorderConstraint_Sides">Sides</a>. Defaults to empty.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public BorderSides ExcludeSides { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -159,7 +160,7 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_BorderConstraint_InvertArea.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.BorderConstraint.InvertArea%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_BorderConstraint_InvertArea.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.BorderConstraint.InvertArea%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/BorderConstraint.cs/#L46">View Source</a>
@@ -168,12 +169,12 @@
   <h4 id="DeBroglie_Constraints_BorderConstraint_InvertArea" data-uid="DeBroglie.Constraints.BorderConstraint.InvertArea">InvertArea</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public bool InvertArea { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -182,14 +183,14 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="https://docs.microsoft.com/dotnet/api/system.boolean">Boolean</a></td>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_BorderConstraint_Sides.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.BorderConstraint.Sides%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_BorderConstraint_Sides.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.BorderConstraint.Sides%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/BorderConstraint.cs/#L38">View Source</a>
@@ -199,12 +200,12 @@
   <div class="markdown level1 summary"><p>A set of flags specifying which sides of the output are affected by the constraint.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public BorderSides Sides { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -220,7 +221,7 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_BorderConstraint_Tiles.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.BorderConstraint.Tiles%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_BorderConstraint_Tiles.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.BorderConstraint.Tiles%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/BorderConstraint.cs/#L33">View Source</a>
@@ -230,12 +231,12 @@
   <div class="markdown level1 summary"><p>The tiles to select or ban fromthe  border area.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Tile[] Tiles { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -250,24 +251,25 @@
     </tbody>
   </table>
   <h3 id="methods">Methods
-  </h3>
+</h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_BorderConstraint_Check_DeBroglie_TilePropagator_.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.BorderConstraint.Check(DeBroglie.TilePropagator)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_BorderConstraint_Check_DeBroglie_TilePropagator_.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.BorderConstraint.Check(DeBroglie.TilePropagator)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/BorderConstraint.cs/#L53">View Source</a>
   </span>
   <a id="DeBroglie_Constraints_BorderConstraint_Check_" data-uid="DeBroglie.Constraints.BorderConstraint.Check*"></a>
   <h4 id="DeBroglie_Constraints_BorderConstraint_Check_DeBroglie_TilePropagator_" data-uid="DeBroglie.Constraints.BorderConstraint.Check(DeBroglie.TilePropagator)">Check(TilePropagator)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Called frequently during generation to help maintain the constraint.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public void Check(TilePropagator propagator)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -279,27 +281,29 @@
       <tr>
         <td><a class="xref" href="DeBroglie.TilePropagator.html">TilePropagator</a></td>
         <td><span class="parametername">propagator</span></td>
-        <td></td>
+        <td><p>The propagator to constrain</p>
+</td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_BorderConstraint_Init_DeBroglie_TilePropagator_.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.BorderConstraint.Init(DeBroglie.TilePropagator)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_BorderConstraint_Init_DeBroglie_TilePropagator_.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.BorderConstraint.Init(DeBroglie.TilePropagator)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/BorderConstraint.cs/#L69">View Source</a>
   </span>
   <a id="DeBroglie_Constraints_BorderConstraint_Init_" data-uid="DeBroglie.Constraints.BorderConstraint.Init*"></a>
   <h4 id="DeBroglie_Constraints_BorderConstraint_Init_DeBroglie_TilePropagator_" data-uid="DeBroglie.Constraints.BorderConstraint.Init(DeBroglie.TilePropagator)">Init(TilePropagator)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Called once when the propagator first initializes.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
+  <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public void Init(TilePropagator propagator)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
+  <table class="table table-bordered table-condensed">
     <thead>
       <tr>
         <th>Type</th>
@@ -311,7 +315,8 @@
       <tr>
         <td><a class="xref" href="DeBroglie.TilePropagator.html">TilePropagator</a></td>
         <td><span class="parametername">propagator</span></td>
-        <td></td>
+        <td><p>The propagator to constrain</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -319,15 +324,16 @@
   <div>
       <a class="xref" href="DeBroglie.Constraints.ITileConstraint.html">ITileConstraint</a>
   </div>
+
 </article>
           </div>
-          
+
           <div class="hidden-sm col-md-2" role="complementary">
             <div class="sideaffix">
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_BorderConstraint.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.BorderConstraint%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/BorisTheBrave/DeBroglie/new/master/apiSpec/new?filename=DeBroglie_Constraints_BorderConstraint.md&amp;value=---%0Auid%3A%20DeBroglie.Constraints.BorderConstraint%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Edit this page</a>
                   </li>
                   <li>
                     <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/DeBroglie/Constraints/BorderConstraint.cs/#L28" class="contribution-link">View Source</a>
@@ -335,14 +341,14 @@
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-                <h5>In This Article</h5>
+                <h5>In this article</h5>
                 <div></div>
               </nav>
             </div>
           </div>
         </div>
       </div>
-      
+
       <footer>
         <div class="grad-bottom"></div>
         <div class="footer">
@@ -350,14 +356,14 @@
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            
-            <span>Generated by <strong>DocFX</strong></span>
+      
+      <span>Generated by <strong>DocFX</strong></span>
           </div>
         </div>
       </footer>
     </div>
-    
-    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+
+    <script type="text/javascript" src="../styles/docfx.vendor.min.js"></script>
     <script type="text/javascript" src="../styles/docfx.js"></script>
     <script type="text/javascript" src="../styles/main.js"></script>
   </body>

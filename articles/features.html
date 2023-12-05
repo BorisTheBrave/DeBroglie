@@ -1,15 +1,15 @@
 ﻿<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
-  
+
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>Features </title>
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Features ">
-    <meta name="generator" content="docfx 2.59.0.0">
-    
+    <meta name="generator" content="docfx ">
+  
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
     <link rel="stylesheet" href="../styles/docfx.css">
@@ -17,14 +17,14 @@
     <link rel="stylesheet" href="../styles/custom.css">
     <meta property="docfx:navrel" content="../toc.html">
     <meta property="docfx:tocrel" content="toc.html">
-    
-    
-    
+  
+  
+  
   </head>
   <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
       <header>
-        
+
         <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
           <div class="container">
             <div class="navbar-header">
@@ -34,7 +34,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              
+
               <a class="navbar-brand" href="../index.html">
                 <img id="logo" class="svg" src="../logo.svg" alt="">
               </a>
@@ -48,7 +48,7 @@
             </div>
           </div>
         </nav>
-        
+
         <div class="subnav navbar navbar-default">
           <div class="container hide-when-search" id="breadcrumb">
             <ul class="breadcrumb">
@@ -58,7 +58,7 @@
         </div>
       </header>
       <div role="main" class="container body-content hide-when-search">
-        
+
         <div class="sidenav hide-when-search">
           <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
           <div class="sidetoggle collapse" id="sidetoggle">
@@ -70,9 +70,9 @@
             <article class="content wrap" id="_content" data-uid="features">
 <h1 id="key-concepts">Key Concepts</h1>
 
-<p><strong>2d/3d</strong> - DeBroglie works for both 2d and 3d generation, by selecting an appropriate &lt;xref:DeBroglie.Topo.Topology&gt;. Generally, most APIs accept <code>(x,y,z)</code> co-ordinates - the <code>z</code> value should just be 0 if you are working in 2d.</p>
-<p><strong><a class="xref" href="../api/DeBroglie.Tile.html">Tile</a></strong> - The individual units the generation algorithm works with. Tiles wrap a value of any type, but they are usually an integer index into a tileset, or a <a class="xref" href="https://docs.microsoft.com/dotnet/api/system.drawing.color">Color</a> when working with bitmaps. The value isn't important, all relevant information about a tile is stored externally.</p>
-<p><strong>&lt;xref:DeBroglie.Topo.Topology&gt;</strong> - Specifies an area or volume of <a href="https://en.wikipedia.org/wiki/Discrete_space">space</a> and how to navigate it. There's more detail in the <a href="#topology">topology section</a>.</p>
+<p><strong>2d/3d</strong> - DeBroglie works for both 2d and 3d generation, by selecting an appropriate <a class="xref" href="../api/DeBroglie.Topo.ITopology.html">ITopology</a>. Generally, most APIs accept <code>(x,y,z)</code> co-ordinates - the <code>z</code> value should just be 0 if you are working in 2d.</p>
+<p><strong><a class="xref" href="../api/DeBroglie.Tile.html">Tile</a></strong> - The individual units the generation algorithm works with. Tiles wrap a value of any type, but they are usually an integer index into a tileset, or a @System.Drawing.Color when working with bitmaps. The value isn't important, all relevant information about a tile is stored externally.</p>
+<p><strong><a class="xref" href="../api/DeBroglie.Topo.ITopology.html">ITopology</a></strong> - Specifies an area or volume of <a href="https://en.wikipedia.org/wiki/Discrete_space">space</a> and how to navigate it. There's more detail in the <a href="#topology">topology section</a>.</p>
 <p><strong><a class="xref" href="../api/DeBroglie.Topo.ITopoArray-1.html">ITopoArray&lt;T&gt;</a></strong> - A 2d or 3d read-only array with one entry per space in the corresponding @DeBroglie.Topo.Topology. They are used as both the input and output format for the library. You can construct these with methods on <a class="xref" href="../api/DeBroglie.Topo.TopoArray.html">TopoArray</a>. ITopoArray objects can optionally have a mask associated with them, indicating missing values.</p>
 <p><strong><a class="xref" href="../api/DeBroglie.Models.TileModel.html">Model</a></strong> - A model specifies constraints between nearby tiles in the generated output. See <a href="#models">models</a> for more info.</p>
 <p><strong><a class="xref" href="../api/DeBroglie.TilePropagator.html">Propagator</a></strong> - A propogator is responsible for generating an output that satifies the constraints specified by the <a class="xref" href="../api/DeBroglie.Models.TileModel.html">model</a> and other <a class="xref" href="../api/DeBroglie.Constraints.ITileConstraint.html">constraints</a>.</p>
@@ -150,27 +150,28 @@ not just within a small rectangles.</p>
 <p>Topology is the abstraction DeBroglie to use to deal with 2d grids, 3d volumes and graphs under the same system. It is <a href="topologies.html">detailed here</a>.</p>
 <h2 id="rotation">Rotation</h2>
 <p>Handling rotation of the input sample is a complex topic, and is discussed <a class="xref" href="rotation.html">in a separate article</a>.</p>
+
 </article>
           </div>
-          
+
           <div class="hidden-sm col-md-2" role="complementary">
             <div class="sideaffix">
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/docs/articles/features.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/BorisTheBrave/DeBroglie/blob/master/docs/articles/features.md/#L1" class="contribution-link">Edit this page</a>
                   </li>
                 </ul>
               </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-                <h5>In This Article</h5>
+                <h5>In this article</h5>
                 <div></div>
               </nav>
             </div>
           </div>
         </div>
       </div>
-      
+
       <footer>
         <div class="grad-bottom"></div>
         <div class="footer">
@@ -178,14 +179,14 @@ not just within a small rectangles.</p>
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            
-            <span>Generated by <strong>DocFX</strong></span>
+      
+      <span>Generated by <strong>DocFX</strong></span>
           </div>
         </div>
       </footer>
     </div>
-    
-    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+
+    <script type="text/javascript" src="../styles/docfx.vendor.min.js"></script>
     <script type="text/javascript" src="../styles/docfx.js"></script>
     <script type="text/javascript" src="../styles/main.js"></script>
   </body>
