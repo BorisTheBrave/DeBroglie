@@ -25,4 +25,4 @@ But the comparison is only really skin deep - it's just a cool name.
 
 **Q:** How do I...
 
-**A:** There are many [samples](https://github.com/BorisTheBrave/DeBroglie/tree/master/samples) supplied with DeBroglie, try and find one that best matches your goal. If you are still stuck, try my [discord server](https://discord.gg/FguMExwb) for help.
+**A:** There are many [samples](https://github.com/BorisTheBrave/DeBroglie/tree/master/samples) supplied with DeBroglie, try and find one that best matches your goal. If you are still stuck, try my [discord server](https://discord.gg/Enzu2rrJFD) for help.

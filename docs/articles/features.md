@@ -6,11 +6,11 @@ title: Features
 Key Concepts
 ============
 
-**2d/3d** - DeBroglie works for both 2d and 3d generation, by selecting an appropriate <xref:DeBroglie.Topo.Topology>. Generally, most APIs accept `(x,y,z)` co-ordinates - the `z` value should just be 0 if you are working in 2d.
+**2d/3d** - DeBroglie works for both 2d and 3d generation, by selecting an appropriate <xref:DeBroglie.Topo.ITopology>. Generally, most APIs accept `(x,y,z)` co-ordinates - the `z` value should just be 0 if you are working in 2d.
 
 **<xref:DeBroglie.Tile>** - The individual units the generation algorithm works with. Tiles wrap a value of any type, but they are usually an integer index into a tileset, or a @System.Drawing.Color when working with bitmaps. The value isn't important, all relevant information about a tile is stored externally.
 
-**<xref:DeBroglie.Topo.Topology>** - Specifies an area or volume of [space](https://en.wikipedia.org/wiki/Discrete_space) and how to navigate it. There's more detail in the [topology section](#topology).
+**<xref:DeBroglie.Topo.ITopology>** - Specifies an area or volume of [space](https://en.wikipedia.org/wiki/Discrete_space) and how to navigate it. There's more detail in the [topology section](#topology).
 
 **<xref:DeBroglie.Topo.ITopoArray`1>** - A 2d or 3d read-only array with one entry per space in the corresponding @DeBroglie.Topo.Topology. They are used as both the input and output format for the library. You can construct these with methods on @DeBroglie.Topo.TopoArray. ITopoArray objects can optionally have a mask associated with them, indicating missing values.
 

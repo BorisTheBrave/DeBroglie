@@ -49,7 +49,7 @@ This is the most straightforward topology. It corresponds to a grid of cells, an
 
 Hexagonal topologies use a convention of "pointy side up". The x-axis moves to the right, and the y-axis moves down and to the left. This means the library generates rhombus shaped output. Additionally, periodic input / output is not supported.
 
-Using the [Tiled format](https://www.mapeditor.org/) for import/export of hexagonal tilemaps is recommended, as most software doesn't have support for hexagons. DeBroglie comes with <xref:DeBroglie.TiledUtil> to facilitate converting between <xref:DeBroglie.Topo.ITopoArray`1> objects and Tiled maps.
+Using the [Tiled format](https://www.mapeditor.org/) for import/export of hexagonal tilemaps is recommended, as most software doesn't have support for hexagons. DeBroglie comes with a separate library DeBroglie.Tiled to facilitate converting between <xref:DeBroglie.Topo.ITopoArray`1> objects and Tiled maps.
 
 When using the [overlapping](features.md#overlapping) model, the constraints are based on `n` by `n` rhombus shapes, rather than `n` by `n` rectangles.
 

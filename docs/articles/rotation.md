@@ -3,8 +3,10 @@ uid: rotation_article
 title: Rotation
 ---
 
-> [!Note]
-> Although feature of DeBroglie works, I consider it to be a failure.
+# Rotation
+
+> [!Warning]
+> Although this feature of DeBroglie works, I consider it to be a failure.
 > It is very complicated to understand, for relatively little benefit. It is an entirely *optional* function of DeBroglie - you can achieve similar results
 > by creating your own rotated tiles, and many users have reported they've found that easier than the built in solution.
 

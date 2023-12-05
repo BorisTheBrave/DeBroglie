@@ -44,10 +44,10 @@ title: Release Notes
 
 # v0.4.0
 
-* Added [EdgedPathConstraint](xref:DeBroglie.Constraints.EdgedPathConstraint)
+* Added `EdgedPathConstraint`
 * Use Direction enum instead of int [breaking]
 * Path contraint can now specify end points in JSON
-* Added [MirrorConstraint](xref:DeBroglie.Constraints.MirrorConstraint)
+* Added `MirrorConstraint`
 * Several constraints now support using an array of tiles instead of a single tile [breaking]
 * Fixed several subtle bugs in the core WFC+constraint system.
 * Constraint methods now return void [breaking]
