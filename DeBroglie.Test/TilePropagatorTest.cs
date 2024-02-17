@@ -262,5 +262,25 @@ namespace DeBroglie.Test
 
         }
 
+        [Test]
+        public void TestTrivial()
+        {
+            var t1 = new Tile(1);
+            var model = new AdjacentModel(DirectionSet.Cartesian2d);
+            model.AddAdjacency(t1, t1, Direction.XPlus);
+            model.AddAdjacency(t1, t1, Direction.YPlus);
+
+            model.SetUniformFrequency();
+
+            var topology = new GridTopology(3, 3, false);
+
+
+            var propagator = new TilePropagator(model, topology, new TilePropagatorOptions{});
+
+            propagator.Run();
+
+            Assert.AreEqual(Resolution.Decided, propagator.Status);
+        }
+
     }
 }

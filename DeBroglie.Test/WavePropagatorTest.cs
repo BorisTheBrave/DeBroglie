@@ -250,11 +250,12 @@ namespace DeBroglie.Test
             var topology = new GridTopology(width, height, true);
             var indexPicker = new CustomIndexPicker();
             var memoIndexPicker = new MemoizeIndexPicker(indexPicker);
-            var options = new WavePropagatorOptions { 
+            var options = new WavePropagatorOptions
+            {
                 BacktrackPolicy = new ConstantBacktrackPolicy(1),
                 IndexPicker = memoIndexPicker,
                 PatternPicker = new SimpleOrderedPatternPicker(),
-                Constraints = new[] {new  DontBanOneConstraint()},
+                Constraints = new[] { new DontBanOneConstraint() },
             };
             var propagator = new WavePropagator(model, topology, options);
 
@@ -278,6 +279,32 @@ namespace DeBroglie.Test
             Assert.AreEqual(2, indexPicker.Count);
             // etc
 
+        }
+
+        [Test]
+        public void TestTrivial()
+        {
+            var model = new PatternModel
+            {
+                Frequencies = new double[] { 1, },
+                // Free model
+                Propagator = new int[][][]
+                {
+                    new int[][]{ new int[] { 0 }, new int[] { 0 }, new int[] { 0 }, new int[] { 0 }, },
+                    new int[][]{ new int[] { 0 }, new int[] { 0 }, new int[] { 0 }, new int[] { 0 }, },
+                }
+            };
+            var width = 10;
+            var height = 10;
+            var topology = new GridTopology(width, height, true);
+
+            var options = new WavePropagatorOptions { };
+            var propagator = new WavePropagator(model, topology, options);
+
+            var status = propagator.Run();
+            Assert.AreEqual(Resolution.Decided, status);
+
+            Assert.AreEqual(Resolution.Decided, propagator.Status);
         }
     }
 }

@@ -92,7 +92,10 @@ namespace DeBroglie.Trackers
                     var ev = entropyValues[index] = new EntropyValues(initial);
                     ev.Index = index;
                     ev.Tiebreaker = randomDouble() * 1e-10;
-                    heap.Insert(ev);
+                    if (patternCount > 1)
+                    {
+                        heap.Insert(ev);
+                    }
                 }
             }
             ((ITracker)tracker).Reset();
