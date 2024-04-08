@@ -112,7 +112,7 @@ namespace DeBroglie
                     options.IndexPickerType != IndexPickerType.MinEntropy &&
                     options.IndexPickerType != IndexPickerType.Ordered)
                 {
-                    throw new Exception($"Connected Pick Heuristic is incompatible with the selected IndexPikcerType {options.IndexPickerType}");
+                    throw new Exception($"Connected Pick Heuristic is incompatible with the selected IndexPickerType {options.IndexPickerType}");
                 }
                 if (options.IndexPickerType == IndexPickerType.Default)
                     options.IndexPickerType = IndexPickerType.MinEntropy;
