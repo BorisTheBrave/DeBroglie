@@ -14,7 +14,7 @@ namespace DeBroglie.Console.Import
             Image<Rgba32> bitmap;
             try
             {
-                bitmap = Image.Load(filename);
+                bitmap = Image.Load<Rgba32>(filename);
             }
             catch (ArgumentException)
             {

@@ -75,7 +75,7 @@ namespace DeBroglie.Console.Export
             var basePath = Path.GetDirectoryName(teo.SrcFileName);
             foreach (var tileset in teo.Template.Tilesets)
             {
-                var tilesetBitmap = Image.Load(Path.Combine(basePath, tileset.ImagePath));
+                var tilesetBitmap = Image.Load<Rgba32>(Path.Combine(basePath, tileset.ImagePath));
                 for(var i=0;i<tileset.TileCount;i++)
                 {
                     var gid = i + tileset.FirstGid;

@@ -30,7 +30,7 @@ namespace DeBroglie.Console.Export
             }
             if (n == 0)
             {
-                return Rgba32.Transparent;
+                return Color.Transparent.ToPixel<Rgba32>();
             }
             else
             {
@@ -72,7 +72,9 @@ namespace DeBroglie.Console.Export
             {
                 if (exportOptions is BitmapExportOptions)
                 {
-                    var topoArray = propagator.ToValueArray(Rgba32.Gray, Rgba32.Magenta);
+                    
+                    
+                    var topoArray = propagator.ToValueArray(Color.Gray.ToPixel<Rgba32>(), Color.Magenta.ToPixel<Rgba32>());
                     var bitmap = BitmapUtils.ToBitmap(topoArray.ToArray2d());
                     bitmap.Save(filename);
                 }
@@ -84,8 +86,8 @@ namespace DeBroglie.Console.Export
 
                     var tileTopology = topoArray.Topology.AsGridTopology().WithSize(bseo.TileWidth, bseo.TileHeight, 1);
                     var subTiles = bseo.Bitmaps.ToDictionary(x => x.Key, x => TopoArray.Create(BitmapUtils.ToColorArray(x.Value), tileTopology));
-                    subTiles[undecided] = TopoArray.FromConstant(Rgba32.Gray, tileTopology);
-                    subTiles[contradiction] = TopoArray.FromConstant(Rgba32.Magenta, tileTopology);
+                    subTiles[undecided] = TopoArray.FromConstant(Color.Gray.ToPixel<Rgba32>(), tileTopology);
+                    subTiles[contradiction] = TopoArray.FromConstant(Color.Magenta.ToPixel<Rgba32>(), tileTopology);
 
                     var exploded = MoreTopoArrayUtils.ExplodeTiles(topoArray, subTiles, bseo.TileWidth, bseo.TileHeight, 1);
                     var bitmap = BitmapUtils.ToBitmap(exploded.ToArray2d());

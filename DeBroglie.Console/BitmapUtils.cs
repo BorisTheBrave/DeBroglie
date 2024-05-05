@@ -1,7 +1,6 @@
 ﻿using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
-using SixLabors.Primitives;
 using System.Collections.Generic;
 
 namespace DeBroglie.Console
@@ -57,7 +56,7 @@ namespace DeBroglie.Console
         {
             // TODO: Seriously, is this the best way in ImageSharp?
             var subImage = src.Clone(c => c.Crop(new Rectangle(srcX, srcY, width, height)));    
-            dest.Mutate(c => c.DrawImage(subImage, new SixLabors.Primitives.Point(destX, destY), 1.0f));
+            dest.Mutate(c => c.DrawImage(subImage, new SixLabors.ImageSharp.Point(destX, destY), 1.0f));
         }
     }
 }

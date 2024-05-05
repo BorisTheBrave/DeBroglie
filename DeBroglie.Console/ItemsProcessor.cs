@@ -7,6 +7,7 @@ using DeBroglie.Topo;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -90,7 +91,7 @@ namespace DeBroglie.Console
 
             if (config.SrcType == SrcType.BitmapSet)
             {
-                var bitmaps = filenames.ToDictionary(x => x.Key, x => Image.Load(Path.Combine(config.BaseDirectory, x.Value)));
+                var bitmaps = filenames.ToDictionary(x => x.Key, x => Image.Load<Rgba32>(Path.Combine(config.BaseDirectory, x.Value)));
                 var first = bitmaps.First().Value;
                 return new SampleSet
                 {
