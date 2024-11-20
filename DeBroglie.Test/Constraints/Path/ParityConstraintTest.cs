@@ -2,6 +2,7 @@
 using DeBroglie.Models;
 using DeBroglie.Topo;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,7 +55,7 @@ namespace DeBroglie.Test.Constraints
 
             propagator.Step();
 
-            Assert.AreEqual(Resolution.Contradiction, propagator.Status);
+            ClassicAssert.AreEqual(Resolution.Contradiction, propagator.Status);
         }
     }
 }

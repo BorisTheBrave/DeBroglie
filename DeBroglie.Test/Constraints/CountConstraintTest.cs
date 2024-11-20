@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using DeBroglie.Constraints;
+using NUnit.Framework.Legacy;
 
 namespace DeBroglie.Test.Constraints
 {
@@ -50,20 +51,20 @@ namespace DeBroglie.Test.Constraints
 
             propagator.Run();
 
-            Assert.AreEqual(Resolution.Decided, propagator.Status);
+            ClassicAssert.AreEqual(Resolution.Decided, propagator.Status);
 
             var actualCount = propagator.ToValueArray<int>().ToArray2d().OfType<int>().Count(x => x == 1);
 
             switch (comparison)
             {
                 case CountComparison.AtMost:
-                    Assert.LessOrEqual(actualCount, count);
+                    ClassicAssert.LessOrEqual(actualCount, count);
                     break;
                 case CountComparison.AtLeast:
-                    Assert.GreaterOrEqual(actualCount, count);
+                    ClassicAssert.GreaterOrEqual(actualCount, count);
                     break;
                 case CountComparison.Exactly:
-                    Assert.AreEqual(count, actualCount);
+                    ClassicAssert.AreEqual(count, actualCount);
                     break;
             }
         }
@@ -106,11 +107,11 @@ namespace DeBroglie.Test.Constraints
 
             propagator.Run();
 
-            Assert.AreEqual(Resolution.Decided, propagator.Status);
+            ClassicAssert.AreEqual(Resolution.Decided, propagator.Status);
 
             var actualCount = propagator.ToValueArray<int>().ToArray2d().OfType<int>().Count(x => x == 1 || x == 2);
 
-            Assert.AreEqual(count, actualCount);
+            ClassicAssert.AreEqual(count, actualCount);
         }
 
         [Test]
@@ -147,7 +148,7 @@ namespace DeBroglie.Test.Constraints
 
             propagator.Run();
 
-            Assert.AreEqual(Resolution.Contradiction, propagator.Status);
+            ClassicAssert.AreEqual(Resolution.Contradiction, propagator.Status);
         }
     }
 }

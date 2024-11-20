@@ -2,6 +2,7 @@
 using DeBroglie.Models;
 using DeBroglie.Topo;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace DeBroglie.Test.Constraints
 {
@@ -24,12 +25,12 @@ namespace DeBroglie.Test.Constraints
                 }
             });
             var status = propagator.Run();
-            Assert.AreEqual(Resolution.Decided, status);
+            ClassicAssert.AreEqual(Resolution.Decided, status);
             var result = propagator.ToValueArray<int>().ToArray2d();
-            Assert.AreEqual(0, result[0, 0]);
-            Assert.AreEqual(0, result[9, 0]);
-            Assert.AreEqual(0, result[0, 9]);
-            Assert.AreEqual(0, result[9, 9]);
+            ClassicAssert.AreEqual(0, result[0, 0]);
+            ClassicAssert.AreEqual(0, result[9, 0]);
+            ClassicAssert.AreEqual(0, result[0, 9]);
+            ClassicAssert.AreEqual(0, result[9, 9]);
 
         }
     }

@@ -3,6 +3,7 @@ using DeBroglie.Constraints.Path;
 using DeBroglie.Models;
 using DeBroglie.Topo;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,7 +49,7 @@ namespace DeBroglie.Test.Constraints
                 RandomDouble = r.NextDouble
             });
             var status = propagator.Run();
-            Assert.AreEqual(Resolution.Decided, status);
+            ClassicAssert.AreEqual(Resolution.Decided, status);
             var result = propagator.ToValueArray<int>().ToArray2d();
             // Write out result for debugging
             for (var y = 0; y < 10; y++)
@@ -126,7 +127,7 @@ namespace DeBroglie.Test.Constraints
                 RandomDouble = r.NextDouble
             });
             var status = propagator.Run();
-            Assert.AreEqual(Resolution.Decided, status);
+            ClassicAssert.AreEqual(Resolution.Decided, status);
             var result = propagator.ToValueArray<int>().ToArray2d();
             // Write out result for debugging
             for (var y = 0; y < 10; y++)
@@ -232,7 +233,7 @@ namespace DeBroglie.Test.Constraints
 
             propagator.Run();
 
-            Assert.AreEqual(propagator.Status, Resolution.Decided);
+            ClassicAssert.AreEqual(propagator.Status, Resolution.Decided);
         }
 
         [Test]
@@ -271,7 +272,7 @@ namespace DeBroglie.Test.Constraints
 
             propagator.Run();
 
-            Assert.AreEqual(Resolution.Contradiction, propagator.Status);
+            ClassicAssert.AreEqual(Resolution.Contradiction, propagator.Status);
         }
 
         [Test]
@@ -349,7 +350,7 @@ namespace DeBroglie.Test.Constraints
             propagator.Select(0, 0, 0, allTiles.First());
             propagator.Select(width - 1, height - 1, 0, allTiles.Last());
             var status = propagator.Run();
-            Assert.AreEqual(Resolution.Decided, status);
+            ClassicAssert.AreEqual(Resolution.Decided, status);
             var result = propagator.ToValueArray<int>().ToArray2d();
             // Write out result for debugging
             for (var y = 0; y < height; y++)
@@ -428,7 +429,7 @@ namespace DeBroglie.Test.Constraints
             propagator.Select(0, 0, 0, allTiles.First());
             propagator.Select(width - 1, height - 1, 0, allTiles.Last());
             var status = propagator.Run();
-            Assert.AreEqual(Resolution.Decided, status);
+            ClassicAssert.AreEqual(Resolution.Decided, status);
             var result = propagator.ToValueArray<int>().ToArray2d();
             // Write out result for debugging
             for (var y = 0; y < height; y++)

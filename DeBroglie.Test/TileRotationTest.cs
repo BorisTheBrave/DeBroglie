@@ -1,5 +1,6 @@
 ﻿using DeBroglie.Rot;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -24,7 +25,7 @@ namespace DeBroglie.Test
             var builder = new TileRotationBuilder(4, true);
 
             builder.Add(new Tile(1), new Rotation(0, true), new Tile(2));
-            Assert.Throws<Exception>(() => builder.Add(new Tile(2), new Rotation(0, true), new Tile(3)));
+            ClassicAssert.Throws<Exception>(() => builder.Add(new Tile(2), new Rotation(0, true), new Tile(3)));
         }
 
         [Test]
@@ -37,8 +38,8 @@ namespace DeBroglie.Test
 
             var rotation = builder.Build();
             var b1 = rotation.Rotate(new Tile(1), new Rotation(1, false), out var r1);
-            Assert.IsTrue(b1);
-            Assert.AreEqual(new Tile(1), r1);
+            ClassicAssert.IsTrue(b1);
+            ClassicAssert.AreEqual(new Tile(1), r1);
         }
     }
 }

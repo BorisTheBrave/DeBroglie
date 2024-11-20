@@ -1,5 +1,6 @@
 ﻿using DeBroglie.Constraints;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -32,12 +33,12 @@ namespace DeBroglie.Test.Constraints
             for (var i = 0; i < 6; i++) walkable[i] = true;
 
             var art = PathConstraintUtils.GetArticulationPoints(g, walkable).IsArticulation;
-            Assert.AreEqual(false, art[0]);
-            Assert.AreEqual(true, art[1]);
-            Assert.AreEqual(false, art[2]);
-            Assert.AreEqual(false, art[3]);
-            Assert.AreEqual(true, art[4]);
-            Assert.AreEqual(false, art[5]);
+            ClassicAssert.AreEqual(false, art[0]);
+            ClassicAssert.AreEqual(true, art[1]);
+            ClassicAssert.AreEqual(false, art[2]);
+            ClassicAssert.AreEqual(false, art[3]);
+            ClassicAssert.AreEqual(true, art[4]);
+            ClassicAssert.AreEqual(false, art[5]);
         }
 
 
@@ -63,10 +64,10 @@ namespace DeBroglie.Test.Constraints
             relevant[2] = true;
 
             var art = PathConstraintUtils.GetArticulationPoints(g, walkable, relevant).IsArticulation;
-            Assert.AreEqual(false, art[0]);
-            Assert.AreEqual(false, art[1]);
-            Assert.AreEqual(false, art[2]);
-            Assert.AreEqual(false, art[3]);
+            ClassicAssert.AreEqual(false, art[0]);
+            ClassicAssert.AreEqual(false, art[1]);
+            ClassicAssert.AreEqual(false, art[2]);
+            ClassicAssert.AreEqual(false, art[3]);
         }
 
         [Test]
@@ -92,10 +93,10 @@ namespace DeBroglie.Test.Constraints
             relevant[3] = true;
 
             var art = PathConstraintUtils.GetArticulationPoints(g, walkable, relevant).IsArticulation;
-            Assert.AreEqual(false, art[0]);
-            Assert.AreEqual(true, art[1]);
-            Assert.AreEqual(true, art[2]);
-            Assert.AreEqual(false, art[3]);
+            ClassicAssert.AreEqual(false, art[0]);
+            ClassicAssert.AreEqual(true, art[1]);
+            ClassicAssert.AreEqual(true, art[2]);
+            ClassicAssert.AreEqual(false, art[3]);
         }
 
         [Test]
@@ -121,10 +122,10 @@ namespace DeBroglie.Test.Constraints
             relevant[3] = true;
 
             var art = PathConstraintUtils.GetArticulationPoints(g, walkable, relevant).IsArticulation;
-            Assert.AreEqual(false, art[0]);
-            Assert.AreEqual(false, art[1]);
-            Assert.AreEqual(true, art[2]);
-            Assert.AreEqual(false, art[3]);
+            ClassicAssert.AreEqual(false, art[0]);
+            ClassicAssert.AreEqual(false, art[1]);
+            ClassicAssert.AreEqual(true, art[2]);
+            ClassicAssert.AreEqual(false, art[3]);
         }
     }
 }

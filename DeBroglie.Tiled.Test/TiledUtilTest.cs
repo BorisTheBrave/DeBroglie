@@ -1,6 +1,7 @@
 ﻿using DeBroglie;
 using DeBroglie.Rot;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,9 +24,9 @@ namespace DeBroglie.Tiled.Test
             var tile = new Tile(123);
             var gid = TiledUtil.TileToGid(new Tile(new RotatedTile { Rotation = new Rotation(rotateCw, reflectX), Tile = tile }));
             var tile2 = (RotatedTile)TiledUtil.GidToTile(gid, TiledLib.Orientation.orthogonal).Value;
-            Assert.AreEqual(tile, tile2.Tile);
-            Assert.AreEqual(rotateCw, tile2.Rotation.RotateCw);
-            Assert.AreEqual(reflectX, tile2.Rotation.ReflectX);
+            ClassicAssert.AreEqual(tile, tile2.Tile);
+            ClassicAssert.AreEqual(rotateCw, tile2.Rotation.RotateCw);
+            ClassicAssert.AreEqual(reflectX, tile2.Rotation.ReflectX);
         }
 
         [Test]
@@ -45,9 +46,9 @@ namespace DeBroglie.Tiled.Test
             var tile = new Tile(123);
             var gid = TiledUtil.TileToGid(new Tile(new RotatedTile { Rotation = new Rotation(rotateCw, reflectX), Tile = tile }), TiledLib.Orientation.hexagonal);
             var tile2 = (RotatedTile)TiledUtil.GidToTile(gid, TiledLib.Orientation.hexagonal).Value;
-            Assert.AreEqual(tile, tile2.Tile);
-            Assert.AreEqual(rotateCw, tile2.Rotation.RotateCw);
-            Assert.AreEqual(reflectX, tile2.Rotation.ReflectX);
+            ClassicAssert.AreEqual(tile, tile2.Tile);
+            ClassicAssert.AreEqual(rotateCw, tile2.Rotation.RotateCw);
+            ClassicAssert.AreEqual(reflectX, tile2.Rotation.ReflectX);
         }
     }
 }

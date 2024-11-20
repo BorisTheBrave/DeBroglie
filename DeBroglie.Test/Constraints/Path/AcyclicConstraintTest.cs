@@ -2,6 +2,7 @@
 using DeBroglie.Models;
 using DeBroglie.Topo;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,7 +55,7 @@ namespace DeBroglie.Test.Constraints
                 RandomDouble = r.NextDouble
             });
             var status = propagator.Run();
-            Assert.AreEqual(Resolution.Decided, status);
+            ClassicAssert.AreEqual(Resolution.Decided, status);
             var result = propagator.ToValueArray<int>().ToArray2d();
             // Write out result for debugging
             for (var y = 0; y < topology.Height; y++)

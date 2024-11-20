@@ -2,6 +2,7 @@
 using DeBroglie.Rot;
 using DeBroglie.Topo;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System.Linq;
 
 namespace DeBroglie.Test
@@ -134,7 +135,7 @@ namespace DeBroglie.Test
             propagator.Run();
             PrintPropagator();
 
-            Assert.AreEqual(Resolution.Decided, propagator.Status);
+            ClassicAssert.AreEqual(Resolution.Decided, propagator.Status);
         }
     }
 }

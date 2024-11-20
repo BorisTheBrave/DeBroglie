@@ -1,6 +1,7 @@
 ﻿using DeBroglie.Models;
 using DeBroglie.Topo;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -24,15 +25,15 @@ namespace DeBroglie.Test
             propagator.Select(0, 0, 0, new Tile(1));
             var status = propagator.Run();
 
-            Assert.AreEqual(Resolution.Decided, status);
+            ClassicAssert.AreEqual(Resolution.Decided, status);
 
             var result = propagator.ToValueArray<int>().ToArray2d();
 
-            Assert.AreEqual(4, result.GetLength(0));
-            Assert.AreEqual(4, result.GetLength(1));
+            ClassicAssert.AreEqual(4, result.GetLength(0));
+            ClassicAssert.AreEqual(4, result.GetLength(1));
 
-            Assert.AreEqual(1, result[0, 0]);
-            Assert.AreEqual(1, result[3, 3]);
+            ClassicAssert.AreEqual(1, result[0, 0]);
+            ClassicAssert.AreEqual(1, result[3, 3]);
         }
 
         [Test]
@@ -66,7 +67,7 @@ namespace DeBroglie.Test
 
             propagator.Run();
 
-            Assert.AreEqual(Resolution.Decided, propagator.Status);
+            ClassicAssert.AreEqual(Resolution.Decided, propagator.Status);
         }
 
         [Test]
@@ -103,7 +104,7 @@ namespace DeBroglie.Test
 
             propagator.Run();
 
-            Assert.AreEqual(Resolution.Decided, propagator.Status);
+            ClassicAssert.AreEqual(Resolution.Decided, propagator.Status);
         }
 
         // This test illustrates a problem with how masks interact with the overlapping model.
@@ -152,7 +153,7 @@ namespace DeBroglie.Test
 
             propagator.Run();
 
-            Assert.AreEqual(Resolution.Decided, propagator.Status);
+            ClassicAssert.AreEqual(Resolution.Decided, propagator.Status);
         }
 
         [Test]
@@ -176,12 +177,12 @@ namespace DeBroglie.Test
                 propagator.GetBannedSelected(0, 0, 0, set1, out var isBanned2, out var isSelected2);
                 propagator.GetBannedSelected(0, 0, 0, set12, out var isBanned3, out var isSelected3);
 
-                Assert.AreEqual(false, isBanned1);
-                Assert.AreEqual(false, isBanned2);
-                Assert.AreEqual(false, isBanned3);
-                Assert.AreEqual(false, isSelected1);
-                Assert.AreEqual(false, isSelected2);
-                Assert.AreEqual(false, isSelected3);
+                ClassicAssert.AreEqual(false, isBanned1);
+                ClassicAssert.AreEqual(false, isBanned2);
+                ClassicAssert.AreEqual(false, isBanned3);
+                ClassicAssert.AreEqual(false, isSelected1);
+                ClassicAssert.AreEqual(false, isSelected2);
+                ClassicAssert.AreEqual(false, isSelected3);
             }
 
             propagator.Ban(0, 0, 0, new Tile(3));
@@ -191,12 +192,12 @@ namespace DeBroglie.Test
                 propagator.GetBannedSelected(0, 0, 0, set1, out var isBanned2, out var isSelected2);
                 propagator.GetBannedSelected(0, 0, 0, set12, out var isBanned3, out var isSelected3);
 
-                Assert.AreEqual(false, isBanned1);
-                Assert.AreEqual(false, isBanned2);
-                Assert.AreEqual(false, isBanned3);
-                Assert.AreEqual(false, isSelected1);
-                Assert.AreEqual(false, isSelected2);
-                Assert.AreEqual(true, isSelected3);
+                ClassicAssert.AreEqual(false, isBanned1);
+                ClassicAssert.AreEqual(false, isBanned2);
+                ClassicAssert.AreEqual(false, isBanned3);
+                ClassicAssert.AreEqual(false, isSelected1);
+                ClassicAssert.AreEqual(false, isSelected2);
+                ClassicAssert.AreEqual(true, isSelected3);
             }
 
             propagator.Ban(0, 0, 0, new Tile(1));
@@ -206,12 +207,12 @@ namespace DeBroglie.Test
                 propagator.GetBannedSelected(0, 0, 0, set1, out var isBanned2, out var isSelected2);
                 propagator.GetBannedSelected(0, 0, 0, set12, out var isBanned3, out var isSelected3);
 
-                Assert.AreEqual(true, isBanned1);
-                Assert.AreEqual(true, isBanned2);
-                Assert.AreEqual(false, isBanned3);
-                Assert.AreEqual(false, isSelected1);
-                Assert.AreEqual(false, isSelected2);
-                Assert.AreEqual(true, isSelected3);
+                ClassicAssert.AreEqual(true, isBanned1);
+                ClassicAssert.AreEqual(true, isBanned2);
+                ClassicAssert.AreEqual(false, isBanned3);
+                ClassicAssert.AreEqual(false, isSelected1);
+                ClassicAssert.AreEqual(false, isSelected2);
+                ClassicAssert.AreEqual(true, isSelected3);
             }
         }
 
@@ -252,13 +253,13 @@ namespace DeBroglie.Test
 
             propagator.Run();
 
-            Assert.AreEqual(Resolution.Decided, propagator.Status);
+            ClassicAssert.AreEqual(Resolution.Decided, propagator.Status);
 
             var r = propagator.ToValueArray<int>();
-            Assert.AreEqual(1, r.Get(0, 0));
-            Assert.AreEqual(2, r.Get(1, 0));
-            Assert.AreEqual(3, r.Get(2, 0));
-            Assert.AreEqual(3, r.Get(3, 0));
+            ClassicAssert.AreEqual(1, r.Get(0, 0));
+            ClassicAssert.AreEqual(2, r.Get(1, 0));
+            ClassicAssert.AreEqual(3, r.Get(2, 0));
+            ClassicAssert.AreEqual(3, r.Get(3, 0));
 
         }
 
@@ -279,7 +280,7 @@ namespace DeBroglie.Test
 
             propagator.Run();
 
-            Assert.AreEqual(Resolution.Decided, propagator.Status);
+            ClassicAssert.AreEqual(Resolution.Decided, propagator.Status);
         }
 
     }

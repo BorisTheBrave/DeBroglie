@@ -3,6 +3,7 @@ using DeBroglie.Models;
 using DeBroglie.Rot;
 using DeBroglie.Topo;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -49,8 +50,8 @@ namespace DeBroglie.Test.Constraints
                 var p2 = new TilePropagator(model, t2, constraints: constraints);
                 p2.Select(0, 0, 0, tile1);
                 var status = p2.Run();
-                Assert.AreEqual(Resolution.Decided, status);
-                Assert.AreEqual(tile2, p2.ToArray().Get(1, 0));
+                ClassicAssert.AreEqual(Resolution.Decided, status);
+                ClassicAssert.AreEqual(tile2, p2.ToArray().Get(1, 0));
             }
 
             // tile3 reflects to tile3
@@ -59,8 +60,8 @@ namespace DeBroglie.Test.Constraints
                 var p2 = new TilePropagator(model, t2, constraints: constraints);
                 p2.Select(0, 0, 0, tile3);
                 var status = p2.Run();
-                Assert.AreEqual(Resolution.Decided, status);
-                Assert.AreEqual(tile3, p2.ToArray().Get(1, 0));
+                ClassicAssert.AreEqual(Resolution.Decided, status);
+                ClassicAssert.AreEqual(tile3, p2.ToArray().Get(1, 0));
             }
 
             // tile3 only tile that can go in a central space
@@ -70,8 +71,8 @@ namespace DeBroglie.Test.Constraints
                 var t2 = new GridTopology(3, 1, false);
                 var p2 = new TilePropagator(model, t2, constraints: constraints);
                 var status = p2.Run();
-                Assert.AreEqual(Resolution.Decided, status);
-                Assert.AreEqual(tile3, p2.ToArray().Get(1, 0));
+                ClassicAssert.AreEqual(Resolution.Decided, status);
+                ClassicAssert.AreEqual(tile3, p2.ToArray().Get(1, 0));
             }
 
             // tile5 can be reflected, but cannot
@@ -81,7 +82,7 @@ namespace DeBroglie.Test.Constraints
                 var p2 = new TilePropagator(model, t2, constraints: constraints);
                 p2.Select(0, 0, 0, tile5);
                 var status = p2.Run();
-                Assert.AreEqual(Resolution.Contradiction, status);
+                ClassicAssert.AreEqual(Resolution.Contradiction, status);
             }
 
             {
@@ -89,7 +90,7 @@ namespace DeBroglie.Test.Constraints
                 var p2 = new TilePropagator(model, t2, constraints: constraints);
                 p2.Select(0, 0, 0, tile5);
                 var status = p2.Run();
-                Assert.AreEqual(Resolution.Decided, status);
+                ClassicAssert.AreEqual(Resolution.Decided, status);
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using DeBroglie.Models;
 using DeBroglie.Topo;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -42,12 +43,12 @@ namespace DeBroglie.Test
             propagator.Run();
 
             var a = propagator.ToValueArray<int?>();
-            Assert.AreEqual(null, a.Get(0, 0));
-            Assert.AreEqual(null, a.Get(1, 0));
-            Assert.AreEqual(2, a.Get(2, 0));
-            Assert.AreEqual(3, a.Get(3, 0));
-            Assert.AreEqual(2, a.Get(4, 0));
-            Assert.AreEqual(null, a.Get(5, 0));
+            ClassicAssert.AreEqual(null, a.Get(0, 0));
+            ClassicAssert.AreEqual(null, a.Get(1, 0));
+            ClassicAssert.AreEqual(2, a.Get(2, 0));
+            ClassicAssert.AreEqual(3, a.Get(3, 0));
+            ClassicAssert.AreEqual(2, a.Get(4, 0));
+            ClassicAssert.AreEqual(null, a.Get(5, 0));
         }
 
     }

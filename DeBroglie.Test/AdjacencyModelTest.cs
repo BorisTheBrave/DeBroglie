@@ -2,6 +2,7 @@
 using DeBroglie.Rot;
 using DeBroglie.Topo;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,8 +27,8 @@ namespace DeBroglie.Test
             model.AddAdjacency(tile2, tile1, 0, 1, 0);
 
             var patternModel = model.GetTileModelMapping(new GridTopology(10, 10, false)).PatternModel;
-            Assert.AreEqual(1, patternModel.Frequencies[0]);
-            Assert.AreEqual(5, patternModel.Frequencies[1]);
+            ClassicAssert.AreEqual(1, patternModel.Frequencies[0]);
+            ClassicAssert.AreEqual(5, patternModel.Frequencies[1]);
 
             CollectionAssert.AreEquivalent(new[] { 1 }, patternModel.Propagator[0][0]);
             CollectionAssert.AreEquivalent(new[] { 1 }, patternModel.Propagator[0][1]);
@@ -52,8 +53,8 @@ namespace DeBroglie.Test
             model.AddAdjacency(new[] { tile1 }, new[] { tile2 }, 1, 0, 0, new TileRotation(4, false));
 
             var patternModel = model.GetTileModelMapping(new GridTopology(10, 10, false)).PatternModel;
-            Assert.AreEqual(1, patternModel.Frequencies[0]);
-            Assert.AreEqual(5, patternModel.Frequencies[1]);
+            ClassicAssert.AreEqual(1, patternModel.Frequencies[0]);
+            ClassicAssert.AreEqual(5, patternModel.Frequencies[1]);
 
             CollectionAssert.AreEquivalent(new[] { 1 }, patternModel.Propagator[0][0]);
             CollectionAssert.AreEquivalent(new[] { 1 }, patternModel.Propagator[0][1]);
@@ -113,8 +114,8 @@ namespace DeBroglie.Test
 
             var patternModel = model.GetTileModelMapping(new GridTopology(10, 10, false)).PatternModel;
 
-            Assert.AreEqual(0.5, patternModel.Frequencies[0]);
-            Assert.AreEqual(2.0, patternModel.Frequencies[1]);
+            ClassicAssert.AreEqual(0.5, patternModel.Frequencies[0]);
+            ClassicAssert.AreEqual(2.0, patternModel.Frequencies[1]);
         }
 
         [Test]
@@ -143,9 +144,9 @@ namespace DeBroglie.Test
                 return patternModel.Frequencies[tileModelMapping.TilesToPatternsByOffset[0][tile].First()];
             }
 
-            Assert.AreEqual(0.25, GetFrequency(tile1));
-            Assert.AreEqual(0.25, GetFrequency(new Tile(new RotatedTile { Tile = tile1, Rotation = new Rotation(90) })));
-            Assert.AreEqual(0.125, GetFrequency(tile2));
+            ClassicAssert.AreEqual(0.25, GetFrequency(tile1));
+            ClassicAssert.AreEqual(0.25, GetFrequency(new Tile(new RotatedTile { Tile = tile1, Rotation = new Rotation(90) })));
+            ClassicAssert.AreEqual(0.125, GetFrequency(tile2));
         }
     }
 }

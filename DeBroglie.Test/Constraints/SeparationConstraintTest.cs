@@ -2,6 +2,7 @@
 using DeBroglie.Models;
 using DeBroglie.Topo;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,15 +48,15 @@ namespace DeBroglie.Test.Constraints
 
             propagator.Run();
 
-            Assert.AreEqual(Resolution.Decided, propagator.Status);
+            ClassicAssert.AreEqual(Resolution.Decided, propagator.Status);
 
             var r = propagator.ToArray();
 
             // Only possible solution given the constraints
-            Assert.AreEqual(tile1, r.Get(0));
-            Assert.AreEqual(tile2, r.Get(1));
-            Assert.AreEqual(tile2, r.Get(2));
-            Assert.AreEqual(tile1, r.Get(3));
+            ClassicAssert.AreEqual(tile1, r.Get(0));
+            ClassicAssert.AreEqual(tile2, r.Get(1));
+            ClassicAssert.AreEqual(tile2, r.Get(2));
+            ClassicAssert.AreEqual(tile1, r.Get(3));
         }
 
 
@@ -87,7 +88,7 @@ namespace DeBroglie.Test.Constraints
 
             propagator.Run();
 
-            Assert.AreEqual(Resolution.Decided, propagator.Status);
+            ClassicAssert.AreEqual(Resolution.Decided, propagator.Status);
 
             var r = propagator.ToArray();
 
@@ -105,7 +106,7 @@ namespace DeBroglie.Test.Constraints
                             var y2 = y + dy;
                             if(x2 >= 0 && x2 < 100 && y2 >= 0 && y2 < 100)
                             {
-                                Assert.AreNotEqual(r.Get(x2, y2), tile1);
+                                ClassicAssert.AreNotEqual(r.Get(x2, y2), tile1);
                             }
                         }
                     }

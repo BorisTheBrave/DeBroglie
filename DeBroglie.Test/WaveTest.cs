@@ -3,6 +3,7 @@ using System;
 using DeBroglie;
 using DeBroglie.Wfc;
 using DeBroglie.Trackers;
+using NUnit.Framework.Legacy;
 
 namespace DeBroglie.Test
 {
@@ -18,23 +19,23 @@ namespace DeBroglie.Test
             var entropyTracker = new EntropyTracker();
             entropyTracker.Init(wave, frequencies, null);
 
-            Assert.IsFalse(wave.RemovePossibility(0, 0));
+            ClassicAssert.IsFalse(wave.RemovePossibility(0, 0));
             entropyTracker.DoBan(0, 0);
-            Assert.AreEqual(0, entropyTracker.GetRandomIndex(r.NextDouble));
+            ClassicAssert.AreEqual(0, entropyTracker.GetRandomIndex(r.NextDouble));
 
-            Assert.IsFalse(wave.RemovePossibility(1, 2));
+            ClassicAssert.IsFalse(wave.RemovePossibility(1, 2));
             entropyTracker.DoBan(1, 2);
-            Assert.AreEqual(1, entropyTracker.GetRandomIndex(r.NextDouble));
+            ClassicAssert.AreEqual(1, entropyTracker.GetRandomIndex(r.NextDouble));
 
-            Assert.IsFalse(wave.RemovePossibility(1, 0));
+            ClassicAssert.IsFalse(wave.RemovePossibility(1, 0));
             entropyTracker.DoBan(1, 0);
-            Assert.AreEqual(0, entropyTracker.GetRandomIndex(r.NextDouble));
+            ClassicAssert.AreEqual(0, entropyTracker.GetRandomIndex(r.NextDouble));
 
-            Assert.IsFalse(wave.RemovePossibility(0, 1));
+            ClassicAssert.IsFalse(wave.RemovePossibility(0, 1));
             entropyTracker.DoBan(0, 1);
-            Assert.AreEqual(-1, entropyTracker.GetRandomIndex(r.NextDouble));
+            ClassicAssert.AreEqual(-1, entropyTracker.GetRandomIndex(r.NextDouble));
 
-            Assert.IsTrue(wave.RemovePossibility(0, 2));
+            ClassicAssert.IsTrue(wave.RemovePossibility(0, 2));
             entropyTracker.DoBan(0, 2);
         }
 
@@ -47,23 +48,23 @@ namespace DeBroglie.Test
             var entropyTracker = new HeapEntropyTracker();
             entropyTracker.Init(wave, frequencies, null, r.NextDouble);
 
-            Assert.IsFalse(wave.RemovePossibility(0, 0));
+            ClassicAssert.IsFalse(wave.RemovePossibility(0, 0));
             entropyTracker.DoBan(0, 0);
-            Assert.AreEqual(0, entropyTracker.GetRandomIndex(r.NextDouble));
+            ClassicAssert.AreEqual(0, entropyTracker.GetRandomIndex(r.NextDouble));
 
-            Assert.IsFalse(wave.RemovePossibility(1, 2));
+            ClassicAssert.IsFalse(wave.RemovePossibility(1, 2));
             entropyTracker.DoBan(1, 2);
-            Assert.AreEqual(1, entropyTracker.GetRandomIndex(r.NextDouble));
+            ClassicAssert.AreEqual(1, entropyTracker.GetRandomIndex(r.NextDouble));
 
-            Assert.IsFalse(wave.RemovePossibility(1, 0));
+            ClassicAssert.IsFalse(wave.RemovePossibility(1, 0));
             entropyTracker.DoBan(1, 0);
-            Assert.AreEqual(0, entropyTracker.GetRandomIndex(r.NextDouble));
+            ClassicAssert.AreEqual(0, entropyTracker.GetRandomIndex(r.NextDouble));
 
-            Assert.IsFalse(wave.RemovePossibility(0, 1));
+            ClassicAssert.IsFalse(wave.RemovePossibility(0, 1));
             entropyTracker.DoBan(0, 1);
-            Assert.AreEqual(-1, entropyTracker.GetRandomIndex(r.NextDouble));
+            ClassicAssert.AreEqual(-1, entropyTracker.GetRandomIndex(r.NextDouble));
 
-            Assert.IsTrue(wave.RemovePossibility(0, 2));
+            ClassicAssert.IsTrue(wave.RemovePossibility(0, 2));
             entropyTracker.DoBan(0, 2);
         }
     }

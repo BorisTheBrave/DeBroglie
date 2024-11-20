@@ -2,6 +2,7 @@
 using DeBroglie.Models;
 using DeBroglie.Topo;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,25 +56,25 @@ namespace DeBroglie.Test.Constraints
 
             propagator.Run();
 
-            Assert.AreEqual(Resolution.Decided, propagator.Status);
+            ClassicAssert.AreEqual(Resolution.Decided, propagator.Status);
 
             var r = propagator.ToArray();
 
             // Only two possible solution given the constraints
             if (r.Get(0) == tile1)
             {
-                Assert.AreEqual(tile1, r.Get(0));
-                Assert.AreEqual(tile2, r.Get(1));
-                Assert.AreEqual(tile2, r.Get(2));
-                Assert.AreEqual(tile3, r.Get(3));
+                ClassicAssert.AreEqual(tile1, r.Get(0));
+                ClassicAssert.AreEqual(tile2, r.Get(1));
+                ClassicAssert.AreEqual(tile2, r.Get(2));
+                ClassicAssert.AreEqual(tile3, r.Get(3));
             }
             else
             {
 
-                Assert.AreEqual(tile3, r.Get(0));
-                Assert.AreEqual(tile2, r.Get(1));
-                Assert.AreEqual(tile2, r.Get(2));
-                Assert.AreEqual(tile1, r.Get(3));
+                ClassicAssert.AreEqual(tile3, r.Get(0));
+                ClassicAssert.AreEqual(tile2, r.Get(1));
+                ClassicAssert.AreEqual(tile2, r.Get(2));
+                ClassicAssert.AreEqual(tile1, r.Get(3));
             }
         }
     }

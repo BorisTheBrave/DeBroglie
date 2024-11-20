@@ -2,6 +2,7 @@
 using DeBroglie.Models;
 using DeBroglie.Topo;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,7 +50,7 @@ namespace DeBroglie.Test.Constraints
                 RandomDouble = r.NextDouble
             });
             var status = propagator.Run();
-            Assert.AreEqual(Resolution.Decided, status);
+            ClassicAssert.AreEqual(Resolution.Decided, status);
             var result = propagator.ToValueArray<int>().ToArray2d();
             // Write out result for debugging
             for (var y = 0; y < topology.Height; y++)
@@ -72,7 +73,7 @@ namespace DeBroglie.Test.Constraints
                         if (x < topology.Width - 1) n += result[x + 1, y];
                         if (y > 0) n += result[x, y - 1];
                         if (y < topology.Height - 1) n += result[x, y + 1];
-                        Assert.AreEqual(2, n, $"At {x},{y}");
+                        ClassicAssert.AreEqual(2, n, $"At {x},{y}");
                     }
                 }
             }

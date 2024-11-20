@@ -2,6 +2,7 @@
 using DeBroglie.Trackers;
 using DeBroglie.Wfc;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using System.Linq;
 
@@ -36,14 +37,14 @@ namespace DeBroglie.Test
             var options = new WavePropagatorOptions { ModelConstraintAlgorithm = algorithm };
             var propagator = new WavePropagator(model, topology, options);
             var status = propagator.Run();
-            Assert.AreEqual(Resolution.Decided, status);
+            ClassicAssert.AreEqual(Resolution.Decided, status);
             var a = propagator.ToTopoArray().ToArray2d();
             var topLeft = a[0, 0];
             for (var x = 0; x < width; x++)
             {
                 for (var y = 0; y < height; y++)
                 {
-                    Assert.IsTrue((a[x, y] == topLeft) ^ (x % 2 == 0) ^ (y % 2 == 0));
+                    ClassicAssert.IsTrue((a[x, y] == topLeft) ^ (x % 2 == 0) ^ (y % 2 == 0));
                 }
             }
 
@@ -51,7 +52,7 @@ namespace DeBroglie.Test
             topology = new GridTopology(width + 1, height + 1, true);
             propagator = new WavePropagator(model, topology, options);
             status = propagator.Run();
-            Assert.AreEqual(Resolution.Contradiction, status);
+            ClassicAssert.AreEqual(Resolution.Contradiction, status);
 
             // Should be possible with an odd sized region, if we have the right mask
             var mask = new bool[(width + 1) * (height + 1)];
@@ -65,7 +66,7 @@ namespace DeBroglie.Test
             topology = new GridTopology(width + 1, height + 1, true).WithMask(mask);
             propagator = new WavePropagator(model, topology, options);
             status = propagator.Run();
-            Assert.AreEqual(Resolution.Decided, status);
+            ClassicAssert.AreEqual(Resolution.Decided, status);
 
         }
 
@@ -89,7 +90,7 @@ namespace DeBroglie.Test
             var options = new WavePropagatorOptions { ModelConstraintAlgorithm = algorithm };
             var propagator = new WavePropagator(model, topology, options);
             var status = propagator.Run();
-            Assert.AreEqual(Resolution.Decided, status);
+            ClassicAssert.AreEqual(Resolution.Decided, status);
             var a = propagator.ToTopoArray();
             var topLeft = a.Get(0, 0, 0);
             for (var x = 0; x < width; x++)
@@ -98,7 +99,7 @@ namespace DeBroglie.Test
                 {
                     for (var z = 0; z < depth; z++)
                     {
-                        Assert.IsFalse((a.Get(x, y, z) == topLeft) ^ (x % 2 == 0) ^ (y % 2 == 0) ^ (z % 2 == 0));
+                        ClassicAssert.IsFalse((a.Get(x, y, z) == topLeft) ^ (x % 2 == 0) ^ (y % 2 == 0) ^ (z % 2 == 0));
                     }
                 }
             }
@@ -107,7 +108,7 @@ namespace DeBroglie.Test
             topology = new GridTopology(width + 1, height + 1, depth + 1, true);
             propagator = new WavePropagator(model, topology, options);
             status = propagator.Run();
-            Assert.AreEqual(Resolution.Contradiction, status);
+            ClassicAssert.AreEqual(Resolution.Contradiction, status);
         }
 
 
@@ -226,7 +227,7 @@ namespace DeBroglie.Test
 
             var status = wavePropagator.Run();
 
-            Assert.AreEqual(Resolution.Decided, status);
+            ClassicAssert.AreEqual(Resolution.Decided, status);
 
             System.Console.WriteLine($"Backtrack Count {wavePropagator.BacktrackCount}");
             System.Console.WriteLine($"Backjump Count {wavePropagator.BackjumpCount}");
@@ -261,22 +262,22 @@ namespace DeBroglie.Test
 
             // Attempts to pick pattern 0 at index 0, should contradict and backtrack
             var status = propagator.Step();
-            Assert.AreEqual(Resolution.Undecided, status);
-            Assert.AreEqual(1, propagator.BacktrackCount);
+            ClassicAssert.AreEqual(Resolution.Undecided, status);
+            ClassicAssert.AreEqual(1, propagator.BacktrackCount);
             CollectionAssert.AreEqual(propagator.GetPossiblePatterns(0), new[] { 1 });
-            Assert.AreEqual(1, indexPicker.Count);
+            ClassicAssert.AreEqual(1, indexPicker.Count);
             // Should re-attempt index zero, with no effect.
             propagator.Step();
-            Assert.AreEqual(Resolution.Undecided, status);
-            Assert.AreEqual(1, propagator.BacktrackCount);
+            ClassicAssert.AreEqual(Resolution.Undecided, status);
+            ClassicAssert.AreEqual(1, propagator.BacktrackCount);
             CollectionAssert.AreEqual(propagator.GetPossiblePatterns(0), new[] { 1 });
-            Assert.AreEqual(1, indexPicker.Count);
+            ClassicAssert.AreEqual(1, indexPicker.Count);
             // Attempts to pick pattern 0 at index 1, should contradict and backtrack
             propagator.Step();
-            Assert.AreEqual(Resolution.Undecided, status);
-            Assert.AreEqual(2, propagator.BacktrackCount);
+            ClassicAssert.AreEqual(Resolution.Undecided, status);
+            ClassicAssert.AreEqual(2, propagator.BacktrackCount);
             CollectionAssert.AreEqual(propagator.GetPossiblePatterns(1), new[] { 1 });
-            Assert.AreEqual(2, indexPicker.Count);
+            ClassicAssert.AreEqual(2, indexPicker.Count);
             // etc
 
         }
@@ -302,9 +303,9 @@ namespace DeBroglie.Test
             var propagator = new WavePropagator(model, topology, options);
 
             var status = propagator.Run();
-            Assert.AreEqual(Resolution.Decided, status);
+            ClassicAssert.AreEqual(Resolution.Decided, status);
 
-            Assert.AreEqual(Resolution.Decided, propagator.Status);
+            ClassicAssert.AreEqual(Resolution.Decided, propagator.Status);
         }
     }
 }
