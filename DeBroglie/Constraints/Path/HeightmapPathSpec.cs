@@ -7,7 +7,10 @@ using System.Text;
 
 namespace DeBroglie.Constraints.Path
 {
-    internal class HeightmapPathSpec : IPathSpec
+    /// <summary>
+    /// Two tiles are considered to be connected in the path if their height difference is within MaxDiff.
+    /// </summary>
+    public class HeightmapPathSpec : IPathSpec
     {
         public Dictionary<Tile, int> Heights { get; set; }
 

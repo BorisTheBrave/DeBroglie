@@ -5,13 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DeBroglie.Constraints
+namespace DeBroglie.Constraints.Path
 {
     /// <summary>
     /// Two adjacent tiles are considered to form a path only if their specific pair combination is listed in 
     /// Note that this can be really inefficient compared with other path specs.
     /// </summary>
-    internal class PairwisePathSpec : IPathSpec
+    public class PairwisePathSpec : IPathSpec
     {
         public (Tile, Tile)[] Pairs { get; set; }
 

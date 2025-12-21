@@ -2,6 +2,14 @@
 uid: release_notes
 title: Release Notes
 ---
+
+# v2.1.0
+  * Fix hang when the output size is a single cell
+  * Added [PairwisePathSpec](xref:DeBroglie.Constraints.Path.PairwisePathSpec)
+  * Added [HeightmapPathSpec](xref:DeBroglie.Constraints.Path.HeightmapPathSpec)
+  * Various doc changes
+  * Upgrade versions of packages and framework
+
 # v2.0.0
    * [Added more path based constraints](path_constraints.md). Note, these replace the old PathConstraint class.
    * Support multiple [ModelConstraintAlgorithms](xref:DeBroglie.Wfc.ModelConstraintAlgorithm)
